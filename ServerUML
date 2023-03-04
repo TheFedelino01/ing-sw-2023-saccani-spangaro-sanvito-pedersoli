@@ -1,26 +1,116 @@
 @startuml
+!pragma layout elk
+
+skinparam linetype ortho
 CardHandler <-- Game : utilizza
 Player o-- Game: composto
+PlayGround <-- Game: su gioca su
 Shelf <-- Player: possiede
+SpacePlayGround <-- PlayGround : composto da tanti
 
-class Space {
+
+Tile<--Shelf : viene riempito da tante
+Tile <-- SpacePlayGround : ha sopra
+Tile<--PlayerActive: ha in mano 3
+
+
+tilePlayableObserver<-- PlayGround : dispone di 
+CardGoal<--PlayerActive: possiede una 
+Point<--PlayerActive: colleziona
+Card o-- CardHandler: gestisce
+cardPlayableObserver<-CardHandler: dispone di
+Point<--CardGoal: permette di ottenere
+Point<--CardCommon: permette di ottenere
+
+
+'-----------------------------------
+'INTERFACCIE
+'-----------------------------------
+interface Player{
+-String nickname
+-Shelf shelf;
+
++String getNickname();
++void positionTail(int col, String name);
+}
+
+
+
+
+
+interface verifyCommonStrategy{
++boolean verify(Shelf shelfToCheck);
+}
+/*
+note top of verifyCommonStrategy
+Per implementare il Strategy Pattern di controllo soddisfazione Obiettivo per carte comuni
+
++boolean verify(Shelf shelfToCheck); 'Fa diversi cicli sullo Shelf e controlla che viene soddisfatto un obiettivo common
+end note
+*/
+
+
+interface verifyGoalStrategy{
++Point verify(Shelf shelfToCheck);
+}
+/*
+note top of verifyGoalStrategy
+Per implementare il Strategy Pattern di controllo soddisfazione Obiettivo per carte goal
+
++Point verify(Shelf shelfToCheck); 'Fa diversi cicli sullo Shelf e controlla che viene soddisfatto un obiettivo goal
+end note
+*/
+
+
+interface cardPlayableObserver{
++ notifyAddCard();
+}
+/*
+note top of cardPlayableObserver
+Per implementare l'observer pattern, le carte che si registrano sono quelle carte che possono essere 
+utilizzate in una partita (cioe' quelle che possono essere distribuite)
+end note
+*/
+
+interface Card implements cardPlayableObserver{
++String name;
++boolean verify(Shelf shelfToCheck);
+}
+
+
+interface tilePlayableObserver{
++void notifyStatus();
+}
+/*
+note top of tilePlayableObserver
+Pattern Observer per la registrazione delle Tile disponibili ad essere "giocate"
+end note
+*/
+
+'-----------------------------------
+'CLASSI
+'-----------------------------------
+class SpacePlayGround {
 -Integer requiredPlayerstoBeFilled;
 -Tile tile;
 }
 
-'Pattern Observer per la registrazione delle Tile disponibili ad essere "giocate"
-Interface tilePlayableObserver{
-+void notifyStatus();
-}
-
+/*
+note top of Tile 
+-boolean freeSide; 'se ha un lato libero (fast algorithm)
+-Integer available; 'default 22
++getColor(); 'return color
++getName(); 'return name
+end note
+*/
 abstract Tile implements tilePlayableObserver{
 -String color;
 -String name;
--boolean freeSide; 'se ha un lato libero (fast algorithm)
--Integer available; 'default 22
+-boolean freeSide;
+-Integer available;
 
-+getColor(); 'return color
-+getName(); 'return name
++getColor();
++getName();
 +setFreeSide(); 
 }
 
@@ -39,77 +129,80 @@ class Trophy extends Tile{
 class Plant extends Tile{
 }
 
+
+
+
 abstract PlayGround {
--Space[][]
+-SpacePlayGround[][]
 -List<tilePlayableObserver> tileAvailable;
 
 
-+setSpaceLayout();
-+fill(); 'mette le tile scegliendole in modo randomico da tileAvailable basandosi sulla disponibilita' di ogni tale
++setSpacePlayGroundLayout();
++fill();
 +void addtilePlayableObserver(tilePlayableObserver o);
 +void removetilePlayableObserver(tilePlayableObserver o);
 }
+/*
+note top of PlayGround 
++fill(); 'mette le tile scegliendole in modo randomico da tileAvailable basandosi sulla disponibilita' di ogni tale
+end note
+*/
 class PlayGround_2players extends PlayGround {
-+setSpaceLayout(); '@override
++setSpacePlayGroundLayout(); '@override
 +fill(); '@override
 }
 class PlayGround_3players extends PlayGround {
-+setSpaceLayout(); '@override
++setSpacePlayGroundLayout(); '@override
 +fill(); '@override
 }
 class PlayGround_4players extends PlayGround {
-+setSpaceLayout(); '@override
++setSpacePlayGroundLayout(); '@override
 +fill(); '@override
 }
 
-interface Player{
--String nickname
--Shelf shelf;
-
-+String getNickname();
-+void positionTail(int col, String name);
-}
 
 class Shelf {
 -Tile[7][6] shelf
 }
 
 
-Interface ticketPlayableObserver{
-+void notifyStatus();
+
+
+abstract Point {
+-Integer point;
+-boolean isFinal;
 }
 
-abstract Ticket {
--enum color;
-
-+Integer type();
-}
-class TicketGenericPoint1 extends Ticket implements ticketPlayableObserver{
-+Integer type(); '@override
-}
-class TicketGenericPoint2 extends Ticket implements ticketPlayableObserver{
-+Integer type(); '@override
-}
-class TicketFinal extends Ticket{
-+Integer type(); '@override
-}
-
-class PlayerActive implements Player{
--Card secrectGoal
+/*
+note top of PlayerActive  
 -List<Tile> inHandTail; 'le tail che il giocatore ha in mano e deve decidere dove metterle nella shelf
--List<Ticket> obtainedTickets;
+-Map<Integer,List<Point>> obtainedPoints; 'Integer si riferisce al numero della carta comune (1 o 2) a cui corrisponde il Point
+end note
+*/
+class PlayerActive implements Player{
+-CardGoal secrectGoal
+-List<Tile> inHandTail; 
+-Map<Integer,Point> obtainedPoints;
+
++void addPoint(Integer goalNumber, Point p);
 }
-
-class Game{
--List<Player> players; 'da 2 a 4
--CardHandler cardCommonHandler, cardGoalHandler;
--Integer id;
--PlayGround pg;
--Integer currentPlaying;
-
+/*
+note top of Game
 +void extractCommondCards(); 'istanzia cardHandler di tipo CardCommonHandler ed estrae le carte comuni
 +void extractGoalCards(); 'istanzia cardHandler di tipo CardGoalHandler ed estrae le carte goal personali
 +CardGoal getGoalCardofPlayer(String nickname); 'restituisce la carta goal del giocatore (mapping players e cardGoalHandler)
+end note
+*/
+class Game{
+-List<Player> players; 'da 2 a 4
+-CardHandler cardCommonHandler, cardGoalHandler;
+-Integer gameId;
+-PlayGround pg;
+-Integer currentPlaying;
+
++void extractCommondCards();
++void extractGoalCards();
++CardGoal getGoalCardofPlayer(String nickname);
 +void fill();
 +List<Tile> grabTail(int startingPosX,int startingPosY, int endingPosX, int endingPosY); 
 +void positionTail(int col, String name);
@@ -120,76 +213,77 @@ class Game{
 
 
 
-'Pattern di tipo Factory Method e Observer
+/*
+note top of CardHandler
+Pattern di tipo Factory Method e Observer
+
+-Map<cardPlayableObserver,boolean> allCardPlayable; 'Popolata dal costruttore con ogni sottoclasse di Card e il boolean a false (tutti disponibili ad essere scelti)
++void deliverCard(int num); 'si occupa di prendere num Card e di metterle dentro alla lista cards (no doppioni) invoca selectRandomCard
+end note
+*/
 abstract CardHandler{
 -List<Card> cards; 
--Map<cardAddedObserver,boolean> obs; 'Popolata dal costruttore con ogni sottoclasse e il boolean a false (tutti disponibili ad essere scelti)
+-Map<cardPlayableObserver,boolean> allCardPlayable;
 
-+void deliverCard(int num); 'si occupa di prendere num Card e di metterle dentro alla lista cards (no doppioni) invoca selectCard
++void deliverCard(int num);
 -abstract Card selectRandomCard();
 
-+void addCardAddedObserver(cardAddedObserver o);
-+void removeCardAddedObserver(cardAddedObserver o);
++void addCardPlayableObserver(cardPlayableObserver o);
++void removeCardPlayableObserver(cardPlayableObserver o);
 
 +List<Card> getCards();
 }
 
+
+
 class CardGoalHandler extends CardHandler{
--Card selectRandomCard(); @Override 'istanzia carta di tipo goal in modo randomico (con controllo su obs)
+-Card selectRandomCard();
 }
-
-class CardCommonHandler extends CardHandler implements ticketPlayableObserver{
--Card selectRandomCard(); @Override 'istanzia carte di tipo common in modo randomico (con controllo su obs)
--List<ticketPlayableObserver> playableObs;
-
-+void addTicketAddedObserver(ticketPlayableObserver o);
-+void removeTicketAddedObserver(ticketPlayableObserver o);
+/*
+note top of CardGoalHandler 
+-Card selectRandomCard(); @Override 'restituisce carta di tipo goal in modo randomico (con controllo su allCardPlayable)
+end note
+*/
+class CardCommonHandler extends CardHandler{
+-Card selectRandomCard(); 
 }
+/*
+note top of CardCommonHandler 
+-Card selectRandomCard(); @Override 'restituisce carta di tipo common in modo randomico (con controllo su allCardPlayable)
+end note
+*/
 
 
 
-'Per implementare il Strategy Pattern
-interface verifyCommonStrategy{
-+boolean verify(Shelf shelfToCheck); 'Fa diversi cicli sullo Shelf e controlla che viene soddisfatto un obiettivo common
-}
-interface verifyGoalStrategy{
-+Ticket verify(Shelf shelfToCheck); 'Fa diversi cicli sullo Shelf e controlla che viene soddisfatto un obiettivo goal
-}
-
-
-Interface cardAddedObserver{
-+ notifyAddCard();
-}
-interface Card implements cardAddedObserver{
-+String name;
-+boolean verify(Shelf shelfToCheck);
-}
 
 abstract CardGoal implements Card, verifyGoalStrategy{
-+Map<Integer, Ticket> tickets;
++Map<Integer, Point> points;
 
 +notifyAddCard(); '@override pattern Observer
 }
 
 'Definisce la strategia di verifica della Shelf
 class goal1 extends CardGoal{
-+Ticket verify(Shelf shelfToCheck); '@override il ticket viene resituito a seconda della map tickets
++Point verify(Shelf shelfToCheck); '@override il point viene resituito a seconda della map points
 }
 ' ......
 class goal8 extends CardGoal{
-+Ticket verify(Shelf shelfToCheck); '@override
++Point verify(Shelf shelfToCheck); '@override
 }
 
-
-
-abstract CardCommon implements Card, verifyCommonStrategy{
--Ticket ticketType;
--Queue<Integer> points; 'i giocatori prendono i punti a seconda di quando completano l'obiettivo (chi lo completa per primo prende 8 punti, il secondo 6 punti etc.)
-
-
-+Ticket popTicket();
+/*
+note top of CardCommon 
+-Queue<Point> points; 'i giocatori prendono i punti a seconda di quando completano l'obiettivo (chi lo completa per primo prende 8 punti, il secondo 6 punti etc.)
 +void notifyAddCard(); '@override pattern Observer
-+void setTicketType(Ticket type);
+end note
+*/
+abstract CardCommon implements Card, verifyCommonStrategy{
+-Queue<Point> points;
+
+
++Point popPoint();
++void notifyAddCard();
++void setpointType(Point type);
 
 }
 
@@ -198,7 +292,7 @@ class common1 extends CardCommon {
 +boolean verify(Shelf shelfToCheck); '@override
 }
 ' ......
-class common2 extends CardCommon {
+class common12 extends CardCommon {
 +boolean verify(Shelf shelfToCheck); '@override
 }
 @enduml
