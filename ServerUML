@@ -1,0 +1,204 @@
+@startuml
+CardHandler <-- Game : utilizza
+Player o-- Game: composto
+Shelf <-- Player: possiede
+
+class Space {
+-Integer requiredPlayerstoBeFilled;
+-Tile tile;
+}
+
+'Pattern Observer per la registrazione delle Tile disponibili ad essere "giocate"
+Interface tilePlayableObserver{
++void notifyStatus();
+}
+
+abstract Tile implements tilePlayableObserver{
+-String color;
+-String name;
+-boolean freeSide; 'se ha un lato libero (fast algorithm)
+-Integer available; 'default 22
+
++getColor(); 'return color
++getName(); 'return name
++setFreeSide(); 
+}
+
+
+
+class Cat extends Tile{
+}
+class Book extends Tile{
+}
+class Activity extends Tile{
+}
+class Frame extends Tile{
+}
+class Trophy extends Tile{
+}
+class Plant extends Tile{
+}
+
+abstract PlayGround {
+-Space[][]
+-List<tilePlayableObserver> tileAvailable;
+
+
++setSpaceLayout();
++fill(); 'mette le tile scegliendole in modo randomico da tileAvailable basandosi sulla disponibilita' di ogni tale
++void addtilePlayableObserver(tilePlayableObserver o);
++void removetilePlayableObserver(tilePlayableObserver o);
+}
+class PlayGround_2players extends PlayGround {
++setSpaceLayout(); '@override
++fill(); '@override
+}
+class PlayGround_3players extends PlayGround {
++setSpaceLayout(); '@override
++fill(); '@override
+}
+class PlayGround_4players extends PlayGround {
++setSpaceLayout(); '@override
++fill(); '@override
+}
+
+interface Player{
+-String nickname
+-Shelf shelf;
+
++String getNickname();
++void positionTail(int col, String name);
+}
+
+class Shelf {
+-Tile[7][6] shelf
+}
+
+
+Interface ticketPlayableObserver{
++void notifyStatus();
+}
+
+abstract Ticket {
+-enum color;
+
++Integer type();
+}
+class TicketGenericPoint1 extends Ticket implements ticketPlayableObserver{
++Integer type(); '@override
+}
+class TicketGenericPoint2 extends Ticket implements ticketPlayableObserver{
++Integer type(); '@override
+}
+class TicketFinal extends Ticket{
++Integer type(); '@override
+}
+
+class PlayerActive implements Player{
+-Card secrectGoal
+-List<Tile> inHandTail; 'le tail che il giocatore ha in mano e deve decidere dove metterle nella shelf
+-List<Ticket> obtainedTickets;
+}
+
+class Game{
+-List<Player> players; 'da 2 a 4
+-CardHandler cardCommonHandler, cardGoalHandler;
+-Integer id;
+-PlayGround pg;
+-Integer currentPlaying;
+
++void extractCommondCards(); 'istanzia cardHandler di tipo CardCommonHandler ed estrae le carte comuni
++void extractGoalCards(); 'istanzia cardHandler di tipo CardGoalHandler ed estrae le carte goal personali
++CardGoal getGoalCardofPlayer(String nickname); 'restituisce la carta goal del giocatore (mapping players e cardGoalHandler)
++void fill();
++List<Tile> grabTail(int startingPosX,int startingPosY, int endingPosX, int endingPosY); 
++void positionTail(int col, String name);
++void checkCardsCommon(); 
++void nextPlayer();
+
+}
+
+
+
+'Pattern di tipo Factory Method e Observer
+abstract CardHandler{
+-List<Card> cards; 
+-Map<cardAddedObserver,boolean> obs; 'Popolata dal costruttore con ogni sottoclasse e il boolean a false (tutti disponibili ad essere scelti)
+
++void deliverCard(int num); 'si occupa di prendere num Card e di metterle dentro alla lista cards (no doppioni) invoca selectCard
+-abstract Card selectRandomCard();
+
++void addCardAddedObserver(cardAddedObserver o);
++void removeCardAddedObserver(cardAddedObserver o);
+
++List<Card> getCards();
+}
+
+class CardGoalHandler extends CardHandler{
+-Card selectRandomCard(); @Override 'istanzia carta di tipo goal in modo randomico (con controllo su obs)
+}
+
+class CardCommonHandler extends CardHandler implements ticketPlayableObserver{
+-Card selectRandomCard(); @Override 'istanzia carte di tipo common in modo randomico (con controllo su obs)
+-List<ticketPlayableObserver> playableObs;
+
++void addTicketAddedObserver(ticketPlayableObserver o);
++void removeTicketAddedObserver(ticketPlayableObserver o);
+}
+
+
+
+'Per implementare il Strategy Pattern
+interface verifyCommonStrategy{
++boolean verify(Shelf shelfToCheck); 'Fa diversi cicli sullo Shelf e controlla che viene soddisfatto un obiettivo common
+}
+interface verifyGoalStrategy{
++Ticket verify(Shelf shelfToCheck); 'Fa diversi cicli sullo Shelf e controlla che viene soddisfatto un obiettivo goal
+}
+
+
+Interface cardAddedObserver{
++ notifyAddCard();
+}
+interface Card implements cardAddedObserver{
++String name;
++boolean verify(Shelf shelfToCheck);
+}
+
+abstract CardGoal implements Card, verifyGoalStrategy{
++Map<Integer, Ticket> tickets;
+
++notifyAddCard(); '@override pattern Observer
+}
+
+'Definisce la strategia di verifica della Shelf
+class goal1 extends CardGoal{
++Ticket verify(Shelf shelfToCheck); '@override il ticket viene resituito a seconda della map tickets
+}
+' ......
+class goal8 extends CardGoal{
++Ticket verify(Shelf shelfToCheck); '@override
+}
+
+
+
+abstract CardCommon implements Card, verifyCommonStrategy{
+-Ticket ticketType;
+-Queue<Integer> points; 'i giocatori prendono i punti a seconda di quando completano l'obiettivo (chi lo completa per primo prende 8 punti, il secondo 6 punti etc.)
+
+
++Ticket popTicket();
++void notifyAddCard(); '@override pattern Observer
++void setTicketType(Ticket type);
+
+}
+
+'Definisce la strategia di verifica della Shelf
+class common1 extends CardCommon {
++boolean verify(Shelf shelfToCheck); '@override
+}
+' ......
+class common2 extends CardCommon {
++boolean verify(Shelf shelfToCheck); '@override
+}
+@enduml
