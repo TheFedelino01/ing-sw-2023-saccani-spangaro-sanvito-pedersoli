@@ -28,10 +28,8 @@ Point<--CardCommon: permette di ottenere
 '-----------------------------------
 interface Player{
 -String nickname
--Shelf shelf;
 
 +String getNickname();
-+void positionTail(int col, String name);
 }
 
 
@@ -41,36 +39,35 @@ interface Player{
 interface verifyCommonStrategy{
 +boolean verify(Shelf shelfToCheck);
 }
-/*
 note top of verifyCommonStrategy
 Per implementare il Strategy Pattern di controllo soddisfazione Obiettivo per carte comuni
 
 +boolean verify(Shelf shelfToCheck); 'Fa diversi cicli sullo Shelf e controlla che viene soddisfatto un obiettivo common
 end note
-*/
+
 
 
 interface verifyGoalStrategy{
 +Point verify(Shelf shelfToCheck);
 }
-/*
+
 note top of verifyGoalStrategy
 Per implementare il Strategy Pattern di controllo soddisfazione Obiettivo per carte goal
 
 +Point verify(Shelf shelfToCheck); 'Fa diversi cicli sullo Shelf e controlla che viene soddisfatto un obiettivo goal
 end note
-*/
+
 
 
 interface cardPlayableObserver{
 + notifyAddCard();
 }
-/*
+
 note top of cardPlayableObserver
 Per implementare l'observer pattern, le carte che si registrano sono quelle carte che possono essere 
 utilizzate in una partita (cioe' quelle che possono essere distribuite)
 end note
-*/
+
 
 interface Card implements cardPlayableObserver{
 +String name;
@@ -81,11 +78,11 @@ interface Card implements cardPlayableObserver{
 interface tilePlayableObserver{
 +void notifyStatus();
 }
-/*
+
 note top of tilePlayableObserver
 Pattern Observer per la registrazione delle Tile disponibili ad essere "giocate"
 end note
-*/
+
 
 '-----------------------------------
 'CLASSI
@@ -95,14 +92,14 @@ class SpacePlayGround {
 -Tile tile;
 }
 
-/*
+
 note top of Tile 
 -boolean freeSide; 'se ha un lato libero (fast algorithm)
 -Integer available; 'default 22
 +getColor(); 'return color
 +getName(); 'return name
 end note
-*/
+
 abstract Tile implements tilePlayableObserver{
 -String color;
 -String name;
@@ -131,7 +128,6 @@ class Plant extends Tile{
 
 
 
-
 abstract PlayGround {
 -SpacePlayGround[][]
 -List<tilePlayableObserver> tileAvailable;
@@ -142,11 +138,11 @@ abstract PlayGround {
 +void addtilePlayableObserver(tilePlayableObserver o);
 +void removetilePlayableObserver(tilePlayableObserver o);
 }
-/*
+
 note top of PlayGround 
 +fill(); 'mette le tile scegliendole in modo randomico da tileAvailable basandosi sulla disponibilita' di ogni tale
 end note
-*/
+
 class PlayGround_2players extends PlayGround {
 +setSpacePlayGroundLayout(); '@override
 +fill(); '@override
@@ -173,26 +169,29 @@ abstract Point {
 -boolean isFinal;
 }
 
-/*
+
 note top of PlayerActive  
 -List<Tile> inHandTail; 'le tail che il giocatore ha in mano e deve decidere dove metterle nella shelf
 -Map<Integer,List<Point>> obtainedPoints; 'Integer si riferisce al numero della carta comune (1 o 2) a cui corrisponde il Point
++Point getPointOfSecretGoal(); 'invoca il metodo verify su secretGoal passandogli la sua shelf
 end note
-*/
+
 class PlayerActive implements Player{
--CardGoal secrectGoal
+-Shelf shelf;
+-CardGoal secretGoal
 -List<Tile> inHandTail; 
 -Map<Integer,Point> obtainedPoints;
 
-+void addPoint(Integer goalNumber, Point p);
++void positionTail(int col, String name);
++Point getPointOfSecretGoal();
 }
-/*
+
 note top of Game
 +void extractCommondCards(); 'istanzia cardHandler di tipo CardCommonHandler ed estrae le carte comuni
 +void extractGoalCards(); 'istanzia cardHandler di tipo CardGoalHandler ed estrae le carte goal personali
 +CardGoal getGoalCardofPlayer(String nickname); 'restituisce la carta goal del giocatore (mapping players e cardGoalHandler)
 end note
-*/
+
 class Game{
 -List<Player> players; 'da 2 a 4
 -CardHandler cardCommonHandler, cardGoalHandler;
@@ -208,19 +207,20 @@ class Game{
 +void positionTail(int col, String name);
 +void checkCardsCommon(); 
 +void nextPlayer();
-
++void checkCardsGoal();
++void endGame();
 }
 
 
 
-/*
+
 note top of CardHandler
 Pattern di tipo Factory Method e Observer
 
 -Map<cardPlayableObserver,boolean> allCardPlayable; 'Popolata dal costruttore con ogni sottoclasse di Card e il boolean a false (tutti disponibili ad essere scelti)
 +void deliverCard(int num); 'si occupa di prendere num Card e di metterle dentro alla lista cards (no doppioni) invoca selectRandomCard
 end note
-*/
+
 abstract CardHandler{
 -List<Card> cards; 
 -Map<cardPlayableObserver,boolean> allCardPlayable;
@@ -239,19 +239,19 @@ abstract CardHandler{
 class CardGoalHandler extends CardHandler{
 -Card selectRandomCard();
 }
-/*
+
 note top of CardGoalHandler 
 -Card selectRandomCard(); @Override 'restituisce carta di tipo goal in modo randomico (con controllo su allCardPlayable)
 end note
-*/
+
 class CardCommonHandler extends CardHandler{
 -Card selectRandomCard(); 
 }
-/*
+
 note top of CardCommonHandler 
 -Card selectRandomCard(); @Override 'restituisce carta di tipo common in modo randomico (con controllo su allCardPlayable)
 end note
-*/
+
 
 
 
@@ -271,12 +271,12 @@ class goal8 extends CardGoal{
 +Point verify(Shelf shelfToCheck); '@override
 }
 
-/*
+
 note top of CardCommon 
 -Queue<Point> points; 'i giocatori prendono i punti a seconda di quando completano l'obiettivo (chi lo completa per primo prende 8 punti, il secondo 6 punti etc.)
 +void notifyAddCard(); '@override pattern Observer
 end note
-*/
+
 abstract CardCommon implements Card, verifyCommonStrategy{
 -Queue<Point> points;
 
@@ -295,4 +295,23 @@ class common1 extends CardCommon {
 class common12 extends CardCommon {
 +boolean verify(Shelf shelfToCheck); '@override
 }
+
+
+
+class ServerMainSocket extends Thread{
+-SocketServer sc;
+-int port;
+
++void init(int port); 'si avvia in attesa di connessioni
++void run(); 'Accetta le connessioni e per ogni connessione avvia un thread separato per gestirla
+
+}
+
+class SocketClient extends Thread{
+-Socket sclient;
+
++void run(); 'gestisce le richieste del client (tra cui creazione Game o join Game)
+}
+
+
 @enduml
