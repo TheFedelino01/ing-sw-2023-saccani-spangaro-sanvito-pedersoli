@@ -24,7 +24,7 @@ Point<--CardCommon: permette di ottenere
 
 
 '-----------------------------------
-'INTERFACCIE
+'INTERFACCE
 '-----------------------------------
 interface Player{
 -String nickname
@@ -313,5 +313,19 @@ class SocketClient extends Thread{
 +void run(); 'gestisce le richieste del client (tra cui creazione Game o join Game)
 }
 
+'Pattern Singleton (un solo GamesManager per tutti)
+class GamesManager{
+-static GamesManager istance;
+-List<Game> awaitingGames;
+-List<Game> runningGames;
 
+-GamesManager();
++static GamesManager getInstance();
+
++Integer createNewGame();
++Integer joinFirstAvailableGame();
++boolean joinGame(Integer idGameToJoin);
++void startGame(Integer idGameToStart);
++boolean isRunningGame(Integer idGame);
+}
 @enduml
