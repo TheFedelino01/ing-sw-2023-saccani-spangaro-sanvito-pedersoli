@@ -1,0 +1,7 @@
+package Model.enumeration;
+
+public enum CardCommonType {
+    COMMON1,COMMON2,COMMON3,COMMON4,COMMON5,COMMON6,
+    COMMON7,COMMON8,COMMON9,COMMON10,COMMON11,COMMON12
+
+}
