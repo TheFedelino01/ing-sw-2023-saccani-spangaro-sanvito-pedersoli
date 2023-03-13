@@ -1,4 +1,4 @@
-package Model.enumeration;
+package Model.Enumeration;
 
 public enum CardCommonType {
     COMMON1,COMMON2,COMMON3,COMMON4,COMMON5,COMMON6,

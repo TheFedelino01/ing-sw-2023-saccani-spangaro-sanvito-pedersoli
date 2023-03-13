@@ -1,4 +1,4 @@
-package Model.enumeration;
+package Model.Enumeration;
 
 import Model.Card;
 import Model.Point;

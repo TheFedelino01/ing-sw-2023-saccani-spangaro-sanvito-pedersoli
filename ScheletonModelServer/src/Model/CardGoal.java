@@ -1,6 +1,6 @@
 package Model;
 
-import Model.enumeration.CardGoalType;
+import Model.Enumeration.CardGoalType;
 
 import java.util.Map;
 

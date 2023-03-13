@@ -1,6 +1,6 @@
 package Model;
 
-import Model.enumeration.CardCommon;
+import Model.Enumeration.CardCommon;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ public class GameModel {
     private List<CardCommon> commonCards;
     private Integer gameId;
     private Playground pg;
+
+    private Integer currentPlaying;
 
     public GameModel(List<Player> players, List<CardCommon> commonCards, Integer gameId, Playground pg) {
         this.players = players;
