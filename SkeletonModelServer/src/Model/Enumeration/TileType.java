@@ -1,4 +1,4 @@
-package Model;
+package Model.Enumeration;
 
 public enum TileType {
         CAT,

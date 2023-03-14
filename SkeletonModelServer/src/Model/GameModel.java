@@ -1,7 +1,7 @@
 package Model;
 
 import Model.Chat.Chat;
-import Model.Enumeration.CardCommon;
+import Model.Enumeration.GameStatus;
 
 import java.util.List;
 
@@ -15,6 +15,11 @@ public class GameModel {
 
     private Chat chat;
 
+    private GameStatus status;
+
+    public GameModel(){
+
+    }
     public GameModel(List<Player> players, List<CardCommon> commonCards, Integer gameId, Playground pg) {
         this.players = players;
         this.commonCards = commonCards;

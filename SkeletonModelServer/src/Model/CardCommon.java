@@ -1,6 +1,7 @@
-package Model.Enumeration;
+package Model;
 
 import Model.Card;
+import Model.Enumeration.CardCommonType;
 import Model.Point;
 
 import java.util.Queue;

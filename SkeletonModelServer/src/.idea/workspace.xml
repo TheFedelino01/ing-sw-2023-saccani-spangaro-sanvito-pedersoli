@@ -13,6 +13,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -33,6 +34,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "corretto-17",
     "last_opened_file_path": "/Users/federico/Documents/GitHub/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/SkeletonModelServer/src",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -49,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678796619005</updated>
-      <workItem from="1678796620135" duration="1498000" />
+      <workItem from="1678796620135" duration="4419000" />
     </task>
     <servers />
   </component>

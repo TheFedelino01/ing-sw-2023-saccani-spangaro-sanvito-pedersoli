@@ -1,6 +1,6 @@
 package Model.GameModelView;
 
-import Model.Enumeration.CardCommon;
+import Model.CardCommon;
 import Model.GameModel;
 import Model.Player;
 import Model.Playground;

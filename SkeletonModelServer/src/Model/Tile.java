@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Enumeration.TileType;
+
 public class Tile {
     private TileType TYPE;
     private boolean freeSide;
