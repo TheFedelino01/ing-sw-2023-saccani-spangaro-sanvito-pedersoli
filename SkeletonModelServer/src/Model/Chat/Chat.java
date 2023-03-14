@@ -1,6 +1,5 @@
 package Model.Chat;
 
-
 import java.util.List;
 
 public class Chat {
@@ -18,15 +17,15 @@ public class Chat {
         this.msgs = msgs;
     }
 
-    public String chatToString(){
-        String result = null;
+    public String chatToString() {
+        String result = "";
         for (Message msg : msgs) {
-            try {
-                result.concat(msg.getTime().toString() + " " + msg.getSender().getNickname() + ": " +
-                        msg.getText() + "\n");
-            } catch (NullPointerException e) {
-                System.err.println("Null concat value " + e.getMessage());
-            }
+            result = result.concat(msg.getTime().toString())
+                    .concat(" ")
+                    .concat(msg.getSender().getNickname())
+                    .concat(": ")
+                    .concat(msg.getText())
+                    .concat("\n");
         }
         return result;
     }
