@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Cards.Common.CardCommon;
 import Model.Chat.Chat;
 import Model.Enumeration.GameStatus;
 

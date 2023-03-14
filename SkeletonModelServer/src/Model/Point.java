@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Cards.Card;
+
 public class Point {
     private Integer point;
     private Card referredTo;

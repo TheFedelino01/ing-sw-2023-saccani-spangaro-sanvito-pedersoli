@@ -1,7 +1,8 @@
 package Model;
 
+import Model.Cards.Goal.CardGoal;
+
 import java.util.List;
-import java.util.Map;
 
 public class Player {
     private String nickname;
