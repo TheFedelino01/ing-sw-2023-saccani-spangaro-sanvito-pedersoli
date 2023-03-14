@@ -1,3 +1,5 @@
+package Controller;
+
 import Model.GameModel;
 
 public class GameController {
