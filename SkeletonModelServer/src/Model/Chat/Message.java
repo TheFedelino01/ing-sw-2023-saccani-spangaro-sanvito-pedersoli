@@ -2,14 +2,16 @@ package Model.Chat;
 
 import Model.Player;
 
-import java.sql.Time;
+import java.time.LocalTime;
+import java.time.ZoneId;
 
 public class Message {
     private String text;
     private Player sender;
-    private Time time;
+    private LocalTime time;
 
     public Message(String text, Player sender) {
+        this.time = java.time.LocalTime.now();
         this.text = text;
         this.sender = sender;
     }
@@ -30,11 +32,11 @@ public class Message {
         this.sender = sender;
     }
 
-    public Time getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 }

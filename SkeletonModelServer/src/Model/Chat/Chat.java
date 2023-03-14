@@ -1,5 +1,8 @@
 package Model.Chat;
 
+import Model.Player;
+
+import java.sql.Time;
 import java.util.List;
 
 public class Chat {
@@ -13,6 +16,10 @@ public class Chat {
         return msgs;
     }
 
+    public void addMsg(Player sender, String text){
+        Message temp = new Message(text, sender);
+        msgs.add(temp);
+    }
     public void setMsgs(List<Message> msgs) {
         this.msgs = msgs;
     }
