@@ -1,10 +1,13 @@
-package Model;
+package Model.Cards.Goal;
 
+import Model.Cards.Card;
 import Model.Enumeration.CardGoalType;
+import Model.Point;
+import Model.Shelf;
 
 import java.util.Map;
 
-public class CardGoal extends Card{
+public class CardGoal extends Card {
     private Shelf layoutToMatch; //La tavola del giocatore deve matchare questo layout (per acquisire punti a seconda della Map legendPoint)
     private Map<Integer, Point> legendPoint;
     private CardGoalType goalType;
@@ -13,6 +16,10 @@ public class CardGoal extends Card{
         this.layoutToMatch = layoutToMatch;
         this.legendPoint = legendPoint;
         this.goalType = goalType;
+    }
+
+    public Point verify(Shelf shelfToCheck){
+        return null;
     }
 
     public Shelf getLayoutToMatch() {
