@@ -58,4 +58,28 @@ public class GameModel {
     public void setPg(Playground pg) {
         this.pg = pg;
     }
+
+    public Integer getCurrentPlaying() {
+        return currentPlaying;
+    }
+
+    public void setCurrentPlaying(Integer currentPlaying) {
+        this.currentPlaying = currentPlaying;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
+
+    public GameStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(GameStatus status) {
+        this.status = status;
+    }
 }

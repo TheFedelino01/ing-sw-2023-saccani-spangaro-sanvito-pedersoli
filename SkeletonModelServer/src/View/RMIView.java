@@ -1,5 +1,5 @@
 package View;
 
-public class RMIView {
+public class RMIView implements View {
     //da fare
 }

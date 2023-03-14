@@ -1,6 +1,6 @@
 package View;
 
-public class SocketWelcomeView extends View implements Runnable{
+public class SocketWelcomeView implements View,Runnable{
 
 
     @Override

@@ -1,5 +1,5 @@
 package View;
 
-public abstract class View {
+public interface View {
 
 }
