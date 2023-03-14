@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Chat.Chat;
 import Model.Enumeration.CardCommon;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public class GameModel {
     private Playground pg;
 
     private Integer currentPlaying;
+
+    private Chat chat;
 
     public GameModel(List<Player> players, List<CardCommon> commonCards, Integer gameId, Playground pg) {
         this.players = players;
