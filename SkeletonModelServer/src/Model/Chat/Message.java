@@ -16,6 +16,15 @@ public class Message {
         this.sender = sender;
     }
 
+    @Override
+    public String toString(){
+        return this.time.toString().concat(" ")
+                .concat(this.getSender().getNickname())
+                .concat(": ")
+                .concat(this.text)
+                .concat("\n");
+    }
+
     public String getText() {
         return text;
     }
