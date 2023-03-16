@@ -7,6 +7,10 @@ public class Playground {
 
     private List<Tile> bag; //Array di 6 elementi contenente tutte le 22*6 Tile
 
+    public Playground(){
+
+    }
+
     public Playground(Tile[][] board, List<Tile> bag) {
         this.board = board;
         this.bag = bag;

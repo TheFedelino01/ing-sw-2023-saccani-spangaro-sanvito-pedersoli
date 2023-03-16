@@ -15,12 +15,11 @@ public class GameModelImmutable {
     }
 
     public List<Player> getPlayers() {
-        return model.getPlayers();
+        //return model.getPlayers();
+        return null;
     }
 
-    public List<CardCommon> getCommonCards() {
-        return model.getCommonCards();
-    }
+
 
     public Integer getGameId() {
         return model.getGameId();

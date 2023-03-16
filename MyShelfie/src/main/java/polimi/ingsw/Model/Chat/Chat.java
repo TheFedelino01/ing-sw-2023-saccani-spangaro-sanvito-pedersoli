@@ -2,12 +2,16 @@ package polimi.ingsw.Model.Chat;
 
 import polimi.ingsw.Model.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Chat {
     private List<Message> msgs;
 
+    public Chat(){
+        msgs = new ArrayList<Message>();
+    }
     public Chat(List<Message> msgs) {
         this.msgs = msgs;
     }
@@ -16,6 +20,9 @@ public class Chat {
         return msgs;
     }
 
+    public void addMsg(Message m){
+        msgs.add(m);
+    }
     public void addMsg(Player sender, String text){
         Message temp = new Message(text, sender);
         msgs.add(temp);

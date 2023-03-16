@@ -77,7 +77,8 @@ public class GameController {
 
 
     public Player whoIsPlaying(){
-        return model.getPlayers().get(model.getCurrentPlaying());
+        //return model.getPlayers().get(model.getCurrentPlaying());
+        return null;
     }
     
 

@@ -11,6 +11,9 @@ public class Player {
     private List<Tile> inHandTail;
     private List<Point> obtainedPoints;
 
+    public Player(String nickname){
+        this.nickname=nickname;
+    }
     public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTail, List<Point> obtainedPoints) {
         this.nickname = nickname;
         this.shelf = shelf;
@@ -57,5 +60,10 @@ public class Player {
 
     public void setObtainedPoints(List<Point> obtainedPoints) {
         this.obtainedPoints = obtainedPoints;
+    }
+
+
+    public boolean equals(Player p){
+        return this.nickname.equals(p.nickname);
     }
 }

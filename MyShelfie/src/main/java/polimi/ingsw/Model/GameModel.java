@@ -1,10 +1,15 @@
 package polimi.ingsw.Model;
 
+import polimi.ingsw.Controller.DefaultValue;
 import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
 import polimi.ingsw.Model.Enumeration.GameStatus;
+import polimi.ingsw.Model.Exceptions.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameModel {
     private List<Player> players;
@@ -18,9 +23,22 @@ public class GameModel {
 
     private GameStatus status;
 
-    public GameModel(){
+    private Random random = new Random(1256546846);
 
+    public GameModel() {
+        players = new ArrayList<Player>();
+        commonCards = new ArrayList<CardCommon>();
+
+        gameId = random.nextInt(10000000);
+
+        pg = new Playground();
+        currentPlaying = -1;
+        chat = new Chat();
+        status = GameStatus.WAIT;
+
+        chat = new Chat();
     }
+
     public GameModel(List<Player> players, List<CardCommon> commonCards, Integer gameId, Playground pg) {
         this.players = players;
         this.commonCards = commonCards;
@@ -28,21 +46,70 @@ public class GameModel {
         this.pg = pg;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public int getNumOfPlayers() {
+        return players.size();
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
+        //Verifico per prima cosa che il player non e' gia' presente
+        //poi se non vado in overflow
+        if (players.stream()
+                .filter(x -> x.equals(p))
+                .count() == 0) {
+            if (players.size() + 1 <= DefaultValue.MaxNumOfPlayer) {
+                players.add(p);
+            } else {
+                throw new MaxPlayersInException();
+            }
+        } else {
+            throw new PlayerAlreadyInException();
+        }
+
     }
 
-    public List<CardCommon> getCommonCards() {
-        return commonCards;
+
+    public Player getPlayer(int i) {
+        return players.get(i);
     }
 
-    public void setCommonCards(List<CardCommon> commonCards) {
-        this.commonCards = commonCards;
+
+
+
+    public int getNumOfCommonCards() {
+        return commonCards.size();
     }
+
+    public void addCommonCard(CardCommon c) throws MaxCommonCardsAddedException, CommonCardAlreadyInException {
+        //Si verifica per prima cosa se la carta e' gia' presente
+        //se non e' gia' presente, verifico se si va in overflow
+
+        if (commonCards.stream().filter(x -> x.isSameType(c)).count() == 0) {
+            if (commonCards.size() + 1 <= DefaultValue.NumOfCommonCards) {
+                commonCards.add(c);
+            } else {
+                throw new MaxCommonCardsAddedException();
+            }
+        } else {
+            throw new CommonCardAlreadyInException();
+        }
+
+    }
+
+    public void setGoalCard(int indexPlayer, CardGoal c) throws SecretGoalAlreadyGivenException {
+        //Assegno la carta goal solo se non ce l'ha nessun altro player
+        if(players.stream().filter(x->x.getSecretGoal().equals(c)).count()==0){
+            players.get(indexPlayer).setSecretGoal(c);
+        }else{
+            throw new SecretGoalAlreadyGivenException();
+        }
+
+    }
+
+    public CardCommon getCommonCard(int i){
+        return commonCards.get(i);
+    }
+
+
 
     public Integer getGameId() {
         return gameId;
@@ -72,15 +139,36 @@ public class GameModel {
         return chat;
     }
 
-    public void setChat(Chat chat) {
-        this.chat = chat;
+    public void sendMessage(Player p, String txt){
+        if(players.stream().filter(x-> x.equals(p)).count()==1){
+            chat.addMsg(p,txt);
+        }else{
+            throw new ActionPerformedByAPlayerNotPlayingException();
+        }
+
     }
+
+
 
     public GameStatus getStatus() {
         return status;
     }
 
-    public void setStatus(GameStatus status) {
-        this.status = status;
+    public void setStatus(GameStatus status)  {
+        //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
+        if(status==GameStatus.RUNNING && players.size()<DefaultValue.minNumOfPlayer){
+            throw new NotEnoughtPlayerToRunGameException();
+        }else {
+            this.status = status;
+        }
     }
+
+    public void nextTurn(){
+        if(status==GameStatus.RUNNING)
+            currentPlaying = (currentPlaying+1)%players.size();
+        else
+            throw new GameNotStartedException();
+    }
+
+
 }

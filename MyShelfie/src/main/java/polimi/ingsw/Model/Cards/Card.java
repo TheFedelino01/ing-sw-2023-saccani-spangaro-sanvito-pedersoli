@@ -10,4 +10,6 @@ public abstract class Card {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

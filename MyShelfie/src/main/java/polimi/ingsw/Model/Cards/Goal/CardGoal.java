@@ -45,4 +45,9 @@ public class CardGoal extends Card {
     public void setGoalType(CardGoalType goalType) {
         this.goalType = goalType;
     }
+
+
+    public boolean isSameCard(CardGoal c) {
+        return goalType==c.goalType;
+    }
 }
