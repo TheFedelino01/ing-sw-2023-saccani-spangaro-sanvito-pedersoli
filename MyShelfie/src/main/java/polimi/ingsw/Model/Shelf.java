@@ -1,8 +1,15 @@
 package polimi.ingsw.Model;
 
+import polimi.ingsw.Controller.DefaultValue;
+
 public class Shelf {
     private Tile[][] shelf;
-    private Integer freeSpace; //7*6
+    private Integer freeSpace; //6*5
+
+    public Shelf(){
+        shelf = new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];
+        freeSpace=DefaultValue.NumOfRowsShelf*DefaultValue.NumOfColumnsShelf;
+    }
 
     public Shelf(Tile[][] shelf, Integer freeSpace) {
         this.shelf = shelf;

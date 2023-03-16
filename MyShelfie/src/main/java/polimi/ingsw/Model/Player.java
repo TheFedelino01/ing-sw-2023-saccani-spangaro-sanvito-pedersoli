@@ -1,7 +1,9 @@
 package polimi.ingsw.Model;
 
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
+import polimi.ingsw.Model.Enumeration.CardGoalType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -13,6 +15,10 @@ public class Player {
 
     public Player(String nickname){
         this.nickname=nickname;
+        shelf=new Shelf();
+        secretGoal= new CardGoal();
+        inHandTail = new ArrayList<Tile>();
+        obtainedPoints=new ArrayList<Point>();
     }
     public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTail, List<Point> obtainedPoints) {
         this.nickname = nickname;

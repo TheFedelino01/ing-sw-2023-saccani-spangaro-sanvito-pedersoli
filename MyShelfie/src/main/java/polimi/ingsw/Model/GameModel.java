@@ -4,12 +4,11 @@ import polimi.ingsw.Controller.DefaultValue;
 import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
+import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Exceptions.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GameModel {
     private List<Player> players;
@@ -79,6 +78,7 @@ public class GameModel {
         return commonCards.size();
     }
 
+
     public void addCommonCard(CardCommon c) throws MaxCommonCardsAddedException, CommonCardAlreadyInException {
         //Si verifica per prima cosa se la carta e' gia' presente
         //se non e' gia' presente, verifico se si va in overflow
@@ -96,11 +96,15 @@ public class GameModel {
     }
 
     public void setGoalCard(int indexPlayer, CardGoal c) throws SecretGoalAlreadyGivenException {
-        //Assegno la carta goal solo se non ce l'ha nessun altro player
-        if(players.stream().filter(x->x.getSecretGoal().equals(c)).count()==0){
-            players.get(indexPlayer).setSecretGoal(c);
+        if(indexPlayer<players.size() && indexPlayer>=0) {
+            //Assegno la carta goal solo se non ce l'ha nessun altro player
+            if (players.stream().filter(x -> (x.getSecretGoal().isSameType(c))).count() == 0) {
+                players.get(indexPlayer).setSecretGoal(c);
+            } else {
+                throw new SecretGoalAlreadyGivenException();
+            }
         }else{
-            throw new SecretGoalAlreadyGivenException();
+            throw new IndexPlayerOutOfBoundException();
         }
 
     }
@@ -154,10 +158,29 @@ public class GameModel {
         return status;
     }
 
+    public Map<Player,CardGoal> getGoalCards(){
+        Map ris = new HashMap<Player,CardGoal>();
+
+        for(Player p: players){
+            ris.put(p,p.getSecretGoal());
+        }
+        return ris;
+    }
+    public boolean doAllPlayersHaveGoalCard(){
+        for(Player p: players){
+            if(p.getSecretGoal().getGoalType() == CardGoalType.NOT_SET)
+                return false;
+        }
+        return true;
+    }
+
     public void setStatus(GameStatus status)  {
         //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
-        if(status==GameStatus.RUNNING && players.size()<DefaultValue.minNumOfPlayer){
-            throw new NotEnoughtPlayerToRunGameException();
+        if(status==GameStatus.RUNNING &&
+                (players.size()<DefaultValue.minNumOfPlayer
+                || getNumOfCommonCards()!=DefaultValue.NumOfCommonCards
+                        || !doAllPlayersHaveGoalCard())){
+            throw new NotReadyToRunException();
         }else {
             this.status = status;
         }

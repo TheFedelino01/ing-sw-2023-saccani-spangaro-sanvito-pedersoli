@@ -5,8 +5,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.Controller.DefaultValue;
 import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
+import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Exceptions.*;
 
@@ -131,7 +133,7 @@ public class GameModelTest {
             assertTrue(false, "Game started but no player is current playing");
         }
 
-        assertThrows(NotEnoughtPlayerToRunGameException.class, () -> model.setStatus(GameStatus.RUNNING), "Game started with not enough players");
+        assertThrows(NotReadyToRunException.class, () -> model.setStatus(GameStatus.RUNNING), "Game started with not enough players");
 
         try {
             model.addPlayer(new Player("1"));
@@ -147,9 +149,29 @@ public class GameModelTest {
 
         int turn=0;
         model.setCurrentPlaying(turn);
-        model.setStatus(GameStatus.RUNNING);
 
-        //todo verificare che tutti i giocatori abbiano le carte personali e che le carte obiettivo siano state estrattte
+        assertThrows(NotReadyToRunException.class, () -> model.setStatus(GameStatus.RUNNING), "Wanted to start game but Common and Goal cards not setted");
+
+        try {
+            model.setGoalCard(0,new CardGoal(CardGoalType.GOAL1));
+            model.setGoalCard(1,new CardGoal(CardGoalType.GOAL2));
+            model.setGoalCard(2,new CardGoal(CardGoalType.GOAL3));
+        } catch (SecretGoalAlreadyGivenException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertThrows(NotReadyToRunException.class, () -> model.setStatus(GameStatus.RUNNING), "Wanted to start game but Common Cards not setted");
+
+        try {
+            model.addCommonCard(new CardCommon(CardCommonType.COMMON1));
+            model.addCommonCard(new CardCommon(CardCommonType.COMMON2));
+        } catch (MaxCommonCardsAddedException e) {
+            throw new RuntimeException(e);
+        } catch (CommonCardAlreadyInException e) {
+            throw new RuntimeException(e);
+        }
+
+        model.setStatus(GameStatus.RUNNING);
 
         for (int i = 0; i < 6; i++) {
 
@@ -215,8 +237,49 @@ public class GameModelTest {
     @Test
     @DisplayName("Test Goal Cards")
     void testSecretGoal() {
-        //TODO inserire le carte goal verificando che siano diverse
+        assertThrows(IndexPlayerOutOfBoundException.class, () -> model.setGoalCard(0,new CardGoal()), "Wanted to set a GoalCard to a non playing player");
+        assertThrows(IndexPlayerOutOfBoundException.class, () -> model.setGoalCard(-1,new CardGoal()), "Wanted to set a GoalCard to a non playing player");
+        assertThrows(IndexPlayerOutOfBoundException.class, () -> model.setGoalCard(2,new CardGoal()), "Wanted to set a GoalCard to a non playing player");
+        assertThrows(IndexPlayerOutOfBoundException.class, () -> model.setGoalCard(5,new CardGoal()), "Wanted to set a GoalCard to a non playing player");
 
+        try {
+            model.addPlayer(new Player("1"));
+            model.addPlayer(new Player("2"));
+            model.addPlayer(new Player("3"));
+
+        } catch (PlayerAlreadyInException e) {
+            throw new RuntimeException(e);
+        } catch (MaxPlayersInException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            model.setGoalCard(0,new CardGoal(CardGoalType.GOAL1));
+            model.setGoalCard(1,new CardGoal(CardGoalType.GOAL2));
+        } catch (SecretGoalAlreadyGivenException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(1,new CardGoal(CardGoalType.GOAL1)), "Secret Goal was already assigned");
+        assertThrows(IndexPlayerOutOfBoundException.class, () -> model.setGoalCard(3,new CardGoal()), "Wanted to set a GoalCard to a non playing player");
+
+        try {
+            model.setGoalCard(2,new CardGoal(CardGoalType.GOAL3));
+        } catch (SecretGoalAlreadyGivenException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(0,new CardGoal(CardGoalType.GOAL1)), "Secret Goal was already assigned");
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(0,new CardGoal(CardGoalType.GOAL2)), "Secret Goal was already assigned");
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(0,new CardGoal(CardGoalType.GOAL3)), "Secret Goal was already assigned");
+
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(1,new CardGoal(CardGoalType.GOAL1)), "Secret Goal was already assigned");
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(1,new CardGoal(CardGoalType.GOAL2)), "Secret Goal was already assigned");
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(1,new CardGoal(CardGoalType.GOAL3)), "Secret Goal was already assigned");
+
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(2,new CardGoal(CardGoalType.GOAL1)), "Secret Goal was already assigned");
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(2,new CardGoal(CardGoalType.GOAL2)), "Secret Goal was already assigned");
+        assertThrows(SecretGoalAlreadyGivenException.class, () -> model.setGoalCard(2,new CardGoal(CardGoalType.GOAL3)), "Secret Goal was already assigned");
     }
 
 

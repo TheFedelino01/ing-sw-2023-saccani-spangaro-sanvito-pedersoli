@@ -12,6 +12,18 @@ public class CardGoal extends Card {
     private Map<Integer, Point> legendPoint;
     private CardGoalType goalType;
 
+    public CardGoal(){
+        layoutToMatch=null;
+        legendPoint=null;
+        goalType=CardGoalType.NOT_SET;
+    }
+
+    public CardGoal(CardGoalType type){
+        layoutToMatch=null;
+        legendPoint=null;
+        goalType=type;
+    }
+
     public CardGoal(Shelf layoutToMatch, Map<Integer, Point> legendPoint, CardGoalType goalType) {
         this.layoutToMatch = layoutToMatch;
         this.legendPoint = legendPoint;
@@ -47,7 +59,7 @@ public class CardGoal extends Card {
     }
 
 
-    public boolean isSameCard(CardGoal c) {
+    public boolean isSameType(CardGoal c) {
         return goalType==c.goalType;
     }
 }

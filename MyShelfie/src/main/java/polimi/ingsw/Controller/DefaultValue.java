@@ -7,5 +7,7 @@ public class DefaultValue {
 
     public static int NumOfCommonCards=2;
 
+    public static int NumOfColumnsShelf =5;
+    public static int NumOfRowsShelf =6;
 
 }
