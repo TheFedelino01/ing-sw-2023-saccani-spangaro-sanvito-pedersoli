@@ -13,6 +13,8 @@ public class Player {
     private List<Tile> inHandTail;
     private List<Point> obtainedPoints;
 
+    private boolean readyToStart=false;
+
     public Player(String nickname){
         this.nickname=nickname;
         shelf=new Shelf();
@@ -68,7 +70,10 @@ public class Player {
         this.obtainedPoints = obtainedPoints;
     }
 
-
+    public boolean getReadyToStart(){return readyToStart;}
+    public void setReadyToStart(){
+        readyToStart=true;
+    }
     public boolean equals(Player p){
         return this.nickname.equals(p.nickname);
     }

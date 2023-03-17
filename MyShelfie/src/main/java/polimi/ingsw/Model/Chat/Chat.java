@@ -31,6 +31,9 @@ public class Chat {
     public String getLast(){
         return msgs.get(msgs.size()-1).toString();
     }
+    public Message getLastMessage(){
+        return msgs.get(msgs.size()-1);
+    }
 
     public void setMsgs(List<Message> msgs) {
         this.msgs = msgs;

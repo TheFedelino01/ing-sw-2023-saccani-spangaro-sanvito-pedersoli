@@ -14,6 +14,11 @@ public class Tile {
         freeSide=false;
         numOfAvailable=1;
     }
+    public Tile(TileType type){
+        this.TYPE = type;
+        freeSide=false;
+        numOfAvailable=-1;
+    }
 
     public Tile(TileType TYPE, boolean freeSide, Integer numOfAvailable) {
         this.TYPE = TYPE;
@@ -44,5 +49,9 @@ public class Tile {
     public void setNumOfAvailable(Integer numOfAvailable) {
         this.numOfAvailable = numOfAvailable<=22 && numOfAvailable>=0 ? numOfAvailable :
                 numOfAvailable>22? 22 : 0;
+    }
+
+    public boolean isSameType(TileType type){
+        return this.TYPE==type;
     }
 }

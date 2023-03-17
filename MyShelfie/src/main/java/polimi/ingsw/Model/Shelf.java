@@ -1,6 +1,6 @@
 package polimi.ingsw.Model;
 
-import polimi.ingsw.Controller.DefaultValue;
+import polimi.ingsw.Model.Enumeration.TileType;
 
 public class Shelf {
     private Tile[][] shelf;
@@ -30,5 +30,12 @@ public class Shelf {
 
     public void setFreeSpace(Integer freeSpace) {
         this.freeSpace = freeSpace;
+    }
+
+    public Tile get(int c, int r){
+        return shelf[c][r];
+    }
+    public void position(int collum, TileType tipo) {
+        //todo mettere la tile nella colonna facendola "scivolare" verso il basso
     }
 }

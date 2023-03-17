@@ -1,4 +1,4 @@
-package polimi.ingsw.Controller;
+package polimi.ingsw.Model;
 
 public class DefaultValue {
 

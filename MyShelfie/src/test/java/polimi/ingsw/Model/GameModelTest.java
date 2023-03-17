@@ -3,7 +3,6 @@ package polimi.ingsw.Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.Controller.DefaultValue;
 import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Message;

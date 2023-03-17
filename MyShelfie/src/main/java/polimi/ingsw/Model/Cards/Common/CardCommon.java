@@ -21,6 +21,7 @@ public class CardCommon extends Card {
         this.commonType = commonType;
     }
 
+
     public boolean verify(Shelf shelfToCheck){
         return false;
     }

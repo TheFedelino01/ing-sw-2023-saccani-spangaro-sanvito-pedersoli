@@ -1,5 +1,9 @@
 package polimi.ingsw.Model;
 
+import polimi.ingsw.Model.Enumeration.Direction;
+import polimi.ingsw.Model.Enumeration.TileType;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Playground {
@@ -31,4 +35,14 @@ public class Playground {
     public void setBag(List<Tile> bag) {
         this.bag = bag;
     }
+
+
+    public List<Tile> grabTailFromPlayground(int x, int y, Direction direction, int num){
+        //todo metodo che prende le tail dal playground
+        //lo mettiamo qui perché é una delle operazioni basilari del modello playground
+        List<Tile> ris = new ArrayList<>();
+        ris.add(new Tile(TileType.CAT));
+        return ris;
+    }
+
 }
