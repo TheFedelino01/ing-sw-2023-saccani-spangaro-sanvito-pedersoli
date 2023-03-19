@@ -12,7 +12,6 @@ public class Player {
     private CardGoal secretGoal;
     private List<Tile> inHandTail;
     private List<Point> obtainedPoints;
-
     private boolean readyToStart=false;
 
     public Player(String nickname){
@@ -59,7 +58,12 @@ public class Player {
     }
 
     public void setInHandTail(List<Tile> inHandTail) {
-        this.inHandTail = inHandTail;
+        if (inHandTail.size() > 3) {
+            throw new IllegalArgumentException("You can't have more than 3 tiles in hand");
+        }
+        else {
+            this.inHandTail = inHandTail;
+        }
     }
 
     public List<Point> getObtainedPoints() {
@@ -67,6 +71,16 @@ public class Player {
     }
 
     public void setObtainedPoints(List<Point> obtainedPoints) {
+        //TODO Controllare che non possono esserci point relativi alla stessa carta
+
+        /*//Check that there are no points related to the same card type
+        for (int i = 0; i < obtainedPoints.size(); i++) {
+            for (int j = i + 1; j < obtainedPoints.size(); j++) {
+                if (obtainedPoints.get(i).getCard().getCardType() == obtainedPoints.get(j).getCard().getCardType()) {
+                    throw new IllegalArgumentException("You can't have more than one point related to the same card type");
+                }
+            }
+        }*/
         this.obtainedPoints = obtainedPoints;
     }
 
