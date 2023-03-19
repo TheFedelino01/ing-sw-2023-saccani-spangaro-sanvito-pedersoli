@@ -3,13 +3,11 @@ package polimi.ingsw.Controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.PositioningATailNotGrabbedException;
-import polimi.ingsw.Model.Player;
-import polimi.ingsw.Model.Point;
-import polimi.ingsw.Model.Tile;
 
 import java.util.*;
 
@@ -100,6 +98,8 @@ public class GameControllerTest {
             Tile firstTileInHand = plist.get(currentPlayer).getInHandTail().get(0);
             assertTrue(firstTileInHand.isSameType(grabbed.get(i).getTYPE()), "Mismatch between Tile grabbed from playground and Tile in hand");
 
+            Shelf shelf = plist.get(currentPlayer).getShelf();
+            shelf.setShelf(new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf]);
             gameController.positionTailOnShelf(plist.get(currentPlayer), 0, grabbed.get(i).getTYPE());
 
             //plist.get(currentPlayer).getShelf().get(0,0); manca implementazione inserimento in shelf

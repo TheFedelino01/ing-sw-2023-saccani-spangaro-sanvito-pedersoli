@@ -162,7 +162,6 @@ public class GameController {
         }
     }
 
-    //TODO test
 
     /**
      * Controllo chi tra i vari player ha piú punti
