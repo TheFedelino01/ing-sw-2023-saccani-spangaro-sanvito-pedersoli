@@ -253,6 +253,11 @@ public class GameModel {
             throw new GameNotStartedException();
     }
 
+
+    public int getPlayerIndex(Player p) {
+        return players.indexOf(p);
+    }
+
     public void addListener(GameListener obj){
         listeners.add(obj);
     }
@@ -290,7 +295,6 @@ public class GameModel {
         for(GameListener l : listeners)
             l.positionedTail(this);
     }
-
 
 
 }
