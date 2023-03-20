@@ -26,4 +26,5 @@ public class Point {
     public void setReferredTo(Card referredTo) {
         this.referredTo = referredTo;
     }
+
 }

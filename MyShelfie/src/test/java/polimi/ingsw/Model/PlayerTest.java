@@ -86,8 +86,8 @@ class PlayerTest {
             List<Point> pointList = new ArrayList<>();
             Point point = new Point(8, new CardCommon(CardCommonType.COMMON1));
             Point point2 = new Point(8, new CardCommon(CardCommonType.COMMON2));
-            Point point3 = new Point(8, new CardCommon(CardCommonType.COMMON3));
-            Point point4 = new Point(4, new CardCommon(CardCommonType.COMMON1)); //Dovrebbe dare errore
+            Point point3 = new Point(4, new CardCommon(CardCommonType.COMMON1)); //TODO: Una volta implementato isSameType, dovrebbe dare errore
+            Point point4 = new Point(8, new CardCommon(CardCommonType.COMMON3));
 
             pointList.add(point);
             pointList.add(point2);

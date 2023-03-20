@@ -1,6 +1,8 @@
 package polimi.ingsw.Model;
 
+import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
+import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
 
 import java.util.ArrayList;
@@ -73,14 +75,14 @@ public class Player {
     public void setObtainedPoints(List<Point> obtainedPoints) {
         //TODO Controllare che non possono esserci point relativi alla stessa carta
 
-        /*//Check that there are no points related to the same card type
+        //Check that there are no points related to the same card type
         for (int i = 0; i < obtainedPoints.size(); i++) {
             for (int j = i + 1; j < obtainedPoints.size(); j++) {
-                if (obtainedPoints.get(i).getCard().getCardType() == obtainedPoints.get(j).getCard().getCardType()) {
-                    throw new IllegalArgumentException("You can't have more than one point related to the same card type");
+                if (obtainedPoints.get(i).getReferredTo().isSameType(obtainedPoints.get(j).getReferredTo())) {
+                    throw new IllegalArgumentException("You can't have more than one point for the same card type");
                 }
             }
-        }*/
+        }
         this.obtainedPoints = obtainedPoints;
     }
 

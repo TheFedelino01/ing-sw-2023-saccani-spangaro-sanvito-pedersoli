@@ -11,5 +11,7 @@ public abstract class Card {
         this.name = name;
     }
 
-
+    public boolean isSameType(Object card) {
+        return false;
+    }
 }

@@ -48,4 +48,5 @@ public class CardCommon extends Card {
     public boolean equals(CardCommon c){
         return this.points.containsAll(c.getPoints()) && this.commonType==c.commonType;
     }
+
 }
