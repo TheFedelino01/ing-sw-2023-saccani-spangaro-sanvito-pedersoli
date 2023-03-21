@@ -34,9 +34,7 @@ public class Shelf {
         return freeSpace;
     }
 
-    public void setFreeSpace(Integer freeSpace) {
-        this.freeSpace = freeSpace;
-    }
+
 
     public Tile get(int c, int r) {
         return shelf[c][r];
@@ -47,10 +45,13 @@ public class Shelf {
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             if (shelf[column][i].getTYPE() == TileType.NOT_USED) {
                 shelf[column][i].setTYPE(tipo);
+                freeSpace--;
                 break;
             }
         }
     }
+
+
 
 }
 

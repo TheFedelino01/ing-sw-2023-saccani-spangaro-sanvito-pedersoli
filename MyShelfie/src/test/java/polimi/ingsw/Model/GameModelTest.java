@@ -186,7 +186,11 @@ public class GameModelTest {
                 assertTrue(false, "Turn wrong");
             }
             turn = (turn+1)%3;
-            model.nextTurn();
+            try {
+                model.nextTurn();
+            } catch (GameEndedException e) {
+                throw new RuntimeException(e);
+            }
 
         }
 

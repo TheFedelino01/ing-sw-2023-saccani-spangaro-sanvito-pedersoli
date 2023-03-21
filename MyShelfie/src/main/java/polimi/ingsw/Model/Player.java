@@ -16,6 +16,8 @@ public class Player {
     private List<Point> obtainedPoints;
     private boolean readyToStart=false;
 
+
+
     public Player(String nickname){
         this.nickname=nickname;
         shelf=new Shelf();

@@ -14,4 +14,5 @@ public interface GameListener {
     public void SentMessage(Message msg);
     public void grabbedTail(GameModel gamemodel);
     public void positionedTail(GameModel gameModel);
+    public void nextTurn(GameModel gameModel);
 }

@@ -25,6 +25,11 @@ public class GameModel {
 
     private GameStatus status;
 
+    private Integer firstFinishedPlayer=-1;
+
+    private Integer winnerIndex=-1;
+
+
     private Random random = new Random();
 
 
@@ -214,10 +219,12 @@ public class GameModel {
         }else {
             this.status = status;
 
-            if(status==GameStatus.RUNNING)
+            if(status==GameStatus.RUNNING) {
                 notify_GameStarted();
-            else if(status==GameStatus.STOPPED)
+            }else if(status==GameStatus.ENDED) {
+                findWinner(); //Trovo il vincitore
                 notify_GameEnded();
+            }
         }
     }
 
@@ -246,10 +253,15 @@ public class GameModel {
         return null;//Il player non ha questa Tile tra quelle estratte
     }
 
-    public void nextTurn(){
+    public void nextTurn() throws GameEndedException {
         if(status==GameStatus.RUNNING) {
             if(players.get(currentPlaying).getInHandTail().size()==0) {
                 currentPlaying = (currentPlaying + 1) % players.size();
+                if(currentPlaying == firstFinishedPlayer){
+                    throw new GameEndedException();
+                }else {
+                    notify_nextTurn();
+                }
             }else{
                 throw new NotEmptyHandException();
             }
@@ -259,10 +271,36 @@ public class GameModel {
         }
     }
 
+    public void setFinishedPlayer(Integer indexPlayer){
+        firstFinishedPlayer=indexPlayer;
+    }
+
 
     public int getPlayerIndex(Player p) {
         return players.indexOf(p);
     }
+
+    /**
+     * Controllo chi tra i vari player ha piú punti
+     *
+     * @return Player con piú punti
+     * @apiNote Ho cambiato il tipo di ritorno da void a Player
+     */
+    private void findWinner() {
+        int max = 0;
+        //Cycle between every player point and return the one with more point
+        for (int i = 0; i < getNumOfPlayers(); i++) {
+            Integer point = getPlayer(i).getTotalPoints();
+            if (point > max) {
+                max = point;
+                winnerIndex = i;
+            }
+
+        }
+        //TODO: Caso player con stessi punti (per ora assumiamo no pareggio)
+    }
+
+
 
     public void addListener(GameListener obj){
         listeners.add(obj);
@@ -302,5 +340,9 @@ public class GameModel {
             l.positionedTail(this);
     }
 
+    private void notify_nextTurn(){
+        for(GameListener l : listeners)
+            l.nextTurn(this);
+    }
 
 }

@@ -83,4 +83,9 @@ public class SocketWithClientView implements Runnable, GameListener {
     public void positionedTail(GameModel gameModel) {
 
     }
+
+    @Override
+    public void nextTurn(GameModel gameModel) {
+
+    }
 }
