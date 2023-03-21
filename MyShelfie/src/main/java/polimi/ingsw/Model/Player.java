@@ -72,16 +72,14 @@ public class Player {
         return obtainedPoints;
     }
 
-    public void setObtainedPoints(List<Point> obtainedPoints) {
-        //Check that there are no points related to the same card type
-        for (int i = 0; i < obtainedPoints.size(); i++) {
-            for (int j = i + 1; j < obtainedPoints.size(); j++) {
-                if (obtainedPoints.get(i).getReferredTo().isSameType(obtainedPoints.get(j).getReferredTo())) {
-                    throw new IllegalArgumentException("You can't have more than one point for the same card type");
-                }
+    public void addPoint(Point obtainedPoints) {
+        //TODO Controllare che non possono esserci point relativi alla stessa carta
+        for(Point p: this.obtainedPoints){
+            if(p.getReferredTo().isSameType(obtainedPoints.getReferredTo())){
+                throw new IllegalArgumentException("You can't have more than one point for the same card");
             }
         }
-        this.obtainedPoints = obtainedPoints;
+        this.obtainedPoints.add(obtainedPoints);
     }
 
     public boolean getReadyToStart(){return readyToStart;}

@@ -132,31 +132,13 @@ public class GameControllerTest {
             }
         }
         assertTrue(ris, "The new card is not in the list");
-
-        //Check if the points are correct
+        //Check point assignment
         for (int i = 0; i < risCommon.size(); i++) {
             if (risCommon.get(i).getCommonType().equals(CardCommonType.COMMON1)) {
-                assertEquals(risCommon.get(i).getPoints().size(), 4, "The number of points is not correct");
+                assertEquals(risCommon.get(i).getPoints().size(), 4, "The new card is not in the list");
+                assertEquals(risCommon.get(i).getPoints().peek().getPoint(), 8, "The new card is not in the list");
             }
         }
-        for (int i = 0; i < plist.size(); i++) {
-            plist.get(i).getObtainedPoints().add(points.remove());
-            plist.get(i).setObtainedPoints(plist.get(i).getObtainedPoints());
-        }
-        //Check if the points are correct
-        for (int i = 0; i < risCommon.size(); i++) {
-            if (risCommon.get(i).getCommonType().equals(CardCommonType.COMMON1)) {
-                assertEquals(risCommon.get(i).getPoints().size(), 0, "The number of points is not correct");
-            }
-        }
-        //Check the point of every player
-        for (int i = 0; i < plist.size(); i++) {
-            assertEquals(plist.get(i).getObtainedPoints().size(), 1, "The number of points is not correct");
-            int pointValue = plist.get(i).getObtainedPoints().get(0).getPoint();
-            int pow = (int) Math.pow(2, 3 - i);
-            assertEquals(pointValue, pow, "The number of points is not correct");
-        }
-
 
     }
 

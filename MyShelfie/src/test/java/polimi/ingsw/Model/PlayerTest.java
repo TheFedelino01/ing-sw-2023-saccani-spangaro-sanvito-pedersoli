@@ -89,12 +89,11 @@ class PlayerTest {
             Point point3 = new Point(4, new CardCommon(CardCommonType.COMMON1)); //TODO: Una volta implementato isSameType, dovrebbe dare errore
             Point point4 = new Point(8, new CardCommon(CardCommonType.COMMON3));
 
-            pointList.add(point);
-            pointList.add(point2);
-            pointList.add(point3);
-            pointList.add(point4);
-
-            plist.get(i).setObtainedPoints(pointList);
+            plist.get(i).addPoint(point);
+            plist.get(i).addPoint(point2);
+            plist.get(i).addPoint(point3);
+            plist.get(i).addPoint(point4);
+            
             assertEquals(4, plist.get(i).getObtainedPoints().size());
 
         }
