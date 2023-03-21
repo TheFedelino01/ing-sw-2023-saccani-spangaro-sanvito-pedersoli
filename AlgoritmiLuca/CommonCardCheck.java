@@ -250,6 +250,8 @@ public class CommonCardCheck {
                 win=1;
                 int checkSxToDx =1;
                 int checkDxToSx =1;
+                int checkSxToDx2 =1;
+                int checkDxToSx2 =1;
                 for(int j=0; j<width; j++){
                     for(int i=0; i<height; i++){
                         if(Player_Shelf[i][j]==0)
@@ -269,7 +271,21 @@ public class CommonCardCheck {
                     }
                     sum=sum-1;
                 }
-                if(checkSxToDx==0 && checkDxToSx==0)
+                sum=sum+1;
+                for(int j=0; j<width; j++){
+                    if(SpaceCheck[j]!=sum){
+                        checkSxToDx2=0;
+                    }
+                    sum=sum+1;
+                }
+                sum=sum-1;
+                for(int j=0; j<width; j++){
+                    if(SpaceCheck[j]!=sum){
+                        checkDxToSx2=0;
+                    }
+                    sum=sum-1;
+                }
+                if(checkSxToDx==0 && checkDxToSx==0 && checkSxToDx2==0 && checkDxToSx2==0)
                     win=0;
                 break;
             default:
