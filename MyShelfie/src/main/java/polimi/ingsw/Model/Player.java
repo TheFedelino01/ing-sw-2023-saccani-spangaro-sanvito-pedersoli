@@ -73,8 +73,6 @@ public class Player {
     }
 
     public void setObtainedPoints(List<Point> obtainedPoints) {
-        //TODO Controllare che non possono esserci point relativi alla stessa carta
-
         //Check that there are no points related to the same card type
         for (int i = 0; i < obtainedPoints.size(); i++) {
             for (int j = i + 1; j < obtainedPoints.size(); j++) {

@@ -93,6 +93,7 @@ class PlayerTest {
             pointList.add(point2);
             pointList.add(point3);
             pointList.add(point4);
+
             plist.get(i).setObtainedPoints(pointList);
             assertEquals(4, plist.get(i).getObtainedPoints().size());
 
