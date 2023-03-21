@@ -18,7 +18,7 @@ public class CommonCardCheck extends CardCommon {
         super(type);
     }
 
-    public static int commonCheck(Player player, int NumDifferentTiles, int commonCard) {      //restituisce 1 se ho vinto la CommonCard, 0 se no, 404 se ho errore
+    public static int commonCheck(Player player, int commonCard) {      //restituisce 1 se ho vinto la CommonCard, 0 se no, 404 se ho errore
         int sum = 0;
         int win = 0;
         Shelf playerShelfDupe = new Shelf();
@@ -116,7 +116,7 @@ public class CommonCardCheck extends CardCommon {
                 break;
             case 4:     //tre colonne formate ciascuna da 6 tessere di al più 3 tipi differenti (per colonna)
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                    Map<TileType, Integer> colCheck = new HashMap<TileType, Integer>();
+                    Map<TileType, Integer> colCheck = new HashMap<>();
                     int ok = 0; //controllo singola colonna, sum controlla se ne ho 3 ok
                     for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                         if (playerShelfDupe.get(i, j) != controller)
@@ -134,7 +134,7 @@ public class CommonCardCheck extends CardCommon {
                 }
                 break;
             case 5:     //otto tessere dello stesso tipo
-                Map<TileType, Integer> tileCheck = new HashMap<TileType, Integer>();
+                Map<TileType, Integer> tileCheck = new HashMap<>();
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                         if (playerShelfDupe.get(i, j) != controller) {
@@ -173,7 +173,7 @@ public class CommonCardCheck extends CardCommon {
                 break;
             case 7:     //quattro righe con al massimo 3 tipi di tessere differenti
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                    Map<TileType, Integer> rowCheck = new HashMap<TileType, Integer>();;
+                    Map<TileType, Integer> rowCheck = new HashMap<>();
                     int ok = 0; //contollo singola riga, sum controlla se ne ho max 3 ok
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                         if (playerShelfDupe.get(i,j) != controller)
@@ -192,7 +192,7 @@ public class CommonCardCheck extends CardCommon {
                 break;
             case 8:     //due colonne formate ciascuna da 6 tipi differenti di tessere (si può pensare di aggregare alla #4) (forse anche #7)
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                    Map<TileType, Integer> colCheck = new HashMap<TileType, Integer>();
+                    Map<TileType, Integer> colCheck = new HashMap<>();
                     int ok = 0; //contollo singola colonna, sum controlla se ne ho 3 ok
                     for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                         if (playerShelfDupe.get(i,j) != controller)
@@ -211,7 +211,7 @@ public class CommonCardCheck extends CardCommon {
                 break;
             case 9:     //due righe formate da 5 differenti tipi di tiles (si può pensare di aggregarla alla #7)
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                    Map<TileType, Integer> rowCheck = new HashMap<TileType, Integer>();
+                    Map<TileType, Integer> rowCheck = new HashMap<>();
                     int ok = 0; //contollo singola riga, sum controlla se ne ho 3 ok
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                         if (playerShelfDupe.get(i,j) != controller)
