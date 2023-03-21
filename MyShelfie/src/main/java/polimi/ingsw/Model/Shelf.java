@@ -48,8 +48,8 @@ public class Shelf {
         //push the tile in the column making it slide down until it finds a tile, or it reaches the bottom
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
 
-            if (shelf[column][i].getTYPE() == TileType.NOT_USED) {
-                shelf[column][i].setTYPE(tipo);
+            if (shelf[column][i].getType() == TileType.NOT_USED) {
+                shelf[column][i].setType(tipo);
                 freeSpace--;
 
                 break;

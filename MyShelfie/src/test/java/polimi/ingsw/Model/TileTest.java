@@ -23,7 +23,7 @@ public class TileTest {
     void testType() {
         boolean found=false;
         for(int i = 0; i<TileType.values().length && found==false;i++){
-            if(TileType.values()[i].equals(tile.getTYPE()))
+            if(TileType.values()[i].equals(tile.getType()))
                 found=true;
         }
         assertTrue(found,"Tile type corrent");

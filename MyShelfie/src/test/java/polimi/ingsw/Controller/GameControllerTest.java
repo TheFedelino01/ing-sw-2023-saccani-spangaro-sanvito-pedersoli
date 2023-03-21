@@ -87,7 +87,7 @@ public class GameControllerTest {
 
 
         for (int i = 0; i < grabbed.size(); i++) {
-            assertTrue(plist.get(currentPlayer).getInHandTail().get(i).isSameType(grabbed.get(i).getTYPE()), "Mismatch between Tile grabbed from playground and Tile in hand");
+            assertTrue(plist.get(currentPlayer).getInHandTail().get(i).isSameType(grabbed.get(i).getType()), "Mismatch between Tile grabbed from playground and Tile in hand");
 
         }
 
@@ -96,11 +96,11 @@ public class GameControllerTest {
 
         for (int i = 0; i < grabbed.size(); i++) {
             Tile firstTileInHand = plist.get(currentPlayer).getInHandTail().get(0);
-            assertTrue(firstTileInHand.isSameType(grabbed.get(i).getTYPE()), "Mismatch between Tile grabbed from playground and Tile in hand");
+            assertTrue(firstTileInHand.isSameType(grabbed.get(i).getType()), "Mismatch between Tile grabbed from playground and Tile in hand");
 
             Shelf shelf = plist.get(currentPlayer).getShelf();
             shelf.setShelf(new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf]);
-            gameController.positionTailOnShelf(plist.get(currentPlayer), 0, grabbed.get(i).getTYPE());
+            gameController.positionTailOnShelf(plist.get(currentPlayer), 0, grabbed.get(i).getType());
 
             //plist.get(currentPlayer).getShelf().get(0,0); manca implementazione inserimento in shelf
         }

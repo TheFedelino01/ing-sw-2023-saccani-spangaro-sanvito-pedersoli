@@ -56,12 +56,12 @@ public class ShelfTest {
         Shelf shelf = new Shelf();
         shelf.setShelf(new Tile[6][5]);
         shelf.position(0, TileType.CAT);
-        assertEquals(TileType.CAT, shelf.get(0, 0).getTYPE());
+        assertEquals(TileType.CAT, shelf.get(0, 0).getType());
 
         shelf.position(0, TileType.FRAME);
-        assertEquals(TileType.FRAME, shelf.get(0, 1).getTYPE());
+        assertEquals(TileType.FRAME, shelf.get(0, 1).getType());
 
         shelf.position(0, TileType.TROPHY);
-        assertEquals(TileType.TROPHY, shelf.get(0, 2).getTYPE());
+        assertEquals(TileType.TROPHY, shelf.get(0, 2).getType());
     }
 }
