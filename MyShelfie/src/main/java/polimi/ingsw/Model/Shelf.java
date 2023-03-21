@@ -38,9 +38,7 @@ public class Shelf {
         return freeSpace;
     }
 
-    public void setFreeSpace(Integer freeSpace) {
-        this.freeSpace = freeSpace;
-    }
+
 
     public Tile get(int c, int r) {
         return shelf[c][r];
@@ -49,12 +47,17 @@ public class Shelf {
     public void position(int column, TileType tipo) {
         //push the tile in the column making it slide down until it finds a tile, or it reaches the bottom
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            if (shelf[column][i].getType() == TileType.NOT_USED) {
-                shelf[column][i].setType(tipo);
+
+            if (shelf[column][i].getTYPE() == TileType.NOT_USED) {
+                shelf[column][i].setTYPE(tipo);
+                freeSpace--;
+
                 break;
             }
         }
     }
+
+
 
 }
 

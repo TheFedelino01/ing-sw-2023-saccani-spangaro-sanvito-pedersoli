@@ -35,13 +35,6 @@ public class ShelfTest {
     }
 
 
-    @Test
-    @DisplayName("Test Shelf free space")
-    void setFreeSpace() {
-        Shelf shelf = new Shelf();
-        shelf.setFreeSpace(10);
-        assertEquals(10, shelf.getFreeSpace());
-    }
 
     @Test
     @DisplayName("Test Shelf get")

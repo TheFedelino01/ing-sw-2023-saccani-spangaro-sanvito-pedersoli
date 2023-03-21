@@ -1,6 +1,7 @@
 package polimi.ingsw.Model.Cards.Goal;
 
 import polimi.ingsw.Model.Cards.Card;
+import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Point;
 import polimi.ingsw.Model.Shelf;
@@ -59,8 +60,11 @@ public class CardGoal extends Card {
     }
 
 
-    public boolean isSameType(CardGoal c) {
-        return goalType.equals(c.goalType);
+    @Override
+    public boolean isSameType(Card c) {
+        if(c instanceof CardGoal) {
+            return this.goalType.equals(((CardGoal) c).goalType);
+        }
+        return false;
     }
-
 }

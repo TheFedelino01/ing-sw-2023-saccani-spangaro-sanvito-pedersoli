@@ -42,8 +42,13 @@ public class CardCommon extends Card {
         this.commonType = commonType;
     }
 
-    public boolean isSameType(CardCommon c) {
-        return this.commonType.equals(c.commonType);
+
+    @Override
+    public boolean isSameType(Card c) {
+        if(c instanceof CardCommon ) {
+            return this.commonType.equals(((CardCommon) c).commonType);
+        }
+        return false;
     }
     public boolean equals(CardCommon c){
         return this.points.containsAll(c.getPoints()) && this.commonType==c.commonType;

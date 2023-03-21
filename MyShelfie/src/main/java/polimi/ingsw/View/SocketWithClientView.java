@@ -31,6 +31,7 @@ public class SocketWithClientView implements Runnable, GameListener {
     private void createGame(){
         gameController = mainController.createGame(player);
         gameController.addPlayer(player);
+
     }
     private void joinFirstAvailableGame(){
         gameController = mainController.joinFirstGameAvailable(player);
@@ -81,6 +82,16 @@ public class SocketWithClientView implements Runnable, GameListener {
 
     @Override
     public void positionedTail(GameModel gameModel) {
+
+    }
+
+    @Override
+    public void nextTurn(GameModel gameModel) {
+
+    }
+
+    @Override
+    public void addedPoint(Player p) {
 
     }
 }

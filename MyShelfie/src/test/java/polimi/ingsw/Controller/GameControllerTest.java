@@ -113,32 +113,20 @@ public class GameControllerTest {
     @DisplayName("Check Common Cards and Point assignment")
     public void testCheckCommonCards() {
 
-        List<CardCommon> risCommon = gameController.getAllCommonCards();
-        //Add a new Common card
-        Queue<Point> points = new ArrayDeque<>();
-        risCommon.add(new CardCommon(points, CardCommonType.COMMON1));
+        gameController.addPlayer(plist.get(0));
+        gameController.addPlayer(plist.get(1));
+        gameController.playerIsReadyToStart(plist.get(0));
+        gameController.playerIsReadyToStart(plist.get(1));
 
-        points.add(new Point(8, risCommon.get(0)));
-        points.add(new Point(4, risCommon.get(0)));
-        points.add(new Point(2, risCommon.get(0)));
-        points.add(new Point(1, risCommon.get(0)));
 
-        //Check if the new card is in the list
-        boolean ris = false;
-        for (int i = 0; i < risCommon.size(); i++) {
-            if (risCommon.get(i).getCommonType().equals(CardCommonType.COMMON1)) {
-                ris = true;
-                break;
-            }
-        }
-        assertTrue(ris, "The new card is not in the list");
-        //Check point assignment
-        for (int i = 0; i < risCommon.size(); i++) {
-            if (risCommon.get(i).getCommonType().equals(CardCommonType.COMMON1)) {
-                assertEquals(risCommon.get(i).getPoints().size(), 4, "The new card is not in the list");
-                assertEquals(risCommon.get(i).getPoints().peek().getPoint(), 8, "The new card is not in the list");
-            }
-        }
+        gameController.whoIsPlaying().addPoint(gameController.getAllCommonCards().get(0).getPoints().peek());
+
+        gameController.getAllCommonCards().get(0).getPoints().remove();
+
+        assertThrows(IllegalArgumentException.class, () -> gameController.whoIsPlaying().addPoint(gameController.getAllCommonCards().get(0).getPoints().peek()), "Added another point of the same card common.. You can't");
+
+
+
 
     }
 
@@ -196,5 +184,7 @@ public class GameControllerTest {
             assertEquals(currentPlayer, 1, "The current player is not correct");
         }
     }
+
+
 
 }
