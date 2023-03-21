@@ -305,6 +305,32 @@ public class CommonCardCheck extends CardCommon {
             }
         }
     }
+
+    private static void Adiacenti_a_7(Shelf playerShelf, int i, int j, Tile tile) {     //utile per conteggio adiacenti (uso il 7 perchè non presente tra le tiles)
+
+        if (i < 0 || i >= DefaultValue.NumOfRowsShelf || j < 0 || j >= DefaultValue.NumOfColumnsShelf) {  //ho superato le dimensioni della matrice
+            return;
+        }
+        if (playerShelf.get(i,j) != tile.getType()) {    //ho trovato tipo differente
+            return;
+        }
+        playerShelf.get(i,j)=new Tile(TileType.FINISHED_USING);     //metto a 7 per differenziare
+        Adiacenti_a_7(playerShelf, i - 1, j, tile); // su
+        Adiacenti_a_7(playerShelf, i + 1, j, tile); // giù
+        Adiacenti_a_7(playerShelf, i, j - 1, tile); // sx
+        Adiacenti_a_7(playerShelf, i, j + 1, tile); // dx
+
+    }
+
+    private static int Conta_Adiacenti(Shelf playerShelf){
+        int res=0;
+        for (int i=0; i<DefaultValue.NumOfRowsShelf; i++){
+            for (int j=0; j<DefaultValue.NumOfColumnsShelf; j++){
+                if(playerShelf.get(i,j)==new Tile(TileType.FINISHED_USING)) {
+                    res = res + 1;
+                }
+            }
+        }
+        return res;
+    }
 }
-
-
