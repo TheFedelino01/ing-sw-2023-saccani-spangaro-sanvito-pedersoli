@@ -1,27 +1,15 @@
 public class PointCheck {
-    public static void main(String[] arg){
-        int height = 6; // devo farmelo passare
-        int width = 5; //devo farmelo passare
-        int point=0;
-        int[][] Player_Shelf = {{0,0,1,1,1},    //devo farmelo passare
-                                {0,0,0,0,1},
-                                {0,0,0,0,0},
-                                {0,0,0,0,0},
-                                {0,0,0,0,0},
-                                {0,0,0,0,0}};
-        int CommonPoint=2;
-        int GoalPoint=4;
-        point = PointCheck(Player_Shelf, height, width,CommonPoint,GoalPoint);
-        System.out.println(point);
-    }
-    public static int PointCheck(int[][] Player_Shelf, int height, int width, int CommonPoint, int GoalPoint){      //restituisce totalone punti
+	
+	private Player player;
+	
+    public static int PointCheck(Player player){      //restituisce totalone punti
         int Tot=0;
         int Sum=0;
-        for(int i=0; i<height; i++) {
-            for (int j=0; j<width; j++) {
-                if(Player_Shelf[i][j]!=0) {
-                    Adiacenti_a_7(Player_Shelf, i, j, height, width, Player_Shelf[i][j]);
-                    Sum = Conta_Adiacenti(Player_Shelf, height, width);
+        for(int i=0; i<DefaultValue.NumOfRowsShelf; i++) {
+            for (int j=0; j<DefaultValue.NumOfColumnsShelf; j++) {
+                if(player.getShelf()[i][j]!=0) {
+                    Adiacenti_a_7(player.getShelf(), i, j, DefaultValue.NumOfRowsShelf, DefaultValue.NumOfColumnsShelf, player.getShelf().get(i,j));
+                    Sum = Conta_Adiacenti(player.getShelf(), DefaultValue.NumOfRowsShelf, DefaultValue.NumOfColumnsShelf);
                     if (Sum > 2) {
                         if (Sum == 3 || Sum == 4)
                             Tot = Tot + Sum - 1;
@@ -37,28 +25,33 @@ public class PointCheck {
         }
         return Tot+CommonPoint+GoalPoint;
     }
-    private static void Adiacenti_a_7(int[][] PlayerShelf, int i, int j, int height, int width, int TileType) {     //utile per conteggio adiacenti (uso il 7 perchè non presente tra le tiles)
+	
+	
+    private static void Adiacenti_a_7(int i, int j, Shelf temp, TileType tile) {     //utile per conteggio adiacenti (uso il 7 perchè non presente tra le tiles)
 
-        if (i < 0 || i >= height || j < 0 || j >= width) {  //ho superato le dimensioni della matrice
+        if (i < 0 || i >= DefaultValue.NumOfRowsShelf || j < 0 || j >= DefaultValue.NumOfColumnsShelf) {  //ho superato le dimensioni della matrice
             return;
         }
-        if (PlayerShelf[i][j] != TileType) {    //ho trovato tipo differente
+        if (temp.get(i,j).getTileType() != tile) {    //ho trovato tipo differente
             return;
         }
-        PlayerShelf[i][j] = 7;      //metto a 7 per differenziare
-        Adiacenti_a_7(PlayerShelf, i - 1, j, height, width, TileType); // su
-        Adiacenti_a_7(PlayerShelf, i + 1, j, height, width, TileType); // giù
-        Adiacenti_a_7(PlayerShelf, i, j - 1, height, width, TileType); // sx
-        Adiacenti_a_7(PlayerShelf, i, j + 1, height, width, TileType); // dx
+		
+        temp.setShelf()[i][j] = 7;      //metto a 7 per differenziare
+        Adiacenti_a_7(temp, i - 1, j, DefaultValue.NumOfRowsShelf, DefaultValue.NumOfColumnsShelf, tile); // su
+        Adiacenti_a_7(temp, i + 1, j, DefaultValue.NumOfRowsShelf, DefaultValue.NumOfColumnsShelf, tile); // giù
+        Adiacenti_a_7(temp, i, j - 1, DefaultValue.NumOfRowsShelf, DefaultValue.NumOfColumnsShelf, tile); // sx
+        Adiacenti_a_7(temp, i, j + 1, DefaultValue.NumOfRowsShelf, DefaultValue.NumOfColumnsShelf, tile); // dx
 
     }
-    private static int Conta_Adiacenti(int[][] PlayerShelf, int height, int width){
+	
+	
+    private static int Conta_Adiacenti(Shelf temp){
         int res=0;
-        for (int i=0; i<height; i++){
-            for (int j=0; j<width; j++){
-                if(PlayerShelf[i][j]==7) {
+        for (int i=0; i<DefaultValue.NumOfRowsShelf; i++){
+            for (int j=0; j<DefaultValue.NumOfColumnsShelf; j++){
+                if(temp.get(i,j)==7) {
                     res = res + 1;
-                    PlayerShelf[i][j]=0; //azzero per successivi
+                    temp.set(i,j)=0; //azzero per successivi
                 }
             }
         }

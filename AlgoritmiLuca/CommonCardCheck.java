@@ -63,35 +63,21 @@ public class CommonCardCheck {
                 break;
             case 2:
                 int[][] Player_Shelf_Duplicate2 = new int[height][width];
+                int check=0;
                 InizializzoDuplicato(Player_Shelf,Player_Shelf_Duplicate2,height,width);
-                for(int i=0; i<height; i++) //controllo presenza verticale
+                for(int i=0; i<height; i++)
                 {
                     for (int j = 0; j < width; j++) {
-                        if (i < height - 3) {   //analizzo verticale
-                            if (Player_Shelf_Duplicate2[i][j] != 0 &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i + 1][j] &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i + 2][j] &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i + 3][j]) {
-                                sum = sum + 1;
-                                if (sum == 4) {
+                        if(Player_Shelf_Duplicate2[i][j]!=0) {  //controllo che ci siano gruppi da 4 in qualsiasi direzione
+                            Adiacenti_a_7(Player_Shelf_Duplicate2, i, j, height, width, Player_Shelf_Duplicate2[i][j]);
+                            sum = Conta_Adiacenti(Player_Shelf_Duplicate2, height, width);
+                            if (sum >= 4) {
+                                AzzeraAdiacenti(Player_Shelf_Duplicate2, i, j, height, width, Player_Shelf_Duplicate2[i][j]);
+                                check = check + 1;
+                                if (check == 4) {
                                     win = 1;
                                     break;
                                 }
-                                //elimino tutti altri elementi uguali attaccati
-                                AzzeraAdiacenti(Player_Shelf_Duplicate2, i, j,height, width, Player_Shelf_Duplicate2[i][j]);
-                            }
-                        }
-                        if (j < width - 3) {
-                            if (Player_Shelf_Duplicate2[i][j] != 0 &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i][j + 1] &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i][j + 2] &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i][j + 3] ) {
-                                sum = sum + 1;
-                                if (sum == 4) {
-                                    win = 1;
-                                    break;
-                                }
-                                AzzeraAdiacenti(Player_Shelf_Duplicate2, i, j,height, width, Player_Shelf_Duplicate2[i][j]);
                             }
                         }
                     }
@@ -258,6 +244,7 @@ public class CommonCardCheck {
                             SpaceCheck[j]=SpaceCheck[j]+1;
                     }
                 }
+                System.out.println(sum);
                 for(int j=0; j<width; j++){
                     if(SpaceCheck[j]!=sum){
                         checkSxToDx=0;
@@ -265,13 +252,15 @@ public class CommonCardCheck {
                     sum=sum+1;
                 }
                 sum=sum-1;
+                System.out.println(sum);
                 for(int j=0; j<width; j++){
                     if(SpaceCheck[j]!=sum){
                         checkDxToSx=0;
                     }
                     sum=sum-1;
                 }
-                sum=sum+1;
+                sum=sum+2;
+                System.out.println(sum);
                 for(int j=0; j<width; j++){
                     if(SpaceCheck[j]!=sum){
                         checkSxToDx2=0;
@@ -279,6 +268,7 @@ public class CommonCardCheck {
                     sum=sum+1;
                 }
                 sum=sum-1;
+                System.out.println(sum);
                 for(int j=0; j<width; j++){
                     if(SpaceCheck[j]!=sum){
                         checkDxToSx2=0;
