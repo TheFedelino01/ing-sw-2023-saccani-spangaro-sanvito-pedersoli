@@ -154,9 +154,6 @@ public class GameController {
     }
 
 
-
-
-
     /**
      * Controlla se il player p ha completato una carta comune
      *

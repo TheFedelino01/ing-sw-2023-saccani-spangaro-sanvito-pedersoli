@@ -253,6 +253,7 @@ public class GameModel {
         return null;//Il player non ha questa Tile tra quelle estratte
     }
 
+
     public void nextTurn() throws GameEndedException {
         if(status==GameStatus.RUNNING) {
             if(players.get(currentPlaying).getInHandTail().size()==0) {

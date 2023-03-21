@@ -1,5 +1,6 @@
 package polimi.ingsw.Model;
 
+import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
@@ -16,6 +17,7 @@ public class Player {
     private List<Point> obtainedPoints;
     private boolean readyToStart=false;
 
+    private List<GameListener> listeners;
 
 
     public Player(String nickname){
@@ -24,6 +26,7 @@ public class Player {
         secretGoal= new CardGoal();
         inHandTail = new ArrayList<Tile>();
         obtainedPoints=new ArrayList<Point>();
+        listeners= new ArrayList<>();
     }
     public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTail, List<Point> obtainedPoints) {
         this.nickname = nickname;
@@ -31,6 +34,7 @@ public class Player {
         this.secretGoal = secretGoal;
         this.inHandTail = inHandTail;
         this.obtainedPoints = obtainedPoints;
+        listeners= new ArrayList<>();
     }
 
     public String getNickname() {
@@ -75,13 +79,14 @@ public class Player {
     }
 
     public void addPoint(Point obtainedPoints) {
-        //TODO Controllare che non possono esserci point relativi alla stessa carta
         for(Point p: this.obtainedPoints){
             if(p.getReferredTo().isSameType(obtainedPoints.getReferredTo())){
                 throw new IllegalArgumentException("You can't have more than one point for the same card");
             }
         }
+        //Nessun eccezione sollevata, aggiungo il punto al giocatore e notifico
         this.obtainedPoints.add(obtainedPoints);
+        notify_addedPoint();
     }
 
     public int getTotalPoints(){
@@ -94,5 +99,13 @@ public class Player {
     }
     public boolean equals(Player p){
         return this.nickname.equals(p.nickname);
+    }
+
+    public void addListener(GameListener obj){
+        listeners.add(obj);
+    }
+    private void notify_addedPoint(){
+        for(GameListener l : listeners)
+            l.addedPoint(this);
     }
 }
