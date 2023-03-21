@@ -311,10 +311,10 @@ public class CommonCardCheck extends CardCommon {
         if (i < 0 || i >= DefaultValue.NumOfRowsShelf || j < 0 || j >= DefaultValue.NumOfColumnsShelf) {  //ho superato le dimensioni della matrice
             return;
         }
-        if (playerShelf.get(i,j) != tile.getType()) {    //ho trovato tipo differente
+        if (playerShelf.get(i,j).getType() != tile.getType()) {    //ho trovato tipo differente
             return;
         }
-        playerShelf.get(i,j)=new Tile(TileType.FINISHED_USING);     //metto a 7 per differenziare
+        playerShelf.setSingleTile(new Tile(TileType.FINISHED_USING), i,j);     //metto a 7 per differenziare
         Adiacenti_a_7(playerShelf, i - 1, j, tile); // su
         Adiacenti_a_7(playerShelf, i + 1, j, tile); // giù
         Adiacenti_a_7(playerShelf, i, j - 1, tile); // sx
