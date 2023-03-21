@@ -11,7 +11,7 @@ public class PointCheck extends Point{
 
     private Player player;
     private static final Tile control = new Tile(TileType.NOT_USED);
-
+    private static final Tile used = new Tile(TileType.FINISHED_USING);
     public static int PointCheck(Player player, int commonPoint, int goalPoint){      //restituisce totalone punti
         int Tot=0;
         int Sum=0;
@@ -61,7 +61,7 @@ public class PointCheck extends Point{
             for (int j=0; j<DefaultValue.NumOfColumnsShelf; j++){
                 if(temp.get(i,j)==control) {
                     res = res + 1;
-                    temp.setSingleTile(control, i,j); //azzero per successivi
+                    temp.setSingleTile(used, i,j); //azzero per successivi
                 }
             }
         }
