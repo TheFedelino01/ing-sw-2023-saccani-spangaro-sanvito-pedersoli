@@ -55,34 +55,20 @@ public class CommonCardCheck extends CardCommon{
             case 2:
                 int[][] Player_Shelf_Duplicate2 = new int[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];
                 InizializzoDuplicato(Player_Shelf,Player_Shelf_Duplicate2,DefaultValue.NumOfRowsShelf,DefaultValue.NumOfColumnsShelf);
-                for(int i=0; i<DefaultValue.NumOfRowsShelf; i++) //controllo presenza verticale
+                int check=0;
+                for(int i=0; i<DefaultValue.NumOfRowsShelf; i++)
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (i < DefaultValue.NumOfRowsShelf - 3) {   //analizzo verticale
-                            if (Player_Shelf_Duplicate2[i][j] != 0 &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i + 1][j] &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i + 2][j] &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i + 3][j]) {
-                                sum = sum + 1;
-                                if (sum == 4) {
+                        if(Player_Shelf_Duplicate2[i][j]!=0) {  //controllo che ci siano gruppi da 4 in qualsiasi direzione
+                            Adiacenti_a_7(Player_Shelf_Duplicate2, i, j, Player_Shelf_Duplicate2[i][j]);
+                            sum = Conta_Adiacenti(Player_Shelf_Duplicate2);
+                            if (sum >= 4) {
+                                AzzeraAdiacenti(Player_Shelf_Duplicate2, i, j, Player_Shelf_Duplicate2[i][j]);
+                                check = check + 1;
+                                if (check == 4) {
                                     win = 1;
                                     break;
                                 }
-                                //elimino tutti altri elementi uguali attaccati
-                                AzzeraAdiacenti(Player_Shelf_Duplicate2, i, j, Player_Shelf_Duplicate2[i][j]);
-                            }
-                        }
-                        if (j < DefaultValue.NumOfColumnsShelf - 3) {
-                            if (Player_Shelf_Duplicate2[i][j] != 0 &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i][j + 1] &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i][j + 2] &&
-                                    Player_Shelf_Duplicate2[i][j] == Player_Shelf_Duplicate2[i][j + 3] ) {
-                                sum = sum + 1;
-                                if (sum == 4) {
-                                    win = 1;
-                                    break;
-                                }
-                                AzzeraAdiacenti(Player_Shelf_Duplicate2, i, j, Player_Shelf_Duplicate2[i][j]);
                             }
                         }
                     }
@@ -262,7 +248,7 @@ public class CommonCardCheck extends CardCommon{
                     }
                     sum=sum-1;
                 }
-                sum=sum+1;
+                sum=sum+2;
                 for(int j=0; j<DefaultValue.NumOfColumnsShelf; j++){
                     if(SpaceCheck[j]!=sum){
                         checkSxToDx2=0;
@@ -309,6 +295,34 @@ public class CommonCardCheck extends CardCommon{
             }
         }
         return;
+    }
+
+    private static void Adiacenti_a_7(int[][] playerShelf, int i, int j, int TileType) {     //utile per conteggio adiacenti (uso il 7 perchè non presente tra le tiles)
+
+        if (i < 0 || i >= DefaultValue.NumOfRowsShelf || j < 0 || j >= DefaultValue.NumOfColumnsShelf) {  //ho superato le dimensioni della matrice
+            return;
+        }
+        if (playerShelf[i][j] != TileType) {    //ho trovato tipo differente
+            return;
+        }
+        playerShelf[i][j] = 7;      //metto a 7 per differenziare
+        Adiacenti_a_7(PlayerShelf, i - 1, j, TileType); // su
+        Adiacenti_a_7(PlayerShelf, i + 1, j, TileType); // giù
+        Adiacenti_a_7(PlayerShelf, i, j - 1, TileType); // sx
+        Adiacenti_a_7(PlayerShelf, i, j + 1, TileType); // dx
+
+    }
+
+    private static int Conta_Adiacenti(int[][] playerShelf){
+        int res=0;
+        for (int i=0; i<DefaultValue.NumOfRowsShelf; i++){
+            for (int j=0; j<DefaultValue.NumOfColumnsShelf; j++){
+                if(playerShelf[i][j]==7) {
+                    res = res + 1;
+                }
+            }
+        }
+        return res;
     }
 }
 
