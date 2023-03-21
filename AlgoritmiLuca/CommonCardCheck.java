@@ -258,6 +258,7 @@ public class CommonCardCheck {
                             SpaceCheck[j]=SpaceCheck[j]+1;
                     }
                 }
+                System.out.println(sum);
                 for(int j=0; j<width; j++){
                     if(SpaceCheck[j]!=sum){
                         checkSxToDx=0;
@@ -265,13 +266,15 @@ public class CommonCardCheck {
                     sum=sum+1;
                 }
                 sum=sum-1;
+                System.out.println(sum);
                 for(int j=0; j<width; j++){
                     if(SpaceCheck[j]!=sum){
                         checkDxToSx=0;
                     }
                     sum=sum-1;
                 }
-                sum=sum+1;
+                sum=sum+2;
+                System.out.println(sum);
                 for(int j=0; j<width; j++){
                     if(SpaceCheck[j]!=sum){
                         checkSxToDx2=0;
@@ -279,6 +282,7 @@ public class CommonCardCheck {
                     sum=sum+1;
                 }
                 sum=sum-1;
+                System.out.println(sum);
                 for(int j=0; j<width; j++){
                     if(SpaceCheck[j]!=sum){
                         checkDxToSx2=0;
