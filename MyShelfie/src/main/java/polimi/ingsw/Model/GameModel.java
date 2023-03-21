@@ -247,10 +247,16 @@ public class GameModel {
     }
 
     public void nextTurn(){
-        if(status==GameStatus.RUNNING)
-            currentPlaying = (currentPlaying+1)%players.size();
-        else
+        if(status==GameStatus.RUNNING) {
+            if(players.get(currentPlaying).getInHandTail().size()==0) {
+                currentPlaying = (currentPlaying + 1) % players.size();
+            }else{
+                throw new NotEmptyHandException();
+            }
+        }
+        else {
             throw new GameNotStartedException();
+        }
     }
 
 

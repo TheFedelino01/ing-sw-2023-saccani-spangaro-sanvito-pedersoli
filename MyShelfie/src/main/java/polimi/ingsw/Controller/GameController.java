@@ -7,10 +7,7 @@ import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
 import polimi.ingsw.View.View;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class GameController {
     private final GameModel model;
@@ -63,7 +60,12 @@ public class GameController {
         do {
             Integer extracted = random.nextInt(CardCommonType.values().length);
             try {
-                model.addCommonCard(new CardCommon(CardCommonType.values()[extracted]));
+                CardCommon ca = new CardCommon(CardCommonType.values()[extracted]);
+                model.addCommonCard(ca);//Aggiungo la card al model
+                //Se la card che ho aggiunto va bene, gli imposto i punti
+                ca.setPoints(getListPointForCommonCard(ca));
+
+
             } catch (MaxCommonCardsAddedException e) {
                 throw new RuntimeException(e);
             } catch (CommonCardAlreadyInException e) {
@@ -71,6 +73,14 @@ public class GameController {
             }
 
         } while (model.getNumOfCommonCards() < DefaultValue.NumOfCommonCards);
+    }
+    private Queue<Point> getListPointForCommonCard(CardCommon card){
+        //Creo i punti per la carta
+        Queue<Point> ris = new ArrayDeque<Point>();
+        for(int i=0; i<DefaultValue.pointsValue.length;i++)
+            ris.add(new Point(DefaultValue.pointsValue[i],card));
+
+        return ris;
     }
 
     private void extractGoalCards() {
@@ -126,6 +136,13 @@ public class GameController {
         model.positionTailOnShelf(p, collum, tipo);
     }
 
+    public void nextTurn() {
+        model.nextTurn();
+        checkCommonCards(model.getPlayer(model.getCurrentPlaying()));
+    }
+
+
+
 
     /**
      * Controlla se il player p ha completato una carta comune
@@ -138,6 +155,7 @@ public class GameController {
         for (int i = 0; i < DefaultValue.NumOfCommonCards; i++)
             if (model.getCommonCard(i).verify(p.getShelf())) {
                 //Aggiungo i punti al player p e li tolgo dalla coda della carta comune
+
                 Point point = model.getCommonCard(i).getPoints().remove();
                 p.getObtainedPoints().add(point);
             }
@@ -186,9 +204,7 @@ public class GameController {
         return winner;
     }
 
-    public void nextTurn() {
-        model.nextTurn();
-    }
+
 
     private void end() {
         //TODO: aggiungere uno status END

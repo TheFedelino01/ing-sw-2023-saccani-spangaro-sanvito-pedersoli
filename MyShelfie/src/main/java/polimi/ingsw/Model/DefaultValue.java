@@ -1,5 +1,7 @@
 package polimi.ingsw.Model;
 
+import java.util.Queue;
+
 public class DefaultValue {
 
     public final static int MaxNumOfPlayer=4;
@@ -9,5 +11,7 @@ public class DefaultValue {
 
     public final static int NumOfColumnsShelf =5;
     public final static int NumOfRowsShelf =6;
+
+    public static int pointsValue[] = {2,4,6,8};
 
 }
