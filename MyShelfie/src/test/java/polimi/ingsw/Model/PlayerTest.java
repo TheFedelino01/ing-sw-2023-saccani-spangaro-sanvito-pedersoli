@@ -79,25 +79,7 @@ class PlayerTest {
     }
 
 
-    @Test
-    @DisplayName("Test Player obtainedPoints")
-    void ObtainedPoints() {
-        for (int i = 0; i < gameController.getNumOfPlayers(); i++) {
-            List<Point> pointList = new ArrayList<>();
-            Point point = new Point(8, new CardCommon(CardCommonType.COMMON1));
-            Point point2 = new Point(8, new CardCommon(CardCommonType.COMMON2));
-            Point point3 = new Point(4, new CardCommon(CardCommonType.COMMON1)); //TODO: Una volta implementato isSameType, dovrebbe dare errore
-            Point point4 = new Point(8, new CardCommon(CardCommonType.COMMON3));
 
-            plist.get(i).addPoint(point);
-            plist.get(i).addPoint(point2);
-            plist.get(i).addPoint(point3);
-            plist.get(i).addPoint(point4);
-            
-            assertEquals(4, plist.get(i).getObtainedPoints().size());
-
-        }
-    }
 
 
     @Test

@@ -68,7 +68,7 @@ public class Player {
         }
     }
 
-    public List<Point> getObtainedPoints() {
+    private List<Point> getObtainedPoints() {
         return obtainedPoints;
     }
 
@@ -80,6 +80,10 @@ public class Player {
             }
         }
         this.obtainedPoints.add(obtainedPoints);
+    }
+
+    public int getTotalPoints(){
+        return obtainedPoints.stream().map(Point::getPoint).reduce(0, Integer::sum);
     }
 
     public boolean getReadyToStart(){return readyToStart;}

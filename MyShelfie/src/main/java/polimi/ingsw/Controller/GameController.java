@@ -155,9 +155,15 @@ public class GameController {
         for (int i = 0; i < DefaultValue.NumOfCommonCards; i++)
             if (model.getCommonCard(i).verify(p.getShelf())) {
                 //Aggiungo i punti al player p e li tolgo dalla coda della carta comune
+                try {
+                    p.addPoint(model.getCommonCard(i).getPoints().peek());
 
-                Point point = model.getCommonCard(i).getPoints().remove();
-                p.getObtainedPoints().add(point);
+                    model.getCommonCard(i).getPoints().remove();//Non ha sollevato eccezione quindi rimuovo il punto
+
+                }catch(IllegalArgumentException e){
+                    //Punto gia' aggiunto non posso riaggiungerlo
+                }
+
             }
     }
 
@@ -175,7 +181,7 @@ public class GameController {
             CardGoal g = model.getGoalCard(index);
             Point point = g.verify(p.getShelf());
             if (point != null) {
-                p.getObtainedPoints().add(point);
+                p.addPoint(point);
             }
         }
     }
@@ -193,7 +199,7 @@ public class GameController {
         int max = 0;
         //Cycle between every player point and return the one with more point
         for (int i = 0; i < model.getNumOfPlayers(); i++) {
-            Integer point = model.getPlayer(i).getObtainedPoints().stream().map(Point::getPoint).reduce(0, Integer::sum);
+            Integer point = model.getPlayer(i).getTotalPoints();
             if (point > max) {
                 max = point;
                 winner = model.getPlayer(i);
@@ -213,8 +219,7 @@ public class GameController {
 
 
     public Player whoIsPlaying() {
-        //return model.getPlayers().get(model.getCurrentPlaying());
-        return null;
+        return model.getPlayer(model.getCurrentPlaying());
     }
 
 }
