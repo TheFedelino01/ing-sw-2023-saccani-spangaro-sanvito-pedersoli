@@ -26,11 +26,11 @@ public class Tile {
         this.numOfAvailable = numOfAvailable;
     }
 
-    public TileType getTYPE() {
+    public TileType getType() {
         return TYPE;
     }
 
-    public void setTYPE(TileType TYPE) {
+    public void setType(TileType TYPE) {
         this.TYPE = TYPE;
     }
 
