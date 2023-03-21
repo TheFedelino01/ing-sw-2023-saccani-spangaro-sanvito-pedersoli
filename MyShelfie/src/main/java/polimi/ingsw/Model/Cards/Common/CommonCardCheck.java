@@ -60,34 +60,20 @@ public class CommonCardCheck extends CardCommon {
                     win = 1;
                 break;
             case 2:
-                for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //controllo presenza verticale
+                int check=0;
+                for(int i=0; i<DefaultValue.NumOfRowsShelf; i++)
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (i < DefaultValue.NumOfRowsShelf - 3) {   //analizzo verticale
-                            if (playerShelfDupe.get(i, j) != controller &&
-                                    playerShelfDupe.get(i, j) == playerShelfDupe.get(i + 1, j) &&
-                                    playerShelfDupe.get(i, j) == playerShelfDupe.get(i + 2, j) &&
-                                    playerShelfDupe.get(i, j) == playerShelfDupe.get(i + 3, j)) {
-                                sum = sum + 1;
-                                if (sum == 4) {
+                        if(playerShelfDupe.get(i, j)!=controller) {  //controllo che ci siano gruppi da 4 in qualsiasi direzione
+                            Adiacenti_a_7(playerShelfDupe, i, j, playerShelfDupe.get(i, j));
+                            sum = Conta_Adiacenti(playerShelfDupe);
+                            if (sum >= 4) {
+                                AzzeraAdiacenti(playerShelfDupe, i, j, playerShelfDupe.get(i, j));
+                                check = check + 1;
+                                if (check == 4) {
                                     win = 1;
                                     break;
                                 }
-                                //elimino tutti altri elementi uguali attaccati
-                                AzzeraAdiacenti(playerShelfDupe, i, j, playerShelfDupe.get(i, j));
-                            }
-                        }
-                        if (j < DefaultValue.NumOfColumnsShelf - 3) {
-                            if (playerShelfDupe.get(i, j) != controller &&
-                                    playerShelfDupe.get(i, j) == playerShelfDupe.get(i, j + 1) &&
-                                    playerShelfDupe.get(i, j) == playerShelfDupe.get(i, j + 2) &&
-                                    playerShelfDupe.get(i, j) == playerShelfDupe.get(i, j + 3)) {
-                                sum = sum + 1;
-                                if (sum == 4) {
-                                    win = 1;
-                                    break;
-                                }
-                                AzzeraAdiacenti(playerShelfDupe, i, j, playerShelfDupe.get(i, j));
                             }
                         }
                     }
