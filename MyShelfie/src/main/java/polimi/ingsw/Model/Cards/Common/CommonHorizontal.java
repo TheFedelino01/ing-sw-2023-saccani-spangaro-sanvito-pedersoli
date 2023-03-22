@@ -8,6 +8,7 @@ import polimi.ingsw.Model.Tile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class CommonHorizontal extends CardCommon{
 
@@ -32,7 +33,9 @@ public class CommonHorizontal extends CardCommon{
                             rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
-                        ok = ok + rowCheck.get(t);
+                        ok = ok + Optional.
+                                ofNullable(rowCheck.get(t)).
+                                orElse(0);
                     }
                     if (ok <= 3)
                         sum = sum + 1;
@@ -50,7 +53,9 @@ public class CommonHorizontal extends CardCommon{
                             rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
-                        ok = ok + rowCheck.get(t);
+                        ok = ok + Optional.
+                                ofNullable(rowCheck.get(t)).
+                                orElse(0);
                     }
                     if (ok == 5)
                         sum = sum + 1;
