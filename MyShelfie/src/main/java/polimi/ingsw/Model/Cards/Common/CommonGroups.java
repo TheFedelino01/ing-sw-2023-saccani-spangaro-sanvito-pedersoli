@@ -9,6 +9,7 @@ import polimi.ingsw.Model.Tile;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class CommonGroups extends CardCommon {
 
@@ -102,7 +103,7 @@ public class CommonGroups extends CardCommon {
                     }
                 }
                 for (TileType t : TileType.values()) {
-                    if (tileCheck.get(t) >= 8) {
+                    if (Optional.ofNullable(tileCheck.get(t)).orElse(0) >= 8) {
                         return true;
                     }
                 }
@@ -126,15 +127,17 @@ public class CommonGroups extends CardCommon {
     }
 
     private static void adjacentToFU(Shelf playerShelf, int i, int j, Tile tile) {     //useful for adjacent count(FU is finished_using)
-
-        if (checkIfSafe(playerShelf, i, j, tile)) {
+        if (checkIfSafe(playerShelf, i, j, tile)){
             playerShelf.setSingleTile(new Tile(TileType.FINISHED_USING), i, j);     //finished using
-            adjacentToFU(playerShelf, i - 1, j, tile); // su
-            adjacentToFU(playerShelf, i + 1, j, tile); // giù
-            adjacentToFU(playerShelf, i, j - 1, tile); // sx
-            adjacentToFU(playerShelf, i, j + 1, tile); // dx
+            if(i>0)
+                adjacentToFU(playerShelf, i - 1, j, tile); // up
+            if(i<DefaultValue.NumOfRowsShelf-1)
+                adjacentToFU(playerShelf, i + 1, j, tile); // down
+            if(j>0)
+                adjacentToFU(playerShelf, i, j - 1, tile); // sx
+            if(j<DefaultValue.NumOfColumnsShelf-1)
+                adjacentToFU(playerShelf, i, j + 1, tile); // dx
         }
-
     }
 
     private static boolean checkIfSafe(Shelf playerShelf, int i, int j, Tile tile) {
@@ -142,10 +145,13 @@ public class CommonGroups extends CardCommon {
                 || j >= DefaultValue.NumOfColumnsShelf) {  //check if out of bounds
             return false;
         }
-        if (playerShelf.get(i, j).getType() != tile.getType()) {    //check if different type is found
+        //check if different type is found
+        try{
+            return playerShelf.get(i, j).getType() == tile.getType();
+        }catch(StackOverflowError er){
+            er.printStackTrace();
             return false;
         }
-        return true;
     }
 
     private static int countAdjacent(Shelf playerShelf) {
