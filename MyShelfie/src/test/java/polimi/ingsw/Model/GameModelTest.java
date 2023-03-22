@@ -3,7 +3,7 @@ package polimi.ingsw.Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Common.*;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
@@ -80,8 +80,8 @@ public class GameModelTest {
         if (!(model.getNumOfCommonCards() >= 0 && model.getNumOfCommonCards() <= DefaultValue.NumOfCommonCards))
             assertTrue(false, "There are more common Cards than expected");
 
-        CardCommon c1 = new CardCommon(CardCommonType.COMMON1);
-        CardCommon c2 = new CardCommon(CardCommonType.COMMON2);
+        CardCommon c1 = new CommonHorizontal(CardCommonType.COMMON7, 0);
+        CardCommon c2 = new CommonDiagonal(CardCommonType.COMMON2, 0);
         try {
             model.addCommonCard(c1);
         } catch (MaxCommonCardsAddedException e) {
@@ -100,7 +100,7 @@ public class GameModelTest {
         assertThrows(CommonCardAlreadyInException.class, () -> model.addCommonCard(c1), "This card is already in but no exception thrown");
 
         try {
-            model.addCommonCard(new CardCommon(CardCommonType.COMMON2));
+            model.addCommonCard(c2);
         } catch (MaxCommonCardsAddedException e) {
             assertTrue(false, "Common Cards overflow but that's not true");
         } catch (CommonCardAlreadyInException e) {
@@ -120,7 +120,7 @@ public class GameModelTest {
         assertThrows(CommonCardAlreadyInException.class, () -> model.addCommonCard(c2), "This card is already in but no exception thrown");
 
 
-        assertThrows(MaxCommonCardsAddedException.class, () -> model.addCommonCard(new CardCommon(CardCommonType.COMMON3)), "Cards Overflow but no exception thrown");
+        assertThrows(MaxCommonCardsAddedException.class, () -> model.addCommonCard(new CommonX(CardCommonType.COMMON12)), "Cards Overflow but no exception thrown");
 
     }
 
@@ -162,8 +162,8 @@ public class GameModelTest {
         assertThrows(NotReadyToRunException.class, () -> model.setStatus(GameStatus.RUNNING), "Wanted to start game but Common Cards not setted");
 
         try {
-            model.addCommonCard(new CardCommon(CardCommonType.COMMON1));
-            model.addCommonCard(new CardCommon(CardCommonType.COMMON2));
+            model.addCommonCard(new CommonX(CardCommonType.COMMON12));
+            model.addCommonCard(new CommonVertixes(CardCommonType.COMMON11));
         } catch (MaxCommonCardsAddedException e) {
             throw new RuntimeException(e);
         } catch (CommonCardAlreadyInException e) {

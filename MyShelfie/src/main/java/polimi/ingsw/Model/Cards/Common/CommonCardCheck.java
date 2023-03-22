@@ -18,6 +18,11 @@ public class CommonCardCheck extends CardCommon {
         super(type);
     }
 
+    @Override
+    public boolean verify(Shelf toCheck) {
+        return false;
+    }
+
     public static int commonCheck(Player player, int commonCard) {      //restituisce 1 se ho vinto la CommonCard, 0 se no, 404 se ho errore
         int sum = 0;
         int win = 0;
