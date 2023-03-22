@@ -8,6 +8,11 @@ public class Shelf {
 
     public Shelf() {
         shelf = new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];
+        for(int c=0; c<DefaultValue.NumOfColumnsShelf;c++){
+            for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
+                shelf[r][c]= new Tile();
+            }
+        }
         freeSpace = DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf;
     }
 

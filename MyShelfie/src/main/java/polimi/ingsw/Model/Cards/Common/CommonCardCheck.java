@@ -16,18 +16,15 @@ public class CommonCardCheck extends CardCommon {
 
     public CommonCardCheck(CardCommonType type) {
         super(type);
-
     }
 
-    /*public static int commonCheck(Player player, int commonCard) {      //restituisce 1 se ho vinto la CommonCard, 0 se no, 404 se ho errore
-
+    public static int commonCheck(Player player, int commonCard) {      //restituisce 1 se ho vinto la CommonCard, 0 se no, 404 se ho errore
         int sum = 0;
         int win = 0;
         Shelf playerShelfDupe = new Shelf();
         initializeDupe(player.getShelf(), playerShelfDupe);
         switch (commonCard) {
-
-            case 0:       //done
+            case 0:         //SEI gruppi separati formati da DUE tessere adiacenti dello stesso tipo
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //controllo presenza verticale
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -62,7 +59,7 @@ public class CommonCardCheck extends CardCommon {
                         playerShelfDupe.get(DefaultValue.NumOfRowsShelf - 1, DefaultValue.NumOfColumnsShelf - 1) == playerShelfDupe.get(DefaultValue.NumOfRowsShelf - 1, 0))
                     win = 1;
                 break;
-            case 2://done
+            case 2:
                 int check=0;
                 for(int i=0; i<DefaultValue.NumOfRowsShelf; i++)
                 {
@@ -82,7 +79,7 @@ public class CommonCardCheck extends CardCommon {
                     }
                 }
                 break;
-            case 3: //done
+            case 3:
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //controllo presenza verticale
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -103,7 +100,7 @@ public class CommonCardCheck extends CardCommon {
                     }
                 }
                 break;
-            case 4:     //done
+            case 4:     //tre colonne formate ciascuna da 6 tessere di al più 3 tipi differenti (per colonna)
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                     Map<TileType, Integer> colCheck = new HashMap<>();
                     int ok = 0; //controllo singola colonna, sum controlla se ne ho 3 ok
@@ -122,7 +119,7 @@ public class CommonCardCheck extends CardCommon {
                     }
                 }
                 break;
-            case 5:     //done
+            case 5:     //otto tessere dello stesso tipo
                 Map<TileType, Integer> tileCheck = new HashMap<>();
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -179,7 +176,7 @@ public class CommonCardCheck extends CardCommon {
                     }
                 }
                 break;
-            case 8:     //done
+            case 8:     //due colonne formate ciascuna da 6 tipi differenti di tessere (si può pensare di aggregare alla #4) (forse anche #7)
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                     Map<TileType, Integer> colCheck = new HashMap<>();
                     int ok = 0; //contollo singola colonna, sum controlla se ne ho 3 ok
@@ -233,7 +230,7 @@ public class CommonCardCheck extends CardCommon {
                     }
                 }
                 break;
-            case 11:    //done
+            case 11:    //colonne 5 colonne di altezza decrescente
                 int[] spaceCheck = {0,0,0,0,0};
                 win = 1;
                 int checkSxToDx = 1;
@@ -335,5 +332,5 @@ public class CommonCardCheck extends CardCommon {
             }
         }
         return res;
-    }*/
+    }
 }

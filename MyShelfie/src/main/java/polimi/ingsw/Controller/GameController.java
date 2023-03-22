@@ -1,6 +1,7 @@
 package polimi.ingsw.Controller;
 
 import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
@@ -57,10 +58,11 @@ public class GameController {
 
     private void extractCommonCards() {
         //Estraggo in modo random 'DefaultValue.NumOfCommonCards' carte comuni
+        CommonCardFactory cfactory = new CommonCardFactory();
         do {
             Integer extracted = random.nextInt(CardCommonType.values().length);
             try {
-                CardCommon ca = new CardCommon(CardCommonType.values()[extracted]);
+                CardCommon ca = cfactory.getCommonCard(CardCommonType.values()[extracted]);
                 model.addCommonCard(ca);//Aggiungo la card al model
                 //Se la card che ho aggiunto va bene, gli imposto i punti
                 ca.setPoints(getListPointForCommonCard(ca));

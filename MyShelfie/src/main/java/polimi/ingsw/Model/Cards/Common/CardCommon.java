@@ -8,7 +8,7 @@ import polimi.ingsw.Model.Shelf;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public class CardCommon extends Card {
+public abstract class CardCommon extends Card {
     private Queue<Point> points;
     private CardCommonType commonType;
 
@@ -22,9 +22,8 @@ public class CardCommon extends Card {
     }
 
 
-    public boolean verify(Shelf toCheck){
-        return false;
-    }
+    public abstract boolean verify(Shelf toCheck);
+
 
     public Queue<Point> getPoints() {
         return points;
