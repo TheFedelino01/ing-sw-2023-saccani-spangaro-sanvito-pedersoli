@@ -1,0 +1,67 @@
+package polimi.ingsw.Model.Cards.Common;
+
+import polimi.ingsw.Model.DefaultValue;
+import polimi.ingsw.Model.Enumeration.CardCommonType;
+import polimi.ingsw.Model.Enumeration.TileType;
+import polimi.ingsw.Model.Shelf;
+import polimi.ingsw.Model.Tile;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class CommonVertical extends CardCommon{
+
+    private final static Tile controller = new Tile(TileType.NOT_USED);
+    private static int param;
+
+    public CommonVertical(CardCommonType type, int param) {
+        super(type);
+        this.param = param;
+    }
+
+    @Override
+    public boolean verify(Shelf toCheck){
+        int sum=0;
+        switch(param){
+            case(0): //fifth common goal in the rulebook
+                for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                    Map<TileType, Integer> colCheck = new HashMap<>();
+                    int ok = 0; //check single column
+                    for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+                        if (toCheck.get(i, j) != controller)
+                            colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+                    }
+                    for (TileType t : TileType.values()) {
+                        ok = ok + colCheck.get(t);
+                    }
+                    if (ok <= 3)
+                        sum = sum + 1;
+                    if (sum == 3) {
+                        return true;
+                    }
+                }
+                return false;
+            case(1): //ninth common goal in the rulebook
+                for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                    Map<TileType, Integer> colCheck = new HashMap<>();
+                    int ok = 0; //check single column
+                    for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+                        if (toCheck.get(i,j) != controller)
+                            colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+                    }
+                    for (TileType t : TileType.values()) {
+                        ok = ok + colCheck.get(t);
+                    }
+                    if (ok == 6)
+                        sum = sum + 1;
+                    if (sum == 2) {
+                        return true;
+                    }
+                }
+                return false;
+            default:
+                System.out.println("Default error");
+                return false;
+        }
+    }
+}
