@@ -22,7 +22,7 @@ public class CardCommon extends Card {
     }
 
 
-    public boolean verify(Shelf shelfToCheck){
+    public boolean verify(Shelf toCheck){
         return false;
     }
 
