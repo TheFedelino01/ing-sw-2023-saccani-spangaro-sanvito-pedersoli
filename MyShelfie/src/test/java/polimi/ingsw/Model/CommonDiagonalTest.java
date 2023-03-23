@@ -68,7 +68,29 @@ public class CommonDiagonalTest {
         assertTrue(model.get(11).verify(test));
     }
 
+    //I copied methods from other test classes to initialise the shelf,
+    //so that it cannot verify the diagonal condition
     @Test
+    @DisplayName("Test expected to return false")
+    public void testFail() {
+        Shelf test = new Shelf();
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (j == 0) {
+                    test.setSingleTile(new Tile(TileType.CAT), i, j);
+                } else if (j == 2) {
+                    test.setSingleTile(new Tile(TileType.BOOK), i, j);
+                } else if (j == 4) {
+                    test.setSingleTile(new Tile(TileType.TROPHY), i, j);
+                } else {
+                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                }
+            }
+        }
+        assertFalse(model.get(6).verify(test));
+        assertFalse(model.get(11).verify(test));
+    }
+        @Test
     @DisplayName("Test with empty shelf")
     public void testEmptyShelf(){
         Shelf test = new Shelf();
@@ -80,6 +102,5 @@ public class CommonDiagonalTest {
         assertFalse(model.get(6).verify(test));
         assertFalse(model.get(11).verify(test));
     }
-
 
 }

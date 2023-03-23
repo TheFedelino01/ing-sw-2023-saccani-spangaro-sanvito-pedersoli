@@ -88,6 +88,27 @@ public class CommonVerticalTest {
     }
 
     @Test
+    @DisplayName("Test expected to return false")
+    public void testFail() {
+        Shelf test = new Shelf();
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (i == 0 || i == 3) {
+                    test.setSingleTile(new Tile(TileType.CAT), i, j);
+                } else if (i == 1) {
+                    test.setSingleTile(new Tile(TileType.BOOK), i, j);
+                } else if (i == 2) {
+                    test.setSingleTile(new Tile(TileType.TROPHY), i, j);
+                } else {
+                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                }
+            }
+        }
+        assertFalse(model.get(4).verify(test));
+        assertFalse(model.get(8).verify(test));
+    }
+
+    @Test
     @DisplayName("Test with empty shelf")
     public void testEmptyShelf(){
         Shelf test = new Shelf();

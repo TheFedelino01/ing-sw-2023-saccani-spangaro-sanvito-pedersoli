@@ -189,6 +189,26 @@ public class CommonGroupsTest {
     }
 
     @Test
+    @DisplayName("Test expected to return false")
+    public void testFail() {
+        Shelf test = new Shelf();
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (j == 0 && i < 2) {
+                    test.setSingleTile(new Tile(TileType.CAT), i, j);
+                } else {
+                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                }
+            }
+        }
+        assertFalse(model.get(0).verify(test));
+        assertFalse(model.get(2).verify(test));
+        assertFalse(model.get(3).verify(test));
+        assertFalse(model.get(5).verify(test));
+
+    }
+
+    @Test
     @DisplayName("Test with empty shelf")
     public void testEmptyShelf() {
         Shelf test = new Shelf();

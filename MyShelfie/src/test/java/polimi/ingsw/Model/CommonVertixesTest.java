@@ -35,14 +35,14 @@ public class CommonVertixesTest {
      */
     @Test
     @DisplayName("Test vertexes")
-    public void testVertexes(){
+    public void testVertexes() {
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
-                if((i==0 && j==0)||
-                        (i==DefaultValue.NumOfRowsShelf-1 && j==DefaultValue.NumOfColumnsShelf-1)||
-                        (i==0 && j==DefaultValue.NumOfColumnsShelf-1)||
-                        (i==DefaultValue.NumOfRowsShelf-1 && j==0))
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if ((i == 0 && j == 0) ||
+                        (i == DefaultValue.NumOfRowsShelf - 1 && j == DefaultValue.NumOfColumnsShelf - 1) ||
+                        (i == 0 && j == DefaultValue.NumOfColumnsShelf - 1) ||
+                        (i == DefaultValue.NumOfRowsShelf - 1 && j == 0))
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
                 else
                     test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
@@ -52,11 +52,28 @@ public class CommonVertixesTest {
     }
 
     @Test
-    @DisplayName("Test with empty shelf")
-    public void testEmptyShelf(){
+    @DisplayName("Test expected to return false")
+    public void testFail() {
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if ((i == 0 && j == 0) ||
+                        (i == DefaultValue.NumOfRowsShelf - 1 && j == DefaultValue.NumOfColumnsShelf - 1) ||
+                        (i == 0 && j == DefaultValue.NumOfColumnsShelf - 1))
+                    test.setSingleTile(new Tile(TileType.CAT), i, j);
+                else
+                    test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
+            }
+        }
+        assertFalse(model.get(1).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test with empty shelf")
+    public void testEmptyShelf() {
+        Shelf test = new Shelf();
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }
