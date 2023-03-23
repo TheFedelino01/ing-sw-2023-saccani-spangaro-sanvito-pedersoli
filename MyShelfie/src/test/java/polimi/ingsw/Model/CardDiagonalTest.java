@@ -13,33 +13,40 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CardCommonTest {
+public class CardDiagonalTest {
 
     List<CardCommon> model = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
         CommonCardFactory c = new CommonCardFactory();
-        for(CardCommonType t : CardCommonType.values())
+        for (CardCommonType t : CardCommonType.values())
             model.add(c.getCommonCard(t));
     }
 
+    //I'll be using the CAT tile as the one to assert its value
+    /*
+
+     */
     @Test
     @DisplayName("Test Diagonal cards")
-    public void testDiagonal(){
+
+    public void testDiagonal() {
         Shelf test = new Shelf();
-        for(int i = DefaultValue.NumOfRowsShelf - 1 ; i > 0 ; i--){
-            for(int j = 0; j < DefaultValue.NumOfColumnsShelf; j++){
-                if(i<=j){
-                    if(i==j){
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (i >= j) {
+                    if (i == j) {
                         test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    }else{
-                        test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                    } else {
+                        test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
                     }
                 }
             }
         }
-        assertTrue(model.get(0).verify(test));
-        //for(int)
+        //Check first algorithm
+        assertTrue(model.get(6).verify(test));
+        assertTrue(model.get(11).verify(test));
     }
+
 }

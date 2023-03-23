@@ -1,5 +1,7 @@
 package polimi.ingsw.Model.Enumeration;
 
+import polimi.ingsw.Model.DefaultValue;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,10 +21,18 @@ public enum TileType {
 
         //for testing purposes
         private static final List<TileType> values = List.of(values());
-        private static final int size = 6;
         private static final Random rand = new Random();
+
         public static TileType randomTile(){
-                return values.get(rand.nextInt(size));
+                return values.get(rand.nextInt(DefaultValue.NumOfTileTypes));
+        }
+        //done like this so that the CAT tile is never chosen
+        //also, so that the NOT_USED and FINISHED_USING are never chosen
+        public static TileType randomTileCAT(){
+                return values.get(rand.nextInt(DefaultValue.NumOfTileTypes-1)+1);
+        }
+        public static TileType randomTileCATeBOOK(){
+                return values.get(rand.nextInt(DefaultValue.NumOfTileTypes-2)+2);
         }
 }
 
