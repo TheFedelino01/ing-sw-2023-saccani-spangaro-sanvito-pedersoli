@@ -126,8 +126,6 @@ public class GameControllerTest {
         assertThrows(IllegalArgumentException.class, () -> gameController.whoIsPlaying().addPoint(gameController.getAllCommonCards().get(0).getPoints().peek()), "Added another point of the same card common.. You can't");
 
 
-
-
     }
 
 
@@ -161,7 +159,7 @@ public class GameControllerTest {
 
 
         int currentPlayer = gameController.getCurrentPlaying();
-        if(currentPlayer == 0) {
+        if (currentPlayer == 0) {
             assertEquals(currentPlayer, 0, "The current player is not correct");
 
             gameController.nextTurn();
@@ -171,8 +169,7 @@ public class GameControllerTest {
             gameController.nextTurn();
             currentPlayer = gameController.getCurrentPlaying();
             assertEquals(currentPlayer, 0, "The current player is not correct");
-        }
-        else {
+        } else {
             assertEquals(currentPlayer, 1, "The current player is not correct");
 
             gameController.nextTurn();
@@ -184,7 +181,6 @@ public class GameControllerTest {
             assertEquals(currentPlayer, 1, "The current player is not correct");
         }
     }
-
 
 
 }

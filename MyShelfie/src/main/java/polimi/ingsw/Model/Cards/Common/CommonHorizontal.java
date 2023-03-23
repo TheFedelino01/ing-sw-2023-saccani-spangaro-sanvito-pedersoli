@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class CommonHorizontal extends CardCommon{
-
-    private final static Tile controller = new Tile(TileType.NOT_USED);
     private static int param;
 
     public CommonHorizontal(CardCommonType type, int param) {
@@ -29,7 +27,7 @@ public class CommonHorizontal extends CardCommon{
                     Map<TileType, Integer> rowCheck = new HashMap<>();
                     int ok = 0; //check single row
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (toCheck.get(i,j) != controller)
+                        if (!toCheck.get(i,j).isSameType(TileType.NOT_USED))
                             rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
@@ -49,7 +47,7 @@ public class CommonHorizontal extends CardCommon{
                     Map<TileType, Integer> rowCheck = new HashMap<>();
                     int ok = 0; //check single row
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (toCheck.get(i,j) != controller)
+                        if (!toCheck.get(i,j).isSameType(TileType.NOT_USED))
                             rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {

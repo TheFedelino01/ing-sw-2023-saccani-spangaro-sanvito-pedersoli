@@ -8,8 +8,6 @@ import polimi.ingsw.Model.Tile;
 
 public class CommonX extends CardCommon{
 
-    private final static Tile controller = new Tile(TileType.NOT_USED);
-
     public CommonX(CardCommonType type) {
         super(type);
     }
@@ -19,7 +17,7 @@ public class CommonX extends CardCommon{
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i < DefaultValue.NumOfRowsShelf - 2 && j < DefaultValue.NumOfColumnsShelf - 2) {   //check cross
-                    if (toCheck.get(i,j) != controller &&
+                    if (!(toCheck.get(i,j).isSameType(TileType.NOT_USED)) &&
                             toCheck.get(i,j) == toCheck.get(i+2,j) &&
                             toCheck.get(i,j) == toCheck.get(i,j+2) &&
                             toCheck.get(i,j) == toCheck.get(i+1,j+1) &&

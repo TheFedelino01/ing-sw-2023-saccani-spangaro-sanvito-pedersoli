@@ -6,6 +6,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
 import polimi.ingsw.Model.Tile;
 
+import javax.naming.TimeLimitExceededException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -13,7 +14,6 @@ import java.util.Optional;
 
 public class CommonGroups extends CardCommon {
 
-    private final static Tile controller = new Tile(TileType.NOT_USED);
     private final int param;
 
     public CommonGroups(CardCommonType type, int param) {
@@ -30,7 +30,7 @@ public class CommonGroups extends CardCommon {
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                         if (i < DefaultValue.NumOfRowsShelf - 1) {   //vertical analysis
-                            if (toCheck.get(i, j) != controller && toCheck.get(i, j) == toCheck.get(i + 1, j)) {
+                            if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j) == toCheck.get(i + 1, j)) {
                                 sum = sum + 1;
                                 if (sum == 6) {
                                     return true;
@@ -40,7 +40,7 @@ public class CommonGroups extends CardCommon {
                             }
                         }
                         if (j < DefaultValue.NumOfColumnsShelf - 1) {
-                            if (toCheck.get(i, j) != controller && toCheck.get(i, j) == toCheck.get(i, j + 1)) {
+                            if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j) == toCheck.get(i, j + 1)) {
                                 sum = sum + 1;
                                 if (sum == 6) {
                                     return true;
@@ -55,7 +55,7 @@ public class CommonGroups extends CardCommon {
                 int check = 0;
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (toCheck.get(i, j) != controller) {  //check for groups of 4
+                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED)) {  //check for groups of 4
                             adjacentToFU(toCheck, i, j, toCheck.get(i, j));
                             sum = countAdjacent(toCheck);
                             if (sum >= 4) {
@@ -74,7 +74,7 @@ public class CommonGroups extends CardCommon {
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                         if (i < DefaultValue.NumOfRowsShelf - 1 && j < DefaultValue.NumOfColumnsShelf - 1) {   //analyse 4
-                            if (toCheck.get(i, j) != controller &&
+                            if (!toCheck.get(i, j).isSameType(TileType.NOT_USED) &&
                                     toCheck.get(i, j) == toCheck.get(i + 1, j) &&
                                     toCheck.get(i, j) == toCheck.get(i, j + 1) &&
                                     toCheck.get(i, j) == toCheck.get(i + 1, j + 1)) {
@@ -93,7 +93,7 @@ public class CommonGroups extends CardCommon {
                 Map<TileType, Integer> tileCheck = new HashMap<>();
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (toCheck.get(i, j) != controller) {
+                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED)) {
                             if (tileCheck.get(toCheck.get(i, j).getType()) == null) {
                                 tileCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                             } else {

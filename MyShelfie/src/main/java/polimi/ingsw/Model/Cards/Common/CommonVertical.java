@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class CommonVertical extends CardCommon{
-
-    private final static Tile controller = new Tile(TileType.NOT_USED);
     private static int param;
 
     public CommonVertical(CardCommonType type, int param) {
@@ -29,7 +27,7 @@ public class CommonVertical extends CardCommon{
                     Map<TileType, Integer> colCheck = new HashMap<>();
                     int ok = 0; //check single column
                     for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                        if (toCheck.get(i, j) != controller)
+                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
                             colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
@@ -49,7 +47,7 @@ public class CommonVertical extends CardCommon{
                     Map<TileType, Integer> colCheck = new HashMap<>();
                     int ok = 0; //check single column
                     for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                        if (toCheck.get(i,j) != controller)
+                        if (!toCheck.get(i,j).isSameType(TileType.NOT_USED))
                             colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {

@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CommonDiagonal extends CardCommon {
-
-    private final static Tile controller = new Tile(TileType.NOT_USED);
     private final int param;
 
     public CommonDiagonal(CardCommonType type, int param) {
@@ -29,11 +27,11 @@ public class CommonDiagonal extends CardCommon {
                     int check1 = 1;
                     int check2 = 1;
                     for (int k = i, j = 0; k < DefaultValue.NumOfRowsShelf - 1 && j < DefaultValue.NumOfColumnsShelf - 1; k++, j++) {     //controllo sx dx
-                        if (toCheck.get(k,j) == controller || toCheck.get(k,j) !=toCheck.get(k+1,j+1) )
+                        if (toCheck.get(k,j).isSameType(TileType.NOT_USED) || toCheck.get(k,j) !=toCheck.get(k+1,j+1) )
                             check1 = 0;
                     }
                     for (int k = i, j = DefaultValue.NumOfColumnsShelf - 1; k < DefaultValue.NumOfRowsShelf - 1 && j > 0; k++, j--) {     //controllo dx sx
-                        if (toCheck.get(k,j) == controller || toCheck.get(k,j) != toCheck.get(k+1,j-1))
+                        if (toCheck.get(k,j).isSameType(TileType.NOT_USED) || toCheck.get(k,j) != toCheck.get(k+1,j-1))
                             check2 = 0;
                     }
                     if (check1 == 1 || check2 == 1) {
@@ -49,7 +47,7 @@ public class CommonDiagonal extends CardCommon {
                 int checkDxToSx2 = 1;
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                     for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                        if (toCheck.get(i,j) == controller)
+                        if (toCheck.get(i,j).isSameType(TileType.NOT_USED))
                             spaceCheck[j]++;
 
                     }
