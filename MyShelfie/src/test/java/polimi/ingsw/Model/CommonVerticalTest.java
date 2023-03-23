@@ -100,7 +100,7 @@ public class CommonVerticalTest {
                 } else if (i == 2) {
                     test.setSingleTile(new Tile(TileType.TROPHY), i, j);
                 } else {
-                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                    test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
                 }
             }
         }

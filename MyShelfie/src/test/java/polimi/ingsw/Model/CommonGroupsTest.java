@@ -94,38 +94,13 @@ public class CommonGroupsTest {
         X X X X X
         X X X X X
          */
-        int count = 0;
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (count < 4) {
-                    if (j == 0) {
-                        test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
-                    }
-                    count++;
-                } else if (count < 8) {
-                    if (j == 1) {
-                        test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                    } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
-                    }
-                    count++;
-                } else if (count < 12) {
-                    if (j == 2) {
-                        test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
-                    }
-                    count++;
-                } else if (count < 16) {
-                    if (j == 3) {
-                        test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                    } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
-                    }
-                    count++;
+                if (j < 4 && j % 2 == 0 && i < 4) {
+                    test.setSingleTile(new Tile(TileType.CAT), i, j);
+                } else if (j < 4 && i < 4) {
+                    test.setSingleTile(new Tile(TileType.BOOK), i, j);
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
                 }
@@ -196,9 +171,9 @@ public class CommonGroupsTest {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (j == 0 && i == 2)
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
-                 else if (j == 1 && i == 3)
+                else if (j == 1 && i == 3)
                     test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                 else
+                else
                     test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }
