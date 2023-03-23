@@ -1,7 +1,5 @@
 package polimi.ingsw.Model;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.Model.Enumeration.TileType;
@@ -56,12 +54,12 @@ public class ShelfTest {
         Shelf shelf = new Shelf();
         shelf.setShelf(new Tile[6][5]);
         shelf.position(0, TileType.CAT);
-        assertEquals(TileType.CAT, shelf.get(0, 0).getType());
+        assertEquals(TileType.CAT, shelf.get(DefaultValue.NumOfRowsShelf-1, 0).getType());
 
         shelf.position(0, TileType.FRAME);
-        assertEquals(TileType.FRAME, shelf.get(0, 1).getType());
+        assertEquals(TileType.FRAME, shelf.get(DefaultValue.NumOfRowsShelf-2, 0).getType());
 
         shelf.position(0, TileType.TROPHY);
-        assertEquals(TileType.TROPHY, shelf.get(0, 2).getType());
+        assertEquals(TileType.TROPHY, shelf.get(DefaultValue.NumOfRowsShelf-3, 0).getType());
     }
 }
