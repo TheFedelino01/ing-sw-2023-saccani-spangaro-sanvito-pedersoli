@@ -11,6 +11,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommonVerticalTest {
@@ -24,7 +25,7 @@ public class CommonVerticalTest {
     }
 
     @Test
-    @DisplayName("Test Vertical")
+    @DisplayName("Test Vertical 0")
     public void testVertical0() {
         /*
     C X B X T
@@ -53,7 +54,7 @@ public class CommonVerticalTest {
     }
 
     @Test
-    @DisplayName("Test Vertical")
+    @DisplayName("Test Vertical 1")
     public void testVertical1() {
 
         /*
@@ -84,6 +85,19 @@ public class CommonVerticalTest {
             }
         }
         assertTrue(model.get(8).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test with empty shelf")
+    public void testEmptyShelf(){
+        Shelf test = new Shelf();
+        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
+            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
+                test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
+            }
+        }
+        assertFalse(model.get(4).verify(test));
+        assertFalse(model.get(8).verify(test));
     }
 
 

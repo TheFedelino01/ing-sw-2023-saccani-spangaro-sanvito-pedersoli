@@ -11,6 +11,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommonXTest {
@@ -49,5 +50,17 @@ public class CommonXTest {
             }
         }
         assertTrue(model.get(10).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test with empty shelf")
+    public void testEmptyShelf(){
+        Shelf test = new Shelf();
+        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
+            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
+                test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
+            }
+        }
+        assertFalse(model.get(10).verify(test));
     }
 }

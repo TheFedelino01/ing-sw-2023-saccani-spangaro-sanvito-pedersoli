@@ -24,17 +24,7 @@ public class CommonHorizontalCard extends CommonCard {
         switch (param) {
             case (0) -> { //eighth common goal in the rulebook
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                    Map<TileType, Integer> rowCheck = new HashMap<>();
-                    int ok = 0; //check single row
-                    for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
-                            rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
-                    }
-                    for (TileType t : TileType.values()) {
-                        ok = ok + Optional.
-                                ofNullable(rowCheck.get(t)).
-                                orElse(0);
-                    }
+                    int ok = check(toCheck, i);
                     if (ok <= 3)
                         sum++;
                     if (sum == 4) {
@@ -45,17 +35,7 @@ public class CommonHorizontalCard extends CommonCard {
             }
             case (1) -> { //tenth common goal in the rulebook
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                    Map<TileType, Integer> rowCheck = new HashMap<>();
-                    int ok = 0; //check single row
-                    for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
-                            rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
-                    }
-                    for (TileType t : TileType.values()) {
-                        ok = ok + Optional.
-                                ofNullable(rowCheck.get(t)).
-                                orElse(0);
-                    }
+                    int ok = check(toCheck, i);
                     if (ok == 5)
                         sum++;
                     if (sum == 2) {
@@ -69,5 +49,25 @@ public class CommonHorizontalCard extends CommonCard {
                 return false;
             }
         }
+    }
+
+    private int check(Shelf toCheck, int i){
+        Map<TileType, Integer> rowCheck = new HashMap<>();
+        int ok = 0;
+        int count = 0;
+        for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+            if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
+                rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+            else
+                count++;
+        }
+        for (TileType t : TileType.values()) {
+            ok = ok + Optional.
+                    ofNullable(rowCheck.get(t)).
+                    orElse(0);
+        }
+        if(count>0)
+            ok=4;
+        return ok;
     }
 }

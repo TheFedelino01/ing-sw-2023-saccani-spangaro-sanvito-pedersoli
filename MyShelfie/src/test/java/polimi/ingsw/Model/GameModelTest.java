@@ -12,8 +12,7 @@ import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Exceptions.*;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameModelTest {
     GameModel model;
@@ -27,27 +26,27 @@ public class GameModelTest {
     @DisplayName("Check Player List")
     void testPlayersList() {
         if (model.getNumOfPlayers() != 0) {
-            assertTrue(false, "First init contains players");
+            fail("First init contains players");
         }
 
-        for (Integer i = 0; i < 3; i++) {
-            Player p = new Player(i.toString());
+        for (int i = 0; i < 3; i++) {
+            Player p = new Player(Integer.toString(i));
 
             try {
                 try {
                     model.addPlayer(p);
                 } catch (MaxPlayersInException e) {
-                    assertTrue(false, "Player not added because game is full but that's not true");
+                    fail("Player not added because game is full but that's not true");
                 }
             } catch (PlayerAlreadyInException e) {
-                assertTrue(false, "Player not added because of double but that's not true");
+                fail("Player not added because of double but that's not true");
             }
 
             if (model.getNumOfPlayers() != (i + 1)) {
-                assertTrue(false, "Wanted to add a player but never added");
+                fail("Wanted to add a player but never added");
             }
             if (!model.getPlayer(i).equals(p)) {
-                assertTrue(false, "Player added isn't the corrent one");
+                fail("Player added isn't the corrent one");
             }
 
         }

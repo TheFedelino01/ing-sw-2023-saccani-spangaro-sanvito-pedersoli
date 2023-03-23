@@ -22,42 +22,22 @@ public class CommonVerticalCard extends CommonCard {
         param = super.getCommonType().compareTo(CardCommonType.CommonVertical0) > 0 ? 1 : 0;
         int sum = 0;
         switch (param) {
-            case (0) -> { //fifth common goal in the rulebook
+            case (0) -> {
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                    Map<TileType, Integer> colCheck = new HashMap<>();
-                    int ok = 0; //check single column
-                    for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
-                            colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
-                    }
-                    for (TileType t : TileType.values()) {
-                        ok = ok + Optional.
-                                ofNullable(colCheck.get(t)).
-                                orElse(0);
-                    }
+                    int ok = checkLines(toCheck, j);
                     if (ok <= 3)
-                        sum = sum + 1;
+                        sum++;
                     if (sum == 3) {
                         return true;
                     }
                 }
                 return false;
             }
-            case (1) -> { //ninth common goal in the rulebook
+            case (1) -> {
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                    Map<TileType, Integer> colCheck = new HashMap<>();
-                    int ok = 0; //check single column
-                    for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
-                            colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
-                    }
-                    for (TileType t : TileType.values()) {
-                        ok = ok + Optional.
-                                ofNullable(colCheck.get(t)).
-                                orElse(0);
-                    }
+                    int ok = checkLines(toCheck, j);
                     if (ok == 6)
-                        sum = sum + 1;
+                        sum++;
                     if (sum == 2) {
                         return true;
                     }
@@ -70,4 +50,25 @@ public class CommonVerticalCard extends CommonCard {
             }
         }
     }
+
+    private int checkLines(Shelf toCheck, int j){
+        Map<TileType, Integer> colCheck = new HashMap<>();
+        int ok = 0;
+        int count = 0;
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
+                colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+            else
+                count++;
+        }
+        for (TileType t : TileType.values()) {
+            ok = ok + Optional.
+                    ofNullable(colCheck.get(t)).
+                    orElse(0);
+        }
+        if(count>0)
+            ok=4;
+        return ok;
+    }
+
 }

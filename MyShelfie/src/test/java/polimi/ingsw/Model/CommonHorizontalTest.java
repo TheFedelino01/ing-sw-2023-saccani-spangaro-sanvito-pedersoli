@@ -11,6 +11,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommonHorizontalTest {
@@ -24,8 +25,8 @@ public class CommonHorizontalTest {
     }
 
     @Test
-    @DisplayName("Test Horizontal")
-    public void testHorizontal(){
+    @DisplayName("Test Horizontal 0 ")
+    public void testHorizontal0() {
         /*
     C C C C C
     B B B B B
@@ -35,21 +36,25 @@ public class CommonHorizontalTest {
     X X X X X
      */
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
-                if(i==0||i==3){
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (i == 0 || i == 3) {
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
-                }else if(i==1){
+                } else if (i == 1) {
                     test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                }else if(i==2){
+                } else if (i == 2) {
                     test.setSingleTile(new Tile(TileType.TROPHY), i, j);
-                }else{
+                } else {
                     test.setSingleTile(new Tile(TileType.randomTile()), i, j);
                 }
             }
         }
         assertTrue(model.get(7).verify(test));
+    }
 
+    @Test
+    @DisplayName("Test Horizontal 1")
+    public void testHorizontal1() {
         /*
         C B F T A
         X X X X X
@@ -58,9 +63,10 @@ public class CommonHorizontalTest {
         X X X X X
         X X X X X
          */
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
-                if(i==0||i==2){
+        Shelf test = new Shelf();
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (i == 0 || i == 2) {
                     switch (j) {
                         case (0) -> test.setSingleTile(new Tile(TileType.CAT), i, j);
                         case (1) -> test.setSingleTile(new Tile(TileType.BOOK), i, j);
@@ -70,12 +76,25 @@ public class CommonHorizontalTest {
                         default -> {
                         }
                     }
-                }else{
+                } else {
                     test.setSingleTile(new Tile(TileType.randomTile()), i, j);
                 }
             }
         }
         assertTrue(model.get(9).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test with empty shelf")
+    public void testEmptyShelf(){
+        Shelf test = new Shelf();
+        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
+            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
+                test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
+            }
+        }
+        assertFalse(model.get(7).verify(test));
+        assertFalse(model.get(9).verify(test));
     }
 
 }

@@ -11,6 +11,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommonGroupsTest {
@@ -25,8 +26,8 @@ public class CommonGroupsTest {
     }
 
     @Test
-    @DisplayName("Test Group cards")
-    public void testGroup() {
+    @DisplayName("Test Group 0")
+    public void testGroup0() {
         int count;
         Shelf test = new Shelf();
         //case 1
@@ -45,28 +46,28 @@ public class CommonGroupsTest {
                 if (count < 2) {
                     if (j == 0 && i < 2) {
                         test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    } else if(j == 0 && i > 3){
+                    } else if (j == 0 && i > 3) {
                         test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    }else{
+                    } else {
                         test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
                     }
                     count++;
                 } else if (count < 4) {
                     if (j == 1 && i < 2) {
                         test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                    } else if(j == 1 && i > 3){
+                    } else if (j == 1 && i > 3) {
                         test.setSingleTile(new Tile(TileType.BOOK), i, j);
 
-                    }else{
+                    } else {
                         test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
                     }
                     count++;
                 } else if (count < 6) {
                     if (j == 2 && i < 2) {
                         test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    } else if(j == 2 && i > 3){
+                    } else if (j == 2 && i > 3) {
                         test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    }else {
+                    } else {
                         test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
                     }
                     count++;
@@ -78,7 +79,11 @@ public class CommonGroupsTest {
 
         //check this algorithm
         assertTrue(model.get(0).verify(test));
+    }
 
+    @Test
+    @DisplayName("Test Group 1")
+    public void testGroup1() {
         //four groups of four tiles of the same type (will be testing two columns in this test case)
         //third common card
         /*
@@ -89,7 +94,8 @@ public class CommonGroupsTest {
         X X X X X
         X X X X X
          */
-        count = 0;
+        int count = 0;
+        Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (count < 4) {
@@ -126,6 +132,11 @@ public class CommonGroupsTest {
             }
         }
         assertTrue(model.get(2).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test Group 2")
+    public void testGroup2() {
         //two separated groups of 2x2 tiles with the same type
         //fourth common card
         /*
@@ -135,6 +146,7 @@ public class CommonGroupsTest {
         X X X C C
         X X X C C
          */
+        Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 1)) {
@@ -147,6 +159,11 @@ public class CommonGroupsTest {
             }
         }
         assertTrue(model.get(3).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test Group 3")
+    public void testGroup3() {
         //8 random occurrences of the same tile type
         //sixth common card
         /*
@@ -157,7 +174,8 @@ public class CommonGroupsTest {
         X X X X X
         X X X X X
          */
-        count = 0;
+        int count = 0;
+        Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (count < 8)
@@ -168,5 +186,20 @@ public class CommonGroupsTest {
             }
         }
         assertTrue(model.get(5).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test with empty shelf")
+    public void testEmptyShelf() {
+        Shelf test = new Shelf();
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
+            }
+        }
+        assertFalse(model.get(0).verify(test));
+        assertFalse(model.get(2).verify(test));
+        assertFalse(model.get(3).verify(test));
+        assertFalse(model.get(5).verify(test));
     }
 }
