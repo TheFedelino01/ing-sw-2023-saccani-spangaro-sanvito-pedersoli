@@ -98,11 +98,10 @@ public class CommonHorizontalTest {
                         case (3) -> test.setSingleTile(new Tile(TileType.TROPHY), i, j);
                         case (4) -> test.setSingleTile(new Tile(TileType.ACTIVITY), i, j);
                         case (5) -> test.setSingleTile(new Tile(TileType.PLANT), i, j);
-                        default -> {
-                        }
+                        default -> {}
                     }
                 } else {
-                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                    test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
                 }
             }
         }

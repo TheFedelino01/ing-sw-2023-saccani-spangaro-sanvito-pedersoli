@@ -194,11 +194,12 @@ public class CommonGroupsTest {
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (j == 0 && i < 2) {
+                if (j == 0 && i == 2)
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
-                } else {
-                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
-                }
+                 else if (j == 1 && i == 3)
+                    test.setSingleTile(new Tile(TileType.BOOK), i, j);
+                 else
+                    test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }
         assertFalse(model.get(0).verify(test));
