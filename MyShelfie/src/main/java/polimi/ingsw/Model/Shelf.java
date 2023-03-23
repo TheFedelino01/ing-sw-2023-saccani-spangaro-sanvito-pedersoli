@@ -49,11 +49,11 @@ public class Shelf {
         return shelf[r][c];
     }
 
-    public void position(int column, TileType tipo) {
+    public void position(int row, TileType tipo) {
         //push the tile in the column making it slide down until it finds a tile, or it reaches the bottom
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            if (shelf[i][column].isSameType(TileType.NOT_USED)) {
-                shelf[i][column].setType(tipo);
+            if (shelf[row][i].isSameType(TileType.NOT_USED)) {
+                shelf[row][i].setType(tipo);
                 freeSpace--;
                 break;
             }

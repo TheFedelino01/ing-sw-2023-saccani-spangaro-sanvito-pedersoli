@@ -37,10 +37,7 @@ public class CommonDiagonalCard extends CommonCard {
             }
             case (1) -> { //tiles in ascending or descending order (like a triangle)
                 int[] spaceCheck = {0, 0, 0, 0, 0};
-                int checkSxToDx = 1;
-                int checkDxToSx = 1;
-                int checkSxToDx2 = 1;
-                int checkDxToSx2 = 1;
+                int checkSxToDx = 1, checkDxToSx = 1, checkSxToDx2 = 1, checkDxToSx2 = 1;
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                     for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                         if (toCheck.get(i, j).isSameType(TileType.NOT_USED))

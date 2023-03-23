@@ -19,6 +19,7 @@ public class CommonHorizontalCard extends CommonCard {
 
     @Override
     public boolean verify(Shelf toCheck){
+        param = super.getCommonType().compareTo(CardCommonType.CommonHorizontal0)> 0 ? 1 : 0;
         int sum=0;
         switch (param) {
             case (0) -> { //eighth common goal in the rulebook

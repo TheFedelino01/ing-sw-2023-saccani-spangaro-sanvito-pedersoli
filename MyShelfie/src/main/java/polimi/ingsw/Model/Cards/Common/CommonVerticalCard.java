@@ -18,8 +18,9 @@ public class CommonVerticalCard extends CommonCard {
     }
 
     @Override
-    public boolean verify(Shelf toCheck){
-        int sum=0;
+    public boolean verify(Shelf toCheck) {
+        param = super.getCommonType().compareTo(CardCommonType.CommonVertical0) > 0 ? 1 : 0;
+        int sum = 0;
         switch (param) {
             case (0) -> { //fifth common goal in the rulebook
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
