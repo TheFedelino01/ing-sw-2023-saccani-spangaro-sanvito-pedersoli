@@ -1,7 +1,7 @@
 package polimi.ingsw.Model.Enumeration;
 
 public enum CardCommonType {
-    COMMON1,COMMON2,COMMON3,COMMON4,COMMON5,COMMON6,
-    COMMON7,COMMON8,COMMON9,COMMON10,COMMON11,COMMON12
+    CommonGroup0, CommonVertix, CommonGroup1, CommonGroup2, CommonVertical0, CommonGroup3,
+    CommonDiagonal0, CommonHorizontal0, CommonVertical1, CommonHorizontal1, CommonX, CommonDiagonal1
 
 }

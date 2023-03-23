@@ -5,18 +5,18 @@ import polimi.ingsw.Model.Enumeration.CardCommonType;
 public class CommonCardFactory {
     public CardCommon getCommonCard(CardCommonType type){
         return switch (type) {
-            case COMMON1 -> new CommonDiagonal(CardCommonType.COMMON1, 0);
-            case COMMON2 -> new CommonDiagonal(CardCommonType.COMMON2, 1);
-            case COMMON3 -> new CommonGroups(CardCommonType.COMMON3, 0);
-            case COMMON4 -> new CommonGroups(CardCommonType.COMMON4, 1);
-            case COMMON5 -> new CommonGroups(CardCommonType.COMMON5, 2);
-            case COMMON6 -> new CommonGroups(CardCommonType.COMMON6, 3);
-            case COMMON7 -> new CommonHorizontal(CardCommonType.COMMON7, 0);
-            case COMMON8 -> new CommonHorizontal(CardCommonType.COMMON8, 1);
-            case COMMON9 -> new CommonVertical(CardCommonType.COMMON9, 0);
-            case COMMON10 -> new CommonVertical(CardCommonType.COMMON10, 1);
-            case COMMON11 -> new CommonVertixes(CardCommonType.COMMON11);
-            case COMMON12 -> new CommonX(CardCommonType.COMMON12);
+            case CommonGroup0 -> new CommonGroups(CardCommonType.CommonGroup0, 0);
+            case CommonVertix -> new CommonVertixes(CardCommonType.CommonVertix);
+            case CommonGroup1 -> new CommonGroups(CardCommonType.CommonGroup1, 1);
+            case CommonGroup2 -> new CommonGroups(CardCommonType.CommonGroup2, 2);
+            case CommonVertical0 -> new CommonVertical(CardCommonType.CommonVertical0, 0);
+            case CommonGroup3 -> new CommonGroups(CardCommonType.CommonGroup3, 3);
+            case CommonDiagonal0 -> new CommonDiagonal(CardCommonType.CommonDiagonal0, 0);
+            case CommonHorizontal0 -> new CommonHorizontal(CardCommonType.CommonHorizontal0, 0);
+            case CommonVertical1 -> new CommonVertical(CardCommonType.CommonVertical1, 1);
+            case CommonHorizontal1 -> new CommonHorizontal(CardCommonType.CommonHorizontal1, 1);
+            case CommonX -> new CommonX(CardCommonType.CommonX);
+            case CommonDiagonal1 -> new CommonDiagonal(CardCommonType.CommonDiagonal1, 1);
         };
 
     }

@@ -45,7 +45,7 @@ public class CommonXTest {
                         (i==1 && j==1))
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
                 else
-                    test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
+                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
             }
         }
         assertTrue(model.get(10).verify(test));
