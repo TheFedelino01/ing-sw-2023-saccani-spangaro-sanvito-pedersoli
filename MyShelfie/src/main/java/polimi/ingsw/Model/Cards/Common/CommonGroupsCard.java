@@ -6,19 +6,18 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
 import polimi.ingsw.Model.Tile;
 
-import javax.naming.TimeLimitExceededException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-public class CommonGroups extends CardCommon {
+public class CommonGroupsCard extends CommonCard {
 
     private static int param;
 
-    public CommonGroups(CardCommonType type, int param) {
+    public CommonGroupsCard(CardCommonType type, int param) {
         super(type);
-        CommonGroups.param = param;
+        CommonGroupsCard.param = param;
     }
 
     @Override

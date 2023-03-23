@@ -80,8 +80,8 @@ public class GameModelTest {
         if (!(model.getNumOfCommonCards() >= 0 && model.getNumOfCommonCards() <= DefaultValue.NumOfCommonCards))
             assertTrue(false, "There are more common Cards than expected");
 
-        CardCommon c1 = new CommonHorizontal(CardCommonType.CommonDiagonal0, 0);
-        CardCommon c2 = new CommonDiagonal(CardCommonType.CommonVertix, 0);
+        CommonCard c1 = new CommonHorizontalCard(CardCommonType.CommonDiagonal0, 0);
+        CommonCard c2 = new CommonDiagonalCard(CardCommonType.CommonVertix, 0);
         try {
             model.addCommonCard(c1);
         } catch (MaxCommonCardsAddedException e) {
@@ -120,7 +120,7 @@ public class GameModelTest {
         assertThrows(CommonCardAlreadyInException.class, () -> model.addCommonCard(c2), "This card is already in but no exception thrown");
 
 
-        assertThrows(MaxCommonCardsAddedException.class, () -> model.addCommonCard(new CommonX(CardCommonType.CommonDiagonal1)), "Cards Overflow but no exception thrown");
+        assertThrows(MaxCommonCardsAddedException.class, () -> model.addCommonCard(new CommonXCard(CardCommonType.CommonDiagonal1)), "Cards Overflow but no exception thrown");
 
     }
 
@@ -162,8 +162,8 @@ public class GameModelTest {
         assertThrows(NotReadyToRunException.class, () -> model.setStatus(GameStatus.RUNNING), "Wanted to start game but Common Cards not setted");
 
         try {
-            model.addCommonCard(new CommonX(CardCommonType.CommonDiagonal1));
-            model.addCommonCard(new CommonVertixes(CardCommonType.CommonX));
+            model.addCommonCard(new CommonXCard(CardCommonType.CommonDiagonal1));
+            model.addCommonCard(new CommonVertixesCard(CardCommonType.CommonX));
         } catch (MaxCommonCardsAddedException e) {
             throw new RuntimeException(e);
         } catch (CommonCardAlreadyInException e) {

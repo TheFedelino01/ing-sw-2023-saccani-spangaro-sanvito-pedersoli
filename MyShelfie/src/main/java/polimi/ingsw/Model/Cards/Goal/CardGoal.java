@@ -1,7 +1,6 @@
 package polimi.ingsw.Model.Cards.Goal;
 
 import polimi.ingsw.Model.Cards.Card;
-import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Point;
 import polimi.ingsw.Model.Shelf;

@@ -4,18 +4,13 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
-import polimi.ingsw.Model.Tile;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-public class CommonDiagonal extends CardCommon {
+public class CommonDiagonalCard extends CommonCard {
     private static int param;
 
-    public CommonDiagonal(CardCommonType type, int param) {
+    public CommonDiagonalCard(CardCommonType type, int param) {
         super(type);
-        CommonDiagonal.param = param;
+        CommonDiagonalCard.param = param;
     }
 
     @Override

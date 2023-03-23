@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.Model.*;
-import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.PositioningATailNotGrabbedException;
@@ -48,7 +48,7 @@ public class GameControllerTest {
 
         assertTrue(gameController.getCurrentPlaying() >= 0 && gameController.getCurrentPlaying() < gameController.getNumOfPlayers(), "Turn index overflow");
 
-        List<CardCommon> risCommon = gameController.getAllCommonCards();
+        List<CommonCard> risCommon = gameController.getAllCommonCards();
 
 
         boolean ris = true;
@@ -79,7 +79,7 @@ public class GameControllerTest {
         assertTrue(gameController.playerIsReadyToStart(plist.get(1)), "Game not started but everyone was ready to start");
 
 
-        List<CardCommon> risCommon = gameController.getAllCommonCards();
+        List<CommonCard> risCommon = gameController.getAllCommonCards();
 
         int currentPlayer = gameController.getCurrentPlaying();
 

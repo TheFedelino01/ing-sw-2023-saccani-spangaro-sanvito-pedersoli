@@ -8,15 +8,15 @@ import polimi.ingsw.Model.Shelf;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public abstract class CardCommon extends Card {
+public abstract class CommonCard extends Card {
     private Queue<Point> points;
     private CardCommonType commonType;
 
-    public CardCommon(CardCommonType type){
+    public CommonCard(CardCommonType type){
         points = new ArrayDeque<>();
         commonType=type;
     }
-    public CardCommon(Queue<Point> points, CardCommonType commonType) {
+    public CommonCard(Queue<Point> points, CardCommonType commonType) {
         this.points = points;
         this.commonType = commonType;
     }
@@ -44,12 +44,12 @@ public abstract class CardCommon extends Card {
 
     @Override
     public boolean isSameType(Card c) {
-        if(c instanceof CardCommon ) {
-            return this.commonType.equals(((CardCommon) c).commonType);
+        if(c instanceof CommonCard) {
+            return this.commonType.equals(((CommonCard) c).commonType);
         }
         return false;
     }
-    public boolean equals(CardCommon c){
+    public boolean equals(CommonCard c){
         return this.points.containsAll(c.getPoints()) && this.commonType==c.commonType;
     }
 

@@ -1,6 +1,6 @@
 package polimi.ingsw.Controller;
 
-import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
@@ -62,7 +62,7 @@ public class GameController {
         do {
             Integer extracted = random.nextInt(CardCommonType.values().length);
             try {
-                CardCommon ca = cfactory.getCommonCard(CardCommonType.values()[extracted]);
+                CommonCard ca = cfactory.getCommonCard(CardCommonType.values()[extracted]);
                 model.addCommonCard(ca);//Aggiungo la card al model
                 //Se la card che ho aggiunto va bene, gli imposto i punti
                 ca.setPoints(getListPointForCommonCard(ca));
@@ -76,7 +76,7 @@ public class GameController {
 
         } while (model.getNumOfCommonCards() < DefaultValue.NumOfCommonCards);
     }
-    private Queue<Point> getListPointForCommonCard(CardCommon card){
+    private Queue<Point> getListPointForCommonCard(CommonCard card){
         //Creo i punti per la carta
         Queue<Point> ris = new ArrayDeque<Point>();
         for(int i=0; i<DefaultValue.pointsValue.length;i++)
@@ -112,8 +112,8 @@ public class GameController {
         model.setCurrentPlaying(random.nextInt(model.getNumOfPlayers()));
     }
 
-    public List<CardCommon> getAllCommonCards() {
-        List<CardCommon> ris = new ArrayList<>();
+    public List<CommonCard> getAllCommonCards() {
+        List<CommonCard> ris = new ArrayList<>();
         for (int i = 0; i < model.getNumOfCommonCards(); i++)
             ris.add(model.getCommonCard(i));
 

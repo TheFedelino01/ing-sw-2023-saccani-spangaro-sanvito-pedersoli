@@ -3,7 +3,7 @@ package polimi.ingsw.Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.TileType;
@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommonHorizontalTest {
-    List<CardCommon> model = new ArrayList<>();
+    List<CommonCard> model = new ArrayList<>();
 
     @BeforeEach
     void setUp() {

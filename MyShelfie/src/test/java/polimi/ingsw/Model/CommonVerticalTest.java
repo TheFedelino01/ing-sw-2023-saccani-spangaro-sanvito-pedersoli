@@ -3,7 +3,7 @@ package polimi.ingsw.Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.TileType;
@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommonVerticalTest {
-    List<CardCommon> model = new ArrayList<>();
+    List<CommonCard> model = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -25,7 +25,7 @@ public class CommonVerticalTest {
 
     @Test
     @DisplayName("Test Vertical")
-    public void testVertical(){
+    public void testVertical0() {
         /*
     C X B X T
     C X B X T
@@ -35,20 +35,26 @@ public class CommonVerticalTest {
     C X B X T
      */
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
-                if(j==0){
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (j == 0) {
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
-                }else if(j==2){
+                } else if (j == 2) {
                     test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                }else if(j==4){
+                } else if (j == 4) {
                     test.setSingleTile(new Tile(TileType.TROPHY), i, j);
-                }else{
+                } else {
                     test.setSingleTile(new Tile(TileType.randomTile()), i, j);
                 }
             }
         }
         assertTrue(model.get(4).verify(test));
+
+    }
+
+    @Test
+    @DisplayName("Test Vertical")
+    public void testVertical1() {
 
         /*
         C X C X X
@@ -58,9 +64,10 @@ public class CommonVerticalTest {
         A X A X X
         P X P X X
          */
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
-                if(j==0||j==2){
+        Shelf test = new Shelf();
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (j == 0 || j == 2) {
                     switch (i) {
                         case (0) -> test.setSingleTile(new Tile(TileType.CAT), i, j);
                         case (1) -> test.setSingleTile(new Tile(TileType.BOOK), i, j);
@@ -71,12 +78,13 @@ public class CommonVerticalTest {
                         default -> {
                         }
                     }
-                }else{
+                } else {
                     test.setSingleTile(new Tile(TileType.randomTile()), i, j);
                 }
             }
         }
         assertTrue(model.get(8).verify(test));
     }
+
 
 }

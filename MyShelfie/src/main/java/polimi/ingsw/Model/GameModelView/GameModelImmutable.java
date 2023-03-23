@@ -1,6 +1,5 @@
 package polimi.ingsw.Model.GameModelView;
 
-import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Playground;

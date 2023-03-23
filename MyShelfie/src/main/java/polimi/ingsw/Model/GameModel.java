@@ -1,7 +1,7 @@
 package polimi.ingsw.Model;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Cards.Common.CardCommon;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
 import polimi.ingsw.Model.Chat.Message;
@@ -15,7 +15,7 @@ import java.util.*;
 
 public class GameModel {
     private List<Player> players;
-    private List<CardCommon> commonCards;
+    private List<CommonCard> commonCards;
     private Integer gameId;
     private Playground pg;
 
@@ -37,7 +37,7 @@ public class GameModel {
 
     public GameModel() {
         players = new ArrayList<Player>();
-        commonCards = new ArrayList<CardCommon>();
+        commonCards = new ArrayList<CommonCard>();
 
         gameId = random.nextInt(10000000);
 
@@ -51,7 +51,7 @@ public class GameModel {
         listeners=new ArrayList<GameListener>();
     }
 
-    public GameModel(List<Player> players, List<CardCommon> commonCards, Integer gameId, Playground pg) {
+    public GameModel(List<Player> players, List<CommonCard> commonCards, Integer gameId, Playground pg) {
         this.players = players;
         this.commonCards = commonCards;
         this.gameId = gameId;
@@ -107,7 +107,7 @@ public class GameModel {
     }
 
 
-    public void addCommonCard(CardCommon c) throws MaxCommonCardsAddedException, CommonCardAlreadyInException {
+    public void addCommonCard(CommonCard c) throws MaxCommonCardsAddedException, CommonCardAlreadyInException {
         //Si verifica per prima cosa se la carta e' gia' presente
         //se non e' gia' presente, verifico se si va in overflow
 
@@ -137,7 +137,7 @@ public class GameModel {
 
     }
 
-    public CardCommon getCommonCard(int i){
+    public CommonCard getCommonCard(int i){
         return commonCards.get(i);
     }
 

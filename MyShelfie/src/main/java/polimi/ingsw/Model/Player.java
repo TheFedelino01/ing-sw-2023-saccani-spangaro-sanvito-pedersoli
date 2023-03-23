@@ -1,10 +1,7 @@
 package polimi.ingsw.Model;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Cards.Common.CardCommon;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
-import polimi.ingsw.Model.Enumeration.CardCommonType;
-import polimi.ingsw.Model.Enumeration.CardGoalType;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,13 +2,11 @@ package polimi.ingsw.Model.Cards.Common;
 
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
-import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
-import polimi.ingsw.Model.Tile;
 
-public class CommonVertixes extends CardCommon {
+public class CommonVertixesCard extends CommonCard {
 
-    public CommonVertixes(CardCommonType type) {
+    public CommonVertixesCard(CardCommonType type) {
         super(type);
     }
 

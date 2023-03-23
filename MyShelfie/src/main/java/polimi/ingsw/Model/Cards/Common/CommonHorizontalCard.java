@@ -4,60 +4,59 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
-import polimi.ingsw.Model.Tile;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class CommonVertical extends CardCommon{
+public class CommonHorizontalCard extends CommonCard {
     private static int param;
 
-    public CommonVertical(CardCommonType type, int param) {
+    public CommonHorizontalCard(CardCommonType type, int param) {
         super(type);
-        CommonVertical.param = param;
+        CommonHorizontalCard.param = param;
     }
 
     @Override
     public boolean verify(Shelf toCheck){
         int sum=0;
         switch (param) {
-            case (0) -> { //fifth common goal in the rulebook
-                for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                    Map<TileType, Integer> colCheck = new HashMap<>();
-                    int ok = 0; //check single column
-                    for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            case (0) -> { //eighth common goal in the rulebook
+                for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+                    Map<TileType, Integer> rowCheck = new HashMap<>();
+                    int ok = 0; //check single row
+                    for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                         if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
-                            colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+                            rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
                         ok = ok + Optional.
-                                ofNullable(colCheck.get(t)).
+                                ofNullable(rowCheck.get(t)).
                                 orElse(0);
                     }
                     if (ok <= 3)
-                        sum = sum + 1;
-                    if (sum == 3) {
+                        sum++;
+                    if (sum == 4) {
                         return true;
                     }
                 }
                 return false;
             }
-            case (1) -> { //ninth common goal in the rulebook
-                for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                    Map<TileType, Integer> colCheck = new HashMap<>();
-                    int ok = 0; //check single column
-                    for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            case (1) -> { //tenth common goal in the rulebook
+                for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+                    Map<TileType, Integer> rowCheck = new HashMap<>();
+                    int ok = 0; //check single row
+                    for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                         if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
-                            colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+                            rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
                         ok = ok + Optional.
-                                ofNullable(colCheck.get(t)).
+                                ofNullable(rowCheck.get(t)).
                                 orElse(0);
                     }
-                    if (ok == 6)
-                        sum = sum + 1;
+                    if (ok == 5)
+                        sum++;
                     if (sum == 2) {
                         return true;
                     }
