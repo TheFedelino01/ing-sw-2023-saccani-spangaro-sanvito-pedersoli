@@ -6,7 +6,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
 import polimi.ingsw.Model.Tile;
 
-public class CommonVertixes extends CardCommon{
+public class CommonVertixes extends CardCommon {
 
     public CommonVertixes(CardCommonType type) {
         super(type);
@@ -14,9 +14,11 @@ public class CommonVertixes extends CardCommon{
 
     @Override
     public boolean verify(Shelf toCheck) {
-        return !(toCheck.get(0, 0).isSameType(TileType.NOT_USED)) &&
-                toCheck.get(0, 0) == toCheck.get(0, DefaultValue.NumOfColumnsShelf - 1) &&
-                toCheck.get(0, DefaultValue.NumOfColumnsShelf - 1) == toCheck.get(DefaultValue.NumOfRowsShelf - 1, DefaultValue.NumOfColumnsShelf - 1) &&
-                toCheck.get(DefaultValue.NumOfRowsShelf - 1, DefaultValue.NumOfColumnsShelf - 1) == toCheck.get(DefaultValue.NumOfRowsShelf - 1, 0);
+        return toCheck.get(0, 0)
+                        .isSameType(toCheck.get(0, DefaultValue.NumOfColumnsShelf - 1).getType()) &&
+                toCheck.get(0, DefaultValue.NumOfColumnsShelf - 1)
+                        .isSameType(toCheck.get(DefaultValue.NumOfRowsShelf - 1, DefaultValue.NumOfColumnsShelf - 1).getType()) &&
+                toCheck.get(DefaultValue.NumOfRowsShelf - 1, DefaultValue.NumOfColumnsShelf - 1)
+                        .isSameType(toCheck.get(DefaultValue.NumOfRowsShelf - 1, 0).getType());
     }
 }
