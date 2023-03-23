@@ -7,23 +7,20 @@ import polimi.ingsw.Model.Tile;
 
 public class GoalCardCheck extends  CardGoal{
 
-    private static Player player;
-    private final static Tile confront = new Tile(TileType.NOT_USED);
-
-    public static int goalCheck(Player player) {       //restituisce punteggio o 404 se ho errore
+    public static boolean goalCheck(Player player) {       //restituisce punteggio o 404 se ho errore
         int win = 12;
         int check = 0;
         int check2 = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (player.getSecretGoal().getLayoutToMatch().get(i, j) != confront) {
-                    check = check + 1;
+                if (!(player.getSecretGoal().getLayoutToMatch().get(i, j).isSameType(TileType.NOT_USED))) {
+                    check++;
                     if (player.getSecretGoal().getLayoutToMatch().get(i, j) != player.getShelf().get(i, j)) {
-                        check2 = check2 + 1;
+                        check2++;
                         if (check2 <= 2)
-                            win = win - 3;
+                            win -= 3;
                         else if (check2 <= 4)
-                            win = win - 2;
+                            win -= 2;
                         else if (check2 == 5)
                             win = 1;
                         else
@@ -32,8 +29,10 @@ public class GoalCardCheck extends  CardGoal{
                 }
             }
         }
-        if (check != 6)
-            return 404; //errore
-        return win;
+        if (check != 6) {
+            System.out.println("Check error in goalCheck!"); //error
+            return false;
+        }
+        return win == 1;
     }
 }

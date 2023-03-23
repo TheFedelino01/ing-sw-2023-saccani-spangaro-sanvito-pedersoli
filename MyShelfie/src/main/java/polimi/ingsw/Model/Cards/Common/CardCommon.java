@@ -13,7 +13,7 @@ public abstract class CardCommon extends Card {
     private CardCommonType commonType;
 
     public CardCommon(CardCommonType type){
-        points = new ArrayDeque<Point>();
+        points = new ArrayDeque<>();
         commonType=type;
     }
     public CardCommon(Queue<Point> points, CardCommonType commonType) {

@@ -14,18 +14,18 @@ import java.util.Optional;
 
 public class CommonGroups extends CardCommon {
 
-    private final int param;
+    private static int param;
 
     public CommonGroups(CardCommonType type, int param) {
         super(type);
-        this.param = param;
+        CommonGroups.param = param;
     }
 
     @Override
     public boolean verify(Shelf toCheck) {
         int sum = 0;
         switch (param) {
-            case (0):
+            case (0) -> {
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //check vertical
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -51,7 +51,8 @@ public class CommonGroups extends CardCommon {
                     }
                 }
                 return false;
-            case (1):
+            }
+            case (1) -> {
                 int check = 0;
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -69,7 +70,8 @@ public class CommonGroups extends CardCommon {
                     }
                 }
                 return false;
-            case (2):
+            }
+            case (2) -> {
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //vertical check
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -89,7 +91,8 @@ public class CommonGroups extends CardCommon {
                     }
                 }
                 return false;
-            case(3):
+            }
+            case (3) -> {
                 Map<TileType, Integer> tileCheck = new HashMap<>();
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -108,9 +111,11 @@ public class CommonGroups extends CardCommon {
                     }
                 }
                 return false;
-            default:
+            }
+            default -> {
                 System.out.println("Default error");
                 return false;
+            }
         }
     }
 

@@ -49,6 +49,8 @@ public class Player {
         return shelf;
     }
 
+    public void setShelfS(Shelf shelf){this.shelf=shelf; }
+
     public void setShelf(Shelf shelf) {
         this.shelf = shelf;
     }

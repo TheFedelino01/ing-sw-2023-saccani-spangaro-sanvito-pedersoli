@@ -15,14 +15,14 @@ public class CommonVertical extends CardCommon{
 
     public CommonVertical(CardCommonType type, int param) {
         super(type);
-        this.param = param;
+        CommonVertical.param = param;
     }
 
     @Override
     public boolean verify(Shelf toCheck){
         int sum=0;
-        switch(param){
-            case(0): //fifth common goal in the rulebook
+        switch (param) {
+            case (0) -> { //fifth common goal in the rulebook
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                     Map<TileType, Integer> colCheck = new HashMap<>();
                     int ok = 0; //check single column
@@ -42,12 +42,13 @@ public class CommonVertical extends CardCommon{
                     }
                 }
                 return false;
-            case(1): //ninth common goal in the rulebook
+            }
+            case (1) -> { //ninth common goal in the rulebook
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                     Map<TileType, Integer> colCheck = new HashMap<>();
                     int ok = 0; //check single column
                     for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                        if (!toCheck.get(i,j).isSameType(TileType.NOT_USED))
+                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
                             colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
@@ -62,9 +63,11 @@ public class CommonVertical extends CardCommon{
                     }
                 }
                 return false;
-            default:
+            }
+            default -> {
                 System.out.println("Default error");
                 return false;
+            }
         }
     }
 }

@@ -15,19 +15,19 @@ public class CommonHorizontal extends CardCommon{
 
     public CommonHorizontal(CardCommonType type, int param) {
         super(type);
-        this.param = param;
+        CommonHorizontal.param = param;
     }
 
     @Override
     public boolean verify(Shelf toCheck){
         int sum=0;
-        switch(param){
-            case(0): //eighth common goal in the rulebook
+        switch (param) {
+            case (0) -> { //eighth common goal in the rulebook
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     Map<TileType, Integer> rowCheck = new HashMap<>();
                     int ok = 0; //check single row
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (!toCheck.get(i,j).isSameType(TileType.NOT_USED))
+                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
                             rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
@@ -42,12 +42,13 @@ public class CommonHorizontal extends CardCommon{
                     }
                 }
                 return false;
-            case(1): //tenth common goal in the rulebook
+            }
+            case (1) -> { //tenth common goal in the rulebook
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     Map<TileType, Integer> rowCheck = new HashMap<>();
                     int ok = 0; //check single row
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (!toCheck.get(i,j).isSameType(TileType.NOT_USED))
+                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
                             rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
                     }
                     for (TileType t : TileType.values()) {
@@ -62,9 +63,11 @@ public class CommonHorizontal extends CardCommon{
                     }
                 }
                 return false;
-            default:
+            }
+            default -> {
                 System.out.println("Default error");
                 return false;
+            }
         }
     }
 }
