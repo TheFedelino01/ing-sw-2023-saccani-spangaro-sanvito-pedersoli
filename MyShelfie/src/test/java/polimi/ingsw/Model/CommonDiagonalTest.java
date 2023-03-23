@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CardDiagonalTest {
+public class CommonDiagonalTest {
 
     List<CardCommon> model = new ArrayList<>();
 
