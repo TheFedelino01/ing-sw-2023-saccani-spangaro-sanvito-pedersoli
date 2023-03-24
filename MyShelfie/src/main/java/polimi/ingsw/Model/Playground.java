@@ -11,15 +11,30 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Playground {
-    private Tile[][] playground; //playground formed by tiles
-    private List<Tile> bag; //All tiles are contained in this array
+    private final Tile[][] playground; //playground formed by tiles
+    private final List<Tile> bag; //All tiles are contained in this array
 
-    public Playground() {
-    }
+    private int[][] data;
+    //if we want to not use a json file we could just uncomment the
+    //below declaration, and delete all the GSON stuff from the file
+    /*
+    private final static int[][] data = {
+                            {0,0,0,3,4,0,0,0,0},
+                            {0,0,0,1,1,4,0,0,0},
+                            {0,0,3,1,1,1,3,0,0},
+                            {0,4,1,1,1,1,1,1,3},
+                            {4,1,1,1,1,1,1,1,4}
+                            {3,1,1,1,1,1,1,4,0},
+                            {0,0,3,1,1,1,3,0,0},
+                            {0,0,0,4,1,1,0,0,0},
+                            {0,0,0,0,4,3,0,0,0}
+                            };
+                                 */
 
     public Playground(int numberOfPlayers) {
         bag = new ArrayList<>();
-        int[][] data = new int[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
+        data = new int[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
+
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
         try {
             // create Gson instance
@@ -35,7 +50,12 @@ public class Playground {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        switch (numberOfPlayers) {
+        initialisePlayground(numberOfPlayers);
+    }
+
+
+    public void initialisePlayground(int num){
+        switch (num) {
             case 2 -> {
                 for (int i = 0; i < Objects.requireNonNull(data).length; i++) {
                     for (int j = 0; j < data[i].length; j++) {
@@ -72,14 +92,13 @@ public class Playground {
         }
     }
 
-
     public void setFreeSide() {
         //set free side to true where the tiles are near a not used tile or a finished using tile
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
                 if (!playground[i][j].isSameType(TileType.NOT_USED) &&
                         !(playground[i][j].isSameType(TileType.FINISHED_USING))) {
-                    if (i >= 1) {
+                    if (i > 0) {
                         if (playground[i - 1][j].isSameType(TileType.NOT_USED) ||
                                 playground[i - 1][j].isSameType(TileType.FINISHED_USING)) {
                             playground[i][j].setFreeSide(true);
