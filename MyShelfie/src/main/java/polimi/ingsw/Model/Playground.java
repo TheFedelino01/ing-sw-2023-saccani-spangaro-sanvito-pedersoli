@@ -35,166 +35,140 @@ public class Playground {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        switch (numberOfPlayers) {
-            case 2 -> {
-                for (int i = 0; i < Objects.requireNonNull(data).length; i++) {
-                    for (int j = 0; j < data[i].length; j++) {
-                        if (data[i][j] == 1) {
-                            playground[i][j] = new Tile(TileType.USED);
-                        } else {
-                            playground[i][j] = new Tile(TileType.NOT_USED);
-                        }
-                    }
-                }
-            }
-            case 3 -> {
-                for (int i = 0; i < Objects.requireNonNull(data).length; i++) {
-                    for (int j = 0; j < data[i].length; j++) {
-                        if (data[i][j] == 1 || data[i][j] == 3) {
-                            playground[i][j] = new Tile(TileType.USED);
-                        } else {
-                            playground[i][j] = new Tile(TileType.NOT_USED);
-                        }
-                    }
-                }
-            }
-            case 4 -> {
-                for (int i = 0; i < Objects.requireNonNull(data).length; i++) {
-                    for (int j = 0; j < data[i].length; j++) {
-                        if (data[i][j] == 1 || data[i][j] == 3 || data[i][j] == 4) {
-                            playground[i][j] = new Tile(TileType.USED);
-                        } else {
-                            playground[i][j] = new Tile(TileType.NOT_USED);
-                        }
-                    }
+        setUsedNotUsed(numberOfPlayers, data);
+        fillBag();
+        setPlayground();
+        calculateFreeSide();
+    }
+    private void setUsedNotUsed(int numPlayers, int data[][]){
+
+        for (int i = 0; i < Objects.requireNonNull(data).length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                if (data[i][j]!=0 && ((data[i][j]) <= numPlayers)) {
+                    playground[i][j] = new Tile(TileType.USED);
+                } else {
+                    playground[i][j] = new Tile(TileType.NOT_USED);
                 }
             }
         }
+
     }
 
 
-    public void setFreeSide() {
+    public void calculateFreeSide() {
         //set free side to true where the tiles are near a not used tile or a finished using tile
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
                 if (!playground[i][j].isSameType(TileType.NOT_USED) &&
                         !(playground[i][j].isSameType(TileType.FINISHED_USING))) {
-                    if (i >= 1) {
-                        if (playground[i - 1][j].isSameType(TileType.NOT_USED) ||
-                                playground[i - 1][j].isSameType(TileType.FINISHED_USING)) {
-                            playground[i][j].setFreeSide(true);
-                        }
+
+                    if(haveAtLeastOneSideFree(i,j)){
+                        playground[i][j].setFreeSide(true);
+                    }else{
+                        playground[i][j].setFreeSide(false);
                     }
-                    if (i < DefaultValue.PlaygroundSize - 1) {
-                        if (playground[i + 1][j].isSameType(TileType.NOT_USED) ||
-                                playground[i + 1][j].isSameType(TileType.FINISHED_USING)) {
-                            playground[i][j].setFreeSide(true);
-                        }
-                    }
-                    if (j >= 1) {
-                        if (playground[i][j - 1].isSameType(TileType.NOT_USED) ||
-                                playground[i][j - 1].isSameType(TileType.FINISHED_USING)) {
-                            playground[i][j].setFreeSide(true);
-                        }
-                    }
-                    if (j < DefaultValue.PlaygroundSize - 1) {
-                        if (playground[i][j + 1].isSameType(TileType.NOT_USED) ||
-                                playground[i][j + 1].isSameType(TileType.FINISHED_USING)) {
-                            playground[i][j].setFreeSide(true);
-                        }
-                    }
+
                 }
             }
         }
     }
 
 
-    public Tile[][] getPlayground() {
-        return playground;
-    }
 
     public void setPlayground() {
         int random;
+        Tile extractedTile;
+
+
+        //Cycle all the matrix and substitute the tile type USED with a random Tile
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
+
+                //If I need to replace the tile (because is type used)
                 if (playground[i][j].isSameType(TileType.USED)) {
-                    random = (int) (Math.random() * bag.size());
-                    playground[i][j] = bag.get(random);
-                    bag.remove(random);
+
+                    do {
+                        random = (int) (Math.random() * DefaultValue.NumOfTileTypes);
+
+                        //Get one tile
+                        extractedTile = bag.get(random);
+
+                        //If there is at least one tile available of that type (not needed to re-randomize)
+                    }while(extractedTile.getNumOfAvailable()>=1);
+
+                    playground[i][j] = new Tile(extractedTile.getType(),1);
+
+                    extractedTile.decrementAvailableBy1();
+
                 }
+
             }
         }
     }
-
-    public List<Tile> getBag() {
-        return bag;
-    }
-
-    public void setBag() {
-        //after having done a playground setup
-        //fill the bag with tiles in a random order
-        int c0 = 0, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, check;
-        Random rand = new Random();
-        while ((c0 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c1 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c2 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c3 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c4 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c5 < DefaultValue.NumOfTilesPerType - 1)) {
-            check = rand.nextInt(DefaultValue.NumOfTileTypes);
-            switch (check) {
-                case (0) -> {
-                    bag.add(new Tile(TileType.CAT));
-                    c0++;
-                }
-                case (1) -> {
-                    bag.add(new Tile(TileType.BOOK));
-                    c1++;
-                }
-                case (2) -> {
-                    bag.add(new Tile(TileType.ACTIVITY));
-                    c2++;
-                }
-                case (3) -> {
-                    bag.add(new Tile(TileType.FRAME));
-                    c3++;
-                }
-                case (4) -> {
-                    bag.add(new Tile(TileType.TROPHY));
-                    c4++;
-                }
-                case (5) -> {
-                    bag.add(new Tile(TileType.PLANT));
-                    c5++;
-                }
+    private boolean haveAtLeastOneSideFree(int r, int c){
+        if (r >= 1) {
+            if (playground[r - 1][c].isSameType(TileType.NOT_USED) ||
+                    playground[r - 1][c].isSameType(TileType.FINISHED_USING)) {
+                return true;
             }
         }
+        if (r < DefaultValue.PlaygroundSize - 1) {
+            if (playground[r + 1][c].isSameType(TileType.NOT_USED) ||
+                    playground[r + 1][c].isSameType(TileType.FINISHED_USING)) {
+                return true;
+            }
+        }
+        if (c >= 1) {
+            if (playground[r][c - 1].isSameType(TileType.NOT_USED) ||
+                    playground[r][c - 1].isSameType(TileType.FINISHED_USING)) {
+                return true;
+            }
+        }
+        if (c < DefaultValue.PlaygroundSize - 1) {
+            if (playground[r][c + 1].isSameType(TileType.NOT_USED) ||
+                    playground[r][c + 1].isSameType(TileType.FINISHED_USING)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void fillBag() {
+        bag.add(new Tile(TileType.CAT,DefaultValue.NumOfTilesPerType));
+        bag.add(new Tile(TileType.BOOK,DefaultValue.NumOfTilesPerType));
+        bag.add(new Tile(TileType.ACTIVITY,DefaultValue.NumOfTilesPerType));
+        bag.add(new Tile(TileType.FRAME,DefaultValue.NumOfTilesPerType));
+        bag.add(new Tile(TileType.TROPHY,DefaultValue.NumOfTilesPerType));
+        bag.add(new Tile(TileType.PLANT,DefaultValue.NumOfTilesPerType));
     }
 
 
     public List<Tile> grabTile(int x, int y, Direction direction, int num) {
         List<Tile> ris = new ArrayList<>();
         int i = 0;
-        while (i < num) {
-            if (((y == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.DOWN))) ||
-                    ((y == 0) && (direction.equals(Direction.UP))) ||
-                    ((x == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.RIGHT))) ||
-                    ((x == 0) && (direction.equals(Direction.LEFT))))
-                return ris;
-            if ((playground[x][y] != null) ||
-                    !(Objects.requireNonNull(playground[x][y]).isSameType(TileType.NOT_USED)) ||
-                    !(playground[x][y].isSameType(TileType.NOT_USED))) {
-                if (playground[x][y].isFreeSide()) {
-                    ris.add(playground[x][y]);
-                    playground[x][y].setType(TileType.FINISHED_USING);
+        //Only if num is plausible
+        if(num>=1 && num<=3) {
+            while (i < num) {
+                if (((y == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.DOWN))) ||
+                        ((y == 0) && (direction.equals(Direction.UP))) ||
+                        ((x == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.RIGHT))) ||
+                        ((x == 0) && (direction.equals(Direction.LEFT))))
+                    return ris;
+                if ((playground[x][y] != null) ||
+                        !(Objects.requireNonNull(playground[x][y]).isSameType(TileType.NOT_USED)) ||
+                        !(playground[x][y].isSameType(TileType.NOT_USED))) {
+                    if (playground[x][y].isFreeSide()) {
+                        ris.add(playground[x][y]);
+                        playground[x][y].setType(TileType.FINISHED_USING);
+                    }
                 }
-            }
-            i++;
-            switch (direction) {
-                case UP -> y--;
-                case DOWN -> y++;
-                case LEFT -> x--;
-                case RIGHT -> x++;
+                i++;
+                switch (direction) {
+                    case UP -> y--;
+                    case DOWN -> y++;
+                    case LEFT -> x--;
+                    case RIGHT -> x++;
+                }
             }
         }
         return ris;
