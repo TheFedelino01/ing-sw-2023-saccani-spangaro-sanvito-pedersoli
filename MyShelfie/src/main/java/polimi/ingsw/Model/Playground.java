@@ -11,13 +11,27 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Playground {
-    private Tile[][] playground; //playground formed by tiles
-    private List<Tile> bag; //All tiles are contained in this array
+    private final Tile[][] playground; //playground formed by tiles
+    private final List<Tile> bag; //All tiles are contained in this array
 
-    public Playground() {
-    }
+    private int[][] data;
+    //if we want to not use a json file we could just uncomment the
+    //below declaration, and delete all the GSON stuff from the file
+    /*
+    private final static int[][] data = {
+                            {0,0,0,3,4,0,0,0,0},
+                            {0,0,0,1,1,4,0,0,0},
+                            {0,0,3,1,1,1,3,0,0},
+                            {0,4,1,1,1,1,1,1,3},
+                            {4,1,1,1,1,1,1,1,4}
+                            {3,1,1,1,1,1,1,4,0},
+                            {0,0,3,1,1,1,3,0,0},
+                            {0,0,0,4,1,1,0,0,0},
+                            {0,0,0,0,4,3,0,0,0}
+                            };
+                                 */
 
-    public Playground(int numberOfPlayers) {
+  public Playground(int numberOfPlayers) {
         bag = new ArrayList<>();
         int[][] data = new int[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];

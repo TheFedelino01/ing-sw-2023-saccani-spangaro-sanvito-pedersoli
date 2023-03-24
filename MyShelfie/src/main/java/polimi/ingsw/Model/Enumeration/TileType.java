@@ -12,7 +12,6 @@ public enum TileType {
         FRAME,
         TROPHY,
         PLANT,
-
         NOT_USED,
         FINISHED_USING,
         USED;
