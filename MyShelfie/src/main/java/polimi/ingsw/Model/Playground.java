@@ -120,7 +120,6 @@ public class Playground {
     }
 
     public void setBag() {
-        //A questo punto ho settato il playground
         //Riempio la bag
         bag = new ArrayList<>();
         for (int i = 0; i < 22; i++) {
