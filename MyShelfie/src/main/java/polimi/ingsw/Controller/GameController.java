@@ -104,7 +104,7 @@ public class GameController {
 
     private void setPlaygroundLayout() {
         int numOfPlayers = model.getNumOfPlayers();
-        //todo fare model.setPg(); con il layout corretto
+        model.setPg(new Playground(numOfPlayers));
 
     }
 
