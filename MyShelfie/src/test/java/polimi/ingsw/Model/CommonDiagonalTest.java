@@ -37,7 +37,7 @@ public class CommonDiagonalTest {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i >= j) {
                     if (i == j) {
-                        test.setSingleTile(new Tile(TileType.CAT), i, j);
+                        test.setSingleTile(new Tile(TileType.USED), i, j);
                     } else {
                         test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
                     }

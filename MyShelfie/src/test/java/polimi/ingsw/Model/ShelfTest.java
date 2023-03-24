@@ -56,6 +56,7 @@ public class ShelfTest {
         shelf.position(0, TileType.CAT);
         assertEquals(TileType.CAT, shelf.get(DefaultValue.NumOfRowsShelf-1, 0).getType());
 
+
         shelf.position(0, TileType.FRAME);
         assertEquals(TileType.FRAME, shelf.get(DefaultValue.NumOfRowsShelf-2, 0).getType());
 

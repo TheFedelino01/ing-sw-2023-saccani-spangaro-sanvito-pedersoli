@@ -49,6 +49,7 @@ public class CommonGroupsTest {
                     } else if (j == 0 && i > 3) {
                         test.setSingleTile(new Tile(TileType.CAT), i, j);
                     } else {
+
                         test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
                     }
                     count++;
@@ -68,6 +69,7 @@ public class CommonGroupsTest {
                     } else if (j == 2 && i > 3) {
                         test.setSingleTile(new Tile(TileType.CAT), i, j);
                     } else {
+
                         test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
                     }
                     count++;
@@ -101,6 +103,7 @@ public class CommonGroupsTest {
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
                 } else if (j < 4 && i < 4) {
                     test.setSingleTile(new Tile(TileType.BOOK), i, j);
+
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
                 }
@@ -125,9 +128,9 @@ public class CommonGroupsTest {
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 1)) {
-                    test.setSingleTile(new Tile(TileType.CAT), i, j);
+                    test.setSingleTile(new Tile(TileType.USED), i, j);
                 } else if ((i == 3 && j == 3) || (i == 4 && j == 3) || (i == 3 && j == 4) || (i == 4 && j == 4)) {
-                    test.setSingleTile(new Tile(TileType.CAT), i, j);
+                    test.setSingleTile(new Tile(TileType.USED), i, j);
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
                 }
@@ -154,7 +157,7 @@ public class CommonGroupsTest {
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (count < 8)
-                    test.setSingleTile(new Tile(TileType.CAT), i, j);
+                    test.setSingleTile(new Tile(TileType.USED), i, j);
                 else
                     test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
                 count++;

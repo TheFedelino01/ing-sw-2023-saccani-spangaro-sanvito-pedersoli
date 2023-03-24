@@ -41,6 +41,7 @@ public class CommonHorizontalTest {
                 if (i == 0 || i == 3) {
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
                 } else if (i == 1) {
+
                     test.setSingleTile(new Tile(TileType.BOOK), i, j);
                 } else if (i == 2) {
                     test.setSingleTile(new Tile(TileType.TROPHY), i, j);
@@ -68,7 +69,7 @@ public class CommonHorizontalTest {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i == 0 || i == 2) {
                     switch (j) {
-                        case (0) -> test.setSingleTile(new Tile(TileType.CAT), i, j);
+                        case (0) -> test.setSingleTile(new Tile(TileType.USED), i, j);
                         case (1) -> test.setSingleTile(new Tile(TileType.BOOK), i, j);
                         case (2) -> test.setSingleTile(new Tile(TileType.FRAME), i, j);
                         case (3) -> test.setSingleTile(new Tile(TileType.TROPHY), i, j);

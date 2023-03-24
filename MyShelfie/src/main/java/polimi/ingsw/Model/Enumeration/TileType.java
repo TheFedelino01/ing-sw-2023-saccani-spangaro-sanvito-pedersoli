@@ -2,18 +2,18 @@ package polimi.ingsw.Model.Enumeration;
 
 import polimi.ingsw.Model.DefaultValue;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public enum TileType {
-        CAT,
+        USED,
         BOOK,
         ACTIVITY,
         FRAME,
         TROPHY,
         PLANT,
+        CAT,
+
         NOT_USED,
         FINISHED_USING;
 
