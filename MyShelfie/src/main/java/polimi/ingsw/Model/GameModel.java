@@ -229,7 +229,7 @@ public class GameModel {
     }
 
     public List<Tile> grabTailFromPlayground(Player p, int x, int y, Direction direction, int num){
-        List<Tile> ris = pg.grabTailFromPlayground(x,y,direction,num);
+        List<Tile> ris = pg.grabTile(x,y,direction,num);
         p.setInHandTail(ris);
         notify_grabbedTail();
         return ris;

@@ -6,19 +6,16 @@ import java.util.List;
 import java.util.Random;
 
 public enum TileType {
-        USED,
+        CAT,
         BOOK,
         ACTIVITY,
         FRAME,
         TROPHY,
         PLANT,
-        CAT,
 
         NOT_USED,
-        FINISHED_USING;
-
-
-
+        FINISHED_USING,
+        USED;
         //for testing purposes
         private static final List<TileType> values = List.of(values());
         private static final Random rand = new Random();
@@ -34,5 +31,6 @@ public enum TileType {
         public static TileType randomTileCATeBOOK(){
                 return values.get(rand.nextInt(DefaultValue.NumOfTileTypes-2)+2);
         }
+        public static List<TileType> getValues(){return values;}
 }
 
