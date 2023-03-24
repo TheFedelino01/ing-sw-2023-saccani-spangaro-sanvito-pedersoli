@@ -44,6 +44,7 @@ public class CommonVertixesTest {
                         (i == 0 && j == DefaultValue.NumOfColumnsShelf - 1) ||
                         (i == DefaultValue.NumOfRowsShelf - 1 && j == 0))
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
+
                 else
                     test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
             }

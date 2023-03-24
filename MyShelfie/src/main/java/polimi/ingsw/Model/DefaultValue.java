@@ -13,6 +13,8 @@ public class DefaultValue {
     public final static int NumOfRowsShelf = 6;
 
     public final static int NumOfTileTypes = 6;
+
+    public final static int PlaygroundSize = 9;
     public static int pointsValue[] = {2, 4, 6, 8};
 
 }

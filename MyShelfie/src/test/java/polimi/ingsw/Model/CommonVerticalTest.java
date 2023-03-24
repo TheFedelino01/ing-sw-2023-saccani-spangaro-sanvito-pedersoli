@@ -41,6 +41,7 @@ public class CommonVerticalTest {
                 if (j == 0) {
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
                 } else if (j == 2) {
+
                     test.setSingleTile(new Tile(TileType.BOOK), i, j);
                 } else if (j == 4) {
                     test.setSingleTile(new Tile(TileType.TROPHY), i, j);
@@ -70,7 +71,7 @@ public class CommonVerticalTest {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (j == 0 || j == 2) {
                     switch (i) {
-                        case (0) -> test.setSingleTile(new Tile(TileType.CAT), i, j);
+                        case (0) -> test.setSingleTile(new Tile(TileType.USED), i, j);
                         case (1) -> test.setSingleTile(new Tile(TileType.BOOK), i, j);
                         case (2) -> test.setSingleTile(new Tile(TileType.FRAME), i, j);
                         case (3) -> test.setSingleTile(new Tile(TileType.TROPHY), i, j);
