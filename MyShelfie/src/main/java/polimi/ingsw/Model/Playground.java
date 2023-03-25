@@ -22,12 +22,18 @@ public class Playground {
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
     }
 
-    //to write in the json file
-    //the "-" is the separator between rows
-    //the "," is the separator between columns, so
-    //0,0,0,0-1,1,1,1 equals the matrix
-    // 0 0 0 0
-    // 1 1 1 1
+    /*
+    TODO:   to write in the json file:
+            the "-" is the row separator
+            the "," is the column separator, so
+            0,0,0,0-1,1,1,1 is equal to the matrix
+            0 0 0 0
+            1 1 1 1
+            Also, the number that identifies the long strings in the json
+            is the player number that the matrix/string implements
+            E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription
+            of the playground default for 2 player based games, and so on
+     */
     public Playground(int numberOfPlayers) {
         bag = new ArrayList<>();
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];

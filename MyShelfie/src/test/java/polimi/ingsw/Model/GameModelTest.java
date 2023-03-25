@@ -58,9 +58,7 @@ public class GameModelTest {
         try {
             model.addPlayer(new Player("3"));
 
-        } catch (PlayerAlreadyInException e) {
-            throw new RuntimeException(e);
-        } catch (MaxPlayersInException e) {
+        } catch (PlayerAlreadyInException | MaxPlayersInException e) {
             throw new RuntimeException(e);
         }
 
@@ -220,15 +218,15 @@ public class GameModelTest {
 
         assertThrows(ActionPerformedByAPlayerNotPlayingException.class, () -> model.sendMessage(new Player("z"),"msg4"), "Player not playing sent a message");
 
-        boolean found=false;
+        boolean found;
         for(Message m : model.getChat().getMsgs()){
             found=false;
-            for(int i=0; i<model.getNumOfPlayers() && found==false; i++) {
+            for(int i = 0; i<model.getNumOfPlayers() && !found; i++) {
                 if (model.getPlayer(i).equals(m.getSender())) {
                     found = true;
                 }
             }
-            if(found==false){
+            if(!found){
                 assertTrue(false, "Player not playing sent a message");
             }
         }
