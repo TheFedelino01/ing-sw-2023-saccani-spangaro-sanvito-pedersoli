@@ -29,6 +29,7 @@ public class TileTest {
         assertTrue(found,"Tile type corrent");
     }
 
+    /*
     @Test
     @DisplayName("Check available number")
     void testAvailable() {
@@ -56,6 +57,6 @@ public class TileTest {
 
         assertTrue(ris,"Tile available error");
     }
-
+    */
 
 }

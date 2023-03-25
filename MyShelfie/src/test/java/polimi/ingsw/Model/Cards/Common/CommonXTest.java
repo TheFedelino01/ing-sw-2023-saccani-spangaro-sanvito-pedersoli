@@ -1,12 +1,15 @@
-package polimi.ingsw.Model;
+package polimi.ingsw.Model.Cards.Common;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.Model.Cards.Common.CommonCard;
-import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
+import polimi.ingsw.Model.Common.CommonCard;
+import polimi.ingsw.Model.Common.CommonCardFactory;
+import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.TileType;
+import polimi.ingsw.Model.Shelf;
+import polimi.ingsw.Model.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +40,7 @@ public class CommonXTest {
     @DisplayName("Test X")
     public void testX(){
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
+        for(int i = 0; i< DefaultValue.NumOfRowsShelf; i++){
             for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
                 if((i==0 && j==0)||
                         (i==0 && j==2)||

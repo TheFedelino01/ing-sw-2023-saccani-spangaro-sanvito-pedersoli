@@ -1,7 +1,7 @@
 package polimi.ingsw.Model;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Cards.Common.CommonCard;
+import polimi.ingsw.Model.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
 import polimi.ingsw.Model.Chat.Message;
@@ -225,7 +225,17 @@ public class GameModel {
     }
 
     public List<Tile> grabTailFromPlayground(Player p, int x, int y, Direction direction, int num){
-        List<Tile> ris = pg.grabTile(x,y,direction,num);
+
+        //If player picks a not valid set of tile, the return List will be empty => .size()==0
+        List<Tile> ris = new ArrayList<>();
+
+        try {
+            ris = pg.grabTile(x,y,direction,num);
+        } catch (TileGrabbedNotCorrectException e) {
+            //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
+            notify_grabbedTailNotCorrect();
+        }
+        //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
         p.setInHandTail(ris);
         notify_grabbedTail();
         return ris;
@@ -339,6 +349,10 @@ public class GameModel {
     private void notify_nextTurn(){
         for(GameListener l : listeners)
             l.nextTurn(this);
+    }
+    private void notify_grabbedTailNotCorrect(){
+        for(GameListener l : listeners)
+            l.grabbedTailNotCorrect(this);
     }
 
 }

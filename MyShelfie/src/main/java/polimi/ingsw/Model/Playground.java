@@ -5,6 +5,7 @@ import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import polimi.ingsw.Model.Exceptions.TileGrabbedNotCorrectException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -63,8 +64,17 @@ public class Playground {
                                 .split(colSplit)[j]));
             }
         }
-        initialisePlayground();
 
+        initialisePlayground();
+        setBag();
+        setPlayground();
+    }
+
+    public Tile getTile(int r,int c){
+        return playground[r][c];
+    }
+    public int getNumOfTileinTheBag(){
+        return bag.size();
     }
 
     public void initialisePlayground() {
@@ -78,8 +88,31 @@ public class Playground {
             }
         }
     }
+    private boolean isABorderTile(int r,int c){
+        if (r > 0) {
+            if (playground[r - 1][c].isSameType(TileType.NOT_USED)){
+                return true;
+            }
+        }
+        if (r < DefaultValue.PlaygroundSize - 1) {
+            if (playground[r + 1][c].isSameType(TileType.NOT_USED)){
+                return true;
+            }
+        }
+        if (c > 0) {
+            if (playground[r][c - 1].isSameType(TileType.NOT_USED)){
+                return true;
+            }
+        }
+        if (c < DefaultValue.PlaygroundSize - 1) {
+            if (playground[r][c + 1].isSameType(TileType.NOT_USED)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public void setFreeSide() {
+    public void updateFreeSide() {
         //set free side to true where the tiles are near a not used tile or a finished using tile
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
@@ -115,9 +148,6 @@ public class Playground {
     }
 
 
-    public Tile[][] getPlayground() {
-        return playground;
-    }
 
     public void setPlayground() {
         int random;
@@ -126,83 +156,57 @@ public class Playground {
                 if (playground[i][j].isSameType(TileType.USED)) {
                     random = (int) (Math.random() * bag.size());
                     playground[i][j] = bag.get(random);
+                    //If the tile is a border-tile then set free side to true (sure at least 1 side free)
+                    if(isABorderTile(i,j)){
+                        playground[i][j].setFreeSide(true);
+                    }
                     bag.remove(random);
                 }
             }
         }
     }
 
-    public List<Tile> getBag() {
-        return bag;
-    }
-
     public void setBag() {
-        //after having done a playground setup
-        //fill the bag with tiles in a random order
-        int c0 = 0, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, check;
-        Random rand = new Random();
-        while ((c0 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c1 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c2 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c3 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c4 < DefaultValue.NumOfTilesPerType - 1) ||
-                (c5 < DefaultValue.NumOfTilesPerType - 1)) {
-            check = rand.nextInt(DefaultValue.NumOfTileTypes);
-            switch (check) {
-                case (0) -> {
-                    bag.add(new Tile(TileType.CAT));
-                    c0++;
-                }
-                case (1) -> {
-                    bag.add(new Tile(TileType.BOOK));
-                    c1++;
-                }
-                case (2) -> {
-                    bag.add(new Tile(TileType.ACTIVITY));
-                    c2++;
-                }
-                case (3) -> {
-                    bag.add(new Tile(TileType.FRAME));
-                    c3++;
-                }
-                case (4) -> {
-                    bag.add(new Tile(TileType.TROPHY));
-                    c4++;
-                }
-                case (5) -> {
-                    bag.add(new Tile(TileType.PLANT));
-                    c5++;
-                }
+        for(int i=0; i<DefaultValue.NumOfTilesPerType;i++){
+            for(int j=0; j<DefaultValue.NumOfTileTypes;j++){
+                bag.add(new Tile(TileType.values()[j],false));
             }
         }
+
+        Collections.shuffle(bag);
     }
 
 
-    public List<Tile> grabTile(int x, int y, Direction direction, int num) {
+    public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException {
         List<Tile> ris = new ArrayList<>();
         int i = 0;
         while (i < num) {
             if (((y == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.DOWN))) ||
                     ((y == 0) && (direction.equals(Direction.UP))) ||
                     ((x == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.RIGHT))) ||
-                    ((x == 0) && (direction.equals(Direction.LEFT))))
+                    ((x == 0) && (direction.equals(Direction.LEFT)))) {
+                updateFreeSide();
                 return ris;
+            }
             if ((playground[x][y] != null) ||
                     !(Objects.requireNonNull(playground[x][y]).isSameType(TileType.NOT_USED)) ||
                     !(playground[x][y].isSameType(TileType.NOT_USED))) {
                 if (playground[x][y].isFreeSide()) {
                     ris.add(playground[x][y]);
-                    playground[x][y].setType(TileType.FINISHED_USING);
+                    playground[x][y] = new Tile(TileType.FINISHED_USING);
+                }else{
+                    throw new TileGrabbedNotCorrectException();
                 }
             }
             i++;
             switch (direction) {
-                case UP -> y--;
-                case DOWN -> y++;
-                case LEFT -> x--;
-                case RIGHT -> x++;
+                case UP -> x--;
+                case DOWN -> x++;
+                case LEFT -> y--;
+                case RIGHT -> y++;
             }
         }
+        updateFreeSide();
         return ris;
     }
 

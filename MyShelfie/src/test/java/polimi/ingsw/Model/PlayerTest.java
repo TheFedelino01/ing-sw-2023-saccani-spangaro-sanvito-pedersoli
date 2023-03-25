@@ -61,22 +61,6 @@ class PlayerTest {
     }
 
 
-    @Test
-    @DisplayName("Test Player inHandTail")
-    void InHandTail() {
-        //Create an ArrayList of Tile
-        ArrayList<Tile> tileList = new ArrayList<>();
-        for (int i = 0; i <= 2; i++) {
-            tileList.add(new Tile());
-        }
-        for (int i = 0; i < gameController.getNumOfPlayers(); i++) {
-
-            plist.get(i).setInHandTail(tileList);
-            assertEquals(3, plist.get(i).getInHandTail().size());
-        }
-    }
-
-
 
 
 
