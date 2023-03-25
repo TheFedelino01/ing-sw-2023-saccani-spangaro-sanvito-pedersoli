@@ -20,7 +20,12 @@ public class Tile {
         numOfAvailable=-1;
     }
 
-    public Tile(TileType TYPE, boolean freeSide, Integer numOfAvailable) {
+    public Tile(TileType TYPE, Integer numOfAvailable) {
+        this.TYPE = TYPE;
+        this.freeSide = false;
+        this.numOfAvailable = numOfAvailable;
+    }
+    public Tile(TileType TYPE, Integer numOfAvailable, boolean freeSide) {
         this.TYPE = TYPE;
         this.freeSide = freeSide;
         this.numOfAvailable = numOfAvailable;
@@ -49,6 +54,12 @@ public class Tile {
     public void setNumOfAvailable(Integer numOfAvailable) {
         this.numOfAvailable = numOfAvailable<=22 && numOfAvailable>=0 ? numOfAvailable :
                 numOfAvailable>22? 22 : 0;
+    }
+
+    public void decrementAvailableBy1(){
+        if(numOfAvailable>=1){
+            numOfAvailable--;
+        }
     }
 
     public boolean isSameType(TileType type){

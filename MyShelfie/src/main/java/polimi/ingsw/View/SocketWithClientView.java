@@ -29,6 +29,8 @@ public class SocketWithClientView implements Runnable, GameListener {
 
     //todo tutti i controlli per la creazione del player
     private void createGame(){
+
+
         gameController = mainController.createGame(player);
         gameController.addPlayer(player);
 
