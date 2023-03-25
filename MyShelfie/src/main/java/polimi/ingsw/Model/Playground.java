@@ -1,7 +1,6 @@
 package polimi.ingsw.Model;
 
-import com.google.gson.JsonParser;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import org.json.simple.parser.JSONParser;
@@ -16,7 +15,6 @@ import java.util.*;
 public class Playground {
     private final Tile[][] playground; //playground formed by tiles
     private final List<Tile> bag; //All tiles are contained in this array
-
     private List<List<Integer>> data;
 
     public Playground() {
@@ -24,15 +22,34 @@ public class Playground {
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
     }
 
-    @SuppressWarnings("unchecked")
+    //to write in the json file
+    //the "-" is the separator between rows
+    //the "," is the separator between columns, so
+    //0,0,0,0-1,1,1,1 equals the matrix
+    // 0 0 0 0
+    // 1 1 1 1
     public Playground(int numberOfPlayers) {
         bag = new ArrayList<>();
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
+        String rowSplit = "-";
+        String colSplit = ",";
         JSONParser parser = new JSONParser();
         String jsonUrl = "./src/main/java/polimi/ingsw/JSON/PlaygroundFourPlayer.json";
         try (Reader reader = new FileReader(jsonUrl)) {
             JSONObject obj = (JSONObject) parser.parse(reader);
-            data = (List<List<Integer>>) obj.get(Integer.toString(numberOfPlayers));
+            String s = (String) obj.get(Integer.toString(numberOfPlayers));
+            int size = Arrays.asList(s.split(rowSplit)).size();
+            data = new ArrayList<>();
+
+            //this method is for splitting the string returned from the json file in a matrix
+            for(int i = 0; i<size; i++){
+                data.add(new ArrayList<>(size));
+                for(int j = 0; j<size; j++){
+                    data.get(i).add(j, Integer
+                            .parseInt(s.split(rowSplit)[i]
+                                    .split(colSplit)[j]));
+                }
+            }
         } catch (ParseException | FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException e) {
