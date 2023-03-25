@@ -129,9 +129,8 @@ public class GameController {
     }
 
 
-    public List<Tile> grabTailFromPlayground(Player p, int x, int y, Direction direction, int num) {
-        //p.setInHandTail(model.getPg().getBoard());
-        return model.grabTailFromPlayground(p, x, y, direction, num);
+    public void grabTailFromPlayground(Player p, int x, int y, Direction direction, int num) {
+        model.grabTailFromPlayground(p, x, y, direction, num);
     }
 
     public void positionTailOnShelf(Player p, int collum, TileType tipo) {

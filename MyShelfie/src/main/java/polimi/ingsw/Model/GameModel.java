@@ -224,21 +224,23 @@ public class GameModel {
         }
     }
 
-    public List<Tile> grabTailFromPlayground(Player p, int x, int y, Direction direction, int num){
+    public void grabTailFromPlayground(Player p, int x, int y, Direction direction, int num){
 
-        //If player picks a not valid set of tile, the return List will be empty => .size()==0
-        List<Tile> ris = new ArrayList<>();
+
+        List<Tile> ris = null;
 
         try {
             ris = pg.grabTile(x,y,direction,num);
+
+            //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
+            p.setInHandTail(ris);
+            notify_grabbedTail();
+
         } catch (TileGrabbedNotCorrectException e) {
             //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
             notify_grabbedTailNotCorrect();
         }
-        //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
-        p.setInHandTail(ris);
-        notify_grabbedTail();
-        return ris;
+
     }
     public void positionTailOnShelf(Player p, int collum, TileType tipo){
         Tile t = popInHandTilePlayer(p,tipo);

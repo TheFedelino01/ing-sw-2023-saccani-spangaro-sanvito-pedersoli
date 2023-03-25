@@ -69,8 +69,8 @@ public class GameControllerTest {
     }
 
     @Test
-    @DisplayName("Grab and Position Tile in a running game")
-    void grabAndPositionTile() {
+    @DisplayName("Grab and Position a Tile in a running game")
+    void grabAndPositionATile() {
 
         assertTrue(gameController.addPlayer(plist.get(0)), "Player not added but needed to");
         assertTrue(gameController.addPlayer(plist.get(1)), "Player not added but needed to");
@@ -83,27 +83,20 @@ public class GameControllerTest {
 
         int currentPlayer = gameController.getCurrentPlaying();
 
-        List<Tile> grabbed = gameController.grabTailFromPlayground(plist.get(currentPlayer), 0, 0, Direction.DOWN, 1);
+        gameController.grabTailFromPlayground(plist.get(currentPlayer), 1, 3, Direction.DOWN, 1);
 
-
-        for (int i = 0; i < grabbed.size(); i++) {
-            assertTrue(plist.get(currentPlayer).getInHandTail().get(i).isSameType(grabbed.get(i).getType()), "Mismatch between Tile grabbed from playground and Tile in hand");
-
-        }
+        Tile grabbed = plist.get(currentPlayer).getInHandTail().get(0);
 
         assertThrows(PositioningATailNotGrabbedException.class, () -> gameController.positionTailOnShelf(plist.get(currentPlayer), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
 
+        assertTrue(plist.get(currentPlayer).getInHandTail().size()==1,"Grabbed mismatch");
+        gameController.positionTailOnShelf(plist.get(currentPlayer), 0, plist.get(currentPlayer).getInHandTail().get(0).getType());
+        assertTrue(plist.get(currentPlayer).getInHandTail().size()==0,"Positioned tile on shelf but player's hand not free");
 
-        for (int i = 0; i < grabbed.size(); i++) {
-            Tile firstTileInHand = plist.get(currentPlayer).getInHandTail().get(0);
-            assertTrue(firstTileInHand.isSameType(grabbed.get(i).getType()), "Mismatch between Tile grabbed from playground and Tile in hand");
-
-            Shelf shelf = plist.get(currentPlayer).getShelf();
-            shelf.setShelf(new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf]);
-            gameController.positionTailOnShelf(plist.get(currentPlayer), 0, grabbed.get(i).getType());
-
-            //plist.get(currentPlayer).getShelf().get(0,0); manca implementazione inserimento in shelf
+        if(!plist.get(currentPlayer).getShelf().get(DefaultValue.NumOfRowsShelf-1,0).isSameType(grabbed.getType())){
+            assertTrue(plist.get(currentPlayer).getInHandTail().size()==0,"Positioned a wrong tile");
         }
+
 
 
     }
