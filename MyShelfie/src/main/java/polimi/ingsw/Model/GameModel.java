@@ -27,11 +27,6 @@ public class GameModel {
 
     private Integer firstFinishedPlayer=-1;
 
-    private Integer winnerIndex=-1;
-
-
-    private Random random = new Random();
-
 
     private List<GameListener> listeners;
 
@@ -39,6 +34,7 @@ public class GameModel {
         players = new ArrayList<Player>();
         commonCards = new ArrayList<CommonCard>();
 
+        Random random = new Random();
         gameId = random.nextInt(10000000);
 
         pg = new Playground();
@@ -66,8 +62,7 @@ public class GameModel {
         //Verifico per prima cosa che il player non e' gia' presente
         //poi se non vado in overflow
         if (players.stream()
-                .filter(x -> x.equals(p))
-                .count() == 0) {
+                .noneMatch(x -> x.equals(p))) {
             if (players.size() + 1 <= DefaultValue.MaxNumOfPlayer) {
                 players.add(p);
             } else {
@@ -94,7 +89,8 @@ public class GameModel {
 
     public boolean arePlayersReadyToStartAndEnough(){
         //Se tutti i giocatori sono pronti a giocare, inizia il game
-        if(players.stream().filter(x-> x.getReadyToStart()==true).count()==players.size() && players.size()>= DefaultValue.minNumOfPlayer){
+        if(players.stream().filter(Player::getReadyToStart)
+                .count()==players.size() && players.size()>= DefaultValue.minNumOfPlayer){
             return true;
         }
         return false;
@@ -111,7 +107,7 @@ public class GameModel {
         //Si verifica per prima cosa se la carta e' gia' presente
         //se non e' gia' presente, verifico se si va in overflow
 
-        if (commonCards.stream().filter(x -> x.isSameType(c)).count() == 0) {
+        if (commonCards.stream().noneMatch(x -> x.isSameType(c))) {
             if (commonCards.size() + 1 <= DefaultValue.NumOfCommonCards) {
                 commonCards.add(c);
             } else {
@@ -126,7 +122,7 @@ public class GameModel {
     public void setGoalCard(int indexPlayer, CardGoal c) throws SecretGoalAlreadyGivenException {
         if(indexPlayer<players.size() && indexPlayer>=0) {
             //Assegno la carta goal solo se non ce l'ha nessun altro player
-            if (players.stream().filter(x -> (x.getSecretGoal().isSameType(c))).count() == 0) {
+            if (players.stream().noneMatch(x -> (x.getSecretGoal().isSameType(c)))) {
                 players.get(indexPlayer).setSecretGoal(c);
             } else {
                 throw new SecretGoalAlreadyGivenException();
@@ -191,7 +187,7 @@ public class GameModel {
     }
 
     public Map<Player,CardGoal> getGoalCards(){
-        Map ris = new HashMap<Player,CardGoal>();
+        Map<Player, CardGoal> ris = new HashMap<>();
 
         for(Player p: players){
             ris.put(p,p.getSecretGoal());
@@ -258,7 +254,7 @@ public class GameModel {
         if(status==GameStatus.RUNNING) {
             if(players.get(currentPlaying).getInHandTail().size()==0) {
                 currentPlaying = (currentPlaying + 1) % players.size();
-                if(currentPlaying == firstFinishedPlayer){
+                if(currentPlaying.equals(firstFinishedPlayer)){
                     throw new GameEndedException();
                 }else {
                     notify_nextTurn();
@@ -283,18 +279,17 @@ public class GameModel {
 
     /**
      * Controllo chi tra i vari player ha piú punti
-     *
-     * @return Player con piú punti
+     * Ritorna il Player con piú punti
      * @apiNote Ho cambiato il tipo di ritorno da void a Player
      */
     private void findWinner() {
         int max = 0;
         //Cycle between every player point and return the one with more point
         for (int i = 0; i < getNumOfPlayers(); i++) {
-            Integer point = getPlayer(i).getTotalPoints();
+            int point = getPlayer(i).getTotalPoints();
             if (point > max) {
                 max = point;
-                winnerIndex = i;
+                Integer winnerIndex = i;
             }
 
         }

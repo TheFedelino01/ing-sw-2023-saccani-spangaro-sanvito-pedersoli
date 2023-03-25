@@ -1,92 +1,54 @@
 package polimi.ingsw.Model;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import org.json.JSONObject;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.*;
 
 public class Playground {
     private final Tile[][] playground; //playground formed by tiles
     private final List<Tile> bag; //All tiles are contained in this array
 
-    private int[][] data;
-    //if we want to not use a json file we could just uncomment the
-    //below declaration, and delete all the GSON stuff from the file
-    /*
-    private final static int[][] data = {
-                            {0,0,0,3,4,0,0,0,0},
-                            {0,0,0,1,1,4,0,0,0},
-                            {0,0,3,1,1,1,3,0,0},
-                            {0,4,1,1,1,1,1,1,3},
-                            {4,1,1,1,1,1,1,1,4}
-                            {3,1,1,1,1,1,1,4,0},
-                            {0,0,3,1,1,1,3,0,0},
-                            {0,0,0,4,1,1,0,0,0},
-                            {0,0,0,0,4,3,0,0,0}
-                            };
-                                 */
+    private List<List<Integer>> data;
 
-    public Playground(int numberOfPlayers) {
+    public Playground() {
         bag = new ArrayList<>();
-        data = new int[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
-
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
-        try {
-            // create Gson instance
-            Gson gson = new Gson();
-            // create a reader
-            String jsonUrl = "./src/main/java/polimi/ingsw/JSON/PlaygroundFourPlayer.json";
-            FileReader reader = new FileReader(jsonUrl);
-
-            // read JSON data as 2D array of integers
-            data = gson.fromJson(reader, int[][].class);
-
-            reader.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        initialisePlayground(numberOfPlayers);
     }
 
+    @SuppressWarnings("unchecked")
+    public Playground(int numberOfPlayers) {
+        bag = new ArrayList<>();
+        playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
+        JSONParser parser = new JSONParser();
+        String jsonUrl = "./src/main/java/polimi/ingsw/JSON/PlaygroundFourPlayer.json";
+        try (Reader reader = new FileReader(jsonUrl)) {
+            JSONObject obj = (JSONObject) parser.parse(reader);
+            data = (List<List<Integer>>) obj.get(Integer.toString(numberOfPlayers));
+        } catch (ParseException | FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        initialisePlayground();
 
-    public void initialisePlayground(int num){
-        switch (num) {
-            case 2 -> {
-                for (int i = 0; i < Objects.requireNonNull(data).length; i++) {
-                    for (int j = 0; j < data[i].length; j++) {
-                        if (data[i][j] == 1) {
-                            playground[i][j] = new Tile(TileType.USED);
-                        } else {
-                            playground[i][j] = new Tile(TileType.NOT_USED);
-                        }
-                    }
-                }
-            }
-            case 3 -> {
-                for (int i = 0; i < Objects.requireNonNull(data).length; i++) {
-                    for (int j = 0; j < data[i].length; j++) {
-                        if (data[i][j] == 1 || data[i][j] == 3) {
-                            playground[i][j] = new Tile(TileType.USED);
-                        } else {
-                            playground[i][j] = new Tile(TileType.NOT_USED);
-                        }
-                    }
-                }
-            }
-            case 4 -> {
-                for (int i = 0; i < Objects.requireNonNull(data).length; i++) {
-                    for (int j = 0; j < data[i].length; j++) {
-                        if (data[i][j] == 1 || data[i][j] == 3 || data[i][j] == 4) {
-                            playground[i][j] = new Tile(TileType.USED);
-                        } else {
-                            playground[i][j] = new Tile(TileType.NOT_USED);
-                        }
-                    }
+    }
+
+    public void initialisePlayground() {
+        for (int i = 0; i < Objects.requireNonNull(data).size(); i++) {
+            for (int j = 0; j < data.get(i).size(); j++) {
+                if (data.get(i).get(j) == 1) {
+                    playground[i][j] = new Tile(TileType.USED);
+                } else {
+                    playground[i][j] = new Tile(TileType.NOT_USED);
                 }
             }
         }
