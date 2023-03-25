@@ -39,27 +39,29 @@ public class Playground {
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
         String rowSplit = "-";
         String colSplit = ",";
+        String s = null;
         JSONParser parser = new JSONParser();
         String jsonUrl = "./src/main/java/polimi/ingsw/JSON/PlaygroundFourPlayer.json";
         try (Reader reader = new FileReader(jsonUrl)) {
             JSONObject obj = (JSONObject) parser.parse(reader);
-            String s = (String) obj.get(Integer.toString(numberOfPlayers));
-            int size = Arrays.asList(s.split(rowSplit)).size();
-            data = new ArrayList<>();
-
-            //this method is for splitting the string returned from the json file in a matrix
-            for(int i = 0; i<size; i++){
-                data.add(new ArrayList<>(size));
-                for(int j = 0; j<size; j++){
-                    data.get(i).add(j, Integer
-                            .parseInt(s.split(rowSplit)[i]
-                                    .split(colSplit)[j]));
-                }
-            }
+            s = (String) obj.get(Integer.toString(numberOfPlayers));
         } catch (ParseException | FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        assert s != null;
+        int size = Arrays.asList(s.split(rowSplit)).size();
+        data = new ArrayList<>();
+
+        //this method is for splitting the string returned from the json file in a matrix
+        for(int i = 0; i<size; i++){
+            data.add(new ArrayList<>(size));
+            for(int j = 0; j<size; j++){
+                data.get(i).add(j, Integer
+                        .parseInt(s.split(rowSplit)[i]
+                                .split(colSplit)[j]));
+            }
         }
         initialisePlayground();
 
