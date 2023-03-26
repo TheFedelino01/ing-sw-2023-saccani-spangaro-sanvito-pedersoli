@@ -10,7 +10,7 @@ public class Player {
     private String nickname;
     private Shelf shelf;
     private CardGoal secretGoal;
-    private List<Tile> inHandTail;
+    private List<Tile> inHandTile;
     private List<Point> obtainedPoints;
     private boolean readyToStart=false;
 
@@ -21,15 +21,15 @@ public class Player {
         this.nickname=nickname;
         shelf=new Shelf();
         secretGoal= new CardGoal();
-        inHandTail = new ArrayList<Tile>();
+        inHandTile = new ArrayList<Tile>();
         obtainedPoints=new ArrayList<Point>();
         listeners= new ArrayList<>();
     }
-    public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTail, List<Point> obtainedPoints) {
+    public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTile, List<Point> obtainedPoints) {
         this.nickname = nickname;
         this.shelf = shelf;
         this.secretGoal = secretGoal;
-        this.inHandTail = inHandTail;
+        this.inHandTile = inHandTile;
         this.obtainedPoints = obtainedPoints;
         listeners= new ArrayList<>();
     }
@@ -60,16 +60,16 @@ public class Player {
         this.secretGoal = secretGoal;
     }
 
-    public List<Tile> getInHandTail() {
-        return inHandTail;
+    public List<Tile> getInHandTile() {
+        return inHandTile;
     }
 
-    public void setInHandTail(List<Tile> inHandTail) {
-        if (inHandTail.size() > 3) {
+    public void setInHandTile(List<Tile> inHandTile) {
+        if (inHandTile.size() > 3) {
             throw new IllegalArgumentException("You can't have more than 3 tiles in hand");
         }
         else {
-            this.inHandTail = inHandTail;
+            this.inHandTile = inHandTile;
         }
     }
 

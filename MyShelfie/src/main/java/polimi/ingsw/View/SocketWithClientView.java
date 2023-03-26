@@ -78,17 +78,17 @@ public class SocketWithClientView implements Runnable, GameListener {
     }
 
     @Override
-    public void grabbedTail(GameModel gamemodel) {
+    public void grabbedTile(GameModel gamemodel) {
 
     }
 
     @Override
-    public void grabbedTailNotCorrect(GameModel gamemodel) {
+    public void grabbedTileNotCorrect(GameModel gamemodel) {
 
     }
 
     @Override
-    public void positionedTail(GameModel gameModel) {
+    public void positionedTile(GameModel gameModel) {
 
     }
 

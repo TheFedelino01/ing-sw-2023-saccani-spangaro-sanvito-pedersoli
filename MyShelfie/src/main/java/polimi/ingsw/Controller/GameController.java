@@ -129,12 +129,12 @@ public class GameController {
     }
 
 
-    public void grabTailFromPlayground(Player p, int x, int y, Direction direction, int num) {
-        model.grabTailFromPlayground(p, x, y, direction, num);
+    public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
+        model.grabTileFromPlayground(p, x, y, direction, num);
     }
 
-    public void positionTailOnShelf(Player p, int collum, TileType tipo) {
-        model.positionTailOnShelf(p, collum, tipo);
+    public void positionTileOnShelf(Player p, int collum, TileType tipo) {
+        model.positionTileOnShelf(p, collum, tipo);
     }
 
     public void nextTurn() {

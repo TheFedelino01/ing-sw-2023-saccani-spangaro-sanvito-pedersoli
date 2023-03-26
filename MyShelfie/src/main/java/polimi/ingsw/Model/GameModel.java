@@ -224,7 +224,7 @@ public class GameModel {
         }
     }
 
-    public void grabTailFromPlayground(Player p, int x, int y, Direction direction, int num){
+    public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num){
 
 
         List<Tile> ris = null;
@@ -233,29 +233,29 @@ public class GameModel {
             ris = pg.grabTile(x,y,direction,num);
 
             //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
-            p.setInHandTail(ris);
-            notify_grabbedTail();
+            p.setInHandTile(ris);
+            notify_grabbedTile();
 
         } catch (TileGrabbedNotCorrectException e) {
             //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
-            notify_grabbedTailNotCorrect();
+            notify_grabbedTileNotCorrect();
         }
 
     }
-    public void positionTailOnShelf(Player p, int collum, TileType tipo){
-        Tile t = popInHandTilePlayer(p,tipo);
+    public void positionTileOnShelf(Player p, int column, TileType type){
+        Tile t = popInHandTilePlayer(p,type);
         if(t!=null){
-            p.getShelf().position(collum,tipo);
-            notify_positionedTail();
+            p.getShelf().position(column,type);
+            notify_positionedTile();
         }else{
-            throw new PositioningATailNotGrabbedException();
+            throw new PositioningATileNotGrabbedException();
         }
 
     }
     private Tile popInHandTilePlayer(Player p, TileType tipo){
-        for(int i=0; i< p.getInHandTail().size();i++){
-            if(p.getInHandTail().get(i).isSameType(tipo)){
-                return p.getInHandTail().remove(i);
+        for(int i = 0; i< p.getInHandTile().size(); i++){
+            if(p.getInHandTile().get(i).isSameType(tipo)){
+                return p.getInHandTile().remove(i);
             }
         }
         return null;//Il player non ha questa Tile tra quelle estratte
@@ -264,7 +264,7 @@ public class GameModel {
 
     public void nextTurn() throws GameEndedException {
         if(status==GameStatus.RUNNING) {
-            if(players.get(currentPlaying).getInHandTail().size()==0) {
+            if(players.get(currentPlaying).getInHandTile().size()==0) {
                 currentPlaying = (currentPlaying + 1) % players.size();
                 if(currentPlaying.equals(firstFinishedPlayer)){
                     throw new GameEndedException();
@@ -339,22 +339,22 @@ public class GameModel {
         for(GameListener l : listeners)
             l.SentMessage(msg);
     }
-    private void notify_grabbedTail(){
+    private void notify_grabbedTile(){
         for(GameListener l : listeners)
-            l.grabbedTail(this);
+            l.grabbedTile(this);
     }
-    private void notify_positionedTail(){
+    private void notify_positionedTile(){
         for(GameListener l : listeners)
-            l.positionedTail(this);
+            l.positionedTile(this);
     }
 
     private void notify_nextTurn(){
         for(GameListener l : listeners)
             l.nextTurn(this);
     }
-    private void notify_grabbedTailNotCorrect(){
+    private void notify_grabbedTileNotCorrect(){
         for(GameListener l : listeners)
-            l.grabbedTailNotCorrect(this);
+            l.grabbedTileNotCorrect(this);
     }
 
 }

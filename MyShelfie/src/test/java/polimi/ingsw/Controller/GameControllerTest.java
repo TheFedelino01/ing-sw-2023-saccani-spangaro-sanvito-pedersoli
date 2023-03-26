@@ -7,7 +7,7 @@ import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Enumeration.*;
-import polimi.ingsw.Model.Exceptions.PositioningATailNotGrabbedException;
+import polimi.ingsw.Model.Exceptions.PositioningATileNotGrabbedException;
 
 import java.util.*;
 
@@ -83,18 +83,18 @@ public class GameControllerTest {
 
         int currentPlayer = gameController.getCurrentPlaying();
 
-        gameController.grabTailFromPlayground(plist.get(currentPlayer), 1, 3, Direction.DOWN, 1);
+        gameController.grabTileFromPlayground(plist.get(currentPlayer), 1, 3, Direction.DOWN, 1);
 
-        Tile grabbed = plist.get(currentPlayer).getInHandTail().get(0);
+        Tile grabbed = plist.get(currentPlayer).getInHandTile().get(0);
 
-        assertThrows(PositioningATailNotGrabbedException.class, () -> gameController.positionTailOnShelf(plist.get(currentPlayer), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
+        assertThrows(PositioningATileNotGrabbedException.class, () -> gameController.positionTileOnShelf(plist.get(currentPlayer), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
 
-        assertTrue(plist.get(currentPlayer).getInHandTail().size()==1,"Grabbed mismatch");
-        gameController.positionTailOnShelf(plist.get(currentPlayer), 0, plist.get(currentPlayer).getInHandTail().get(0).getType());
-        assertTrue(plist.get(currentPlayer).getInHandTail().size()==0,"Positioned tile on shelf but player's hand not free");
+        assertTrue(plist.get(currentPlayer).getInHandTile().size()==1,"Grabbed mismatch");
+        gameController.positionTileOnShelf(plist.get(currentPlayer), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
+        assertTrue(plist.get(currentPlayer).getInHandTile().size()==0,"Positioned tile on shelf but player's hand not free");
 
         if(!plist.get(currentPlayer).getShelf().get(DefaultValue.NumOfRowsShelf-1,0).isSameType(grabbed.getType())){
-            assertTrue(plist.get(currentPlayer).getInHandTail().size()==0,"Positioned a wrong tile");
+            assertTrue(plist.get(currentPlayer).getInHandTile().size()==0,"Positioned a wrong tile");
         }
 
 

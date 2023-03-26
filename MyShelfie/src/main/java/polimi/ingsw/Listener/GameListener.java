@@ -13,9 +13,9 @@ public interface GameListener {
     public void GameEnded(GameModel gamemodel);
 
     public void SentMessage(Message msg);
-    public void grabbedTail(GameModel gamemodel);
-    public void grabbedTailNotCorrect(GameModel gamemodel);
-    public void positionedTail(GameModel gameModel);
+    public void grabbedTile(GameModel gamemodel);
+    public void grabbedTileNotCorrect(GameModel gamemodel);
+    public void positionedTile(GameModel gameModel);
     public void nextTurn(GameModel gameModel);
 
     public void addedPoint(Player p);

@@ -105,9 +105,7 @@ public class Playground {
             }
         }
         if (c < DefaultValue.PlaygroundSize - 1) {
-            if (playground[r][c + 1].isSameType(TileType.NOT_USED)) {
-                return true;
-            }
+            return playground[r][c + 1].isSameType(TileType.NOT_USED);
         }
         return false;
     }
