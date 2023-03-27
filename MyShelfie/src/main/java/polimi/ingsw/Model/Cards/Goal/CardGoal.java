@@ -1,37 +1,112 @@
 package polimi.ingsw.Model.Cards.Goal;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import polimi.ingsw.Model.Cards.Card;
+import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
+import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Point;
 import polimi.ingsw.Model.Shelf;
+import polimi.ingsw.Model.Tile;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CardGoal extends Card {
     private Shelf layoutToMatch; //La tavola del giocatore deve matchare questo layout (per acquisire punti a seconda della Map legendPoint)
-    private Map<Integer, Point> legendPoint;
+    private static Map<Integer, Point> legendPoint;
     private CardGoalType goalType;
 
     public CardGoal(){
-        layoutToMatch=null;
-        legendPoint=null;
+        initialiseLayout(CardGoalType.NOT_SET);
+        legendPoint = new HashMap<>();
         goalType=CardGoalType.NOT_SET;
     }
 
     public CardGoal(CardGoalType type){
-        layoutToMatch=null;
-        legendPoint=null;
+        initialiseLayout(type);
+        legendPoint = new HashMap<>();
+        for(int i=0; i<7; i++){
+            switch(i){
+                case(0) -> legendPoint.put(i, new Point(0, type));
+                case(1) -> legendPoint.put(i, new Point(1, type));
+                case(2) -> legendPoint.put(i, new Point(2, type));
+                case(3) -> legendPoint.put(i, new Point(4, type));
+                case(4) -> legendPoint.put(i, new Point(6, type));
+                case(5) -> legendPoint.put(i, new Point(9, type));
+                case(6) -> legendPoint.put(i, new Point(12, type));
+            }
+        }
         goalType=type;
     }
 
-    public CardGoal(Shelf layoutToMatch, Map<Integer, Point> legendPoint, CardGoalType goalType) {
+    public CardGoal(Shelf layoutToMatch, CardGoalType type) {
+        legendPoint = new HashMap<>();
         this.layoutToMatch = layoutToMatch;
-        this.legendPoint = legendPoint;
-        this.goalType = goalType;
+        for(int i=0; i<7; i++){
+            switch(i){
+                case(0) -> legendPoint.put(i, new Point(0, type));
+                case(1) -> legendPoint.put(i, new Point(1, type));
+                case(2) -> legendPoint.put(i, new Point(2, type));
+                case(3) -> legendPoint.put(i, new Point(4, type));
+                case(4) -> legendPoint.put(i, new Point(6, type));
+                case(5) -> legendPoint.put(i, new Point(9, type));
+                case(6) -> legendPoint.put(i, new Point(12, type));
+            }
+        }
+        this.goalType = type;
     }
 
-    public Point verify(Shelf shelfToCheck){
-        return null;
+    private void initialiseLayout(CardGoalType type){
+        String rowSplit = "-";
+        String colSplit = ",";
+        String s = null;
+        JSONParser parser = new JSONParser();
+        String jsonUrl = "./src/main/java/polimi/ingsw/Json/GoalCardsLayout.json";
+        try (Reader reader = new FileReader(jsonUrl)) {
+            JSONObject obj = (JSONObject) parser.parse(reader);
+            s = (String) obj.get(CardGoalType.toString(type));
+        } catch (ParseException | FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        assert s != null;
+        int size = Arrays.asList(s.split(rowSplit)).size();
+        layoutToMatch = new Shelf();
+
+        //this method is for splitting the string returned from the json file in a matrix
+        for(int i = 0; i<size; i++){ //6 rows, but 5 columns, that's the reason for size-1 in the internal for
+            for(int j = 0; j<size-1; j++){
+                layoutToMatch.setSingleTile(new Tile(TileType.getValues().get(
+                                                                    Integer.parseInt(s.split(rowSplit)[i]
+                                                                                        .split(colSplit)[j]))), i, j);
+            }
+        }
+        System.out.println("Ciao");
+    }
+
+    public Point verify(Shelf toCheck){
+        int check = 0;
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if ((!(layoutToMatch.get(i, j).isSameType(TileType.NOT_USED)))&&(layoutToMatch.get(i, j).isSameType(toCheck.get(i, j).getType()))) {
+                    check++;
+                }
+            }
+        }
+        if (check > 6) {
+            System.out.println("Check error in goalCheck!"); //error
+            return legendPoint.get(0);
+        }
+        return legendPoint.get(check);
     }
 
     public Shelf getLayoutToMatch() {
@@ -44,10 +119,6 @@ public class CardGoal extends Card {
 
     public Map<Integer, Point> getLegendPoint() {
         return legendPoint;
-    }
-
-    public void setLegendPoint(Map<Integer, Point> legendPoint) {
-        this.legendPoint = legendPoint;
     }
 
     public CardGoalType getGoalType() {
