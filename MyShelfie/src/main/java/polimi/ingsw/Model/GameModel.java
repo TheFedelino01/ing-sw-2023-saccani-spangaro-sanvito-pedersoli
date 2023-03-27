@@ -1,7 +1,7 @@
 package polimi.ingsw.Model;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Common.CommonCard;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
 import polimi.ingsw.Model.Chat.Message;

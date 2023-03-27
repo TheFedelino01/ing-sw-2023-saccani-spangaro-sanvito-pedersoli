@@ -1,4 +1,4 @@
-package polimi.ingsw.Model.Common;
+package polimi.ingsw.Model.Cards.Common;
 
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;

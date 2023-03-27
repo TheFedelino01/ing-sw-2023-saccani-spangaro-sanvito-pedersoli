@@ -3,8 +3,6 @@ package polimi.ingsw.Model.Cards.Common;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.Model.Common.CommonCard;
-import polimi.ingsw.Model.Common.CommonCardFactory;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.TileType;

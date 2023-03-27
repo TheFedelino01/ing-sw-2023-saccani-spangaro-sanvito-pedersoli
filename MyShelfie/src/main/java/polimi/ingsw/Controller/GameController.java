@@ -1,7 +1,7 @@
 package polimi.ingsw.Controller;
 
-import polimi.ingsw.Model.Common.CommonCard;
-import polimi.ingsw.Model.Common.CommonCardFactory;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
+import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
