@@ -90,10 +90,10 @@ public class GameController {
         int i = 0;
 
         do {
-            int extracted = random.nextInt(CardGoalType.getValues().size());
+            Integer extracted = random.nextInt(CardGoalType.values().length);
 
             try {
-                model.setGoalCard(i, new CardGoal(CardGoalType.getValues().get(extracted)));
+                model.setGoalCard(i, new CardGoal(CardGoalType.values()[extracted]));
                 i++;
             } catch (SecretGoalAlreadyGivenException e) {
                 //carta goal giá assegnata, non incremento i e riestraggo
@@ -133,8 +133,8 @@ public class GameController {
         model.grabTileFromPlayground(p, x, y, direction, num);
     }
 
-    public void positionTileOnShelf(Player p, int column, TileType type) {
-        model.positionTileOnShelf(p, column, type);
+    public void positionTileOnShelf(Player p, int collum, TileType tipo) {
+        model.positionTileOnShelf(p, collum, tipo);
     }
 
     public void nextTurn() {

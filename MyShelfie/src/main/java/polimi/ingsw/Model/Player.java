@@ -79,7 +79,7 @@ public class Player {
 
     public void addPoint(Point obtainedPoints) {
         for(Point p: this.obtainedPoints){
-            if(p.getReferredTo().equals(obtainedPoints.getReferredTo())){
+            if(p.getReferredTo().isSameType(obtainedPoints.getReferredTo())){
                 throw new IllegalArgumentException("You can't have more than one point for the same card");
             }
         }

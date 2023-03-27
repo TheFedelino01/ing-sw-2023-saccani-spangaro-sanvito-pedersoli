@@ -31,6 +31,5 @@ public enum TileType {
                 return values.get(rand.nextInt(DefaultValue.NumOfTileTypes-2)+2);
         }
         public static List<TileType> getValues(){return values;}
-
 }
 
