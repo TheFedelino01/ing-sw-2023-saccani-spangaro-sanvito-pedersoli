@@ -16,11 +16,21 @@ public class GameController {
     private View view;
 
 
+    /**
+     * Init a Controller for one specific game that controls a GameModel
+     */
     public GameController() {
         model = new GameModel();
 
     }
 
+    /**
+     * Add player @param p to the Game
+     *
+     * @exception  PlayerAlreadyInException when in the game there is already another Player with the same nickname
+     * @exception MaxPlayersInException when the game has already reached its full capability (#player=4)
+     * @return true if player is added and is now in game, false else
+     */
     public Boolean addPlayer(Player p) {
         try {
             model.addPlayer(p);
@@ -30,15 +40,32 @@ public class GameController {
         }
     }
 
-
+    /**
+     * Returns num of current players that are in the game
+     *
+     * @return num of current players
+     */
     public int getNumOfPlayers() {
         return model.getNumOfPlayers();
     }
 
+    /**
+     * Return the secret Goal Card associated with the player in index @param indexPlayer
+     *
+     * @param indexPlayer the index of the player to return his secret goal card
+     * @return CardGoal associated to the player
+     */
     public CardGoal getGoalCard(int indexPlayer) {
         return model.getGoalCard(indexPlayer);
     }
 
+    /**
+     * Set the @param p player ready to start
+     * When all the players are ready to start, the game starts (game status changes to running)
+     *
+     * @param p Player to set has ready
+     * @return true if the game has started, false else
+     */
     public boolean playerIsReadyToStart(Player p) {
         //La partita parte automaticamente quando tutti i giocatori sono pronti
         model.playerIsReadyToStart(p);
@@ -55,7 +82,12 @@ public class GameController {
         return false;//Game non started yet
     }
 
-
+    /**
+     * The Common Cards (Default 2) are extracted pseudo-randomly between all the enum of CardCommonType
+     * and associated to the game (no duplicates)
+     *
+     * @exception RuntimeException when MaxCommonCardsAddedException is thrown
+     */
     private void extractCommonCards() {
         //Estraggo in modo random 'DefaultValue.NumOfCommonCards' carte comuni
         CommonCardFactory cfactory = new CommonCardFactory();
@@ -76,6 +108,13 @@ public class GameController {
 
         } while (model.getNumOfCommonCards() < DefaultValue.NumOfCommonCards);
     }
+
+    /**
+     * Get the list containing the points that a @param card will distribute when satisfied
+     *
+     * @param card the card which point will be added
+     * @return the list of points to add to the @param card
+     */
     private Queue<Point> getListPointForCommonCard(CommonCard card){
         //Creo i punti per la carta
         Queue<Point> ris = new ArrayDeque<Point>();
@@ -85,6 +124,11 @@ public class GameController {
         return ris;
     }
 
+
+    /**
+     * The Goal Cards are extracted pseudo-randomly between all the enum of GoalType
+     * and associated specifically one to one player (no duplicates)
+     */
     private void extractGoalCards() {
         //Estraggo in modo random carte goal per ogni giocatore
         int i = 0;
@@ -102,16 +146,29 @@ public class GameController {
         } while (i < model.getNumOfPlayers());
     }
 
+
+    /**
+     * Set the playground layout according to the num of players playing
+     */
     private void setPlaygroundLayout() {
         int numOfPlayers = model.getNumOfPlayers();
         model.setPg(new Playground(numOfPlayers));
 
     }
 
+    /**
+     * Extract pseudo-randomly the player who has the first move (first turn)
+     */
     private void extractFirstTurn() {
         model.setCurrentPlaying(random.nextInt(model.getNumOfPlayers()));
     }
 
+
+    /**
+     * Return the list of all the commond cards extracted
+     *
+     * @return list of all the common cards of the game
+     */
     public List<CommonCard> getAllCommonCards() {
         List<CommonCard> ris = new ArrayList<>();
         for (int i = 0; i < model.getNumOfCommonCards(); i++)
@@ -120,10 +177,22 @@ public class GameController {
         return ris;
     }
 
+
+    /**
+     * Return the list of all the goal cards extracted associated with the players
+     *
+     * @return Map of <Player,(Secret goal card)>
+     */
     public Map<Player, CardGoal> getAllGoalCards() {
         return model.getGoalCards();
     }
 
+
+    /**
+     * Return the index of the player who is currently playing the turn
+     *
+     * @return index of the player who is moving
+     */
     public int getIndexCurrentPlaying() {
         return model.getCurrentPlaying();
     }
