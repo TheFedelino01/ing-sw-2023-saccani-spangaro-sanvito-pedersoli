@@ -12,6 +12,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameModel {
     private final List<Player> players;
@@ -19,15 +20,18 @@ public class GameModel {
     private Integer gameId;
     private Playground pg;
 
+    //maps the indexes of the players in the list with their position on the scoreBoard
+    //1,3 means the first player came in third place
+    private static Map<Integer, Integer> leaderBoard;
     private Integer currentPlaying;
 
     private Chat chat;
 
     private GameStatus status;
 
-    private Integer firstFinishedPlayer=-1;
+    private Integer firstFinishedPlayer = -1;
 
-    private Integer indexWonPlayer=-1;
+    private Integer indexWonPlayer = -1;
 
     private List<GameListener> listeners;
 
@@ -45,7 +49,7 @@ public class GameModel {
 
         chat = new Chat();
 
-        listeners=new ArrayList<>();
+        listeners = new ArrayList<>();
     }
 
     public GameModel(List<Player> players, List<CommonCard> commonCards, Integer gameId, Playground pg) {
@@ -83,17 +87,16 @@ public class GameModel {
     }
 
 
-    public void playerIsReadyToStart(Player p){
+    public void playerIsReadyToStart(Player p) {
         p.setReadyToStart();
         notify_PlayerIsReadyToStart(p.getNickname());
     }
 
-    public boolean arePlayersReadyToStartAndEnough(){
+    public boolean arePlayersReadyToStartAndEnough() {
         //Se tutti i giocatori sono pronti a giocare, inizia il game
         return players.stream().filter(Player::getReadyToStart)
                 .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
     }
-
 
 
     public int getNumOfCommonCards() {
@@ -118,24 +121,24 @@ public class GameModel {
     }
 
     public void setGoalCard(int indexPlayer, CardGoal c) throws SecretGoalAlreadyGivenException {
-        if(indexPlayer<players.size() && indexPlayer>=0) {
+        if (indexPlayer < players.size() && indexPlayer >= 0) {
             //Assegno la carta goal solo se non ce l'ha nessun altro player
             if (players.stream().noneMatch(x -> (x.getSecretGoal().isSameType(c)))) {
                 players.get(indexPlayer).setSecretGoal(c);
             } else {
                 throw new SecretGoalAlreadyGivenException();
             }
-        }else{
+        } else {
             throw new IndexPlayerOutOfBoundException();
         }
 
     }
 
-    public CommonCard getCommonCard(int i){
+    public CommonCard getCommonCard(int i) {
         return commonCards.get(i);
     }
 
-    public CardGoal getGoalCard(int indexPlayer){
+    public CardGoal getGoalCard(int indexPlayer) {
         return players.get(indexPlayer).getSecretGoal();
     }
 
@@ -168,67 +171,66 @@ public class GameModel {
         return chat;
     }
 
-    public void sendMessage(Player p, String txt){
-        if(players.stream().filter(x-> x.equals(p)).count()==1){
-            chat.addMsg(p,txt);
+    public void sendMessage(Player p, String txt) {
+        if (players.stream().filter(x -> x.equals(p)).count() == 1) {
+            chat.addMsg(p, txt);
             notify_SentMessage(chat.getLastMessage());
-        }else{
+        } else {
             throw new ActionPerformedByAPlayerNotPlayingException();
         }
 
     }
 
 
-
     public GameStatus getStatus() {
         return status;
     }
 
-    public Map<Player,CardGoal> getGoalCards(){
+    public Map<Player, CardGoal> getGoalCards() {
         Map<Player, CardGoal> ris = new HashMap<>();
 
-        for(Player p: players){
-            ris.put(p,p.getSecretGoal());
+        for (Player p : players) {
+            ris.put(p, p.getSecretGoal());
         }
         return ris;
     }
-    public boolean doAllPlayersHaveGoalCard(){
-        for(Player p: players){
-            if(p.getSecretGoal().getGoalType() == CardGoalType.NOT_SET)
+
+    public boolean doAllPlayersHaveGoalCard() {
+        for (Player p : players) {
+            if (p.getSecretGoal().getGoalType() == CardGoalType.NOT_SET)
                 return false;
         }
         return true;
     }
 
 
-
-    public void setStatus(GameStatus status)  {
+    public void setStatus(GameStatus status) {
         //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
-        if(status==GameStatus.RUNNING &&
-                (players.size()<DefaultValue.minNumOfPlayer
-                || getNumOfCommonCards()!=DefaultValue.NumOfCommonCards
+        if (status == GameStatus.RUNNING &&
+                (players.size() < DefaultValue.minNumOfPlayer
+                        || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
                         || !doAllPlayersHaveGoalCard())
-                        || currentPlaying==-1){
+                || currentPlaying == -1) {
             throw new NotReadyToRunException();
-        }else {
+        } else {
             this.status = status;
 
-            if(status==GameStatus.RUNNING) {
+            if (status == GameStatus.RUNNING) {
                 notify_GameStarted();
-            }else if(status==GameStatus.ENDED) {
+            } else if (status == GameStatus.ENDED) {
                 findWinner(); //Trovo il vincitore
                 notify_GameEnded();
             }
         }
     }
 
-    public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num){
+    public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
 
 
         List<Tile> ris;
 
         try {
-            ris = pg.grabTile(x,y,direction,num);
+            ris = pg.grabTile(x, y, direction, num);
 
             //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
             p.setInHandTile(ris);
@@ -240,19 +242,21 @@ public class GameModel {
         }
 
     }
-    public void positionTileOnShelf(Player p, int column, TileType type){
-        Tile t = popInHandTilePlayer(p,type);
-        if(t!=null){
-            p.getShelf().position(column,type);
+
+    public void positionTileOnShelf(Player p, int column, TileType type) {
+        Tile t = popInHandTilePlayer(p, type);
+        if (t != null) {
+            p.getShelf().position(column, type);
             notify_positionedTile();
-        }else{
+        } else {
             throw new PositioningATileNotGrabbedException();
         }
 
     }
-    private Tile popInHandTilePlayer(Player p, TileType tipo){
-        for(int i = 0; i< p.getInHandTile().size(); i++){
-            if(p.getInHandTile().get(i).isSameType(tipo)){
+
+    private Tile popInHandTilePlayer(Player p, TileType tipo) {
+        for (int i = 0; i < p.getInHandTile().size(); i++) {
+            if (p.getInHandTile().get(i).isSameType(tipo)) {
                 return p.getInHandTile().remove(i);
             }
         }
@@ -261,25 +265,24 @@ public class GameModel {
 
 
     public void nextTurn() throws GameEndedException {
-        if(status==GameStatus.RUNNING) {
-            if(players.get(currentPlaying).getInHandTile().size()==0) {
+        if (status == GameStatus.RUNNING) {
+            if (players.get(currentPlaying).getInHandTile().size() == 0) {
                 currentPlaying = (currentPlaying + 1) % players.size();
-                if(currentPlaying.equals(firstFinishedPlayer)){
+                if (currentPlaying.equals(firstFinishedPlayer)) {
                     throw new GameEndedException();
-                }else {
+                } else {
                     notify_nextTurn();
                 }
-            }else{
+            } else {
                 throw new NotEmptyHandException();
             }
-        }
-        else {
+        } else {
             throw new GameNotStartedException();
         }
     }
 
-    public void setFinishedPlayer(Integer indexPlayer){
-        firstFinishedPlayer=indexPlayer;
+    public void setFinishedPlayer(Integer indexPlayer) {
+        firstFinishedPlayer = indexPlayer;
     }
 
 
@@ -290,69 +293,91 @@ public class GameModel {
     /**
      * Controllo chi tra i vari player ha piú punti
      * Ritorna il Player con piú punti
+     *
      * @apiNote Ho cambiato il tipo di ritorno da void a Player
      */
+
     private void findWinner() {
-        int max = 0;
-        Integer winnerIndex=-1;
+        int max = -1;
+        int winnerIndex = -1;
+        int point;
+        leaderBoard = new HashMap<>();
+        Map<Integer, Integer> temp = new HashMap<>();
         //Cycle between every player point and return the one with more point
         for (int i = 0; i < getNumOfPlayers(); i++) {
-            int point = getPlayer(i).getTotalPoints();
-            if (point > max) {
+            point = getPlayer(i).getTotalPoints();
+            if (point >= max) {
+                temp.put(i, point);
                 max = point;
                 winnerIndex = i;
+
             }
         }
-        indexWonPlayer=winnerIndex;
+
+        //sorts temp and puts it into the leaderboard in order
+        leaderBoard = temp.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        indexWonPlayer = winnerIndex;
 
     }
 
 
-
-    public void addListener(GameListener obj){
+    public void addListener(GameListener obj) {
         listeners.add(obj);
     }
 
-    private void notify_JoinUnableGameFull(){
-        for(GameListener l : listeners)
+    private void notify_JoinUnableGameFull() {
+        for (GameListener l : listeners)
             l.JoinUnableGameFull(this);
     }
-    private void notify_JoinUnableNicknameAlreadyIn(String nick){
-        for(GameListener l : listeners)
+
+    private void notify_JoinUnableNicknameAlreadyIn(String nick) {
+        for (GameListener l : listeners)
             l.JoinUnableNicknameAlreadyIn(nick);
     }
-    private void notify_PlayerIsReadyToStart(String nick){
-        for(GameListener l : listeners)
+
+    private void notify_PlayerIsReadyToStart(String nick) {
+        for (GameListener l : listeners)
             l.PlayerIsReadyToStart(nick);
     }
 
-    private void notify_GameStarted(){
-        for(GameListener l : listeners)
+    private void notify_GameStarted() {
+        for (GameListener l : listeners)
             l.GameStarted(this);
     }
-    private void notify_GameEnded(){
-        for(GameListener l : listeners)
+
+    private void notify_GameEnded() {
+        for (GameListener l : listeners)
             l.GameEnded(this);
     }
-    private void notify_SentMessage(Message msg){
-        for(GameListener l : listeners)
+
+    private void notify_SentMessage(Message msg) {
+        for (GameListener l : listeners)
             l.SentMessage(msg);
     }
-    private void notify_grabbedTile(){
-        for(GameListener l : listeners)
+
+    private void notify_grabbedTile() {
+        for (GameListener l : listeners)
             l.grabbedTile(this);
     }
-    private void notify_positionedTile(){
-        for(GameListener l : listeners)
+
+    private void notify_positionedTile() {
+        for (GameListener l : listeners)
             l.positionedTile(this);
     }
 
-    private void notify_nextTurn(){
-        for(GameListener l : listeners)
+    private void notify_nextTurn() {
+        for (GameListener l : listeners)
             l.nextTurn(this);
     }
-    private void notify_grabbedTileNotCorrect(){
-        for(GameListener l : listeners)
+
+    private void notify_grabbedTileNotCorrect() {
+        for (GameListener l : listeners)
             l.grabbedTileNotCorrect(this);
     }
 
