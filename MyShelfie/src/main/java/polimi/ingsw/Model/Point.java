@@ -1,12 +1,14 @@
 package polimi.ingsw.Model;
 
 import polimi.ingsw.Model.Cards.Card;
+import polimi.ingsw.Model.Enumeration.CardGoalType;
+import polimi.ingsw.Model.Enumeration.CardType;
 
 public class Point {
     private Integer point;
-    private Card referredTo;
+    private CardType referredTo;
 
-    public Point(Integer point, Card referredTo) {
+    public Point(Integer point, CardType referredTo) {
         this.point = point;
         this.referredTo = referredTo;
     }
@@ -19,11 +21,11 @@ public class Point {
         this.point = point;
     }
 
-    public Card getReferredTo() {
+    public CardType getReferredTo() {
         return referredTo;
     }
 
-    public void setReferredTo(Card referredTo) {
+    public void setReferredTo(CardGoalType referredTo) {
         this.referredTo = referredTo;
     }
 

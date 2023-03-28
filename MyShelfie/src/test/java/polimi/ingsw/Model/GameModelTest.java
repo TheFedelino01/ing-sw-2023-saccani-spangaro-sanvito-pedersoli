@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import polimi.ingsw.Model.Cards.Common.*;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Message;
-import polimi.ingsw.Model.Common.*;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Enumeration.GameStatus;

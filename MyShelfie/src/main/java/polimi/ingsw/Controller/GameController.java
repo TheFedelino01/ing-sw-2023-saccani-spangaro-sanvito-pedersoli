@@ -80,7 +80,7 @@ public class GameController {
         //Creo i punti per la carta
         Queue<Point> ris = new ArrayDeque<Point>();
         for(int i=0; i<DefaultValue.pointsValue.length;i++)
-            ris.add(new Point(DefaultValue.pointsValue[i],card));
+            ris.add(new Point(DefaultValue.pointsValue[i],card.getCommonType()));
 
         return ris;
     }
@@ -90,10 +90,10 @@ public class GameController {
         int i = 0;
 
         do {
-            Integer extracted = random.nextInt(CardGoalType.values().length);
+            int extracted = random.nextInt(CardGoalType.getValues().size());
 
             try {
-                model.setGoalCard(i, new CardGoal(CardGoalType.values()[extracted]));
+                model.setGoalCard(i, new CardGoal(CardGoalType.getValues().get(extracted)));
                 i++;
             } catch (SecretGoalAlreadyGivenException e) {
                 //carta goal giá assegnata, non incremento i e riestraggo
@@ -124,21 +124,35 @@ public class GameController {
         return model.getGoalCards();
     }
 
-    public int getCurrentPlaying() {
+    public int getIndexCurrentPlaying() {
         return model.getCurrentPlaying();
+    }
+
+    private boolean isPlayerTheCurrentPlaying(Player p){
+        return whoIsPlaying().equals(p);
     }
 
 
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
-        model.grabTileFromPlayground(p, x, y, direction, num);
+        if(isPlayerTheCurrentPlaying(p)){
+            model.grabTileFromPlayground(p, x, y, direction, num);
+        }else{
+            throw new NotPlayerTurnException();
+        }
+
     }
 
-    public void positionTileOnShelf(Player p, int collum, TileType tipo) {
-        model.positionTileOnShelf(p, collum, tipo);
+    public void positionTileOnShelf(Player p, int column, TileType type) {
+        if(isPlayerTheCurrentPlaying(p)){
+            model.positionTileOnShelf(p, column, type);
+        }else{
+            throw new NotPlayerTurnException();
+        }
+
     }
 
     public void nextTurn() {
-        checkCommonCards(model.getPlayer(model.getCurrentPlaying()));
+        checkCommonCards(whoIsPlaying());
 
         if(whoIsPlaying().getShelf().getFreeSpace()==0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)){
             //Il gioco è finito perche ha completato tutta la sua shelf ed è stato il primo
