@@ -27,6 +27,7 @@ public class GameModel {
 
     private Integer firstFinishedPlayer=-1;
 
+    private Integer indexWonPlayer=-1;
 
     private List<GameListener> listeners;
 
@@ -296,16 +297,18 @@ public class GameModel {
      */
     private void findWinner() {
         int max = 0;
+        Integer winnerIndex=-1;
         //Cycle between every player point and return the one with more point
         for (int i = 0; i < getNumOfPlayers(); i++) {
             int point = getPlayer(i).getTotalPoints();
             if (point > max) {
                 max = point;
-                Integer winnerIndex = i;
+                winnerIndex = i;
             }
 
         }
-        //TODO: Caso player con stessi punti (per ora assumiamo no pareggio)
+        indexWonPlayer=winnerIndex;
+
     }
 
 
