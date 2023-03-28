@@ -80,7 +80,7 @@ public class GameController {
         //Creo i punti per la carta
         Queue<Point> ris = new ArrayDeque<Point>();
         for(int i=0; i<DefaultValue.pointsValue.length;i++)
-            ris.add(new Point(DefaultValue.pointsValue[i],card));
+            ris.add(new Point(DefaultValue.pointsValue[i],card.getCommonType()));
 
         return ris;
     }

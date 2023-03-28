@@ -1,9 +1,11 @@
 package polimi.ingsw.Model.Enumeration;
 
+import polimi.ingsw.Model.Cards.Card;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
-public enum CardGoalType {
+public enum CardGoalType implements CardType {
     GOAL0, GOAL1, GOAL2, GOAL3, GOAL4, GOAL5, GOAL6, GOAL7, GOAL8, GOAL9, GOAL10, GOAL11, NOT_SET;
 
     public static String toString(CardGoalType type){
