@@ -14,8 +14,8 @@ import polimi.ingsw.Model.Exceptions.*;
 import java.util.*;
 
 public class GameModel {
-    private List<Player> players;
-    private List<CommonCard> commonCards;
+    private final List<Player> players;
+    private final List<CommonCard> commonCards;
     private Integer gameId;
     private Playground pg;
 
@@ -32,8 +32,8 @@ public class GameModel {
     private List<GameListener> listeners;
 
     public GameModel() {
-        players = new ArrayList<Player>();
-        commonCards = new ArrayList<CommonCard>();
+        players = new ArrayList<>();
+        commonCards = new ArrayList<>();
 
         Random random = new Random();
         gameId = random.nextInt(10000000);
@@ -45,7 +45,7 @@ public class GameModel {
 
         chat = new Chat();
 
-        listeners=new ArrayList<GameListener>();
+        listeners=new ArrayList<>();
     }
 
     public GameModel(List<Player> players, List<CommonCard> commonCards, Integer gameId, Playground pg) {
@@ -90,11 +90,8 @@ public class GameModel {
 
     public boolean arePlayersReadyToStartAndEnough(){
         //Se tutti i giocatori sono pronti a giocare, inizia il game
-        if(players.stream().filter(Player::getReadyToStart)
-                .count()==players.size() && players.size()>= DefaultValue.minNumOfPlayer){
-            return true;
-        }
-        return false;
+        return players.stream().filter(Player::getReadyToStart)
+                .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
     }
 
 
@@ -228,7 +225,7 @@ public class GameModel {
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num){
 
 
-        List<Tile> ris = null;
+        List<Tile> ris;
 
         try {
             ris = pg.grabTile(x,y,direction,num);
@@ -305,7 +302,6 @@ public class GameModel {
                 max = point;
                 winnerIndex = i;
             }
-
         }
         indexWonPlayer=winnerIndex;
 
