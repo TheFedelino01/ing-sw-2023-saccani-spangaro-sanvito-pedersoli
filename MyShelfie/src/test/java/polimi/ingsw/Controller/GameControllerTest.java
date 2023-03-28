@@ -46,7 +46,7 @@ public class GameControllerTest {
         assertFalse(gameController.playerIsReadyToStart(plist.get(1)), "Game started but not everyone was ready");
         assertTrue(gameController.playerIsReadyToStart(plist.get(2)), "Game not started but everyone was ready to start");
 
-        assertTrue(gameController.getCurrentPlaying() >= 0 && gameController.getCurrentPlaying() < gameController.getNumOfPlayers(), "Turn index overflow");
+        assertTrue(gameController.getIndexCurrentPlaying() >= 0 && gameController.getIndexCurrentPlaying() < gameController.getNumOfPlayers(), "Turn index overflow");
 
         List<CommonCard> risCommon = gameController.getAllCommonCards();
 
@@ -81,7 +81,7 @@ public class GameControllerTest {
 
         List<CommonCard> risCommon = gameController.getAllCommonCards();
 
-        int currentPlayer = gameController.getCurrentPlaying();
+        int currentPlayer = gameController.getIndexCurrentPlaying();
 
         gameController.grabTileFromPlayground(plist.get(currentPlayer), 1, 3, Direction.DOWN, 1);
 
@@ -151,26 +151,26 @@ public class GameControllerTest {
         assertTrue(gameController.playerIsReadyToStart(plist.get(1)), "Game not started but everyone was ready to start");
 
 
-        int currentPlayer = gameController.getCurrentPlaying();
+        int currentPlayer = gameController.getIndexCurrentPlaying();
         if (currentPlayer == 0) {
             assertEquals(currentPlayer, 0, "The current player is not correct");
 
             gameController.nextTurn();
-            currentPlayer = gameController.getCurrentPlaying();
+            currentPlayer = gameController.getIndexCurrentPlaying();
             assertEquals(currentPlayer, 1, "The current player is not correct");
 
             gameController.nextTurn();
-            currentPlayer = gameController.getCurrentPlaying();
+            currentPlayer = gameController.getIndexCurrentPlaying();
             assertEquals(currentPlayer, 0, "The current player is not correct");
         } else {
             assertEquals(currentPlayer, 1, "The current player is not correct");
 
             gameController.nextTurn();
-            currentPlayer = gameController.getCurrentPlaying();
+            currentPlayer = gameController.getIndexCurrentPlaying();
             assertEquals(currentPlayer, 0, "The current player is not correct");
 
             gameController.nextTurn();
-            currentPlayer = gameController.getCurrentPlaying();
+            currentPlayer = gameController.getIndexCurrentPlaying();
             assertEquals(currentPlayer, 1, "The current player is not correct");
         }
     }

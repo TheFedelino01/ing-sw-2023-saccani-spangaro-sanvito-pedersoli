@@ -124,21 +124,35 @@ public class GameController {
         return model.getGoalCards();
     }
 
-    public int getCurrentPlaying() {
+    public int getIndexCurrentPlaying() {
         return model.getCurrentPlaying();
+    }
+
+    private boolean isPlayerTheCurrentPlaying(Player p){
+        return whoIsPlaying().equals(p);
     }
 
 
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
-        model.grabTileFromPlayground(p, x, y, direction, num);
+        if(isPlayerTheCurrentPlaying(p)){
+            model.grabTileFromPlayground(p, x, y, direction, num);
+        }else{
+            throw new NotPlayerTurnException();
+        }
+
     }
 
     public void positionTileOnShelf(Player p, int column, TileType type) {
-        model.positionTileOnShelf(p, column, type);
+        if(isPlayerTheCurrentPlaying(p)){
+            model.positionTileOnShelf(p, column, type);
+        }else{
+            throw new NotPlayerTurnException();
+        }
+
     }
 
     public void nextTurn() {
-        checkCommonCards(model.getPlayer(model.getCurrentPlaying()));
+        checkCommonCards(whoIsPlaying());
 
         if(whoIsPlaying().getShelf().getFreeSpace()==0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)){
             //Il gioco è finito perche ha completato tutta la sua shelf ed è stato il primo
