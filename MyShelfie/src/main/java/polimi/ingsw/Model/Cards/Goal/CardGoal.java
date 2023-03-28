@@ -79,18 +79,20 @@ public class CardGoal extends Card {
             throw new RuntimeException(e);
         }
         assert s != null;
-        int size = Arrays.asList(s.split(rowSplit)).size();
+
+        //get the matrix's dimensions
+        int sizeRow = Arrays.asList(s.split(rowSplit)).size();
+        int sizeCol = Arrays.asList(s.split(rowSplit)).get(0).split(colSplit).length;
         layoutToMatch = new Shelf();
 
         //this method is for splitting the string returned from the json file in a matrix
-        for(int i = 0; i<size; i++){ //6 rows, but 5 columns, that's the reason for size-1 in the internal for
-            for(int j = 0; j<size-1; j++){
+        for(int i = 0; i<sizeRow; i++){
+            for(int j = 0; j<sizeCol; j++){
                 layoutToMatch.setSingleTile(new Tile(TileType.getValues().get(
                                                                     Integer.parseInt(s.split(rowSplit)[i]
                                                                                         .split(colSplit)[j]))), i, j);
             }
         }
-        System.out.println("Ciao");
     }
 
     public Point verify(Shelf toCheck){
