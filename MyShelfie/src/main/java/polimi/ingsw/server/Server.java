@@ -26,10 +26,10 @@ public class Server extends Thread{
         }
     }
     public void stopConnection() throws IOException {
+        this.interrupt();
         for(ClientHandler c : handler){
             c.interruptThread();
         }
-        this.interrupt();
         serverSocket.close();
     }
 }
