@@ -1,6 +1,5 @@
 package polimi.ingsw.Model;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import polimi.ingsw.Model.Exceptions.*;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameModelTest {
