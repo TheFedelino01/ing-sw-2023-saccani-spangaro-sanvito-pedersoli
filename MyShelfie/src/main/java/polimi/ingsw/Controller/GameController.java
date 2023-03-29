@@ -220,6 +220,9 @@ public class GameController {
 
     }
 
+    /**
+     * Check if the player has completed the shelf, otherwise the turn is passed to the next player
+     */
     public void nextTurn() {
         checkCommonCards(whoIsPlaying());
 
