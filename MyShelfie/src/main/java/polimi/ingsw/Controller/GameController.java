@@ -1,5 +1,6 @@
 package polimi.ingsw.Controller;
 
+import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
@@ -287,4 +288,9 @@ public class GameController {
         return model.getPlayer(model.getCurrentPlaying());
     }
 
+
+    public void addListener(GameListener l, Player p){
+        model.addListener(l);
+        p.addListener(l);
+    }
 }

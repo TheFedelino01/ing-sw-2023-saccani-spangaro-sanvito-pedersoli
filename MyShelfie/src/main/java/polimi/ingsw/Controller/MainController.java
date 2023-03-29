@@ -6,29 +6,40 @@ import java.util.List;
 
 //Gestisce tutte le partite in particolare la creazione, il join e il leave
 public class MainController {
-    private List<GameController> runningGames;
-    public MainController(){
 
+    //Singleton
+    private static MainController instance = null;
+
+    private List<GameController> runningGames;
+
+
+    private MainController(){
+
+    }
+
+    public static MainController getInstance(){
+        if (instance == null) {
+            instance = new MainController();
+        }
+        return instance;
     }
 
     public GameController createGame(Player p){
-        return null;
+        GameController c = new GameController();
+        c.addPlayer(p);
+
+        return c;
     }
 
     public GameController joinFirstGameAvailable(Player p){
-        return null;
+        return null;//todo
     }
     public GameController joinGame(Player p, Integer id){
-        return null;
+        return null;//todo
     }
 
     public void leaveGame(Player p){
 
     }
-
-
-
-
-
 
 }
