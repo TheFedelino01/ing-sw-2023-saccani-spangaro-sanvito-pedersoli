@@ -89,12 +89,12 @@ public class GameControllerTest {
 
         assertThrows(PositioningATileNotGrabbedException.class, () -> gameController.positionTileOnShelf(plist.get(currentPlayer), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
 
-        assertTrue(plist.get(currentPlayer).getInHandTile().size()==1,"Grabbed mismatch");
+        assertEquals(1, plist.get(currentPlayer).getInHandTile().size(), "Grabbed mismatch");
         gameController.positionTileOnShelf(plist.get(currentPlayer), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
-        assertTrue(plist.get(currentPlayer).getInHandTile().size()==0,"Positioned tile on shelf but player's hand not free");
+        assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned tile on shelf but player's hand not free");
 
         if(!plist.get(currentPlayer).getShelf().get(DefaultValue.NumOfRowsShelf-1,0).isSameType(grabbed.getType())){
-            assertTrue(plist.get(currentPlayer).getInHandTile().size()==0,"Positioned a wrong tile");
+            assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned a wrong tile");
         }
 
 

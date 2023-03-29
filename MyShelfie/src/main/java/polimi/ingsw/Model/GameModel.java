@@ -63,8 +63,10 @@ public class GameModel {
         return players.size();
     }
 
+    public List<Player> getPlayers(){return players;}
+
     public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
-        //Verifico per prima cosa che il player non e' gia' presente
+        //Verifico per prima cosa che il player non è gia' presente
         //poi se non vado in overflow
         if (players.stream()
                 .noneMatch(x -> x.equals(p))) {
@@ -79,11 +81,6 @@ public class GameModel {
             throw new PlayerAlreadyInException();
         }
 
-    }
-
-
-    public Player getPlayer(int i) {
-        return players.get(i);
     }
 
 
@@ -305,7 +302,7 @@ public class GameModel {
         Map<Integer, Integer> temp = new HashMap<>();
         //Cycle between every player point and return the one with more point
         for (int i = 0; i < getNumOfPlayers(); i++) {
-            point = getPlayer(i).getTotalPoints();
+            point = getPlayers().get(i).getTotalPoints();
             if (point >= max) {
                 temp.put(i, point);
                 max = point;

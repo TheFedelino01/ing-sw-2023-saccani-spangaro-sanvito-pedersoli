@@ -21,8 +21,8 @@ public class Player {
         this.nickname=nickname;
         shelf=new Shelf();
         secretGoal= new CardGoal();
-        inHandTile = new ArrayList<Tile>();
-        obtainedPoints=new ArrayList<Point>();
+        inHandTile = new ArrayList<>();
+        obtainedPoints=new ArrayList<>();
         listeners= new ArrayList<>();
     }
     public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTile, List<Point> obtainedPoints) {

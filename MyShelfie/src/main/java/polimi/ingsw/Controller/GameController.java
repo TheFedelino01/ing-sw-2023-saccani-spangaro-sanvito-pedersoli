@@ -270,7 +270,7 @@ public class GameController {
     private void checkGoalCards() {
         //get the index of the player
         for(int i=0; i<model.getNumOfPlayers(); i++){
-            Player p = model.getPlayer(i);
+            Player p = model.getPlayers().get(i);
             CardGoal g = model.getGoalCard(i);
             Point point = g.verify(p.getShelf());
             if (point != null) {
@@ -284,7 +284,7 @@ public class GameController {
 
 
     public Player whoIsPlaying() {
-        return model.getPlayer(model.getCurrentPlaying());
+        return model.getPlayers().get(model.getCurrentPlaying());
     }
 
 }
