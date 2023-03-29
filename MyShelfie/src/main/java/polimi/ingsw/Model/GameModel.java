@@ -197,7 +197,7 @@ public class GameModel {
 
     public boolean doAllPlayersHaveGoalCard() {
         for (Player p : players) {
-            if (p.getSecretGoal().getGoalType() == CardGoalType.NOT_SET)
+            if (p.getSecretGoal().getGoalType().equals(CardGoalType.NOT_SET))
                 return false;
         }
         return true;
@@ -206,7 +206,7 @@ public class GameModel {
 
     public void setStatus(GameStatus status) {
         //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
-        if (status == GameStatus.RUNNING &&
+        if (status.equals(GameStatus.RUNNING) &&
                 (players.size() < DefaultValue.minNumOfPlayer
                         || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
                         || !doAllPlayersHaveGoalCard())
@@ -215,9 +215,9 @@ public class GameModel {
         } else {
             this.status = status;
 
-            if (status == GameStatus.RUNNING) {
+            if (status.equals(GameStatus.RUNNING)) {
                 notify_GameStarted();
-            } else if (status == GameStatus.ENDED) {
+            } else if (status.equals(GameStatus.ENDED)) {
                 findWinner(); //Trovo il vincitore
                 notify_GameEnded();
             }
@@ -265,7 +265,7 @@ public class GameModel {
 
 
     public void nextTurn() throws GameEndedException {
-        if (status == GameStatus.RUNNING) {
+        if (status.equals(GameStatus.RUNNING)) {
             if (players.get(currentPlaying).getInHandTile().size() == 0) {
                 currentPlaying = (currentPlaying + 1) % players.size();
                 if (currentPlaying.equals(firstFinishedPlayer)) {
