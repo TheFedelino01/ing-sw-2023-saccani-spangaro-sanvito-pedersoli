@@ -3,11 +3,12 @@ package polimi.ingsw.Model;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private String nickname;
     private Shelf shelf;
     private CardGoal secretGoal;

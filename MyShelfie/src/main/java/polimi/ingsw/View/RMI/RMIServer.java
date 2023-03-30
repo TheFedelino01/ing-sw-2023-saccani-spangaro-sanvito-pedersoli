@@ -9,18 +9,16 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIServer implements ClientRequestsInterface {
+public class RMIServer extends UnicastRemoteObject implements ClientRequestsInterface {
 
     private MainController mainController = MainController.getInstance();
     public static RMIServer bind(){
         RMIServer obj=null;
         try {
             obj = new RMIServer();
-            RMIServer stub = (RMIServer) UnicastRemoteObject.exportObject(obj, 0);
-
             // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
-            registry.rebind("myShelfie", stub);
+            Registry registry = LocateRegistry.createRegistry(4321);
+            registry.rebind("myShelfie", obj);
 
             System.err.println("Server RMI ready");
         } catch (Exception e) {
@@ -30,8 +28,8 @@ public class RMIServer implements ClientRequestsInterface {
         return obj;
     }
 
-    public RMIServer(){
-
+    public RMIServer() throws RemoteException{
+        super();
     }
     @Override
     public ControllerAndPlayer createGame(GameListener lis, String nick) throws RemoteException {

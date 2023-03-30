@@ -2,9 +2,11 @@ package polimi.ingsw.Model;
 
 import polimi.ingsw.Model.Enumeration.TileType;
 
+import java.io.Serializable;
+
 import static polimi.ingsw.Model.Enumeration.TileType.NOT_USED;
 
-public class Tile {
+public class Tile implements Serializable {
     private TileType TYPE;
     private boolean freeSide;
 

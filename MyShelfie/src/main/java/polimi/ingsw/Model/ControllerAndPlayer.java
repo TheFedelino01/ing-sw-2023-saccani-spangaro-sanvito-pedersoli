@@ -2,7 +2,9 @@ package polimi.ingsw.Model;
 
 import polimi.ingsw.View.RMI.ClientResponsesInterface;
 
-public class ControllerAndPlayer {
+import java.io.Serializable;
+
+public class ControllerAndPlayer implements Serializable {
     private ClientResponsesInterface lis;
     private Player p;
 

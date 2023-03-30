@@ -1,8 +1,9 @@
 package polimi.ingsw.Model;
 
+import java.io.Serializable;
 import java.util.Queue;
 
-public class DefaultValue {
+public class DefaultValue implements Serializable {
 
     public final static int MaxNumOfPlayer = 4;
     public final static int minNumOfPlayer = 2;

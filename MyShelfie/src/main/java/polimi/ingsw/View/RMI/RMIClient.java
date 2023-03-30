@@ -1,25 +1,27 @@
 package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.GameModel;
+import polimi.ingsw.Model.Player;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIClient {
+public class RMIClient extends UnicastRemoteObject implements GameListener{
 
     private ClientRequestsInterface requests;
     private GameListener responses;
 
 
-    public RMIClient(){
-
+    public RMIClient() throws RemoteException {
+        super();
     }
     public boolean connect(){
         try {
-
-            Registry registry = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
+            Registry registry = LocateRegistry.getRegistry(4321);
 
             requests = (ClientRequestsInterface) registry.lookup("myShelfie");
 
@@ -41,5 +43,65 @@ public class RMIClient {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void playerJoined(String nickNewPlayer) throws RemoteException {
+
+    }
+
+    @Override
+    public void JoinUnableGameFull(GameModel gamemodel) throws RemoteException {
+
+    }
+
+    @Override
+    public void JoinUnableNicknameAlreadyIn(String nick) throws RemoteException {
+
+    }
+
+    @Override
+    public void PlayerIsReadyToStart(String nick) throws RemoteException {
+
+    }
+
+    @Override
+    public void GameStarted(GameModel gamemodel) throws RemoteException {
+
+    }
+
+    @Override
+    public void GameEnded(GameModel gamemodel) throws RemoteException {
+
+    }
+
+    @Override
+    public void SentMessage(Message msg) throws RemoteException {
+
+    }
+
+    @Override
+    public void grabbedTile(GameModel gamemodel) throws RemoteException {
+
+    }
+
+    @Override
+    public void grabbedTileNotCorrect(GameModel gamemodel) throws RemoteException {
+
+    }
+
+    @Override
+    public void positionedTile(GameModel gameModel) throws RemoteException {
+
+    }
+
+    @Override
+    public void nextTurn(GameModel gameModel) throws RemoteException {
+
+    }
+
+    @Override
+    public void addedPoint(Player p) throws RemoteException {
+
     }
 }

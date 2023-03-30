@@ -4,7 +4,9 @@ import polimi.ingsw.Model.Cards.Card;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Enumeration.CardType;
 
-public class Point {
+import java.io.Serializable;
+
+public class Point implements Serializable {
     private Integer point;
     private CardType referredTo;
 
