@@ -20,7 +20,7 @@ public class ClientHandler extends Thread {
     public void run() {
         try (ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())) {
             try (ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream())) {
-                String inp = null;
+                String inp;
                 while (!Thread.interrupted()) {
                     try {
                         inp = in.readObject().toString();
