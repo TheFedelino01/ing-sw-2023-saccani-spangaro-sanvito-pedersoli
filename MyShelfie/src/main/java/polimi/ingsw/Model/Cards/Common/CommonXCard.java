@@ -11,6 +11,13 @@ public class CommonXCard extends CommonCard {
         super(type);
     }
 
+    /**
+     * Check if the player's shelf met the "X" goal
+     * X is the visual arrangement of tiles of the same type
+     *
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+
 public class CommonGroupsCard extends CommonCard {
 
     private static int param;
@@ -20,11 +21,19 @@ public class CommonGroupsCard extends CommonCard {
         CommonGroupsCard.param = param;
     }
 
+    /**
+     * Check if the player's shelf met the "adjacent" goal not in line
+     * One card is adjacent to the other if one of the edges touches the other
+     *
+     *
+     * @return true if the goal is satisfied, false else
+     */
+
     @Override
     public boolean verify(Shelf toCheck) {
         int sum = 0;
         switch (param) {
-            case (0) -> {
+            case (0) -> {       //check if there are 6 separate groups formed by 2 adjacent tiles of the same type
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //check vertical
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -38,7 +47,7 @@ public class CommonGroupsCard extends CommonCard {
                                 deleteAdjacent(toCheck, i, j, toCheck.get(i, j));
                             }
                         }
-                        if (j < DefaultValue.NumOfColumnsShelf - 1) {
+                        if (j < DefaultValue.NumOfColumnsShelf - 1) { //check horizontal
                             if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j) == toCheck.get(i, j + 1)) {
                                 sum = sum + 1;
                                 if (sum == 6) {
@@ -51,7 +60,7 @@ public class CommonGroupsCard extends CommonCard {
                 }
                 return false;
             }
-            case (1) -> {
+            case (1) -> {       //check if there are 4 separate groups formed by 4 adjacent tiles of the same type
                 int check = 0;
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -59,6 +68,7 @@ public class CommonGroupsCard extends CommonCard {
                             adjacentToFU(toCheck, i, j, toCheck.get(i, j));
                             sum = countAdjacent(toCheck);
                             if (sum >= 4) {
+                                //delete all the same adjacent elements
                                 deleteAdjacent(toCheck, i, j, toCheck.get(i, j));
                                 check = check + 1;
                                 if (check == 4) {
@@ -70,11 +80,11 @@ public class CommonGroupsCard extends CommonCard {
                 }
                 return false;
             }
-            case (2) -> {
+            case (2) -> {       //check if there are 2 separate groups formed by 4 adjacent "squared" tiles of the same type
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //vertical check
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                        if (i < DefaultValue.NumOfRowsShelf - 1 && j < DefaultValue.NumOfColumnsShelf - 1) {   //analyse 4
+                        if (i < DefaultValue.NumOfRowsShelf - 1 && j < DefaultValue.NumOfColumnsShelf - 1) {   //analyse square
                             if (!toCheck.get(i, j).isSameType(TileType.NOT_USED) &&
                                     toCheck.get(i, j) == toCheck.get(i + 1, j) &&
                                     toCheck.get(i, j) == toCheck.get(i, j + 1) &&
@@ -91,7 +101,7 @@ public class CommonGroupsCard extends CommonCard {
                 }
                 return false;
             }
-            case (3) -> {
+            case (3) -> {       //check if there are 8 tiles of the same type
                 Map<TileType, Integer> tileCheck = new HashMap<>();
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -118,7 +128,13 @@ public class CommonGroupsCard extends CommonCard {
         }
     }
 
-
+    /**
+     * Erase the adjacencies already counted
+     *
+     *
+     *
+     * @set the adjacent to FINISHED_USING
+     */
     private static void deleteAdjacent(Shelf playerShelf, int i, int j, Tile tile) {
 
         if (checkIfSafe(playerShelf, i, j, tile)) {
@@ -144,6 +160,13 @@ public class CommonGroupsCard extends CommonCard {
         }
     }
 
+    /**
+     * Check if the indices meet the shelf number of rows and columns
+     * Check if a different type of tile is found
+     *
+     *
+     * @return false if the limits are exceeded or is found a different type, the type of the tile else
+     */
     private static boolean checkIfSafe(Shelf playerShelf, int i, int j, Tile tile) {
         if (i < 0 || i >= DefaultValue.NumOfRowsShelf || j < 0
                 || j >= DefaultValue.NumOfColumnsShelf) {  //check if out of bounds
@@ -158,6 +181,13 @@ public class CommonGroupsCard extends CommonCard {
         }
     }
 
+    /**
+     * Count the number of adjacent tiles of the same type
+     *
+     *
+     *
+     * @return res = number of adjacent tiles
+     */
     private static int countAdjacent(Shelf playerShelf) {
         int res = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
