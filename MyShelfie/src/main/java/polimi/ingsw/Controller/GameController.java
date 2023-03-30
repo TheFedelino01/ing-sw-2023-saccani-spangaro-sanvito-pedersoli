@@ -7,11 +7,12 @@ import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
+import polimi.ingsw.View.RMI.GameControllerInterface;
 import polimi.ingsw.View.View;
 
 import java.util.*;
 
-public class GameController {
+public class GameController implements GameControllerInterface {
     private final GameModel model;
     private final Random random = new Random();
     private View view;

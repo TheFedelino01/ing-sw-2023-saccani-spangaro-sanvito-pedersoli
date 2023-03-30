@@ -11,10 +11,13 @@ import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.*;
 
+import java.io.ObjectStreamException;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GameModel {
+public class GameModel implements Serializable {
     private final List<Player> players;
     private final List<CommonCard> commonCards;
     private Integer gameId;
@@ -33,7 +36,7 @@ public class GameModel {
 
     private Integer indexWonPlayer = -1;
 
-    private List<GameListener> listeners;
+    private transient List<GameListener> listeners;
 
     public GameModel() {
         players = new ArrayList<>();
@@ -50,6 +53,12 @@ public class GameModel {
         chat = new Chat();
 
         listeners = new ArrayList<>();
+    }
+
+    @Serial
+    private Object readResolve() throws ObjectStreamException {
+        listeners = new ArrayList<>();
+        return this;
     }
 
     public GameModel(List<Player> players, List<CommonCard> commonCards, Integer gameId, Playground pg) {

@@ -14,41 +14,46 @@ import java.rmi.server.UnicastRemoteObject;
 public class RMIServer implements ClientRequestsInterface {
 
     private MainController mainController = MainController.getInstance();
-    public RMIServer(){
+    public static RMIServer bind(){
+        RMIServer obj=null;
         try {
-            RMIServer obj = new RMIServer();
+            obj = new RMIServer();
             RMIServer stub = (RMIServer) UnicastRemoteObject.exportObject(obj, 0);
 
             // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.getRegistry();
-            registry.bind("myShelfie", stub);
+            Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+            registry.rebind("myShelfie", stub);
 
             System.err.println("Server RMI ready");
         } catch (Exception e) {
             System.err.println("Server RMI exception: " + e.toString());
             e.printStackTrace();
         }
+        return obj;
     }
 
+    public RMIServer(){
+
+    }
     @Override
-    public GameController createGame(GameListener lis, Player p) throws RemoteException {
+    public ControllerAndPlayer createGame(GameListener lis, Player p) throws RemoteException {
         GameController c = mainController.createGame(p);
         c.addListener(lis,p);
-        return c;
+        return new ControllerAndPlayer(c,p);
     }
 
     @Override
-    public GameController joinFirstAvailableGame(GameListener lis, Player p) throws RemoteException {
+    public ControllerAndPlayer joinFirstAvailableGame(GameListener lis, Player p) throws RemoteException {
         GameController c = mainController.joinFirstGameAvailable(p);
         c.addListener(lis,p);
-        return c;
+        return new ControllerAndPlayer(c,p);
     }
 
     @Override
-    public GameController joinGame(GameListener lis, Player p, Integer idGame) throws RemoteException {
+    public ControllerAndPlayer joinGame(GameListener lis, Player p, Integer idGame) throws RemoteException {
         GameController c = mainController.joinGame(p,idGame);
         c.addListener(lis,p);
-        return c;
+        return new ControllerAndPlayer(c,p);
     }
 
 }
