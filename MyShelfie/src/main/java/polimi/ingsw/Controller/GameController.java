@@ -10,9 +10,11 @@ import polimi.ingsw.Model.Exceptions.*;
 import polimi.ingsw.View.RMI.ClientResponsesInterface;
 import polimi.ingsw.View.View;
 
+import java.io.Serializable;
+import java.rmi.Remote;
 import java.util.*;
 
-public class GameController implements ClientResponsesInterface {
+public class GameController implements ClientResponsesInterface, Serializable {
     private final GameModel model;
     private final Random random = new Random();
     private View view;
@@ -36,6 +38,7 @@ public class GameController implements ClientResponsesInterface {
     public Boolean addPlayer(Player p) {
         try {
             model.addPlayer(p);
+
             return true;
         } catch (PlayerAlreadyInException | MaxPlayersInException e) {
             return false;

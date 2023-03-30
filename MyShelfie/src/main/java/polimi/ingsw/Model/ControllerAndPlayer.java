@@ -13,11 +13,11 @@ public class ControllerAndPlayer implements Serializable {
         this.p = p;
     }
 
-    public ClientResponsesInterface getLis() {
+    public ClientResponsesInterface getGameControllerInterface() {
         return lis;
     }
 
-    public Player getP() {
+    public Player getPlayerIdentity() {
         return p;
     }
 }

@@ -14,13 +14,15 @@ public class App
 {
     public static void main( String[] args ) throws RemoteException, NotBoundException {
         RMIClient client = new RMIClient();
+        RMIClient client2 = new RMIClient();
 
         RMIServer server = RMIServer.bind();
 
 
         client.connect();
+        client2.connect();
 
         client.createGame("pino");
-
+        client2.createGame("paolo");
     }
 }

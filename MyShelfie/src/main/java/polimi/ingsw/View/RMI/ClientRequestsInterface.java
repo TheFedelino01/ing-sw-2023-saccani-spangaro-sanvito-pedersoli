@@ -2,6 +2,7 @@ package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.ControllerAndPlayer;
+import polimi.ingsw.Model.Exceptions.NotAvailableGamesException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

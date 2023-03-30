@@ -18,6 +18,15 @@ public class ListenersHandler {
         listeners.add(obj);
     }
 
+    public void notify_playerJoined(String nick){
+        for (GameListener l : listeners) {
+            try {
+                l.playerJoined(nick);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     public void notify_JoinUnableGameFull(GameModel model) {
         for (GameListener l : listeners) {
             try {

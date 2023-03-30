@@ -3,6 +3,7 @@ package polimi.ingsw.View.RMI;
 import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.ControllerAndPlayer;
+import polimi.ingsw.Model.Exceptions.NotAvailableGamesException;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -11,7 +12,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIServer extends UnicastRemoteObject implements ClientRequestsInterface {
 
-    private MainController mainController = MainController.getInstance();
+    private ClientRequestsInterface mainController;
+
     public static RMIServer bind(){
         RMIServer obj=null;
         try {
@@ -20,7 +22,8 @@ public class RMIServer extends UnicastRemoteObject implements ClientRequestsInte
             Registry registry = LocateRegistry.createRegistry(4321);
             registry.rebind("myShelfie", obj);
 
-            System.err.println("Server RMI ready");
+
+            System.out.println("Server RMI ready");
         } catch (Exception e) {
             System.err.println("Server RMI exception: " + e.toString());
             e.printStackTrace();
@@ -30,20 +33,21 @@ public class RMIServer extends UnicastRemoteObject implements ClientRequestsInte
 
     public RMIServer() throws RemoteException{
         super();
+        mainController = (ClientRequestsInterface) UnicastRemoteObject.exportObject(MainController.getInstance(),0);
     }
     @Override
     public ControllerAndPlayer createGame(GameListener lis, String nick) throws RemoteException {
-        return mainController.createGame(nick,lis);
+        return mainController.createGame(lis,nick);
     }
 
     @Override
     public ControllerAndPlayer joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
-        return mainController.joinFirstGameAvailable(nick, lis);
+        return mainController.joinFirstAvailableGame(lis,nick);
     }
 
     @Override
     public ControllerAndPlayer joinGame(GameListener lis, String nick, Integer idGame) throws RemoteException {
-        return mainController.joinGame(nick,0,lis);
+        return mainController.joinGame(lis,nick,idGame);
     }
 
 }

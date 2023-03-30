@@ -12,7 +12,7 @@ public class GameListenersHandler implements GameListener {
 
 
     @Override
-    public void playerJoined(String nickNewPlayer) throws RemoteException {
+    public void playerJoined(String nickNewPlayer) {
         System.out.println(nickNewPlayer+" has just joined!");
     }
 
