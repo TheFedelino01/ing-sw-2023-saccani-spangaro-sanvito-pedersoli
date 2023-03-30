@@ -1,25 +1,24 @@
 package polimi.ingsw;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import polimi.ingsw.client.ClientBase;
 import polimi.ingsw.server.Server;
 
 import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class SocketTest {
 
     private final static String ip = "127.0.0.1";
-    private final static int port = 3000;
+    private final static int port = 4567;
     private static ClientBase client, client2, client3;
     private static Server server;
 
     @BeforeEach
     void setup() throws IOException {
         server = new Server();
-        server.start(3000);
+        server.start(port);
         client = new ClientBase();
         client.startConnection(ip, port);
         client2 = new ClientBase();
@@ -72,9 +71,18 @@ public class SocketTest {
         assertEquals("Ciao Ciao", respCl12);
         assertEquals("Ciao Ciao", respCl22);
         assertEquals("Ciao Ciao", respCl32);
-
     }
 
+    @Test
+    @DisplayName("Test for lots of messages")
+    void testInfinite() throws IOException, ClassNotFoundException {
+        for(int i = 0; i<10; i++){
+            String ciao = client.sendMsg("ciao");
+            assertEquals("ciao", ciao);
+        }
+        //Closes the connection
+        client.sendMsg(".");
+    }
 
 
 }
