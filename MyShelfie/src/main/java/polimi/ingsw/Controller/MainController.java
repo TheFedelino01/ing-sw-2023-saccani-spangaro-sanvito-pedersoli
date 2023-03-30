@@ -1,7 +1,10 @@
 package polimi.ingsw.Controller;
 
+import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Model.ControllerAndPlayer;
 import polimi.ingsw.Model.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //Gestisce tutte le partite in particolare la creazione, il join e il leave
@@ -14,7 +17,7 @@ public class MainController {
 
 
     private MainController(){
-
+        runningGames = new ArrayList<GameController>();
     }
 
     public static MainController getInstance(){
@@ -24,22 +27,27 @@ public class MainController {
         return instance;
     }
 
-    public GameController createGame(Player p){
+    public ControllerAndPlayer createGame(String nick, GameListener lis){
+        Player p = new Player(nick);
+
         GameController c = new GameController();
+        runningGames.add(c);
         c.addPlayer(p);
 
-        return c;
+        c.addListener(lis,p);
+
+
+        return new ControllerAndPlayer(c,p);
     }
 
-    public GameController joinFirstGameAvailable(Player p){
+
+    public ControllerAndPlayer joinFirstGameAvailable(String nick, GameListener lis){
         return null;//todo
     }
-    public GameController joinGame(Player p, Integer id){
+    public ControllerAndPlayer joinGame(String nick, Integer id, GameListener lis){
         return null;//todo
     }
 
-    public void leaveGame(Player p){
 
-    }
 
 }

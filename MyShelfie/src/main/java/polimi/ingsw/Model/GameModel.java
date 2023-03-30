@@ -1,10 +1,10 @@
 package polimi.ingsw.Model;
 
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Listener.ListenersHandler;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
-import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.GameStatus;
@@ -36,7 +36,7 @@ public class GameModel implements Serializable {
 
     private Integer indexWonPlayer = -1;
 
-    private transient List<GameListener> listeners;
+    private transient ListenersHandler listenersHandler;
 
     public GameModel() {
         players = new ArrayList<>();
@@ -52,12 +52,12 @@ public class GameModel implements Serializable {
 
         chat = new Chat();
 
-        listeners = new ArrayList<>();
+        listenersHandler = new ListenersHandler();
     }
 
     @Serial
     private Object readResolve() throws ObjectStreamException {
-        listeners = new ArrayList<>();
+        listenersHandler = new ListenersHandler();
         return this;
     }
 
@@ -80,11 +80,11 @@ public class GameModel implements Serializable {
             if (players.size() + 1 <= DefaultValue.MaxNumOfPlayer) {
                 players.add(p);
             } else {
-                notify_JoinUnableGameFull();
+                listenersHandler.notify_JoinUnableGameFull(this);
                 throw new MaxPlayersInException();
             }
         } else {
-            notify_JoinUnableNicknameAlreadyIn(p.getNickname());
+            listenersHandler.notify_JoinUnableNicknameAlreadyIn(p.getNickname());
             throw new PlayerAlreadyInException();
         }
 
@@ -98,7 +98,7 @@ public class GameModel implements Serializable {
 
     public void playerIsReadyToStart(Player p) {
         p.setReadyToStart();
-        notify_PlayerIsReadyToStart(p.getNickname());
+        listenersHandler.notify_PlayerIsReadyToStart(p.getNickname());
     }
 
     public boolean arePlayersReadyToStartAndEnough() {
@@ -183,7 +183,7 @@ public class GameModel implements Serializable {
     public void sendMessage(Player p, String txt) {
         if (players.stream().filter(x -> x.equals(p)).count() == 1) {
             chat.addMsg(p, txt);
-            notify_SentMessage(chat.getLastMessage());
+            listenersHandler.notify_SentMessage(chat.getLastMessage());
         } else {
             throw new ActionPerformedByAPlayerNotPlayingException();
         }
@@ -225,10 +225,10 @@ public class GameModel implements Serializable {
             this.status = status;
 
             if (status == GameStatus.RUNNING) {
-                notify_GameStarted();
+                listenersHandler.notify_GameStarted(this);
             } else if (status == GameStatus.ENDED) {
                 findWinner(); //Trovo il vincitore
-                notify_GameEnded();
+                listenersHandler.notify_GameEnded(this);
             }
         }
     }
@@ -243,11 +243,11 @@ public class GameModel implements Serializable {
 
             //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
             p.setInHandTile(ris);
-            notify_grabbedTile();
+            listenersHandler.notify_grabbedTile(this);
 
         } catch (TileGrabbedNotCorrectException e) {
             //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
-            notify_grabbedTileNotCorrect();
+            listenersHandler.notify_grabbedTileNotCorrect(this);
         }
 
     }
@@ -256,7 +256,7 @@ public class GameModel implements Serializable {
         Tile t = popInHandTilePlayer(p, type);
         if (t != null) {
             p.getShelf().position(column, type);
-            notify_positionedTile();
+            listenersHandler.notify_positionedTile(this);
         } else {
             throw new PositioningATileNotGrabbedException();
         }
@@ -280,7 +280,7 @@ public class GameModel implements Serializable {
                 if (currentPlaying.equals(firstFinishedPlayer)) {
                     throw new GameEndedException();
                 } else {
-                    notify_nextTurn();
+                    listenersHandler.notify_nextTurn(this);
                 }
             } else {
                 throw new NotEmptyHandException();
@@ -337,57 +337,9 @@ public class GameModel implements Serializable {
 
 
     public void addListener(GameListener obj) {
-        listeners.add(obj);
+        listenersHandler.addListener(obj);
     }
 
-    private void notify_JoinUnableGameFull() {
-        for (GameListener l : listeners)
-            l.JoinUnableGameFull(this);
-    }
 
-    private void notify_JoinUnableNicknameAlreadyIn(String nick) {
-        for (GameListener l : listeners)
-            l.JoinUnableNicknameAlreadyIn(nick);
-    }
-
-    private void notify_PlayerIsReadyToStart(String nick) {
-        for (GameListener l : listeners)
-            l.PlayerIsReadyToStart(nick);
-    }
-
-    private void notify_GameStarted() {
-        for (GameListener l : listeners)
-            l.GameStarted(this);
-    }
-
-    private void notify_GameEnded() {
-        for (GameListener l : listeners)
-            l.GameEnded(this);
-    }
-
-    private void notify_SentMessage(Message msg) {
-        for (GameListener l : listeners)
-            l.SentMessage(msg);
-    }
-
-    private void notify_grabbedTile() {
-        for (GameListener l : listeners)
-            l.grabbedTile(this);
-    }
-
-    private void notify_positionedTile() {
-        for (GameListener l : listeners)
-            l.positionedTile(this);
-    }
-
-    private void notify_nextTurn() {
-        for (GameListener l : listeners)
-            l.nextTurn(this);
-    }
-
-    private void notify_grabbedTileNotCorrect() {
-        for (GameListener l : listeners)
-            l.grabbedTileNotCorrect(this);
-    }
 
 }

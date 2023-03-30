@@ -3,6 +3,7 @@ package polimi.ingsw.Model;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +105,12 @@ public class Player {
         listeners.add(obj);
     }
     private void notify_addedPoint(){
-        for(GameListener l : listeners)
-            l.addedPoint(this);
+        for(GameListener l : listeners) {
+            try {
+                l.addedPoint(this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

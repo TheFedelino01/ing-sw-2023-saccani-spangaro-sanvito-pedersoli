@@ -1,10 +1,8 @@
 package polimi.ingsw.View.RMI;
 
-import polimi.ingsw.Controller.GameController;
 import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Player;
-import polimi.ingsw.View.View;
+import polimi.ingsw.Model.ControllerAndPlayer;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -36,24 +34,18 @@ public class RMIServer implements ClientRequestsInterface {
 
     }
     @Override
-    public ControllerAndPlayer createGame(GameListener lis, Player p) throws RemoteException {
-        GameController c = mainController.createGame(p);
-        c.addListener(lis,p);
-        return new ControllerAndPlayer(c,p);
+    public ControllerAndPlayer createGame(GameListener lis, String nick) throws RemoteException {
+        return mainController.createGame(nick,lis);
     }
 
     @Override
-    public ControllerAndPlayer joinFirstAvailableGame(GameListener lis, Player p) throws RemoteException {
-        GameController c = mainController.joinFirstGameAvailable(p);
-        c.addListener(lis,p);
-        return new ControllerAndPlayer(c,p);
+    public ControllerAndPlayer joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+        return mainController.joinFirstGameAvailable(nick, lis);
     }
 
     @Override
-    public ControllerAndPlayer joinGame(GameListener lis, Player p, Integer idGame) throws RemoteException {
-        GameController c = mainController.joinGame(p,idGame);
-        c.addListener(lis,p);
-        return new ControllerAndPlayer(c,p);
+    public ControllerAndPlayer joinGame(GameListener lis, String nick, Integer idGame) throws RemoteException {
+        return mainController.joinGame(nick,0,lis);
     }
 
 }

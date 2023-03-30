@@ -1,40 +1,19 @@
-package polimi.ingsw.View;
+package polimi.ingsw.View.RMI;
 
-import polimi.ingsw.Controller.GameController;
-import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
 
-import java.net.Socket;
 import java.rmi.RemoteException;
 
-public class SocketWithClientView implements Runnable, GameListener {
-    private Socket clientSocket;
-    private MainController mainController; //Controller principale che gestisce tutti i game
-    private Player player=null; //L'entitá Player della socket
-    private GameController gameController; //Il controller del game dentro al quale gioca
+//This class handles all the responses that the server RMI sends
+public class GameListenersHandler implements GameListener {
 
-
-    public SocketWithClientView(Socket client){
-        clientSocket=client;
-    }
-
-    @Override
-    public void run() {
-        //....
-
-    }
-
-
-    private void iamReady(){
-        gameController.playerIsReadyToStart(player);
-    }
 
     @Override
     public void playerJoined(String nickNewPlayer) throws RemoteException {
-
+        System.out.println(nickNewPlayer+" has just joined!");
     }
 
     @Override

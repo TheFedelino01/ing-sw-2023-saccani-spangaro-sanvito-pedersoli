@@ -4,19 +4,23 @@ import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
 
-public interface GameListener {
-    public void JoinUnableGameFull(GameModel gamemodel);
-    public void JoinUnableNicknameAlreadyIn(String nick);
-    public void PlayerIsReadyToStart(String nick);
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-    public void GameStarted(GameModel gamemodel);
-    public void GameEnded(GameModel gamemodel);
+public interface GameListener extends Remote {
+    public void playerJoined(String nickNewPlayer) throws RemoteException;;
+    public void JoinUnableGameFull(GameModel gamemodel) throws RemoteException;
+    public void JoinUnableNicknameAlreadyIn(String nick) throws RemoteException;
+    public void PlayerIsReadyToStart(String nick) throws RemoteException;
 
-    public void SentMessage(Message msg);
-    public void grabbedTile(GameModel gamemodel);
-    public void grabbedTileNotCorrect(GameModel gamemodel);
-    public void positionedTile(GameModel gameModel);
-    public void nextTurn(GameModel gameModel);
+    public void GameStarted(GameModel gamemodel) throws RemoteException;
+    public void GameEnded(GameModel gamemodel) throws RemoteException;
 
-    public void addedPoint(Player p);
+    public void SentMessage(Message msg) throws RemoteException;
+    public void grabbedTile(GameModel gamemodel) throws RemoteException;
+    public void grabbedTileNotCorrect(GameModel gamemodel) throws RemoteException;
+    public void positionedTile(GameModel gameModel) throws RemoteException;
+    public void nextTurn(GameModel gameModel) throws RemoteException;
+
+    public void addedPoint(Player p) throws RemoteException;
 }
