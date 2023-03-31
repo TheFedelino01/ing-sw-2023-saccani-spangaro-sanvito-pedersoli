@@ -1,6 +1,6 @@
 package polimi.ingsw.Model.Exceptions;
 
-public class MaxPlayersInException extends Exception{
+public class MaxPlayersInException extends RuntimeException{
     public MaxPlayersInException(){ super(); }
 
 }

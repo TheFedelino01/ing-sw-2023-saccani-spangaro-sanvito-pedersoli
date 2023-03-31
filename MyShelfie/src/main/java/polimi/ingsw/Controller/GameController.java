@@ -11,7 +11,6 @@ import polimi.ingsw.View.RMI.ClientResponsesInterface;
 import polimi.ingsw.View.View;
 
 import java.io.Serializable;
-import java.rmi.Remote;
 import java.util.*;
 
 public class GameController implements ClientResponsesInterface, Serializable {
@@ -35,14 +34,8 @@ public class GameController implements ClientResponsesInterface, Serializable {
      * @exception MaxPlayersInException when the game has already reached its full capability (#player=4)
      * @return true if player is added and is now in game, false else
      */
-    public Boolean addPlayer(Player p) {
-        try {
-            model.addPlayer(p);
-
-            return true;
-        } catch (PlayerAlreadyInException | MaxPlayersInException e) {
-            return false;
-        }
+    public void addPlayer(Player p) throws PlayerAlreadyInException,MaxPlayersInException{
+        model.addPlayer(p);
     }
 
     /**
@@ -292,9 +285,18 @@ public class GameController implements ClientResponsesInterface, Serializable {
         return model.getPlayer(model.getCurrentPlaying());
     }
 
+    public GameStatus getStatus(){
+        return model.getStatus();
+    }
+
 
     public void addListener(GameListener l, Player p){
         model.addListener(l);
         p.addListener(l);
+    }
+
+    public void removeListener(GameListener lis, Player p) {
+        model.removeListener(lis);
+        p.removeListener(lis);
     }
 }

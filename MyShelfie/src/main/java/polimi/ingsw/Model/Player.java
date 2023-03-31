@@ -102,6 +102,7 @@ public class Player implements Serializable {
         return this.nickname.equals(p.nickname);
     }
 
+
     public void addListener(GameListener obj){
         listeners.add(obj);
     }
@@ -113,5 +114,9 @@ public class Player implements Serializable {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void removeListener(GameListener lis) {
+        listeners.remove(lis);
     }
 }

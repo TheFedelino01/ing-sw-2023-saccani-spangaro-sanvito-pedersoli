@@ -2,6 +2,7 @@ package polimi.ingsw.Listener;
 
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.GameModel;
+import polimi.ingsw.Model.Player;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -27,20 +28,20 @@ public class ListenersHandler {
             }
         }
     }
-    public void notify_JoinUnableGameFull(GameModel model) {
+    public void notify_JoinUnableGameFull(Player playerWantedToJoin,GameModel model) {
         for (GameListener l : listeners) {
             try {
-                l.JoinUnableGameFull(model);
+                l.JoinUnableGameFull(playerWantedToJoin,model);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void notify_JoinUnableNicknameAlreadyIn(String nick) {
+    public void notify_JoinUnableNicknameAlreadyIn(Player playerWantedToJoin) {
         for (GameListener l : listeners) {
             try {
-                l.JoinUnableNicknameAlreadyIn(nick);
+                l.JoinUnableNicknameAlreadyIn(playerWantedToJoin);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -125,5 +126,9 @@ public class ListenersHandler {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void removeListener(GameListener lis) {
+        listeners.remove(lis);
     }
 }

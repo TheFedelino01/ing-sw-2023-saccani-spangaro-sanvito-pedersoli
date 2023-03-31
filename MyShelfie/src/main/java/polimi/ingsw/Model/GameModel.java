@@ -81,11 +81,11 @@ public class GameModel implements Serializable {
                 players.add(p);
                 listenersHandler.notify_playerJoined(p.getNickname());
             } else {
-                listenersHandler.notify_JoinUnableGameFull(this);
+                listenersHandler.notify_JoinUnableGameFull(p,this);
                 throw new MaxPlayersInException();
             }
         } else {
-            listenersHandler.notify_JoinUnableNicknameAlreadyIn(p.getNickname());
+            listenersHandler.notify_JoinUnableNicknameAlreadyIn(p);
             throw new PlayerAlreadyInException();
         }
 
@@ -342,5 +342,7 @@ public class GameModel implements Serializable {
     }
 
 
-
+    public void removeListener(GameListener lis) {
+        listenersHandler.removeListener(lis);
+    }
 }

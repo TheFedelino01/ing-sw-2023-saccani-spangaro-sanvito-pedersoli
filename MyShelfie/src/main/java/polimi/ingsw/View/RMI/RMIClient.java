@@ -11,7 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient extends UnicastRemoteObject{
 
-    private ClientRequestsInterface requests;
+    private MainControllerInterface requests;
     private GameListener responses;
 
     private ClientResponsesInterface gameController=null;
@@ -23,7 +23,7 @@ public class RMIClient extends UnicastRemoteObject{
     public boolean connect(){
         try {
             Registry registry = LocateRegistry.getRegistry(4321);
-            requests = (ClientRequestsInterface) registry.lookup("myShelfie");
+            requests = (MainControllerInterface) registry.lookup("myShelfie");
             responses = (GameListener) UnicastRemoteObject.exportObject(new GameListenersHandler(),0);
 
             System.out.println("Client RMI ready");

@@ -38,14 +38,15 @@ public class SocketWithClientView implements Runnable, GameListener {
     }
 
     @Override
-    public void JoinUnableGameFull(GameModel gamemodel) {
+    public void JoinUnableGameFull(Player wantedToJoin, GameModel gamemodel) throws RemoteException {
 
     }
 
     @Override
-    public void JoinUnableNicknameAlreadyIn(String nick) {
+    public void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
 
     }
+
 
     @Override
     public void PlayerIsReadyToStart(String nick) {

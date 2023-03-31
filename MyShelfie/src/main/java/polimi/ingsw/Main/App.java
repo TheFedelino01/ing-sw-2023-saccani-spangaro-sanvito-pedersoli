@@ -23,6 +23,6 @@ public class App
         client2.connect();
 
         client.createGame("pino");
-        client2.createGame("paolo");
+        client2.joinFirstAvailable("pino");
     }
 }

@@ -13,18 +13,21 @@ public class GameListenersHandler implements GameListener {
 
     @Override
     public void playerJoined(String nickNewPlayer) {
-        System.out.println(nickNewPlayer+" has just joined!");
+        System.out.println(this.hashCode()+"> "+nickNewPlayer+" has just joined!");
     }
 
     @Override
-    public void JoinUnableGameFull(GameModel gamemodel) {
+    public void JoinUnableGameFull(Player wantedToJoin, GameModel gamemodel) throws RemoteException {
 
     }
 
     @Override
-    public void JoinUnableNicknameAlreadyIn(String nick) {
-
+    public void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+        System.out.println(this.hashCode() + "> " + wantedToJoin.getNickname() + " has already in");
     }
+
+
+
 
     @Override
     public void PlayerIsReadyToStart(String nick) {

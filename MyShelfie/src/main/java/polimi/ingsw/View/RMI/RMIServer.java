@@ -3,16 +3,15 @@ package polimi.ingsw.View.RMI;
 import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.ControllerAndPlayer;
-import polimi.ingsw.Model.Exceptions.NotAvailableGamesException;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIServer extends UnicastRemoteObject implements ClientRequestsInterface {
+public class RMIServer extends UnicastRemoteObject implements MainControllerInterface {
 
-    private ClientRequestsInterface mainController;
+    private MainControllerInterface mainController;
 
     public static RMIServer bind(){
         RMIServer obj=null;
@@ -33,7 +32,7 @@ public class RMIServer extends UnicastRemoteObject implements ClientRequestsInte
 
     public RMIServer() throws RemoteException{
         super();
-        mainController = (ClientRequestsInterface) UnicastRemoteObject.exportObject(MainController.getInstance(),0);
+        mainController = (MainControllerInterface) UnicastRemoteObject.exportObject(MainController.getInstance(),0);
     }
     @Override
     public ControllerAndPlayer createGame(GameListener lis, String nick) throws RemoteException {

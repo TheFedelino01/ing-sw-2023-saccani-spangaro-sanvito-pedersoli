@@ -7,6 +7,7 @@ import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Enumeration.*;
+import polimi.ingsw.Model.Exceptions.PlayerAlreadyInException;
 import polimi.ingsw.Model.Exceptions.PositioningATileNotGrabbedException;
 
 import java.util.*;
@@ -33,13 +34,13 @@ public class GameControllerTest {
     @DisplayName("Join Player and Start")
     void joinPlayersAndStart() {
 
-        assertTrue(gameController.addPlayer(plist.get(0)), "Player not added but needed to");
-        assertTrue(gameController.addPlayer(plist.get(1)), "Player not added but needed to");
-        assertTrue(gameController.addPlayer(plist.get(2)), "Player not added but needed to");
+        gameController.addPlayer(plist.get(0));
+        gameController.addPlayer(plist.get(1));
+        gameController.addPlayer(plist.get(2));
 
-        assertFalse(gameController.addPlayer(plist.get(0)), "Player added but was already in");
-        assertFalse(gameController.addPlayer(plist.get(1)), "Player added but was already in");
-        assertFalse(gameController.addPlayer(plist.get(2)), "Player added but was already in");
+        assertThrows(PlayerAlreadyInException.class, () -> gameController.addPlayer(plist.get(0)), "Player added but was already in");
+        assertThrows(PlayerAlreadyInException.class, () -> gameController.addPlayer(plist.get(1)), "Player added but was already in");
+        assertThrows(PlayerAlreadyInException.class, () -> gameController.addPlayer(plist.get(2)), "Player added but was already in");
 
 
         assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
@@ -72,8 +73,8 @@ public class GameControllerTest {
     @DisplayName("Grab and Position a Tile in a running game")
     void grabAndPositionATile() {
 
-        assertTrue(gameController.addPlayer(plist.get(0)), "Player not added but needed to");
-        assertTrue(gameController.addPlayer(plist.get(1)), "Player not added but needed to");
+        gameController.addPlayer(plist.get(0));
+        gameController.addPlayer(plist.get(1));
 
         assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
         assertTrue(gameController.playerIsReadyToStart(plist.get(1)), "Game not started but everyone was ready to start");
@@ -144,8 +145,8 @@ public class GameControllerTest {
     @Test
     @DisplayName("Next turn")
     public void testNextTurn() {
-        assertTrue(gameController.addPlayer(plist.get(0)), "Player not added but needed to");
-        assertTrue(gameController.addPlayer(plist.get(1)), "Player not added but needed to");
+        gameController.addPlayer(plist.get(0));
+        gameController.addPlayer(plist.get(1));
 
         assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
         assertTrue(gameController.playerIsReadyToStart(plist.get(1)), "Game not started but everyone was ready to start");

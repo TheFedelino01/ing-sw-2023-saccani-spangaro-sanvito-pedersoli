@@ -3,18 +3,20 @@ package polimi.ingsw.Controller;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.ControllerAndPlayer;
 import polimi.ingsw.Model.DefaultValue;
-import polimi.ingsw.Model.Exceptions.NotAvailableGamesException;
+import polimi.ingsw.Model.Enumeration.GameStatus;
+import polimi.ingsw.Model.Exceptions.MaxPlayersInException;
+import polimi.ingsw.Model.Exceptions.PlayerAlreadyInException;
 import polimi.ingsw.Model.Player;
-import polimi.ingsw.View.RMI.ClientRequestsInterface;
+import polimi.ingsw.View.RMI.MainControllerInterface;
 
 import java.io.Serializable;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //Gestisce tutte le partite in particolare la creazione, il join e il leave
-public class MainController implements ClientRequestsInterface, Serializable {
+public class MainController implements MainControllerInterface, Serializable {
 
     //Singleton
     private static MainController instance = null;
@@ -44,7 +46,11 @@ public class MainController implements ClientRequestsInterface, Serializable {
         GameController c = new GameController();
         c.addListener(lis,p);
         runningGames.add(c);
-        c.addPlayer(p);
+        try {
+            c.addPlayer(p);
+        } catch (MaxPlayersInException | PlayerAlreadyInException e) {
+            throw new RuntimeException(e);
+        }
 
         return new ControllerAndPlayer(c,p);
     }
@@ -52,25 +58,20 @@ public class MainController implements ClientRequestsInterface, Serializable {
     @Override
     public ControllerAndPlayer joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
 
-        int firstIndexAvailable=-1;
-        for(int i=0; i<runningGames.size();i++){
-            if(runningGames.get(i).getNumOfPlayers()< DefaultValue.MaxNumOfPlayer)
-                firstIndexAvailable=i;
-        }
+        List<GameController> ris = runningGames.stream().filter(x->(x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers()<DefaultValue.MaxNumOfPlayer)).collect(Collectors.toList());
+        Player p = new Player(nick);
+        if(ris.size()>0){
 
-        if(firstIndexAvailable!=-1){
-            Player p = new Player(nick);
-            runningGames.get(firstIndexAvailable).addListener(lis,p);
-            boolean ris = runningGames.get(firstIndexAvailable).addPlayer(p);
-            if(!ris) {
-                //runningGames.get(firstIndexAvailable).removeListener(lis,p);
-                return null;
-            }else{
-                return new ControllerAndPlayer(runningGames.get(firstIndexAvailable),p);
+
+            try {
+                ris.get(0).addListener(lis,p);
+                ris.get(0).addPlayer(p);
+                return new ControllerAndPlayer(ris.get(0),p);
+            }catch(MaxPlayersInException  | PlayerAlreadyInException e){
+                ris.get(0).removeListener(lis,p);
             }
-
         }
-        return null;
+        return new ControllerAndPlayer(null,p);
 
     }
 
