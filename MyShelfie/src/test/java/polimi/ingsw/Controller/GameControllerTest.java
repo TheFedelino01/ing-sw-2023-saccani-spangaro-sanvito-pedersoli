@@ -43,9 +43,9 @@ public class GameControllerTest {
         assertThrows(PlayerAlreadyInException.class, () -> gameController.addPlayer(plist.get(2)), "Player added but was already in");
 
 
-        assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
-        assertFalse(gameController.playerIsReadyToStart(plist.get(1)), "Game started but not everyone was ready");
-        assertTrue(gameController.playerIsReadyToStart(plist.get(2)), "Game not started but everyone was ready to start");
+        assertFalse(gameController.playerIsReadyToStart(plist.get(0).getNickname()), "Game started but not everyone was ready");
+        assertFalse(gameController.playerIsReadyToStart(plist.get(1).getNickname()), "Game started but not everyone was ready");
+        assertTrue(gameController.playerIsReadyToStart(plist.get(2).getNickname()), "Game not started but everyone was ready to start");
 
         assertTrue(gameController.getIndexCurrentPlaying() >= 0 && gameController.getIndexCurrentPlaying() < gameController.getNumOfPlayers(), "Turn index overflow");
 
@@ -76,8 +76,8 @@ public class GameControllerTest {
         gameController.addPlayer(plist.get(0));
         gameController.addPlayer(plist.get(1));
 
-        assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
-        assertTrue(gameController.playerIsReadyToStart(plist.get(1)), "Game not started but everyone was ready to start");
+        assertFalse(gameController.playerIsReadyToStart(plist.get(0).getNickname()), "Game started but not everyone was ready");
+        assertTrue(gameController.playerIsReadyToStart(plist.get(1).getNickname()), "Game not started but everyone was ready to start");
 
 
         List<CommonCard> risCommon = gameController.getAllCommonCards();
@@ -109,8 +109,8 @@ public class GameControllerTest {
 
         gameController.addPlayer(plist.get(0));
         gameController.addPlayer(plist.get(1));
-        gameController.playerIsReadyToStart(plist.get(0));
-        gameController.playerIsReadyToStart(plist.get(1));
+        gameController.playerIsReadyToStart(plist.get(0).getNickname());
+        gameController.playerIsReadyToStart(plist.get(1).getNickname());
 
 
         gameController.whoIsPlaying().addPoint(gameController.getAllCommonCards().get(0).getPoints().peek());
@@ -148,8 +148,8 @@ public class GameControllerTest {
         gameController.addPlayer(plist.get(0));
         gameController.addPlayer(plist.get(1));
 
-        assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
-        assertTrue(gameController.playerIsReadyToStart(plist.get(1)), "Game not started but everyone was ready to start");
+        assertFalse(gameController.playerIsReadyToStart(plist.get(0).getNickname()), "Game started but not everyone was ready");
+        assertTrue(gameController.playerIsReadyToStart(plist.get(1).getNickname()), "Game not started but everyone was ready to start");
 
 
         int currentPlayer = gameController.getIndexCurrentPlaying();

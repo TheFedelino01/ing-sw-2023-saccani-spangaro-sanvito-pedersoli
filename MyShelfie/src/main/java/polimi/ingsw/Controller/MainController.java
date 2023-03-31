@@ -61,8 +61,6 @@ public class MainController implements MainControllerInterface, Serializable {
         List<GameController> ris = runningGames.stream().filter(x->(x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers()<DefaultValue.MaxNumOfPlayer)).collect(Collectors.toList());
         Player p = new Player(nick);
         if(ris.size()>0){
-
-
             try {
                 ris.get(0).addListener(lis,p);
                 ris.get(0).addPlayer(p);
@@ -76,7 +74,22 @@ public class MainController implements MainControllerInterface, Serializable {
     }
 
     @Override
-    public ControllerAndPlayer joinGame(GameListener lis, String nick, Integer idGame) throws RemoteException {
-        return null;
+    public ControllerAndPlayer joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+        List<GameController> ris = runningGames.stream().filter(x->(x.getId()==idGame)).collect(Collectors.toList());
+        Player p = new Player(nick);
+
+        if(ris.size()==1){
+            try {
+                ris.get(0).addListener(lis,p);
+                ris.get(0).addPlayer(p);
+                return new ControllerAndPlayer(ris.get(0),p);
+            }catch(MaxPlayersInException  | PlayerAlreadyInException e){
+                ris.get(0).removeListener(lis,p);
+            }
+        }
+        return new ControllerAndPlayer(null,p);
+
     }
+
+
 }

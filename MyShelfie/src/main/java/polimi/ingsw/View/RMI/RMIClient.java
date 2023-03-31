@@ -15,7 +15,7 @@ public class RMIClient extends UnicastRemoteObject{
     private GameListener responses;
 
     private ClientResponsesInterface gameController=null;
-    private Player player=null;
+    private PlayerInterface player=null;
 
     public RMIClient() throws RemoteException {
         super();
@@ -37,7 +37,7 @@ public class RMIClient extends UnicastRemoteObject{
 
     public void createGame(String nick){
         try {
-            ControllerAndPlayer ris = requests.createGame(responses,nick);
+            RemoteResultInterface ris = requests.createGame(responses,nick);
             gameController=ris.getGameControllerInterface();
             player=ris.getPlayerIdentity();
 
@@ -48,7 +48,7 @@ public class RMIClient extends UnicastRemoteObject{
 
     public void joinFirstAvailable(String nick){
         try {
-            ControllerAndPlayer ris = requests.joinFirstAvailableGame(responses,nick);
+            RemoteResultInterface ris = requests.joinFirstAvailableGame(responses,nick);
             if(ris!=null){
                 gameController=ris.getGameControllerInterface();
                 player=ris.getPlayerIdentity();
@@ -57,6 +57,28 @@ public class RMIClient extends UnicastRemoteObject{
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void joinGame(String nick, int idGame){
+        try {
+            RemoteResultInterface ris = requests.joinGame(responses,nick,idGame);
+            if(ris!=null){
+                gameController=ris.getGameControllerInterface();
+                player=ris.getPlayerIdentity();
+            }
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setAsReady(){
+        try {
+            if(gameController!=null){
+                gameController.playerIsReadyToStart(player.getNickname());
+            }
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

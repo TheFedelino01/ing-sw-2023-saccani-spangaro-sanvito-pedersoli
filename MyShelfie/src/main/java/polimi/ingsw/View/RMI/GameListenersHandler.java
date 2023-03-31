@@ -28,15 +28,14 @@ public class GameListenersHandler implements GameListener {
 
 
 
-
     @Override
     public void PlayerIsReadyToStart(String nick) {
-
+        System.out.println(this.hashCode() + "> " + nick + " ready to start!");
     }
 
     @Override
     public void GameStarted(GameModel gamemodel) {
-
+        System.out.println(this.hashCode() + "> Game Started: "+gamemodel.toString());
     }
 
     @Override

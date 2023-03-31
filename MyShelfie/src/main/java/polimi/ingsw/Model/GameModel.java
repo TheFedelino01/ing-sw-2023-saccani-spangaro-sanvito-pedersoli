@@ -345,4 +345,8 @@ public class GameModel implements Serializable {
     public void removeListener(GameListener lis) {
         listenersHandler.removeListener(lis);
     }
+
+    public Player getPlayerEntity(String playerNick) {
+        return players.stream().filter(x->x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+    }
 }

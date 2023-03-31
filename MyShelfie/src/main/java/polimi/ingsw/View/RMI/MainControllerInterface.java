@@ -11,7 +11,8 @@ public interface MainControllerInterface extends Remote {
 
     ControllerAndPlayer createGame(GameListener lis, String nick) throws RemoteException;
     ControllerAndPlayer joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException;
-    ControllerAndPlayer joinGame(GameListener lis, String nick, Integer idGame) throws RemoteException;
+    ControllerAndPlayer joinGame(GameListener lis, String nick, int idGame) throws RemoteException;
+
 
 
 }

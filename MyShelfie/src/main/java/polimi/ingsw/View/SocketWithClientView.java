@@ -29,7 +29,7 @@ public class SocketWithClientView implements Runnable, GameListener {
 
 
     private void iamReady(){
-        gameController.playerIsReadyToStart(player);
+        gameController.playerIsReadyToStart(player.getNickname());
     }
 
     @Override

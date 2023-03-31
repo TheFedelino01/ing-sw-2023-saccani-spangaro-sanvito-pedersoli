@@ -64,9 +64,9 @@ public class GameController implements ClientResponsesInterface, Serializable {
      * @param p Player to set has ready
      * @return true if the game has started, false else
      */
-    public boolean playerIsReadyToStart(Player p) {
+    public boolean playerIsReadyToStart(String p) {
         //La partita parte automaticamente quando tutti i giocatori sono pronti
-        model.playerIsReadyToStart(p);
+        model.playerIsReadyToStart(model.getPlayerEntity(p));
 
         if (model.arePlayersReadyToStartAndEnough()) {
             extractCommonCards();
@@ -279,7 +279,9 @@ public class GameController implements ClientResponsesInterface, Serializable {
 
     }
 
-
+    public Player getPlayer(String playerNick){
+        return model.getPlayerEntity(playerNick);
+    }
 
     public Player whoIsPlaying() {
         return model.getPlayer(model.getCurrentPlaying());
@@ -287,6 +289,9 @@ public class GameController implements ClientResponsesInterface, Serializable {
 
     public GameStatus getStatus(){
         return model.getStatus();
+    }
+    public int getId(){
+        return model.getGameId();
     }
 
 

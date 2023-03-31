@@ -8,7 +8,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface ClientResponsesInterface extends Remote {
-    public boolean playerIsReadyToStart(Player p) throws RemoteException;
+    public boolean playerIsReadyToStart(String p) throws RemoteException;
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) throws RemoteException;
     public void positionTileOnShelf(Player p, int column, TileType type) throws RemoteException;
 }
