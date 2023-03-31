@@ -1,11 +1,13 @@
 package polimi.ingsw.server;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.ServerSocket;
+import java.nio.channels.ClosedByInterruptException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Server extends Thread{
+public class Server extends Thread {
     private ServerSocket serverSocket;
     private List<ClientHandler> handler;
 
@@ -15,21 +17,28 @@ public class Server extends Thread{
         this.start();
     }
 
-    public void run(){
-        while(!Thread.interrupted()) {
-            try {
+    public void run() {
+        try {
+            while (!Thread.interrupted()) {
                 handler.add(new ClientHandler(serverSocket.accept()));
-                handler.get(handler.size()-1).start();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                handler.get(handler.size() - 1).start();
             }
+        } catch (ClosedByInterruptException e) {
+            //interrupted by close
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-    public void stopConnection() throws IOException {
-        this.interrupt();
-        for(ClientHandler c : handler){
+
+    public void stopConnection() {
+        for (ClientHandler c : handler) {
             c.interruptThread();
         }
-        serverSocket.close();
+        this.interrupt();
     }
 }
