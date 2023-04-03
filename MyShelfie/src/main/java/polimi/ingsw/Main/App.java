@@ -29,8 +29,10 @@ public class App {
 
         if(client.isMyTurn()) {
             client.grabTileFromPlayground(1, 3, Direction.RIGHT, 1);
+            client.positionTileOnShelf(0,client.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());
         }else{
             client2.grabTileFromPlayground(1, 3, Direction.RIGHT, 1);
+            client2.positionTileOnShelf(0,client.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());
         }
     }
 }

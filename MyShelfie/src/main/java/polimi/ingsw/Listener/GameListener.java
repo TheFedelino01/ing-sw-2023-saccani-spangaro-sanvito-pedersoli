@@ -19,8 +19,8 @@ public interface GameListener extends Remote {
     public void SentMessage(Message msg) throws RemoteException;
     public void grabbedTile(GameModel gamemodel) throws RemoteException;
     public void grabbedTileNotCorrect(GameModel gamemodel) throws RemoteException;
-    public void positionedTile(GameModel gameModel) throws RemoteException;
-    public void nextTurn(GameModel gameModel) throws RemoteException;
+    public void positionedTile(GameModel gamemodel) throws RemoteException;
+    public void nextTurn(GameModel gamemodel) throws RemoteException;
 
     public void addedPoint(Player p) throws RemoteException;
 }

@@ -3,6 +3,9 @@ package polimi.ingsw.View.RMI;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.ControllerAndPlayer;
 import polimi.ingsw.Model.Enumeration.Direction;
+import polimi.ingsw.Model.Enumeration.TileType;
+import polimi.ingsw.Model.Exceptions.GameEndedException;
+import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
 
 import java.rmi.RemoteException;
@@ -17,6 +20,7 @@ public class RMIClient extends UnicastRemoteObject{
 
     private ClientResponsesInterface gameController=null;
     private PlayerInterface player=null;
+    private GameListenersHandler gameListenersHandler;
 
     public RMIClient() throws RemoteException {
         super();
@@ -25,7 +29,8 @@ public class RMIClient extends UnicastRemoteObject{
         try {
             Registry registry = LocateRegistry.getRegistry(4321);
             requests = (MainControllerInterface) registry.lookup("myShelfie");
-            responses = (GameListener) UnicastRemoteObject.exportObject(new GameListenersHandler(),0);
+            gameListenersHandler=new GameListenersHandler();
+            responses = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler,0);
 
             System.out.println("Client RMI ready");
             return true;
@@ -96,6 +101,20 @@ public class RMIClient extends UnicastRemoteObject{
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void positionTileOnShelf(int column, TileType type){
+        try {
+            gameController.positionTileOnShelf(player.getNickname(),column,type);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (GameEndedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public GameModel getLastModelReceived(){
+        return gameListenersHandler.getLastModelReceived();
     }
 
 }

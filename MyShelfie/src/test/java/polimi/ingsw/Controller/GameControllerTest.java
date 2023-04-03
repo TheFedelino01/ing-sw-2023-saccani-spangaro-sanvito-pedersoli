@@ -89,11 +89,11 @@ public class GameControllerTest {
 
         Tile grabbed = plist.get(currentPlayer).getInHandTile().get(0);
 
-        assertThrows(PositioningATileNotGrabbedException.class, () -> gameController.positionTileOnShelf(plist.get(currentPlayer), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
+        assertThrows(PositioningATileNotGrabbedException.class, () -> gameController.positionTileOnShelf(plist.get(currentPlayer).getNickname(), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
 
         assertTrue(plist.get(currentPlayer).getInHandTile().size()==1,"Grabbed mismatch");
         try {
-            gameController.positionTileOnShelf(plist.get(currentPlayer), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
+            gameController.positionTileOnShelf(plist.get(currentPlayer).getNickname(), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
         } catch (GameEndedException e) {
             throw new RuntimeException(e);
         }

@@ -356,4 +356,8 @@ public class GameModel implements Serializable {
     public String getNicknameCurrentPlaying(){
         return players.get(currentPlaying).getNickname();
     }
+
+    public List<Tile> getHandOfCurrentPlaying(){
+        return players.get(currentPlaying).getInHandTile();
+    }
 }

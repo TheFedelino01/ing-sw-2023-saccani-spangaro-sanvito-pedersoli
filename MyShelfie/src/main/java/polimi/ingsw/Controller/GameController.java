@@ -210,9 +210,9 @@ public class GameController implements ClientResponsesInterface, Serializable {
 
     }
 
-    public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
-        if(isPlayerTheCurrentPlaying(p)){
-            model.positionTileOnShelf(p, column, type);
+    public void positionTileOnShelf(String p, int column, TileType type) throws GameEndedException {
+        if(isPlayerTheCurrentPlaying(model.getPlayerEntity(p))){
+            model.positionTileOnShelf(model.getPlayerEntity(p), column, type);
         }else{
             throw new NotPlayerTurnException();
         }

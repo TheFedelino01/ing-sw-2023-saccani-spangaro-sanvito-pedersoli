@@ -44,4 +44,9 @@ public class Tile implements Serializable {
     public boolean isSameType(TileType type){
         return this.TYPE==type;
     }
+
+    @Override
+    public String toString(){
+        return TYPE.toString();
+    }
 }

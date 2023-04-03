@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 //This class handles all the responses that the server RMI sends
 public class GameListenersHandler implements GameListener {
 
+    private GameModel lastModelReceived;
 
     @Override
     public void playerJoined(String nickNewPlayer) {
@@ -35,7 +36,8 @@ public class GameListenersHandler implements GameListener {
 
     @Override
     public void GameStarted(GameModel gamemodel) {
-        System.out.println(this.hashCode() + "> Game Started: "+gamemodel.toString());
+        System.out.println(this.hashCode() + "> Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying());
+        lastModelReceived=gamemodel;
     }
 
     @Override
@@ -50,7 +52,8 @@ public class GameListenersHandler implements GameListener {
 
     @Override
     public void grabbedTile(GameModel gamemodel) {
-        System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles");
+        System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles: "+gamemodel.getHandOfCurrentPlaying().toString());
+        lastModelReceived=gamemodel;
     }
 
     @Override
@@ -59,17 +62,22 @@ public class GameListenersHandler implements GameListener {
     }
 
     @Override
-    public void positionedTile(GameModel gameModel) {
-
+    public void positionedTile(GameModel gamemodel) {
+        System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned a Tile on his shelf!");
+        lastModelReceived=gamemodel;
     }
 
     @Override
-    public void nextTurn(GameModel gameModel) {
-
+    public void nextTurn(GameModel gamemodel) {
+        System.out.println(this.hashCode() + "> Next turn! It's up to: "+gamemodel.getNicknameCurrentPlaying());
     }
 
     @Override
     public void addedPoint(Player p) {
 
+    }
+
+    public GameModel getLastModelReceived(){
+        return lastModelReceived;
     }
 }
