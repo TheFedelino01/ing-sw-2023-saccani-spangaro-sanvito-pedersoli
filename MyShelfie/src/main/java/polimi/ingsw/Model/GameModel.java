@@ -257,7 +257,7 @@ public class GameModel implements Serializable {
         Tile t = popInHandTilePlayer(p, type);
         if (t != null) {
             p.getShelf().position(column, type);
-            listenersHandler.notify_positionedTile(this);
+            listenersHandler.notify_positionedTile(this, type,column);
             //if the hand is empty then call next turn
             if(p.getInHandTile().size()==0){
                 nextTurn();
@@ -359,5 +359,15 @@ public class GameModel implements Serializable {
 
     public List<Tile> getHandOfCurrentPlaying(){
         return players.get(currentPlaying).getInHandTile();
+    }
+
+    public Map<Integer, Integer> getLeaderBoard(){
+        return leaderBoard;
+    }
+    public Player getWinner(){
+        if(indexWonPlayer!=-1) {
+            return players.get(indexWonPlayer);
+        }
+        return null;
     }
 }

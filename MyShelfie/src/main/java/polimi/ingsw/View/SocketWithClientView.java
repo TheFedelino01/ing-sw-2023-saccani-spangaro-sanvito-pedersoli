@@ -4,8 +4,10 @@ import polimi.ingsw.Controller.GameController;
 import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Point;
 
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -79,7 +81,7 @@ public class SocketWithClientView implements Runnable, GameListener {
     }
 
     @Override
-    public void positionedTile(GameModel gameModel) {
+    public void positionedTile(GameModel gamemodel, TileType type, int column) {
 
     }
 
@@ -89,7 +91,7 @@ public class SocketWithClientView implements Runnable, GameListener {
     }
 
     @Override
-    public void addedPoint(Player p) {
+    public void addedPoint(Player p, Point point) {
 
     }
 }

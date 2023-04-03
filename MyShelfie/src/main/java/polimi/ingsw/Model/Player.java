@@ -88,7 +88,7 @@ public class Player implements PlayerInterface,Serializable {
         }
         //Nessun eccezione sollevata, aggiungo il punto al giocatore e notifico
         this.obtainedPoints.add(obtainedPoints);
-        notify_addedPoint();
+        notify_addedPoint(obtainedPoints);
     }
 
     public int getTotalPoints(){
@@ -107,10 +107,10 @@ public class Player implements PlayerInterface,Serializable {
     public void addListener(GameListener obj){
         listeners.add(obj);
     }
-    private void notify_addedPoint(){
+    private void notify_addedPoint(Point point){
         for(GameListener l : listeners) {
             try {
-                l.addedPoint(this);
+                l.addedPoint(this,point);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

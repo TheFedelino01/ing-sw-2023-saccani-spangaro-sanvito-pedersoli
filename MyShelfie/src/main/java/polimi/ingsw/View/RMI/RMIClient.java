@@ -2,6 +2,7 @@ package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.ControllerAndPlayer;
+import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
@@ -27,8 +28,8 @@ public class RMIClient extends UnicastRemoteObject{
     }
     public boolean connect(){
         try {
-            Registry registry = LocateRegistry.getRegistry(4321);
-            requests = (MainControllerInterface) registry.lookup("myShelfie");
+            Registry registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
+            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameListenersHandler=new GameListenersHandler();
             responses = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler,0);
 

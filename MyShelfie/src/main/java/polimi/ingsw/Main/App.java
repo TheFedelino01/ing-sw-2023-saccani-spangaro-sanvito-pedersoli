@@ -7,7 +7,7 @@ import polimi.ingsw.View.RMI.RMIServer;
 import java.rmi.RemoteException;
 
 public class App {
-    public static void main( String[] args ) throws RemoteException, InterruptedException {
+    public static void main( String[] args ) throws RemoteException {
 
         RMIServer server = RMIServer.bind();
 
@@ -25,13 +25,13 @@ public class App {
 
         client2.setAsReady();
 
-        Thread.sleep(1000);
-
         if(client.isMyTurn()) {
-            client.grabTileFromPlayground(1, 3, Direction.RIGHT, 1);
+            client.grabTileFromPlayground(1, 3, Direction.RIGHT, 2);
+            client.positionTileOnShelf(0,client.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());
             client.positionTileOnShelf(0,client.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());
         }else{
-            client2.grabTileFromPlayground(1, 3, Direction.RIGHT, 1);
+            client2.grabTileFromPlayground(1, 3, Direction.RIGHT, 2);
+            client2.positionTileOnShelf(0,client.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());
             client2.positionTileOnShelf(0,client.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());
         }
     }

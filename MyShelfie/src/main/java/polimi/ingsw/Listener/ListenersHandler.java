@@ -1,6 +1,7 @@
 package polimi.ingsw.Listener;
 
 import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
 
@@ -98,10 +99,10 @@ public class ListenersHandler {
         }
     }
 
-    public void notify_positionedTile(GameModel model) {
+    public void notify_positionedTile(GameModel model, TileType type, int collum) {
         for (GameListener l : listeners) {
             try {
-                l.positionedTile(model);
+                l.positionedTile(model,type,collum);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

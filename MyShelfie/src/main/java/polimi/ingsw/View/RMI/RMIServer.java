@@ -3,6 +3,7 @@ package polimi.ingsw.View.RMI;
 import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.ControllerAndPlayer;
+import polimi.ingsw.Model.DefaultValue;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,8 +19,8 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         try {
             obj = new RMIServer();
             // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.createRegistry(4321);
-            registry.rebind("myShelfie", obj);
+            Registry registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
+            registry.rebind(DefaultValue.Default_servername_RMI, obj);
 
 
             System.out.println("Server RMI ready");
@@ -41,6 +42,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
 
         ris.setGameControllerInterface((ClientResponsesInterface) UnicastRemoteObject.exportObject(ris.getGameControllerInterface(),0));
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+        System.out.println("New game created");
         return ris;
     }
 
@@ -49,6 +51,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         //Return the GameController already existed => not necessary to re-Export Object
         ControllerAndPlayer ris = mainController.joinFirstAvailableGame(lis,nick);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+        System.out.println("Joined");
         return ris;
     }
 

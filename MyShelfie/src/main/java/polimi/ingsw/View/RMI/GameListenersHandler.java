@@ -2,8 +2,10 @@ package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Point;
 
 import java.rmi.RemoteException;
 
@@ -19,15 +21,13 @@ public class GameListenersHandler implements GameListener {
 
     @Override
     public void JoinUnableGameFull(Player wantedToJoin, GameModel gamemodel) throws RemoteException {
-
+        System.out.println(this.hashCode() + "> " + wantedToJoin+" tried to entry but the game is full!");
     }
 
     @Override
     public void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
         System.out.println(this.hashCode() + "> " + wantedToJoin.getNickname() + " has already in");
     }
-
-
 
     @Override
     public void PlayerIsReadyToStart(String nick) {
@@ -42,12 +42,14 @@ public class GameListenersHandler implements GameListener {
 
     @Override
     public void GameEnded(GameModel gamemodel) {
-
+        System.out.println(this.hashCode() + "> "+gamemodel.getGameId()+" ended! \n" +
+                "The winner is: "+gamemodel.getWinner().getNickname()+"\n" +
+                "Score board: "+gamemodel.getLeaderBoard().toString());
     }
 
     @Override
     public void SentMessage(Message msg) {
-
+        System.out.println(this.hashCode() + "> new Message: \""+msg.toString()+"\"");
     }
 
     @Override
@@ -58,12 +60,12 @@ public class GameListenersHandler implements GameListener {
 
     @Override
     public void grabbedTileNotCorrect(GameModel gamemodel) {
-
+        System.out.println(this.hashCode() + "> a set of non grabbable tiles have been required");
     }
 
     @Override
-    public void positionedTile(GameModel gamemodel) {
-        System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned a Tile on his shelf!");
+    public void positionedTile(GameModel gamemodel, TileType type, int column) {
+        System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
         lastModelReceived=gamemodel;
     }
 
@@ -73,8 +75,8 @@ public class GameListenersHandler implements GameListener {
     }
 
     @Override
-    public void addedPoint(Player p) {
-
+    public void addedPoint(Player p, Point point) {
+        System.out.println(this.hashCode() + "> Player "+p.getNickname()+" obtained "+point.getPoint()+" points by achieving "+point.getReferredTo());
     }
 
     public GameModel getLastModelReceived(){

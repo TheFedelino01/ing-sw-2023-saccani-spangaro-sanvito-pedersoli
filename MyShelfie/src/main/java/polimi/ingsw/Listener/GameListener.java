@@ -1,8 +1,10 @@
 package polimi.ingsw.Listener;
 
 import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Point;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -19,8 +21,8 @@ public interface GameListener extends Remote {
     public void SentMessage(Message msg) throws RemoteException;
     public void grabbedTile(GameModel gamemodel) throws RemoteException;
     public void grabbedTileNotCorrect(GameModel gamemodel) throws RemoteException;
-    public void positionedTile(GameModel gamemodel) throws RemoteException;
+    public void positionedTile(GameModel gamemodel, TileType type, int column) throws RemoteException;
     public void nextTurn(GameModel gamemodel) throws RemoteException;
 
-    public void addedPoint(Player p) throws RemoteException;
+    public void addedPoint(Player p, Point point) throws RemoteException;
 }
