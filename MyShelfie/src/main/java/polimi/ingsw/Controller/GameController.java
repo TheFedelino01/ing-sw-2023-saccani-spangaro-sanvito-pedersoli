@@ -11,6 +11,7 @@ import polimi.ingsw.View.RMI.ClientResponsesInterface;
 import polimi.ingsw.View.View;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class GameController implements ClientResponsesInterface, Serializable {
@@ -200,22 +201,27 @@ public class GameController implements ClientResponsesInterface, Serializable {
     }
 
 
-    public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
-        if(isPlayerTheCurrentPlaying(p)){
-            model.grabTileFromPlayground(p, x, y, direction, num);
+    public void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) {
+        if(isPlayerTheCurrentPlaying(model.getPlayerEntity(p))){
+            model.grabTileFromPlayground(model.getPlayerEntity(p), x, y, direction, num);
         }else{
             throw new NotPlayerTurnException();
         }
 
     }
 
-    public void positionTileOnShelf(Player p, int column, TileType type) {
+    public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
         if(isPlayerTheCurrentPlaying(p)){
             model.positionTileOnShelf(p, column, type);
         }else{
             throw new NotPlayerTurnException();
         }
 
+    }
+
+    @Override
+    public boolean isThisMyTurn(String nick) throws RemoteException {
+        return model.getPlayer(model.getCurrentPlaying()).getNickname().equals(nick);
     }
 
     public void nextTurn() {

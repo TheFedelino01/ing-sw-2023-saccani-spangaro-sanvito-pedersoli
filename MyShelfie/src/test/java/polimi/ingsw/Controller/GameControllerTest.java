@@ -7,6 +7,7 @@ import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Enumeration.*;
+import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.Model.Exceptions.PlayerAlreadyInException;
 import polimi.ingsw.Model.Exceptions.PositioningATileNotGrabbedException;
 
@@ -84,14 +85,18 @@ public class GameControllerTest {
 
         int currentPlayer = gameController.getIndexCurrentPlaying();
 
-        gameController.grabTileFromPlayground(plist.get(currentPlayer), 1, 3, Direction.DOWN, 1);
+        gameController.grabTileFromPlayground(plist.get(currentPlayer).getNickname(), 1, 3, Direction.DOWN, 1);
 
         Tile grabbed = plist.get(currentPlayer).getInHandTile().get(0);
 
         assertThrows(PositioningATileNotGrabbedException.class, () -> gameController.positionTileOnShelf(plist.get(currentPlayer), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
 
         assertTrue(plist.get(currentPlayer).getInHandTile().size()==1,"Grabbed mismatch");
-        gameController.positionTileOnShelf(plist.get(currentPlayer), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
+        try {
+            gameController.positionTileOnShelf(plist.get(currentPlayer), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
+        } catch (GameEndedException e) {
+            throw new RuntimeException(e);
+        }
         assertTrue(plist.get(currentPlayer).getInHandTile().size()==0,"Positioned tile on shelf but player's hand not free");
 
         if(!plist.get(currentPlayer).getShelf().get(DefaultValue.NumOfRowsShelf-1,0).isSameType(grabbed.getType())){

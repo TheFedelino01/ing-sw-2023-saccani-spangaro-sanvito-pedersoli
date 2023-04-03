@@ -50,7 +50,7 @@ public class GameListenersHandler implements GameListener {
 
     @Override
     public void grabbedTile(GameModel gamemodel) {
-
+        System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles");
     }
 
     @Override

@@ -2,6 +2,7 @@ package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.ControllerAndPlayer;
+import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Player;
 
 import java.rmi.RemoteException;
@@ -76,6 +77,22 @@ public class RMIClient extends UnicastRemoteObject{
             if(gameController!=null){
                 gameController.playerIsReadyToStart(player.getNickname());
             }
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isMyTurn(){
+        try {
+            return gameController.isThisMyTurn(player.getNickname());
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void grabTileFromPlayground(int x, int y, Direction direction, int num) {
+        try {
+            gameController.grabTileFromPlayground(player.getNickname(),x,y,direction,num);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

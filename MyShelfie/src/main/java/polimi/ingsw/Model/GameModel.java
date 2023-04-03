@@ -253,11 +253,15 @@ public class GameModel implements Serializable {
 
     }
 
-    public void positionTileOnShelf(Player p, int column, TileType type) {
+    public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
         Tile t = popInHandTilePlayer(p, type);
         if (t != null) {
             p.getShelf().position(column, type);
             listenersHandler.notify_positionedTile(this);
+            //if the hand is empty then call next turn
+            if(p.getInHandTile().size()==0){
+                nextTurn();
+            }
         } else {
             throw new PositioningATileNotGrabbedException();
         }
@@ -348,5 +352,8 @@ public class GameModel implements Serializable {
 
     public Player getPlayerEntity(String playerNick) {
         return players.stream().filter(x->x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+    }
+    public String getNicknameCurrentPlaying(){
+        return players.get(currentPlaying).getNickname();
     }
 }

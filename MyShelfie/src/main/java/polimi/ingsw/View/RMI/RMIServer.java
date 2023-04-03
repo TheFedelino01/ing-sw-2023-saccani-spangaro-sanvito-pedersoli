@@ -40,7 +40,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         //The GameController and the Player have just created so, I need to set them as an Exportable Object
 
         ris.setGameControllerInterface((ClientResponsesInterface) UnicastRemoteObject.exportObject(ris.getGameControllerInterface(),0));
-        ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+        //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         return ris;
     }
 
@@ -48,7 +48,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     public ControllerAndPlayer joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
         //Return the GameController already existed => not necessary to re-Export Object
         ControllerAndPlayer ris = mainController.joinFirstAvailableGame(lis,nick);
-        ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+        //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         return ris;
     }
 
@@ -56,7 +56,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     public ControllerAndPlayer joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
         //Return the GameController already existed => not necessary to re-Export Object
         ControllerAndPlayer ris = mainController.joinGame(lis,nick,idGame);
-        ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+        //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         return ris;
     }
 

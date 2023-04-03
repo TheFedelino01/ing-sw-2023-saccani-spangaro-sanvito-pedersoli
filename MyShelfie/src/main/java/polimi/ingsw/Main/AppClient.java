@@ -1,5 +1,6 @@
 package polimi.ingsw.Main;
 
+import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.RMI.RMIServer;
 
@@ -12,7 +13,7 @@ import java.rmi.RemoteException;
  */
 public class AppClient
 {
-    public static void main( String[] args ) throws RemoteException {
+    public static void main( String[] args ) throws RemoteException, InterruptedException {
         RMIClient client = new RMIClient();
 
 
@@ -23,6 +24,7 @@ public class AppClient
 
 
         client.setAsReady();
+
 
     }
 }
