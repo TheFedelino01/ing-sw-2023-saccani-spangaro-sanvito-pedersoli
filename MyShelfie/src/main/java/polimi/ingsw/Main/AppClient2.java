@@ -20,7 +20,6 @@ public class AppClient2 {
 
         }
 
-        Thread.sleep(1000);
         if(client2.isMyTurn()) {
             client2.grabTileFromPlayground(1, 3, Direction.RIGHT, 2);
             client2.positionTileOnShelf(0,client2.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());

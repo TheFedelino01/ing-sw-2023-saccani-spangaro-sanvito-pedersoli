@@ -65,7 +65,7 @@ public class GameController implements ClientResponsesInterface, Serializable {
      * @param p Player to set has ready
      * @return true if the game has started, false else
      */
-    public boolean playerIsReadyToStart(String p) {
+    public synchronized boolean playerIsReadyToStart(String p) {
         //La partita parte automaticamente quando tutti i giocatori sono pronti
         model.playerIsReadyToStart(model.getPlayerEntity(p));
 
@@ -201,7 +201,7 @@ public class GameController implements ClientResponsesInterface, Serializable {
     }
 
 
-    public void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) {
+    public synchronized void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) {
         if(isPlayerTheCurrentPlaying(model.getPlayerEntity(p))){
             model.grabTileFromPlayground(model.getPlayerEntity(p), x, y, direction, num);
         }else{
@@ -210,7 +210,7 @@ public class GameController implements ClientResponsesInterface, Serializable {
 
     }
 
-    public void positionTileOnShelf(String p, int column, TileType type) throws GameEndedException {
+    public synchronized void positionTileOnShelf(String p, int column, TileType type) throws GameEndedException {
         if(isPlayerTheCurrentPlaying(model.getPlayerEntity(p))){
             model.positionTileOnShelf(model.getPlayerEntity(p), column, type);
         }else{
@@ -220,11 +220,11 @@ public class GameController implements ClientResponsesInterface, Serializable {
     }
 
     @Override
-    public boolean isThisMyTurn(String nick) throws RemoteException {
+    public synchronized boolean isThisMyTurn(String nick) throws RemoteException {
         return model.getPlayer(model.getCurrentPlaying()).getNickname().equals(nick);
     }
 
-    public void nextTurn() {
+    public synchronized void nextTurn() {
         checkCommonCards(whoIsPlaying());
 
         if(whoIsPlaying().getShelf().getFreeSpace()==0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)){
