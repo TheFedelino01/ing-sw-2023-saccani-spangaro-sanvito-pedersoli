@@ -16,6 +16,12 @@ public class Message implements Serializable {
         this.sender = sender;
     }
 
+    public Message(){
+        this.time = null;
+        this.text = null;
+        this.sender = null;
+    }
+
     @Override
     public String toString(){
         return this.time.toString().concat(" ")
