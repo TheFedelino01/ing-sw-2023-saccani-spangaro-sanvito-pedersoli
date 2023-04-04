@@ -6,6 +6,8 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.View.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
+import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessageGrabTileFromPlayground;
+import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessagePositionTileOnShelf;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessageSetReady;
 import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageCreateGame;
 import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageJoinFirst;
@@ -84,12 +86,12 @@ public class ClientSocket implements CommonClientActions {
     }
 
     @Override
-    public void grabTileFromPlayground(int x, int y, Direction direction, int num) {
-
+    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
+        out.writeObject(new SocketClientMessageGrabTileFromPlayground(nickname,x,y,direction,num));
     }
 
     @Override
-    public void positionTileOnShelf(int column, TileType type) {
-
+    public void positionTileOnShelf(int column, TileType type) throws IOException {
+        out.writeObject(new SocketClientMessagePositionTileOnShelf(nickname,column,type));
     }
 }

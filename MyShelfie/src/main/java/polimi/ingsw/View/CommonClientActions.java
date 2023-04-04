@@ -18,9 +18,9 @@ public interface CommonClientActions {
 
     public boolean isMyTurn();
 
-    public void grabTileFromPlayground(int x, int y, Direction direction, int num);
+    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException;
 
-    public void positionTileOnShelf(int column, TileType type);
+    public void positionTileOnShelf(int column, TileType type) throws IOException;
 
 
 }

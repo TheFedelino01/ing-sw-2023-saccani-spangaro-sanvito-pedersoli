@@ -1,6 +1,7 @@
 package polimi.ingsw.View.socket.server;
 
 import polimi.ingsw.Controller.MainController;
+import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.socket.client.SocketClientGenericMessage;
 
@@ -43,7 +44,7 @@ public class ClientHandler extends Thread {
                 }else{
                     temp.execute(gameController);
                 }
-            } catch (RemoteException e) {
+            } catch (RemoteException | GameEndedException e) {
                 throw new RuntimeException(e);
             }
         }
