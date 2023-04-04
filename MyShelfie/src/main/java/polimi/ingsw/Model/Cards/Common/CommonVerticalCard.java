@@ -17,12 +17,19 @@ public class CommonVerticalCard extends CommonCard {
         CommonVerticalCard.param = param;
     }
 
+    /**
+     * Check if the player's shelf met the vertical goals
+     *
+     *
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
         param = super.getCommonType().compareTo(CardCommonType.CommonVertical0) > 0 ? 1 : 0;
         int sum = 0;
         switch (param) {
-            case (0) -> {
+            case (0) -> {       //3 columns each consisting of 6 tiles of at most 3 different types
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                     int ok = checkLines(toCheck, j);
                     if (ok <= 3)
@@ -33,7 +40,7 @@ public class CommonVerticalCard extends CommonCard {
                 }
                 return false;
             }
-            case (1) -> {
+            case (1) -> {       //2 columns each of 6 different types of tiles
                 for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                     int ok = checkLines(toCheck, j);
                     if (ok == 6)

@@ -2,11 +2,14 @@ package polimi.ingsw.Model;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
+import polimi.ingsw.View.RMI.PlayerInterface;
 
+import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements PlayerInterface,Serializable {
     private String nickname;
     private Shelf shelf;
     private CardGoal secretGoal;
@@ -85,7 +88,7 @@ public class Player {
         }
         //Nessun eccezione sollevata, aggiungo il punto al giocatore e notifico
         this.obtainedPoints.add(obtainedPoints);
-        notify_addedPoint();
+        notify_addedPoint(obtainedPoints);
     }
 
     public int getTotalPoints(){
@@ -100,11 +103,21 @@ public class Player {
         return this.nickname.equals(p.nickname);
     }
 
+
     public void addListener(GameListener obj){
         listeners.add(obj);
     }
-    private void notify_addedPoint(){
-        for(GameListener l : listeners)
-            l.addedPoint(this);
+    private void notify_addedPoint(Point point){
+        for(GameListener l : listeners) {
+            try {
+                l.addedPoint(this,point);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void removeListener(GameListener lis) {
+        listeners.remove(lis);
     }
 }

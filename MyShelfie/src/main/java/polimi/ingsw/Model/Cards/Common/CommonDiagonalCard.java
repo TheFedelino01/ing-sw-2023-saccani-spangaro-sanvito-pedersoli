@@ -13,11 +13,18 @@ public class CommonDiagonalCard extends CommonCard {
         CommonDiagonalCard.param = param;
     }
 
+    /**
+     * Check if the player's shelf met the diagonal goals
+     *
+     *
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
         int sum = 0;
         switch (param) {
-            case (0) -> { //5 of the same type tiles in diagonal (sx or dx)
+            case (0) -> { //5 tiles of the same type in diagonal disposition (sx or dx)
                 for (int i = 0; i < 2; i++) {
                     int check1 = 1;
                     int check2 = 1;

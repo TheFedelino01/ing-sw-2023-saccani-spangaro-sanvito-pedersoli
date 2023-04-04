@@ -3,11 +3,15 @@ package polimi.ingsw.View;
 import polimi.ingsw.Controller.GameController;
 import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Point;
 
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 public class SocketWithClientView implements Runnable, GameListener {
     private Socket clientSocket;
@@ -23,42 +27,37 @@ public class SocketWithClientView implements Runnable, GameListener {
     @Override
     public void run() {
         //....
-        createGame();
-    }
-
-
-    //todo tutti i controlli per la creazione del player
-    private void createGame(){
-
-
-        gameController = mainController.createGame(player);
-        gameController.addPlayer(player);
 
     }
-    private void joinFirstAvailableGame(){
-        gameController = mainController.joinFirstGameAvailable(player);
-        gameController.addPlayer(player);
-    }
-    private void joinGame(Integer idGame){
-        gameController = mainController.joinGame(player,idGame);
-        gameController.addPlayer(player);
-    }
+
+
     private void iamReady(){
-        gameController.playerIsReadyToStart(player);
+        gameController.playerIsReadyToStart(player.getNickname());
     }
 
     @Override
-    public void JoinUnableGameFull(GameModel gamemodel) {
+    public void playerJoined(String nickNewPlayer) throws RemoteException {
 
     }
 
     @Override
-    public void JoinUnableNicknameAlreadyIn(String nick) {
+    public void JoinUnableGameFull(Player wantedToJoin, GameModel gamemodel) throws RemoteException {
 
     }
+
+    @Override
+    public void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+
+    }
+
 
     @Override
     public void PlayerIsReadyToStart(String nick) {
+
+    }
+
+    @Override
+    public void commonCardsExtracted(CommonCard card) throws RemoteException {
 
     }
 
@@ -88,7 +87,7 @@ public class SocketWithClientView implements Runnable, GameListener {
     }
 
     @Override
-    public void positionedTile(GameModel gameModel) {
+    public void positionedTile(GameModel gamemodel, TileType type, int column) {
 
     }
 
@@ -98,7 +97,7 @@ public class SocketWithClientView implements Runnable, GameListener {
     }
 
     @Override
-    public void addedPoint(Player p) {
+    public void addedPoint(Player p, Point point) {
 
     }
 }

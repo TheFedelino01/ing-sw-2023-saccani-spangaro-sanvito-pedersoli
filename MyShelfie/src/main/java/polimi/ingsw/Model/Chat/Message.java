@@ -2,9 +2,10 @@ package polimi.ingsw.Model.Chat;
 
 import polimi.ingsw.Model.Player;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
-public class Message {
+public class Message implements Serializable {
     private String text;
     private Player sender;
     private LocalTime time;

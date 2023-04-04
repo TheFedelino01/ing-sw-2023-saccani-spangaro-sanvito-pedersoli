@@ -7,13 +7,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import polimi.ingsw.Model.Exceptions.TileGrabbedNotCorrectException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.*;
 
-public class Playground {
+public class Playground implements Serializable {
     private final Tile[][] playground; //playground formed by tiles
     private final List<Tile> bag; //All tiles are contained in this array
     private List<List<Integer>> data;

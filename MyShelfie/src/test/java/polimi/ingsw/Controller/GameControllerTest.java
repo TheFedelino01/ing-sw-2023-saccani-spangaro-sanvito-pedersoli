@@ -7,6 +7,8 @@ import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Enumeration.*;
+import polimi.ingsw.Model.Exceptions.GameEndedException;
+import polimi.ingsw.Model.Exceptions.PlayerAlreadyInException;
 import polimi.ingsw.Model.Exceptions.PositioningATileNotGrabbedException;
 
 import java.util.*;
@@ -33,18 +35,18 @@ public class GameControllerTest {
     @DisplayName("Join Player and Start")
     void joinPlayersAndStart() {
 
-        assertTrue(gameController.addPlayer(plist.get(0)), "Player not added but needed to");
-        assertTrue(gameController.addPlayer(plist.get(1)), "Player not added but needed to");
-        assertTrue(gameController.addPlayer(plist.get(2)), "Player not added but needed to");
+        gameController.addPlayer(plist.get(0));
+        gameController.addPlayer(plist.get(1));
+        gameController.addPlayer(plist.get(2));
 
-        assertFalse(gameController.addPlayer(plist.get(0)), "Player added but was already in");
-        assertFalse(gameController.addPlayer(plist.get(1)), "Player added but was already in");
-        assertFalse(gameController.addPlayer(plist.get(2)), "Player added but was already in");
+        assertThrows(PlayerAlreadyInException.class, () -> gameController.addPlayer(plist.get(0)), "Player added but was already in");
+        assertThrows(PlayerAlreadyInException.class, () -> gameController.addPlayer(plist.get(1)), "Player added but was already in");
+        assertThrows(PlayerAlreadyInException.class, () -> gameController.addPlayer(plist.get(2)), "Player added but was already in");
 
 
-        assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
-        assertFalse(gameController.playerIsReadyToStart(plist.get(1)), "Game started but not everyone was ready");
-        assertTrue(gameController.playerIsReadyToStart(plist.get(2)), "Game not started but everyone was ready to start");
+        assertFalse(gameController.playerIsReadyToStart(plist.get(0).getNickname()), "Game started but not everyone was ready");
+        assertFalse(gameController.playerIsReadyToStart(plist.get(1).getNickname()), "Game started but not everyone was ready");
+        assertTrue(gameController.playerIsReadyToStart(plist.get(2).getNickname()), "Game not started but everyone was ready to start");
 
         assertTrue(gameController.getIndexCurrentPlaying() >= 0 && gameController.getIndexCurrentPlaying() < gameController.getNumOfPlayers(), "Turn index overflow");
 
@@ -72,26 +74,32 @@ public class GameControllerTest {
     @DisplayName("Grab and Position a Tile in a running game")
     void grabAndPositionATile() {
 
-        assertTrue(gameController.addPlayer(plist.get(0)), "Player not added but needed to");
-        assertTrue(gameController.addPlayer(plist.get(1)), "Player not added but needed to");
+        gameController.addPlayer(plist.get(0));
+        gameController.addPlayer(plist.get(1));
 
-        assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
-        assertTrue(gameController.playerIsReadyToStart(plist.get(1)), "Game not started but everyone was ready to start");
+        assertFalse(gameController.playerIsReadyToStart(plist.get(0).getNickname()), "Game started but not everyone was ready");
+        assertTrue(gameController.playerIsReadyToStart(plist.get(1).getNickname()), "Game not started but everyone was ready to start");
 
 
         List<CommonCard> risCommon = gameController.getAllCommonCards();
 
         int currentPlayer = gameController.getIndexCurrentPlaying();
 
-        gameController.grabTileFromPlayground(plist.get(currentPlayer), 1, 3, Direction.DOWN, 1);
+        gameController.grabTileFromPlayground(plist.get(currentPlayer).getNickname(), 1, 3, Direction.DOWN, 1);
 
         Tile grabbed = plist.get(currentPlayer).getInHandTile().get(0);
 
-        assertThrows(PositioningATileNotGrabbedException.class, () -> gameController.positionTileOnShelf(plist.get(currentPlayer), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
+        assertThrows(PositioningATileNotGrabbedException.class, () -> gameController.positionTileOnShelf(plist.get(currentPlayer).getNickname(), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
 
-        assertEquals(1, plist.get(currentPlayer).getInHandTile().size(), "Grabbed mismatch");
-        gameController.positionTileOnShelf(plist.get(currentPlayer), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
-        assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned tile on shelf but player's hand not free");
+
+        assertTrue(plist.get(currentPlayer).getInHandTile().size()==1,"Grabbed mismatch");
+        try {
+            gameController.positionTileOnShelf(plist.get(currentPlayer).getNickname(), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
+        } catch (GameEndedException e) {
+            throw new RuntimeException(e);
+        }
+        assertTrue(plist.get(currentPlayer).getInHandTile().size()==0,"Positioned tile on shelf but player's hand not free");
+
 
         if(!plist.get(currentPlayer).getShelf().get(DefaultValue.NumOfRowsShelf-1,0).isSameType(grabbed.getType())){
             assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned a wrong tile");
@@ -108,8 +116,8 @@ public class GameControllerTest {
 
         gameController.addPlayer(plist.get(0));
         gameController.addPlayer(plist.get(1));
-        gameController.playerIsReadyToStart(plist.get(0));
-        gameController.playerIsReadyToStart(plist.get(1));
+        gameController.playerIsReadyToStart(plist.get(0).getNickname());
+        gameController.playerIsReadyToStart(plist.get(1).getNickname());
 
 
         gameController.whoIsPlaying().addPoint(gameController.getAllCommonCards().get(0).getPoints().peek());
@@ -144,11 +152,11 @@ public class GameControllerTest {
     @Test
     @DisplayName("Next turn")
     public void testNextTurn() {
-        assertTrue(gameController.addPlayer(plist.get(0)), "Player not added but needed to");
-        assertTrue(gameController.addPlayer(plist.get(1)), "Player not added but needed to");
+        gameController.addPlayer(plist.get(0));
+        gameController.addPlayer(plist.get(1));
 
-        assertFalse(gameController.playerIsReadyToStart(plist.get(0)), "Game started but not everyone was ready");
-        assertTrue(gameController.playerIsReadyToStart(plist.get(1)), "Game not started but everyone was ready to start");
+        assertFalse(gameController.playerIsReadyToStart(plist.get(0).getNickname()), "Game started but not everyone was ready");
+        assertTrue(gameController.playerIsReadyToStart(plist.get(1).getNickname()), "Game not started but everyone was ready to start");
 
 
         int currentPlayer = gameController.getIndexCurrentPlaying();

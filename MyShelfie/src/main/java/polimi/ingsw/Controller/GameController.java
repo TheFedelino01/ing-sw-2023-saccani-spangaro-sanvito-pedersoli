@@ -1,16 +1,20 @@
 package polimi.ingsw.Controller;
 
+import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
+import polimi.ingsw.View.RMI.ClientResponsesInterface;
 import polimi.ingsw.View.View;
 
+import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.*;
 
-public class GameController {
+public class GameController implements ClientResponsesInterface, Serializable {
     private final GameModel model;
     private final Random random = new Random();
     private View view;
@@ -31,13 +35,8 @@ public class GameController {
      * @exception MaxPlayersInException when the game has already reached its full capability (#player=4)
      * @return true if player is added and is now in game, false else
      */
-    public Boolean addPlayer(Player p) {
-        try {
-            model.addPlayer(p);
-            return true;
-        } catch (PlayerAlreadyInException | MaxPlayersInException e) {
-            return false;
-        }
+    public void addPlayer(Player p) throws PlayerAlreadyInException,MaxPlayersInException{
+        model.addPlayer(p);
     }
 
     /**
@@ -66,9 +65,9 @@ public class GameController {
      * @param p Player to set has ready
      * @return true if the game has started, false else
      */
-    public boolean playerIsReadyToStart(Player p) {
+    public synchronized boolean playerIsReadyToStart(String p) {
         //La partita parte automaticamente quando tutti i giocatori sono pronti
-        model.playerIsReadyToStart(p);
+        model.playerIsReadyToStart(model.getPlayerEntity(p));
 
         if (model.arePlayersReadyToStartAndEnough()) {
             extractCommonCards();
@@ -107,6 +106,7 @@ public class GameController {
             }
 
         } while (model.getNumOfCommonCards() < DefaultValue.NumOfCommonCards);
+
     }
 
     /**
@@ -202,25 +202,35 @@ public class GameController {
     }
 
 
-    public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
-        if(isPlayerTheCurrentPlaying(p)){
-            model.grabTileFromPlayground(p, x, y, direction, num);
+    public synchronized void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) {
+        if(isPlayerTheCurrentPlaying(model.getPlayerEntity(p))){
+            model.grabTileFromPlayground(model.getPlayerEntity(p), x, y, direction, num);
         }else{
             throw new NotPlayerTurnException();
         }
 
     }
 
-    public void positionTileOnShelf(Player p, int column, TileType type) {
-        if(isPlayerTheCurrentPlaying(p)){
-            model.positionTileOnShelf(p, column, type);
+    public synchronized void positionTileOnShelf(String p, int column, TileType type) throws GameEndedException {
+        if(isPlayerTheCurrentPlaying(model.getPlayerEntity(p))){
+            model.positionTileOnShelf(model.getPlayerEntity(p), column, type);
         }else{
             throw new NotPlayerTurnException();
         }
 
     }
 
-    public void nextTurn() {
+
+    @Override
+    public synchronized boolean isThisMyTurn(String nick) throws RemoteException {
+        return model.getPlayer(model.getCurrentPlaying()).getNickname().equals(nick);
+    }
+
+
+    /**
+     * Check if the player has completed the shelf, otherwise the turn is passed to the next player
+     */
+    public synchronized void nextTurn() {
         checkCommonCards(whoIsPlaying());
 
         if(whoIsPlaying().getShelf().getFreeSpace()==0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)){
@@ -281,10 +291,29 @@ public class GameController {
 
     }
 
-
+    public Player getPlayer(String playerNick){
+        return model.getPlayerEntity(playerNick);
+    }
 
     public Player whoIsPlaying() {
         return model.getPlayers().get(model.getCurrentPlaying());
     }
 
+    public GameStatus getStatus(){
+        return model.getStatus();
+    }
+    public int getId(){
+        return model.getGameId();
+    }
+
+
+    public void addListener(GameListener l, Player p){
+        model.addListener(l);
+        p.addListener(l);
+    }
+
+    public void removeListener(GameListener lis, Player p) {
+        model.removeListener(lis);
+        p.removeListener(lis);
+    }
 }
