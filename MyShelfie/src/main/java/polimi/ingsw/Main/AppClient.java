@@ -14,7 +14,7 @@ import java.rmi.RemoteException;
  */
 public class AppClient
 {
-    public static void main( String[] args ) throws RemoteException, InterruptedException {
+    public static void main( String[] args ) throws RemoteException {
         RMIClient client = new RMIClient();
 
         client.connect();

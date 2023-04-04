@@ -2,8 +2,9 @@ package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.ControllerAndPlayer;
 import polimi.ingsw.Model.DefaultValue;
+import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
+import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -36,29 +37,29 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         mainController = MainController.getInstance();
     }
     @Override
-    public ControllerAndPlayer createGame(GameListener lis, String nick) throws RemoteException {
-        ControllerAndPlayer ris = mainController.createGame(lis,nick);
+    public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
+        GameControllerInterface ris = mainController.createGame(lis,nick);
         //The GameController and the Player have just created so, I need to set them as an Exportable Object
 
-        ris.setGameControllerInterface((ClientResponsesInterface) UnicastRemoteObject.exportObject(ris.getGameControllerInterface(),0));
+        UnicastRemoteObject.exportObject(ris,0);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         System.out.println("New game created");
         return ris;
     }
 
     @Override
-    public ControllerAndPlayer joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+    public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
         //Return the GameController already existed => not necessary to re-Export Object
-        ControllerAndPlayer ris = mainController.joinFirstAvailableGame(lis,nick);
+        GameControllerInterface ris = mainController.joinFirstAvailableGame(lis,nick);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         System.out.println("Joined");
         return ris;
     }
 
     @Override
-    public ControllerAndPlayer joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+    public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
         //Return the GameController already existed => not necessary to re-Export Object
-        ControllerAndPlayer ris = mainController.joinGame(lis,nick,idGame);
+        GameControllerInterface ris = mainController.joinGame(lis,nick,idGame);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         return ris;
     }

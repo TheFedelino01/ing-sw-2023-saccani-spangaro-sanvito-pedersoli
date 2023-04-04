@@ -1,13 +1,13 @@
 package polimi.ingsw.Controller;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.ControllerAndPlayer;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Exceptions.MaxPlayersInException;
 import polimi.ingsw.Model.Exceptions.PlayerAlreadyInException;
 import polimi.ingsw.Model.Player;
-import polimi.ingsw.View.RMI.MainControllerInterface;
+import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
+import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -39,7 +39,7 @@ public class MainController implements MainControllerInterface, Serializable {
 
 
     @Override
-    public ControllerAndPlayer createGame(GameListener lis, String nick) throws RemoteException {
+    public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
         Player p = new Player(nick);
 
 
@@ -52,11 +52,11 @@ public class MainController implements MainControllerInterface, Serializable {
             throw new RuntimeException(e);
         }
 
-        return new ControllerAndPlayer(c,p);
+        return c;
     }
 
     @Override
-    public ControllerAndPlayer joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+    public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
 
         List<GameController> ris = runningGames.stream().filter(x->(x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers()<DefaultValue.MaxNumOfPlayer)).collect(Collectors.toList());
         Player p = new Player(nick);
@@ -64,30 +64,30 @@ public class MainController implements MainControllerInterface, Serializable {
             try {
                 ris.get(0).addListener(lis,p);
                 ris.get(0).addPlayer(p);
-                return new ControllerAndPlayer(ris.get(0),p);
+                return ris.get(0);
             }catch(MaxPlayersInException  | PlayerAlreadyInException e){
                 ris.get(0).removeListener(lis,p);
             }
         }
-        return new ControllerAndPlayer(null,p);
+        return null;
 
     }
 
     @Override
-    public ControllerAndPlayer joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
-        List<GameController> ris = runningGames.stream().filter(x->(x.getId()==idGame)).collect(Collectors.toList());
+    public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+        List<GameController> ris = runningGames.stream().filter(x->(x.getId()==idGame)).toList();
         Player p = new Player(nick);
 
         if(ris.size()==1){
             try {
                 ris.get(0).addListener(lis,p);
                 ris.get(0).addPlayer(p);
-                return new ControllerAndPlayer(ris.get(0),p);
+                return ris.get(0);
             }catch(MaxPlayersInException  | PlayerAlreadyInException e){
                 ris.get(0).removeListener(lis,p);
             }
         }
-        return new ControllerAndPlayer(null,p);
+        return null;
 
     }
 

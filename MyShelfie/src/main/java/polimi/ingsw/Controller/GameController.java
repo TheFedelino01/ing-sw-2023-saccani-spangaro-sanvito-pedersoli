@@ -7,14 +7,14 @@ import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
-import polimi.ingsw.View.RMI.ClientResponsesInterface;
+import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.View;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class GameController implements ClientResponsesInterface, Serializable {
+public class GameController implements GameControllerInterface, Serializable {
     private final GameModel model;
     private final Random random = new Random();
     private View view;
