@@ -1,12 +1,14 @@
 package polimi.ingsw.View.socket.client;
 
+import polimi.ingsw.Controller.GameController;
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
-public class SocketClientMessageJoinFirst implements SocketClientMessage, Serializable {
+public class SocketClientMessageJoinFirst extends SocketClientMessage implements Serializable {
     GameListener lis;
     String nick;
 
@@ -16,7 +18,12 @@ public class SocketClientMessageJoinFirst implements SocketClientMessage, Serial
     }
 
     @Override
-    public void execute(MainControllerInterface mainController) throws RemoteException {
-        mainController.joinFirstAvailableGame(lis, nick);
+    public GameControllerInterface execute(MainControllerInterface mainController) throws RemoteException {
+        return mainController.joinFirstAvailableGame(lis, nick);
+    }
+
+    @Override
+    public void execute(GameControllerInterface mainController) throws RemoteException {
+
     }
 }
