@@ -1,9 +1,9 @@
-package polimi.ingsw.client;
+package polimi.ingsw.View.socket.client;
 
 import java.io.*;
 import java.net.Socket;
 
-public class ClientBase {
+public class ClientSocket {
 
     private Socket clientSoc;
     private ObjectOutputStream out;

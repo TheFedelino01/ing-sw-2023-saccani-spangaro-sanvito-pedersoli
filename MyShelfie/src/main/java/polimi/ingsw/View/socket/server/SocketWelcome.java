@@ -1,13 +1,12 @@
-package polimi.ingsw.server;
+package polimi.ingsw.View.socket.server;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.net.ServerSocket;
 import java.nio.channels.ClosedByInterruptException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Server extends Thread {
+public class SocketWelcome extends Thread {
     private ServerSocket serverSocket;
     private List<ClientHandler> handler;
 

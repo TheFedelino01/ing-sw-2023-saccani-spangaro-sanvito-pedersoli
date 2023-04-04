@@ -1,4 +1,4 @@
-package polimi.ingsw.server;
+package polimi.ingsw.View.socket.server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

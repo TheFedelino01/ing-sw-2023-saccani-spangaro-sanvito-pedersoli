@@ -1,8 +1,8 @@
 package polimi.ingsw;
 
 import org.junit.jupiter.api.*;
-import polimi.ingsw.client.ClientBase;
-import polimi.ingsw.server.Server;
+import polimi.ingsw.View.socket.client.ClientSocket;
+import polimi.ingsw.View.socket.server.SocketWelcome;
 
 import java.io.IOException;
 
@@ -12,22 +12,22 @@ public class SocketTest {
 
     private final static String ip = "127.0.0.1";
     private final static int port = 4567;
-    private static ClientBase client, client1,  client2, client3, client4;
-    private static Server server;
+    private static ClientSocket client, client1,  client2, client3, client4;
+    private static SocketWelcome server;
 
     @BeforeAll
     static void setup() throws IOException {
-        server = new Server();
+        server = new SocketWelcome();
         server.start(port);
-        client = new ClientBase();
+        client = new ClientSocket();
         client.startConnection(ip, port);
-        client1 = new ClientBase();
+        client1 = new ClientSocket();
         client1.startConnection(ip, port);
-        client2 = new ClientBase();
+        client2 = new ClientSocket();
         client2.startConnection(ip, port);
-        client3 = new ClientBase();
+        client3 = new ClientSocket();
         client3.startConnection(ip, port);
-        client4 = new ClientBase();
+        client4 = new ClientSocket();
         client4.startConnection(ip, port);
     }
 
