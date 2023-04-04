@@ -149,8 +149,25 @@ public class TextUI {
     public void viewGoalCard() {
     }
 
+    public void pickTiles(){
+        System.out.println("> How many tiles do you want to get?");
+        int numTiles = Integer.parseInt(scanner.nextLine());
+        System.out.println("> Which tiles do you want to get?");
+        System.out.println("> Choose column: ");
+        int column = Integer.parseInt(scanner.nextLine());
+        System.out.println("> Choose row: ");
+        int row = Integer.parseInt(scanner.nextLine());
+        System.out.println("> Choose direction: ");
+        String direction = scanner.nextLine();
+        System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
+    }
+    public void placeTiles(){
+        System.out.println("> Which tiles do you want to place?");
+        System.out.println("> Choose column: ");
+        int column = Integer.parseInt(scanner.nextLine());
+        //TODO choose tile order in column
+    }
     public void viewShelf(Tile[][] shelf) {
-
         for (int i = 0; i < shelf.length; i++) {
             for (int j = 0; j < shelf[i].length; j++) {
                 System.out.format("%-10s", shelf[i][j].getType());
