@@ -2,7 +2,9 @@ package polimi.ingsw.Model;
 
 import polimi.ingsw.Model.Enumeration.TileType;
 
-public class Shelf {
+import java.io.Serializable;
+
+public class Shelf implements Serializable {
     private Tile[][] shelf;
     private Integer freeSpace; //6*5
 

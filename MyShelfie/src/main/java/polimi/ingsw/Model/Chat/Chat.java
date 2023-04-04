@@ -2,11 +2,12 @@ package polimi.ingsw.Model.Chat;
 
 import polimi.ingsw.Model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Chat {
+public class Chat implements Serializable {
     private List<Message> msgs;
 
     public Chat(){

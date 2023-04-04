@@ -1,20 +1,23 @@
 package polimi.ingsw.Model;
 
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Listener.ListenersHandler;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
-import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.*;
 
+import java.io.ObjectStreamException;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GameModel {
+public class GameModel implements Serializable {
     private final List<Player> players;
     private final List<CommonCard> commonCards;
     private Integer gameId;
@@ -33,7 +36,7 @@ public class GameModel {
 
     private Integer indexWonPlayer = -1;
 
-    private List<GameListener> listeners;
+    private transient ListenersHandler listenersHandler;
 
     public GameModel() {
         players = new ArrayList<>();
@@ -49,7 +52,13 @@ public class GameModel {
 
         chat = new Chat();
 
-        listeners = new ArrayList<>();
+        listenersHandler = new ListenersHandler();
+    }
+
+    @Serial
+    private Object readResolve() throws ObjectStreamException {
+        listenersHandler = new ListenersHandler();
+        return this;
     }
 
     public GameModel(List<Player> players, List<CommonCard> commonCards, Integer gameId, Playground pg) {
@@ -72,12 +81,13 @@ public class GameModel {
                 .noneMatch(x -> x.equals(p))) {
             if (players.size() + 1 <= DefaultValue.MaxNumOfPlayer) {
                 players.add(p);
+                listenersHandler.notify_playerJoined(p.getNickname());
             } else {
-                notify_JoinUnableGameFull();
+                listenersHandler.notify_JoinUnableGameFull(p,this);
                 throw new MaxPlayersInException();
             }
         } else {
-            notify_JoinUnableNicknameAlreadyIn(p.getNickname());
+            listenersHandler.notify_JoinUnableNicknameAlreadyIn(p);
             throw new PlayerAlreadyInException();
         }
 
@@ -86,7 +96,7 @@ public class GameModel {
 
     public void playerIsReadyToStart(Player p) {
         p.setReadyToStart();
-        notify_PlayerIsReadyToStart(p.getNickname());
+        listenersHandler.notify_PlayerIsReadyToStart(p.getNickname());
     }
 
     public boolean arePlayersReadyToStartAndEnough() {
@@ -108,6 +118,7 @@ public class GameModel {
         if (commonCards.stream().noneMatch(x -> x.isSameType(c))) {
             if (commonCards.size() + 1 <= DefaultValue.NumOfCommonCards) {
                 commonCards.add(c);
+                listenersHandler.notify_extractedCommonCard(c);
             } else {
                 throw new MaxCommonCardsAddedException();
             }
@@ -171,7 +182,7 @@ public class GameModel {
     public void sendMessage(Player p, String txt) {
         if (players.stream().filter(x -> x.equals(p)).count() == 1) {
             chat.addMsg(p, txt);
-            notify_SentMessage(chat.getLastMessage());
+            listenersHandler.notify_SentMessage(chat.getLastMessage());
         } else {
             throw new ActionPerformedByAPlayerNotPlayingException();
         }
@@ -190,6 +201,10 @@ public class GameModel {
             ris.put(p, p.getSecretGoal());
         }
         return ris;
+    }
+
+    public List<CommonCard> getCommonCards(){
+        return commonCards;
     }
 
     public boolean doAllPlayersHaveGoalCard() {
@@ -212,11 +227,12 @@ public class GameModel {
         } else {
             this.status = status;
 
-            if (status.equals(GameStatus.RUNNING)) {
-                notify_GameStarted();
-            } else if (status.equals(GameStatus.ENDED)) {
+
+            if (status == GameStatus.RUNNING) {
+                listenersHandler.notify_GameStarted(this);
+            } else if (status == GameStatus.ENDED) {
                 findWinner(); //Trovo il vincitore
-                notify_GameEnded();
+                listenersHandler.notify_GameEnded(this);
             }
         }
     }
@@ -231,20 +247,24 @@ public class GameModel {
 
             //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
             p.setInHandTile(ris);
-            notify_grabbedTile();
+            listenersHandler.notify_grabbedTile(this);
 
         } catch (TileGrabbedNotCorrectException e) {
             //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
-            notify_grabbedTileNotCorrect();
+            listenersHandler.notify_grabbedTileNotCorrect(this);
         }
 
     }
 
-    public void positionTileOnShelf(Player p, int column, TileType type) {
+    public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
         Tile t = popInHandTilePlayer(p, type);
         if (t != null) {
             p.getShelf().position(column, type);
-            notify_positionedTile();
+            listenersHandler.notify_positionedTile(this, type,column);
+            //if the hand is empty then call next turn
+            if(p.getInHandTile().size()==0){
+                nextTurn();
+            }
         } else {
             throw new PositioningATileNotGrabbedException();
         }
@@ -268,7 +288,7 @@ public class GameModel {
                 if (currentPlaying.equals(firstFinishedPlayer)) {
                     throw new GameEndedException();
                 } else {
-                    notify_nextTurn();
+                    listenersHandler.notify_nextTurn(this);
                 }
             } else {
                 throw new NotEmptyHandException();
@@ -325,57 +345,32 @@ public class GameModel {
 
 
     public void addListener(GameListener obj) {
-        listeners.add(obj);
+        listenersHandler.addListener(obj);
     }
 
-    private void notify_JoinUnableGameFull() {
-        for (GameListener l : listeners)
-            l.JoinUnableGameFull(this);
+
+    public void removeListener(GameListener lis) {
+        listenersHandler.removeListener(lis);
     }
 
-    private void notify_JoinUnableNicknameAlreadyIn(String nick) {
-        for (GameListener l : listeners)
-            l.JoinUnableNicknameAlreadyIn(nick);
+    public Player getPlayerEntity(String playerNick) {
+        return players.stream().filter(x->x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+    }
+    public String getNicknameCurrentPlaying(){
+        return players.get(currentPlaying).getNickname();
     }
 
-    private void notify_PlayerIsReadyToStart(String nick) {
-        for (GameListener l : listeners)
-            l.PlayerIsReadyToStart(nick);
+    public List<Tile> getHandOfCurrentPlaying(){
+        return players.get(currentPlaying).getInHandTile();
     }
 
-    private void notify_GameStarted() {
-        for (GameListener l : listeners)
-            l.GameStarted(this);
+    public Map<Integer, Integer> getLeaderBoard(){
+        return leaderBoard;
     }
-
-    private void notify_GameEnded() {
-        for (GameListener l : listeners)
-            l.GameEnded(this);
+    public Player getWinner(){
+        if(indexWonPlayer!=-1) {
+            return players.get(indexWonPlayer);
+        }
+        return null;
     }
-
-    private void notify_SentMessage(Message msg) {
-        for (GameListener l : listeners)
-            l.SentMessage(msg);
-    }
-
-    private void notify_grabbedTile() {
-        for (GameListener l : listeners)
-            l.grabbedTile(this);
-    }
-
-    private void notify_positionedTile() {
-        for (GameListener l : listeners)
-            l.positionedTile(this);
-    }
-
-    private void notify_nextTurn() {
-        for (GameListener l : listeners)
-            l.nextTurn(this);
-    }
-
-    private void notify_grabbedTileNotCorrect() {
-        for (GameListener l : listeners)
-            l.grabbedTileNotCorrect(this);
-    }
-
 }
