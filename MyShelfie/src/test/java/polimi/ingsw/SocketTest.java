@@ -20,15 +20,15 @@ public class SocketTest {
         server = new SocketWelcome();
         server.start(port);
         client = new ClientSocket();
-        client.startConnection(ip, port);
+
         client1 = new ClientSocket();
-        client1.startConnection(ip, port);
+
         client2 = new ClientSocket();
-        client2.startConnection(ip, port);
+
         client3 = new ClientSocket();
-        client3.startConnection(ip, port);
+
         client4 = new ClientSocket();
-        client4.startConnection(ip, port);
+
     }
 
     @AfterAll

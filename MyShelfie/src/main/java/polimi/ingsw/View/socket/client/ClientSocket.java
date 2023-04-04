@@ -1,8 +1,11 @@
 package polimi.ingsw.View.socket.client;
 
+import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
+import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.View.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
@@ -15,8 +18,9 @@ import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessag
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
-public class ClientSocket implements CommonClientActions {
+public class ClientSocket extends Thread implements CommonClientActions {
 
     private Socket clientSoc;
     private ObjectOutputStream out;
@@ -31,10 +35,22 @@ public class ClientSocket implements CommonClientActions {
     private MainControllerInterface controller;
 
     public ClientSocket() {
-
+        startConnection(DefaultValue.Remote_ip,DefaultValue.Default_port_Socket);
+        this.start();
     }
 
-    public void startConnection(String ip, int port) {
+    public void run() {
+        while(true){
+            try {
+                System.out.println("Client "+nickname+" received: "+in.readObject().toString());
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+    private void startConnection(String ip, int port) {
         try {
             clientSoc = new Socket(ip, port);
             out = new ObjectOutputStream(clientSoc.getOutputStream());
@@ -59,20 +75,20 @@ public class ClientSocket implements CommonClientActions {
 
     @Override
     public void createGame(String nick) throws IOException {
-        out.writeObject(new SocketClientMessageCreateGame(nick));
         nickname=nick;
+        out.writeObject(new SocketClientMessageCreateGame(nick));
     }
 
     @Override
     public void joinFirstAvailable(String nick) throws IOException {
-        out.writeObject(new SocketClientMessageJoinFirst(nick));
         nickname=nick;
+        out.writeObject(new SocketClientMessageJoinFirst(nick));
     }
 
     @Override
     public void joinGame(String nick, int idGame) throws IOException {
-        out.writeObject(new SocketClientMessageJoinGame(nick, idGame));
         nickname=nick;
+        out.writeObject(new SocketClientMessageJoinGame(nick, idGame));
     }
 
     @Override

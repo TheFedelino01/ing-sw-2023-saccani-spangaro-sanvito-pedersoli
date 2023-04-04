@@ -22,7 +22,7 @@ public class ClientHandler extends Thread {
         this.clientSocket = soc;
         this.in = new ObjectInputStream(soc.getInputStream());
         this.out = new ObjectOutputStream(soc.getOutputStream());
-        gameListenersHandlerSocket = new GameListenersHandlerSocket();
+        gameListenersHandlerSocket = new GameListenersHandlerSocket(out);
     }
 
     public void interruptThread() {
@@ -35,11 +35,13 @@ public class ClientHandler extends Thread {
         while(true){
             try {
                 temp = (SocketClientGenericMessage) in.readObject();
+
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
             try {
                 if(temp.isMessageForMainController()) {
+
                     gameController = temp.execute(gameListenersHandlerSocket,MainController.getInstance());
                 }else{
                     temp.execute(gameController);

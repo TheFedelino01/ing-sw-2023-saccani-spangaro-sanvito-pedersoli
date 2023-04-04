@@ -19,6 +19,9 @@ public class DefaultValue implements Serializable {
     public final static int[] pointsValue = {2, 4, 6, 8};
 
     public final static int Default_port_RMI = 4321;
+    public final static int Default_port_Socket = 4320;
     public final static String Default_servername_RMI = "MyShelfie";
+
+    public final static String Remote_ip = "127.0.0.1";
 
 }

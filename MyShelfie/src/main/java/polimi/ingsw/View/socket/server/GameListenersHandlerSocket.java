@@ -9,12 +9,24 @@ import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 
 public class GameListenersHandlerSocket implements GameListener {
+
+    private ObjectOutputStream out;
+    public GameListenersHandlerSocket(ObjectOutputStream o){
+        out=o;
+    }
     @Override
     public void playerJoined(String nickNewPlayer) throws RemoteException {
-        System.out.println(nickNewPlayer +" by socket");
+        //System.out.println(nickNewPlayer +" by socket");
+        try {
+            out.writeObject(nickNewPlayer +" by socket");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -29,17 +41,32 @@ public class GameListenersHandlerSocket implements GameListener {
 
     @Override
     public void PlayerIsReadyToStart(String nick) throws RemoteException {
-        System.out.println(nick +" ready to start by socket");
+        //System.out.println(nick +" ready to start by socket");
+        try {
+            out.writeObject(nick +" ready to start by socket");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void commonCardsExtracted(CommonCard card) throws RemoteException {
-        System.out.println(card.getCommonType() +" common card extracted by socket");
+        //System.out.println(card.getCommonType() +" common card extracted by socket");
+        try {
+            out.writeObject(card.getCommonType() +" common card extracted by socket");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void GameStarted(GameModelImmutable gamemodel) throws RemoteException {
-        System.out.println(gamemodel.getGameId() +" game started by socket");
+        //System.out.println(gamemodel.getGameId() +" game started by socket");
+        try {
+            out.writeObject(gamemodel.getGameId() +" game started by socket");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
