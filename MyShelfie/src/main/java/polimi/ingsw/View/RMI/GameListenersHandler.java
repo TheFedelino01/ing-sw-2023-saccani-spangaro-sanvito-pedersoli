@@ -8,10 +8,11 @@ import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
 //This class handles all the responses that the server RMI sends
-public class GameListenersHandler implements GameListener {
+public class GameListenersHandler implements GameListener, Serializable {
 
     private GameModel lastModelReceived=null;
 

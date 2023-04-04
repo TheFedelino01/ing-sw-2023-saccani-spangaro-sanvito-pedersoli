@@ -11,21 +11,21 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface GameListener extends Remote {
-    public void playerJoined(String nickNewPlayer) throws RemoteException;;
-    public void JoinUnableGameFull(Player p,GameModel gamemodel) throws RemoteException;
-    public void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
-    public void PlayerIsReadyToStart(String nick) throws RemoteException;
+    void playerJoined(String nickNewPlayer) throws RemoteException;;
+    void JoinUnableGameFull(Player p,GameModel gamemodel) throws RemoteException;
+    void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
+    void PlayerIsReadyToStart(String nick) throws RemoteException;
 
-    public void commonCardsExtracted(CommonCard card) throws RemoteException;
+    void commonCardsExtracted(CommonCard card) throws RemoteException;
 
-    public void GameStarted(GameModel gamemodel) throws RemoteException;
-    public void GameEnded(GameModel gamemodel) throws RemoteException;
+    void GameStarted(GameModel gamemodel) throws RemoteException;
+    void GameEnded(GameModel gamemodel) throws RemoteException;
 
-    public void SentMessage(Message msg) throws RemoteException;
-    public void grabbedTile(GameModel gamemodel) throws RemoteException;
-    public void grabbedTileNotCorrect(GameModel gamemodel) throws RemoteException;
-    public void positionedTile(GameModel gamemodel, TileType type, int column) throws RemoteException;
-    public void nextTurn(GameModel gamemodel) throws RemoteException;
+    void SentMessage(Message msg) throws RemoteException;
+    void grabbedTile(GameModel gamemodel) throws RemoteException;
+    void grabbedTileNotCorrect(GameModel gamemodel) throws RemoteException;
+    void positionedTile(GameModel gamemodel, TileType type, int column) throws RemoteException;
+    void nextTurn(GameModel gamemodel) throws RemoteException;
 
-    public void addedPoint(Player p, Point point) throws RemoteException;
+    void addedPoint(Player p, Point point) throws RemoteException;
 }
