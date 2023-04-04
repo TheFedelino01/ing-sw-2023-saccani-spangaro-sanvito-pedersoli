@@ -54,4 +54,9 @@ public enum CardGoalType implements CardType {
     }
 
     public static List<CardGoalType> getValues(){return Arrays.stream(values()).filter(x -> !x.equals(CardGoalType.NOT_SET)).collect(Collectors.toList());}
+
+    //for testing purposes ONLY
+    public static List<CardGoalType> getValuesBUT(){return Arrays.stream(values()).filter(x -> !x.equals(CardGoalType.NOT_SET))
+            .filter(x -> !x.equals(CardGoalType.GOAL0)).collect(Collectors.toList());}
+
 }

@@ -72,8 +72,10 @@ public class GameModel implements Serializable {
         return players.size();
     }
 
+    public List<Player> getPlayers(){return players;}
+
     public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
-        //Verifico per prima cosa che il player non e' gia' presente
+        //Verifico per prima cosa che il player non è gia' presente
         //poi se non vado in overflow
         if (players.stream()
                 .noneMatch(x -> x.equals(p))) {
@@ -89,11 +91,6 @@ public class GameModel implements Serializable {
             throw new PlayerAlreadyInException();
         }
 
-    }
-
-
-    public Player getPlayer(int i) {
-        return players.get(i);
     }
 
 
@@ -212,7 +209,7 @@ public class GameModel implements Serializable {
 
     public boolean doAllPlayersHaveGoalCard() {
         for (Player p : players) {
-            if (p.getSecretGoal().getGoalType() == CardGoalType.NOT_SET)
+            if (p.getSecretGoal().getGoalType().equals(CardGoalType.NOT_SET))
                 return false;
         }
         return true;
@@ -221,7 +218,7 @@ public class GameModel implements Serializable {
 
     public void setStatus(GameStatus status) {
         //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
-        if (status == GameStatus.RUNNING &&
+        if (status.equals(GameStatus.RUNNING) &&
                 (players.size() < DefaultValue.minNumOfPlayer
                         || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
                         || !doAllPlayersHaveGoalCard())
@@ -229,6 +226,7 @@ public class GameModel implements Serializable {
             throw new NotReadyToRunException();
         } else {
             this.status = status;
+
 
             if (status == GameStatus.RUNNING) {
                 listenersHandler.notify_GameStarted(this);
@@ -284,7 +282,7 @@ public class GameModel implements Serializable {
 
 
     public void nextTurn() throws GameEndedException {
-        if (status == GameStatus.RUNNING) {
+        if (status.equals(GameStatus.RUNNING)) {
             if (players.get(currentPlaying).getInHandTile().size() == 0) {
                 currentPlaying = (currentPlaying + 1) % players.size();
                 if (currentPlaying.equals(firstFinishedPlayer)) {
@@ -324,7 +322,7 @@ public class GameModel implements Serializable {
         Map<Integer, Integer> temp = new HashMap<>();
         //Cycle between every player point and return the one with more point
         for (int i = 0; i < getNumOfPlayers(); i++) {
-            point = getPlayer(i).getTotalPoints();
+            point = getPlayers().get(i).getTotalPoints();
             if (point >= max) {
                 temp.put(i, point);
                 max = point;

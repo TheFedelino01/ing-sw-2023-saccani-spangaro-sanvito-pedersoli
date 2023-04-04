@@ -220,11 +220,16 @@ public class GameController implements ClientResponsesInterface, Serializable {
 
     }
 
+
     @Override
     public synchronized boolean isThisMyTurn(String nick) throws RemoteException {
         return model.getPlayer(model.getCurrentPlaying()).getNickname().equals(nick);
     }
 
+
+    /**
+     * Check if the player has completed the shelf, otherwise the turn is passed to the next player
+     */
     public synchronized void nextTurn() {
         checkCommonCards(whoIsPlaying());
 
@@ -275,7 +280,7 @@ public class GameController implements ClientResponsesInterface, Serializable {
     private void checkGoalCards() {
         //get the index of the player
         for(int i=0; i<model.getNumOfPlayers(); i++){
-            Player p = model.getPlayer(i);
+            Player p = model.getPlayers().get(i);
             CardGoal g = model.getGoalCard(i);
             Point point = g.verify(p.getShelf());
             if (point != null) {
@@ -291,7 +296,7 @@ public class GameController implements ClientResponsesInterface, Serializable {
     }
 
     public Player whoIsPlaying() {
-        return model.getPlayer(model.getCurrentPlaying());
+        return model.getPlayers().get(model.getCurrentPlaying());
     }
 
     public GameStatus getStatus(){
