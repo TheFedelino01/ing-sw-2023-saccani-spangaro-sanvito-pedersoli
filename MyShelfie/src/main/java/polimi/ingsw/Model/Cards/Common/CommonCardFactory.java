@@ -41,6 +41,5 @@ public class CommonCardFactory {
             //Five columns in ascending or descending order: from 5 to 1 tile or from 1 to 5 tiles, types may vary
             case CommonDiagonal1 -> new CommonDiagonalCard(CardCommonType.CommonDiagonal1, 1);
         };
-
     }
 }
