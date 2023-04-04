@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 //This class handles all the responses that the server RMI sends
 public class GameListenersHandler implements GameListener {
 
-    private GameModel lastModelReceived;
+    private GameModel lastModelReceived=null;
 
     @Override
     public void playerJoined(String nickNewPlayer) {
@@ -43,7 +43,7 @@ public class GameListenersHandler implements GameListener {
     @Override
     public void GameStarted(GameModel gamemodel) {
         System.out.println(this.hashCode() + "> Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying());
-        lastModelReceived=gamemodel;
+        setModel(gamemodel);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class GameListenersHandler implements GameListener {
     @Override
     public void grabbedTile(GameModel gamemodel) {
         System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles: "+gamemodel.getHandOfCurrentPlaying().toString());
-        lastModelReceived=gamemodel;
+        setModel(gamemodel);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class GameListenersHandler implements GameListener {
     @Override
     public void positionedTile(GameModel gamemodel, TileType type, int column) {
         System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
-        lastModelReceived=gamemodel;
+        setModel(gamemodel);
     }
 
     @Override
@@ -87,5 +87,9 @@ public class GameListenersHandler implements GameListener {
 
     public GameModel getLastModelReceived(){
         return lastModelReceived;
+    }
+
+    public synchronized void setModel(GameModel m){
+        lastModelReceived = m;
     }
 }

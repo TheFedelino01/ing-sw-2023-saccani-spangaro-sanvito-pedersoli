@@ -1,13 +1,11 @@
 package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.ControllerAndPlayer;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.Model.GameModel;
-import polimi.ingsw.Model.Player;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -26,7 +24,7 @@ public class RMIClient extends UnicastRemoteObject{
     public RMIClient() throws RemoteException {
         super();
     }
-    public boolean connect(){
+    public void connect(){
         try {
             Registry registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
             requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
@@ -34,12 +32,10 @@ public class RMIClient extends UnicastRemoteObject{
             responses = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler,0);
 
             System.out.println("Client RMI ready");
-            return true;
         } catch (Exception e) {
             System.err.println("Server RMI exception: " + e.toString());
             e.printStackTrace();
         }
-        return false;
     }
 
     public void createGame(String nick){
@@ -114,7 +110,7 @@ public class RMIClient extends UnicastRemoteObject{
         }
     }
 
-    public GameModel getLastModelReceived(){
+    public synchronized GameModel getLastModelReceived(){
         return gameListenersHandler.getLastModelReceived();
     }
 

@@ -348,6 +348,7 @@ public class GameModel implements Serializable {
 
     }
 
+    /*
     @SuppressWarnings("unchecked")
     public void saveChat() {
         JSONObject save = new JSONObject();
@@ -395,6 +396,7 @@ public class GameModel implements Serializable {
             throw new RuntimeException(e);
         }
     }
+    */
 
     public void addListener(GameListener obj) {
         listenersHandler.addListener(obj);

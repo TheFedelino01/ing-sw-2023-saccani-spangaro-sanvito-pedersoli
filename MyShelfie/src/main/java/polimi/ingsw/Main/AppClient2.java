@@ -17,7 +17,7 @@ public class AppClient2 {
         client2.setAsReady();
 
         while(client2.getLastModelReceived()==null){
-
+            Thread.onSpinWait();
         }
 
         if(client2.isMyTurn()) {

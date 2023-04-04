@@ -24,7 +24,7 @@ public class AppClient
         client.setAsReady();
 
         while(client.getLastModelReceived()==null){
-
+            Thread.onSpinWait();
         }
         if(client.isMyTurn()) {
             client.grabTileFromPlayground(1, 3, Direction.RIGHT, 2);

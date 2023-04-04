@@ -223,7 +223,7 @@ public class GameController implements ClientResponsesInterface, Serializable {
 
     @Override
     public synchronized boolean isThisMyTurn(String nick) throws RemoteException {
-        return model.getPlayer(model.getCurrentPlaying()).getNickname().equals(nick);
+        return model.getPlayers().get(model.getCurrentPlaying()).getNickname().equals(nick);
     }
 
 
