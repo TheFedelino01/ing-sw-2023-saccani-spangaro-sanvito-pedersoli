@@ -1,24 +1,22 @@
-package polimi.ingsw.View.socket.client;
+package polimi.ingsw.View.socket.client.MainControllerMessages;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
+import polimi.ingsw.View.socket.client.SocketClientGenericMessage;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 
-public class SocketClientMessageCreateGame extends SocketClientMessage implements Serializable {
+public class SocketClientMessageCreateGame extends SocketClientGenericMessage {
 
-    GameListener lis;
-    String nick;
 
-    public SocketClientMessageCreateGame(GameListener lis, String nick) {
+    public SocketClientMessageCreateGame(String nick) {
         this.nick = nick;
-        this.lis = lis;
+        this.isMessageForMainController=true;
     }
 
     @Override
-    public GameControllerInterface execute(MainControllerInterface mainController) throws RemoteException {
+    public GameControllerInterface execute(GameListener lis,MainControllerInterface mainController) throws RemoteException {
         return mainController.createGame(lis, nick);
     }
 

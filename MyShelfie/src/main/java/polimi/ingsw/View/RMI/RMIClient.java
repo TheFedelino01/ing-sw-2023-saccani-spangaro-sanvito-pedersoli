@@ -21,7 +21,7 @@ public class RMIClient implements CommonClientActions {
     private GameControllerInterface gameController=null;
     private GameListener modelInvokedEvents;
     private String nickname;
-    private GameListenersHandler gameListenersHandler;
+    private GameListenersHandlerRMI gameListenersHandler;
 
     public RMIClient() {
         super();
@@ -30,7 +30,7 @@ public class RMIClient implements CommonClientActions {
         try {
             Registry registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
             requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-            gameListenersHandler=new GameListenersHandler();
+            gameListenersHandler=new GameListenersHandlerRMI();
             modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler,0);
 
             System.out.println("Client RMI ready");

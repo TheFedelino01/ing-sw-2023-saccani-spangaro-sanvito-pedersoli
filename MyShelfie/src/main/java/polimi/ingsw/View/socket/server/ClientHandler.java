@@ -1,10 +1,8 @@
 package polimi.ingsw.View.socket.server;
 
 import polimi.ingsw.Controller.MainController;
-import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
-import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
-import polimi.ingsw.View.socket.client.SocketClientMessage;
+import polimi.ingsw.View.socket.client.SocketClientGenericMessage;
 
 import java.io.*;
 import java.net.Socket;
@@ -14,7 +12,7 @@ public class ClientHandler extends Thread {
     private final Socket clientSocket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private MainControllerInterface mainController;
+
     private GameControllerInterface gameController;
 
     private GameListenersHandlerSocket gameListenersHandlerSocket;
@@ -23,7 +21,6 @@ public class ClientHandler extends Thread {
         this.clientSocket = soc;
         this.in = new ObjectInputStream(soc.getInputStream());
         this.out = new ObjectOutputStream(soc.getOutputStream());
-        this.mainController = MainController.getInstance();
         gameListenersHandlerSocket = new GameListenersHandlerSocket();
     }
 
@@ -33,16 +30,16 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
-        SocketClientMessage temp;
+        SocketClientGenericMessage temp;
         while(true){
             try {
-                temp = (SocketClientMessage) in.readObject();
+                temp = (SocketClientGenericMessage) in.readObject();
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
             try {
                 if(temp.isMessageForMainController()) {
-                    temp.execute(mainController);
+                    gameController = temp.execute(gameListenersHandlerSocket,MainController.getInstance());
                 }else{
                     temp.execute(gameController);
                 }

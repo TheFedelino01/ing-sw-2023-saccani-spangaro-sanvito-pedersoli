@@ -14,7 +14,7 @@ public interface CommonClientActions {
 
     public void joinGame(String nick, int idGame) throws IOException;
 
-    public void setAsReady();
+    public void setAsReady() throws IOException;
 
     public boolean isMyTurn();
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 
 //This class handles all the responses that the server RMI sends
-public class GameListenersHandler implements GameListener, Serializable {
+public class GameListenersHandlerRMI implements GameListener, Serializable {
 
     private GameModel lastModelReceived=null;
 

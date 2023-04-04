@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 public class GameListenersHandlerSocket implements GameListener {
     @Override
     public void playerJoined(String nickNewPlayer) throws RemoteException {
-
+        System.out.println(nickNewPlayer +" by socket");
     }
 
     @Override
@@ -28,17 +28,17 @@ public class GameListenersHandlerSocket implements GameListener {
 
     @Override
     public void PlayerIsReadyToStart(String nick) throws RemoteException {
-
+        System.out.println(nick +" ready to start by socket");
     }
 
     @Override
     public void commonCardsExtracted(CommonCard card) throws RemoteException {
-
+        System.out.println(card.getCommonType() +" common card extracted by socket");
     }
 
     @Override
     public void GameStarted(GameModel gamemodel) throws RemoteException {
-
+        System.out.println(gamemodel.getGameId() +" game started by socket");
     }
 
     @Override

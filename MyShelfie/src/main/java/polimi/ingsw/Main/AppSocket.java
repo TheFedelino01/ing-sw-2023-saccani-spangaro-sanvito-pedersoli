@@ -18,12 +18,22 @@ public class AppSocket {
 
         server = new SocketWelcome();
         server.start(port);
+
         client = new ClientSocket();
         client.startConnection(ip, port);
+
         client2 = new ClientSocket();
         client2.startConnection(ip, port);
+
+
         client.createGame("pippo");
+
+
         client2.joinFirstAvailable("ugo");
+
+        client.setAsReady();
+
+        client2.setAsReady();
 
     }
 }
