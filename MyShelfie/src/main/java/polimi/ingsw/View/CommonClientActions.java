@@ -4,14 +4,15 @@ import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public interface CommonClientActions {
-    public void createGame(String nick);
+    public void createGame(String nick) throws IOException;
 
-    public void joinFirstAvailable(String nick);
+    public void joinFirstAvailable(String nick) throws IOException;
 
-    public void joinGame(String nick, int idGame);
+    public void joinGame(String nick, int idGame) throws IOException;
 
     public void setAsReady();
 
