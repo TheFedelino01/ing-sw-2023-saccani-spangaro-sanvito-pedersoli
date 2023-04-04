@@ -3,6 +3,7 @@ package polimi.ingsw.View;
 import polimi.ingsw.Controller.GameController;
 import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
@@ -52,6 +53,11 @@ public class SocketWithClientView implements Runnable, GameListener {
 
     @Override
     public void PlayerIsReadyToStart(String nick) {
+
+    }
+
+    @Override
+    public void commonCardsExtracted(CommonCard card) throws RemoteException {
 
     }
 

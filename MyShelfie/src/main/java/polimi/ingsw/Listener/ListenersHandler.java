@@ -1,5 +1,6 @@
 package polimi.ingsw.Listener;
 
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
@@ -128,6 +129,16 @@ public class ListenersHandler {
             }
         }
     }
+    public void notify_extractedCommonCard(CommonCard card) {
+        for (GameListener l : listeners) {
+            try {
+                l.commonCardsExtracted(card);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
     public void removeListener(GameListener lis) {
         listeners.remove(lis);

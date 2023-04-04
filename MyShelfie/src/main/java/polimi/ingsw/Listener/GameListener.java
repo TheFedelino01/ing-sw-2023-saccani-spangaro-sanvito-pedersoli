@@ -1,5 +1,6 @@
 package polimi.ingsw.Listener;
 
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
@@ -14,6 +15,8 @@ public interface GameListener extends Remote {
     public void JoinUnableGameFull(Player p,GameModel gamemodel) throws RemoteException;
     public void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
     public void PlayerIsReadyToStart(String nick) throws RemoteException;
+
+    public void commonCardsExtracted(CommonCard card) throws RemoteException;
 
     public void GameStarted(GameModel gamemodel) throws RemoteException;
     public void GameEnded(GameModel gamemodel) throws RemoteException;

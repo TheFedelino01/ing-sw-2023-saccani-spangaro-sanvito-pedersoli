@@ -1,6 +1,7 @@
 package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
@@ -32,6 +33,11 @@ public class GameListenersHandler implements GameListener {
     @Override
     public void PlayerIsReadyToStart(String nick) {
         System.out.println(this.hashCode() + "> " + nick + " ready to start!");
+    }
+
+    @Override
+    public void commonCardsExtracted(CommonCard card) throws RemoteException {
+        System.out.println(this.hashCode() + "> " + card.getCommonType() + " card common extracted!");
     }
 
     @Override

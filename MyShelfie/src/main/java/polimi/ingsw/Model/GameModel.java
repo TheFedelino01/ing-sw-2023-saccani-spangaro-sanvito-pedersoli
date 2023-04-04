@@ -121,6 +121,7 @@ public class GameModel implements Serializable {
         if (commonCards.stream().noneMatch(x -> x.isSameType(c))) {
             if (commonCards.size() + 1 <= DefaultValue.NumOfCommonCards) {
                 commonCards.add(c);
+                listenersHandler.notify_extractedCommonCard(c);
             } else {
                 throw new MaxCommonCardsAddedException();
             }
@@ -203,6 +204,10 @@ public class GameModel implements Serializable {
             ris.put(p, p.getSecretGoal());
         }
         return ris;
+    }
+
+    public List<CommonCard> getCommonCards(){
+        return commonCards;
     }
 
     public boolean doAllPlayersHaveGoalCard() {

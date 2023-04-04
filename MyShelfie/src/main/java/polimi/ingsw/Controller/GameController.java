@@ -106,6 +106,7 @@ public class GameController implements ClientResponsesInterface, Serializable {
             }
 
         } while (model.getNumOfCommonCards() < DefaultValue.NumOfCommonCards);
+
     }
 
     /**
