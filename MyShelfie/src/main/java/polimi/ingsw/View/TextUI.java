@@ -1,6 +1,8 @@
 package polimi.ingsw.View;
 
 import polimi.ingsw.Model.Cards.Common.CommonCard;
+import polimi.ingsw.Model.DefaultValue;
+import polimi.ingsw.Model.Tile;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,13 +13,15 @@ public class TextUI {
     private Integer gameID;
     private boolean isReadyToStart;
     private String answer;
-
+    private static Tile[][] shelf;
 
     public TextUI() {
         nickname = "";
         gameID = 0;
         isReadyToStart = false;
         answer = "";
+        shelf = new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];
+
     }
 
     public static void main(String[] args) {
@@ -26,6 +30,7 @@ public class TextUI {
         textUI.selectGame();
         textUI.isPlayerReadyToStart();
         textUI.turn(true);
+        textUI.viewShelf(shelf);
     }
 
     public void insertNickname() {
@@ -52,7 +57,7 @@ public class TextUI {
     }
 
     public void isPlayerReadyToStart() {
-        while(!isReadyToStart) {
+        while (!isReadyToStart) {
             System.out.println("> Are you ready to start? (y/n)");
             answer = scanner.nextLine();
             if (answer.equals("y"))
@@ -79,6 +84,13 @@ public class TextUI {
     public void viewGoalCard() {
     }
 
-    public void viewShelf() {
+    public void viewShelf(Tile[][] shelf) {
+
+        for (int i = 0; i < shelf.length; i++) {
+            for (int j = 0; j < shelf[i].length; j++) {
+                System.out.format("%-10s", shelf[i][j].getType());
+            }
+            System.out.println();
+        }
     }
 }
