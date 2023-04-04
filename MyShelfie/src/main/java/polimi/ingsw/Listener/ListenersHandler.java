@@ -4,6 +4,7 @@ import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 
 import java.rmi.RemoteException;
@@ -63,7 +64,7 @@ public class ListenersHandler {
     public void notify_GameStarted(GameModel model) {
         for (GameListener l : listeners) {
             try {
-                l.GameStarted(model);
+                l.GameStarted(new GameModelImmutable(model));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -73,7 +74,7 @@ public class ListenersHandler {
     public void notify_GameEnded(GameModel model) {
         for (GameListener l : listeners) {
             try {
-                l.GameEnded(model);
+                l.GameEnded(new GameModelImmutable(model));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -93,7 +94,7 @@ public class ListenersHandler {
     public void notify_grabbedTile(GameModel model) {
         for (GameListener l : listeners) {
             try {
-                l.grabbedTile(model);
+                l.grabbedTile(new GameModelImmutable(model));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -103,7 +104,7 @@ public class ListenersHandler {
     public void notify_positionedTile(GameModel model, TileType type, int collum) {
         for (GameListener l : listeners) {
             try {
-                l.positionedTile(model,type,collum);
+                l.positionedTile(new GameModelImmutable(model),type,collum);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -113,7 +114,7 @@ public class ListenersHandler {
     public void notify_nextTurn(GameModel model) {
         for (GameListener l : listeners) {
             try {
-                l.nextTurn(model);
+                l.nextTurn(new GameModelImmutable(model));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -123,7 +124,7 @@ public class ListenersHandler {
     public void notify_grabbedTileNotCorrect(GameModel model) {
         for (GameListener l : listeners) {
             try {
-                l.grabbedTileNotCorrect(model);
+                l.grabbedTileNotCorrect(new GameModelImmutable(model));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

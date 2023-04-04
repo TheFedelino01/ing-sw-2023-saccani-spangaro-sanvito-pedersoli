@@ -6,6 +6,7 @@ import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.Model.GameModel;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
@@ -108,7 +109,7 @@ public class RMIClient implements CommonClientActions {
         }
     }
 
-    public synchronized GameModel getLastModelReceived(){
+    public synchronized GameModelImmutable getLastModelReceived(){
         return gameListenersHandler.getLastModelReceived();
     }
 

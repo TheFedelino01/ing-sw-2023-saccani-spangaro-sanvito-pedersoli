@@ -42,12 +42,12 @@ public class ClientSocket implements CommonClientActions {
         }
     }
 
-    /*
+
     public String sendMsg(String msg) throws IOException, ClassNotFoundException {
         out.writeObject(msg);
         return in.readObject().toString();
     }
-    */
+
 
     public void stopConnection() throws IOException {
         in.close();

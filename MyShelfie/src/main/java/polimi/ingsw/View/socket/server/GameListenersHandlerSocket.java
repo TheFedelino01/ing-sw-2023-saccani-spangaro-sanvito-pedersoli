@@ -5,6 +5,7 @@ import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 
@@ -37,12 +38,12 @@ public class GameListenersHandlerSocket implements GameListener {
     }
 
     @Override
-    public void GameStarted(GameModel gamemodel) throws RemoteException {
+    public void GameStarted(GameModelImmutable gamemodel) throws RemoteException {
         System.out.println(gamemodel.getGameId() +" game started by socket");
     }
 
     @Override
-    public void GameEnded(GameModel gamemodel) throws RemoteException {
+    public void GameEnded(GameModelImmutable gamemodel) throws RemoteException {
 
     }
 
@@ -52,22 +53,22 @@ public class GameListenersHandlerSocket implements GameListener {
     }
 
     @Override
-    public void grabbedTile(GameModel gamemodel) throws RemoteException {
+    public void grabbedTile(GameModelImmutable gamemodel) throws RemoteException {
 
     }
 
     @Override
-    public void grabbedTileNotCorrect(GameModel gamemodel) throws RemoteException {
+    public void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException {
 
     }
 
     @Override
-    public void positionedTile(GameModel gamemodel, TileType type, int column) throws RemoteException {
+    public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
 
     }
 
     @Override
-    public void nextTurn(GameModel gamemodel) throws RemoteException {
+    public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
 
     }
 

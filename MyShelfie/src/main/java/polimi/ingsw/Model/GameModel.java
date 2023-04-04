@@ -20,7 +20,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GameModel implements Serializable {
+public class GameModel {
     private final List<Player> players;
     private final List<CommonCard> commonCards;
     private Integer gameId;
@@ -410,21 +410,10 @@ public class GameModel implements Serializable {
     public Player getPlayerEntity(String playerNick) {
         return players.stream().filter(x->x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
     }
-    public String getNicknameCurrentPlaying(){
-        return players.get(currentPlaying).getNickname();
-    }
 
-    public List<Tile> getHandOfCurrentPlaying(){
-        return players.get(currentPlaying).getInHandTile();
-    }
 
     public Map<Integer, Integer> getLeaderBoard(){
         return leaderBoard;
     }
-    public Player getWinner(){
-        if(indexWonPlayer!=-1) {
-            return players.get(indexWonPlayer);
-        }
-        return null;
-    }
+
 }

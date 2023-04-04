@@ -5,6 +5,7 @@ import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 
@@ -14,7 +15,7 @@ import java.rmi.RemoteException;
 //This class handles all the responses that the server RMI sends
 public class GameListenersHandlerRMI implements GameListener, Serializable {
 
-    private GameModel lastModelReceived=null;
+    private GameModelImmutable lastModelReceived=null;
 
     @Override
     public void playerJoined(String nickNewPlayer) {
@@ -42,16 +43,16 @@ public class GameListenersHandlerRMI implements GameListener, Serializable {
     }
 
     @Override
-    public void GameStarted(GameModel gamemodel) {
+    public void GameStarted(GameModelImmutable gamemodel) {
         System.out.println(this.hashCode() + "> Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying());
         setModel(gamemodel);
     }
 
     @Override
-    public void GameEnded(GameModel gamemodel) {
+    public void GameEnded(GameModelImmutable gamemodel) {
         System.out.println(this.hashCode() + "> "+gamemodel.getGameId()+" ended! \n" +
                 "The winner is: "+gamemodel.getWinner().getNickname()+"\n" +
-                "Score board: "+gamemodel.getLeaderBoard().toString());
+                "Score board: todo");
     }
 
     @Override
@@ -60,24 +61,24 @@ public class GameListenersHandlerRMI implements GameListener, Serializable {
     }
 
     @Override
-    public void grabbedTile(GameModel gamemodel) {
+    public void grabbedTile(GameModelImmutable gamemodel) {
         System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles: "+gamemodel.getHandOfCurrentPlaying().toString());
         setModel(gamemodel);
     }
 
     @Override
-    public void grabbedTileNotCorrect(GameModel gamemodel) {
+    public void grabbedTileNotCorrect(GameModelImmutable gamemodel) {
         System.out.println(this.hashCode() + "> a set of non grabbable tiles have been required");
     }
 
     @Override
-    public void positionedTile(GameModel gamemodel, TileType type, int column) {
+    public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) {
         System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
         setModel(gamemodel);
     }
 
     @Override
-    public void nextTurn(GameModel gamemodel) {
+    public void nextTurn(GameModelImmutable gamemodel) {
         System.out.println(this.hashCode() + "> Next turn! It's up to: "+gamemodel.getNicknameCurrentPlaying());
     }
 
@@ -86,11 +87,11 @@ public class GameListenersHandlerRMI implements GameListener, Serializable {
         System.out.println(this.hashCode() + "> Player "+p.getNickname()+" obtained "+point.getPoint()+" points by achieving "+point.getReferredTo());
     }
 
-    public GameModel getLastModelReceived(){
+    public GameModelImmutable getLastModelReceived(){
         return lastModelReceived;
     }
 
-    public synchronized void setModel(GameModel m){
+    public synchronized void setModel(GameModelImmutable m){
         lastModelReceived = m;
     }
 }
