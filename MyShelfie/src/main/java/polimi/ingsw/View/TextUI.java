@@ -3,6 +3,7 @@ package polimi.ingsw.View;
 
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.DefaultValue;
+import polimi.ingsw.Model.Playground;
 import polimi.ingsw.Model.Tile;
 
 import java.util.List;
@@ -18,7 +19,8 @@ public class TextUI {
     private static int commoncard2;
 
     private static Tile[][] shelf;
-
+    private static Tile[][] playground;
+    private static Tile[][] goalcard;
     public TextUI() {
         nickname = "";
         gameID = 0;
@@ -143,10 +145,22 @@ public class TextUI {
         };
     }
 
-    public void viewPlayGround() {
+    public void viewPlayGround(Tile[][] board) {
+        for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
+            for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
+                System.out.format("%-10s", board[i][j].getType());
+            }
+            System.out.println();
+        }
     }
 
-    public void viewGoalCard() {
+    public void viewGoalCard(Tile[][] goal) {
+        for (int i = 0; i < shelf.length; i++) {
+            for (int j = 0; j < shelf[i].length; j++) {
+                System.out.format("%-10s", goal[i][j].getType());
+            }
+            System.out.println();
+        }
     }
 
     public void pickTiles(){
@@ -162,7 +176,7 @@ public class TextUI {
         System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
     }
     public void placeTiles(){
-        System.out.println("> Which tiles do you want to place?");
+        System.out.println("> Which tile do you want to place?");
         System.out.println("> Choose column: ");
         int column = Integer.parseInt(scanner.nextLine());
         //TODO choose tile order in column
