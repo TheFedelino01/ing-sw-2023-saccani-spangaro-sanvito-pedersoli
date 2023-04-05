@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.Queue;
 
 public class DefaultValue implements Serializable {
-
     public final static int MaxNumOfPlayer = 4;
     public final static int minNumOfPlayer = 2;
 
+    public final static int defButtonXSize = 200;
+    public final static int defButtonYSize = 50;
     public final static int NumOfCommonCards = 2;
+
+    public final static int startingButtons = 4;
 
     public final static int NumOfColumnsShelf = 5;
     public final static int NumOfRowsShelf = 6;

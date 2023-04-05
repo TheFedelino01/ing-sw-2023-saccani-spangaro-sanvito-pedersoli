@@ -66,10 +66,7 @@ public class TextUI {
         while (!isReadyToStart) {
             System.out.println("> Are you ready to start? (y/n)");
             answer = scanner.nextLine();
-            if (answer.equals("y"))
-                isReadyToStart = true;
-            else
-                isReadyToStart = false;
+            isReadyToStart = answer.equals("y");
         }
         System.out.println("> You have selected: " + isReadyToStart);
     }
