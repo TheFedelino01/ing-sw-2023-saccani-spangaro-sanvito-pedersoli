@@ -15,6 +15,7 @@ public class Player implements Serializable {
     private List<Tile> inHandTile;
     private List<Point> obtainedPoints;
     private boolean readyToStart=false;
+    private boolean connected=true;
 
     private List<GameListener> listeners;
 
@@ -102,6 +103,13 @@ public class Player implements Serializable {
         return this.nickname.equals(p.nickname);
     }
 
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
 
     public void addListener(GameListener obj){
         listeners.add(obj);

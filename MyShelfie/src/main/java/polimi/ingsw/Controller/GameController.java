@@ -226,6 +226,12 @@ public class GameController implements GameControllerInterface, Serializable {
         return model.getPlayers().get(model.getCurrentPlaying()).getNickname().equals(nick);
     }
 
+    @Override
+    public void setConnectionStatus(String nick,GameListener lisOfClient, boolean connected) throws RemoteException {
+        model.removeListener(lisOfClient);
+        model.setAsDisconnected(nick,connected);
+    }
+
 
     /**
      * Check if the player has completed the shelf, otherwise the turn is passed to the next player

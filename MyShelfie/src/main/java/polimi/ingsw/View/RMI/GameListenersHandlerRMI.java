@@ -87,6 +87,11 @@ public class GameListenersHandlerRMI implements GameListener, Serializable {
         System.out.println(this.hashCode() + "> Player "+p.getNickname()+" obtained "+point.getPoint()+" points by achieving "+point.getReferredTo());
     }
 
+    @Override
+    public void playerDisconnected(String nick) throws RemoteException {
+
+    }
+
     public GameModelImmutable getLastModelReceived(){
         return lastModelReceived;
     }

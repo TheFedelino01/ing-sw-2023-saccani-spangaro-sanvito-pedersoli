@@ -1,4 +1,4 @@
-package polimi.ingsw.Main;
+package polimi.ingsw.Main.socketMain;
 
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.View.RMI.RMIServer;

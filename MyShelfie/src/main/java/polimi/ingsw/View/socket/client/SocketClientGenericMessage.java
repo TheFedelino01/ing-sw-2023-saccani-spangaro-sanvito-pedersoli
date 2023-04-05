@@ -18,4 +18,8 @@ public abstract class SocketClientGenericMessage implements Serializable {
 
     public boolean isMessageForMainController() {return isMessageForMainController;}
     public void setMessageForMainController(boolean messageForMainController) {isMessageForMainController = messageForMainController;}
+
+    public String getNick() {
+        return nick;
+    }
 }

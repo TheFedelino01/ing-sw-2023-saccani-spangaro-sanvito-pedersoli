@@ -416,4 +416,10 @@ public class GameModel {
         return leaderBoard;
     }
 
+    public void setAsDisconnected(String nick, boolean connected) {
+        listenersHandler.notify_playerDisconnected(nick);
+    }
+
+
+
 }

@@ -103,4 +103,13 @@ public class GameListenersHandlerSocket implements GameListener {
     public void addedPoint(Player p, Point point) throws RemoteException {
 
     }
+
+    @Override
+    public void playerDisconnected(String nick) throws RemoteException {
+        try {
+            out.writeObject(nick+" has disconnected by socket");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

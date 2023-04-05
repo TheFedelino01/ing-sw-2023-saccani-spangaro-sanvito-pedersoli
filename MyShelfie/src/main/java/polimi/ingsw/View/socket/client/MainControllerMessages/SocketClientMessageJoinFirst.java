@@ -8,7 +8,6 @@ import polimi.ingsw.View.socket.client.SocketClientGenericMessage;
 import java.rmi.RemoteException;
 
 public class SocketClientMessageJoinFirst extends SocketClientGenericMessage {
-    String nick;
 
     public SocketClientMessageJoinFirst(String nick) {
         this.nick = nick;

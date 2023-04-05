@@ -14,6 +14,7 @@ public class SocketWelcome extends Thread {
         serverSocket = new ServerSocket(port);
         handler = new ArrayList<>();
         this.start();
+        System.out.println("Server Socket ready");
     }
 
     public void run() {

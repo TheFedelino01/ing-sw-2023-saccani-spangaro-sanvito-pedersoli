@@ -18,6 +18,8 @@ public class ClientHandler extends Thread {
 
     private GameListenersHandlerSocket gameListenersHandlerSocket;
 
+    private String nick=null;
+
     public ClientHandler(Socket soc) throws IOException {
         this.clientSocket = soc;
         this.in = new ObjectInputStream(soc.getInputStream());
@@ -31,24 +33,39 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
-        SocketClientGenericMessage temp;
+        SocketClientGenericMessage temp=null;
         while(true){
             try {
                 temp = (SocketClientGenericMessage) in.readObject();
 
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                if(temp.isMessageForMainController()) {
+                try {
+                    if (temp.isMessageForMainController()) {
+                        gameController = temp.execute(gameListenersHandlerSocket, MainController.getInstance());
+                        nick = gameController!=null?temp.getNick():null;
 
-                    gameController = temp.execute(gameListenersHandlerSocket,MainController.getInstance());
-                }else{
-                    temp.execute(gameController);
+                    } else {
+                        temp.execute(gameController);
+                    }
+                } catch (RemoteException | GameEndedException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (RemoteException | GameEndedException e) {
-                throw new RuntimeException(e);
+
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Client disconnected!");
+
+                if(nick!=null && gameController!=null){
+                    try {
+                        gameController.setConnectionStatus(nick,gameListenersHandlerSocket,false);
+                        break; //This ClientHandler now dies
+
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
             }
+
+
         }
     }
 

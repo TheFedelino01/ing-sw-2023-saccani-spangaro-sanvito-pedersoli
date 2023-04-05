@@ -9,7 +9,6 @@ import java.rmi.RemoteException;
 
 public class SocketClientMessageJoinGame extends SocketClientGenericMessage {
 
-    String nick;
     int idGame;
 
     public SocketClientMessageJoinGame(String nick, int idGame) {
