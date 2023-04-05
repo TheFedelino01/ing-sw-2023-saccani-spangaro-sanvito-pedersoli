@@ -86,19 +86,23 @@ public class FirstChoice {
 
     }
 
-    public boolean isCheck0() {
+    public void close(){
+        frame.dispose();
+    }
+
+    public synchronized boolean isCheck0() {
         return check0;
     }
 
-    public boolean isCheck1() {
+    public synchronized boolean isCheck1() {
         return check1;
     }
 
-    public boolean isChosenRMI() {
+    public synchronized boolean isChosenRMI() {
         return chosenRMI;
     }
 
-    public boolean isChosenGUI() {
+    public synchronized boolean isChosenGUI() {
         return chosenGUI;
     }
 }
