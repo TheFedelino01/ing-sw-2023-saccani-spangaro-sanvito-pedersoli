@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 public class App {
     public static void main( String[] args ) throws RemoteException {
 
-        RMIServer server = RMIServer.bind();
+        RMIServer.bind();
 
         RMIClient client = new RMIClient();
         RMIClient client2 = new RMIClient();
