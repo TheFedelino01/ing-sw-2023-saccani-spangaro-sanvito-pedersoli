@@ -17,7 +17,7 @@ public class Player implements Serializable {
     private boolean readyToStart=false;
     private boolean connected=true;
 
-    private List<GameListener> listeners;
+    private transient List<GameListener> listeners;
 
 
     public Player(String nickname){

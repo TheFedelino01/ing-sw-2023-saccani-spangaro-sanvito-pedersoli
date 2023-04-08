@@ -1,24 +1,24 @@
 package polimi.ingsw.View.socket.client;
 
-import polimi.ingsw.Controller.MainController;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
-import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.View.CommonClientActions;
+import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClientRMI;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
+import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClientSocket;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessageGrabTileFromPlayground;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessagePositionTileOnShelf;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessageSetReady;
 import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageCreateGame;
 import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageJoinFirst;
 import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageJoinGame;
+import polimi.ingsw.View.socket.client.ServerToClientMessages.SocketServerGenericMessage;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.RemoteException;
 
 public class ClientSocket extends Thread implements CommonClientActions {
 
@@ -36,13 +36,17 @@ public class ClientSocket extends Thread implements CommonClientActions {
 
     public ClientSocket() {
         startConnection(DefaultValue.Remote_ip,DefaultValue.Default_port_Socket);
+        modelInvokedEvents = new GameListenersHandlerClientSocket();
         this.start();
     }
 
     public void run() {
         while(true){
             try {
-                System.out.println("Client "+nickname+" received: "+in.readObject().toString());
+                //System.out.println("Client "+nickname+" received: "+in.readObject().toString());
+                SocketServerGenericMessage msg = (SocketServerGenericMessage) in.readObject();
+                msg.execute(modelInvokedEvents);
+
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

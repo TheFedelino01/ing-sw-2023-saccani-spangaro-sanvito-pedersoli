@@ -8,12 +8,14 @@ import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
+import polimi.ingsw.View.socket.client.ServerToClientMessages.*;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
-public class GameListenersHandlerSocket implements GameListener {
+public class GameListenersHandlerSocket implements GameListener, Serializable {
 
     private ObjectOutputStream out;
     public GameListenersHandlerSocket(ObjectOutputStream o){
@@ -23,27 +25,27 @@ public class GameListenersHandlerSocket implements GameListener {
     public void playerJoined(String nickNewPlayer) throws RemoteException {
         //System.out.println(nickNewPlayer +" by socket");
         try {
-            out.writeObject(nickNewPlayer +" by socket");
+            out.writeObject(new msgPlayerJoined(nickNewPlayer));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void JoinUnableGameFull(Player p, GameModel gamemodel) throws RemoteException {
+    public void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException {
 
     }
 
     @Override
-    public void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
 
     }
 
     @Override
-    public void PlayerIsReadyToStart(String nick) throws RemoteException {
+    public void playerIsReadyToStart(String nick) throws RemoteException {
         //System.out.println(nick +" ready to start by socket");
-        try {
-            out.writeObject(nick +" ready to start by socket");
+       try {
+           out.writeObject(new msgPlayerIsReadyToStart(nick));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -53,61 +55,89 @@ public class GameListenersHandlerSocket implements GameListener {
     public void commonCardsExtracted(CommonCard card) throws RemoteException {
         //System.out.println(card.getCommonType() +" common card extracted by socket");
         try {
-            out.writeObject(card.getCommonType() +" common card extracted by socket");
+            out.writeObject(new msgCommonCardsExtracted(card));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void GameStarted(GameModelImmutable gamemodel) throws RemoteException {
+    public void gameStarted(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(gamemodel.getGameId() +" game started by socket");
         try {
-            out.writeObject(gamemodel.getGameId() +" game started by socket");
+            out.writeObject(new msgGameStarted(gamemodel));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void GameEnded(GameModelImmutable gamemodel) throws RemoteException {
-
+    public void gameEnded(GameModelImmutable gamemodel) throws RemoteException {
+        try {
+            out.writeObject(new msgGameEnded(gamemodel));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void SentMessage(Message msg) throws RemoteException {
-
+    public void sentMessage(Message msg) throws RemoteException {
+        try {
+            out.writeObject(new msgSentMessage(msg));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void grabbedTile(GameModelImmutable gamemodel) throws RemoteException {
-
+        try {
+            out.writeObject(new msgGrabbedTile(gamemodel));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException {
-
+        try {
+            out.writeObject(new msgGrabbedTileNotCorrect(gamemodel));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
-
+        try {
+            out.writeObject(new msgPositionedTile(gamemodel,type,column));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
-
+        try {
+            out.writeObject(new msgNextTurn(gamemodel));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void addedPoint(Player p, Point point) throws RemoteException {
-
+        try {
+            out.writeObject(new msgAddedPoint(p,point));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void playerDisconnected(String nick) throws RemoteException {
         try {
-            out.writeObject(nick+" has disconnected by socket");
+            out.writeObject(new msgPlayerDisconnected(nick));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

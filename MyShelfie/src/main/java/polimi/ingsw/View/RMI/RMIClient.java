@@ -5,11 +5,11 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
-import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
+import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClientRMI;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,7 +22,7 @@ public class RMIClient implements CommonClientActions {
     private GameControllerInterface gameController=null;
     private GameListener modelInvokedEvents;
     private String nickname;
-    private GameListenersHandlerRMI gameListenersHandler;
+    private GameListenersHandlerClientRMI gameListenersHandler;
 
     public RMIClient() {
         super();
@@ -31,7 +31,7 @@ public class RMIClient implements CommonClientActions {
         try {
             Registry registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
             requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-            gameListenersHandler=new GameListenersHandlerRMI();
+            gameListenersHandler=new GameListenersHandlerClientRMI();
             modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler,0);
 
             System.out.println("Client RMI ready");

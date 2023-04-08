@@ -13,16 +13,16 @@ import java.rmi.RemoteException;
 
 public interface GameListener extends Remote {
     void playerJoined(String nickNewPlayer) throws RemoteException;;
-    void JoinUnableGameFull(Player p,GameModel gamemodel) throws RemoteException;
-    void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
-    void PlayerIsReadyToStart(String nick) throws RemoteException;
+    void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException;
+    void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
+    void playerIsReadyToStart(String nick) throws RemoteException;
 
     void commonCardsExtracted(CommonCard card) throws RemoteException;
 
-    void GameStarted(GameModelImmutable gamemodel) throws RemoteException;
-    void GameEnded(GameModelImmutable gamemodel) throws RemoteException;
+    void gameStarted(GameModelImmutable gamemodel) throws RemoteException;
+    void gameEnded(GameModelImmutable gamemodel) throws RemoteException;
 
-    void SentMessage(Message msg) throws RemoteException;
+    void sentMessage(Message msg) throws RemoteException;
     void grabbedTile(GameModelImmutable gamemodel) throws RemoteException;
     void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException;
     void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException;

@@ -1,10 +1,9 @@
-package polimi.ingsw.View.RMI;
+package polimi.ingsw.View.handlerResponsesByClient;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
-import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
@@ -13,7 +12,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 
 //This class handles all the responses that the server RMI sends
-public class GameListenersHandlerRMI implements GameListener, Serializable {
+public class GameListenersHandlerClientRMI implements GameListener, Serializable {
 
     private GameModelImmutable lastModelReceived=null;
 
@@ -23,17 +22,17 @@ public class GameListenersHandlerRMI implements GameListener, Serializable {
     }
 
     @Override
-    public void JoinUnableGameFull(Player wantedToJoin, GameModel gamemodel) throws RemoteException {
+    public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gamemodel) throws RemoteException {
         System.out.println(this.hashCode() + "> " + wantedToJoin+" tried to entry but the game is full!");
     }
 
     @Override
-    public void JoinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
         System.out.println(this.hashCode() + "> " + wantedToJoin.getNickname() + " has already in");
     }
 
     @Override
-    public void PlayerIsReadyToStart(String nick) {
+    public void playerIsReadyToStart(String nick) {
         System.out.println(this.hashCode() + "> " + nick + " ready to start!");
     }
 
@@ -43,20 +42,20 @@ public class GameListenersHandlerRMI implements GameListener, Serializable {
     }
 
     @Override
-    public void GameStarted(GameModelImmutable gamemodel) {
+    public void gameStarted(GameModelImmutable gamemodel) {
         System.out.println(this.hashCode() + "> Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying());
         setModel(gamemodel);
     }
 
     @Override
-    public void GameEnded(GameModelImmutable gamemodel) {
+    public void gameEnded(GameModelImmutable gamemodel) {
         System.out.println(this.hashCode() + "> "+gamemodel.getGameId()+" ended! \n" +
                 "The winner is: "+gamemodel.getWinner().getNickname()+"\n" +
                 "Score board: todo");
     }
 
     @Override
-    public void SentMessage(Message msg) {
+    public void sentMessage(Message msg) {
         System.out.println(this.hashCode() + "> new Message: \""+msg.toString()+"\"");
     }
 
@@ -89,7 +88,7 @@ public class GameListenersHandlerRMI implements GameListener, Serializable {
 
     @Override
     public void playerDisconnected(String nick) throws RemoteException {
-
+        System.out.println(this.hashCode() + "> Player "+nick +" just disconnected");
     }
 
     public GameModelImmutable getLastModelReceived(){
