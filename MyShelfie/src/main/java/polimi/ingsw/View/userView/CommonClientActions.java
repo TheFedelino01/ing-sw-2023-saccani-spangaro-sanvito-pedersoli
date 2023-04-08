@@ -1,4 +1,4 @@
-package polimi.ingsw.View;
+package polimi.ingsw.View.userView;
 
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;

@@ -1,8 +1,6 @@
-package polimi.ingsw.Main;
+package polimi.ingsw.View.userView.gui;
 
-import polimi.ingsw.View.FirstChoice;
-
-public class Main {
+public class mainGUI {
     private static boolean hasChosen, isRMI, isGUI;
     private static boolean testing = false;
     public static void main(String[] args) {

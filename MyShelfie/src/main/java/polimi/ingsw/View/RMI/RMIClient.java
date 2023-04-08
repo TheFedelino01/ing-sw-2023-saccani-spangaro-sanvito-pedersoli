@@ -6,7 +6,7 @@ import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
-import polimi.ingsw.View.CommonClientActions;
+import polimi.ingsw.View.userView.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClientRMI;

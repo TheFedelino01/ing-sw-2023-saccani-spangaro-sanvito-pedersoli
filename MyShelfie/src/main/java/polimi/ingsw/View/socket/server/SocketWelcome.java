@@ -22,6 +22,7 @@ public class SocketWelcome extends Thread {
             while (!Thread.interrupted()) {
                 handler.add(new ClientHandler(serverSocket.accept()));
                 handler.get(handler.size() - 1).start();
+
             }
         } catch (ClosedByInterruptException e) {
             //interrupted by close

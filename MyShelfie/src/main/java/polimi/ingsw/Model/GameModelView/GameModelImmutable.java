@@ -94,4 +94,12 @@ public class GameModelImmutable implements Serializable {
     public Integer getIndexWonPlayer() {
         return indexWonPlayer;
     }
+
+    public Player getPlayerEntity(String playerNick) {
+        return players.stream().filter(x->x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+    }
+
+    public boolean isMyTurn(String nickname){
+        return players.get(currentPlaying).equals(nickname);
+    }
 }

@@ -8,7 +8,7 @@ import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
-import polimi.ingsw.View.View;
+import polimi.ingsw.View.userView.View;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;

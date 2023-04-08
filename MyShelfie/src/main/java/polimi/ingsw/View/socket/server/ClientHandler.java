@@ -33,7 +33,9 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Client Binded!");
         SocketClientGenericMessage temp=null;
+
         while(true){
             try {
                 temp = (SocketClientGenericMessage) in.readObject();

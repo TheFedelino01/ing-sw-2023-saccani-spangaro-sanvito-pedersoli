@@ -1,4 +1,4 @@
-package polimi.ingsw.View;
+package polimi.ingsw.View.userView.gui;
 
 import polimi.ingsw.Model.DefaultValue;
 

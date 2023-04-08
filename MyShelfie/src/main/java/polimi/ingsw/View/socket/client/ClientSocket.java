@@ -4,8 +4,7 @@ import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
-import polimi.ingsw.View.CommonClientActions;
-import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClientRMI;
+import polimi.ingsw.View.userView.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClientSocket;
@@ -38,6 +37,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
         startConnection(DefaultValue.Remote_ip,DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersHandlerClientSocket();
         this.start();
+
     }
 
     public void run() {

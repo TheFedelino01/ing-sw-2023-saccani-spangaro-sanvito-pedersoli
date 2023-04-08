@@ -62,6 +62,20 @@ public class Shelf implements Serializable {
         }
     }
 
+    public String toString(){
+        String ris="{";
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            ris+="[";
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                ris+=shelf[r][c];
+                ris+=(c+1)!=DefaultValue.NumOfColumnsShelf? ",":"";
+            }
+            ris+="]\n";
+        }
+        ris+="}";
+        return ris;
+    }
+
 
 
 }
