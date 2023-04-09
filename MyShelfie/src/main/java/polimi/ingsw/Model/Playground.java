@@ -53,9 +53,9 @@ public class Playground implements Serializable {
         data = new ArrayList<>();
 
         //this method is for splitting the string returned from the json file in a matrix
-        for(int i = 0; i<size; i++){
+        for (int i = 0; i < size; i++) {
             data.add(new ArrayList<>(size));
-            for(int j = 0; j<size; j++){
+            for (int j = 0; j < size; j++) {
                 data.get(i).add(j, Integer
                         .parseInt(s.split(rowSplit)[i]
                                 .split(colSplit)[j]));
@@ -67,10 +67,11 @@ public class Playground implements Serializable {
         setPlayground();
     }
 
-    public Tile getTile(int r,int c){
+    public Tile getTile(int r, int c) {
         return playground[r][c];
     }
-    public int getNumOfTileinTheBag(){
+
+    public int getNumOfTileinTheBag() {
         return bag.size();
     }
 
@@ -85,19 +86,20 @@ public class Playground implements Serializable {
             }
         }
     }
-    private boolean isABorderTile(int r,int c){
+
+    private boolean isABorderTile(int r, int c) {
         if (r > 0) {
-            if (playground[r - 1][c].isSameType(TileType.NOT_USED)){
+            if (playground[r - 1][c].isSameType(TileType.NOT_USED)) {
                 return true;
             }
         }
         if (r < DefaultValue.PlaygroundSize - 1) {
-            if (playground[r + 1][c].isSameType(TileType.NOT_USED)){
+            if (playground[r + 1][c].isSameType(TileType.NOT_USED)) {
                 return true;
             }
         }
         if (c > 0) {
-            if (playground[r][c - 1].isSameType(TileType.NOT_USED)){
+            if (playground[r][c - 1].isSameType(TileType.NOT_USED)) {
                 return true;
             }
         }
@@ -143,7 +145,6 @@ public class Playground implements Serializable {
     }
 
 
-
     public void setPlayground() {
         int random;
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
@@ -152,7 +153,7 @@ public class Playground implements Serializable {
                     random = (int) (Math.random() * bag.size());
                     playground[i][j] = bag.get(random);
                     //If the tile is a border-tile then set free side to true (sure at least 1 side free)
-                    if(isABorderTile(i,j)){
+                    if (isABorderTile(i, j)) {
                         playground[i][j].setFreeSide(true);
                     }
                     bag.remove(random);
@@ -162,9 +163,9 @@ public class Playground implements Serializable {
     }
 
     public void setBag() {
-        for(int i=0; i<DefaultValue.NumOfTilesPerType;i++){
-            for(int j=0; j<DefaultValue.NumOfTileTypes;j++){
-                bag.add(new Tile(TileType.values()[j],false));
+        for (int i = 0; i < DefaultValue.NumOfTilesPerType; i++) {
+            for (int j = 0; j < DefaultValue.NumOfTileTypes; j++) {
+                bag.add(new Tile(TileType.values()[j], false));
             }
         }
 
@@ -189,7 +190,7 @@ public class Playground implements Serializable {
                 if (playground[x][y].isFreeSide()) {
                     ris.add(playground[x][y]);
                     playground[x][y] = new Tile(TileType.FINISHED_USING);
-                }else{
+                } else {
                     throw new TileGrabbedNotCorrectException();
                 }
             }
@@ -202,6 +203,18 @@ public class Playground implements Serializable {
             }
         }
         updateFreeSide();
+        return ris;
+    }
+
+    public String toString() {
+        String ris="  0|1|2|3|4|5|6|7|8\n";
+        for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
+            ris+=i+":";
+            for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
+                ris+=((playground[i][j].isSameType(TileType.NOT_USED)||playground[i][j].isSameType(TileType.FINISHED_USING))?" ":playground[i][j].toString().substring(0,1))  +"|";
+            }
+            ris+="\n";
+        }
         return ris;
     }
 

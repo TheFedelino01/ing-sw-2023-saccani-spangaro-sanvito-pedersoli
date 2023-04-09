@@ -18,6 +18,7 @@ import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -335,47 +336,98 @@ public class TextUI extends View implements CommonClientActions {
     }
 
     public void viewPlayGround() {
+        System.out.println(lastModelReceived.getPg().toString());
     }
 
     public void viewGoalCard() {
     }
 
-    public void pickTiles() {
-        System.out.println("> How many tiles do you want to get?");
-        int numTiles = Integer.parseInt(scanner.nextLine());
-        System.out.println("> Which tiles do you want to get?");
-        System.out.println("> Choose column: ");
-        int column = Integer.parseInt(scanner.nextLine());
-        System.out.println("> Choose row: ");
-        int row = Integer.parseInt(scanner.nextLine());
+    private Integer askNum(String msg){
+        System.out.print(msg);
+        System.out.flush();
 
-        System.out.println("> Choose direction (r=right,l=left,u=up,d=down): ");
-        String direction = scanner.nextLine();
-        Direction d = Direction.getDirection(direction);
-
-        System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
-
+        Integer numT=null;
 
         try {
-            grabTileFromPlayground(column, row, d, numTiles);
+            numT = new Scanner(System.in).nextInt();
+        }catch(InputMismatchException e){
+            System.out.println("Nan");
+        }
+        return numT;
+    }
+
+    public void pickTiles() {
+        Integer numTiles;
+        do {
+            numTiles = askNum("> How many tiles do you want to get?");
+        }while(numTiles==null);
+
+
+        Integer row;
+        do {
+            row = askNum("> Which tiles do you want to get?\n> Choose row:");
+        }while(row==null);
+
+
+        Integer column;
+        do {
+            column = askNum("> Choose column:");
+        }while(column==null);
+
+        String direction;
+        Direction d;
+        do {
+            System.out.println("> Choose direction (r=right,l=left,u=up,d=down): ");
+            direction = new Scanner(System.in).nextLine();
+            d = Direction.getDirection(direction);
+        }while(d==null);
+
+        //System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
+
+        try {
+            grabTileFromPlayground(row, column, d, numTiles);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void placeTiles() {
+    public void placeTile() {
+        viewMyShelf();
+        System.out.println(">This is your hand:");
+        int i=0;
+        String ris="";
+        for(Tile t: lastModelReceived.getPlayerEntity(nickname).getInHandTile()){
+            ris+="["+i+"]: "+t.toString()+" | ";
+            i++;
+        }
+        if(ris.equals(""))
+            ris="empty";
+
+        System.out.println(ris);
+
         System.out.println("> Which tiles do you want to place?");
-        System.out.println("> Choose column: ");
-        int column = Integer.parseInt(scanner.nextLine());
-        //TODO CONTROLLI E PARSING DA STRING A TILE TYPE !!!!!
-        //TODO E QUESTO METODO DEVE CONTINUARE FINO A QUANDO TUTTE LE TILES NON SONO STATE PIAZZATE
+        Integer indexHand;
+        do {
+            indexHand = askNum("> Choose Tile in hand (0,1,2):");
+            if(indexHand<0 || indexHand>=lastModelReceived.getPlayerEntity(nickname).getInHandTile().size()){
+                System.out.println("Wrong Tile selection offset");
+                indexHand=null;
+            }
+        }while(indexHand==null);
+
+
+        Integer column;
+        do {
+            column = askNum("> Choose column of your shelf:");
+        }while(column==null);
+
+
         try {
-            positionTileOnShelf(column, null);
+            positionTileOnShelf(column, lastModelReceived.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        //TODO choose tile order in column
     }
 
     public void viewMyShelf() {
@@ -448,8 +500,18 @@ public class TextUI extends View implements CommonClientActions {
 
     @Override
     public void grabbedTile(GameModelImmutable gamemodel) {
-        System.out.println(nickname+" [VIEW]> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles: "+gamemodel.getHandOfCurrentPlaying().toString());
+        String ris = "| ";
+        for(Tile t: gamemodel.getHandOfCurrentPlaying()){
+            ris+=t.toString()+" | ";
+        }
+        System.out.println(nickname+" [VIEW]> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles: "+ris);
         setModel(gamemodel);
+
+        if(lastModelReceived.getNicknameCurrentPlaying().equals(nickname)){
+            placeTile();
+        }else {
+            viewPlayGround();
+        }
     }
 
     @Override
@@ -462,6 +524,14 @@ public class TextUI extends View implements CommonClientActions {
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) {
         System.out.println(nickname+" [VIEW]> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
         setModel(gamemodel);
+
+        if(!gamemodel.getNicknameCurrentPlaying().equals(nickname)){
+            viewOtherShelfs();
+        }else{
+            if(gamemodel.getHandOfCurrentPlaying().size()>0)
+                placeTile();
+        }
+
     }
 
     @Override
@@ -470,10 +540,9 @@ public class TextUI extends View implements CommonClientActions {
         setModel(gamemodel);
 
         if(gamemodel.getNicknameCurrentPlaying().equals(nickname)){
+            viewPlayGround();
+
             pickTiles();
-            placeTiles();
-        }else{
-            viewOtherShelfs();
         }
     }
 

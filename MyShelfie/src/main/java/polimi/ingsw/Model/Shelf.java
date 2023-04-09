@@ -67,7 +67,7 @@ public class Shelf implements Serializable {
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             ris+="[";
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                ris+=shelf[r][c];
+                ris+=shelf[r][c].isSameType(TileType.NOT_USED)?" ":shelf[r][c];
                 ris+=(c+1)!=DefaultValue.NumOfColumnsShelf? ",":"";
             }
             ris+="]\n";
