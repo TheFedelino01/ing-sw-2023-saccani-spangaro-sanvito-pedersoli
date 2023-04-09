@@ -1,4 +1,4 @@
-package polimi.ingsw.Main;
+package polimi.ingsw.Main.rmiMain;
 
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.RMI.RMIServer;
