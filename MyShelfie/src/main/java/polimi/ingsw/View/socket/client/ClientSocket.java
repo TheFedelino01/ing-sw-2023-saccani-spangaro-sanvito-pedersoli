@@ -15,6 +15,7 @@ import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessag
 import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageJoinFirst;
 import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageJoinGame;
 import polimi.ingsw.View.socket.client.ServerToClientMessages.SocketServerGenericMessage;
+import polimi.ingsw.View.userView.View;
 
 import java.io.*;
 import java.net.Socket;
@@ -33,9 +34,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
 
     private MainControllerInterface controller;
 
-    public ClientSocket() {
+    public ClientSocket(View gui) {
         startConnection(DefaultValue.Remote_ip,DefaultValue.Default_port_Socket);
-        modelInvokedEvents = new GameListenersHandlerClientSocket();
+        modelInvokedEvents = new GameListenersHandlerClientSocket(gui);
         this.start();
 
     }

@@ -9,6 +9,7 @@ import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 import polimi.ingsw.View.socket.client.ServerToClientMessages.*;
+import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -142,4 +143,5 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             throw new RuntimeException(e);
         }
     }
+
 }

@@ -7,6 +7,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
+import polimi.ingsw.View.userView.View;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -15,6 +16,7 @@ import java.rmi.RemoteException;
 public class GameListenersHandlerClientRMI implements GameListener, Serializable {
 
     private GameModelImmutable lastModelReceived=null;
+
 
     @Override
     public void playerJoined(String nickNewPlayer) {
@@ -90,6 +92,7 @@ public class GameListenersHandlerClientRMI implements GameListener, Serializable
     public void playerDisconnected(String nick) throws RemoteException {
         System.out.println(this.hashCode() + "> Player "+nick +" just disconnected");
     }
+
 
     public GameModelImmutable getLastModelReceived(){
         return lastModelReceived;

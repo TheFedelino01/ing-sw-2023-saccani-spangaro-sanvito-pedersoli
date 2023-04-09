@@ -1,5 +1,7 @@
 package polimi.ingsw.View.userView;
 
-public interface View {
+import polimi.ingsw.Listener.GameListener;
+
+public abstract class View implements GameListener {
 
 }

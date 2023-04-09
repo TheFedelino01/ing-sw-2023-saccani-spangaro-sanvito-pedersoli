@@ -1,23 +1,27 @@
 package polimi.ingsw.View.userView.text;
 
 import polimi.ingsw.Model.Cards.Common.CommonCard;
+import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Point;
 import polimi.ingsw.Model.Tile;
+import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.CommonClientActions;
 import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
 
-public class TextUI extends Thread implements CommonClientActions, View {
+public class TextUI extends View implements CommonClientActions {
     private Scanner scanner = new Scanner(System.in);
     private String nickname;
     private Integer gameID;
@@ -26,18 +30,18 @@ public class TextUI extends Thread implements CommonClientActions, View {
 
     private CommonCard card1, card2;
 
-    private GameModelImmutable lastModalReceived;
+    private GameModelImmutable lastModelReceived=null;
 
-    private CommonClientActions outsideWorld = new ClientSocket();
+    private CommonClientActions server;
 
 
     public TextUI() {
         nickname = "";
         gameID = 0;
+        server = new RMIClient(this);
     }
 
-    @Override
-    public void run() {
+    public void start() {
 
         System.out.println("> Insert any key to start! ('e' to exit the app):");
         String ris = scanner.nextLine();
@@ -49,13 +53,7 @@ public class TextUI extends Thread implements CommonClientActions, View {
 
         synchronized (this) {
             if (joined) {
-                while (started == false) {
-                    try {
-                        this.wait();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                askReadyToStart();
 
                 //Game started
                 viewCommonCard(card1.getCommonType(), card2.getCommonType());
@@ -63,7 +61,7 @@ public class TextUI extends Thread implements CommonClientActions, View {
                 while (true) {
                     updateCame=false;
 
-                    if (lastModalReceived.isMyTurn(nickname)) {
+                    if (lastModelReceived.isMyTurn(nickname)) {
                         pickTiles();
                         placeTiles();
 
@@ -71,11 +69,11 @@ public class TextUI extends Thread implements CommonClientActions, View {
                     }
                     viewOtherShelfs();
 
-                    synchronized (lastModalReceived){
+                    synchronized (lastModelReceived){
                         //Wait until another event happens
                         while(updateCame==false) {
                             try {
-                                lastModalReceived.wait();
+                                lastModelReceived.wait();
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
@@ -91,9 +89,9 @@ public class TextUI extends Thread implements CommonClientActions, View {
     }
 
     public void setLastModalReceived(GameModelImmutable g){
-        this.lastModalReceived=g;
+        this.lastModelReceived=g;
         updateCame=true;
-        lastModalReceived.notifyAll();
+        lastModelReceived.notifyAll();
     }
 
 
@@ -201,6 +199,8 @@ public class TextUI extends Thread implements CommonClientActions, View {
     public void createGame(String nick) throws IOException {
         clearConsole();
         System.out.println("> You have selected to create a new game");
+
+        /*
         int numberOfPlayers = -1;
 
         boolean reAsk = false;
@@ -225,18 +225,20 @@ public class TextUI extends Thread implements CommonClientActions, View {
 
         if (numberOfPlayers >= DefaultValue.minNumOfPlayer && numberOfPlayers <= DefaultValue.MaxNumOfPlayer) {
             System.out.println("> You have selected to create a new game with ID: " + gameID + " and " + numberOfPlayers + " players");
-            //todo invoke creation
-            outsideWorld.createGame(nick);
+            server.createGame(nick);
             joined = true;
             return;
-        }
+        }*/
+
+        server.createGame(nick);
+        joined = true;
     }
 
     @Override
     public void joinFirstAvailable(String nick) throws IOException {
         clearConsole();
         System.out.println("> Connecting to the first available game...");
-        //todo invoke join first available
+        server.joinFirstAvailable(nick);
         joined = true;
         return;
     }
@@ -245,12 +247,12 @@ public class TextUI extends Thread implements CommonClientActions, View {
     public void joinGame(String nick, int idGame) throws IOException {
         clearConsole();
         System.out.println("> You have selected to join to Game with id: \'" + idGame + "\', trying to connect");
-        //todo invoke join first available
+        server.joinGame(nick,idGame);
     }
 
     @Override
     public void setAsReady() throws IOException {
-        //todo invoke set ready
+        server.setAsReady();
     }
 
     @Override
@@ -261,12 +263,12 @@ public class TextUI extends Thread implements CommonClientActions, View {
 
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
-        //todo invoke
+        server.grabTileFromPlayground(x,y,direction,num);
     }
 
     @Override
     public void positionTileOnShelf(int column, TileType type) throws IOException {
-        //todo invoke
+        server.positionTileOnShelf(column,type);
     }
 
     public void askReadyToStart() {
@@ -279,7 +281,7 @@ public class TextUI extends Thread implements CommonClientActions, View {
                 if (ris.equals("y")) {
                     setAsReady();
                 }
-            } while (!ris.equals("y"));
+            } while (started==false);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -404,14 +406,98 @@ public class TextUI extends Thread implements CommonClientActions, View {
     }
 
     public void viewMyShelf() {
-        System.out.println(lastModalReceived.getPlayerEntity(nickname).getShelf().toString());
+        System.out.println(lastModelReceived.getPlayerEntity(nickname).getShelf().toString());
     }
 
     public void viewOtherShelfs() {
-        for (Player p : lastModalReceived.getPlayers()) {
+        for (Player p : lastModelReceived.getPlayers()) {
             System.out.println(p.getNickname() + ": \n" + p.getShelf().toString());
         }
     }
 
 
+    //-----------------------------------------------------------------------
+    @Override
+    public void playerJoined(String nickNewPlayer) {
+        System.out.println(nickname+" [VIEW]> "+nickNewPlayer+" has just joined!");
+    }
+
+    @Override
+    public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gamemodel) throws RemoteException {
+        System.out.println(nickname+" [VIEW]> "+ wantedToJoin+" tried to entry but the game is full!");
+    }
+
+    @Override
+    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+        System.out.println(nickname+" [VIEW]> "+ wantedToJoin.getNickname() + " has already in");
+    }
+
+    @Override
+    public void playerIsReadyToStart(String nick) {
+        System.out.println(nickname+" [VIEW]> "+ nick + " ready to start!");
+    }
+
+    @Override
+    public void commonCardsExtracted(CommonCard card) throws RemoteException {
+        System.out.println(nickname+" [VIEW]> "+ card.getCommonType() + " card common extracted!");
+    }
+
+    @Override
+    public void gameStarted(GameModelImmutable gamemodel) {
+        System.out.println(nickname+" [VIEW]> Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying());
+        setModel(gamemodel);
+        started=true;
+    }
+
+    @Override
+    public void gameEnded(GameModelImmutable gamemodel) {
+        System.out.println(nickname+" [VIEW]> "+gamemodel.getGameId()+" ended! \n" +
+                "The winner is: "+gamemodel.getWinner().getNickname()+"\n" +
+                "Score board: todo");
+    }
+
+    @Override
+    public void sentMessage(Message msg) {
+        System.out.println(nickname+" [VIEW]> new Message: \""+msg.toString()+"\"");
+    }
+
+    @Override
+    public void grabbedTile(GameModelImmutable gamemodel) {
+        System.out.println(nickname+" [VIEW]> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles: "+gamemodel.getHandOfCurrentPlaying().toString());
+        setModel(gamemodel);
+    }
+
+    @Override
+    public void grabbedTileNotCorrect(GameModelImmutable gamemodel) {
+        System.out.println(nickname+" [VIEW]> a set of non grabbable tiles have been required");
+    }
+
+    @Override
+    public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) {
+        System.out.println(nickname+" [VIEW]> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
+        setModel(gamemodel);
+    }
+
+    @Override
+    public void nextTurn(GameModelImmutable gamemodel) {
+        System.out.println(nickname+" [VIEW]> Next turn! It's up to: "+gamemodel.getNicknameCurrentPlaying());
+    }
+
+    @Override
+    public void addedPoint(Player p, Point point) {
+        System.out.println(nickname+" [VIEW]> Player "+p.getNickname()+" obtained "+point.getPoint()+" points by achieving "+point.getReferredTo());
+    }
+
+    @Override
+    public void playerDisconnected(String nick) throws RemoteException {
+        System.out.println(nickname+" [VIEW]>  Player "+nick +" just disconnected");
+    }
+
+    public GameModelImmutable getLastModelReceived(){
+        return lastModelReceived;
+    }
+
+    public synchronized void setModel(GameModelImmutable m){
+        lastModelReceived = m;
+    }
 }

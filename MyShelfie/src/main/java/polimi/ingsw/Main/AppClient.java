@@ -4,6 +4,8 @@ import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.RMI.RMIServer;
+import polimi.ingsw.View.userView.View;
+import polimi.ingsw.View.userView.text.TextUI;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -15,21 +17,22 @@ import java.rmi.RemoteException;
 public class AppClient
 {
     public static void main( String[] args ) throws RemoteException {
-        RMIClient client = new RMIClient();
+        View gui = new TextUI();
 
-        client.connect();
+        RMIClient client = new RMIClient(gui);
+
 
         client.createGame("pino");
 
         client.setAsReady();
 
-        while(client.getLastModelReceived()==null){
+        /*while(gui.getLastModelReceived()==null){
             Thread.onSpinWait();
         }
         if(client.isMyTurn()) {
             client.grabTileFromPlayground(1, 3, Direction.RIGHT, 2);
             client.positionTileOnShelf(0,client.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());
             client.positionTileOnShelf(0,client.getLastModelReceived().getHandOfCurrentPlaying().get(0).getType());
-        }
+        }*/
     }
 }

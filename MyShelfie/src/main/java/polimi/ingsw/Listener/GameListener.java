@@ -7,6 +7,7 @@ import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
+import polimi.ingsw.View.userView.View;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -31,4 +32,5 @@ public interface GameListener extends Remote {
     void addedPoint(Player p, Point point) throws RemoteException;
 
     void playerDisconnected(String nick) throws RemoteException;
+
 }
