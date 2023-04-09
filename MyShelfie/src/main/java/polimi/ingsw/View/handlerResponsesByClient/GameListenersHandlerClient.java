@@ -7,18 +7,17 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
-import polimi.ingsw.View.socket.server.GameListenersHandlerSocket;
 import polimi.ingsw.View.userView.View;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
-public class GameListenersHandlerClientSocket implements GameListener, Serializable {
+public class GameListenersHandlerClient implements GameListener, Serializable {
 
 
     private View gui;
 
-    public GameListenersHandlerClientSocket(View gui){
+    public GameListenersHandlerClient(View gui){
         this.gui=gui;
     }
     @Override
@@ -46,9 +45,9 @@ public class GameListenersHandlerClientSocket implements GameListener, Serializa
     }
 
     @Override
-    public void commonCardsExtracted(CommonCard card) throws RemoteException {
+    public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(this.hashCode() + "> " + card.getCommonType() + " card common extracted! [by Socket]");
-        gui.commonCardsExtracted(card);
+        gui.commonCardsExtracted(gamemodel);
     }
 
     @Override

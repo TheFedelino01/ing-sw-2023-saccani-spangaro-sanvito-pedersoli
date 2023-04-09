@@ -3,6 +3,7 @@ package polimi.ingsw.Main;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.RMI.RMIServer;
+import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.View;
 import polimi.ingsw.View.userView.text.TextUI;
 
@@ -10,7 +11,7 @@ import java.rmi.RemoteException;
 
 public class App {
     public static void main( String[] args ) throws RemoteException {
-        View gui1 = new TextUI(),gui2 = new TextUI();
+        View gui1 = new TextUI(ConnectionSelection.RMI),gui2 = new TextUI(ConnectionSelection.RMI);
         RMIServer.bind();
 
         RMIClient client = new RMIClient(gui1);

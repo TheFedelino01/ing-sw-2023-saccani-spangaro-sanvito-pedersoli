@@ -123,7 +123,7 @@ public class GameModel {
         if (commonCards.stream().noneMatch(x -> x.isSameType(c))) {
             if (commonCards.size() + 1 <= DefaultValue.NumOfCommonCards) {
                 commonCards.add(c);
-                listenersHandler.notify_extractedCommonCard(c);
+                listenersHandler.notify_extractedCommonCard(this);
             } else {
                 throw new MaxCommonCardsAddedException();
             }
@@ -235,6 +235,7 @@ public class GameModel {
 
             if (status == GameStatus.RUNNING) {
                 listenersHandler.notify_GameStarted(this);
+                listenersHandler.notify_nextTurn(this);
             } else if (status == GameStatus.ENDED) {
                 findWinner(); //Trovo il vincitore
                 listenersHandler.notify_GameEnded(this);

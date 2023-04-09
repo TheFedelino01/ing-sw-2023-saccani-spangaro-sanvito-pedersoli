@@ -5,12 +5,10 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
-import polimi.ingsw.Model.GameModelView.GameModelImmutable;
-import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClientSocket;
+import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClient;
 import polimi.ingsw.View.userView.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
-import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClientRMI;
 import polimi.ingsw.View.userView.View;
 
 import java.rmi.RemoteException;
@@ -24,11 +22,11 @@ public class RMIClient implements CommonClientActions {
     private GameControllerInterface gameController=null;
     private GameListener modelInvokedEvents;
     private String nickname;
-    private GameListenersHandlerClientSocket gameListenersHandler;
+    private GameListenersHandlerClient gameListenersHandler;
 
     public RMIClient(View gui) {
         super();
-        gameListenersHandler=new GameListenersHandlerClientSocket(gui);
+        gameListenersHandler=new GameListenersHandlerClient(gui);
         connect();
     }
     public void connect(){

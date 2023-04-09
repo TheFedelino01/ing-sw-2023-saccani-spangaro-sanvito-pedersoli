@@ -130,10 +130,10 @@ public class  ListenersHandler {
             }
         }
     }
-    public synchronized void notify_extractedCommonCard(CommonCard card) {
+    public synchronized void notify_extractedCommonCard(GameModel gamemodel) {
         for (GameListener l : listeners) {
             try {
-                l.commonCardsExtracted(card);
+                l.commonCardsExtracted(new GameModelImmutable(gamemodel));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

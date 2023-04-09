@@ -4,6 +4,7 @@ import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.RMI.RMIServer;
+import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.View;
 import polimi.ingsw.View.userView.text.TextUI;
 
@@ -17,7 +18,7 @@ import java.rmi.RemoteException;
 public class AppClient
 {
     public static void main( String[] args ) throws RemoteException {
-        View gui = new TextUI();
+        View gui = new TextUI(ConnectionSelection.RMI);
 
         RMIClient client = new RMIClient(gui);
 

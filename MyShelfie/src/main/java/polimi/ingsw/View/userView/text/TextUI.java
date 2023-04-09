@@ -13,10 +13,12 @@ import polimi.ingsw.Model.Tile;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.CommonClientActions;
+import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -26,19 +28,22 @@ public class TextUI extends View implements CommonClientActions {
     private String nickname;
     private Integer gameID;
 
-    private boolean joined = false, started = false, updateCame;
-
-    private CommonCard card1, card2;
+    private boolean joined = false, started = false, askToBeReady=true;
 
     private GameModelImmutable lastModelReceived=null;
 
     private CommonClientActions server;
 
 
-    public TextUI() {
+    public TextUI(ConnectionSelection selection) {
         nickname = "";
         gameID = 0;
-        server = new RMIClient(this);
+
+        if(selection.equals(ConnectionSelection.SOCKET)) {
+            server = new ClientSocket(this);
+        }else if (selection.equals(ConnectionSelection.RMI)){
+            server = new RMIClient(this);
+        }
     }
 
     public void start() {
@@ -51,46 +56,14 @@ public class TextUI extends View implements CommonClientActions {
 
         selectGame();
 
-        synchronized (this) {
-            if (joined) {
-                askReadyToStart();
-
-                //Game started
-                viewCommonCard(card1.getCommonType(), card2.getCommonType());
-
-                while (true) {
-                    updateCame=false;
-
-                    if (lastModelReceived.isMyTurn(nickname)) {
-                        pickTiles();
-                        placeTiles();
-
-                        viewMyShelf();
-                    }
-                    viewOtherShelfs();
-
-                    synchronized (lastModelReceived){
-                        //Wait until another event happens
-                        while(updateCame==false) {
-                            try {
-                                lastModelReceived.wait();
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    }
-                    //Another event happened, it's time to show
-
-                }
-            }
+        if (joined) {
+            askReadyToStart();
         }
-
 
     }
 
     public void setLastModalReceived(GameModelImmutable g){
-        this.lastModelReceived=g;
-        updateCame=true;
+        this.lastModelReceived=g;;
         lastModelReceived.notifyAll();
     }
 
@@ -281,7 +254,7 @@ public class TextUI extends View implements CommonClientActions {
                 if (ris.equals("y")) {
                     setAsReady();
                 }
-            } while (started==false);
+            } while (askToBeReady);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -435,11 +408,22 @@ public class TextUI extends View implements CommonClientActions {
     @Override
     public void playerIsReadyToStart(String nick) {
         System.out.println(nickname+" [VIEW]> "+ nick + " ready to start!");
+        if(nick.equals(nickname)){
+            askToBeReady=false;
+        }
     }
 
     @Override
-    public void commonCardsExtracted(CommonCard card) throws RemoteException {
-        System.out.println(nickname+" [VIEW]> "+ card.getCommonType() + " card common extracted!");
+    public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
+        if(gamemodel.getCommonCards().size()==2) {
+            for (CommonCard c : gamemodel.getCommonCards()) {
+                System.out.println(nickname + " [VIEW]> " + c.getCommonType() + " card common extracted!");
+            }
+            viewCommonCard(gamemodel.getCommonCards().get(0).getCommonType(),gamemodel.getCommonCards().get(1).getCommonType());
+        }
+        setModel(gamemodel);
+
+
     }
 
     @Override
@@ -454,6 +438,7 @@ public class TextUI extends View implements CommonClientActions {
         System.out.println(nickname+" [VIEW]> "+gamemodel.getGameId()+" ended! \n" +
                 "The winner is: "+gamemodel.getWinner().getNickname()+"\n" +
                 "Score board: todo");
+        setModel(gamemodel);
     }
 
     @Override
@@ -470,6 +455,7 @@ public class TextUI extends View implements CommonClientActions {
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gamemodel) {
         System.out.println(nickname+" [VIEW]> a set of non grabbable tiles have been required");
+        setModel(gamemodel);
     }
 
     @Override
@@ -481,6 +467,14 @@ public class TextUI extends View implements CommonClientActions {
     @Override
     public void nextTurn(GameModelImmutable gamemodel) {
         System.out.println(nickname+" [VIEW]> Next turn! It's up to: "+gamemodel.getNicknameCurrentPlaying());
+        setModel(gamemodel);
+
+        if(gamemodel.getNicknameCurrentPlaying().equals(nickname)){
+            pickTiles();
+            placeTiles();
+        }else{
+            viewOtherShelfs();
+        }
     }
 
     @Override

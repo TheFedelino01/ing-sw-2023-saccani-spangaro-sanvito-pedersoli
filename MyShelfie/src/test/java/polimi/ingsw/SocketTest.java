@@ -3,6 +3,9 @@ package polimi.ingsw;
 import org.junit.jupiter.api.*;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.socket.server.SocketWelcome;
+import polimi.ingsw.View.userView.ConnectionSelection;
+import polimi.ingsw.View.userView.View;
+import polimi.ingsw.View.userView.text.TextUI;
 
 import java.io.IOException;
 
@@ -19,15 +22,21 @@ public class SocketTest {
     static void setup() throws IOException {
         server = new SocketWelcome();
         server.start(port);
-        client = new ClientSocket();
 
-        client1 = new ClientSocket();
+        View gui = new TextUI(ConnectionSelection.RMI);
+        client = new ClientSocket(gui);
 
-        client2 = new ClientSocket();
+        View gui1 = new TextUI(ConnectionSelection.RMI);
+        client1 = new ClientSocket(gui1);
 
-        client3 = new ClientSocket();
+        View gui2 = new TextUI(ConnectionSelection.RMI);
+        client2 = new ClientSocket(gui2);
 
-        client4 = new ClientSocket();
+        View gui3 = new TextUI(ConnectionSelection.RMI);
+        client3 = new ClientSocket(gui3);
+
+        View gui4 = new TextUI(ConnectionSelection.RMI);
+        client4 = new ClientSocket(gui4);
 
     }
 

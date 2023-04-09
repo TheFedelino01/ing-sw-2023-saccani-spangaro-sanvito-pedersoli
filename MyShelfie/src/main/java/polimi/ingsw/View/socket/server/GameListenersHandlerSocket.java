@@ -53,10 +53,10 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
-    public void commonCardsExtracted(CommonCard card) throws RemoteException {
+    public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(card.getCommonType() +" common card extracted by socket");
         try {
-            out.writeObject(new msgCommonCardsExtracted(card));
+            out.writeObject(new msgCommonCardsExtracted(gamemodel));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

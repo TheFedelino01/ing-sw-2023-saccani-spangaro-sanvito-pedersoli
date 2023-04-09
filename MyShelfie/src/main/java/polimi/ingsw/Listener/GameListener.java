@@ -18,7 +18,7 @@ public interface GameListener extends Remote {
     void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
     void playerIsReadyToStart(String nick) throws RemoteException;
 
-    void commonCardsExtracted(CommonCard card) throws RemoteException;
+    void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException;
 
     void gameStarted(GameModelImmutable gamemodel) throws RemoteException;
     void gameEnded(GameModelImmutable gamemodel) throws RemoteException;

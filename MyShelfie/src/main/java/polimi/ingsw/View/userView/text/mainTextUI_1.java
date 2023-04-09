@@ -2,9 +2,9 @@ package polimi.ingsw.View.userView.text;
 
 import polimi.ingsw.View.userView.ConnectionSelection;
 
-public class mainTextUI_2 {
+public class mainTextUI_1 {
     public static void main(String[] args) {
-        TextUI textUI = new TextUI(ConnectionSelection.SOCKET);
+        TextUI textUI = new TextUI(ConnectionSelection.RMI);
         textUI.start();
     }
 }
