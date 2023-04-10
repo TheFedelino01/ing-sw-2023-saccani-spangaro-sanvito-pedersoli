@@ -244,10 +244,7 @@ public class GameModel {
     }
 
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
-
-
         List<Tile> ris;
-
         try {
             ris = pg.grabTile(x, y, direction, num);
 

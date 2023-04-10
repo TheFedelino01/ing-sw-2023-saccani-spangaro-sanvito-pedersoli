@@ -357,6 +357,12 @@ public class TextUI extends View implements CommonClientActions {
     }
 
     public void pickTiles() {
+        /*try {
+            grabTileFromPlayground(1, 3, Direction.UP, 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }*/
+
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get?");

@@ -91,7 +91,7 @@ public class  ListenersHandler {
         }
     }
 
-    public synchronized void notify_grabbedTile(GameModel model) {
+    public void notify_grabbedTile(GameModel model) {
         for (GameListener l : listeners) {
             try {
                 l.grabbedTile(new GameModelImmutable(model));
