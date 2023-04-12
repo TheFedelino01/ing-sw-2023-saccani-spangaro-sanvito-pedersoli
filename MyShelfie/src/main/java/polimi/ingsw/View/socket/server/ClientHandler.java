@@ -33,7 +33,7 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
-        SocketClientGenericMessage temp=null;
+        SocketClientGenericMessage temp;
 
         while(true){
             try {

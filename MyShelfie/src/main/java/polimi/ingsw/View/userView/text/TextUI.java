@@ -2,7 +2,6 @@ package polimi.ingsw.View.userView.text;
 
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
-import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
@@ -19,10 +18,7 @@ import polimi.ingsw.View.userView.View;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.Scanner;
-
-import static java.lang.System.exit;
 
 public class TextUI extends View implements Runnable,CommonClientActions {
     private Scanner scanner = new Scanner(System.in);
@@ -32,16 +28,16 @@ public class TextUI extends View implements Runnable,CommonClientActions {
     private boolean showCommonCards=true,showGrabbedTile=false, grabbed=false, showPositionedTile=false;
 
     private GameModelImmutable lastModelReceived=new GameModelImmutable();
-    private CommonClientActions server;
+    private CommonClientActions clientActions;
 
 
     public TextUI(ConnectionSelection selection) {
         nickname = "";
 
         if(selection.equals(ConnectionSelection.SOCKET)) {
-            server = new ClientSocket(this);
+            clientActions = new ClientSocket(this);
         }else if (selection.equals(ConnectionSelection.RMI)){
-            server = new RMIClient(this);
+            clientActions = new RMIClient(this);
         }
         new Thread(this).start();
     }
@@ -50,16 +46,10 @@ public class TextUI extends View implements Runnable,CommonClientActions {
     public void run() {
         selectGame();
         while (joined) {
-            switch(lastModelReceived.getStatus()){
-                case WAIT:
-                    statusWait();
-                    break;
-                case RUNNING:
-                    statusRunning();
-                    break;
-                case ENDED:
-                    statusEnded();
-                    break;
+            switch (lastModelReceived.getStatus()) {
+                case WAIT -> statusWait();
+                case RUNNING -> statusRunning();
+                case ENDED -> statusEnded();
             }
         }
     }
@@ -151,11 +141,12 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         do {
             clearConsole();
             reAsk = false;
-            System.out.println("> Select one option:\n " +
-                    "\t(c) Create a new Game\n " +
-                    "\t(j) Join to a random Game\n" +
-                    "\t(js) Join a specific Game by idGame\n" +
-                    "\t(.) to leave");
+            System.out.println("""
+                    > Select one option:
+                     \t(c) Create a new Game
+                     \t(j) Join to a random Game
+                    \t(js) Join a specific Game by idGame
+                    \t(.) to leave""");
             optionChoose = scanner.nextLine();
             if (optionChoose.equals("."))
                 return;
@@ -163,26 +154,22 @@ public class TextUI extends View implements Runnable,CommonClientActions {
 
             try {
                 switch (optionChoose) {
-                    case "c":
-                        createGame(nickname);
-                        break;
-                    case "j":
-                        joinFirstAvailable(nickname);
-                        break;
-                    case "js":
+                    case "c" -> createGame(nickname);
+                    case "j" -> joinFirstAvailable(nickname);
+                    case "js" -> {
                         Integer gameId = askGameId();
                         if (gameId != -1)
                             joinGame(nickname, gameId);
-                        break;
-                    default:
+                    }
+                    default -> {
                         System.out.println("> Selection incorrect!");
                         reAsk = true;
-                        break;
+                    }
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        } while (reAsk == true);
+        } while (reAsk);
 
 
     }
@@ -225,26 +212,26 @@ public class TextUI extends View implements Runnable,CommonClientActions {
     public void createGame(String nick) throws IOException {
         clearConsole();
         System.out.println("> You have selected to create a new game");
-        server.createGame(nick);
+        clientActions.createGame(nick);
     }
 
     @Override
     public void joinFirstAvailable(String nick) throws IOException {
         clearConsole();
         System.out.println("> Connecting to the first available game...");
-        server.joinFirstAvailable(nick);
+        clientActions.joinFirstAvailable(nick);
     }
 
     @Override
     public void joinGame(String nick, int idGame) throws IOException {
         clearConsole();
         System.out.println("> You have selected to join to Game with id: \'" + idGame + "\', trying to connect");
-        server.joinGame(nick,idGame);
+        clientActions.joinGame(nick,idGame);
     }
 
     @Override
     public void setAsReady() throws IOException {
-        server.setAsReady();
+        clientActions.setAsReady();
     }
 
     @Override
@@ -255,12 +242,12 @@ public class TextUI extends View implements Runnable,CommonClientActions {
 
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
-        server.grabTileFromPlayground(x,y,direction,num);
+        clientActions.grabTileFromPlayground(x,y,direction,num);
     }
 
     @Override
     public void positionTileOnShelf(int column, TileType type) throws IOException {
-        server.positionTileOnShelf(column,type);
+        clientActions.positionTileOnShelf(column,type);
     }
 
     public void askReadyToStart() {
@@ -292,6 +279,7 @@ public class TextUI extends View implements Runnable,CommonClientActions {
 
     public void viewSingleCommonCard(CardCommonType card) {
         //TODO BISOGNA ADATTARLO CON ENUM !!!!!
+        // si ma sta calmo
         /*
         System.out.println("");
         switch (card) {

@@ -16,10 +16,5 @@ public class AppClient2 {
         View gui = new TextUI(ConnectionSelection.SOCKET);
         client2 = new ClientSocket(gui);
 
-
-        client2.joinFirstAvailable("ugo");
-
-        client2.setAsReady();
-
     }
 }
