@@ -35,6 +35,17 @@ public class GameModelImmutable implements Serializable {
     private final Integer indexWonPlayer = -1;
 
 
+    public GameModelImmutable(){
+        players = new ArrayList<Player>();
+        commonCards = new ArrayList<CommonCard>();
+        gameId = -1;
+
+        pg = new Playground();
+        currentPlaying = -1;
+        chat = new Chat();
+        status =GameStatus.WAIT;
+    }
+
     public GameModelImmutable(GameModel modelToCopy) {
         players = modelToCopy.getPlayers();
         commonCards = modelToCopy.getCommonCards();

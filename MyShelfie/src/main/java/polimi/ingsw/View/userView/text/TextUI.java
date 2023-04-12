@@ -24,50 +24,103 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
-public class TextUI extends View implements CommonClientActions {
+public class TextUI extends View implements Runnable,CommonClientActions {
     private Scanner scanner = new Scanner(System.in);
     private String nickname;
-    private Integer gameID;
 
-    private boolean joined = false, started = false, askToBeReady=true;
+    private boolean joined = false,showPlayer=true,toldIAmReady=false;
+    private boolean showCommonCards=true,showGrabbedTile=false, grabbed=false, showPositionedTile=false;
 
-    private GameModelImmutable lastModelReceived=null;
-
+    private GameModelImmutable lastModelReceived=new GameModelImmutable();
     private CommonClientActions server;
 
 
     public TextUI(ConnectionSelection selection) {
         nickname = "";
-        gameID = 0;
 
         if(selection.equals(ConnectionSelection.SOCKET)) {
             server = new ClientSocket(this);
         }else if (selection.equals(ConnectionSelection.RMI)){
             server = new RMIClient(this);
         }
+        new Thread(this).start();
     }
 
-    public void start() {
-
-        System.out.println("> Insert any key to start! ('e' to exit the app):");
-        String ris = scanner.nextLine();
-        if (ris.equals("e")) {
-            exit(0);
+    @Override
+    public void run() {
+        selectGame();
+        while (joined) {
+            switch(lastModelReceived.getStatus()){
+                case WAIT:
+                    statusWait();
+                    break;
+                case RUNNING:
+                    statusRunning();
+                    break;
+                case ENDED:
+                    statusEnded();
+                    break;
+            }
+        }
+    }
+    private void statusWait(){
+        if(showPlayer){
+            show_allPlayers();
         }
 
-        selectGame();
-
-        if (joined) {
+        if(!toldIAmReady){
             askReadyToStart();
         }
+    }
+    private void statusRunning(){
+        if(showCommonCards){
+            show_allCommonCards();
+        }
+        if(showGrabbedTile){
+            show_grabbedTile();
+        }
+        if(showPositionedTile){
+            show_positionedTile();
+        }
+
+        if(lastModelReceived.getNicknameCurrentPlaying().equals(nickname)){
+            if(!grabbed){
+                askPickTiles();
+            }else{
+                askPlaceTile();
+            }
+        }
+    }
+    private void statusEnded(){
 
     }
 
-    public void setLastModalReceived(GameModelImmutable g){
-        this.lastModelReceived=g;;
-        lastModelReceived.notifyAll();
+    private void show_allPlayers(){
+        System.out.println("Current Players: "+lastModelReceived.getPlayers().toString());
+        showPlayer=false;
     }
-
+    private void show_allCommonCards(){
+        if(lastModelReceived.getCommonCards().size()==2) {
+            for (CommonCard c : lastModelReceived.getCommonCards()) {
+                System.out.println(nickname + ": " + c.getCommonType() + " card common extracted!");
+            }
+            viewCommonCard(lastModelReceived.getCommonCards().get(0).getCommonType(),lastModelReceived.getCommonCards().get(1).getCommonType());
+            showCommonCards=false;
+        }
+    }
+    private void show_grabbedTile(){
+        String ris = "| ";
+        for(Tile t: lastModelReceived.getHandOfCurrentPlaying()){
+            ris+=t.toString()+" | ";
+        }
+        System.out.println(nickname+": Player: "+lastModelReceived.getNicknameCurrentPlaying()+" has grabbed some tiles: "+ris);
+        viewPlayGround();
+        showGrabbedTile=false;
+    }
+    private void show_positionedTile(){
+        viewOtherShelfs();
+        showPositionedTile=false;
+    }
 
     private void insertNickname() {
         clearConsole();
@@ -117,9 +170,9 @@ public class TextUI extends View implements CommonClientActions {
                         joinFirstAvailable(nickname);
                         break;
                     case "js":
-                        askGameId();
-                        if (gameID != -1)
-                            joinGame(nickname, gameID);
+                        Integer gameId = askGameId();
+                        if (gameId != -1)
+                            joinGame(nickname, gameId);
                         break;
                     default:
                         System.out.println("> Selection incorrect!");
@@ -137,7 +190,7 @@ public class TextUI extends View implements CommonClientActions {
     private void statusJoined() {
         clearConsole();
         System.out.println("\n------------------\n" +
-                "> Connected to Game: " + gameID + "\n" +
+                "> Connected to Game: " + lastModelReceived.getGameId() + "\n" +
                 "Nickname: " + nickname + "\n" +
                 "------------------");
         askReadyToStart();
@@ -145,7 +198,7 @@ public class TextUI extends View implements CommonClientActions {
     }
 
 
-    private void askGameId() {
+    private Integer askGameId() {
         boolean reAsk = false;
         System.out.println("> Input the GameId ('.' to leave): ");
 
@@ -154,58 +207,25 @@ public class TextUI extends View implements CommonClientActions {
             try {
                 String numberOfPlayers = scanner.nextLine();
                 if (numberOfPlayers.equals(".")) {
-                    gameID = -1;
-                    return;
+                    return -1;
                 }
 
                 int ris = Integer.parseInt(numberOfPlayers);
-                gameID = ris;
-                return;
+                return ris;
 
             } catch (NumberFormatException e) {
                 System.out.println("> NaN");
                 reAsk = true;
             }
         } while (reAsk);
+        return -1;
     }
 
     @Override
     public void createGame(String nick) throws IOException {
         clearConsole();
         System.out.println("> You have selected to create a new game");
-
-        /*
-        int numberOfPlayers = -1;
-
-        boolean reAsk = false;
-        do {
-
-            reAsk = false;
-            System.out.println("> Insert the number of players: ");
-
-            try {
-                numberOfPlayers = Integer.parseInt(scanner.nextLine());
-                if (!(numberOfPlayers >= DefaultValue.minNumOfPlayer && numberOfPlayers <= DefaultValue.MaxNumOfPlayer)) {
-                    System.out.println("> Range of player wrong (number of players must be between " + DefaultValue.minNumOfPlayer + " and " + DefaultValue.MaxNumOfPlayer + ")");
-                    reAsk = true;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("> NaN");
-                reAsk = true;
-            }
-
-
-        } while (reAsk);
-
-        if (numberOfPlayers >= DefaultValue.minNumOfPlayer && numberOfPlayers <= DefaultValue.MaxNumOfPlayer) {
-            System.out.println("> You have selected to create a new game with ID: " + gameID + " and " + numberOfPlayers + " players");
-            server.createGame(nick);
-            joined = true;
-            return;
-        }*/
-
         server.createGame(nick);
-        joined = true;
     }
 
     @Override
@@ -213,8 +233,6 @@ public class TextUI extends View implements CommonClientActions {
         clearConsole();
         System.out.println("> Connecting to the first available game...");
         server.joinFirstAvailable(nick);
-        joined = true;
-        return;
     }
 
     @Override
@@ -249,14 +267,11 @@ public class TextUI extends View implements CommonClientActions {
         String ris;
 
         try {
-            do {
-                System.out.println("> Are you ready to start? (y)");
-                ris = scanner.nextLine();
-                if (ris.equals("y")) {
-                    setAsReady();
-                }
-            } while (askToBeReady);
-
+            System.out.println("> Are you ready to start? (y)");
+            ris = scanner.nextLine();
+            if (ris.equals("y")) {
+                setAsReady();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -339,8 +354,6 @@ public class TextUI extends View implements CommonClientActions {
         System.out.println(lastModelReceived.getPg().toString());
     }
 
-    public void viewGoalCard() {
-    }
 
     private Integer askNum(String msg){
         System.out.print(msg);
@@ -356,13 +369,13 @@ public class TextUI extends View implements CommonClientActions {
         return numT;
     }
 
-    public void pickTiles() {
+    public void askPickTiles() {
         /*try {
             grabTileFromPlayground(1, 3, Direction.UP, 1);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }*/
-
+        viewPlayGround();
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get?");
@@ -397,7 +410,7 @@ public class TextUI extends View implements CommonClientActions {
         }
     }
 
-    public void placeTile() {
+    public void askPlaceTile() {
         viewMyShelf();
         System.out.println(">This is your hand:");
         int i=0;
@@ -450,7 +463,12 @@ public class TextUI extends View implements CommonClientActions {
     //-----------------------------------------------------------------------
     @Override
     public void playerJoined(String nickNewPlayer) {
+        if(nickNewPlayer.equals(nickname))
+            joined=true;
         System.out.println(nickname+" [VIEW]> "+nickNewPlayer+" has just joined!");
+
+        lastModelReceived.getPlayers().add(new Player(nickNewPlayer));
+        showPlayer=true;
     }
 
     @Override
@@ -466,29 +484,20 @@ public class TextUI extends View implements CommonClientActions {
     @Override
     public void playerIsReadyToStart(String nick) {
         System.out.println(nickname+" [VIEW]> "+ nick + " ready to start!");
-        if(nick.equals(nickname)){
-            askToBeReady=false;
-        }
+        if(nick.equals(nickname))
+            toldIAmReady=true;
     }
 
     @Override
     public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
-        if(gamemodel.getCommonCards().size()==2) {
-            for (CommonCard c : gamemodel.getCommonCards()) {
-                System.out.println(nickname + " [VIEW]> " + c.getCommonType() + " card common extracted!");
-            }
-            viewCommonCard(gamemodel.getCommonCards().get(0).getCommonType(),gamemodel.getCommonCards().get(1).getCommonType());
-        }
         setModel(gamemodel);
-
-
+        showCommonCards=true;
     }
 
     @Override
     public void gameStarted(GameModelImmutable gamemodel) {
         System.out.println(nickname+" [VIEW]> Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying());
         setModel(gamemodel);
-        started=true;
     }
 
     @Override
@@ -506,50 +515,28 @@ public class TextUI extends View implements CommonClientActions {
 
     @Override
     public void grabbedTile(GameModelImmutable gamemodel) {
-        String ris = "| ";
-        for(Tile t: gamemodel.getHandOfCurrentPlaying()){
-            ris+=t.toString()+" | ";
-        }
-        System.out.println(nickname+" [VIEW]> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles: "+ris);
         setModel(gamemodel);
-
-        if(lastModelReceived.getNicknameCurrentPlaying().equals(nickname)){
-            placeTile();
-        }else {
-            viewPlayGround();
-        }
+        showGrabbedTile=true;
     }
 
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gamemodel) {
         System.out.println(nickname+" [VIEW]> a set of non grabbable tiles have been required");
         setModel(gamemodel);
+        showPositionedTile=true;
     }
 
     @Override
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) {
         System.out.println(nickname+" [VIEW]> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
         setModel(gamemodel);
-
-        if(!gamemodel.getNicknameCurrentPlaying().equals(nickname)){
-            viewOtherShelfs();
-        }else{
-            if(gamemodel.getHandOfCurrentPlaying().size()>0)
-                placeTile();
-        }
-
+        showPositionedTile=true;
     }
 
     @Override
     public void nextTurn(GameModelImmutable gamemodel) {
         System.out.println(nickname+" [VIEW]> Next turn! It's up to: "+gamemodel.getNicknameCurrentPlaying());
         setModel(gamemodel);
-
-        if(gamemodel.getNicknameCurrentPlaying().equals(nickname)){
-            viewPlayGround();
-
-            pickTiles();
-        }
     }
 
     @Override
@@ -562,11 +549,10 @@ public class TextUI extends View implements CommonClientActions {
         System.out.println(nickname+" [VIEW]>  Player "+nick +" just disconnected");
     }
 
-    public GameModelImmutable getLastModelReceived(){
-        return lastModelReceived;
-    }
 
     public synchronized void setModel(GameModelImmutable m){
         lastModelReceived = m;
     }
+
+
 }

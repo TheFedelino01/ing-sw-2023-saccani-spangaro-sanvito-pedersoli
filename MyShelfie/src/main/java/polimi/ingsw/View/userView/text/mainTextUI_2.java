@@ -5,6 +5,6 @@ import polimi.ingsw.View.userView.ConnectionSelection;
 public class mainTextUI_2 {
     public static void main(String[] args) {
         TextUI textUI = new TextUI(ConnectionSelection.RMI);
-        textUI.start();
+
     }
 }
