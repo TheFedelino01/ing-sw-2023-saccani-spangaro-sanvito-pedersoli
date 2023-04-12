@@ -133,6 +133,10 @@ public class TextUI extends View implements Runnable,CommonClientActions {
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
                 show_allShelfs(event.getModel());
                 System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned a Tile on his shelf!");
+
+                if(event.getModel().getHandOfCurrentPlaying().size()>0){
+                    events.add(event.getModel(),EventType.GRABBED_TILE);
+                }
                 break;
         }
 
@@ -148,15 +152,7 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         System.out.println("Current Players: \n"+model.toStringListPlayers());
     }
 
-    private void show_allCommonCards(GameModelImmutable model){
-        if(model.getCommonCards().size()==2) {
-            for (CommonCard c : model.getCommonCards()) {
-                System.out.println(nickname + ": " + c.getCommonType() + " card common extracted!");
-            }
-            //viewCommonCard();
-            //shared.setNeedto_showCommonCards(false);
-        }
-    }
+
     private void show_grabbedTile(GameModelImmutable model){
         String ris = "| ";
         for(Tile t: model.getHandOfCurrentPlaying()){
@@ -168,17 +164,17 @@ public class TextUI extends View implements Runnable,CommonClientActions {
     }
 
 
-    public void show_playground(GameModelImmutable model) {
+    private void show_playground(GameModelImmutable model) {
         System.out.println(model.getPg().toString());
     }
-    public void show_shelfOfCurrentPlaying(GameModelImmutable model){
+    private void show_shelfOfCurrentPlaying(GameModelImmutable model){
         System.out.println(model.getEntityCurrentPlaying().getShelf().toString());
     }
-    public void show_myShelf(GameModelImmutable model) {
+    private void show_myShelf(GameModelImmutable model) {
         System.out.println(model.getPlayerEntity(nickname).getShelf().toString());
     }
 
-    public void show_allShelfs(GameModelImmutable model) {
+    private void show_allShelfs(GameModelImmutable model) {
         for (Player p : model.getPlayers()) {
             System.out.println(p.getNickname() + ": \n" + p.getShelf().toString());
         }
@@ -292,9 +288,6 @@ public class TextUI extends View implements Runnable,CommonClientActions {
     }
 
 
-
-
-
     private Integer askNum(String msg){
         System.out.print(msg);
         System.out.flush();
@@ -332,14 +325,16 @@ public class TextUI extends View implements Runnable,CommonClientActions {
             column = askNum("> Choose column:");
         }while(column==null);
 
-        String direction;
-        Direction d;
-        do {
-            System.out.println("> Choose direction (r=right,l=left,u=up,d=down): ");
-            direction = new Scanner(System.in).nextLine();
-            d = Direction.getDirection(direction);
-        }while(d==null);
-
+        //Ask the direction only if the player wants to grab more than 1 tile
+        Direction d = Direction.RIGHT;
+        if(numTiles!=1) {
+            String direction;
+            do {
+                System.out.println("> Choose direction (r=right,l=left,u=up,d=down): ");
+                direction = new Scanner(System.in).nextLine();
+                d = Direction.getDirection(direction);
+            } while (d == null);
+        }
         //System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
 
         try {
@@ -387,11 +382,6 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         }
 
     }
-
-
-
-
-
 
 
 

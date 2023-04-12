@@ -13,15 +13,15 @@ public enum Direction {
 
             case "down":
             case "d":
-                return Direction.UP;
+                return Direction.DOWN;
 
             case "left":
             case "l":
-                return Direction.UP;
+                return Direction.LEFT;
 
             case "right":
             case "r":
-                return Direction.UP;
+                return Direction.RIGHT;
 
             default:
                 return null;
