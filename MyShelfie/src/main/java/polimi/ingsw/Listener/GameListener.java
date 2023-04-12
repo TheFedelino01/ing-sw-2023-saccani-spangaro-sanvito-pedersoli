@@ -13,7 +13,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface GameListener extends Remote {
-    void playerJoined(String nickNewPlayer) throws RemoteException;;
+    void playerJoined(GameModelImmutable gamemodel) throws RemoteException;;
     void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException;
     void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
     void playerIsReadyToStart(String nick) throws RemoteException;

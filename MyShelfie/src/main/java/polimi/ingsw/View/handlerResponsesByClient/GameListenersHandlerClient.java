@@ -21,9 +21,9 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
         this.gui=gui;
     }
     @Override
-    public void playerJoined(String nickNewPlayer) throws RemoteException {
+    public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
        // System.out.println(this.hashCode()+"> "+nickNewPlayer+" has just joined! [by Socket]");
-        gui.playerJoined(nickNewPlayer);
+        gui.playerJoined(gamemodel);
     }
 
     @Override

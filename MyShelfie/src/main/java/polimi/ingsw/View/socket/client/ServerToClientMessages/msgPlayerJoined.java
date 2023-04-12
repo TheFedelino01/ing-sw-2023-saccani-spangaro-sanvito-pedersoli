@@ -1,18 +1,19 @@
 package polimi.ingsw.View.socket.client.ServerToClientMessages;
 
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.rmi.RemoteException;
 
 public class msgPlayerJoined extends SocketServerGenericMessage{
-    private String nickNewPlayer;
+    private GameModelImmutable gamemodel;
 
-    public msgPlayerJoined(String nickNewPlayer) {
-        this.nickNewPlayer = nickNewPlayer;
+    public msgPlayerJoined(GameModelImmutable gamemodel) {
+        this.gamemodel = gamemodel;
     }
 
     @Override
     public void execute(GameListener lis) throws RemoteException {
-        lis.playerJoined(nickNewPlayer);
+        lis.playerJoined(gamemodel);
     }
 }

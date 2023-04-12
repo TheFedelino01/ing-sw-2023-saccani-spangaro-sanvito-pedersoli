@@ -86,7 +86,7 @@ public class GameModel {
                 .noneMatch(x -> x.equals(p))) {
             if (players.size() + 1 <= DefaultValue.MaxNumOfPlayer) {
                 players.add(p);
-                listenersHandler.notify_playerJoined(p.getNickname());
+                listenersHandler.notify_playerJoined(this);
             } else {
                 listenersHandler.notify_JoinUnableGameFull(p,this);
                 throw new MaxPlayersInException();

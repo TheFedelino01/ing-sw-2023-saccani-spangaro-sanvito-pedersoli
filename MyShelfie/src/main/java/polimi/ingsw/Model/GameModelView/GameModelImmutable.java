@@ -35,7 +35,7 @@ public class GameModelImmutable implements Serializable {
     private final Integer indexWonPlayer = -1;
 
 
-    public GameModelImmutable(){
+    public GameModelImmutable() {
         players = new ArrayList<Player>();
         commonCards = new ArrayList<CommonCard>();
         gameId = -1;
@@ -43,7 +43,7 @@ public class GameModelImmutable implements Serializable {
         pg = new Playground();
         currentPlaying = -1;
         chat = new Chat();
-        status =GameStatus.WAIT;
+        status = GameStatus.WAIT;
     }
 
     public GameModelImmutable(GameModel modelToCopy) {
@@ -57,14 +57,16 @@ public class GameModelImmutable implements Serializable {
         status = modelToCopy.getStatus();
     }
 
-    public String getNicknameCurrentPlaying(){
+    public String getNicknameCurrentPlaying() {
         return players.get(currentPlaying).getNickname();
     }
-    public List<Tile> getHandOfCurrentPlaying(){
+
+    public List<Tile> getHandOfCurrentPlaying() {
         return players.get(currentPlaying).getInHandTile();
     }
-    public Player getWinner(){
-        if(indexWonPlayer!=-1) {
+
+    public Player getWinner() {
+        if (indexWonPlayer != -1) {
             return players.get(indexWonPlayer);
         }
         return null;
@@ -107,11 +109,21 @@ public class GameModelImmutable implements Serializable {
     }
 
     public Player getPlayerEntity(String playerNick) {
-        return players.stream().filter(x->x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+        return players.stream().filter(x -> x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
     }
 
-    public boolean isMyTurn(String nickname){
+    public boolean isMyTurn(String nickname) {
         return players.get(currentPlaying).equals(nickname);
+    }
+
+    public String toStringListPlayers() {
+        String ris = "";
+        int i = 1;
+        for (Player p : players) {
+            ris += "[#"+i+"]: "+p.getNickname()+"\n";
+            i++;
+        }
+        return ris;
     }
 
 }

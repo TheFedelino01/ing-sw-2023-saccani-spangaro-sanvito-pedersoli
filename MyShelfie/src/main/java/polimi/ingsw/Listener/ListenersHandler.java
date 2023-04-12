@@ -22,10 +22,10 @@ public class  ListenersHandler {
         listeners.add(obj);
     }
 
-    public synchronized void notify_playerJoined(String nick){
+    public synchronized void notify_playerJoined(GameModel model){
         for (GameListener l : listeners) {
             try {
-                l.playerJoined(nick);
+                l.playerJoined(new GameModelImmutable(model));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
