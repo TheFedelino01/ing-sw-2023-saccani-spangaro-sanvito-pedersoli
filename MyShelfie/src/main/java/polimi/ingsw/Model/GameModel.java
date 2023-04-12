@@ -101,7 +101,7 @@ public class GameModel {
 
     public void playerIsReadyToStart(Player p) {
         p.setReadyToStart();
-        listenersHandler.notify_PlayerIsReadyToStart(p.getNickname());
+        listenersHandler.notify_PlayerIsReadyToStart(this,p.getNickname());
     }
 
     public boolean arePlayersReadyToStartAndEnough() {

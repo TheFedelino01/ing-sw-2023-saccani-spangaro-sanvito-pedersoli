@@ -51,10 +51,10 @@ public class  ListenersHandler {
         }
     }
 
-    public synchronized void notify_PlayerIsReadyToStart(String nick) {
+    public synchronized void notify_PlayerIsReadyToStart(GameModel model,String nick) {
         for (GameListener l : listeners) {
             try {
-                l.playerIsReadyToStart(nick);
+                l.playerIsReadyToStart(new GameModelImmutable(model),nick);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

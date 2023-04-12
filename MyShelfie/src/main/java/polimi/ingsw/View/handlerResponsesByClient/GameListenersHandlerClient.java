@@ -39,9 +39,9 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void playerIsReadyToStart(String nick) throws RemoteException {
+    public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws RemoteException {
         //System.out.println(this.hashCode() + "> " + nick + " ready to start! [by Socket]");
-        gui.playerIsReadyToStart(nick);
+        gui.playerIsReadyToStart(gamemodel,nick);
     }
 
     @Override

@@ -44,11 +44,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
-    public void playerIsReadyToStart(String nick) throws RemoteException {
+    public void playerIsReadyToStart(GameModelImmutable model, String nick) throws RemoteException {
         //System.out.println(nick +" ready to start by socket");
        try {
            out.reset();
-           out.writeObject(new msgPlayerIsReadyToStart(nick));
+           out.writeObject(new msgPlayerIsReadyToStart(model,nick));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

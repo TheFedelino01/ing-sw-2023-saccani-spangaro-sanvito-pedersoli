@@ -12,6 +12,9 @@ import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.CommonClientActions;
 import polimi.ingsw.View.userView.ConnectionSelection;
+import polimi.ingsw.View.userView.Events.EventElement;
+import polimi.ingsw.View.userView.Events.EventList;
+import polimi.ingsw.View.userView.Events.EventType;
 import polimi.ingsw.View.userView.SharedData;
 import polimi.ingsw.View.userView.View;
 
@@ -20,12 +23,16 @@ import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static polimi.ingsw.Model.Enumeration.GameStatus.*;
+import static polimi.ingsw.View.userView.Events.EventType.COMMON_CARD_EXTRACTED;
+import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
+
 public class TextUI extends View implements Runnable,CommonClientActions {
     private Scanner scanner = new Scanner(System.in);
     private String nickname;
 
     private boolean joined = false, toldIAmReady=false;
-    SharedData shared = new SharedData();
+    EventList events = new EventList();
 
     private CommonClientActions server;
 
@@ -43,19 +50,27 @@ public class TextUI extends View implements Runnable,CommonClientActions {
     @Override
     public void run() {
         askSelectGame();
+        EventElement event;
         while (true) {
-            if(joined) {
-                switch (shared.getLastModelReceived().getStatus()) {
-                    case WAIT:
-                        statusWait();
-                        break;
-                    case RUNNING:
-                        statusRunning();
-                        break;
-                    case ENDED:
-                        statusEnded();
-                        break;
+            if(events.isJoined()) {
+                //Get one event
+                event = events.pop();
+
+                if(event!=null){
+                    //if something happened
+                    switch (event.getModel().getStatus()) {
+                        case WAIT:
+                            statusWait(event);
+                            break;
+                        case RUNNING:
+                            statusRunning(event);
+                            break;
+                        case ENDED:
+                            statusEnded(event);
+                            break;
+                    }
                 }
+
             }
 
             try {
@@ -67,65 +82,106 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         }
 
     }
-    private void statusWait(){
-        if(!toldIAmReady){
-            askReadyToStart();
-        }
-    }
-    private void statusRunning(){
-        if(shared.isNeedto_showCommonCards()){
-            show_allCommonCards();
-        }
-        if(shared.isNeedto_showGrabbedTile()){
-            show_grabbedTile();
-        }
-        if(shared.isNeedto_showPositionedTile()){
-            show_positionedTile();
+    private void statusWait(EventElement event){
+        String nickLastPlayer=event.getModel().getLastPlayer().getNickname();
+
+        //If the event is that I joined then I wait until the user inputs 'y'
+        switch(event.getType()){
+            case PLAYER_JOINDED:
+                if(nickLastPlayer.equals(nickname))
+                    askReadyToStart();
+
+                break;
         }
 
-        if(shared.getLastModelReceived().getNicknameCurrentPlaying().equals(nickname)){
-            if(!shared.isGrabbed()) {
-                askPickTiles();
-                shared.setGrabbed(true);
-            }
-            if(!shared.isPlaced()){
-                askPlaceTile();
-                shared.setPlaced(true);
-            }
-        }
     }
-    private void statusEnded(){
+    private void statusRunning(EventElement event){
+        switch (event.getType()){
+            case GAMESTARTED:
+                show_allPlayers(event.getModel());
+                show_playground(event.getModel());
+                System.out.println("Game Started with id: "+event.getModel().getGameId()+ ", First turn is played by: "+event.getModel().getNicknameCurrentPlaying());
+                break;
+
+            case COMMON_CARD_EXTRACTED:
+                System.out.println("Common card extracted: "+event.getModel().getLastCommonCard().getCommonType());
+                break;
+
+            case NEXT_TURN:
+                System.out.println("Next turn! It's up to: "+event.getModel().getNicknameCurrentPlaying());
+                if(event.getModel().getNicknameCurrentPlaying().equals(nickname)){
+                    //It's my turn
+                    show_playground(event.getModel());
+                    askPickTiles();
+                }else{
+                    //It's not my turn then I show the playground and the shelf of the player playing
+                    show_playground(event.getModel());
+                    show_shelfOfCurrentPlaying(event.getModel());
+                }
+                break;
+            case GRABBED_TILE:
+                if(event.getModel().getNicknameCurrentPlaying().equals(nickname)){
+                    //If I am the player who grabbed the tiles then I place them
+                    show_myShelf(event.getModel());
+                    askPlaceTile(event.getModel());
+                }else{
+                    show_playground(event.getModel());
+                    show_grabbedTile(event.getModel());
+                }
+                break;
+            case POSITIONED_TILE:
+                //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
+                show_allShelfs(event.getModel());
+                System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned a Tile on his shelf!");
+                break;
+        }
+
+    }
+    private void statusEnded(EventElement event){
 
     }
 
     //-----------------------------------------
     //METODI SHOW DA CONSOLE
 
-    private void show_allPlayers(){
-        System.out.println("Current Players: \n"+shared.getLastModelReceived().toStringListPlayers());
+    private void show_allPlayers(GameModelImmutable model){
+        System.out.println("Current Players: \n"+model.toStringListPlayers());
     }
 
-    private void show_allCommonCards(){
-        if(shared.getLastModelReceived().getCommonCards().size()==2) {
-            for (CommonCard c : shared.getLastModelReceived().getCommonCards()) {
+    private void show_allCommonCards(GameModelImmutable model){
+        if(model.getCommonCards().size()==2) {
+            for (CommonCard c : model.getCommonCards()) {
                 System.out.println(nickname + ": " + c.getCommonType() + " card common extracted!");
             }
             //viewCommonCard();
-            shared.setNeedto_showCommonCards(false);
+            //shared.setNeedto_showCommonCards(false);
         }
     }
-    private void show_grabbedTile(){
+    private void show_grabbedTile(GameModelImmutable model){
         String ris = "| ";
-        for(Tile t: shared.getLastModelReceived().getHandOfCurrentPlaying()){
+        for(Tile t: model.getHandOfCurrentPlaying()){
             ris+=t.toString()+" | ";
         }
-        System.out.println(nickname+": Player: "+shared.getLastModelReceived().getNicknameCurrentPlaying()+" has grabbed some tiles: "+ris);
-        viewPlayGround();
-        shared.setNeedto_showGrabbedTile(false);
+        System.out.println(nickname+": Player: "+model.getNicknameCurrentPlaying()+" has grabbed some tiles: "+ris);
+        //viewPlayGround();
+        //shared.setNeedto_showGrabbedTile(false);
     }
-    private void show_positionedTile(){
-        viewOtherShelfs();
-        shared.setNeedto_showPositionedTile(false);
+
+
+    public void show_playground(GameModelImmutable model) {
+        System.out.println(model.getPg().toString());
+    }
+    public void show_shelfOfCurrentPlaying(GameModelImmutable model){
+        System.out.println(model.getEntityCurrentPlaying().getShelf().toString());
+    }
+    public void show_myShelf(GameModelImmutable model) {
+        System.out.println(model.getPlayerEntity(nickname).getShelf().toString());
+    }
+
+    public void show_allShelfs(GameModelImmutable model) {
+        for (Player p : model.getPlayers()) {
+            System.out.println(p.getNickname() + ": \n" + p.getShelf().toString());
+        }
     }
 
 
@@ -236,16 +292,7 @@ public class TextUI extends View implements Runnable,CommonClientActions {
     }
 
 
-    public void viewCommonCard() {
-        System.out.println("> The two extracted common cards are:");
-        System.out.println(shared.getLastModelReceived().getCommonCards().get(0).getCommonType());
-        System.out.println(shared.getLastModelReceived().getCommonCards().get(1).getCommonType());
-    }
 
-
-    public void viewPlayGround() {
-        System.out.println(shared.getLastModelReceived().getPg().toString());
-    }
 
 
     private Integer askNum(String msg){
@@ -268,7 +315,6 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }*/
-        viewPlayGround();
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get?");
@@ -303,12 +349,12 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         }
     }
 
-    public void askPlaceTile() {
-        viewMyShelf();
+    public void askPlaceTile(GameModelImmutable model) {
+
         System.out.println(">This is your hand:");
         int i=0;
         String ris="";
-        for(Tile t: shared.getLastModelReceived().getPlayerEntity(nickname).getInHandTile()){
+        for(Tile t: model.getPlayerEntity(nickname).getInHandTile()){
             ris+="["+i+"]: "+t.toString()+" | ";
             i++;
         }
@@ -321,7 +367,7 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         Integer indexHand;
         do {
             indexHand = askNum("> Choose Tile in hand (0,1,2):");
-            if(indexHand<0 || indexHand>=shared.getLastModelReceived().getPlayerEntity(nickname).getInHandTile().size()){
+            if(indexHand<0 || indexHand>=model.getPlayerEntity(nickname).getInHandTile().size()){
                 System.out.println("Wrong Tile selection offset");
                 indexHand=null;
             }
@@ -335,22 +381,16 @@ public class TextUI extends View implements Runnable,CommonClientActions {
 
 
         try {
-            positionTileOnShelf(column, shared.getLastModelReceived().getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
+            positionTileOnShelf(column, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public void viewMyShelf() {
-        System.out.println(shared.getLastModelReceived().getPlayerEntity(nickname).getShelf().toString());
-    }
 
-    public void viewOtherShelfs() {
-        for (Player p : shared.getLastModelReceived().getPlayers()) {
-            System.out.println(p.getNickname() + ": \n" + p.getShelf().toString());
-        }
-    }
+
+
 
 
 
@@ -411,8 +451,9 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         String p = gamemodel.getPlayers().get(gamemodel.getPlayers().size()-1).getNickname();
         System.out.println("[EVENT]: "+p+" has just joined!");
 
-        shared.setLastModelReceived(gamemodel);
-        show_allPlayers();
+        //shared.setLastModelReceived(gamemodel);
+        //show_allPlayers();
+        events.add(gamemodel, EventType.PLAYER_JOINDED);
 
         if(p.equals(nickname))
             joined=true;
@@ -420,34 +461,37 @@ public class TextUI extends View implements Runnable,CommonClientActions {
 
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gamemodel) throws RemoteException {
-        System.out.println("[EVENT]: "+ wantedToJoin+" tried to entry but the game is full!");
+        //System.out.println("[EVENT]: "+ wantedToJoin+" tried to entry but the game is full!");
     }
 
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
-        System.out.println("[EVENT]: "+ wantedToJoin.getNickname() + " has already in");
+        //System.out.println("[EVENT]: "+ wantedToJoin.getNickname() + " has already in");
     }
 
     @Override
-    public void playerIsReadyToStart(String nick) {
+    public void playerIsReadyToStart(GameModelImmutable gamemodel,String nick) {
         System.out.println("[EVENT]: "+ nick + " ready to start!");
 
-        if(nick.equals(nickname))
-            toldIAmReady=true;
+       // if(nick.equals(nickname))
+        //    toldIAmReady=true;
+
+        events.add(gamemodel, PLAYER_IS_READY_TO_START);
     }
 
     @Override
     public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
-        System.out.println("[EVENT]: common card extracted");
+        //System.out.println("[EVENT]: common card extracted");
 
-        shared.set(gamemodel, true, shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
-
+        //shared.set(gamemodel, true, shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
+        events.add(gamemodel, EventType.COMMON_CARD_EXTRACTED);
     }
 
     @Override
     public void gameStarted(GameModelImmutable gamemodel) {
-        System.out.println("[EVENT]: Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying());
-        shared.setLastModelReceived(gamemodel);
+        //System.out.println("[EVENT]: Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying());
+        //shared.setLastModelReceived(gamemodel);
+        events.add(gamemodel, EventType.GAMESTARTED);
     }
 
     @Override
@@ -455,47 +499,52 @@ public class TextUI extends View implements Runnable,CommonClientActions {
         System.out.println("[EVENT]: "+gamemodel.getGameId()+" ended! \n" +
                 "The winner is: "+gamemodel.getWinner().getNickname()+"\n" +
                 "Score board: todo");
-        shared.setLastModelReceived(gamemodel);
+        //shared.setLastModelReceived(gamemodel);
+        events.add(gamemodel, EventType.GAMEENDED);
     }
 
     @Override
     public void sentMessage(Message msg) {
         System.out.println("[EVENT]: new Message: \""+msg.toString()+"\"");
+
     }
 
     @Override
     public void grabbedTile(GameModelImmutable gamemodel) {
-        System.out.println("[EVENT]: a tile has been grabbed");
-        shared.set(gamemodel, shared.isNeedto_showCommonCards(), true,shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
-
+        //System.out.println("[EVENT]: a tile has been grabbed");
+        //shared.set(gamemodel, shared.isNeedto_showCommonCards(), true,shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
+        events.add(gamemodel, EventType.GRABBED_TILE);
     }
 //shared.set(gamemodel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gamemodel) {
-        System.out.println("[EVENT]: a tile has not been grabbed correctly");
-        shared.set(gamemodel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),true);
-
+        //System.out.println("[EVENT]: a tile has not been grabbed correctly");
+       // shared.set(gamemodel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),true);
+        events.add(gamemodel, EventType.GRABBED_TILE_NOT_CORRECT);
     }
 
     @Override
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) {
-        System.out.println("[EVENT]: Player "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
-        shared.set(gamemodel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),true);
+        //System.out.println("[EVENT]: Player "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
+        //shared.set(gamemodel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),true);
+        events.add(gamemodel, EventType.POSITIONED_TILE);
     }
 
     @Override
     public void nextTurn(GameModelImmutable gamemodel) {
-        System.out.println("[EVENT]:  Next turn! It's up to: "+gamemodel.getNicknameCurrentPlaying());
-        shared.setLastModelReceived(gamemodel);
+        //System.out.println("[EVENT]:  Next turn! It's up to: "+gamemodel.getNicknameCurrentPlaying());
+        //shared.setLastModelReceived(gamemodel);
 
-        if(!gamemodel.getNicknameCurrentPlaying().equals(nickname)){
-            shared.reinit(gamemodel);
-        }
+       // if(!gamemodel.getNicknameCurrentPlaying().equals(nickname)){
+        //    shared.reinit(gamemodel);
+       // }
+        events.add(gamemodel, EventType.NEXT_TURN);
     }
 
     @Override
     public void addedPoint(Player p, Point point) {
         System.out.println("[EVENT]:  Player "+p.getNickname()+" obtained "+point.getPoint()+" points by achieving "+point.getReferredTo());
+
     }
 
     @Override

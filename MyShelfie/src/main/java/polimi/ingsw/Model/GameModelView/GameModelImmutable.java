@@ -126,4 +126,15 @@ public class GameModelImmutable implements Serializable {
         return ris;
     }
 
+    public Player getLastPlayer(){
+        return players.get(players.size()-1);
+    }
+
+    public CommonCard getLastCommonCard() {
+        return commonCards.get(commonCards.size()-1);
+    }
+
+    public Player getEntityCurrentPlaying() {
+        return players.get(currentPlaying);
+    }
 }
