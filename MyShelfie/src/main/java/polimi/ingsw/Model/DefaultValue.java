@@ -5,6 +5,7 @@ import java.util.Queue;
 
 public class DefaultValue implements Serializable {
     public final static int MaxNumOfPlayer = 4;
+    public final static int maxTilesInHand = 3;
     public final static int minNumOfPlayer = 2;
 
     public final static int defButtonXSize = 200;

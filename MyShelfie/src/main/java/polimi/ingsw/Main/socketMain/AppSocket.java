@@ -28,12 +28,6 @@ public class AppSocket {
 
         client2 = new ClientSocket(gui2);
 
-
-        client.createGame("pippo");
-
-
-        client2.joinFirstAvailable("ugo");
-
         client.setAsReady();
 
         client2.setAsReady();
