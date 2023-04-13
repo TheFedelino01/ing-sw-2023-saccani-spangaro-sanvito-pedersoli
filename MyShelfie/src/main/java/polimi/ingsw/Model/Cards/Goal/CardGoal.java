@@ -88,8 +88,8 @@ public class CardGoal extends Card {
         for(int i = 0; i<sizeRow; i++){
             for(int j = 0; j<sizeCol; j++){
                 layoutToMatch.setSingleTile(new Tile(TileType.getValues().get(
-                                                                    Integer.parseInt(s.split(rowSplit)[i]
-                                                                                        .split(colSplit)[j]))), i, j);
+                        Integer.parseInt(s.split(rowSplit)[i]
+                                .split(colSplit)[j]))), i, j);
             }
         }
     }
