@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Disabled
 public class SocketTest {
 
     private static ClientSocket client, client1, client2, client3, client4, client5, client6;

@@ -11,13 +11,12 @@ import polimi.ingsw.Model.Point;
 import polimi.ingsw.Model.Shelf;
 import polimi.ingsw.Model.Tile;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CardGoal extends Card {
     private Shelf layoutToMatch; //La tavola del giocatore deve matchare questo layout (per acquisire punti a seconda della Map legendPoint)
@@ -69,8 +68,8 @@ public class CardGoal extends Card {
         String colSplit = ",";
         String s = null;
         JSONParser parser = new JSONParser();
-        String jsonUrl = "./src/main/java/polimi/ingsw/Json/GoalCardsLayout.json";
-        try (Reader reader = new FileReader(jsonUrl)) {
+        try (InputStream is = CardGoal.class.getClassLoader().getResourceAsStream("polimi/ingsw/Json/GoalCardsLayout.json");
+             Reader reader = new InputStreamReader(Objects.requireNonNull(is, "Couldn't find json file"), StandardCharsets.UTF_8)) {
             JSONObject obj = (JSONObject) parser.parse(reader);
             s = (String) obj.get(CardGoalType.toString(type));
         } catch (ParseException | FileNotFoundException ex) {

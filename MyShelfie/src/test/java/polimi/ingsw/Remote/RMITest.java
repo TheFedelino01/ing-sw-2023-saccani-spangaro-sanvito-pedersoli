@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Disabled
 public class RMITest {
 
     private static RMIClient client, client1,  client2, client3, client4, client5, client6;

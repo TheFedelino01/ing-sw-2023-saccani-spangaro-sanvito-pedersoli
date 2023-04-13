@@ -1,6 +1,7 @@
 package polimi.ingsw.View.userView.text;
 
-import polimi.ingsw.Model.Cards.Common.CommonCard;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
@@ -16,16 +17,18 @@ import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.Events.EventElement;
 import polimi.ingsw.View.userView.Events.EventList;
 import polimi.ingsw.View.userView.Events.EventType;
-import polimi.ingsw.View.userView.SharedData;
 import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static polimi.ingsw.Model.Enumeration.GameStatus.*;
-import static polimi.ingsw.View.userView.Events.EventType.COMMON_CARD_EXTRACTED;
+import static java.awt.Color.PINK;
+import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.ansi;
 import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
 
 public class TextUI extends View implements Runnable, CommonClientActions {
@@ -39,6 +42,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
 
     public TextUI(ConnectionSelection selection) {
+        AnsiConsole.systemInstall();
         nickname = "";
         if (selection.equals(ConnectionSelection.SOCKET)) {
             server = new ClientSocket(this);
@@ -103,6 +107,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case GAMESTARTED:
                 show_allPlayers(event.getModel());
                 show_playground(event.getModel());
+                ansi().cursor(1, 1);
+                new PrintStream(System.out, true, System.console() != null
+                        ? System.console().charset()
+                        : Charset.defaultCharset()
+                ).println(ansi().fg(YELLOW).a("\n" +
+                        "███╗░░░███╗██╗░░░██╗        ░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗\n" +
+                        "████╗░████║╚██╗░██╔╝        ██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝\n" +
+                        "██╔████╔██║░╚████╔╝░        ╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░\n" +
+                        "██║╚██╔╝██║░░╚██╔╝░░        ░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░\n" +
+                        "██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗\n" +
+                        "╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝").reset());
                 System.out.println("Game Started with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
                 break;
 
@@ -160,7 +175,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private void show_grabbedTile(GameModelImmutable model) {
         String ris = "| ";
         for (Tile t : model.getHandOfCurrentPlaying()) {
-            ris += t.toString() + " | ";
+            switch (t.getType()) {
+                case CAT -> ris += ansi().fg(GREEN).a(t.toString()) + " | ";
+                case TROPHY -> ris += ansi().fg(CYAN).a(t.toString()) + " | ";
+                case PLANT -> ris += ansi().fg(MAGENTA).a(t.toString()) + " | ";
+                case BOOK -> ris += ansi().fg(WHITE).a(t.toString()) + " | ";
+                case ACTIVITY -> ris += ansi().fg(YELLOW).a(t.toString()) + " | ";
+                case FRAME -> ris += ansi().fg(BLUE).a(t.toString()) + " | ";
+            }
         }
         System.out.println(nickname + ": Player: " + model.getNicknameCurrentPlaying() + " has grabbed some tiles: " + ris);
         //viewPlayGround();
@@ -281,7 +303,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         String ris;
 
         try {
-            System.out.println("> When you are ready to start, enter (y):");
+            System.out.println("> When you are ready to start, enter (y): ");
             ris = scanner.nextLine();
             if (ris.equals("y")) {
                 setAsReady();
@@ -314,19 +336,19 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }*/
         Integer numTiles;
         do {
-            numTiles = askNum("> How many tiles do you want to get?");
+            numTiles = askNum("> How many tiles do you want to get? ");
         } while (numTiles == null);
 
 
         Integer row;
         do {
-            row = askNum("> Which tiles do you want to get?\n> Choose row:");
+            row = askNum("> Which tiles do you want to get?\n> Choose row: ");
         } while (row == null);
 
 
         Integer column;
         do {
-            column = askNum("> Choose column:");
+            column = askNum("> Choose column: ");
         } while (column == null);
 
         //Ask the direction only if the player wants to grab more than 1 tile
@@ -353,8 +375,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         System.out.println(">This is your hand:");
         String ris = "";
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
-            if(i < model.getPlayerEntity(nickname).getInHandTile().size())
-                ris += "[" + i + "]: " + model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString() + " | ";
+            if (i < model.getPlayerEntity(nickname).getInHandTile().size()) {
+                switch (model.getPlayerEntity(nickname).getInHandTile().get(i).getType()) {
+                    case CAT ->
+                            ris += "[" + i + "]: " + ansi().fg(GREEN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                    case TROPHY ->
+                            ris += "[" + i + "]: " + ansi().fg(CYAN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                    case PLANT ->
+                            ris += "[" + i + "]: " + ansi().fg(MAGENTA).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                    case BOOK ->
+                            ris += "[" + i + "]: " + ansi().fg(WHITE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                    case ACTIVITY ->
+                            ris += "[" + i + "]: " + ansi().fg(YELLOW).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                    case FRAME ->
+                            ris += "[" + i + "]: " + ansi().fg(BLUE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                }
+            }
             else
                 ris += "[" + i + "]: " + "NONE" + " | ";
         }

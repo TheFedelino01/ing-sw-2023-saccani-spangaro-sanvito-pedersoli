@@ -1,5 +1,6 @@
 package polimi.ingsw.Model;
 
+import org.fusesource.jansi.Ansi;
 import org.json.simple.JSONObject;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
@@ -8,7 +9,10 @@ import org.json.simple.parser.ParseException;
 import polimi.ingsw.Model.Exceptions.TileGrabbedNotCorrectException;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class Playground implements Serializable {
     private final Tile[][] playground; //playground formed by tiles
@@ -39,8 +43,8 @@ public class Playground implements Serializable {
         String colSplit = ",";
         String s = null;
         JSONParser parser = new JSONParser();
-        String jsonUrl = "./src/main/java/polimi/ingsw/JSON/PlaygroundFourPlayer.json";
-        try (Reader reader = new FileReader(jsonUrl)) {
+        try (InputStream is = Playground.class.getClassLoader().getResourceAsStream("polimi/ingsw/Json/PlaygroundFourPlayer.json");
+             Reader reader = new InputStreamReader(Objects.requireNonNull(is, "Couldn't find json file"), StandardCharsets.UTF_8)) {
             JSONObject obj = (JSONObject) parser.parse(reader);
             s = (String) obj.get(Integer.toString(numberOfPlayers));
         } catch (ParseException | FileNotFoundException ex) {
@@ -211,7 +215,15 @@ public class Playground implements Serializable {
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
             ris+=i+":";
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
-                ris+=((playground[i][j].isSameType(TileType.NOT_USED)||playground[i][j].isSameType(TileType.FINISHED_USING))?" ":playground[i][j].toString().substring(0,1))  +"|";
+                switch (playground[i][j].getType()){
+                    case CAT -> ris += ansi().fg(Ansi.Color.GREEN).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case BOOK -> ris += ansi().fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case TROPHY -> ris += ansi().fg(Ansi.Color.CYAN).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case FRAME -> ris += ansi().fg(Ansi.Color.BLUE).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case ACTIVITY -> ris += ansi().fg(Ansi.Color.YELLOW).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case PLANT -> ris += ansi().fg(Ansi.Color.MAGENTA).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    default -> ris += ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT) + "|";
+                }
             }
             ris+="\n";
         }
