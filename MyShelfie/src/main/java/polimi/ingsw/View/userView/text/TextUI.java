@@ -106,28 +106,20 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         switch (event.getType()) {
             case GAMESTARTED:
                 show_allPlayers(event.getModel());
-                show_playground(event.getModel());
-                ansi().cursor(1, 1);
-                new PrintStream(System.out, true, System.console() != null
-                        ? System.console().charset()
-                        : Charset.defaultCharset()
-                ).println(ansi().fg(YELLOW).a("\n" +
-                        "███╗░░░███╗██╗░░░██╗        ░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗\n" +
-                        "████╗░████║╚██╗░██╔╝        ██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝\n" +
-                        "██╔████╔██║░╚████╔╝░        ╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░\n" +
-                        "██║╚██╔╝██║░░╚██╔╝░░        ░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░\n" +
-                        "██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗\n" +
-                        "╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝").reset());
-                System.out.println("Game Started with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
+                show_bigTitleAndClear();
+                System.out.println("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
+
                 break;
 
             case COMMON_CARD_EXTRACTED:
-                ansi().cursor(1, 1);
+                show_bigTitleAndClear();
+                show_playground(event.getModel());
                 System.out.println("Common card extracted: " + event.getModel().getLastCommonCard().getCommonType());
                 break;
 
             case NEXT_TURN:
-                ansi().cursor(1, 1);
+
+                show_playground(event.getModel());
                 System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn
@@ -140,6 +132,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 }
                 break;
             case GRABBED_TILE:
+                show_bigTitleAndClear();
+                show_playground(event.getModel());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //If I am the player who grabbed the tiles then I place them
                     show_myShelf(event.getModel());
@@ -151,7 +145,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 break;
             case POSITIONED_TILE:
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
-                ansi().cursor(1, 1);
                 show_allShelfs(event.getModel());
                 System.out.println("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
 
@@ -171,13 +164,30 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     //METODI SHOW DA CONSOLE
 
     private void show_allPlayers(GameModelImmutable model) {
-        ansi().cursor(1, 1);
         System.out.println("Current Players: \n" + model.toStringListPlayers());
     }
+    private void show_bigTitleAndClear(){
+        System.out.println(ansi().eraseScreen());
+        show_titleMyShelfie();
 
+    }
+
+    private void show_titleMyShelfie(){
+        System.out.print(ansi().cursor(0,10));
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println(ansi().fg(YELLOW).a("\n" +
+                "███╗░░░███╗██╗░░░██╗        ░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗\n" +
+                "████╗░████║╚██╗░██╔╝        ██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝\n" +
+                "██╔████╔██║░╚████╔╝░        ╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░\n" +
+                "██║╚██╔╝██║░░╚██╔╝░░        ░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░\n" +
+                "██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗\n" +
+                "╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝\n").reset());
+
+    }
 
     private void show_grabbedTile(GameModelImmutable model) {
-        ansi().cursor(20, 1);
         String ris = "| ";
         for (Tile t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
@@ -218,32 +228,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     //METODI DI RICHIESTA INPUT DA TASTIERA
 
     private void askNickname() {
-        clearConsole();
+        show_bigTitleAndClear();
         System.out.println("> Insert your nickname: ");
         nickname = scanner.nextLine();
         System.out.println("> Your nickname is: " + nickname);
     }
 
-    private void clearConsole() {
-        try {
-            final String os = System.getProperty("os.name");
 
-            if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
-            } else {
-                Runtime.getRuntime().exec("clear");
-            }
-        } catch (final Exception e) {
-            //  Handle any exceptions.
-        }
-    }
 
     private void askSelectGame() {
         boolean reAsk = false;
         String optionChoose;
 
         do {
-            clearConsole();
+            System.out.println(ansi().eraseScreen());
+            System.out.print(ansi().restoreCursorPosition());
+            System.out.print(ansi().cursor(1,1));
             reAsk = false;
             System.out.println("> Select one option:\n " +
                     "\t(c) Create a new Game\n " +
@@ -339,7 +339,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }*/
-        ansi().cursor(10, 1);
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get? ");
@@ -377,7 +376,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     public void askPlaceTile(GameModelImmutable model) {
-        ansi().cursor(20, 1);
         System.out.println(">This is your hand:");
         String ris = "";
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
@@ -434,21 +432,21 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void createGame(String nick) throws IOException {
-        clearConsole();
+        show_bigTitleAndClear();
         System.out.println("> You have selected to create a new game");
         server.createGame(nick);
     }
 
     @Override
     public void joinFirstAvailable(String nick) throws IOException {
-        clearConsole();
+        show_bigTitleAndClear();
         System.out.println("> Connecting to the first available game...");
         server.joinFirstAvailable(nick);
     }
 
     @Override
     public void joinGame(String nick, int idGame) throws IOException {
-        clearConsole();
+        show_bigTitleAndClear();
         System.out.println("> You have selected to join to Game with id: \'" + idGame + "\', trying to connect");
         server.joinGame(nick, idGame);
     }
