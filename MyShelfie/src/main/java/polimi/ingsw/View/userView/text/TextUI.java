@@ -122,10 +122,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 break;
 
             case COMMON_CARD_EXTRACTED:
+                ansi().cursor(1, 1);
                 System.out.println("Common card extracted: " + event.getModel().getLastCommonCard().getCommonType());
                 break;
 
             case NEXT_TURN:
+                ansi().cursor(1, 1);
                 System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn
@@ -149,6 +151,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 break;
             case POSITIONED_TILE:
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
+                ansi().cursor(1, 1);
                 show_allShelfs(event.getModel());
                 System.out.println("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
 
@@ -168,20 +171,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     //METODI SHOW DA CONSOLE
 
     private void show_allPlayers(GameModelImmutable model) {
+        ansi().cursor(1, 1);
         System.out.println("Current Players: \n" + model.toStringListPlayers());
     }
 
 
     private void show_grabbedTile(GameModelImmutable model) {
+        ansi().cursor(20, 1);
         String ris = "| ";
         for (Tile t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
-                case CAT -> ris += ansi().fg(GREEN).a(t.toString()) + " | ";
-                case TROPHY -> ris += ansi().fg(CYAN).a(t.toString()) + " | ";
-                case PLANT -> ris += ansi().fg(MAGENTA).a(t.toString()) + " | ";
-                case BOOK -> ris += ansi().fg(WHITE).a(t.toString()) + " | ";
-                case ACTIVITY -> ris += ansi().fg(YELLOW).a(t.toString()) + " | ";
-                case FRAME -> ris += ansi().fg(BLUE).a(t.toString()) + " | ";
+                case CAT -> ris += ansi().fg(GREEN).a(t.toString()).fg(DEFAULT) + " | ";
+                case TROPHY -> ris += ansi().fg(CYAN).a(t.toString()).fg(DEFAULT) + " | ";
+                case PLANT -> ris += ansi().fg(MAGENTA).a(t.toString()).fg(DEFAULT) + " | ";
+                case BOOK -> ris += ansi().fg(WHITE).a(t.toString()).fg(DEFAULT) + " | ";
+                case ACTIVITY -> ris += ansi().fg(YELLOW).a(t.toString()).fg(DEFAULT) + " | ";
+                case FRAME -> ris += ansi().fg(BLUE).a(t.toString()).fg(DEFAULT) + " | ";
             }
         }
         System.out.println(nickname + ": Player: " + model.getNicknameCurrentPlaying() + " has grabbed some tiles: " + ris);
@@ -334,6 +339,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }*/
+        ansi().cursor(10, 1);
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get? ");
@@ -371,7 +377,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     public void askPlaceTile(GameModelImmutable model) {
-
+        ansi().cursor(20, 1);
         System.out.println(">This is your hand:");
         String ris = "";
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {

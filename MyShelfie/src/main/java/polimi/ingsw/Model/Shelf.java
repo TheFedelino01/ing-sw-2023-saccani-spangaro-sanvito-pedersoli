@@ -1,8 +1,11 @@
 package polimi.ingsw.Model;
 
+import org.fusesource.jansi.Ansi;
 import polimi.ingsw.Model.Enumeration.TileType;
 
 import java.io.Serializable;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class Shelf implements Serializable {
     private Tile[][] shelf;
@@ -63,16 +66,24 @@ public class Shelf implements Serializable {
     }
 
     public String toString(){
-        String ris="{";
+        String ris = "";
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            ris+="[";
+            ris+="[ ";
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                ris+=shelf[r][c].isSameType(TileType.NOT_USED)?" ":shelf[r][c];
-                ris+=(c+1)!=DefaultValue.NumOfColumnsShelf? ",":"";
+                switch (shelf[r][c].getType()){
+                    case CAT ->  ris += ansi().fg(Ansi.Color.GREEN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
+                    case PLANT -> ris += ansi().fg(Ansi.Color.MAGENTA).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
+                    case ACTIVITY -> ris += ansi().fg(Ansi.Color.YELLOW).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
+                    case FRAME -> ris += ansi().fg(Ansi.Color.BLUE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
+                    case BOOK -> ris += ansi().fg(Ansi.Color.WHITE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
+                    case TROPHY -> ris += ansi().fg(Ansi.Color.CYAN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
+                    default -> ris += ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT);
+                }
+                ris+=" , ";
             }
-            ris+="]\n";
+            ris+=" ]\n";
         }
-        ris+="}";
+        ris+="";
         return ris;
     }
 
