@@ -32,6 +32,5 @@ public interface GameListener extends Remote {
     void addedPoint(Player p, Point point) throws RemoteException;
 
     void playerDisconnected(String nick) throws RemoteException;
-    void tilesInHand(GameModelImmutable gameModel);
 
 }

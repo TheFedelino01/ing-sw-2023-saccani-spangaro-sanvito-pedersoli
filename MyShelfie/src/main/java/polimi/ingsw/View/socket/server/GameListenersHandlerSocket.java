@@ -156,16 +156,4 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
-    @Override
-    public void tilesInHand(GameModelImmutable gameModel) {
-        try {
-            out.reset();
-            //TODO: create a class for notifying the server that the client has grabbed all the tiles
-            //      and wants to place them. This is needed for the column choosing
-            out.writeObject(new msgGrabbedTile(gameModel));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

@@ -109,10 +109,6 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
         gui.playerDisconnected(nick);
     }
 
-    @Override
-    public void tilesInHand(GameModelImmutable gameModel) {
-        gui.tilesInHand(gameModel);
-    }
 
 
 }

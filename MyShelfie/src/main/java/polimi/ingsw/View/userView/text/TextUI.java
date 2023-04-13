@@ -1,5 +1,6 @@
 package polimi.ingsw.View.userView.text;
 
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
@@ -15,6 +16,7 @@ import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.Events.EventElement;
 import polimi.ingsw.View.userView.Events.EventList;
 import polimi.ingsw.View.userView.Events.EventType;
+import polimi.ingsw.View.userView.SharedData;
 import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
@@ -22,24 +24,26 @@ import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static polimi.ingsw.Model.Enumeration.GameStatus.*;
+import static polimi.ingsw.View.userView.Events.EventType.COMMON_CARD_EXTRACTED;
 import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
 
 public class TextUI extends View implements Runnable, CommonClientActions {
     private Scanner scanner = new Scanner(System.in);
     private String nickname;
-    private Integer column;
+
     private boolean joined = false, toldIAmReady = false;
     EventList events = new EventList();
 
-    private CommonClientActions clientActions;
+    private CommonClientActions server;
 
 
     public TextUI(ConnectionSelection selection) {
         nickname = "";
         if (selection.equals(ConnectionSelection.SOCKET)) {
-            clientActions = new ClientSocket(this);
+            server = new ClientSocket(this);
         } else if (selection.equals(ConnectionSelection.RMI)) {
-            clientActions = new RMIClient(this);
+            server = new RMIClient(this);
         }
         new Thread(this).start();
     }
@@ -122,8 +126,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //If I am the player who grabbed the tiles then I place them
                     show_myShelf(event.getModel());
-                    visualHand(event.getModel());
-                    chooseColumn();
                     askPlaceTile(event.getModel());
                 } else {
                     show_playground(event.getModel());
@@ -312,13 +314,13 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }*/
         Integer numTiles;
         do {
-            numTiles = askNum("> How many tiles do you want to pick up?");
+            numTiles = askNum("> How many tiles do you want to get?");
         } while (numTiles == null);
 
 
         Integer row;
         do {
-            row = askNum("> Which tiles do you want to pick up?\n> Choose row:");
+            row = askNum("> Which tiles do you want to get?\n> Choose row:");
         } while (row == null);
 
 
@@ -346,29 +348,18 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
+    public void askPlaceTile(GameModelImmutable model) {
 
-    public void visualHand(GameModelImmutable model) {
         System.out.println(">This is your hand:");
         String ris = "";
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
-            if (i < model.getPlayerEntity(nickname).getInHandTile().size())
+            if(i < model.getPlayerEntity(nickname).getInHandTile().size())
                 ris += "[" + i + "]: " + model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString() + " | ";
-            else {
+            else
                 ris += "[" + i + "]: " + "NONE" + " | ";
-            }
         }
 
         System.out.println(ris);
-    }
-
-    public void chooseColumn() {
-        column = null;
-        do {
-            column = askNum("> Choose column to place the tile:");
-        } while (column == null);
-    }
-
-    public void askPlaceTile(GameModelImmutable model) {
 
         System.out.println("> Which tile do you want to place?");
         Integer indexHand;
@@ -379,6 +370,13 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 indexHand = null;
             }
         } while (indexHand == null);
+
+
+        Integer column;
+        do {
+            column = askNum("> Choose column to place the tile:");
+        } while (column == null);
+
 
         try {
             positionTileOnShelf(column, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
@@ -396,26 +394,26 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void createGame(String nick) throws IOException {
         clearConsole();
         System.out.println("> You have selected to create a new game");
-        clientActions.createGame(nick);
+        server.createGame(nick);
     }
 
     @Override
     public void joinFirstAvailable(String nick) throws IOException {
         clearConsole();
         System.out.println("> Connecting to the first available game...");
-        clientActions.joinFirstAvailable(nick);
+        server.joinFirstAvailable(nick);
     }
 
     @Override
     public void joinGame(String nick, int idGame) throws IOException {
         clearConsole();
         System.out.println("> You have selected to join to Game with id: \'" + idGame + "\', trying to connect");
-        clientActions.joinGame(nick, idGame);
+        server.joinGame(nick, idGame);
     }
 
     @Override
     public void setAsReady() throws IOException {
-        clientActions.setAsReady();
+        server.setAsReady();
     }
 
     @Override
@@ -426,12 +424,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
-        clientActions.grabTileFromPlayground(x, y, direction, num);
+        server.grabTileFromPlayground(x, y, direction, num);
     }
 
     @Override
     public void positionTileOnShelf(int column, TileType type) throws IOException {
-        clientActions.positionTileOnShelf(column, type);
+        server.positionTileOnShelf(column, type);
     }
 
 
@@ -506,11 +504,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         //System.out.println("[EVENT]: a tile has been grabbed");
         //shared.set(gamemodel, shared.isNeedto_showCommonCards(), true,shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
         events.add(gamemodel, EventType.GRABBED_TILE);
-    }
-
-    @Override
-    public void tilesInHand(GameModelImmutable gameModel) {
-        events.add(gameModel, EventType.TILES_IN_HAND);
     }
 
     //shared.set(gamemodel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
