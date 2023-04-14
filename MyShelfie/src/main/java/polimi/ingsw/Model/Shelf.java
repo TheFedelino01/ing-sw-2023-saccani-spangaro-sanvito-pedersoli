@@ -66,25 +66,51 @@ public class Shelf implements Serializable {
     }
 
     public String toString(){
-        String ris = "";
+        int i = DefaultValue.displayShelfRow;
+        StringBuilder ris = new StringBuilder();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            ris+="[ ";
+            ris.append(ansi().cursor(i, DefaultValue.displayShelfStartingCol).toString());
+            ris.append("[ ");
+            i++;
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 switch (shelf[r][c].getType()){
-                    case CAT ->  ris += ansi().fg(Ansi.Color.GREEN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
-                    case PLANT -> ris += ansi().fg(Ansi.Color.MAGENTA).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
-                    case ACTIVITY -> ris += ansi().fg(Ansi.Color.YELLOW).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
-                    case FRAME -> ris += ansi().fg(Ansi.Color.BLUE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
-                    case BOOK -> ris += ansi().fg(Ansi.Color.WHITE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
-                    case TROPHY -> ris += ansi().fg(Ansi.Color.CYAN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT);
-                    default -> ris += ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT);
+                    case CAT ->  ris.append(ansi().fg(Ansi.Color.GREEN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case PLANT -> ris.append(ansi().fg(Ansi.Color.MAGENTA).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case ACTIVITY -> ris.append(ansi().fg(Ansi.Color.YELLOW).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case FRAME -> ris.append(ansi().fg(Ansi.Color.BLUE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case BOOK -> ris.append(ansi().fg(Ansi.Color.WHITE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case TROPHY -> ris.append(ansi().fg(Ansi.Color.CYAN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    default -> ris.append(ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT));
                 }
-                ris+=" , ";
+                ris.append(" , ");
             }
-            ris+=" ]\n";
+            ris.append("  ]");
         }
-        ris+="";
-        return ris;
+        return ris.toString();
+    }
+
+    public String toString(int col){
+        StringBuilder ris = new StringBuilder();
+        int i = DefaultValue.displayShelfRow;
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            ris.append(ansi().cursor(i, col).toString());
+            i++;
+            ris.append("[ ");
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                switch (shelf[r][c].getType()){
+                    case CAT ->  ris.append(ansi().fg(Ansi.Color.GREEN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case PLANT -> ris.append(ansi().fg(Ansi.Color.MAGENTA).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case ACTIVITY -> ris.append(ansi().fg(Ansi.Color.YELLOW).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case FRAME -> ris.append(ansi().fg(Ansi.Color.BLUE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case BOOK -> ris.append(ansi().fg(Ansi.Color.WHITE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case TROPHY -> ris.append(ansi().fg(Ansi.Color.CYAN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    default -> ris.append(ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT));
+                }
+                ris.append(" , ");
+            }
+            ris.append("  ]\n");
+        }
+        return ris.toString();
     }
 
 

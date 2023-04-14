@@ -152,7 +152,7 @@ abstract Point {
 
 
 note top of Player  
--List<Tile> inHandTail; 'le tail che il giocatore ha in mano e deve decidere dove metterle nella shelf
+-List<Tile> inHandTile; 'le tail che il giocatore ha in mano e deve decidere dove metterle nella shelf
 -Map<Integer,List<Point>> obtainedPoints; 'Integer si riferisce al numero della carta comune (1 o 2) a cui corrisponde il Point
 +Point getPointOfSecretGoal(); 'invoca il metodo verify su secretGoal passandogli la sua shelf
 end note
@@ -161,7 +161,7 @@ class Player{
 -String nickname
 -Shelf shelf;
 -CardGoal secretGoal
--List<Tile> inHandTail; 
+-List<Tile> inHandTile;
 -Map<Integer,Point> obtainedPoints;
 
 +String getNickname();

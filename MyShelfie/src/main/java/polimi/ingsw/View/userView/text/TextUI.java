@@ -26,7 +26,6 @@ import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static java.awt.Color.PINK;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
@@ -54,7 +53,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void run() {
-        askSelectGame();
+        try {
+            show_Publisher();
+            Thread.sleep(2500);
+            clearCMD();
+            show_titleMyShelfie();
+            askSelectGame();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         EventElement event;
         while (true) {
             if (events.isJoined()) {
@@ -64,15 +73,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (event != null) {
                     //if something happened
                     switch (event.getModel().getStatus()) {
-                        case WAIT:
-                            statusWait(event);
-                            break;
-                        case RUNNING:
-                            statusRunning(event);
-                            break;
-                        case ENDED:
-                            statusEnded(event);
-                            break;
+                        case WAIT -> statusWait(event);
+                        case RUNNING -> {
+                            try {
+                                statusRunning(event);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        case ENDED -> statusEnded(event);
                     }
                 }
 
@@ -96,62 +107,65 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case PLAYER_JOINDED:
                 if (nickLastPlayer.equals(nickname))
                     askReadyToStart();
-
                 break;
         }
 
     }
 
-    private void statusRunning(EventElement event) {
+    private void statusRunning(EventElement event) throws IOException, InterruptedException {
         switch (event.getType()) {
-            case GAMESTARTED:
+            case GAMESTARTED -> {
+                clearCMD();
+                show_titleMyShelfie();
                 show_allPlayers(event.getModel());
-                show_bigTitleAndClear();
                 System.out.println("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
-
-                break;
-
-            case COMMON_CARD_EXTRACTED:
-                show_bigTitleAndClear();
+            }
+            case COMMON_CARD_EXTRACTED -> {
+                clearCMD();
+                show_titleMyShelfie();
                 show_playground(event.getModel());
                 System.out.println("Common card extracted: " + event.getModel().getLastCommonCard().getCommonType());
-                break;
-
-            case NEXT_TURN:
-
-                show_playground(event.getModel());
+            }
+            case NEXT_TURN -> {
+                clearCMD();
+                show_titleMyShelfie();
                 System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn
                     show_playground(event.getModel());
+                    showAllShelves(event.getModel());
                     askPickTiles();
                 } else {
                     //It's not my turn then I show the playground and the shelf of the player playing
                     show_playground(event.getModel());
-                    show_shelfOfCurrentPlaying(event.getModel());
+                    showAllShelves(event.getModel());
                 }
-                break;
-            case GRABBED_TILE:
-                show_bigTitleAndClear();
-                show_playground(event.getModel());
+            }
+            case GRABBED_TILE -> {
+                clearCMD();
+                show_titleMyShelfie();
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
-                    //If I am the player who grabbed the tiles then I place them
-                    show_myShelf(event.getModel());
+                    //It's my turn, so I'm the current playing
+                    show_playground(event.getModel());
+                    showAllShelves(event.getModel());
                     askPlaceTile(event.getModel());
                 } else {
                     show_playground(event.getModel());
+                    showAllShelves(event.getModel());
                     show_grabbedTile(event.getModel());
                 }
-                break;
-            case POSITIONED_TILE:
+            }
+            case POSITIONED_TILE -> {
+                clearCMD();
+                show_titleMyShelfie();
+                show_playground(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
-                show_allShelfs(event.getModel());
+                showAllShelves(event.getModel());
                 System.out.println("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
-
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
                     events.add(event.getModel(), EventType.GRABBED_TILE);
                 }
-                break;
+            }
         }
 
     }
@@ -166,37 +180,33 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private void show_allPlayers(GameModelImmutable model) {
         System.out.println("Current Players: \n" + model.toStringListPlayers());
     }
-    private void show_bigTitleAndClear(){
-        System.out.println(ansi().eraseScreen());
-        show_titleMyShelfie();
 
-    }
-
-    private void show_titleMyShelfie(){
-        System.out.print(ansi().cursor(0,10));
+    private void show_titleMyShelfie() {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset()
-        ).println(ansi().fg(YELLOW).a("\n" +
-                "███╗░░░███╗██╗░░░██╗        ░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗\n" +
-                "████╗░████║╚██╗░██╔╝        ██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝\n" +
-                "██╔████╔██║░╚████╔╝░        ╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░\n" +
-                "██║╚██╔╝██║░░╚██╔╝░░        ░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░\n" +
-                "██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗\n" +
-                "╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝\n").reset());
+        ).println(ansi().fg(YELLOW).a("""
+
+                ███╗░░░███╗██╗░░░██╗        ░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗
+                ████╗░████║╚██╗░██╔╝        ██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝
+                ██╔████╔██║░╚████╔╝░        ╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░
+                ██║╚██╔╝██║░░╚██╔╝░░        ░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░
+                ██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
+                ╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
+                """).reset());
 
     }
 
     private void show_grabbedTile(GameModelImmutable model) {
-        String ris = "| ";
+        StringBuilder ris = new StringBuilder("| ");
         for (Tile t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
-                case CAT -> ris += ansi().fg(GREEN).a(t.toString()).fg(DEFAULT) + " | ";
-                case TROPHY -> ris += ansi().fg(CYAN).a(t.toString()).fg(DEFAULT) + " | ";
-                case PLANT -> ris += ansi().fg(MAGENTA).a(t.toString()).fg(DEFAULT) + " | ";
-                case BOOK -> ris += ansi().fg(WHITE).a(t.toString()).fg(DEFAULT) + " | ";
-                case ACTIVITY -> ris += ansi().fg(YELLOW).a(t.toString()).fg(DEFAULT) + " | ";
-                case FRAME -> ris += ansi().fg(BLUE).a(t.toString()).fg(DEFAULT) + " | ";
+                case CAT -> ris.append(ansi().fg(GREEN).a(t.toString()).fg(DEFAULT)).append(" | ");
+                case TROPHY -> ris.append(ansi().fg(CYAN).a(t.toString()).fg(DEFAULT)).append(" | ");
+                case PLANT -> ris.append(ansi().fg(MAGENTA).a(t.toString()).fg(DEFAULT)).append(" | ");
+                case BOOK -> ris.append(ansi().fg(WHITE).a(t.toString()).fg(DEFAULT)).append(" | ");
+                case ACTIVITY -> ris.append(ansi().fg(YELLOW).a(t.toString()).fg(DEFAULT)).append(" | ");
+                case FRAME -> ris.append(ansi().fg(BLUE).a(t.toString()).fg(DEFAULT)).append(" | ");
             }
         }
         System.out.println(nickname + ": Player: " + model.getNicknameCurrentPlaying() + " has grabbed some tiles: " + ris);
@@ -209,47 +219,42 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         System.out.println(model.getPg().toString());
     }
 
-    private void show_shelfOfCurrentPlaying(GameModelImmutable model) {
-        System.out.println(model.getEntityCurrentPlaying().getShelf().toString());
-    }
-
-    private void show_myShelf(GameModelImmutable model) {
-        System.out.println(model.getPlayerEntity(nickname).getShelf().toString());
-    }
-
-    private void show_allShelfs(GameModelImmutable model) {
+    private void showAllShelves(GameModelImmutable model) {
+        int i = DefaultValue.displayShelfStartingCol;
         for (Player p : model.getPlayers()) {
-            System.out.println(p.getNickname() + ": \n" + p.getShelf().toString());
+            System.out.print(ansi().cursor(DefaultValue.displayShelfRow, i - 3).toString() +
+                    p.getNickname() + ": " + p.getShelf().toString(i));
+            i += DefaultValue.displayShelfNextCol;
         }
+        System.out.println(" ");
     }
 
 
     //-----------------------------------------
     //METODI DI RICHIESTA INPUT DA TASTIERA
 
-    private void askNickname() {
-        show_bigTitleAndClear();
+    private void askNickname() throws IOException, InterruptedException {
+        clearCMD();
+        show_titleMyShelfie();
         System.out.println("> Insert your nickname: ");
         nickname = scanner.nextLine();
         System.out.println("> Your nickname is: " + nickname);
     }
 
 
-
-    private void askSelectGame() {
+    private void askSelectGame() throws IOException, InterruptedException {
         boolean reAsk = false;
         String optionChoose;
 
         do {
-            System.out.println(ansi().eraseScreen());
-            System.out.print(ansi().restoreCursorPosition());
-            System.out.print(ansi().cursor(1,1));
             reAsk = false;
-            System.out.println("> Select one option:\n " +
-                    "\t(c) Create a new Game\n " +
-                    "\t(j) Join to a random Game\n" +
-                    "\t(js) Join a specific Game by idGame\n" +
-                    "\t(.) to leave");
+            System.out.println(ansi().a("""
+                    > Select one option:
+                    \t(c) Create a new Game
+                    \t(j) Join to a random Game
+                    \t(js) Join a specific Game by idGame
+                    \t(.) to leave
+                    \t""").fg(DEFAULT));
             optionChoose = scanner.nextLine();
             if (optionChoose.equals("."))
                 return;
@@ -257,21 +262,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
             try {
                 switch (optionChoose) {
-                    case "c":
-                        createGame(nickname);
-                        break;
-                    case "j":
-                        joinFirstAvailable(nickname);
-                        break;
-                    case "js":
+                    case "c" -> createGame(nickname);
+                    case "j" -> joinFirstAvailable(nickname);
+                    case "js" -> {
                         Integer gameId = askGameId();
                         if (gameId != -1)
                             joinGame(nickname, gameId);
-                        break;
-                    default:
+                    }
+                    default -> {
                         System.out.println("> Selection incorrect!");
                         reAsk = true;
-                        break;
+                    }
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -282,7 +283,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private Integer askGameId() {
-        boolean reAsk = false;
+        boolean reAsk;
         System.out.println("> Input the GameId ('.' to leave): ");
 
         do {
@@ -293,8 +294,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     return -1;
                 }
 
-                int ris = Integer.parseInt(numberOfPlayers);
-                return ris;
+                return Integer.parseInt(numberOfPlayers);
 
             } catch (NumberFormatException e) {
                 System.out.println("> NaN");
@@ -308,11 +308,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         String ris;
 
         try {
-            System.out.println("> When you are ready to start, enter (y): ");
-            ris = scanner.nextLine();
-            if (ris.equals("y")) {
-                setAsReady();
-            }
+
+            do {
+                System.out.println("> When you are ready to start, enter (y): ");
+                ris = scanner.nextLine();
+            } while (!ris.equals("y"));
+            setAsReady();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -323,13 +324,15 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         System.out.print(msg);
         System.out.flush();
 
-        Integer numT = null;
+        int numT = -1;
 
-        try {
-            numT = new Scanner(System.in).nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Nan");
-        }
+        do {
+            try {
+                numT = new Scanner(System.in).nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Nan");
+            }
+        } while (numT < 0);
         return numT;
     }
 
@@ -340,21 +343,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             throw new RuntimeException(e);
         }*/
         Integer numTiles;
-        do {
-            numTiles = askNum("> How many tiles do you want to get? ");
-        } while (numTiles == null);
-
+        numTiles = askNum("> How many tiles do you want to get? ");
 
         Integer row;
         do {
             row = askNum("> Which tiles do you want to get?\n> Choose row: ");
-        } while (row == null);
-
+        } while (row > DefaultValue.PlaygroundSize);
 
         Integer column;
         do {
             column = askNum("> Choose column: ");
-        } while (column == null);
+        } while (column > DefaultValue.PlaygroundSize);
 
         //Ask the direction only if the player wants to grab more than 1 tile
         Direction d = Direction.RIGHT;
@@ -377,26 +376,25 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     public void askPlaceTile(GameModelImmutable model) {
         System.out.println(">This is your hand:");
-        String ris = "";
+        StringBuilder ris = new StringBuilder();
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
             if (i < model.getPlayerEntity(nickname).getInHandTile().size()) {
                 switch (model.getPlayerEntity(nickname).getInHandTile().get(i).getType()) {
                     case CAT ->
-                            ris += "[" + i + "]: " + ansi().fg(GREEN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                            ris.append("[").append(i).append("]: ").append(ansi().fg(GREEN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
                     case TROPHY ->
-                            ris += "[" + i + "]: " + ansi().fg(CYAN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                            ris.append("[").append(i).append("]: ").append(ansi().fg(CYAN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
                     case PLANT ->
-                            ris += "[" + i + "]: " + ansi().fg(MAGENTA).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                            ris.append("[").append(i).append("]: ").append(ansi().fg(MAGENTA).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
                     case BOOK ->
-                            ris += "[" + i + "]: " + ansi().fg(WHITE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                            ris.append("[").append(i).append("]: ").append(ansi().fg(WHITE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
                     case ACTIVITY ->
-                            ris += "[" + i + "]: " + ansi().fg(YELLOW).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                            ris.append("[").append(i).append("]: ").append(ansi().fg(YELLOW).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
                     case FRAME ->
-                            ris += "[" + i + "]: " + ansi().fg(BLUE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
+                            ris.append("[").append(i).append("]: ").append(ansi().fg(BLUE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
                 }
-            }
-            else
-                ris += "[" + i + "]: " + "NONE" + " | ";
+            } else
+                ris.append("[").append(i).append("]: ").append("NONE").append(" | ");
         }
 
         System.out.println(ris);
@@ -415,7 +413,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer column;
         do {
             column = askNum("> Choose column to place the tile:");
-        } while (column == null);
+        } while (column > DefaultValue.NumOfColumnsShelf);
 
 
         try {
@@ -426,28 +424,71 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     }
 
+    private void show_Publisher() {
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println(ansi().cursor(50, 50).fg(YELLOW).a("""
+                                                                                                           \s
+                                                                                                           \s
+                  ,----..                                                                                  \s
+                 /   /   \\                                   ,--,                                          \s
+                |   :     :  __  ,-.                 ,---, ,--.'|    ,---.                                 \s
+                .   |  ;. /,' ,'/ /|             ,-+-. /  ||  |,    '   ,'\\                                \s
+                .   ; /--` '  | |' | ,--.--.    ,--.'|'   |`--'_   /   /   |                               \s
+                ;   | ;    |  |   ,'/       \\  |   |  ,"' |,' ,'| .   ; ,. :                               \s
+                |   : |    '  :  / .--.  .-. | |   | /  | |'  | | '   | |: :                               \s
+                .   | '___ |  | '   \\__\\/: . . |   | |  | ||  | : '   | .; :                               \s
+                '   ; : .'|;  : |   ," .--.; | |   | |  |/ '  : |_|   :    |                               \s
+                '   | '/  :|  , ;  /  /  ,.  | |   | |--'  |  | '.'\\   \\  /                                \s
+                |   :    /  ---'  ;  :   .'   \\|   |/      ;  :    ;`----'                                 \s
+                 \\   \\ .'         |  ,     .-./'---'       |  ,   /                                        \s
+                  `---`            `--`---'                 ---`-'                                         \s
+                  ,----..                                   ___                                            \s
+                 /   /   \\                                ,--.'|_    ,--,                                  \s
+                |   :     :  __  ,-.                      |  | :,' ,--.'|    ,---.        ,---,            \s
+                .   |  ;. /,' ,'/ /|                      :  : ' : |  |,    '   ,'\\   ,-+-. /  | .--.--.   \s
+                .   ; /--` '  | |' | ,---.     ,--.--.  .;__,'  /  `--'_   /   /   | ,--.'|'   |/  /    '  \s
+                ;   | ;    |  |   ,'/     \\   /       \\ |  |   |   ,' ,'| .   ; ,. :|   |  ,"' |  :  /`./  \s
+                |   : |    '  :  / /    /  | .--.  .-. |:__,'| :   '  | | '   | |: :|   | /  | |  :  ;_    \s
+                .   | '___ |  | ' .    ' / |  \\__\\/: . .  '  : |__ |  | : '   | .; :|   | |  | |\\  \\    `. \s
+                '   ; : .'|;  : | '   ;   /|  ," .--.; |  |  | '.'|'  : |_|   :    ||   | |  |/  `----.   \\\s
+                '   | '/  :|  , ; '   |  / | /  /  ,.  |  ;  :    ;|  | '.'\\   \\  / |   | |--'  /  /`--'  /\s
+                |   :    /  ---'  |   :    |;  :   .'   \\ |  ,   / ;  :    ;`----'  |   |/     '--'.     / \s
+                 \\   \\ .'          \\   \\  / |  ,     .-./  ---`-'  |  ,   /         '---'        `--'---'  \s
+                  `---`             `----'   `--`---'               ---`-'                                 \s
+                """).reset());
+    }
+
+    private void clearCMD() throws IOException, InterruptedException {
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+    }
+
 
     //-----------------------------------------
     //METODI CHE IL CLIENT PUÓ RICHIEDERE VERSO IL SERVER
 
     @Override
-    public void createGame(String nick) throws IOException {
-        show_bigTitleAndClear();
-        System.out.println("> You have selected to create a new game");
+    public void createGame(String nick) throws IOException, InterruptedException {
+        clearCMD();
+        show_titleMyShelfie();
+        System.out.println("> Creating a new game...");
         server.createGame(nick);
     }
 
     @Override
-    public void joinFirstAvailable(String nick) throws IOException {
-        show_bigTitleAndClear();
+    public void joinFirstAvailable(String nick) throws IOException, InterruptedException {
+        clearCMD();
+        show_titleMyShelfie();
         System.out.println("> Connecting to the first available game...");
         server.joinFirstAvailable(nick);
     }
 
     @Override
-    public void joinGame(String nick, int idGame) throws IOException {
-        show_bigTitleAndClear();
-        System.out.println("> You have selected to join to Game with id: \'" + idGame + "\', trying to connect");
+    public void joinGame(String nick, int idGame) throws IOException, InterruptedException {
+        clearCMD();
+        show_titleMyShelfie();
+        System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
         server.joinGame(nick, idGame);
     }
 
