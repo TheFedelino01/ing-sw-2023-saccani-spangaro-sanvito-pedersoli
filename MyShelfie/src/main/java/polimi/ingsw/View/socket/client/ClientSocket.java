@@ -48,7 +48,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
                 SocketServerGenericMessage msg = (SocketServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
 
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }

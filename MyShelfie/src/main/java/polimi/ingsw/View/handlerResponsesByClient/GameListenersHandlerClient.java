@@ -9,6 +9,7 @@ import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 import polimi.ingsw.View.userView.View;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
@@ -21,7 +22,7 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
         this.gui=gui;
     }
     @Override
-    public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
+    public void playerJoined(GameModelImmutable gamemodel) throws IOException, InterruptedException {
        // System.out.println(this.hashCode()+"> "+nickNewPlayer+" has just joined! [by Socket]");
         gui.playerJoined(gamemodel);
     }
@@ -39,7 +40,7 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws RemoteException {
+    public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException, InterruptedException {
         //System.out.println(this.hashCode() + "> " + nick + " ready to start! [by Socket]");
         gui.playerIsReadyToStart(gamemodel,nick);
     }

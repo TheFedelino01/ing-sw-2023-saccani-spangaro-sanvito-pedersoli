@@ -7,6 +7,7 @@ import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class  ListenersHandler {
         for (GameListener l : listeners) {
             try {
                 l.playerJoined(new GameModelImmutable(model));
-            } catch (RemoteException e) {
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -55,7 +56,7 @@ public class  ListenersHandler {
         for (GameListener l : listeners) {
             try {
                 l.playerIsReadyToStart(new GameModelImmutable(model),nick);
-            } catch (RemoteException e) {
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
