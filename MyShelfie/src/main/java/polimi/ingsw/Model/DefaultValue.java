@@ -25,6 +25,8 @@ public class DefaultValue implements Serializable {
     public final static int NumOfColumnsShelf = 5;
     public final static int NumOfRowsShelf = 6;
 
+    public final static int minNumOfGrabbableTiles=1;
+    public final static int maxNumOfGrabbableTiles=3;
     public final static int NumOfTileTypes = 6;
     public final static int NumOfTilesPerType = 22;
     public final static int PlaygroundSize = 9;

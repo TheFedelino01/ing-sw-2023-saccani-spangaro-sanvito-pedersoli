@@ -297,32 +297,24 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private Integer askGameId() {
-        String gameId = null;
+        Integer gameId=null;
         do {
             System.out.println("> Input the GameId ('.' to leave): ");
             try {
-                gameId = scanner.nextLine();
-                System.out.println("inserted" + gameId);
-                if (gameId.equals(".")) {
-                    return -1;
-                }
+                gameId = Integer.parseInt(scanner.nextLine());
+                System.out.println("Inserted: " + gameId);
+
             } catch (NumberFormatException e) {
                 System.out.println("> NaN");
             }
 
-            /*TODO:
-                correct the initialisation of the list in the while
-                as of now, it's empty and does not give any gameIds even tho there are
-                multiple games running
-             */
 
-        }while(gameId.equals(-1)); /*while (!events.getGames().stream()
+        }while(gameId==null); /*while (!events.getGames().stream()
                 .map(EventElement::getModel)
                 .map(GameModelImmutable::getGameId)
                 .toList()
                 .contains(Integer.parseInt(Objects.requireNonNull(gameId, "Null gameId detected"))));*/
-
-        return Integer.parseInt(Objects.requireNonNull(gameId, "Null gameId detected"));
+        return gameId;
     }
 
     public void askReadyToStart(GameModelImmutable gameModel) throws IOException, InterruptedException {
@@ -357,7 +349,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     public void askPickTiles() {
         Integer numTiles;
-        numTiles = askNum("> How many tiles do you want to get? ");
+        do {
+            numTiles = askNum("> How many tiles do you want to get? ");
+        }while(!(numTiles>=DefaultValue.minNumOfGrabbableTiles && numTiles<=DefaultValue.maxNumOfGrabbableTiles));
 
         Integer row;
         do {
@@ -371,7 +365,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
         //Ask the direction only if the player wants to grab more than 1 tile
         Direction d = Direction.RIGHT;
-        if (numTiles != 1) {
+        if (numTiles > 1) {
             String direction;
             do {
                 System.out.println("> Choose direction (r=right,l=left,u=up,d=down): ");
@@ -443,15 +437,19 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         show_titleMyShelfie();
         System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
         System.out.flush();
-        StringBuilder players = new StringBuilder();
+        //StringBuilder players = new StringBuilder();
+        String ris="";
+
+        int i=0;
         for (Player p : gameModel.getPlayers()) {
             if (p.getReadyToStart()) {
-                players.append(ansi().cursor(10 + gameModel.getPlayers().size(), 0).fg(WHITE).a("[EVENT]: " + p.getNickname() + " is ready!\n").fg(DEFAULT));
+                ris+=(ansi().cursor(10 + gameModel.getPlayers().size()+i, 0)+"[EVENT]: " + p.getNickname() + " is ready!\n");
             } else {
-                players.append(ansi().cursor(10 + gameModel.getPlayers().size(), 0).fg(WHITE).a("[EVENT]: " + p.getNickname() + " has joined!\n").fg(DEFAULT));
+                ris+=(ansi().cursor(10 + gameModel.getPlayers().size()+i, 0)+"[EVENT]: " + p.getNickname() + " has joined!\n");
             }
+            i++;
         }
-        System.out.println(players);
+        System.out.println(ris);
         //TODO:
         // need to check if the player is ready or not, and
         // in case he's ready not show him this line, now everyone
