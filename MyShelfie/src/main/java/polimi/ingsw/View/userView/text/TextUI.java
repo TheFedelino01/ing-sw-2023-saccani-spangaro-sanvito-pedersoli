@@ -308,8 +308,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 System.out.println("> NaN");
             }
 
-
-        }while(gameId==null); /*while (!events.getGames().stream()
+        }while(gameId==null);
+        /*
+        checks from all the gameId's in a model if one is equal to the one inserted
+        while (!events.getGames().stream()
                 .map(EventElement::getModel)
                 .map(GameModelImmutable::getGameId)
                 .toList()
@@ -438,14 +440,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
         System.out.flush();
         //StringBuilder players = new StringBuilder();
-        String ris="";
+        StringBuilder ris= new StringBuilder();
 
         int i=0;
         for (Player p : gameModel.getPlayers()) {
             if (p.getReadyToStart()) {
-                ris+=(ansi().cursor(12 + +i, 0)+"[EVENT]: " + p.getNickname() + " is ready!\n");
+                ris.append(ansi().cursor(12 + +i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" is ready!\n");
             } else {
-                ris+=(ansi().cursor(12 + +i, 0)+"[EVENT]: " + p.getNickname() + " has joined!\n");
+                ris.append(ansi().cursor(12 + +i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" has joined!\n");
             }
             i++;
         }
