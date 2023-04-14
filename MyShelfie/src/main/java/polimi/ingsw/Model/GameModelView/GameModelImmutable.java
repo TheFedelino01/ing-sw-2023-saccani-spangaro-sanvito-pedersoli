@@ -1,32 +1,140 @@
 package polimi.ingsw.Model.GameModelView;
 
-import polimi.ingsw.Model.GameModel;
-import polimi.ingsw.Model.Player;
-import polimi.ingsw.Model.Playground;
+import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Listener.ListenersHandler;
+import polimi.ingsw.Model.*;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
+import polimi.ingsw.Model.Cards.Goal.CardGoal;
+import polimi.ingsw.Model.Chat.Chat;
+import polimi.ingsw.Model.Enumeration.CardGoalType;
+import polimi.ingsw.Model.Enumeration.Direction;
+import polimi.ingsw.Model.Enumeration.GameStatus;
+import polimi.ingsw.Model.Enumeration.TileType;
+import polimi.ingsw.Model.Exceptions.*;
 
-import java.util.List;
+import java.io.ObjectStreamException;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class GameModelImmutable {
-    private final GameModel model;
+public class GameModelImmutable implements Serializable {
+    private final List<Player> players;
+    private final List<CommonCard> commonCards;
+    private final Integer gameId;
+    private final Playground pg;
 
-    public GameModelImmutable(GameModel model) {
-        this.model = model;
+    private final Integer currentPlaying;
+
+    private final Chat chat;
+
+    private final GameStatus status;
+
+    private final Integer firstFinishedPlayer = -1;
+
+    private final Integer indexWonPlayer = -1;
+
+
+    public GameModelImmutable() {
+        players = new ArrayList<Player>();
+        commonCards = new ArrayList<CommonCard>();
+        gameId = -1;
+
+        pg = new Playground();
+        currentPlaying = -1;
+        chat = new Chat();
+        status = GameStatus.WAIT;
     }
 
-    public List<Player> getPlayers() {
-        //return model.getPlayers();
+    public GameModelImmutable(GameModel modelToCopy) {
+        players = modelToCopy.getPlayers();
+        commonCards = modelToCopy.getCommonCards();
+        gameId = modelToCopy.getGameId();
+
+        pg = modelToCopy.getPg();
+        currentPlaying = modelToCopy.getCurrentPlaying();
+        chat = modelToCopy.getChat();
+        status = modelToCopy.getStatus();
+    }
+
+    public String getNicknameCurrentPlaying() {
+        return players.get(currentPlaying).getNickname();
+    }
+
+    public List<Tile> getHandOfCurrentPlaying() {
+        return players.get(currentPlaying).getInHandTile();
+    }
+
+    public Player getWinner() {
+        if (indexWonPlayer != -1) {
+            return players.get(indexWonPlayer);
+        }
         return null;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
 
+    public List<CommonCard> getCommonCards() {
+        return commonCards;
+    }
 
     public Integer getGameId() {
-        return model.getGameId();
+        return gameId;
     }
 
     public Playground getPg() {
-        return model.getPg();
+        return pg;
     }
 
+    public Integer getCurrentPlaying() {
+        return currentPlaying;
+    }
 
+    public Chat getChat() {
+        return chat;
+    }
+
+    public GameStatus getStatus() {
+        return status;
+    }
+
+    public Integer getFirstFinishedPlayer() {
+        return firstFinishedPlayer;
+    }
+
+    public Integer getIndexWonPlayer() {
+        return indexWonPlayer;
+    }
+
+    public Player getPlayerEntity(String playerNick) {
+        return players.stream().filter(x -> x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+    }
+
+    public boolean isMyTurn(String nickname) {
+        return players.get(currentPlaying).equals(nickname);
+    }
+
+    public String toStringListPlayers() {
+        String ris = "";
+        int i = 1;
+        for (Player p : players) {
+            ris += "[#"+i+"]: "+p.getNickname()+"\n";
+            i++;
+        }
+        return ris;
+    }
+
+    public Player getLastPlayer(){
+        return players.get(players.size()-1);
+    }
+
+    public CommonCard getLastCommonCard() {
+        return commonCards.get(commonCards.size()-1);
+    }
+
+    public Player getEntityCurrentPlaying() {
+        return players.get(currentPlaying);
+    }
 }

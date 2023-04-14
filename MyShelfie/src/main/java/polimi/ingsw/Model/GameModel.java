@@ -20,7 +20,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GameModel implements Serializable {
+public class GameModel {
     private final List<Player> players;
     private final List<CommonCard> commonCards;
     private Integer gameId;
@@ -86,7 +86,7 @@ public class GameModel implements Serializable {
                 .noneMatch(x -> x.equals(p))) {
             if (players.size() + 1 <= DefaultValue.MaxNumOfPlayer) {
                 players.add(p);
-                listenersHandler.notify_playerJoined(p.getNickname());
+                listenersHandler.notify_playerJoined(this);
             } else {
                 listenersHandler.notify_JoinUnableGameFull(p,this);
                 throw new MaxPlayersInException();
@@ -101,7 +101,7 @@ public class GameModel implements Serializable {
 
     public void playerIsReadyToStart(Player p) {
         p.setReadyToStart();
-        listenersHandler.notify_PlayerIsReadyToStart(p.getNickname());
+        listenersHandler.notify_PlayerIsReadyToStart(this,p.getNickname());
     }
 
     public boolean arePlayersReadyToStartAndEnough() {
@@ -123,7 +123,7 @@ public class GameModel implements Serializable {
         if (commonCards.stream().noneMatch(x -> x.isSameType(c))) {
             if (commonCards.size() + 1 <= DefaultValue.NumOfCommonCards) {
                 commonCards.add(c);
-                listenersHandler.notify_extractedCommonCard(c);
+                listenersHandler.notify_extractedCommonCard(this);
             } else {
                 throw new MaxCommonCardsAddedException();
             }
@@ -235,6 +235,7 @@ public class GameModel implements Serializable {
 
             if (status == GameStatus.RUNNING) {
                 listenersHandler.notify_GameStarted(this);
+                listenersHandler.notify_nextTurn(this);
             } else if (status == GameStatus.ENDED) {
                 findWinner(); //Trovo il vincitore
                 listenersHandler.notify_GameEnded(this);
@@ -243,10 +244,7 @@ public class GameModel implements Serializable {
     }
 
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
-
-
         List<Tile> ris;
-
         try {
             ris = pg.grabTile(x, y, direction, num);
 
@@ -410,21 +408,16 @@ public class GameModel implements Serializable {
     public Player getPlayerEntity(String playerNick) {
         return players.stream().filter(x->x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
     }
-    public String getNicknameCurrentPlaying(){
-        return players.get(currentPlaying).getNickname();
-    }
 
-    public List<Tile> getHandOfCurrentPlaying(){
-        return players.get(currentPlaying).getInHandTile();
-    }
 
     public Map<Integer, Integer> getLeaderBoard(){
         return leaderBoard;
     }
-    public Player getWinner(){
-        if(indexWonPlayer!=-1) {
-            return players.get(indexWonPlayer);
-        }
-        return null;
+
+    public void setAsDisconnected(String nick, boolean connected) {
+        listenersHandler.notify_playerDisconnected(nick);
     }
+
+
+
 }

@@ -1,8 +1,9 @@
 package polimi.ingsw.View.socket.server;
 
 import polimi.ingsw.Controller.MainController;
-import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
-import polimi.ingsw.View.socket.client.SocketClientMessage;
+import polimi.ingsw.Model.Exceptions.GameEndedException;
+import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
+import polimi.ingsw.View.socket.client.SocketClientGenericMessage;
 
 import java.io.*;
 import java.net.Socket;
@@ -12,14 +13,18 @@ public class ClientHandler extends Thread {
     private final Socket clientSocket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private MainControllerInterface mainController;
 
+    private GameControllerInterface gameController;
+
+    private GameListenersHandlerSocket gameListenersHandlerSocket;
+
+    private String nick=null;
 
     public ClientHandler(Socket soc) throws IOException {
         this.clientSocket = soc;
         this.in = new ObjectInputStream(soc.getInputStream());
         this.out = new ObjectOutputStream(soc.getOutputStream());
-        this.mainController = MainController.getInstance();
+        gameListenersHandlerSocket = new GameListenersHandlerSocket(out);
     }
 
     public void interruptThread() {
@@ -28,18 +33,40 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
-        SocketClientMessage temp;
+        SocketClientGenericMessage temp;
+
         while(true){
             try {
-                temp = (SocketClientMessage) in.readObject();
+                temp = (SocketClientGenericMessage) in.readObject();
+
+                try {
+                    if (temp.isMessageForMainController()) {
+                        gameController = temp.execute(gameListenersHandlerSocket, MainController.getInstance());
+                        nick = gameController!=null?temp.getNick():null;
+
+                    } else {
+                        temp.execute(gameController);
+                    }
+                } catch (RemoteException | GameEndedException e) {
+                    throw new RuntimeException(e);
+                }
+
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                System.out.println("Client disconnected!");
+
+                if(nick!=null && gameController!=null){
+                    try {
+                        gameController.setConnectionStatus(nick,gameListenersHandlerSocket,false);
+                        break; //This ClientHandler now dies
+
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
             }
-            try {
-                temp.execute(mainController);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+
+
         }
     }
 

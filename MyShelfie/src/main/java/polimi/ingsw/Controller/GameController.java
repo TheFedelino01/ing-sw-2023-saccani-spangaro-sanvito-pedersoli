@@ -7,8 +7,9 @@ import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
-import polimi.ingsw.View.View;
+import polimi.ingsw.View.userView.View;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -224,6 +225,12 @@ public class GameController implements GameControllerInterface, Serializable {
     @Override
     public synchronized boolean isThisMyTurn(String nick) throws RemoteException {
         return model.getPlayers().get(model.getCurrentPlaying()).getNickname().equals(nick);
+    }
+
+    @Override
+    public void setConnectionStatus(String nick,GameListener lisOfClient, boolean connected) throws RemoteException {
+        model.removeListener(lisOfClient);
+        model.setAsDisconnected(nick,connected);
     }
 
 

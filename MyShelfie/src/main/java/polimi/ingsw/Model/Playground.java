@@ -1,5 +1,6 @@
 package polimi.ingsw.Model;
 
+import org.fusesource.jansi.Ansi;
 import org.json.simple.JSONObject;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
@@ -8,7 +9,10 @@ import org.json.simple.parser.ParseException;
 import polimi.ingsw.Model.Exceptions.TileGrabbedNotCorrectException;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class Playground implements Serializable {
     private final Tile[][] playground; //playground formed by tiles
@@ -39,8 +43,8 @@ public class Playground implements Serializable {
         String colSplit = ",";
         String s = null;
         JSONParser parser = new JSONParser();
-        String jsonUrl = "./src/main/java/polimi/ingsw/JSON/PlaygroundFourPlayer.json";
-        try (Reader reader = new FileReader(jsonUrl)) {
+        try (InputStream is = Playground.class.getClassLoader().getResourceAsStream("polimi/ingsw/Json/PlaygroundFourPlayer.json");
+             Reader reader = new InputStreamReader(Objects.requireNonNull(is, "Couldn't find json file"), StandardCharsets.UTF_8)) {
             JSONObject obj = (JSONObject) parser.parse(reader);
             s = (String) obj.get(Integer.toString(numberOfPlayers));
         } catch (ParseException | FileNotFoundException ex) {
@@ -53,9 +57,9 @@ public class Playground implements Serializable {
         data = new ArrayList<>();
 
         //this method is for splitting the string returned from the json file in a matrix
-        for(int i = 0; i<size; i++){
+        for (int i = 0; i < size; i++) {
             data.add(new ArrayList<>(size));
-            for(int j = 0; j<size; j++){
+            for (int j = 0; j < size; j++) {
                 data.get(i).add(j, Integer
                         .parseInt(s.split(rowSplit)[i]
                                 .split(colSplit)[j]));
@@ -67,10 +71,11 @@ public class Playground implements Serializable {
         setPlayground();
     }
 
-    public Tile getTile(int r,int c){
+    public Tile getTile(int r, int c) {
         return playground[r][c];
     }
-    public int getNumOfTileinTheBag(){
+
+    public int getNumOfTileinTheBag() {
         return bag.size();
     }
 
@@ -85,19 +90,20 @@ public class Playground implements Serializable {
             }
         }
     }
-    private boolean isABorderTile(int r,int c){
+
+    private boolean isABorderTile(int r, int c) {
         if (r > 0) {
-            if (playground[r - 1][c].isSameType(TileType.NOT_USED)){
+            if (playground[r - 1][c].isSameType(TileType.NOT_USED)) {
                 return true;
             }
         }
         if (r < DefaultValue.PlaygroundSize - 1) {
-            if (playground[r + 1][c].isSameType(TileType.NOT_USED)){
+            if (playground[r + 1][c].isSameType(TileType.NOT_USED)) {
                 return true;
             }
         }
         if (c > 0) {
-            if (playground[r][c - 1].isSameType(TileType.NOT_USED)){
+            if (playground[r][c - 1].isSameType(TileType.NOT_USED)) {
                 return true;
             }
         }
@@ -143,7 +149,6 @@ public class Playground implements Serializable {
     }
 
 
-
     public void setPlayground() {
         int random;
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
@@ -152,7 +157,7 @@ public class Playground implements Serializable {
                     random = (int) (Math.random() * bag.size());
                     playground[i][j] = bag.get(random);
                     //If the tile is a border-tile then set free side to true (sure at least 1 side free)
-                    if(isABorderTile(i,j)){
+                    if (isABorderTile(i, j)) {
                         playground[i][j].setFreeSide(true);
                     }
                     bag.remove(random);
@@ -162,9 +167,9 @@ public class Playground implements Serializable {
     }
 
     public void setBag() {
-        for(int i=0; i<DefaultValue.NumOfTilesPerType;i++){
-            for(int j=0; j<DefaultValue.NumOfTileTypes;j++){
-                bag.add(new Tile(TileType.values()[j],false));
+        for (int i = 0; i < DefaultValue.NumOfTilesPerType; i++) {
+            for (int j = 0; j < DefaultValue.NumOfTileTypes; j++) {
+                bag.add(new Tile(TileType.values()[j], false));
             }
         }
 
@@ -189,7 +194,7 @@ public class Playground implements Serializable {
                 if (playground[x][y].isFreeSide()) {
                     ris.add(playground[x][y]);
                     playground[x][y] = new Tile(TileType.FINISHED_USING);
-                }else{
+                } else {
                     throw new TileGrabbedNotCorrectException();
                 }
             }
@@ -202,6 +207,26 @@ public class Playground implements Serializable {
             }
         }
         updateFreeSide();
+        return ris;
+    }
+
+    public String toString() {
+        String ris="  0|1|2|3|4|5|6|7|8\n";
+        for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
+            ris+=i+":";
+            for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
+                switch (playground[i][j].getType()){
+                    case CAT -> ris += ansi().fg(Ansi.Color.GREEN).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case BOOK -> ris += ansi().fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case TROPHY -> ris += ansi().fg(Ansi.Color.CYAN).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case FRAME -> ris += ansi().fg(Ansi.Color.BLUE).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case ACTIVITY -> ris += ansi().fg(Ansi.Color.YELLOW).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case PLANT -> ris += ansi().fg(Ansi.Color.MAGENTA).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    default -> ris += ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT) + "|";
+                }
+            }
+            ris+="\n";
+        }
         return ris;
     }
 

@@ -1,6 +1,8 @@
 package polimi.ingsw.Model.Enumeration;
 
-public enum GameStatus {
+import java.io.Serializable;
+
+public enum GameStatus implements Serializable {
     WAIT,
     RUNNING,
     LAST_CIRCLE,

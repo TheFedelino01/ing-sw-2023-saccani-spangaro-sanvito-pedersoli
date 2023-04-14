@@ -28,7 +28,7 @@ public class MainController implements MainControllerInterface, Serializable {
         runningGames = new ArrayList<GameController>();
     }
 
-    public static MainController getInstance(){
+    public synchronized static MainController getInstance(){
         if (instance == null) {
             instance = new MainController();
         }
@@ -39,7 +39,7 @@ public class MainController implements MainControllerInterface, Serializable {
 
 
     @Override
-    public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
+    public synchronized GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
         Player p = new Player(nick);
 
 
@@ -56,7 +56,7 @@ public class MainController implements MainControllerInterface, Serializable {
     }
 
     @Override
-    public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+    public synchronized GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
 
         List<GameController> ris = runningGames.stream().filter(x->(x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers()<DefaultValue.MaxNumOfPlayer)).collect(Collectors.toList());
         Player p = new Player(nick);
@@ -74,7 +74,7 @@ public class MainController implements MainControllerInterface, Serializable {
     }
 
     @Override
-    public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+    public synchronized GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
         List<GameController> ris = runningGames.stream().filter(x->(x.getId()==idGame)).toList();
         Player p = new Player(nick);
 
