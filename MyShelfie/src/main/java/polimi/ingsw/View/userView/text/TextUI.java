@@ -443,9 +443,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         int i=0;
         for (Player p : gameModel.getPlayers()) {
             if (p.getReadyToStart()) {
-                ris+=(ansi().cursor(10 + gameModel.getPlayers().size()+i, 0)+"[EVENT]: " + p.getNickname() + " is ready!\n");
+                ris+=(ansi().cursor(12 + +i, 0)+"[EVENT]: " + p.getNickname() + " is ready!\n");
             } else {
-                ris+=(ansi().cursor(10 + gameModel.getPlayers().size()+i, 0)+"[EVENT]: " + p.getNickname() + " has joined!\n");
+                ris+=(ansi().cursor(12 + +i, 0)+"[EVENT]: " + p.getNickname() + " has joined!\n");
             }
             i++;
         }
@@ -454,7 +454,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         // need to check if the player is ready or not, and
         // in case he's ready not show him this line, now everyone
         // will see it
-        System.out.println(ansi().cursor(15, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
+        System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
         System.out.flush();
     }
 
