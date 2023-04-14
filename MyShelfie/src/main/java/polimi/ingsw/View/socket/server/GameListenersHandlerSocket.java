@@ -44,6 +44,16 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
+    public void gameIdNotExists(int gameid) throws RemoteException {
+        try {
+            out.reset();
+            out.writeObject(new msgGameIdNotExists(gameid));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void playerIsReadyToStart(GameModelImmutable model, String nick) throws RemoteException {
         //System.out.println(nick +" ready to start by socket");
        try {

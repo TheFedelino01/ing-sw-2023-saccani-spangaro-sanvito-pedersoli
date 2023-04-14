@@ -86,6 +86,9 @@ public class MainController implements MainControllerInterface, Serializable {
             }catch(MaxPlayersInException  | PlayerAlreadyInException e){
                 ris.get(0).removeListener(lis,p);
             }
+        }else{
+            //This is the only call not inside the model
+            lis.gameIdNotExists(idGame);
         }
         return null;
 

@@ -40,6 +40,11 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
+    public void gameIdNotExists(int gameid) throws RemoteException {
+        gui.gameIdNotExists(gameid);
+    }
+
+    @Override
     public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException, InterruptedException {
         //System.out.println(this.hashCode() + "> " + nick + " ready to start! [by Socket]");
         gui.playerIsReadyToStart(gamemodel,nick);

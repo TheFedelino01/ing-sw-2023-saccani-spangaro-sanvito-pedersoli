@@ -63,6 +63,7 @@ public class ClientHandler extends Thread {
                         throw new RuntimeException(ex);
                     }
                 }
+                return;
 
             }
 

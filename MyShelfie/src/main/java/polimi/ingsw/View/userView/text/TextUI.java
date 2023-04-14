@@ -28,6 +28,7 @@ import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
+import static polimi.ingsw.View.userView.Events.EventType.GAME_ID_NOT_EXISTS;
 import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
 
 public class TextUI extends View implements Runnable, CommonClientActions {
@@ -87,6 +88,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                         case ENDED -> statusEnded(event);
                     }
                 }
+            }else{
+                event = events.pop();
+                if(event!=null) {
+                    statusNotInAGame(event);
+                }
             }
             try {
                 Thread.sleep(100);
@@ -96,6 +102,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
+    private void statusNotInAGame(EventElement event){
+        switch (event.getType()) {
+            case GAME_ID_NOT_EXISTS:
+                System.out.println("Does not exist any game with this GameId");
+                Integer gameId = askGameId();
+                try {
+                    joinGame(nickname, gameId);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                break;
+        }
+    }
     private void statusWait(EventElement event) throws IOException, InterruptedException {
         String nickLastPlayer = event.getModel().getLastPlayer().getNickname();
         //If the event is that I joined then I wait until the user inputs 'y'
@@ -294,11 +316,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 multiple games running
              */
 
-        } while (!events.getGames().stream()
+        }while(gameId.equals(-1)); /*while (!events.getGames().stream()
                 .map(EventElement::getModel)
                 .map(GameModelImmutable::getGameId)
                 .toList()
-                .contains(Integer.parseInt(Objects.requireNonNull(gameId, "Null gameId detected"))));
+                .contains(Integer.parseInt(Objects.requireNonNull(gameId, "Null gameId detected"))));*/
+
         return Integer.parseInt(Objects.requireNonNull(gameId, "Null gameId detected"));
     }
 
@@ -549,6 +572,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
         //System.out.println("[EVENT]: "+ wantedToJoin.getNickname() + " has already in");
+    }
+
+    @Override
+    public void gameIdNotExists(int gameid) throws RemoteException {
+        events.add(null, GAME_ID_NOT_EXISTS);
     }
 
     @Override
