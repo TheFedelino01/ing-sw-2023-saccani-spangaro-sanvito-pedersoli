@@ -1,6 +1,5 @@
 package polimi.ingsw.View.userView.text;
 
-import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
@@ -24,6 +23,7 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -31,7 +31,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
 
 public class TextUI extends View implements Runnable, CommonClientActions {
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
     private String nickname;
 
     private boolean joined = false, toldIAmReady = false;
@@ -53,23 +53,20 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void run() {
+        EventElement event;
         try {
             show_Publisher();
             Thread.sleep(2500);
             clearCMD();
             show_titleMyShelfie();
             askSelectGame();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        EventElement event;
-        while (true) {
+        while (!Thread.interrupted()) {
             if (events.isJoined()) {
                 //Get one event
                 event = events.pop();
-
                 if (event != null) {
                     //if something happened
                     switch (event.getModel().getStatus()) {
@@ -77,26 +74,20 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                         case RUNNING -> {
                             try {
                                 statusRunning(event);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            } catch (InterruptedException e) {
+                            } catch (IOException | InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
                         }
                         case ENDED -> statusEnded(event);
                     }
                 }
-
             }
-
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
         }
-
     }
 
     private void statusWait(EventElement event) {
@@ -106,7 +97,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         switch (event.getType()) {
             case PLAYER_JOINDED:
                 if (nickLastPlayer.equals(nickname))
-                    askReadyToStart();
+                    askReadyToStart(event.getModel());
                 break;
         }
 
@@ -210,13 +201,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             }
         }
         System.out.println(nickname + ": Player: " + model.getNicknameCurrentPlaying() + " has grabbed some tiles: " + ris);
-        //viewPlayGround();
-        //shared.setNeedto_showGrabbedTile(false);
     }
 
 
     private void show_playground(GameModelImmutable model) {
-        System.out.println(model.getPg().toString());
+        System.out.println("GameID: [" + model.getGameId().toString() + "] \n" + model.getPg().toString());
     }
 
     private void showAllShelves(GameModelImmutable model) {
@@ -245,7 +234,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private void askSelectGame() throws IOException, InterruptedException {
         boolean reAsk = false;
         String optionChoose;
-
         do {
             reAsk = false;
             System.out.println(ansi().a("""
@@ -283,33 +271,39 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private Integer askGameId() {
-        boolean reAsk;
-        System.out.println("> Input the GameId ('.' to leave): ");
-
+        String gameId = null;
         do {
-            reAsk = false;
+            System.out.println("> Input the GameId ('.' to leave): ");
             try {
-                String numberOfPlayers = scanner.nextLine();
-                if (numberOfPlayers.equals(".")) {
+                gameId = scanner.nextLine();
+                System.out.println("inserted" + gameId);
+                if (gameId.equals(".")) {
                     return -1;
                 }
-
-                return Integer.parseInt(numberOfPlayers);
-
             } catch (NumberFormatException e) {
                 System.out.println("> NaN");
-                reAsk = true;
             }
-        } while (reAsk);
-        return -1;
+
+            /*TODO:
+                correct the initialisation of the list in the while
+                as of now, it's empty and does not give any gameIds even tho there are
+                multiple games running
+
+             */
+
+        } while (!events.getGames().stream()
+                .map(EventElement::getModel)
+                .map(GameModelImmutable::getGameId)
+                .toList()
+                .contains(Integer.parseInt(Objects.requireNonNull(gameId, "Null gameId detected"))));
+        return Integer.parseInt(Objects.requireNonNull(gameId, "Null gameId detected"));
     }
 
-    public void askReadyToStart() {
+    public void askReadyToStart(GameModelImmutable gameModel) {
         String ris;
-
         try {
-
             do {
+                System.out.println("GameID: [" + gameModel.getGameId().toString() + "]\n");
                 System.out.println("> When you are ready to start, enter (y): ");
                 ris = scanner.nextLine();
             } while (!ris.equals("y"));
@@ -337,11 +331,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     public void askPickTiles() {
-        /*try {
-            grabTileFromPlayground(1, 3, Direction.UP, 1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
         Integer numTiles;
         numTiles = askNum("> How many tiles do you want to get? ");
 
@@ -424,11 +413,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     }
 
-    private void show_Publisher() {
+    private void show_Publisher() throws IOException, InterruptedException {
+        clearCMD();
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset()
-        ).println(ansi().cursor(50, 50).fg(YELLOW).a("""
+        ).println(ansi().cursor(1, 1).fg(YELLOW).a("""
                                                                                                            \s
                                                                                                            \s
                   ,----..                                                                                  \s
