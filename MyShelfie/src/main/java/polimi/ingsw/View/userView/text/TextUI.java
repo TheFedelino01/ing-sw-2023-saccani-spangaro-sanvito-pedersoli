@@ -105,7 +105,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private void statusNotInAGame(EventElement event){
         switch (event.getType()) {
             case GAME_ID_NOT_EXISTS:
-                System.out.println("Does not exist any game with this GameId");
+                System.out.println("It does not exist any game with this GameId");
                 Integer gameId = askGameId();
                 try {
                     joinGame(nickname, gameId);
