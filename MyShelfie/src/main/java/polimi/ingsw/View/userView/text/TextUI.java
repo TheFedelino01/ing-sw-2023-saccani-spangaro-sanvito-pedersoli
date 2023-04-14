@@ -259,8 +259,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     case "j" -> joinFirstAvailable(nickname);
                     case "js" -> {
                         Integer gameId = askGameId();
-                        if (gameId != -1)
-                            joinGame(nickname, gameId);
+                        joinGame(nickname, gameId);
                     }
                     default -> {
                         System.out.println("> Selection incorrect!");
@@ -304,13 +303,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     public void askReadyToStart(GameModelImmutable gameModel) throws IOException, InterruptedException {
-        clearCMD();
-        show_titleMyShelfie();
-        showPlayerJoined(gameModel);
         String ris;
         try {
             do {
-                System.out.println(ansi().cursor(15, 0).a("> When you are ready to start, enter (y): \n"));
+                System.out.println(ansi().cursor(18,0).fg(DEFAULT));
                 ris = scanner.nextLine();
             } while (!ris.equals("y"));
             setAsReady();
@@ -419,15 +415,26 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     }
 
-    private void showPlayerJoined(GameModelImmutable gameModel){
-        System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n"));
-        for(Player p : gameModel.getPlayers()){
-            if(p.getReadyToStart()){
-                System.out.println(ansi().cursor(10 + gameModel.getPlayers().size(), 0).a("[EVENT]: " + p.getNickname() + " is ready!"));
-            }else{
-                System.out.println(ansi().cursor(10 + gameModel.getPlayers().size(), 0).a("[EVENT]: " + p.getNickname() + " has joined!"));
+    private void showPlayerJoined(GameModelImmutable gameModel) throws IOException, InterruptedException {
+        clearCMD();
+        show_titleMyShelfie();
+        System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
+        System.out.flush();
+        for (Player p : gameModel.getPlayers()) {
+            if (p.getReadyToStart()) {
+                System.out.println(ansi().cursor(10 + gameModel.getPlayers().size(), 0).fg(WHITE).a("[EVENT]: " + p.getNickname() + " is ready!").fg(DEFAULT));
+                System.out.flush();
+            } else {
+                System.out.println(ansi().cursor(10 + gameModel.getPlayers().size(), 0).fg(WHITE).a("[EVENT]: " + p.getNickname() + " has joined!").fg(DEFAULT));
+                System.out.flush();
             }
         }
+        //TODO:
+        // need to check if the player is ready or not, and
+        // in case he's ready not show him this line, now everyone
+        // will see it
+        System.out.println(ansi().cursor(15, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
+        System.out.flush();
     }
 
     private void show_Publisher() throws IOException, InterruptedException {
@@ -525,11 +532,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     //RICEZIONE DEGLI EVENTI DAL SERVER
 
     @Override
-    public void playerJoined(GameModelImmutable gameModel){
+    public void playerJoined(GameModelImmutable gameModel) throws IOException, InterruptedException {
         //shared.setLastModelReceived(gameModel);
         //show_allPlayers();
         events.add(gameModel, EventType.PLAYER_JOINDED);
-        if (gameModel.getPlayers().get(gameModel.getPlayers().size()-1).getNickname().equals(nickname))
+        if (gameModel.getPlayers().get(gameModel.getPlayers().size() - 1).getNickname().equals(nickname))
             joined = true;
         showPlayerJoined(gameModel);
     }
