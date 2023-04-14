@@ -420,15 +420,15 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         show_titleMyShelfie();
         System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
         System.out.flush();
+        StringBuilder players = new StringBuilder();
         for (Player p : gameModel.getPlayers()) {
             if (p.getReadyToStart()) {
-                System.out.println(ansi().cursor(10 + gameModel.getPlayers().size(), 0).fg(WHITE).a("[EVENT]: " + p.getNickname() + " is ready!").fg(DEFAULT));
-                System.out.flush();
+                players.append(ansi().cursor(10 + gameModel.getPlayers().size(), 0).fg(WHITE).a("[EVENT]: " + p.getNickname() + " is ready!\n").fg(DEFAULT));
             } else {
-                System.out.println(ansi().cursor(10 + gameModel.getPlayers().size(), 0).fg(WHITE).a("[EVENT]: " + p.getNickname() + " has joined!").fg(DEFAULT));
-                System.out.flush();
+                players.append(ansi().cursor(10 + gameModel.getPlayers().size(), 0).fg(WHITE).a("[EVENT]: " + p.getNickname() + " has joined!\n").fg(DEFAULT));
             }
         }
+        System.out.println(players);
         //TODO:
         // need to check if the player is ready or not, and
         // in case he's ready not show him this line, now everyone
