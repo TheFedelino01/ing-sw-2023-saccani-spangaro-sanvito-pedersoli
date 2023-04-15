@@ -263,6 +263,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         String optionChoose;
         do {
             reAsk = false;
+            clearCMD();
+            show_titleMyShelfie();
             System.out.println(ansi().a("""
                     > Select one option:
                     \t(c) Create a new Game
@@ -281,7 +283,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     case "j" -> joinFirstAvailable(nickname);
                     case "js" -> {
                         Integer gameId = askGameId();
-                        joinGame(nickname, gameId);
+                        if(gameId == -1)
+                            askSelectGame();
+                        else
+                            joinGame(nickname, gameId);
                     }
                     default -> {
                         System.out.println("> Selection incorrect!");
@@ -297,13 +302,16 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private Integer askGameId() {
+        String temp = null;
         Integer gameId=null;
         do {
             System.out.println("> Input the GameId ('.' to leave): ");
             try {
-                gameId = Integer.parseInt(scanner.nextLine());
-                System.out.println("Inserted: " + gameId);
-
+                temp = scanner.nextLine();
+                if(temp.equals(".")){
+                    return -1;
+                }
+                gameId = Integer.parseInt(temp);
             } catch (NumberFormatException e) {
                 System.out.println("> NaN");
             }
