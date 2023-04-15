@@ -22,5 +22,6 @@ public interface CommonClientActions {
 
     public void positionTileOnShelf(int column, TileType type) throws IOException;
 
+    public void heartbeat();
 
 }

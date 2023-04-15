@@ -43,7 +43,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
 
         UnicastRemoteObject.exportObject(ris,0);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
-        System.out.println("New game created");
+        System.out.println("[RMI] "+nick+" has created a new game");
         return ris;
     }
 
@@ -53,7 +53,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         GameControllerInterface ris = mainController.joinFirstAvailableGame(lis,nick);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         UnicastRemoteObject.exportObject(ris,0);
-        System.out.println("Joined");
+        System.out.println("[RMI] "+nick+" joined in first available game");
         return ris;
     }
 
@@ -63,7 +63,10 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         GameControllerInterface ris = mainController.joinGame(lis,nick,idGame);
         UnicastRemoteObject.exportObject(ris,0);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+        System.out.println("[RMI] "+nick+" joined to specific game with id: "+idGame);
         return ris;
     }
+
+
 
 }

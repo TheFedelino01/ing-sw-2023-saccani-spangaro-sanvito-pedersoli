@@ -38,4 +38,6 @@ public class DefaultValue implements Serializable {
 
     public final static String Remote_ip = "127.0.0.1";
 
+    public final static Long timeout_for_detecting_disconnection=4000l;
+
 }

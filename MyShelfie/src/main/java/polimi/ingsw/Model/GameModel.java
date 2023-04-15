@@ -41,6 +41,8 @@ public class GameModel {
 
     private transient ListenersHandler listenersHandler;
 
+
+
     public GameModel() {
         players = new ArrayList<>();
         commonCards = new ArrayList<>();
@@ -56,6 +58,8 @@ public class GameModel {
         chat = new Chat();
 
         listenersHandler = new ListenersHandler();
+
+
     }
 
     @Serial

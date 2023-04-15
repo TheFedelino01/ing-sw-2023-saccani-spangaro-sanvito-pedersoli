@@ -16,7 +16,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIClient implements CommonClientActions {
+public class RMIClient implements CommonClientActions, Runnable {
 
     private MainControllerInterface requests;
     private GameControllerInterface gameController=null;
@@ -28,6 +28,7 @@ public class RMIClient implements CommonClientActions {
         super();
         gameListenersHandler=new GameListenersHandlerClient(gui);
         connect();
+        new Thread(this).start();
     }
     public void connect(){
         try {
@@ -40,6 +41,19 @@ public class RMIClient implements CommonClientActions {
         } catch (Exception e) {
             System.err.println("Server RMI exception: " + e);
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        //For the heartbeat
+        while(true){
+            heartbeat();//send heartbeat so the server knows I am still online
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -107,6 +121,17 @@ public class RMIClient implements CommonClientActions {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (GameEndedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void heartbeat() {
+        try {
+            if(gameController!=null) {
+                gameController.heartbeat(nickname, modelInvokedEvents);
+            }
+        } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }

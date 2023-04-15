@@ -558,6 +558,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         server.positionTileOnShelf(column, type);
     }
 
+    @Override
+    public void heartbeat() {
+        server.heartbeat();
+    }
+
 
     //-----------------------------------------------------------------------
     //RICEZIONE DEGLI EVENTI DAL SERVER

@@ -15,18 +15,42 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class GameController implements GameControllerInterface, Serializable {
+public class GameController implements GameControllerInterface, Serializable,Runnable {
     private final GameModel model;
     private final Random random = new Random();
     private View view;
-
+    private transient Map<GameListener,Heartbeat> heartbeats;
 
     /**
      * Init a Controller for one specific game that controls a GameModel
      */
     public GameController() {
         model = new GameModel();
+        heartbeats=new HashMap<>();
+        new Thread(this).start();
+    }
 
+    @Override
+    public void run() {
+        while(true) {
+            //checks all the heartbeat to detect disconnection
+            for (Map.Entry<GameListener, Heartbeat> entry : heartbeats.entrySet()) {
+                if (System.currentTimeMillis() - entry.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
+                    try {
+                        setConnectionStatus(entry.getValue().getNick(),entry.getKey(),false);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("Disconnection detected by heartbeat");
+                    heartbeats.remove(entry.getKey());
+                }
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
@@ -233,6 +257,13 @@ public class GameController implements GameControllerInterface, Serializable {
         model.setAsDisconnected(nick,connected);
     }
 
+    @Override
+    public void heartbeat(String nick,GameListener me) throws RemoteException {
+        heartbeats.put(me,new Heartbeat(System.currentTimeMillis(),nick));
+
+        //System.out.println("heartbeat rec: "+heartbeats.get(me));
+    }
+
 
     /**
      * Check if the player has completed the shelf, otherwise the turn is passed to the next player
@@ -323,4 +354,6 @@ public class GameController implements GameControllerInterface, Serializable {
         model.removeListener(lis);
         p.removeListener(lis);
     }
+
+
 }

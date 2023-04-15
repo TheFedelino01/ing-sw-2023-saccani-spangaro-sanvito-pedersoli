@@ -115,4 +115,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void positionTileOnShelf(int column, TileType type) throws IOException {
         out.writeObject(new SocketClientMessagePositionTileOnShelf(nickname,column,type));
     }
+
+    @Override
+    public void heartbeat() {
+        //not usefull for socket
+    }
 }
