@@ -14,6 +14,8 @@ public interface CommonClientActions {
 
     public void joinGame(String nick, int idGame) throws IOException, InterruptedException;
 
+    public void reconnect(String nick, int idGame) throws IOException, InterruptedException;
+
     public void setAsReady() throws IOException;
 
     public boolean isMyTurn();

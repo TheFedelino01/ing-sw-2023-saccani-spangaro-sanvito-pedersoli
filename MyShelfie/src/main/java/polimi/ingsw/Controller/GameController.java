@@ -64,6 +64,14 @@ public class GameController implements GameControllerInterface, Serializable,Run
         model.addPlayer(p);
     }
 
+    public List<Player> getPlayers(){
+        return model.getPlayers();
+    }
+
+    public void reconnectPlayer(Player p) throws PlayerAlreadyInException,MaxPlayersInException{
+        model.reconnectPlayer(p);
+    }
+
     /**
      * Returns num of current players that are in the game
      *

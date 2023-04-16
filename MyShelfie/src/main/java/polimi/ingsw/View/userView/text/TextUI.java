@@ -122,7 +122,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         String nickLastPlayer = event.getModel().getLastPlayer().getNickname();
         //If the event is that I joined then I wait until the user inputs 'y'
         switch (event.getType()) {
-            case PLAYER_JOINDED:
+            case PLAYER_JOINED:
                 if (nickLastPlayer.equals(nickname))
                     askReadyToStart(event.getModel());
                 break;
@@ -145,7 +145,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 show_playground(event.getModel());
                 System.out.println("Common card extracted: " + event.getModel().getLastCommonCard().getCommonType());
             }
-            case NEXT_TURN -> {
+            case NEXT_TURN, PLAYER_RECONNECTED -> {
                 clearCMD();
                 show_titleMyShelfie();
                 System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
@@ -289,7 +289,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                         else
                             joinGame(nickname, gameId);
                     }
-                    case "x" -> reconnect(events.pop());
+                    case "x" -> reconnect(nickname, new Player(nickname).getLastGameId());
                     default -> {
                         System.out.println("> Selection incorrect!");
                         reAsk = true;
@@ -338,23 +338,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    protected void reconnect(EventElement event) throws IOException, InterruptedException {
-        Player temp = new Player(nickname);
-    /*
-        Player temp = event.getModel().getPlayers()
-                .stream()
-                .filter(x -> !x.isConnected())
-                .filter(x -> x.getNickname().equals(nickname))
-                .findFirst()
-                .orElse(null);
-     */
-        if (temp.getLastGameId() != -1)
-            joinGame(temp.getNickname(), temp.getLastGameId());
-        else
-            resetGameId(event);
     }
 
     @Override
@@ -569,6 +552,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
+    public void reconnect(String nick, int idGame) throws IOException, InterruptedException {
+        clearCMD();
+        show_titleMyShelfie();
+        System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
+        server.reconnect(nickname, new Player(nickname).getLastGameId());
+    }
+
+    @Override
     public void setAsReady() throws IOException {
         server.setAsReady();
     }
@@ -602,7 +593,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void playerJoined(GameModelImmutable gameModel) throws IOException, InterruptedException {
         //shared.setLastModelReceived(gameModel);
         //show_allPlayers();
-        events.add(gameModel, EventType.PLAYER_JOINDED);
+        events.add(gameModel, EventType.PLAYER_JOINED);
         if (gameModel.getPlayers().get(gameModel.getPlayers().size() - 1).getNickname().equals(nickname))
             joined = true;
         showPlayerJoined(gameModel);
@@ -611,6 +602,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gameModel) throws RemoteException {
         //System.out.println("[EVENT]: "+ wantedToJoin+" tried to entry but the game is full!");
+    }
+
+    @Override
+    public void playerReconnected(GameModelImmutable gamemodel) {
+        System.out.println("[EVENT]: Player reconnected!");
+        events.add(gamemodel, EventType.PLAYER_RECONNECTED);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package polimi.ingsw.View.userView.Events;
 
 public enum EventType {
-    PLAYER_JOINDED,
+    PLAYER_JOINED,
     JOIN_UNABLE_GAME_FULL,
     JOIN_UNABLE_NICKNAME_ALREADY_IN,
     GAME_ID_NOT_EXISTS,
@@ -15,6 +15,7 @@ public enum EventType {
     POSITIONED_TILE,
     NEXT_TURN,
     ADDED_POINT,
-    PLAYER_DISCONNECTED
+    PLAYER_DISCONNECTED,
+    PLAYER_RECONNECTED
 
 }

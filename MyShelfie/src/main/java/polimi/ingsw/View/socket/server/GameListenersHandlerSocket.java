@@ -1,15 +1,12 @@
 package polimi.ingsw.View.socket.server;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
-import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 import polimi.ingsw.View.socket.client.ServerToClientMessages.*;
-import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -32,6 +29,19 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void playerReconnected(GameModelImmutable gamemodel) throws RemoteException {
+        //System.out.println(nickNewPlayer +" by socket");
+        try {
+            out.reset();
+            out.writeObject(new msgPlayerReconnected(gamemodel));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     @Override
     public void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException {

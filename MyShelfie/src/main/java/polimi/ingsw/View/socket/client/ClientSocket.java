@@ -4,6 +4,7 @@ import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
+import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageReconnect;
 import polimi.ingsw.View.userView.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
@@ -94,6 +95,12 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void joinGame(String nick, int idGame) throws IOException {
         nickname=nick;
         out.writeObject(new SocketClientMessageJoinGame(nick, idGame));
+    }
+
+    @Override
+    public void reconnect(String nick, int idGame) throws IOException, InterruptedException {
+        nickname=nick;
+        out.writeObject(new SocketClientMessageReconnect(nick, idGame));
     }
 
     @Override

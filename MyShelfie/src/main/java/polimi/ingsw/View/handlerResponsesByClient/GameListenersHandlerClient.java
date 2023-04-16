@@ -34,8 +34,14 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
+    public void playerReconnected(GameModelImmutable gamemodel) throws IOException, InterruptedException {
+        gui.playerReconnected(gamemodel);
+    }
+
+    @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
        // System.out.println(this.hashCode() + "> " + wantedToJoin.getNickname() + " has already in [by Socket]");
+        System.out.println("Error");
         gui.joinUnableNicknameAlreadyIn(wantedToJoin);
     }
 

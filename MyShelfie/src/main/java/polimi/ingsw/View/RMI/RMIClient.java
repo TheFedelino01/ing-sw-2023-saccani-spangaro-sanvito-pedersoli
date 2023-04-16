@@ -11,6 +11,7 @@ import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.View.userView.View;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -81,6 +82,18 @@ public class RMIClient implements CommonClientActions, Runnable {
     public void joinGame(String nick, int idGame){
         try {
             gameController = requests.joinGame(modelInvokedEvents,nick,idGame);
+
+            nickname=nick;
+
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void reconnect(String nick, int idGame) {
+        try {
+            gameController = requests.reconnect(modelInvokedEvents,nick,idGame);
 
             nickname=nick;
 
