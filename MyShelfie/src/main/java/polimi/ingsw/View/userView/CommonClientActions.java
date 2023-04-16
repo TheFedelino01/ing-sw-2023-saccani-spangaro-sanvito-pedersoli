@@ -2,10 +2,8 @@ package polimi.ingsw.View.userView;
 
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
-import polimi.ingsw.Model.Exceptions.GameEndedException;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 public interface CommonClientActions {
     public void createGame(String nick) throws IOException, InterruptedException;

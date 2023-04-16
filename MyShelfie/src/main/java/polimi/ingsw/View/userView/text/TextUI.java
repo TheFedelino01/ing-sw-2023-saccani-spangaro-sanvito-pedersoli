@@ -37,16 +37,16 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private boolean joined = false, toldIAmReady = false;
     EventList events = new EventList();
 
-    private CommonClientActions server;
+    private CommonClientActions commonClientActions;
 
 
     public TextUI(ConnectionSelection selection) {
         AnsiConsole.systemInstall();
         nickname = "";
         if (selection.equals(ConnectionSelection.SOCKET)) {
-            server = new ClientSocket(this);
+            commonClientActions = new ClientSocket(this);
         } else if (selection.equals(ConnectionSelection.RMI)) {
-            server = new RMIClient(this);
+            commonClientActions = new RMIClient(this);
         }
         new Thread(this).start();
     }
@@ -532,7 +532,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         clearCMD();
         show_titleMyShelfie();
         System.out.println("> Creating a new game...");
-        server.createGame(nick);
+        commonClientActions.createGame(nick);
     }
 
     @Override
@@ -540,7 +540,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         clearCMD();
         show_titleMyShelfie();
         System.out.println("> Connecting to the first available game...");
-        server.joinFirstAvailable(nick);
+        commonClientActions.joinFirstAvailable(nick);
     }
 
     @Override
@@ -548,7 +548,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         clearCMD();
         show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
-        server.joinGame(nick, idGame);
+        commonClientActions.joinGame(nick, idGame);
     }
 
     @Override
@@ -556,12 +556,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         clearCMD();
         show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
-        server.reconnect(nickname, new Player(nickname).getLastGameId());
+        commonClientActions.reconnect(nickname, new Player(nickname).getLastGameId());
     }
 
     @Override
     public void setAsReady() throws IOException {
-        server.setAsReady();
+        commonClientActions.setAsReady();
     }
 
     @Override
@@ -572,17 +572,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
-        server.grabTileFromPlayground(x, y, direction, num);
+        commonClientActions.grabTileFromPlayground(x, y, direction, num);
     }
 
     @Override
     public void positionTileOnShelf(int column, TileType type) throws IOException {
-        server.positionTileOnShelf(column, type);
+        commonClientActions.positionTileOnShelf(column, type);
     }
 
     @Override
     public void heartbeat() {
-        server.heartbeat();
+        commonClientActions.heartbeat();
     }
 
 

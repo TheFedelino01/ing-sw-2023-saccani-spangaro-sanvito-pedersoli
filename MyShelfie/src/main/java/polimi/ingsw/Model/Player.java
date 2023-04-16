@@ -87,7 +87,14 @@ public class Player implements Serializable {
         String gameId = null;
         String time = null;
         JSONParser parser = new JSONParser();
+
+
+
+        //When testing, comment this line, complete and uncomment the file declaration below
         File file = new File("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
+
+
+        //File file = new File("<Directories before this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json");
         try (InputStream is = new FileInputStream(file);
             Reader reader = new InputStreamReader(Objects.requireNonNull(is, "Couldn't find json file"), StandardCharsets.UTF_8)) {
             JSONObject obj = (JSONObject) parser.parse(reader);
@@ -110,7 +117,13 @@ public class Player implements Serializable {
         JSONObject data = new JSONObject();
         data.put(DefaultValue.gameIdData, Integer.toString(gameId));
         data.put(DefaultValue.gameIdTime, LocalDateTime.now().toString());
+
+
+        //When testing, comment this line, complete and uncomment the file declaration below
         File file = new File("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
+
+
+        //File file = new File("<Directories before this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json");
         System.out.println(file.getAbsolutePath());
         try{
             //if the file does not exist, create it
@@ -118,7 +131,10 @@ public class Player implements Serializable {
         }catch(IOException e){
             throw new RuntimeException(e);
         }
+
+        //Same as above
         try (FileWriter fileWriter = new FileWriter("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json")){
+        //try (FileWriter fileWriter = new FileWriter("<Directories b4 this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json")){
             fileWriter.write(data.toJSONString());
         } catch (IOException e) {
             throw new RuntimeException(e);
