@@ -16,6 +16,9 @@ public class DefaultValue implements Serializable {
     public final static int displayTitleRow = 0;
     public final static int displayTitleCol = 10;
     public final static int displayShelfRow = 21;
+    public final static String gameIdData = "GameId";
+    public final static String gameIdTime = "Created";
+    public final static int twelveHS = 43200;
     public final static int displayShelfStartingCol = 3;
 
     public final static int displayShelfNextCol = 30;

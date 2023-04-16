@@ -23,7 +23,6 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -88,9 +87,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                         case ENDED -> statusEnded(event);
                     }
                 }
-            }else{
+            } else {
                 event = events.pop();
-                if(event!=null) {
+                if (event != null) {
                     statusNotInAGame(event);
                 }
             }
@@ -102,7 +101,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
-    private void statusNotInAGame(EventElement event){
+    private void statusNotInAGame(EventElement event) {
         switch (event.getType()) {
             case GAME_ID_NOT_EXISTS:
                 System.out.println("It does not exist any game with this GameId");
@@ -118,6 +117,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 break;
         }
     }
+
     private void statusWait(EventElement event) throws IOException, InterruptedException {
         String nickLastPlayer = event.getModel().getLastPlayer().getNickname();
         //If the event is that I joined then I wait until the user inputs 'y'
@@ -137,6 +137,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 show_titleMyShelfie();
                 show_allPlayers(event.getModel());
                 System.out.println("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
+                saveGameId(event);
             }
             case COMMON_CARD_EXTRACTED -> {
                 clearCMD();
@@ -270,24 +271,25 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     \t(c) Create a new Game
                     \t(j) Join to a random Game
                     \t(js) Join a specific Game by idGame
+                    \t(x) Reconnect
                     \t(.) to leave
                     \t""").fg(DEFAULT));
             optionChoose = scanner.nextLine();
             if (optionChoose.equals("."))
                 return;
             askNickname();
-
             try {
                 switch (optionChoose) {
                     case "c" -> createGame(nickname);
                     case "j" -> joinFirstAvailable(nickname);
                     case "js" -> {
                         Integer gameId = askGameId();
-                        if(gameId == -1)
+                        if (gameId == -1)
                             askSelectGame();
                         else
                             joinGame(nickname, gameId);
                     }
+                    case "x" -> reconnect(events.pop());
                     default -> {
                         System.out.println("> Selection incorrect!");
                         reAsk = true;
@@ -297,18 +299,16 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 throw new RuntimeException(e);
             }
         } while (reAsk);
-
-
     }
 
     private Integer askGameId() {
-        String temp = null;
-        Integer gameId=null;
+        String temp;
+        Integer gameId = null;
         do {
             System.out.println("> Input the GameId ('.' to leave): ");
             try {
                 temp = scanner.nextLine();
-                if(temp.equals(".")){
+                if (temp.equals(".")) {
                     return -1;
                 }
                 gameId = Integer.parseInt(temp);
@@ -316,7 +316,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 System.out.println("> NaN");
             }
 
-        }while(gameId==null);
+        } while (gameId == null);
         /*
         checks from all the gameId's in a model if one is equal to the one inserted
         while (!events.getGames().stream()
@@ -327,16 +327,45 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         return gameId;
     }
 
-    public void askReadyToStart(GameModelImmutable gameModel) throws IOException, InterruptedException {
+    public void askReadyToStart(GameModelImmutable gameModel) {
         String ris;
         try {
             do {
-                System.out.println(ansi().cursor(18,0).fg(DEFAULT));
+                System.out.println(ansi().cursor(18, 0).fg(DEFAULT));
                 ris = scanner.nextLine();
             } while (!ris.equals("y"));
             setAsReady();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void reconnect(EventElement event) throws IOException, InterruptedException {
+        Player temp = event.getModel().getPlayers()
+                .stream()
+                .filter(x -> !x.isConnected())
+                .filter(x -> x.getNickname().equals(nickname))
+                .findFirst()
+                .orElse(null);
+        if (temp != null) {
+            if (temp.getLastGameId() != -1)
+                joinGame(temp.getNickname(), temp.getLastGameId());
+            else
+                resetGameId(event);
+        }
+    }
+
+    @Override
+    protected void resetGameId(EventElement element) {
+        for (Player p : element.getModel().getPlayers()) {
+            p.setLastGameId(-1);
+        }
+    }
+    @Override
+    protected void saveGameId(EventElement element){
+        for (Player p : element.getModel().getPlayers()) {
+            p.setLastGameId(element.getModel().getGameId());
         }
     }
 
@@ -361,7 +390,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get? ");
-        }while(!(numTiles>=DefaultValue.minNumOfGrabbableTiles && numTiles<=DefaultValue.maxNumOfGrabbableTiles));
+        } while (!(numTiles >= DefaultValue.minNumOfGrabbableTiles && numTiles <= DefaultValue.maxNumOfGrabbableTiles));
 
         Integer row;
         do {
@@ -448,9 +477,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
         System.out.flush();
         //StringBuilder players = new StringBuilder();
-        StringBuilder ris= new StringBuilder();
+        StringBuilder ris = new StringBuilder();
 
-        int i=0;
+        int i = 0;
         for (Player p : gameModel.getPlayers()) {
             if (p.getReadyToStart()) {
                 ris.append(ansi().cursor(12 + +i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" is ready!\n");
