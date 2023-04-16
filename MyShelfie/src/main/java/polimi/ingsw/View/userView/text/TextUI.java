@@ -342,18 +342,19 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     protected void reconnect(EventElement event) throws IOException, InterruptedException {
+        Player temp = new Player(nickname);
+    /*
         Player temp = event.getModel().getPlayers()
                 .stream()
                 .filter(x -> !x.isConnected())
                 .filter(x -> x.getNickname().equals(nickname))
                 .findFirst()
                 .orElse(null);
-        if (temp != null) {
-            if (temp.getLastGameId() != -1)
-                joinGame(temp.getNickname(), temp.getLastGameId());
-            else
-                resetGameId(event);
-        }
+     */
+        if (temp.getLastGameId() != -1)
+            joinGame(temp.getNickname(), temp.getLastGameId());
+        else
+            resetGameId(event);
     }
 
     @Override
@@ -362,8 +363,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             p.setLastGameId(-1);
         }
     }
+
     @Override
-    protected void saveGameId(EventElement element){
+    protected void saveGameId(EventElement element) {
         for (Player p : element.getModel().getPlayers()) {
             p.setLastGameId(element.getModel().getGameId());
         }

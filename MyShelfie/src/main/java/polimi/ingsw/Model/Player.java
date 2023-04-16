@@ -87,7 +87,8 @@ public class Player implements Serializable {
         String gameId = null;
         String time = null;
         JSONParser parser = new JSONParser();
-        try (InputStream is = Playground.class.getClassLoader().getResourceAsStream("polimi/ingsw/Json/"+ nickname + ".json");
+        File file = new File("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
+        try (InputStream is = new FileInputStream(file);
             Reader reader = new InputStreamReader(Objects.requireNonNull(is, "Couldn't find json file"), StandardCharsets.UTF_8)) {
             JSONObject obj = (JSONObject) parser.parse(reader);
             gameId = (String) obj.get(DefaultValue.gameIdData);
@@ -107,16 +108,17 @@ public class Player implements Serializable {
     @SuppressWarnings("unchecked")
     public void setLastGameId(int gameId){
         JSONObject data = new JSONObject();
-        data.put(DefaultValue.gameIdData, gameId);
-        data.put(DefaultValue.gameIdTime, LocalDateTime.now());
-        File file = new File("polimi/ingsw/Json/"+ nickname + ".json");
+        data.put(DefaultValue.gameIdData, Integer.toString(gameId));
+        data.put(DefaultValue.gameIdTime, LocalDateTime.now().toString());
+        File file = new File("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
+        System.out.println(file.getAbsolutePath());
         try{
             //if the file does not exist, create it
             file.createNewFile();
         }catch(IOException e){
             throw new RuntimeException(e);
         }
-        try (FileWriter fileWriter = new FileWriter("polimi/ingsw/Json/"+ nickname + ".json")){
+        try (FileWriter fileWriter = new FileWriter("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json")){
             fileWriter.write(data.toJSONString());
         } catch (IOException e) {
             throw new RuntimeException(e);
