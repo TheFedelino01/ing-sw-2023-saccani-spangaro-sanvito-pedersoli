@@ -129,6 +129,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         switch (event.getType()) {
             case PLAYER_JOINED:
                 if (nickLastPlayer.equals(nickname)) {
+                    showPlayerJoined(event.getModel());
                     saveGameId(event);
                     askReadyToStart(event.getModel());
                 }
@@ -609,6 +610,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         events.add(gameModel, EventType.PLAYER_JOINED);
         if (gameModel.getPlayers().get(gameModel.getPlayers().size() - 1).getNickname().equals(nickname))
             joined = true;
+
+        //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         showPlayerJoined(gameModel);
     }
 
