@@ -20,27 +20,28 @@ public class Player implements Serializable {
     private CardGoal secretGoal;
     private List<Tile> inHandTile;
     private List<Point> obtainedPoints;
-    private boolean readyToStart=false;
-    private boolean connected=true;
+    private boolean readyToStart = false;
+    private boolean connected = true;
 
     private transient List<GameListener> listeners;
 
 
-    public Player(String nickname){
-        this.nickname=nickname;
-        shelf=new Shelf();
-        secretGoal= new CardGoal();
+    public Player(String nickname) {
+        this.nickname = nickname;
+        shelf = new Shelf();
+        secretGoal = new CardGoal();
         inHandTile = new ArrayList<>();
-        obtainedPoints=new ArrayList<>();
-        listeners= new ArrayList<>();
+        obtainedPoints = new ArrayList<>();
+        listeners = new ArrayList<>();
     }
+
     public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTile, List<Point> obtainedPoints) {
         this.nickname = nickname;
         this.shelf = shelf;
         this.secretGoal = secretGoal;
         this.inHandTile = inHandTile;
         this.obtainedPoints = obtainedPoints;
-        listeners= new ArrayList<>();
+        listeners = new ArrayList<>();
     }
 
     public String getNickname() {
@@ -55,7 +56,9 @@ public class Player implements Serializable {
         return shelf;
     }
 
-    public void setShelfS(Shelf shelf){this.shelf=shelf; }
+    public void setShelfS(Shelf shelf) {
+        this.shelf = shelf;
+    }
 
     public void setShelf(Shelf shelf) {
         this.shelf = shelf;
@@ -76,27 +79,19 @@ public class Player implements Serializable {
     public void setInHandTile(List<Tile> inHandTile) {
         if (inHandTile.size() > 3) {
             throw new IllegalArgumentException("You can't have more than 3 tiles in hand");
-        }
-        else {
+        } else {
             this.inHandTile = inHandTile;
         }
     }
 
-    public int getLastGameId(){
+    public int getLastGameId() {
         //game data related to the player is stored in a json file named after the nickname the player had in that game
         String gameId = null;
         String time = null;
         JSONParser parser = new JSONParser();
-
-
-
-        //When testing, comment this line, complete and uncomment the file declaration below
-        File file = new File("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
-
-
-        //File file = new File("<Directories before this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json");
+        File file = new File(System.getProperty("user.dir") + "/" + nickname + ".json");
         try (InputStream is = new FileInputStream(file);
-            Reader reader = new InputStreamReader(Objects.requireNonNull(is, "Couldn't find json file"), StandardCharsets.UTF_8)) {
+             Reader reader = new InputStreamReader(Objects.requireNonNull(is, "Couldn't find json file"), StandardCharsets.UTF_8)) {
             JSONObject obj = (JSONObject) parser.parse(reader);
             gameId = (String) obj.get(DefaultValue.gameIdData);
             time = (String) obj.get(DefaultValue.gameIdTime);
@@ -106,35 +101,28 @@ public class Player implements Serializable {
             throw new RuntimeException(e);
         }
         assert gameId != null;
-        if(LocalDateTime.parse(time).isBefore(LocalDateTime.now().plusSeconds(DefaultValue.twelveHS)))
+        if (LocalDateTime.parse(time).isBefore(LocalDateTime.now().plusSeconds(DefaultValue.twelveHS)))
             return Integer.parseInt(gameId);
         else
             return -1;
     }
 
     @SuppressWarnings("unchecked")
-    public void setLastGameId(int gameId){
+    public void setLastGameId(int gameId) {
         JSONObject data = new JSONObject();
         data.put(DefaultValue.gameIdData, Integer.toString(gameId));
         data.put(DefaultValue.gameIdTime, LocalDateTime.now().toString());
 
-
-        //When testing, comment this line, complete and uncomment the file declaration below
-        File file = new File("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
-
-
-        //File file = new File("<Directories before this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json");
-        System.out.println(file.getAbsolutePath());
-        try{
+        File file = new File(System.getProperty("user.dir") + "/" + nickname + ".json");
+        try {
             //if the file does not exist, create it
             file.createNewFile();
-        }catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        //Same as above
-        try (FileWriter fileWriter = new FileWriter("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json")){
-        //try (FileWriter fileWriter = new FileWriter("<Directories b4 this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json")){
+
+        try (FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "/" + nickname + ".json")) {
             fileWriter.write(data.toJSONString());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -146,8 +134,8 @@ public class Player implements Serializable {
     }
 
     public void addPoint(Point obtainedPoints) {
-        for(Point p: this.obtainedPoints){
-            if(p.getReferredTo().equals(obtainedPoints.getReferredTo())){
+        for (Point p : this.obtainedPoints) {
+            if (p.getReferredTo().equals(obtainedPoints.getReferredTo())) {
                 throw new IllegalArgumentException("You can't have more than one point for the same card");
             }
         }
@@ -156,15 +144,19 @@ public class Player implements Serializable {
         notify_addedPoint(obtainedPoints);
     }
 
-    public int getTotalPoints(){
+    public int getTotalPoints() {
         return obtainedPoints.stream().map(Point::getPoint).reduce(0, Integer::sum);
     }
 
-    public boolean getReadyToStart(){return readyToStart;}
-    public void setReadyToStart(){
-        readyToStart=true;
+    public boolean getReadyToStart() {
+        return readyToStart;
     }
-    public boolean equals(Player p){
+
+    public void setReadyToStart() {
+        readyToStart = true;
+    }
+
+    public boolean equals(Player p) {
         return this.nickname.equals(p.nickname);
     }
 
@@ -176,13 +168,14 @@ public class Player implements Serializable {
         this.connected = connected;
     }
 
-    public void addListener(GameListener obj){
+    public void addListener(GameListener obj) {
         listeners.add(obj);
     }
-    private void notify_addedPoint(Point point){
-        for(GameListener l : listeners) {
+
+    private void notify_addedPoint(Point point) {
+        for (GameListener l : listeners) {
             try {
-                l.addedPoint(this,point);
+                l.addedPoint(this, point);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

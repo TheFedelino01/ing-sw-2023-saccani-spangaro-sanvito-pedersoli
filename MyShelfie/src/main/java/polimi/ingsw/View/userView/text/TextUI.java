@@ -190,7 +190,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private void statusEnded(EventElement event) {
-
     }
 
     //-----------------------------------------
