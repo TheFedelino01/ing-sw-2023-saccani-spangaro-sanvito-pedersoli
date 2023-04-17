@@ -427,10 +427,16 @@ public class GameModel {
         return leaderBoard;
     }
 
-    public void setAsDisconnected(String nick, boolean connected) {
+    public void setAsDisconnected(String nick, boolean connectionStatus) {
         //TODO IMPOSTARE IL PLAYER NELLA LISTA DI PLAYERS COME DISCONNECTED!!!!!!
         listenersHandler.notify_playerDisconnected(nick);
+        //may be solved
+        players.stream().filter(x -> x.getNickname().equals(nick)).toList().get(0).setConnected(connectionStatus);
     }
 
+    public void setAsConnected(boolean connectionStatus, String nick) {
+        listenersHandler.notify_playerReconnected(this);
+        players.stream().filter(x -> x.getNickname().equals(nick)).toList().get(0).setConnected(connectionStatus);
+    }
 
 }

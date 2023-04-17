@@ -182,6 +182,8 @@ public class Player implements Serializable {
         }
     }
 
+    public List<GameListener> getListeners (){return listeners;}
+
     public void removeListener(GameListener lis) {
         listeners.remove(lis);
     }

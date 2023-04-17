@@ -7,7 +7,6 @@ import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
-import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.userView.View;
 
@@ -15,29 +14,29 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class GameController implements GameControllerInterface, Serializable,Runnable {
+public class GameController implements GameControllerInterface, Serializable, Runnable {
     private final GameModel model;
     private final Random random = new Random();
     private View view;
-    private transient Map<GameListener,Heartbeat> heartbeats;
+    private transient Map<GameListener, Heartbeat> heartbeats;
 
     /**
      * Init a Controller for one specific game that controls a GameModel
      */
     public GameController() {
         model = new GameModel();
-        heartbeats=new HashMap<>();
+        heartbeats = new HashMap<>();
         new Thread(this).start();
     }
 
     @Override
     public void run() {
-        while(true) {
+        while (true) {
             //checks all the heartbeat to detect disconnection
             for (Map.Entry<GameListener, Heartbeat> entry : heartbeats.entrySet()) {
                 if (System.currentTimeMillis() - entry.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                     try {
-                        setConnectionStatus(entry.getValue().getNick(),entry.getKey(),false);
+                        setConnectionStatus(entry.getValue().getNick(), entry.getKey(), false);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -56,19 +55,19 @@ public class GameController implements GameControllerInterface, Serializable,Run
     /**
      * Add player @param p to the Game
      *
-     * @exception  PlayerAlreadyInException when in the game there is already another Player with the same nickname
-     * @exception MaxPlayersInException when the game has already reached its full capability (#player=4)
      * @return true if player is added and is now in game, false else
+     * @throws PlayerAlreadyInException when in the game there is already another Player with the same nickname
+     * @throws MaxPlayersInException    when the game has already reached its full capability (#player=4)
      */
-    public void addPlayer(Player p) throws PlayerAlreadyInException,MaxPlayersInException{
+    public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
         model.addPlayer(p);
     }
 
-    public List<Player> getPlayers(){
+    public List<Player> getPlayers() {
         return model.getPlayers();
     }
 
-    public void reconnectPlayer(Player p) throws PlayerAlreadyInException,MaxPlayersInException{
+    public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
         model.reconnectPlayer(p);
     }
 
@@ -118,7 +117,7 @@ public class GameController implements GameControllerInterface, Serializable,Run
      * The Common Cards (Default 2) are extracted pseudo-randomly between all the enum of CardCommonType
      * and associated to the game (no duplicates)
      *
-     * @exception RuntimeException when MaxCommonCardsAddedException is thrown
+     * @throws RuntimeException when MaxCommonCardsAddedException is thrown
      */
     private void extractCommonCards() {
         //Estraggo in modo random 'DefaultValue.NumOfCommonCards' carte comuni
@@ -148,11 +147,11 @@ public class GameController implements GameControllerInterface, Serializable,Run
      * @param card the card which point will be added
      * @return the list of points to add to the @param card
      */
-    private Queue<Point> getListPointForCommonCard(CommonCard card){
+    private Queue<Point> getListPointForCommonCard(CommonCard card) {
         //Creo i punti per la carta
         Queue<Point> ris = new ArrayDeque<Point>();
-        for(int i=0; i<DefaultValue.pointsValue.length;i++)
-            ris.add(new Point(DefaultValue.pointsValue[i],card.getCommonType()));
+        for (int i = 0; i < DefaultValue.pointsValue.length; i++)
+            ris.add(new Point(DefaultValue.pointsValue[i], card.getCommonType()));
 
         return ris;
     }
@@ -230,24 +229,24 @@ public class GameController implements GameControllerInterface, Serializable,Run
         return model.getCurrentPlaying();
     }
 
-    private boolean isPlayerTheCurrentPlaying(Player p){
+    private boolean isPlayerTheCurrentPlaying(Player p) {
         return whoIsPlaying().equals(p);
     }
 
 
     public synchronized void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) {
-        if(isPlayerTheCurrentPlaying(model.getPlayerEntity(p))){
+        if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
             model.grabTileFromPlayground(model.getPlayerEntity(p), x, y, direction, num);
-        }else{
+        } else {
             throw new NotPlayerTurnException();
         }
 
     }
 
     public synchronized void positionTileOnShelf(String p, int column, TileType type) throws GameEndedException {
-        if(isPlayerTheCurrentPlaying(model.getPlayerEntity(p))){
+        if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
             model.positionTileOnShelf(model.getPlayerEntity(p), column, type);
-        }else{
+        } else {
             throw new NotPlayerTurnException();
         }
 
@@ -260,22 +259,32 @@ public class GameController implements GameControllerInterface, Serializable,Run
     }
 
     @Override
-    public void setConnectionStatus(String nick,GameListener lisOfClient, boolean connected) throws RemoteException {
-        if(connected==false){
+    public void setConnectionStatus(String nick, GameListener lisOfClient, boolean connected) throws RemoteException {
+        if (!connected) {
             model.removeListener(lisOfClient);
+            model.setAsDisconnected(nick, connected);
             //TODO TOGLIERE ANCHE IL LISTENER SUL PLAYER CON IL NICKNAME NICK!!!
-            model.setAsDisconnected(nick,connected);
-        }else{
-            //TODO INVOCARE MODEL.SETASCONNECTED E IMPOSTARGLI IL LISTENER E IL BOOLEANO DI CONNESSO A TRUE
+            //removes the last listener of the player "nick"
+            model.removeListener(
+                            getPlayers().stream()
+                                    .filter(x -> x.getNickname().equals(nick))
+                                    .toList().get(0).getListeners().get(
+                                            getPlayers().stream()
+                                                    .filter(x -> x.getNickname().equals(nick))
+                                                    .toList().get(0).getListeners().size()-1
+                                    )
+                    );
+        } else {
+            //TODO INVOCARE MODEL.SETASRECONNECTED E IMPOSTARGLI IL LISTENER E IL BOOLEANO DI CONNESSO A TRUE
+            model.setAsConnected(connected, nick);
+            //need to complete the listener adding method
+            //model.addListener();
         }
-
-
     }
 
     @Override
-    public void heartbeat(String nick,GameListener me) throws RemoteException {
-        heartbeats.put(me,new Heartbeat(System.currentTimeMillis(),nick));
-
+    public void heartbeat(String nick, GameListener me) throws RemoteException {
+        heartbeats.put(me, new Heartbeat(System.currentTimeMillis(), nick));
         //System.out.println("heartbeat rec: "+heartbeats.get(me));
     }
 
@@ -286,7 +295,7 @@ public class GameController implements GameControllerInterface, Serializable,Run
     public synchronized void nextTurn() {
         checkCommonCards(whoIsPlaying());
 
-        if(whoIsPlaying().getShelf().getFreeSpace()==0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)){
+        if (whoIsPlaying().getShelf().getFreeSpace() == 0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
             //Il gioco è finito perche ha completato tutta la sua shelf ed è stato il primo
             model.setStatus(GameStatus.LAST_CIRCLE);
             model.setFinishedPlayer(model.getCurrentPlaying());
@@ -317,7 +326,7 @@ public class GameController implements GameControllerInterface, Serializable,Run
 
                     model.getCommonCard(i).getPoints().remove();//Non ha sollevato eccezione quindi rimuovo il punto
 
-                }catch(IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     //Punto gia' aggiunto non posso riaggiungerlo
                 }
 
@@ -332,7 +341,7 @@ public class GameController implements GameControllerInterface, Serializable,Run
      */
     private void checkGoalCards() {
         //get the index of the player
-        for(int i=0; i<model.getNumOfPlayers(); i++){
+        for (int i = 0; i < model.getNumOfPlayers(); i++) {
             Player p = model.getPlayers().get(i);
             CardGoal g = model.getGoalCard(i);
             Point point = g.verify(p.getShelf());
@@ -344,7 +353,7 @@ public class GameController implements GameControllerInterface, Serializable,Run
 
     }
 
-    public Player getPlayer(String playerNick){
+    public Player getPlayer(String playerNick) {
         return model.getPlayerEntity(playerNick);
     }
 
@@ -352,15 +361,16 @@ public class GameController implements GameControllerInterface, Serializable,Run
         return model.getPlayers().get(model.getCurrentPlaying());
     }
 
-    public GameStatus getStatus(){
+    public GameStatus getStatus() {
         return model.getStatus();
     }
-    public int getId(){
+
+    public int getId() {
         return model.getGameId();
     }
 
 
-    public void addListener(GameListener l, Player p){
+    public void addListener(GameListener l, Player p) {
         model.addListener(l);
         p.addListener(l);
     }
