@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 
 public class SocketClientMessageReconnect extends SocketClientGenericMessage {
 
-    int idGame;
+    private int idGame;
 
     public SocketClientMessageReconnect(String nick, int idGame) {
         this.idGame = idGame;

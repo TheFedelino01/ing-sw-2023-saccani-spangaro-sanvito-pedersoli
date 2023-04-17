@@ -70,7 +70,11 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     @Override
     public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
         GameControllerInterface ris = mainController.reconnect(lis,nick,idGame);
-        UnicastRemoteObject.exportObject(ris,0);
+        try {
+            UnicastRemoteObject.exportObject(ris, 0);
+        }catch(RemoteException e){
+            //Already exported
+        }
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         //System.out.println("[RMI] "+nick+" joined to specific game with id: "+idGame);
         return ris;

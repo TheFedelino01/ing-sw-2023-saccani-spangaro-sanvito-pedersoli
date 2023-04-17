@@ -4,6 +4,7 @@ import org.fusesource.jansi.AnsiConsole;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
+import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
@@ -16,6 +17,7 @@ import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.Events.EventElement;
 import polimi.ingsw.View.userView.Events.EventList;
 import polimi.ingsw.View.userView.Events.EventType;
+import polimi.ingsw.View.userView.FileDisconnection;
 import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
@@ -37,17 +39,19 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private boolean joined = false, toldIAmReady = false;
     EventList events = new EventList();
 
-    private CommonClientActions commonClientActions;
+    private CommonClientActions server;
+    private FileDisconnection fileDisconnection;
 
 
     public TextUI(ConnectionSelection selection) {
         AnsiConsole.systemInstall();
         nickname = "";
         if (selection.equals(ConnectionSelection.SOCKET)) {
-            commonClientActions = new ClientSocket(this);
+            server = new ClientSocket(this);
         } else if (selection.equals(ConnectionSelection.RMI)) {
-            commonClientActions = new RMIClient(this);
+            server = new RMIClient(this);
         }
+        fileDisconnection= new FileDisconnection();
         new Thread(this).start();
     }
 
@@ -115,6 +119,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 }
 
                 break;
+
         }
     }
 
@@ -123,8 +128,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         //If the event is that I joined then I wait until the user inputs 'y'
         switch (event.getType()) {
             case PLAYER_JOINED:
-                if (nickLastPlayer.equals(nickname))
+                if (nickLastPlayer.equals(nickname)) {
+                    saveGameId(event);
                     askReadyToStart(event.getModel());
+                }
                 break;
         }
 
@@ -137,7 +144,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 show_titleMyShelfie();
                 show_allPlayers(event.getModel());
                 System.out.println("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
-                saveGameId(event);
             }
             case COMMON_CARD_EXTRACTED -> {
                 clearCMD();
@@ -288,7 +294,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                         else
                             joinGame(nickname, gameId);
                     }
-                    case "x" -> reconnect(nickname, new Player(nickname).getLastGameId());
+                    case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
                     default -> {
                         System.out.println("> Selection incorrect!");
                         reAsk = true;
@@ -342,14 +348,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     protected void resetGameId(EventElement element) {
         for (Player p : element.getModel().getPlayers()) {
-            p.setLastGameId(-1);
+            fileDisconnection.setLastGameId(p.getNickname(),-1);
         }
     }
 
     @Override
     protected void saveGameId(EventElement element) {
         for (Player p : element.getModel().getPlayers()) {
-            p.setLastGameId(element.getModel().getGameId());
+            fileDisconnection.setLastGameId(p.getNickname(),element.getModel().getGameId());
         }
     }
 
@@ -539,7 +545,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         clearCMD();
         show_titleMyShelfie();
         System.out.println("> Creating a new game...");
-        commonClientActions.createGame(nick);
+        server.createGame(nick);
     }
 
     @Override
@@ -547,7 +553,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         clearCMD();
         show_titleMyShelfie();
         System.out.println("> Connecting to the first available game...");
-        commonClientActions.joinFirstAvailable(nick);
+        server.joinFirstAvailable(nick);
     }
 
     @Override
@@ -555,7 +561,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         clearCMD();
         show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
-        commonClientActions.joinGame(nick, idGame);
+        server.joinGame(nick, idGame);
     }
 
     @Override
@@ -563,12 +569,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         clearCMD();
         show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
-        commonClientActions.reconnect(nickname, new Player(nickname).getLastGameId());
+        server.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
     }
 
     @Override
     public void setAsReady() throws IOException {
-        commonClientActions.setAsReady();
+        server.setAsReady();
     }
 
     @Override
@@ -579,17 +585,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
-        commonClientActions.grabTileFromPlayground(x, y, direction, num);
+        server.grabTileFromPlayground(x, y, direction, num);
     }
 
     @Override
     public void positionTileOnShelf(int column, TileType type) throws IOException {
-        commonClientActions.positionTileOnShelf(column, type);
+        server.positionTileOnShelf(column, type);
     }
 
     @Override
     public void heartbeat() {
-        commonClientActions.heartbeat();
+        server.heartbeat();
     }
 
 
@@ -612,9 +618,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void playerReconnected(GameModelImmutable gamemodel) {
+    public void playerReconnected(GameModelImmutable gameModel) {
         System.out.println("[EVENT]: Player reconnected!");
-        events.add(gamemodel, EventType.PLAYER_RECONNECTED);
+        joined = true;
+        events.add(gameModel, EventType.PLAYER_RECONNECTED);
+        events.add(gameModel, EventType.PLAYER_JOINED);
     }
 
     @Override

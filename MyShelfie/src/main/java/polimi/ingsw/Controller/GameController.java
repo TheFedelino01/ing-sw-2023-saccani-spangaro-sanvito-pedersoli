@@ -36,7 +36,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             for (Map.Entry<GameListener, Heartbeat> entry : heartbeats.entrySet()) {
                 if (System.currentTimeMillis() - entry.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                     try {
-                        setConnectionStatus(entry.getValue().getNick(), entry.getKey(), false);
+                        this.setConnectionStatus(entry.getValue().getNick(), entry.getKey(), false);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -261,24 +261,14 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public void setConnectionStatus(String nick, GameListener lisOfClient, boolean connected) throws RemoteException {
         if (!connected) {
-            model.removeListener(lisOfClient);
-            model.setAsDisconnected(nick, connected);
-            //TODO TOGLIERE ANCHE IL LISTENER SUL PLAYER CON IL NICKNAME NICK!!!
-            //removes the last listener of the player "nick"
-            model.removeListener(
-                            getPlayers().stream()
-                                    .filter(x -> x.getNickname().equals(nick))
-                                    .toList().get(0).getListeners().get(
-                                            getPlayers().stream()
-                                                    .filter(x -> x.getNickname().equals(nick))
-                                                    .toList().get(0).getListeners().size()-1
-                                    )
-                    );
+            //Player has just disconnected so I remove the notifications for him
+            removeListener(lisOfClient,model.getPlayerEntity(nick));
+            model.setAsDisconnected(nick);
+
         } else {
-            //TODO INVOCARE MODEL.SETASRECONNECTED E IMPOSTARGLI IL LISTENER E IL BOOLEANO DI CONNESSO A TRUE
-            model.setAsConnected(connected, nick);
-            //need to complete the listener adding method
-            //model.addListener();
+            //Player rejoined
+            addListener(lisOfClient,model.getPlayerEntity(nick));
+            model.setAsConnected(nick);
         }
     }
 

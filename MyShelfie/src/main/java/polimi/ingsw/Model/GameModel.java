@@ -102,12 +102,14 @@ public class GameModel {
     }
 
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
-        if (players.size() + 1 <= DefaultValue.MaxNumOfPlayer) {
-            players.stream().filter(x -> x.equals(p)).toList().get(0).setConnected(true);
+        Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
+
+        if(pIn.isConnected()==false) {
+            pIn.setConnected(true);
             listenersHandler.notify_playerReconnected(this);
-        } else {
-            listenersHandler.notify_JoinUnableGameFull(p, this);
-            throw new MaxPlayersInException();
+            //listenersHandler.notify_playerJoined(this);
+        }else{
+            System.out.println("ERROR: Trying to reconnect a player not offline!");
         }
     }
 
@@ -427,16 +429,14 @@ public class GameModel {
         return leaderBoard;
     }
 
-    public void setAsDisconnected(String nick, boolean connectionStatus) {
-        //TODO IMPOSTARE IL PLAYER NELLA LISTA DI PLAYERS COME DISCONNECTED!!!!!!
+    public void setAsDisconnected(String nick) {
+        getPlayerEntity(nick).setConnected(false);
         listenersHandler.notify_playerDisconnected(nick);
-        //may be solved
-        players.stream().filter(x -> x.getNickname().equals(nick)).toList().get(0).setConnected(connectionStatus);
     }
 
-    public void setAsConnected(boolean connectionStatus, String nick) {
+    public void setAsConnected(String nick) {
+        getPlayerEntity(nick).setConnected(true);
         listenersHandler.notify_playerReconnected(this);
-        players.stream().filter(x -> x.getNickname().equals(nick)).toList().get(0).setConnected(connectionStatus);
     }
 
 }
