@@ -91,8 +91,12 @@ public class Player implements Serializable {
 
 
         //When testing, comment this line, complete and uncomment the file declaration below
-        File file = new File("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
-
+        File file = new File("./src/main/resources/gamesReconnection/"+ nickname + ".json");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         //File file = new File("<Directories before this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json");
         try (InputStream is = new FileInputStream(file);
@@ -120,7 +124,7 @@ public class Player implements Serializable {
 
 
         //When testing, comment this line, complete and uncomment the file declaration below
-        File file = new File("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
+        File file = new File("./src/main/resources/polimi/ingsw/Json/"+ nickname + ".json");
 
 
         //File file = new File("<Directories before this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json");
@@ -133,7 +137,7 @@ public class Player implements Serializable {
         }
 
         //Same as above
-        try (FileWriter fileWriter = new FileWriter("../src/main/resources/polimi/ingsw/Json/"+ nickname + ".json")){
+        try (FileWriter fileWriter = new FileWriter("./src/main/resources/polimi/ingsw/Json/"+ nickname + ".json")){
         //try (FileWriter fileWriter = new FileWriter("<Directories b4 this>\\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\\MyShelfie\\src\\main\\resources\\polimi\\ingsw\\Json\\"+ nickname + ".json")){
             fileWriter.write(data.toJSONString());
         } catch (IOException e) {
