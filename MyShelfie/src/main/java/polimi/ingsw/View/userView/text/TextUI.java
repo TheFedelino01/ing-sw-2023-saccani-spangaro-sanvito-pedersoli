@@ -518,8 +518,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 """).reset());
     }
 
-    private void clearCMD() throws IOException, InterruptedException {
-        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+    private void clearCMD()  {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        }catch(IOException | InterruptedException e){
+            //su mac lancia eccezione
+        }
     }
 
 
