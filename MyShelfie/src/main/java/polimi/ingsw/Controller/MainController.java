@@ -100,10 +100,13 @@ public class MainController implements MainControllerInterface, Serializable {
 
         if(ris.size()==1){
             try {
-                ris.get(0).reconnectPlayer(ris.get(0).getPlayers()
+                Player player = ris.get(0).getPlayers()
                         .stream()
                         .filter(x -> x.getNickname().equals(nick))
-                        .toList().get(0));
+                        .toList().get(0);
+
+                ris.get(0).addListener(lis,player);
+                ris.get(0).reconnectPlayer(player);
                 return ris.get(0);
             }catch(MaxPlayersInException e){
                 ris.get(0).removeListener(lis,ris.get(0).getPlayers()
