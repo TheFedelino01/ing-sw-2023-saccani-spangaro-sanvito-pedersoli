@@ -114,6 +114,9 @@ public class Player implements Serializable {
     public void setReadyToStart() {
         readyToStart = true;
     }
+    public void setNotReadyToStart() {
+        readyToStart = false;
+    }
 
     public boolean equals(Player p) {
         return this.nickname.equals(p.nickname);

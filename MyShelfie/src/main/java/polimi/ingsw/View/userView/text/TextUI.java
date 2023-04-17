@@ -26,8 +26,9 @@ import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.ansi;
+
 import static org.fusesource.jansi.Ansi.ansi;
 import static polimi.ingsw.View.userView.Events.EventType.GAME_ID_NOT_EXISTS;
 import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
@@ -36,15 +37,15 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private final Scanner scanner = new Scanner(System.in);
     private String nickname;
 
-    private boolean joined = false, toldIAmReady = false;
-    EventList events = new EventList();
+    private EventList events = new EventList();
 
     private CommonClientActions server;
     private FileDisconnection fileDisconnection;
-
+    private Console console;
 
     public TextUI(ConnectionSelection selection) {
-        AnsiConsole.systemInstall();
+        console = new Console();
+        console.init();
         nickname = "";
         if (selection.equals(ConnectionSelection.SOCKET)) {
             server = new ClientSocket(this);
@@ -59,10 +60,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void run() {
         EventElement event;
         try {
-            show_Publisher();
+            console.show_Publisher();
             Thread.sleep(2500);
-            clearCMD();
-            show_titleMyShelfie();
+            console.clearCMD();
+            console.show_titleMyShelfie();
             askSelectGame();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -110,12 +111,18 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case GAME_ID_NOT_EXISTS:
                 System.out.println("It does not exist any game with this GameId");
                 Integer gameId = askGameId();
-                try {
-                    joinGame(nickname, gameId);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                if(gameId!=-1) {
+                    try {
+                        joinGame(nickname, gameId);
+                    } catch (IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }else{
+                    try {
+                        askSelectGame();
+                    } catch (IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
                 break;
@@ -129,8 +136,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         switch (event.getType()) {
             case PLAYER_JOINED:
                 if (nickLastPlayer.equals(nickname)) {
-                    showPlayerJoined(event.getModel());
-                    saveGameId(event);
+                    console.showPlayerJoined(event.getModel());
+                    saveGameId(fileDisconnection,event.getModel());
                     askReadyToStart(event.getModel());
                 }
                 break;
@@ -141,52 +148,52 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private void statusRunning(EventElement event) throws IOException, InterruptedException {
         switch (event.getType()) {
             case GAMESTARTED -> {
-                clearCMD();
-                show_titleMyShelfie();
-                show_allPlayers(event.getModel());
+                console.clearCMD();
+                console.show_titleMyShelfie();
+                console.show_allPlayers(event.getModel());
                 System.out.println("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
             }
             case COMMON_CARD_EXTRACTED -> {
-                clearCMD();
-                show_titleMyShelfie();
-                show_playground(event.getModel());
+                console.clearCMD();
+                console.show_titleMyShelfie();
+                console.show_playground(event.getModel());
                 System.out.println("Common card extracted: " + event.getModel().getLastCommonCard().getCommonType());
             }
             case NEXT_TURN, PLAYER_RECONNECTED -> {
-                clearCMD();
-                show_titleMyShelfie();
+                console.clearCMD();
+                console.show_titleMyShelfie();
                 System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn
-                    show_playground(event.getModel());
-                    showAllShelves(event.getModel());
+                    console.show_playground(event.getModel());
+                    console.showAllShelves(event.getModel());
                     askPickTiles();
                 } else {
                     //It's not my turn then I show the playground and the shelf of the player playing
-                    show_playground(event.getModel());
-                    showAllShelves(event.getModel());
+                    console.show_playground(event.getModel());
+                    console.showAllShelves(event.getModel());
                 }
             }
             case GRABBED_TILE -> {
-                clearCMD();
-                show_titleMyShelfie();
+                console.clearCMD();
+                console.show_titleMyShelfie();
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn, so I'm the current playing
-                    show_playground(event.getModel());
-                    showAllShelves(event.getModel());
+                    console.show_playground(event.getModel());
+                    console.showAllShelves(event.getModel());
                     askPlaceTile(event.getModel());
                 } else {
-                    show_playground(event.getModel());
-                    showAllShelves(event.getModel());
-                    show_grabbedTile(event.getModel());
+                    console.show_playground(event.getModel());
+                    console.showAllShelves(event.getModel());
+                    console.show_grabbedTile(nickname,event.getModel());
                 }
             }
             case POSITIONED_TILE -> {
-                clearCMD();
-                show_titleMyShelfie();
-                show_playground(event.getModel());
+                console.clearCMD();
+                console.show_titleMyShelfie();
+                console.show_playground(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
-                showAllShelves(event.getModel());
+                console.showAllShelves(event.getModel());
                 System.out.println("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
                     events.add(event.getModel(), EventType.GRABBED_TILE);
@@ -197,59 +204,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private void statusEnded(EventElement event) {
-    }
-
-    //-----------------------------------------
-    //METODI SHOW DA CONSOLE
-
-    private void show_allPlayers(GameModelImmutable model) {
-        System.out.println("Current Players: \n" + model.toStringListPlayers());
-    }
-
-    private void show_titleMyShelfie() {
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset()
-        ).println(ansi().fg(YELLOW).a("""
-
-                ███╗░░░███╗██╗░░░██╗        ░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗
-                ████╗░████║╚██╗░██╔╝        ██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝
-                ██╔████╔██║░╚████╔╝░        ╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░
-                ██║╚██╔╝██║░░╚██╔╝░░        ░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░
-                ██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
-                ╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
-                """).reset());
-
-    }
-
-    private void show_grabbedTile(GameModelImmutable model) {
-        StringBuilder ris = new StringBuilder("| ");
-        for (Tile t : model.getHandOfCurrentPlaying()) {
-            switch (t.getType()) {
-                case CAT -> ris.append(ansi().fg(GREEN).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case TROPHY -> ris.append(ansi().fg(CYAN).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case PLANT -> ris.append(ansi().fg(MAGENTA).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case BOOK -> ris.append(ansi().fg(WHITE).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case ACTIVITY -> ris.append(ansi().fg(YELLOW).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case FRAME -> ris.append(ansi().fg(BLUE).a(t.toString()).fg(DEFAULT)).append(" | ");
-            }
+        switch(event.getType()){
+            case GAMEENDED:
+                System.out.println("[EVENT]: " + event.getModel().getGameId() + " ended! \n" +
+                        "The winner is: " + event.getModel().getWinner().getNickname() + "\n" +
+                        "Score board: todo");
+                resetGameId(fileDisconnection,event.getModel());
+                break;
         }
-        System.out.println(nickname + ": Player: " + model.getNicknameCurrentPlaying() + " has grabbed some tiles: " + ris);
-    }
-
-
-    private void show_playground(GameModelImmutable model) {
-        System.out.println("GameID: [" + model.getGameId().toString() + "] \n" + model.getPg().toString());
-    }
-
-    private void showAllShelves(GameModelImmutable model) {
-        int i = DefaultValue.displayShelfStartingCol;
-        for (Player p : model.getPlayers()) {
-            System.out.print(ansi().cursor(DefaultValue.displayShelfRow, i - 3).toString() +
-                    p.getNickname() + ": " + p.getShelf().toString(i));
-            i += DefaultValue.displayShelfNextCol;
-        }
-        System.out.println(" ");
     }
 
 
@@ -257,8 +219,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     //METODI DI RICHIESTA INPUT DA TASTIERA
 
     private void askNickname() throws IOException, InterruptedException {
-        clearCMD();
-        show_titleMyShelfie();
+        console.clearCMD();
+        console.show_titleMyShelfie();
         System.out.println("> Insert your nickname: ");
         nickname = scanner.nextLine();
         System.out.println("> Your nickname is: " + nickname);
@@ -270,8 +232,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         String optionChoose;
         do {
             reAsk = false;
-            clearCMD();
-            show_titleMyShelfie();
+            console.clearCMD();
+            console.show_titleMyShelfie();
             System.out.println(ansi().a("""
                     > Select one option:
                     \t(c) Create a new Game
@@ -346,19 +308,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
-    @Override
-    protected void resetGameId(EventElement element) {
-        for (Player p : element.getModel().getPlayers()) {
-            fileDisconnection.setLastGameId(p.getNickname(),-1);
-        }
-    }
 
-    @Override
-    protected void saveGameId(EventElement element) {
-        for (Player p : element.getModel().getPlayers()) {
-            fileDisconnection.setLastGameId(p.getNickname(),element.getModel().getGameId());
-        }
-    }
 
 
     private Integer askNum(String msg) {
@@ -462,80 +412,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     }
 
-    private void showPlayerJoined(GameModelImmutable gameModel) throws IOException, InterruptedException {
-        clearCMD();
-        show_titleMyShelfie();
-        System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
-        System.out.flush();
-        //StringBuilder players = new StringBuilder();
-        StringBuilder ris = new StringBuilder();
 
-        int i = 0;
-        for (Player p : gameModel.getPlayers()) {
-            if (p.getReadyToStart()) {
-                ris.append(ansi().cursor(12 + +i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" is ready!\n");
-            } else {
-                ris.append(ansi().cursor(12 + +i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" has joined!\n");
-            }
-            i++;
-        }
-        System.out.println(ris);
-        //TODO:
-        // need to check if the player is ready or not, and
-        // in case he's ready not show him this line, now everyone
-        // will see it
-        System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
-        System.out.flush();
-    }
-
-    private void show_Publisher() throws IOException, InterruptedException {
-        clearCMD();
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset()
-        ).println(ansi().cursor(1, 1).fg(YELLOW).a("""
-                                                                                                           \s
-                                                                                                           \s
-                  ,----..                                                                                  \s
-                 /   /   \\                                   ,--,                                          \s
-                |   :     :  __  ,-.                 ,---, ,--.'|    ,---.                                 \s
-                .   |  ;. /,' ,'/ /|             ,-+-. /  ||  |,    '   ,'\\                                \s
-                .   ; /--` '  | |' | ,--.--.    ,--.'|'   |`--'_   /   /   |                               \s
-                ;   | ;    |  |   ,'/       \\  |   |  ,"' |,' ,'| .   ; ,. :                               \s
-                |   : |    '  :  / .--.  .-. | |   | /  | |'  | | '   | |: :                               \s
-                .   | '___ |  | '   \\__\\/: . . |   | |  | ||  | : '   | .; :                               \s
-                '   ; : .'|;  : |   ," .--.; | |   | |  |/ '  : |_|   :    |                               \s
-                '   | '/  :|  , ;  /  /  ,.  | |   | |--'  |  | '.'\\   \\  /                                \s
-                |   :    /  ---'  ;  :   .'   \\|   |/      ;  :    ;`----'                                 \s
-                 \\   \\ .'         |  ,     .-./'---'       |  ,   /                                        \s
-                  `---`            `--`---'                 ---`-'                                         \s
-                  ,----..                                   ___                                            \s
-                 /   /   \\                                ,--.'|_    ,--,                                  \s
-                |   :     :  __  ,-.                      |  | :,' ,--.'|    ,---.        ,---,            \s
-                .   |  ;. /,' ,'/ /|                      :  : ' : |  |,    '   ,'\\   ,-+-. /  | .--.--.   \s
-                .   ; /--` '  | |' | ,---.     ,--.--.  .;__,'  /  `--'_   /   /   | ,--.'|'   |/  /    '  \s
-                ;   | ;    |  |   ,'/     \\   /       \\ |  |   |   ,' ,'| .   ; ,. :|   |  ,"' |  :  /`./  \s
-                |   : |    '  :  / /    /  | .--.  .-. |:__,'| :   '  | | '   | |: :|   | /  | |  :  ;_    \s
-                .   | '___ |  | ' .    ' / |  \\__\\/: . .  '  : |__ |  | : '   | .; :|   | |  | |\\  \\    `. \s
-                '   ; : .'|;  : | '   ;   /|  ," .--.; |  |  | '.'|'  : |_|   :    ||   | |  |/  `----.   \\\s
-                '   | '/  :|  , ; '   |  / | /  /  ,.  |  ;  :    ;|  | '.'\\   \\  / |   | |--'  /  /`--'  /\s
-                |   :    /  ---'  |   :    |;  :   .'   \\ |  ,   / ;  :    ;`----'  |   |/     '--'.     / \s
-                 \\   \\ .'          \\   \\  / |  ,     .-./  ---`-'  |  ,   /         '---'        `--'---'  \s
-                  `---`             `----'   `--`---'               ---`-'                                 \s
-                """).reset());
-    }
-
-    private void clearCMD() throws IOException, InterruptedException {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        }catch(IOException | InterruptedException e){
-            //per mac
-            System.out.print("\033\143");
-
-            //This might work too, but exec is deprecated
-            //Runtime.getRuntime().exec("clear");
-        }
-    }
 
 
     //-----------------------------------------
@@ -543,32 +420,32 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void createGame(String nick) throws IOException, InterruptedException {
-        clearCMD();
-        show_titleMyShelfie();
+        console.clearCMD();
+        console.show_titleMyShelfie();
         System.out.println("> Creating a new game...");
         server.createGame(nick);
     }
 
     @Override
     public void joinFirstAvailable(String nick) throws IOException, InterruptedException {
-        clearCMD();
-        show_titleMyShelfie();
+        console.clearCMD();
+        console.show_titleMyShelfie();
         System.out.println("> Connecting to the first available game...");
         server.joinFirstAvailable(nick);
     }
 
     @Override
     public void joinGame(String nick, int idGame) throws IOException, InterruptedException {
-        clearCMD();
-        show_titleMyShelfie();
+        console.clearCMD();
+        console.show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
         server.joinGame(nick, idGame);
     }
 
     @Override
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException {
-        clearCMD();
-        show_titleMyShelfie();
+        console.clearCMD();
+        console.show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
         server.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
     }
@@ -608,11 +485,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         //shared.setLastModelReceived(gameModel);
         //show_allPlayers();
         events.add(gameModel, EventType.PLAYER_JOINED);
-        if (gameModel.getPlayers().get(gameModel.getPlayers().size() - 1).getNickname().equals(nickname))
-            joined = true;
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
-        showPlayerJoined(gameModel);
+        console.showPlayerJoined(gameModel);
     }
 
     @Override
@@ -623,7 +498,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void playerReconnected(GameModelImmutable gameModel) {
         System.out.println("[EVENT]: Player reconnected!");
-        joined = true;
         events.add(gameModel, EventType.PLAYER_RECONNECTED);
         events.add(gameModel, EventType.PLAYER_JOINED);
     }
@@ -640,7 +514,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException, InterruptedException {
-        showPlayerJoined(gameModel);
+        console.showPlayerJoined(gameModel);
         // if(nick.equals(nickname))
         //    toldIAmReady=true;
         events.add(gameModel, PLAYER_IS_READY_TO_START);
@@ -663,9 +537,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void gameEnded(GameModelImmutable gameModel) {
-        System.out.println("[EVENT]: " + gameModel.getGameId() + " ended! \n" +
-                "The winner is: " + gameModel.getWinner().getNickname() + "\n" +
-                "Score board: todo");
         //shared.setLastModelReceived(gameModel);
         events.add(gameModel, EventType.GAMEENDED);
     }
@@ -718,6 +589,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void playerDisconnected(String nick) throws RemoteException {
         System.out.println("[EVENT]:  Player " + nick + " has just disconnected");
+
     }
 
 
