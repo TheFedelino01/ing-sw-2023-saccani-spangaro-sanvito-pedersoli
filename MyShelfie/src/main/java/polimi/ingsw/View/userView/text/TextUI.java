@@ -523,7 +523,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }catch(IOException | InterruptedException e){
             //per mac
-            new ProcessBuilder("cmd", "/c", "clear").inheritIO().start().waitFor();
+            System.out.print("\033\143");
+
+            //This might work too, but exec is deprecated
+            //Runtime.getRuntime().exec("clear");
         }
     }
 
