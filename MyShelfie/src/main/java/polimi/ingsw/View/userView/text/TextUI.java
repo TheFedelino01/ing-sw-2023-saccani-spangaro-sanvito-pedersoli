@@ -30,8 +30,7 @@ import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
 import static org.fusesource.jansi.Ansi.ansi;
-import static polimi.ingsw.View.userView.Events.EventType.GAME_ID_NOT_EXISTS;
-import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
+import static polimi.ingsw.View.userView.Events.EventType.*;
 
 public class TextUI extends View implements Runnable, CommonClientActions {
     private final Scanner scanner = new Scanner(System.in);
@@ -159,7 +158,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.show_playground(event.getModel());
                 System.out.println("Common card extracted: " + event.getModel().getLastCommonCard().getCommonType());
             }
-            case NEXT_TURN, PLAYER_RECONNECTED -> {
+            case NEXT_TURN -> {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
@@ -197,6 +196,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 System.out.println("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
                     events.add(event.getModel(), EventType.GRABBED_TILE);
+                }
+            }
+            case PLAYER_RECONNECTED->{
+                console.clearCMD();
+                console.show_titleMyShelfie();
+                console.show_playground(event.getModel());
+                //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
+                console.showAllShelves(event.getModel());
+                System.out.println("[EVENT]: Player reconnected!");
+                if(event.getModel().isMyTurn(nickname)){
+                    events.add(event.getModel(),NEXT_TURN);
                 }
             }
         }
@@ -497,7 +507,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void playerReconnected(GameModelImmutable gameModel) {
-        System.out.println("[EVENT]: Player reconnected!");
         events.add(gameModel, EventType.PLAYER_RECONNECTED);
         events.add(gameModel, EventType.PLAYER_JOINED);
     }
