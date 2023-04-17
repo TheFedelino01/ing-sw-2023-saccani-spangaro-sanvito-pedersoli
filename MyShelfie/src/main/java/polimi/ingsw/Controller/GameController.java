@@ -261,8 +261,15 @@ public class GameController implements GameControllerInterface, Serializable,Run
 
     @Override
     public void setConnectionStatus(String nick,GameListener lisOfClient, boolean connected) throws RemoteException {
-        model.removeListener(lisOfClient);
-        model.setAsDisconnected(nick,connected);
+        if(connected==false){
+            model.removeListener(lisOfClient);
+            //TODO TOGLIERE ANCHE IL LISTENER SUL PLAYER CON IL NICKNAME NICK!!!
+            model.setAsDisconnected(nick,connected);
+        }else{
+            //TODO INVOCARE MODEL.SETASCONNECTED E IMPOSTARGLI IL LISTENER E IL BOOLEANO DI CONNESSO A TRUE
+        }
+
+
     }
 
     @Override

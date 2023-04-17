@@ -428,6 +428,7 @@ public class GameModel {
     }
 
     public void setAsDisconnected(String nick, boolean connected) {
+        //TODO IMPOSTARE IL PLAYER NELLA LISTA DI PLAYERS COME DISCONNECTED!!!!!!
         listenersHandler.notify_playerDisconnected(nick);
     }
 
