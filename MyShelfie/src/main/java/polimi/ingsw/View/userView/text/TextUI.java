@@ -47,8 +47,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private final Console console;
 
 
-
-
     public TextUI(ConnectionSelection selection) {
         console = new Console();
         nickname = "";
@@ -158,18 +156,21 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.show_titleMyShelfie();
                 console.show_allPlayers(event.getModel());
                 System.out.println("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
             case COMMON_CARD_EXTRACTED -> {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_playground(event.getModel());
                 console.showCommonCards(event.getModel());
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
+
             }
             case NEXT_TURN -> {
                 console.clearCMD();
                 console.show_titleMyShelfie();
-                for(Player p : event.getModel().getPlayers())
-                    if(p.getNickname().equals(nickname))
+                for (Player p : event.getModel().getPlayers())
+                    if (p.getNickname().equals(nickname))
                         console.showGoalCards(p);
                 System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
@@ -195,6 +196,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     console.showCommonCards(event.getModel());
                     console.showAllShelves(event.getModel());
                 }
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
 
             case GRABBED_TILE -> {
@@ -212,6 +214,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     console.showAllShelves(event.getModel());
                     console.show_grabbedTile(nickname, event.getModel());
                 }
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
+
             }
             case POSITIONED_TILE -> {
                 console.clearCMD();
@@ -224,6 +228,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
                     events.add(event.getModel(), EventType.GRABBED_TILE);
                 }
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
+
             }
             case PLAYER_RECONNECTED -> {
                 console.clearCMD();
@@ -236,6 +242,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (event.getModel().isMyTurn(nickname)) {
                     events.add(event.getModel(), NEXT_TURN);
                 }
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
+
             }
         }
 
@@ -272,7 +280,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             reAsk = false;
             console.clearCMD();
             console.show_titleMyShelfie();
-            System.out.println(ansi().cursor(9,0).a("""
+            System.out.println(ansi().cursor(9, 0).a("""
                     > Select one option:
                     \t(c) Create a new Game
                     \t(j) Join to a random Game
@@ -416,14 +424,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     case FRAME ->
                             ris += "[" + i + "]: " + ansi().fg(BLUE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
                 }
-            }
-            else
+            } else
                 ris += "[" + i + "]: " + "NONE" + " | ";
         }
 
         System.out.println(ris);
 
     }
+
     public void askPlaceTileAgain(GameModelImmutable model, int col) {
         displayHand(model);
         System.out.println("> Which tile do you want to place?");
@@ -443,13 +451,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
 
     }
+
     public void askPlaceTile(GameModelImmutable model) {
         displayHand(model);
         Integer column;
         do {
             column = askNum("> Choose column to place the tile:");
         } while (column == null);
-        for (int i=model.getPlayerEntity(nickname).getInHandTile().size(); i>0; i--){
+        for (int i = model.getPlayerEntity(nickname).getInHandTile().size(); i > 0; i--) {
             askPlaceTileAgain(model, column);
         }
     }
@@ -519,7 +528,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException  {
+    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
         server.grabTileFromPlayground(x, y, direction, num);
     }
 
