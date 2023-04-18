@@ -67,12 +67,12 @@ public class Console {
         StringBuilder ris = new StringBuilder("| ");
         for (Tile t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
-                case CAT -> ris.append(ansi().fg(GREEN).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case TROPHY -> ris.append(ansi().fg(CYAN).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case PLANT -> ris.append(ansi().fg(MAGENTA).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case BOOK -> ris.append(ansi().fg(WHITE).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case ACTIVITY -> ris.append(ansi().fg(YELLOW).a(t.toString()).fg(DEFAULT)).append(" | ");
-                case FRAME -> ris.append(ansi().fg(BLUE).a(t.toString()).fg(DEFAULT)).append(" | ");
+                case CAT -> ris.append(ansi().bg(GREEN).a(t.toString()).bg(DEFAULT)).append(" | ");
+                case TROPHY -> ris.append(ansi().bg(CYAN).a(t.toString()).bg(DEFAULT)).append(" | ");
+                case PLANT -> ris.append(ansi().bg(MAGENTA).a(t.toString()).bg(DEFAULT)).append(" | ");
+                case BOOK -> ris.append(ansi().bg(WHITE).a(t.toString()).bg(DEFAULT)).append(" | ");
+                case ACTIVITY -> ris.append(ansi().bg(YELLOW).a(t.toString()).bg(DEFAULT)).append(" | ");
+                case FRAME -> ris.append(ansi().bg(BLUE).a(t.toString()).bg(DEFAULT)).append(" | ");
             }
         }
         System.out.println(nickname + ": Player: " + model.getNicknameCurrentPlaying() + " has grabbed some tiles: " + ris);
