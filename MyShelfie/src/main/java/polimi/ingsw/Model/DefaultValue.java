@@ -49,5 +49,7 @@ public class DefaultValue implements Serializable {
     public final static int row_important_events=2;
     public final static int row_playground=4;
     public final static int row_shelves=4;
+    public final static int rowCommonCards = 9;
+    public final static int colCommonCards = 40;
 
 }
