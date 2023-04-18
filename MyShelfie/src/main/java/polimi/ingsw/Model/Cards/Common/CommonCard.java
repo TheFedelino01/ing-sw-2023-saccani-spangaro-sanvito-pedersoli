@@ -33,7 +33,7 @@ public abstract class CommonCard extends Card {
         switch (type){
             case CommonHorizontal0 -> {
                 ris.append("First horizontal card!\n");
-                ris.append("\n");
+                ris.append("Four rows made by at most three different tile types (per row)\n");
                 return ris.toString();
             }
             case CommonHorizontal1 -> {
@@ -43,7 +43,7 @@ public abstract class CommonCard extends Card {
             }
             case CommonVertical0 -> {
                 ris.append("First vertical card!\n");
-                ris.append("\n");
+                ris.append("Three cols made by at most three different tile types (per col)\n");
                 return ris.toString();
             }
             case CommonVertical1 -> {
@@ -73,17 +73,17 @@ public abstract class CommonCard extends Card {
             }
             case CommonGroup0 -> {
                 ris.append("First group card!\n");
-                ris.append("\n");
+                ris.append("Six separated groups of two made by all of the same types (per single group)\n");
                 return ris.toString();
             }
             case CommonGroup1 -> {
                 ris.append("Second group card!\n");
-                ris.append("\n");
+                ris.append("Four separated groups of two made by all of the same types (per single group)\n");
                 return ris.toString();
             }
             case CommonGroup2 -> {
                 ris.append("Third group card!\n");
-                ris.append("\n");
+                ris.append("Two separated 2x2 groups made all by the same type\n");
                 return ris.toString();
             }
             case CommonGroup3 -> {
