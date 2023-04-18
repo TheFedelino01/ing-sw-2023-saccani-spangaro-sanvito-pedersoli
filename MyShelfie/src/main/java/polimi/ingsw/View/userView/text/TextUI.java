@@ -269,7 +269,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             reAsk = false;
             console.clearCMD();
             console.show_titleMyShelfie();
-            System.out.println(ansi().a("""
+            System.out.println(ansi().cursor(9,0).a("""
                     > Select one option:
                     \t(c) Create a new Game
                     \t(j) Join to a random Game

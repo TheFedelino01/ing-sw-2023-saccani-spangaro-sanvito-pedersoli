@@ -34,8 +34,9 @@ public class Console {
         //Want to show only the first maxnum_of_last_event_tobe_showed important event happened
         if(importantEvents.size()+1>=DefaultValue.maxnum_of_last_event_tobe_showed){
             importantEvents.remove(0);
-            importantEvents.add(imp);
         }
+        importantEvents.add(imp);
+        show_important_events();
     }
 
     public List<String> getImportantEvents(){
@@ -59,7 +60,7 @@ public class Console {
                 ██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
                 ╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
                 """).reset());
-
+        //show_alwaysOn_elements();
     }
 
     public void show_grabbedTile(String nickname, GameModelImmutable model) {
@@ -123,6 +124,7 @@ public class Console {
         // will see it
         System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
         System.out.flush();
+
     }
 
     public void show_Publisher() throws IOException, InterruptedException {
@@ -160,6 +162,22 @@ public class Console {
                  \\   \\ .'          \\   \\  / |  ,     .-./  ---`-'  |  ,   /         '---'        `--'---'  \s
                   `---`             `----'   `--`---'               ---`-'                                 \s
                 """).reset());
+    }
+
+    private void show_important_events(){
+        StringBuilder ris = new StringBuilder();
+        int i=0;
+        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events+i, 85).bold().a("Latest Events:").fg(DEFAULT).boldOff());
+        for(String s : importantEvents){
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events+1+i, 86).a(s).fg(DEFAULT));
+            i++;
+        }
+
+        System.out.println(ris);
+    }
+
+    private void show_alwaysOn_elements(){
+        show_important_events();
     }
 
     public void clearCMD() {
