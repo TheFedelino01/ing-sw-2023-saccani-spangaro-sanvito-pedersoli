@@ -29,9 +29,72 @@ public abstract class CommonCard extends Card {
     public abstract boolean verify(Shelf toCheck);
 
     public String toString(CardCommonType type) {
-        return this.getExampleShelf(type).toStringCommonCard();
+        StringBuilder ris = new StringBuilder();
+        switch (type){
+            case CommonHorizontal0 -> {
+                ris.append("First horizontal card!\n");
+                ris.append("\n");
+                return ris.toString();
+            }
+            case CommonHorizontal1 -> {
+                ris.append("Second horizontal card!\n");
+                ris.append("Two rows made all by different tile types\n");
+                return ris.toString();
+            }
+            case CommonVertical0 -> {
+                ris.append("First vertical card!\n");
+                ris.append("\n");
+                return ris.toString();
+            }
+            case CommonVertical1 -> {
+                ris.append("Second vertical card!\n");
+                ris.append("Two columns made all by different tile types\n");
+                return ris.toString();
+            }
+            case CommonDiagonal0 -> {
+                ris.append("First diagonal card!\n");
+                ris.append("5 tiles of the same type in a diagonal pattern\n");
+                return ris.toString();
+            }
+            case CommonDiagonal1 -> {
+                ris.append("Second diagonal card!\n");
+                ris.append("Tiles on the shelf must form a ladder\n");
+                return ris.toString();
+            }
+            case CommonVertix -> {
+                ris.append("Vertexes card!\n");
+                ris.append("All vertexes must be of the same type\n");
+                return ris.toString();
+            }
+            case CommonX -> {
+                ris.append("X pattern card!\n");
+                ris.append("5 tiles of the same type, in an X pattern\n");
+                return ris.toString();
+            }
+            case CommonGroup0 -> {
+                ris.append("First group card!\n");
+                ris.append("\n");
+                return ris.toString();
+            }
+            case CommonGroup1 -> {
+                ris.append("Second group card!\n");
+                ris.append("\n");
+                return ris.toString();
+            }
+            case CommonGroup2 -> {
+                ris.append("Third group card!\n");
+                ris.append("\n");
+                return ris.toString();
+            }
+            case CommonGroup3 -> {
+                ris.append("Fourth group card!\n");
+                ris.append("8 of the same type tiles, any pattern\n");
+                return ris.toString();
+            }
+            default -> {return "Nan";}
+        }
     }
-
+   /*
     public Shelf getExampleShelf(CardCommonType type) {
         switch (type) {
             case CommonX -> {
@@ -195,6 +258,9 @@ public abstract class CommonCard extends Card {
             }
         }
     }
+
+     */
+
 
     public Queue<Point> getPoints() {
         return points;
