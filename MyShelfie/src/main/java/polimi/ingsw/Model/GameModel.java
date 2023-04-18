@@ -431,6 +431,7 @@ public class GameModel {
 
     public void setAsDisconnected(String nick) {
         getPlayerEntity(nick).setConnected(false);
+        getPlayerEntity(nick).setNotReadyToStart();
         listenersHandler.notify_playerDisconnected(nick);
     }
 
