@@ -16,7 +16,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class Console {
 
     public Console(){
-
+        init();
     }
 
     public void init() {
@@ -137,7 +137,7 @@ public class Console {
                 """).reset());
     }
 
-    public void clearCMD() throws IOException, InterruptedException {
+    public void clearCMD() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }catch(IOException | InterruptedException e){
