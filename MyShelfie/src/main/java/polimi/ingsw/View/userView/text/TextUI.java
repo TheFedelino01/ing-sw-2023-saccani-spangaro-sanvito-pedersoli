@@ -509,7 +509,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
+    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException  {
         server.grabTileFromPlayground(x, y, direction, num);
     }
 
