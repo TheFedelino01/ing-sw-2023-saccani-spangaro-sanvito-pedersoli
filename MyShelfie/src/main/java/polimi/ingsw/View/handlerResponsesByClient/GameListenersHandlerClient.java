@@ -34,8 +34,8 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void playerReconnected(GameModelImmutable gamemodel) throws IOException, InterruptedException {
-        gui.playerReconnected(gamemodel);
+    public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws IOException, InterruptedException {
+        gui.playerReconnected(gamemodel,nickPlayerReconnected);
     }
 
     @Override

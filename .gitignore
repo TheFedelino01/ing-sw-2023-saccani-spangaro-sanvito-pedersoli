@@ -110,3 +110,5 @@ EXTRA
 hs_err_pid*
 SkeletonModelServer/src/.idea/workspace.xml
 MyShelfie/.idea/misc.xml
+MyShelfie/a.json
+MyShelfie/b.json

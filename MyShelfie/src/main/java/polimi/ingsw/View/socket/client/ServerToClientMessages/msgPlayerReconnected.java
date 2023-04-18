@@ -7,12 +7,13 @@ import java.io.IOException;
 
 public class msgPlayerReconnected extends SocketServerGenericMessage{
     private GameModelImmutable gamemodel;
-
-    public msgPlayerReconnected(GameModelImmutable gamemodel) {
+    private String nickPlayerReconnected;
+    public msgPlayerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) {
         this.gamemodel = gamemodel;
+        this.nickPlayerReconnected=nickPlayerReconnected;
     }
     @Override
     public void execute(GameListener lis) throws IOException, InterruptedException {
-        lis.playerReconnected(gamemodel);
+        lis.playerReconnected(gamemodel,nickPlayerReconnected);
     }
 }

@@ -29,8 +29,7 @@ import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
-import static polimi.ingsw.View.userView.Events.EventType.GAME_ID_NOT_EXISTS;
-import static polimi.ingsw.View.userView.Events.EventType.PLAYER_IS_READY_TO_START;
+import static polimi.ingsw.View.userView.Events.EventType.*;
 
 public class TextUI extends View implements Runnable, CommonClientActions {
     private final Scanner scanner = new Scanner(System.in);
@@ -41,7 +40,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     private CommonClientActions server;
     private FileDisconnection fileDisconnection;
-
+    private String lastPlayerReconnected;
 
     public TextUI(ConnectionSelection selection) {
         AnsiConsole.systemInstall();
@@ -159,13 +158,25 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     //It's my turn
                     show_playground(event.getModel());
                     showAllShelves(event.getModel());
-                    askPickTiles();
+
+                    if(event.getType().equals(PLAYER_RECONNECTED)){
+                        System.out.println("[EVENT]: Player reconnected!");
+                        if(nickname.equals(lastPlayerReconnected)){
+                            askPickTiles();
+                        }
+                        //else the player who has just reconnected is not me
+                    }else{
+                        askPickTiles();
+                    }
+
+
                 } else {
                     //It's not my turn then I show the playground and the shelf of the player playing
                     show_playground(event.getModel());
                     showAllShelves(event.getModel());
                 }
             }
+
             case GRABBED_TILE -> {
                 clearCMD();
                 show_titleMyShelfie();
@@ -618,11 +629,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void playerReconnected(GameModelImmutable gameModel) {
-        System.out.println("[EVENT]: Player reconnected!");
-        joined = true;
+    public void playerReconnected(GameModelImmutable gameModel, String nickPlayerReconnected) {
+        lastPlayerReconnected=nickPlayerReconnected;
         events.add(gameModel, EventType.PLAYER_RECONNECTED);
-        events.add(gameModel, EventType.PLAYER_JOINED);
+        //events.add(gameModel, EventType.PLAYER_JOINED);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package polimi.ingsw.View.userView.Events;
 
+import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.util.ArrayDeque;
@@ -17,7 +18,7 @@ public class EventList {
     public synchronized void add(GameModelImmutable model, EventType type){
         lists.add(new EventElement(model,type));
 
-        if(type.equals(EventType.PLAYER_JOINED))
+        if(type.equals(EventType.PLAYER_JOINED) || model.getStatus().equals(GameStatus.RUNNING))
             joined=true;
 
     }

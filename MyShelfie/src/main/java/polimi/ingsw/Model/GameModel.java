@@ -106,7 +106,7 @@ public class GameModel {
 
         if(pIn.isConnected()==false) {
             pIn.setConnected(true);
-            listenersHandler.notify_playerReconnected(this);
+            listenersHandler.notify_playerReconnected(this,p.getNickname());
             //listenersHandler.notify_playerJoined(this);
         }else{
             System.out.println("ERROR: Trying to reconnect a player not offline!");
@@ -436,7 +436,7 @@ public class GameModel {
 
     public void setAsConnected(String nick) {
         getPlayerEntity(nick).setConnected(true);
-        listenersHandler.notify_playerReconnected(this);
+        listenersHandler.notify_playerReconnected(this,nick);
     }
 
 }

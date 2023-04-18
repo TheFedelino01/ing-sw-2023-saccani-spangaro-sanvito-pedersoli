@@ -33,10 +33,10 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_playerReconnected(GameModel model) {
+    public synchronized void notify_playerReconnected(GameModel model, String nickPlayerReconnected) {
         for (GameListener l : listeners) {
             try {
-                l.playerReconnected(new GameModelImmutable(model));
+                l.playerReconnected(new GameModelImmutable(model),nickPlayerReconnected);
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }

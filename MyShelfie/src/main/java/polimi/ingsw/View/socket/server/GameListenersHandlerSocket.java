@@ -31,11 +31,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
-    public void playerReconnected(GameModelImmutable gamemodel) throws RemoteException {
+    public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
         //System.out.println(nickNewPlayer +" by socket");
         try {
             out.reset();
-            out.writeObject(new msgPlayerReconnected(gamemodel));
+            out.writeObject(new msgPlayerReconnected(gamemodel,nickPlayerReconnected));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
