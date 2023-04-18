@@ -388,31 +388,35 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
-    public void askPlaceTile(GameModelImmutable model) {
+    public void displayHand(GameModelImmutable model) {
         System.out.println(">This is your hand:");
-        StringBuilder ris = new StringBuilder();
+        String ris = "";
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
             if (i < model.getPlayerEntity(nickname).getInHandTile().size()) {
                 switch (model.getPlayerEntity(nickname).getInHandTile().get(i).getType()) {
                     case CAT ->
-                            ris.append("[").append(i).append("]: ").append(ansi().fg(GREEN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
+                            ris += "[" + i + "]: " + ansi().fg(GREEN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
                     case TROPHY ->
-                            ris.append("[").append(i).append("]: ").append(ansi().fg(CYAN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
+                            ris += "[" + i + "]: " + ansi().fg(CYAN).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
                     case PLANT ->
-                            ris.append("[").append(i).append("]: ").append(ansi().fg(MAGENTA).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
+                            ris += "[" + i + "]: " + ansi().fg(MAGENTA).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
                     case BOOK ->
-                            ris.append("[").append(i).append("]: ").append(ansi().fg(WHITE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
+                            ris += "[" + i + "]: " + ansi().fg(WHITE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
                     case ACTIVITY ->
-                            ris.append("[").append(i).append("]: ").append(ansi().fg(YELLOW).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
+                            ris += "[" + i + "]: " + ansi().fg(YELLOW).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
                     case FRAME ->
-                            ris.append("[").append(i).append("]: ").append(ansi().fg(BLUE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT)).append(" | ");
+                            ris += "[" + i + "]: " + ansi().fg(BLUE).a(model.getPlayerEntity(nickname).getInHandTile().get(i).getType().toString()).fg(DEFAULT) + " | ";
                 }
-            } else
-                ris.append("[").append(i).append("]: ").append("NONE").append(" | ");
+            }
+            else
+                ris += "[" + i + "]: " + "NONE" + " | ";
         }
 
         System.out.println(ris);
 
+    }
+    public void askPlaceTileAgain(GameModelImmutable model, int col) {
+        displayHand(model);
         System.out.println("> Which tile do you want to place?");
         Integer indexHand;
         do {
@@ -423,19 +427,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             }
         } while (indexHand == null);
 
-
-        Integer column;
-        do {
-            column = askNum("> Choose column to place the tile:");
-        } while (column > DefaultValue.NumOfColumnsShelf);
-
-
         try {
-            positionTileOnShelf(column, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
+            positionTileOnShelf(col, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+    public void askPlaceTile(GameModelImmutable model) {
+        displayHand(model);
+        Integer column;
+        do {
+            column = askNum("> Choose column to place the tile:");
+        } while (column == null);
+        for (int i=model.getPlayerEntity(nickname).getInHandTile().size(); i>0; i--){
+            askPlaceTileAgain(model, column);
+        }
     }
 
 
