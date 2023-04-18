@@ -261,7 +261,7 @@ public class GameModel {
             p.setInHandTile(ris);
             listenersHandler.notify_grabbedTile(this);
 
-        } catch (TileGrabbedNotCorrectException | TyleNotUsedException e) {
+        } catch (TileGrabbedNotCorrectException | TileNotUsedException e) {
             //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
             listenersHandler.notify_grabbedTileNotCorrect(this);
         }

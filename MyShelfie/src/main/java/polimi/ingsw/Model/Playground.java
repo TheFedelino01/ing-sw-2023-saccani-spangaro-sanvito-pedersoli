@@ -7,7 +7,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import polimi.ingsw.Model.Exceptions.TileGrabbedNotCorrectException;
-import polimi.ingsw.Model.Exceptions.TyleNotUsedException;
+import polimi.ingsw.Model.Exceptions.TileNotUsedException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -178,12 +178,12 @@ public class Playground implements Serializable {
     }
 
 
-    public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException, TyleNotUsedException {
+    public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException, TileNotUsedException {
         List<Tile> ris = new ArrayList<>();
         int i = 0;
         while (i < num) {
             if(playground[x][y].isSameType(TileType.NOT_USED)) {
-                throw new TyleNotUsedException();
+                throw new TileNotUsedException();
 
             }
             if (((y == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.DOWN))) ||
