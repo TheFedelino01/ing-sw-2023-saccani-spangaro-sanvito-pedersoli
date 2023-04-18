@@ -98,16 +98,16 @@ public class Console {
         int i = 0;
         for(CommonCard c : gameModel.getCommonCards()) {
             ris.append(c.toString(c.getCommonType(), i));
-            i+=2;
+            i+=3;
         }
         System.out.println(ris);
     }
 
     public void showGoalCards(Player toShow){
-        System.out.println(toShow.getSecretGoal().toString(DefaultValue.col_goalCards));
+        System.out.println(toShow.getSecretGoal().getLayoutToMatch().toStringGoalCard());
     }
 
-    public void showPlayerJoined(GameModelImmutable gameModel) throws IOException, InterruptedException {
+    public void showPlayerJoined(GameModelImmutable gameModel, String nick) throws IOException, InterruptedException {
         clearCMD();
         show_titleMyShelfie();
         System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
@@ -129,7 +129,9 @@ public class Console {
         // need to check if the player is ready or not, and
         // in case he's ready not show him this line, now everyone
         // will see it
-        System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
+        for(Player p : gameModel.getPlayers())
+            if(!p.getReadyToStart()&&p.getNickname().equals(nick))
+                System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
         System.out.flush();
 
     }

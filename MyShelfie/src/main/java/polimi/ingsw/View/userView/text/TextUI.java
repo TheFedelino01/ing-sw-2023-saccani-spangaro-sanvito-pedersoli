@@ -140,7 +140,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         switch (event.getType()) {
             case PLAYER_JOINED:
                 if (nickLastPlayer.equals(nickname)) {
-                    console.showPlayerJoined(event.getModel());
+                    console.showPlayerJoined(event.getModel(), nickname);
                     saveGameId(fileDisconnection, event.getModel());
                     askReadyToStart(event.getModel());
                 }
@@ -570,7 +570,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         events.add(gameModel, EventType.PLAYER_JOINED);
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
-        console.showPlayerJoined(gameModel);
+        console.showPlayerJoined(gameModel, nickname);
     }
 
     @Override
@@ -599,7 +599,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException, InterruptedException {
-        console.showPlayerJoined(gameModel);
+        console.showPlayerJoined(gameModel, nickname);
         // if(nick.equals(nickname))
         //    toldIAmReady=true;
         events.add(gameModel, PLAYER_IS_READY_TO_START);

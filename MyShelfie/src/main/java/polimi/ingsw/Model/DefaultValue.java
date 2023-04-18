@@ -39,15 +39,16 @@ public class DefaultValue implements Serializable {
 
     public final static int maxnum_of_last_event_tobe_showed=4;
 
-    public final static int row_input = 32;
+    public final static int row_input = 34;
     public final static int row_important_events=2;
     public final static int row_playground=11;
     public final static int col_playground=0;
-    public final static int row_shelves=23;
+    public final static int row_shelves=25;
     public final static int col_shelves=3;
     public final static int row_commonCards=11;
     public final static int col_commonCards=50;
-    public final static int col_goalCards=80;
+    public final static int row_goalCards=17;
+    public final static int col_goalCards=50;
     public final static int row_gameID=9;
     public final static int row_nextTurn=10;
 
