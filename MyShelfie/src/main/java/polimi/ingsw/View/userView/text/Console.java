@@ -1,11 +1,13 @@
 package polimi.ingsw.View.userView.text;
 
 import org.fusesource.jansi.AnsiConsole;
+import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Tile;
 
+import javax.print.DocFlavor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
@@ -72,6 +74,13 @@ public class Console {
             i += DefaultValue.displayShelfNextCol;
         }
         System.out.println(" ");
+    }
+
+    public void showCommonCards(GameModelImmutable gameModel){
+        StringBuilder ris = new StringBuilder();
+        for(CommonCard c : gameModel.getCommonCards())
+            ris.append(c.toString(c.getCommonType()));
+        System.out.println(ris);
     }
 
     public void showPlayerJoined(GameModelImmutable gameModel) throws IOException, InterruptedException {

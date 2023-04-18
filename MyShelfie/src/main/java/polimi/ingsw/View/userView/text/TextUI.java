@@ -160,7 +160,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_playground(event.getModel());
-                System.out.println("Common card extracted: " + event.getModel().getLastCommonCard().getCommonType());
+                console.showCommonCards(event.getModel());
             }
             case NEXT_TURN -> {
                 console.clearCMD();
@@ -169,6 +169,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn
                     console.show_playground(event.getModel());
+                    console.showCommonCards(event.getModel());
                     console.showAllShelves(event.getModel());
 
                     if(event.getType().equals(PLAYER_RECONNECTED)){
@@ -185,6 +186,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 } else {
                     //It's not my turn then I show the playground and the shelf of the player playing
                     console.show_playground(event.getModel());
+                    console.showCommonCards(event.getModel());
                     console.showAllShelves(event.getModel());
                 }
             }
@@ -195,10 +197,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn, so I'm the current playing
                     console.show_playground(event.getModel());
+                    console.showCommonCards(event.getModel());
                     console.showAllShelves(event.getModel());
                     askPlaceTile(event.getModel());
                 } else {
                     console.show_playground(event.getModel());
+                    console.showCommonCards(event.getModel());
                     console.showAllShelves(event.getModel());
                     console.show_grabbedTile(nickname,event.getModel());
                 }
@@ -207,6 +211,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_playground(event.getModel());
+                console.showCommonCards(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
                 console.showAllShelves(event.getModel());
                 System.out.println("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
@@ -218,6 +223,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_playground(event.getModel());
+                console.showCommonCards(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
                 console.showAllShelves(event.getModel());
                 System.out.println("[EVENT]: Player reconnected!");
