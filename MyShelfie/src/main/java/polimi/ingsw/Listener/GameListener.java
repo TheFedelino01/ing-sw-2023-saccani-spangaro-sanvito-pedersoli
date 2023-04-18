@@ -9,17 +9,15 @@ import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 import polimi.ingsw.View.userView.View;
 
-import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface GameListener extends Remote {
-    void playerJoined(GameModelImmutable gamemodel) throws IOException, InterruptedException;
+    void playerJoined(GameModelImmutable gamemodel) throws RemoteException;;
     void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException;
     void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws IOException, InterruptedException;
     void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
-    void gameIdNotExists(int gameid) throws RemoteException;
-    void playerIsReadyToStart(GameModelImmutable gamemodel,String nick) throws IOException, InterruptedException;
+    void playerIsReadyToStart(GameModelImmutable gamemodel,String nick) throws RemoteException;
 
     void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException;
 

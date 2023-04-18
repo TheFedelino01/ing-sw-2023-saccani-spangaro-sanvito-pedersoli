@@ -43,7 +43,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
 
         UnicastRemoteObject.exportObject(ris,0);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
-        System.out.println("[RMI] "+nick+" has created a new game");
+        System.out.println("New game created");
         return ris;
     }
 
@@ -52,8 +52,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         //Return the GameController already existed => not necessary to re-Export Object
         GameControllerInterface ris = mainController.joinFirstAvailableGame(lis,nick);
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
-        UnicastRemoteObject.exportObject(ris,0);
-        System.out.println("[RMI] "+nick+" joined in first available game");
+        System.out.println("Joined");
         return ris;
     }
 
@@ -61,28 +60,8 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
         //Return the GameController already existed => not necessary to re-Export Object
         GameControllerInterface ris = mainController.joinGame(lis,nick,idGame);
-        if(ris!=null) {
-            UnicastRemoteObject.exportObject(ris, 0);
-            //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
-            System.out.println("[RMI] " + nick + " joined to specific game with id: " + idGame);
-        }
+        //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
         return ris;
     }
-
-    @Override
-    public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
-        GameControllerInterface ris = mainController.reconnect(lis,nick,idGame);
-        if(ris!=null) {
-            try {
-                UnicastRemoteObject.exportObject(ris, 0);
-            } catch (RemoteException e) {
-                //Already exported
-            }
-            //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
-            //System.out.println("[RMI] "+nick+" joined to specific game with id: "+idGame);
-        }
-        return ris;
-    }
-
 
 }

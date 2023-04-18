@@ -3,7 +3,6 @@ package polimi.ingsw.View.socket.client.ServerToClientMessages;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class msgPlayerIsReadyToStart extends SocketServerGenericMessage{
@@ -16,7 +15,7 @@ public class msgPlayerIsReadyToStart extends SocketServerGenericMessage{
     }
 
     @Override
-    public void execute(GameListener lis) throws IOException, InterruptedException {
+    public void execute(GameListener lis) throws RemoteException {
         lis.playerIsReadyToStart(model,nick);
     }
 }

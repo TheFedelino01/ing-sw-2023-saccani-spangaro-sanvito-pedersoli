@@ -41,7 +41,6 @@ public class GameModel {
 
     private transient ListenersHandler listenersHandler;
 
-
     public GameModel() {
         players = new ArrayList<>();
         commonCards = new ArrayList<>();
@@ -57,8 +56,6 @@ public class GameModel {
         chat = new Chat();
 
         listenersHandler = new ListenersHandler();
-
-
     }
 
     @Serial
@@ -91,7 +88,7 @@ public class GameModel {
                 players.add(p);
                 listenersHandler.notify_playerJoined(this);
             } else {
-                listenersHandler.notify_JoinUnableGameFull(p, this);
+                listenersHandler.notify_JoinUnableGameFull(p,this);
                 throw new MaxPlayersInException();
             }
         } else {
@@ -116,7 +113,7 @@ public class GameModel {
 
     public void playerIsReadyToStart(Player p) {
         p.setReadyToStart();
-        listenersHandler.notify_PlayerIsReadyToStart(this, p.getNickname());
+        listenersHandler.notify_PlayerIsReadyToStart(this,p.getNickname());
     }
 
     public boolean arePlayersReadyToStartAndEnough() {
@@ -223,7 +220,7 @@ public class GameModel {
         return ris;
     }
 
-    public List<CommonCard> getCommonCards() {
+    public List<CommonCard> getCommonCards(){
         return commonCards;
     }
 
@@ -278,9 +275,9 @@ public class GameModel {
         Tile t = popInHandTilePlayer(p, type);
         if (t != null) {
             p.getShelf().position(column, type);
-            listenersHandler.notify_positionedTile(this, type, column);
+            listenersHandler.notify_positionedTile(this, type,column);
             //if the hand is empty then call next turn
-            if (p.getInHandTile().size() == 0) {
+            if(p.getInHandTile().size()==0){
                 nextTurn();
             }
         } else {
@@ -421,17 +418,15 @@ public class GameModel {
     }
 
     public Player getPlayerEntity(String playerNick) {
-        return players.stream().filter(x -> x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+        return players.stream().filter(x->x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
     }
 
 
-    public Map<Integer, Integer> getLeaderBoard() {
+    public Map<Integer, Integer> getLeaderBoard(){
         return leaderBoard;
     }
 
-    public void setAsDisconnected(String nick) {
-        getPlayerEntity(nick).setConnected(false);
-        getPlayerEntity(nick).setNotReadyToStart();
+    public void setAsDisconnected(String nick, boolean connected) {
         listenersHandler.notify_playerDisconnected(nick);
     }
 

@@ -16,6 +16,4 @@ public interface GameControllerInterface extends Remote {
 
     void setConnectionStatus(String nick, GameListener lisOfClient, boolean connected) throws RemoteException;
 
-    void heartbeat(String nick, GameListener me) throws RemoteException;
-
 }

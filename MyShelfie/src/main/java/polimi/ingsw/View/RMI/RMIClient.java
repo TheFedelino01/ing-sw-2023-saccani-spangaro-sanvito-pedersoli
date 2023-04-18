@@ -11,13 +11,12 @@ import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.View.userView.View;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIClient implements CommonClientActions, Runnable {
+public class RMIClient implements CommonClientActions {
 
     private MainControllerInterface requests;
     private GameControllerInterface gameController=null;
@@ -29,7 +28,6 @@ public class RMIClient implements CommonClientActions, Runnable {
         super();
         gameListenersHandler=new GameListenersHandlerClient(gui);
         connect();
-        new Thread(this).start();
     }
     public void connect(){
         try {
@@ -42,19 +40,6 @@ public class RMIClient implements CommonClientActions, Runnable {
         } catch (Exception e) {
             System.err.println("Server RMI exception: " + e);
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        //For the heartbeat
-        while(true){
-            heartbeat();//send heartbeat so the server knows I am still online
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
@@ -82,18 +67,6 @@ public class RMIClient implements CommonClientActions, Runnable {
     public void joinGame(String nick, int idGame){
         try {
             gameController = requests.joinGame(modelInvokedEvents,nick,idGame);
-
-            nickname=nick;
-
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void reconnect(String nick, int idGame) {
-        try {
-            gameController = requests.reconnect(modelInvokedEvents,nick,idGame);
 
             nickname=nick;
 
@@ -134,17 +107,6 @@ public class RMIClient implements CommonClientActions, Runnable {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (GameEndedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void heartbeat() {
-        try {
-            if(gameController!=null) {
-                gameController.heartbeat(nickname, modelInvokedEvents);
-            }
-        } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }

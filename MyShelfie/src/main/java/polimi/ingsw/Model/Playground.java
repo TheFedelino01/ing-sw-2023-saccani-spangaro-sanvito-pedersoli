@@ -211,23 +211,23 @@ public class Playground implements Serializable {
     }
 
     public String toString() {
-        StringBuilder ris= new StringBuilder("  0|1|2|3|4|5|6|7|8\n");
+        String ris="  0|1|2|3|4|5|6|7|8\n";
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
-            ris.append(i).append(":");
+            ris+=i+":";
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
                 switch (playground[i][j].getType()){
-                    case CAT -> ris.append(ansi().fg(Ansi.Color.GREEN).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT)).append("|");
-                    case BOOK -> ris.append(ansi().fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT)).append("|");
-                    case TROPHY -> ris.append(ansi().fg(Ansi.Color.CYAN).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT)).append("|");
-                    case FRAME -> ris.append(ansi().fg(Ansi.Color.BLUE).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT)).append("|");
-                    case ACTIVITY -> ris.append(ansi().fg(Ansi.Color.YELLOW).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT)).append("|");
-                    case PLANT -> ris.append(ansi().fg(Ansi.Color.MAGENTA).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT)).append("|");
-                    default -> ris.append(ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT)).append("|");
+                    case CAT -> ris += ansi().fg(Ansi.Color.GREEN).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case BOOK -> ris += ansi().fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case TROPHY -> ris += ansi().fg(Ansi.Color.CYAN).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case FRAME -> ris += ansi().fg(Ansi.Color.BLUE).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case ACTIVITY -> ris += ansi().fg(Ansi.Color.YELLOW).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    case PLANT -> ris += ansi().fg(Ansi.Color.MAGENTA).a(playground[i][j].toString().substring(0,1)).fg(Ansi.Color.DEFAULT) + "|";
+                    default -> ris += ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT) + "|";
                 }
             }
-            ris.append("\n");
+            ris+="\n";
         }
-        return ris.toString();
+        return ris;
     }
 
 }

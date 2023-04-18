@@ -113,7 +113,7 @@ public class GameModelImmutable implements Serializable {
     }
 
     public boolean isMyTurn(String nickname) {
-        return players.get(currentPlaying).getNickname().equals(nickname);
+        return players.get(currentPlaying).equals(nickname);
     }
 
     public String toStringListPlayers() {
