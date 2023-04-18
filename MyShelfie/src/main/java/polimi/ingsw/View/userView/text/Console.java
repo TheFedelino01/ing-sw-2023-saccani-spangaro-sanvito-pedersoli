@@ -3,6 +3,7 @@ package polimi.ingsw.View.userView.text;
 import org.fusesource.jansi.AnsiConsole;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.DefaultValue;
+import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Tile;
@@ -19,25 +20,26 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class Console {
 
     private List<String> importantEvents; //events that needs to be showed always in screen
-    public Console(){
+
+    public Console() {
         init();
     }
 
     public void init() {
         AnsiConsole.systemInstall();
-        importantEvents= new ArrayList<>();
+        importantEvents = new ArrayList<>();
     }
 
-    public void addImportantEvent(String imp){
+    public void addImportantEvent(String imp) {
         //Want to show only the first maxnum_of_last_event_tobe_showed important event happened
-        if(importantEvents.size()+1>=DefaultValue.maxnum_of_last_event_tobe_showed){
+        if (importantEvents.size() + 1 >= DefaultValue.maxnum_of_last_event_tobe_showed) {
             importantEvents.remove(0);
         }
         importantEvents.add(imp);
         show_important_events();
     }
 
-    public List<String> getImportantEvents(){
+    public List<String> getImportantEvents() {
         return new ArrayList<>(importantEvents);
     }
 
@@ -61,6 +63,31 @@ public class Console {
         show_important_events();
     }
 
+    public void show_playerHand(GameModelImmutable gameModel) {
+        System.out.println(">This is your hand:");
+        StringBuilder ris = new StringBuilder();
+        for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
+            if (i < gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().size()) {
+                switch (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType()) {
+                    case CAT ->
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(GREEN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                    case TROPHY ->
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(CYAN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                    case PLANT ->
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(MAGENTA).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                    case BOOK ->
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(WHITE).fg(BLACK).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                    case ACTIVITY ->
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(YELLOW).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                    case FRAME ->
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(BLUE).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                }
+            } else
+                ris.append("[").append(i).append("]: ").append("NONE").append(" | ");
+        }
+        System.out.println(ris);
+    }
+
     public void show_grabbedTile(String nickname, GameModelImmutable model) {
         StringBuilder ris = new StringBuilder("| ");
         for (Tile t : model.getHandOfCurrentPlaying()) {
@@ -78,7 +105,7 @@ public class Console {
 
 
     public void show_playground(GameModelImmutable model) {
-        System.out.println("GameID: [" + model.getGameId().toString() + "] \n" + model.getPg().toString());
+        System.out.println(model.getPg().toString());
     }
 
     public void showAllShelves(GameModelImmutable model) {
@@ -92,18 +119,18 @@ public class Console {
         System.out.println(" ");
     }
 
-    public void showCommonCards(GameModelImmutable gameModel){
+    public void showCommonCards(GameModelImmutable gameModel) {
         StringBuilder ris = new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_commonCards,DefaultValue.col_commonCards));
+        ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));
         int i = 0;
-        for(CommonCard c : gameModel.getCommonCards()) {
+        for (CommonCard c : gameModel.getCommonCards()) {
             ris.append(c.toString(c.getCommonType(), i));
-            i+=3;
+            i += 3;
         }
         System.out.println(ris);
     }
 
-    public void showGoalCards(Player toShow){
+    public void showGoalCards(Player toShow) {
         System.out.println(toShow.getSecretGoal().getLayoutToMatch().toStringGoalCard());
     }
 
@@ -129,8 +156,8 @@ public class Console {
         // need to check if the player is ready or not, and
         // in case he's ready not show him this line, now everyone
         // will see it
-        for(Player p : gameModel.getPlayers())
-            if(!p.getReadyToStart()&&p.getNickname().equals(nick))
+        for (Player p : gameModel.getPlayers())
+            if (!p.getReadyToStart() && p.getNickname().equals(nick))
                 System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
         System.out.flush();
 
@@ -173,22 +200,24 @@ public class Console {
                 """).reset());
     }
 
-    private void show_important_events(){
-        StringBuilder ris = new StringBuilder();
-        int i=0;
-        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events+i, 85).bold().a("Latest Events:").fg(DEFAULT).boldOff());
-        for(String s : importantEvents){
-            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events+1+i, 86).a(s).fg(DEFAULT));
-            i++;
+    private void show_important_events() {
+        if(importantEvents.size()>0) {
+            StringBuilder ris = new StringBuilder();
+            int i = 0;
+            ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, 85).bold().a("Latest Events:").fg(DEFAULT).boldOff());
+            for (String s : importantEvents) {
+                ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, 86).a(s).fg(DEFAULT));
+                i++;
+            }
+            System.out.println(ris);
         }
-        System.out.println(ris);
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
 
     public void clearCMD() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        }catch(IOException | InterruptedException e){
+        } catch (IOException | InterruptedException e) {
             //per mac
             System.out.print("\033\143");
 

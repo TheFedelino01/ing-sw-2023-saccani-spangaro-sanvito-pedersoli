@@ -13,9 +13,9 @@ public class Shelf implements Serializable {
 
     public Shelf() {
         shelf = new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];
-        for(int c=0; c<DefaultValue.NumOfColumnsShelf;c++){
-            for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
-                shelf[r][c]= new Tile();
+        for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+            for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+                shelf[r][c] = new Tile();
             }
         }
         freeSpace = DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf;
@@ -40,14 +40,13 @@ public class Shelf implements Serializable {
         }
     }
 
-    public void setSingleTile(Tile t, int r, int c){
-        this.shelf[r][c]=t;
+    public void setSingleTile(Tile t, int r, int c) {
+        this.shelf[r][c] = t;
     }
 
     public Integer getFreeSpace() {
         return freeSpace;
     }
-
 
 
     public Tile get(int r, int c) {
@@ -56,7 +55,7 @@ public class Shelf implements Serializable {
 
     public void position(int column, TileType tipo) {
         //push the tile in the column making it slide down until it finds a tile, or it reaches the bottom
-        for (int i = DefaultValue.NumOfRowsShelf-1; i >0 ; i--) {
+        for (int i = DefaultValue.NumOfRowsShelf - 1; i > 0; i--) {
             if (shelf[i][column].isSameType(TileType.NOT_USED)) {
                 shelf[i][column].setType(tipo);
                 freeSpace--;
@@ -65,80 +64,66 @@ public class Shelf implements Serializable {
         }
     }
 
-    public String toString(){
+    public String toString() {
         int i = DefaultValue.row_shelves;
         StringBuilder ris = new StringBuilder();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             ris.append(ansi().cursor(i, DefaultValue.col_shelves).toString());
-            ris.append("[");
+            ris.append(createRow(r));
             i++;
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                switch (shelf[r][c].getType()){
-                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    default -> ris.append(ansi().fg(Ansi.Color.BLACK).bg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                }
-                ris.append(",");
-            }
-            ris.append("]");
         }
         return ris.toString();
     }
 
-    public String toString(int col){
+    public String toString(int col) {
         StringBuilder ris = new StringBuilder();
         int i = DefaultValue.row_shelves;
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             ris.append(ansi().cursor(i, col).toString());
             i++;
-            ris.append("[");
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                switch (shelf[r][c].getType()){
-                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                }
-                ris.append(",");
-            }
-            ris.append("]");
+            ris.append(createRow(r));
         }
         return ris.toString();
     }
 
-    public String toStringGoalCard(){
+    public String toStringGoalCard() {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_goalCards, DefaultValue.col_goalCards).bold().a("Personal goal:").boldOff().toString());
-        int row=1;
+        int row = 1;
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            ris.append(ansi().cursor(DefaultValue.row_goalCards+row, DefaultValue.col_goalCards).toString());
+            ris.append(ansi().cursor(DefaultValue.row_goalCards + row, DefaultValue.col_goalCards).toString());
             row++;
-            ris.append("[");
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                switch (shelf[r][c].getType()){
-                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
-                }
-                ris.append(",");
-            }
-            ris.append("]");
+            ris.append(createRow(r));
         }
-        return  ris.toString();
+        return ris.toString();
     }
 
-
+    private String createRow(int r) {
+        StringBuilder ris = new StringBuilder();
+        ris.append("[");
+        for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+            switch (shelf[r][c].getType()) {
+                case CAT ->
+                        ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                case PLANT ->
+                        ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                case ACTIVITY ->
+                        ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                case FRAME ->
+                        ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                case BOOK ->
+                        ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                case TROPHY ->
+                        ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                default ->
+                        ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+            }
+            if (c != DefaultValue.NumOfColumnsShelf - 1)
+                ris.append(",");
+        }
+        ris.append("]");
+        return ris.toString();
+    }
 
 }
 

@@ -35,11 +35,11 @@ public class DefaultValue implements Serializable {
 
     public final static String Remote_ip = "127.0.0.1";
 
-    public final static Long timeout_for_detecting_disconnection=4000l;
+    public final static Long timeout_for_detecting_disconnection= 4000L;
 
     public final static int maxnum_of_last_event_tobe_showed=4;
 
-    public final static int row_input = 34;
+    public final static int row_input = 30;
     public final static int row_important_events=2;
     public final static int row_playground=11;
     public final static int col_playground=0;
