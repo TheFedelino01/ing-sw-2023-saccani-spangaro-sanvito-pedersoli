@@ -113,6 +113,31 @@ public class Shelf implements Serializable {
         return ris.toString();
     }
 
+    public String toStringCommonCard(){
+        StringBuilder ris = new StringBuilder();
+        int row = 10;
+        int col = 50;
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            ris.append(ansi().cursor(row, col).toString());
+            row++;
+            ris.append("[ ");
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                switch (shelf[r][c].getType()){
+                    case CAT ->  ris.append(ansi().fg(Ansi.Color.GREEN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case PLANT -> ris.append(ansi().fg(Ansi.Color.MAGENTA).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case ACTIVITY -> ris.append(ansi().fg(Ansi.Color.YELLOW).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case FRAME -> ris.append(ansi().fg(Ansi.Color.BLUE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case BOOK -> ris.append(ansi().fg(Ansi.Color.WHITE).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    case TROPHY -> ris.append(ansi().fg(Ansi.Color.CYAN).a(shelf[r][c].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT));
+                    default -> ris.append(ansi().fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT));
+                }
+                ris.append(" , ");
+            }
+            ris.append("  ]\n");
+        }
+        return  ris.toString();
+    }
+
 
 
 }
