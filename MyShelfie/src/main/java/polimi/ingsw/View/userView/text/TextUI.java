@@ -374,8 +374,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             throw new RuntimeException(e);
         }
     }
-
-    public void askPlaceTile(GameModelImmutable model) {
+    public void displayHand(GameModelImmutable model) {
         System.out.println(">This is your hand:");
         String ris = "";
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
@@ -401,6 +400,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
         System.out.println(ris);
 
+    }
+    public void askPlaceTileAgain(GameModelImmutable model, int col) {
+        displayHand(model);
         System.out.println("> Which tile do you want to place?");
         Integer indexHand;
         do {
@@ -411,19 +413,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             }
         } while (indexHand == null);
 
-
-        Integer column;
-        do {
-            column = askNum("> Choose column to place the tile:");
-        } while (column == null);
-
-
         try {
-            positionTileOnShelf(column, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
+            positionTileOnShelf(col, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+    public void askPlaceTile(GameModelImmutable model) {
+        displayHand(model);
+        Integer column;
+        do {
+            column = askNum("> Choose column to place the tile:");
+        } while (column == null);
+        for (int i=model.getPlayerEntity(nickname).getInHandTile().size(); i>0; i--){
+            askPlaceTileAgain(model, column);
+        }
     }
 
 
