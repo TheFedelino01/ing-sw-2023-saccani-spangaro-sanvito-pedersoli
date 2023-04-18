@@ -37,14 +37,16 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private final Scanner scanner = new Scanner(System.in);
     private String nickname;
 
-    private EventList events = new EventList();
+    private final EventList events = new EventList();
 
     private CommonClientActions server;
-    private FileDisconnection fileDisconnection;
+    private final FileDisconnection fileDisconnection;
 
     private String lastPlayerReconnected;
 
-    private Console console;
+    private final Console console;
+
+
 
 
     public TextUI(ConnectionSelection selection) {
@@ -124,12 +126,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case JOIN_UNABLE_NICKNAME_ALREADY_IN -> {
                 nickname = null;
                 askSelectGame();
-                System.out.println("WARNING> Nickname already used!");
+                console.addImportantEvent("WARNING> Nickname already used!");
             }
             case JOIN_UNABLE_GAME_FULL -> {
                 nickname = null;
                 askSelectGame();
-                System.out.println("WARNING> Game is Full!");
+                console.addImportantEvent("WARNING> Game is Full!");
             }
         }
     }
@@ -173,11 +175,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     console.showAllShelves(event.getModel());
 
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
-                        System.out.println("[EVENT]: Player reconnected!");
+                        console.addImportantEvent("[EVENT]: Player reconnected!");
                         if (nickname.equals(lastPlayerReconnected)) {
                             askPickTiles();
                         }
-                        //else the player who has just reconnected is not me
+                        //else the player who has just reconnected is not me, and so I do nothing
                     } else {
                         askPickTiles();
                     }
@@ -210,7 +212,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.show_playground(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
                 console.showAllShelves(event.getModel());
-                System.out.println("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
+                console.addImportantEvent("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
                     events.add(event.getModel(), EventType.GRABBED_TILE);
                 }
@@ -221,7 +223,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.show_playground(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
                 console.showAllShelves(event.getModel());
-                System.out.println("[EVENT]: Player reconnected!");
+                console.addImportantEvent("[EVENT]: Player reconnected!");
                 if (event.getModel().isMyTurn(nickname)) {
                     events.add(event.getModel(), NEXT_TURN);
                 }
@@ -629,14 +631,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void addedPoint(Player p, Point point) {
-        System.out.println("[EVENT]:  Player " + p.getNickname() + " obtained " + point.getPoint() + " points by achieving " + point.getReferredTo());
-
+        console.addImportantEvent("[EVENT]:  Player " + p.getNickname() + " obtained " + point.getPoint() + " points by achieving " + point.getReferredTo());
     }
 
     @Override
     public void playerDisconnected(String nick) throws RemoteException {
-        System.out.println("[EVENT]:  Player " + nick + " has just disconnected");
-
+        console.addImportantEvent("[EVENT]:  Player " + nick + " has just disconnected");
     }
 
 

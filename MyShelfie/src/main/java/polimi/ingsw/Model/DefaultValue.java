@@ -43,4 +43,6 @@ public class DefaultValue implements Serializable {
 
     public final static Long timeout_for_detecting_disconnection=4000l;
 
+    public final static int maxnum_of_last_event_tobe_showed=4;
+
 }
