@@ -11,6 +11,8 @@ import polimi.ingsw.Model.Tile;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 public abstract class CommonCard extends Card {
     private Queue<Point> points;
     private CardCommonType commonType;
@@ -30,65 +32,66 @@ public abstract class CommonCard extends Card {
 
     public String toString(CardCommonType type) {
         StringBuilder ris = new StringBuilder();
+        int i = 0;
         switch (type){
             case CommonHorizontal0 -> {
-                ris.append("First horizontal card!\n");
-                ris.append("\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("First horizontal card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("Four rows made by at most three different tile types (per row)"));
                 return ris.toString();
             }
             case CommonHorizontal1 -> {
-                ris.append("Second horizontal card!\n");
-                ris.append("Two rows made all by different tile types\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("Second horizontal card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("Two rows made all by different tile types"));
                 return ris.toString();
             }
             case CommonVertical0 -> {
-                ris.append("First vertical card!\n");
-                ris.append("\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("First vertical card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("Three cols made by at most three different tile types (per col)"));
                 return ris.toString();
             }
             case CommonVertical1 -> {
-                ris.append("Second vertical card!\n");
-                ris.append("Two columns made all by different tile types\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("Second vertical card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("Two columns made all by different tile types"));
                 return ris.toString();
             }
             case CommonDiagonal0 -> {
-                ris.append("First diagonal card!\n");
-                ris.append("5 tiles of the same type in a diagonal pattern\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("First diagonal card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("5 tiles of the same type in a diagonal pattern"));
                 return ris.toString();
             }
             case CommonDiagonal1 -> {
-                ris.append("Second diagonal card!\n");
-                ris.append("Tiles on the shelf must form a ladder\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("Second diagonal card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("Tiles on the shelf must form a ladder"));
                 return ris.toString();
             }
             case CommonVertix -> {
-                ris.append("Vertexes card!\n");
-                ris.append("All vertexes must be of the same type\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("Vertexes card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("All vertexes must be of the same type"));
                 return ris.toString();
             }
             case CommonX -> {
-                ris.append("X pattern card!\n");
-                ris.append("5 tiles of the same type, in an X pattern\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("X pattern card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("5 tiles of the same type, in an X pattern"));
                 return ris.toString();
             }
             case CommonGroup0 -> {
-                ris.append("First group card!\n");
-                ris.append("\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("First group card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("Six separated groups of two made by all of the same types (per single group)"));
                 return ris.toString();
             }
             case CommonGroup1 -> {
-                ris.append("Second group card!\n");
-                ris.append("\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("Second group card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("Four separated groups of two made by all of the same types (per single group)"));
                 return ris.toString();
             }
             case CommonGroup2 -> {
-                ris.append("Third group card!\n");
-                ris.append("\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("Third group card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("Two separated 2x2 groups made all by the same type"));
                 return ris.toString();
             }
             case CommonGroup3 -> {
-                ris.append("Fourth group card!\n");
-                ris.append("8 of the same type tiles, any pattern\n");
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i, DefaultValue.colCommonCards).a("Fourth group card!"));
+                ris.append(ansi().cursor(DefaultValue.rowCommonCards+i+1, DefaultValue.colCommonCards).a("8 of the same type tiles, any pattern"));
                 return ris.toString();
             }
             default -> {return "Nan";}

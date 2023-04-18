@@ -19,11 +19,7 @@ public class DefaultValue implements Serializable {
     public final static String gameIdData = "GameId";
     public final static String gameIdTime = "Created";
     public final static int twelveHS = 43200;
-    public final static int displayShelfStartingCol = 3;
-
     public final static int displayShelfNextCol = 30;
-    public final static int displayHandRow = 10;
-    public final static int displayHandCol = 10;
 
     public final static int NumOfColumnsShelf = 5;
     public final static int NumOfRowsShelf = 6;
@@ -47,7 +43,10 @@ public class DefaultValue implements Serializable {
 
     public final static int row_input=4;
     public final static int row_important_events=2;
-    public final static int row_playground=4;
-    public final static int row_shelves=4;
-
+    public final static int row_playground=9;
+    public final static int col_playground=0;
+    public final static int row_shelves=21;
+    public final static int col_shelves=3;
+    public final static int row_commonCards=4;
+    public final static int col_commonCards=50;
 }
