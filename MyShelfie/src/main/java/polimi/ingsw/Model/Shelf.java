@@ -69,7 +69,7 @@ public class Shelf implements Serializable {
         int i = DefaultValue.displayShelfRow;
         StringBuilder ris = new StringBuilder();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            ris.append(ansi().cursor(i, DefaultValue.displayShelfStartingCol).toString());
+            ris.append(ansi().cursor(i, DefaultValue.col_shelves).toString());
             ris.append("[ ");
             i++;
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {

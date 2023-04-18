@@ -217,6 +217,7 @@ public class Playground implements Serializable {
 
     public String toString() {
         StringBuilder ris= new StringBuilder("  0|1|2|3|4|5|6|7|8\n");
+        ris.append(ansi().cursor(DefaultValue.row_playground,DefaultValue.col_playground));
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
             ris.append(i).append(":");
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {

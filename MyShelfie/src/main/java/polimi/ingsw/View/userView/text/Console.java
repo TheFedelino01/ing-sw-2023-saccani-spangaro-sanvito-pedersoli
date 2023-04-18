@@ -84,9 +84,10 @@ public class Console {
     }
 
     public void showAllShelves(GameModelImmutable model) {
-        int i = DefaultValue.displayShelfStartingCol;
+        int i = DefaultValue.col_shelves;
+
         for (Player p : model.getPlayers()) {
-            System.out.print(ansi().cursor(DefaultValue.displayShelfRow, i - 3).toString() +
+            System.out.print(ansi().cursor(DefaultValue.row_shelves, i - 3).toString() +
                     p.getNickname() + ": " + p.getShelf().toString(i));
             i += DefaultValue.displayShelfNextCol;
         }
@@ -95,6 +96,7 @@ public class Console {
 
     public void showCommonCards(GameModelImmutable gameModel){
         StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_commonCards,DefaultValue.col_commonCards));
         for(CommonCard c : gameModel.getCommonCards())
             ris.append(c.toString(c.getCommonType()));
         System.out.println(ris);
