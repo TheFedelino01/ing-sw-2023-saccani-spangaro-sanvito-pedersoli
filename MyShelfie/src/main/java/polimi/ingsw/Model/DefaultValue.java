@@ -1,7 +1,6 @@
 package polimi.ingsw.Model;
 
 import java.io.Serializable;
-import java.util.Queue;
 
 public class DefaultValue implements Serializable {
     public final static int MaxNumOfPlayer = 4;
@@ -15,7 +14,6 @@ public class DefaultValue implements Serializable {
     public final static int startingButtons = 4;
     public final static int displayTitleRow = 0;
     public final static int displayTitleCol = 10;
-    public final static int displayShelfRow = 21;
     public final static String gameIdData = "GameId";
     public final static String gameIdTime = "Created";
     public final static int twelveHS = 43200;
@@ -41,14 +39,16 @@ public class DefaultValue implements Serializable {
 
     public final static int maxnum_of_last_event_tobe_showed=4;
 
-    public final static int row_input = 30;
+    public final static int row_input = 32;
     public final static int row_important_events=2;
-    public final static int row_playground=9;
+    public final static int row_playground=11;
     public final static int col_playground=0;
-    public final static int row_shelves=21;
+    public final static int row_shelves=23;
     public final static int col_shelves=3;
-    public final static int row_commonCards=9;
+    public final static int row_commonCards=11;
     public final static int col_commonCards=50;
     public final static int col_goalCards=80;
+    public final static int row_gameID=9;
+    public final static int row_nextTurn=10;
 
 }

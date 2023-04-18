@@ -155,13 +155,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_allPlayers(event.getModel());
-                System.out.println("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying());
+                System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
             case COMMON_CARD_EXTRACTED -> {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_playground(event.getModel());
+                System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
                 console.showCommonCards(event.getModel());
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
@@ -172,7 +173,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 for (Player p : event.getModel().getPlayers())
                     if (p.getNickname().equals(nickname))
                         console.showGoalCards(p);
-                System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
+                System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
+                System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying()).toString());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn
                     console.show_playground(event.getModel());
@@ -202,6 +204,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case GRABBED_TILE -> {
                 console.clearCMD();
                 console.show_titleMyShelfie();
+                for (Player p : event.getModel().getPlayers())
+                    if (p.getNickname().equals(nickname))
+                        console.showGoalCards(p);
+                System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
+                System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying()).toString());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn, so I'm the current playing
                     console.show_playground(event.getModel());
@@ -223,6 +230,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.show_playground(event.getModel());
                 console.showCommonCards(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
+                for (Player p : event.getModel().getPlayers())
+                    if (p.getNickname().equals(nickname))
+                        console.showGoalCards(p);
+                System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
+                System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying()).toString());
                 console.showAllShelves(event.getModel());
                 console.addImportantEvent("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
@@ -236,6 +248,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.show_titleMyShelfie();
                 console.show_playground(event.getModel());
                 console.showCommonCards(event.getModel());
+                for (Player p : event.getModel().getPlayers())
+                    if (p.getNickname().equals(nickname))
+                        console.showGoalCards(p);
+                System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
+                System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying()).toString());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
                 console.showAllShelves(event.getModel());
                 console.addImportantEvent("[EVENT]: Player reconnected!");
@@ -252,9 +269,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private void statusEnded(EventElement event) {
         switch (event.getType()) {
             case GAMEENDED:
-                System.out.println("[EVENT]: " + event.getModel().getGameId() + " ended! \n" +
-                        "The winner is: " + event.getModel().getWinner().getNickname() + "\n" +
-                        "Score board: todo");
+                console.addImportantEvent(ansi().a("[EVENT]: ").a(event.getModel().getGameId()).a(" ended! ").cursorDownLine().a(
+                        "The winner is: ").a(event.getModel().getWinner().getNickname()).cursorDownLine().a(
+                        "Score board: todo").toString());
                 resetGameId(fileDisconnection, event.getModel());
                 break;
         }

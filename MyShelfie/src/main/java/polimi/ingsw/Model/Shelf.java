@@ -66,7 +66,7 @@ public class Shelf implements Serializable {
     }
 
     public String toString(){
-        int i = DefaultValue.displayShelfRow;
+        int i = DefaultValue.row_shelves;
         StringBuilder ris = new StringBuilder();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             ris.append(ansi().cursor(i, DefaultValue.col_shelves).toString());
@@ -74,13 +74,13 @@ public class Shelf implements Serializable {
             i++;
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 switch (shelf[r][c].getType()){
-                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    default -> ris.append(ansi().fg(Ansi.Color.BLACK).bg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    default -> ris.append(ansi().fg(Ansi.Color.BLACK).bg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
                 }
                 ris.append(",");
             }
@@ -91,24 +91,24 @@ public class Shelf implements Serializable {
 
     public String toString(int col){
         StringBuilder ris = new StringBuilder();
-        int i = DefaultValue.displayShelfRow;
+        int i = DefaultValue.row_shelves;
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             ris.append(ansi().cursor(i, col).toString());
             i++;
             ris.append("[");
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 switch (shelf[r][c].getType()){
-                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
                 }
                 ris.append(",");
             }
-            ris.append("]\n");
+            ris.append("]");
         }
         return ris.toString();
     }
@@ -123,17 +123,17 @@ public class Shelf implements Serializable {
             ris.append("[");
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 switch (shelf[r][c].getType()){
-                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+                    case CAT ->  ris.append(ansi().bg(Ansi.Color.GREEN).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).a(" ").a(shelf[r][c].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
+                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());
                 }
                 ris.append(",");
             }
-            ris.append("]\n");
+            ris.append("]");
         }
         return  ris.toString();
     }

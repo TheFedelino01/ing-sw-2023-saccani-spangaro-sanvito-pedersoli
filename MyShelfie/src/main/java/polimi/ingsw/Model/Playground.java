@@ -233,22 +233,21 @@ public class Playground implements Serializable {
     }
 
     public String toString() {
-        StringBuilder ris= new StringBuilder("  0|1|2|3|4|5|6|7|8\n");
-        ris.append(ansi().cursor(DefaultValue.row_playground,DefaultValue.col_playground));
+        StringBuilder ris= new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_playground,DefaultValue.col_playground).a("   0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |").toString());
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
-            ris.append(i).append(":");
+            ris.append(ansi().cursor(DefaultValue.row_playground+i+1, DefaultValue.col_playground).a(i)).append(":");
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
                 switch (playground[i][j].getType()){
-                    case CAT -> ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT)).append("|");
-                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT)).append("|");
-                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT)).append("|");
-                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT)).append("|");
-                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT)).append("|");
-                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(playground[i][j].toString().substring(0, 1)).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT)).append("|");
-                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a("N").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT)).append("|");
+                    case CAT -> ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
                 }
             }
-            ris.append("\n");
         }
         return ris.toString();
     }
