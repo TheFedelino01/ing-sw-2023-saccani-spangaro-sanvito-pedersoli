@@ -58,7 +58,7 @@ public class Console {
                 ██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
                 ╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
                 """).reset());
-        //show_alwaysOn_elements();
+        show_important_events();
     }
 
     public void show_grabbedTile(String nickname, GameModelImmutable model) {
@@ -183,10 +183,6 @@ public class Console {
         }
         System.out.println(ris);
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
-    }
-
-    private void show_alwaysOn_elements(){
-        show_important_events();
     }
 
     public void clearCMD() {
