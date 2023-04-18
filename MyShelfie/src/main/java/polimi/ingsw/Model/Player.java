@@ -1,12 +1,18 @@
 package polimi.ingsw.Model;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Player implements Serializable {
     private String nickname;
@@ -14,27 +20,28 @@ public class Player implements Serializable {
     private CardGoal secretGoal;
     private List<Tile> inHandTile;
     private List<Point> obtainedPoints;
-    private boolean readyToStart=false;
-    private boolean connected=true;
+    private boolean readyToStart = false;
+    private boolean connected = true;
 
     private transient List<GameListener> listeners;
 
 
-    public Player(String nickname){
-        this.nickname=nickname;
-        shelf=new Shelf();
-        secretGoal= new CardGoal();
+    public Player(String nickname) {
+        this.nickname = nickname;
+        shelf = new Shelf();
+        secretGoal = new CardGoal();
         inHandTile = new ArrayList<>();
-        obtainedPoints=new ArrayList<>();
-        listeners= new ArrayList<>();
+        obtainedPoints = new ArrayList<>();
+        listeners = new ArrayList<>();
     }
+
     public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTile, List<Point> obtainedPoints) {
         this.nickname = nickname;
         this.shelf = shelf;
         this.secretGoal = secretGoal;
         this.inHandTile = inHandTile;
         this.obtainedPoints = obtainedPoints;
-        listeners= new ArrayList<>();
+        listeners = new ArrayList<>();
     }
 
     public String getNickname() {
@@ -49,7 +56,9 @@ public class Player implements Serializable {
         return shelf;
     }
 
-    public void setShelfS(Shelf shelf){this.shelf=shelf; }
+    public void setShelfS(Shelf shelf) {
+        this.shelf = shelf;
+    }
 
     public void setShelf(Shelf shelf) {
         this.shelf = shelf;
@@ -70,19 +79,22 @@ public class Player implements Serializable {
     public void setInHandTile(List<Tile> inHandTile) {
         if (inHandTile.size() > 3) {
             throw new IllegalArgumentException("You can't have more than 3 tiles in hand");
-        }
-        else {
+        } else {
             this.inHandTile = inHandTile;
         }
     }
+
+
+
+
 
     private List<Point> getObtainedPoints() {
         return obtainedPoints;
     }
 
     public void addPoint(Point obtainedPoints) {
-        for(Point p: this.obtainedPoints){
-            if(p.getReferredTo().equals(obtainedPoints.getReferredTo())){
+        for (Point p : this.obtainedPoints) {
+            if (p.getReferredTo().equals(obtainedPoints.getReferredTo())) {
                 throw new IllegalArgumentException("You can't have more than one point for the same card");
             }
         }
@@ -91,15 +103,22 @@ public class Player implements Serializable {
         notify_addedPoint(obtainedPoints);
     }
 
-    public int getTotalPoints(){
+    public int getTotalPoints() {
         return obtainedPoints.stream().map(Point::getPoint).reduce(0, Integer::sum);
     }
 
-    public boolean getReadyToStart(){return readyToStart;}
-    public void setReadyToStart(){
-        readyToStart=true;
+    public boolean getReadyToStart() {
+        return readyToStart;
     }
-    public boolean equals(Player p){
+
+    public void setReadyToStart() {
+        readyToStart = true;
+    }
+    public void setNotReadyToStart() {
+        readyToStart = false;
+    }
+
+    public boolean equals(Player p) {
         return this.nickname.equals(p.nickname);
     }
 
@@ -111,18 +130,21 @@ public class Player implements Serializable {
         this.connected = connected;
     }
 
-    public void addListener(GameListener obj){
+    public void addListener(GameListener obj) {
         listeners.add(obj);
     }
-    private void notify_addedPoint(Point point){
-        for(GameListener l : listeners) {
+
+    private void notify_addedPoint(Point point) {
+        for (GameListener l : listeners) {
             try {
-                l.addedPoint(this,point);
+                l.addedPoint(this, point);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
     }
+
+    public List<GameListener> getListeners (){return listeners;}
 
     public void removeListener(GameListener lis) {
         listeners.remove(lis);

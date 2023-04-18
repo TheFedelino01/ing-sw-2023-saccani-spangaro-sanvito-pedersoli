@@ -86,9 +86,39 @@ public class MainController implements MainControllerInterface, Serializable {
             }catch(MaxPlayersInException  | PlayerAlreadyInException e){
                 ris.get(0).removeListener(lis,p);
             }
+        }else{
+            //This is the only call not inside the model
+            lis.gameIdNotExists(idGame);
         }
         return null;
 
+    }
+
+    @Override
+    public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
+        List<GameController> ris = runningGames.stream().filter(x->(x.getId()==idGame)).toList();
+
+        if(ris.size()==1){
+            try {
+                Player player = ris.get(0).getPlayers()
+                        .stream()
+                        .filter(x -> x.getNickname().equals(nick))
+                        .toList().get(0);
+
+                ris.get(0).addListener(lis,player);
+                ris.get(0).reconnectPlayer(player);
+                return ris.get(0);
+            }catch(MaxPlayersInException e){
+                ris.get(0).removeListener(lis,ris.get(0).getPlayers()
+                        .stream()
+                        .filter(x -> x.getNickname().equals(nick))
+                        .toList().get(0));
+            }
+        }else{
+            //This is the only call not inside the model
+            lis.gameIdNotExists(idGame);
+        }
+        return null;
     }
 
 

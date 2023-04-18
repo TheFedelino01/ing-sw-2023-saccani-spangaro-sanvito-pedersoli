@@ -7,14 +7,15 @@ import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class  ListenersHandler {
+public class ListenersHandler {
     public List<GameListener> listeners;
 
-    public ListenersHandler(){
+    public ListenersHandler() {
         listeners = new ArrayList<>();
     }
 
@@ -22,11 +23,11 @@ public class  ListenersHandler {
         listeners.add(obj);
     }
 
-    public synchronized void notify_playerJoined(GameModel model){
+    public synchronized void notify_playerJoined(GameModel model) {
         for (GameListener l : listeners) {
             try {
                 l.playerJoined(new GameModelImmutable(model));
-            } catch (RemoteException e) {
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -63,11 +64,11 @@ public class  ListenersHandler {
         }
     }
 
-    public synchronized void notify_PlayerIsReadyToStart(GameModel model,String nick) {
+    public synchronized void notify_PlayerIsReadyToStart(GameModel model, String nick) {
         for (GameListener l : listeners) {
             try {
-                l.playerIsReadyToStart(new GameModelImmutable(model),nick);
-            } catch (RemoteException e) {
+                l.playerIsReadyToStart(new GameModelImmutable(model), nick);
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -116,7 +117,7 @@ public class  ListenersHandler {
     public synchronized void notify_positionedTile(GameModel model, TileType type, int collum) {
         for (GameListener l : listeners) {
             try {
-                l.positionedTile(new GameModelImmutable(model),type,collum);
+                l.positionedTile(new GameModelImmutable(model), type, collum);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -142,6 +143,7 @@ public class  ListenersHandler {
             }
         }
     }
+
     public synchronized void notify_extractedCommonCard(GameModel gamemodel) {
         for (GameListener l : listeners) {
             try {
@@ -151,6 +153,7 @@ public class  ListenersHandler {
             }
         }
     }
+
     public synchronized void notify_playerDisconnected(String nick) {
         for (GameListener l : listeners) {
             try {

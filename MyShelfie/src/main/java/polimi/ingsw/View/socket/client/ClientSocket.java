@@ -4,6 +4,7 @@ import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
+import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageReconnect;
 import polimi.ingsw.View.userView.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
@@ -48,7 +49,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
                 SocketServerGenericMessage msg = (SocketServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
 
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -97,6 +98,12 @@ public class ClientSocket extends Thread implements CommonClientActions {
     }
 
     @Override
+    public void reconnect(String nick, int idGame) throws IOException, InterruptedException {
+        nickname=nick;
+        out.writeObject(new SocketClientMessageReconnect(nick, idGame));
+    }
+
+    @Override
     public void setAsReady() throws IOException {
         out.writeObject(new SocketClientMessageSetReady(nickname));
     }
@@ -114,5 +121,10 @@ public class ClientSocket extends Thread implements CommonClientActions {
     @Override
     public void positionTileOnShelf(int column, TileType type) throws IOException {
         out.writeObject(new SocketClientMessagePositionTileOnShelf(nickname,column,type));
+    }
+
+    @Override
+    public void heartbeat() {
+        //not usefull for socket
     }
 }
