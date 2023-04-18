@@ -1,9 +1,5 @@
 package polimi.ingsw.Model;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Listener.ListenersHandler;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
@@ -15,20 +11,19 @@ import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.*;
 
-import java.io.*;
-import java.time.LocalTime;
+import java.io.ObjectStreamException;
+import java.io.Serial;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameModel {
+    //maps the indexes of the players in the list with their position on the scoreBoard
+    //1,3 means the first player came in third place
+    private static Map<Integer, Integer> leaderBoard;
     private final List<Player> players;
     private final List<CommonCard> commonCards;
     private Integer gameId;
     private Playground pg;
-
-    //maps the indexes of the players in the list with their position on the scoreBoard
-    //1,3 means the first player came in third place
-    private static Map<Integer, Integer> leaderBoard;
     private Integer currentPlaying;
 
     private Chat chat;
@@ -61,17 +56,17 @@ public class GameModel {
 
     }
 
-    @Serial
-    private Object readResolve() throws ObjectStreamException {
-        listenersHandler = new ListenersHandler();
-        return this;
-    }
-
     public GameModel(List<Player> players, List<CommonCard> commonCards, Integer gameId, Playground pg) {
         this.players = players;
         this.commonCards = commonCards;
         this.gameId = gameId;
         this.pg = pg;
+    }
+
+    @Serial
+    private Object readResolve() throws ObjectStreamException {
+        listenersHandler = new ListenersHandler();
+        return this;
     }
 
     public int getNumOfPlayers() {
@@ -104,11 +99,11 @@ public class GameModel {
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
         Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
-        if(pIn.isConnected()==false) {
+        if (pIn.isConnected() == false) {
             pIn.setConnected(true);
-            listenersHandler.notify_playerReconnected(this,p.getNickname());
+            listenersHandler.notify_playerReconnected(this, p.getNickname());
             //listenersHandler.notify_playerJoined(this);
-        }else{
+        } else {
             System.out.println("ERROR: Trying to reconnect a player not offline!");
         }
     }
@@ -214,28 +209,6 @@ public class GameModel {
         return status;
     }
 
-    public Map<Player, CardGoal> getGoalCards() {
-        Map<Player, CardGoal> ris = new HashMap<>();
-
-        for (Player p : players) {
-            ris.put(p, p.getSecretGoal());
-        }
-        return ris;
-    }
-
-    public List<CommonCard> getCommonCards() {
-        return commonCards;
-    }
-
-    public boolean doAllPlayersHaveGoalCard() {
-        for (Player p : players) {
-            if (p.getSecretGoal().getGoalType().equals(CardGoalType.NOT_SET))
-                return false;
-        }
-        return true;
-    }
-
-
     public void setStatus(GameStatus status) {
         //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
         if (status.equals(GameStatus.RUNNING) &&
@@ -258,6 +231,27 @@ public class GameModel {
         }
     }
 
+    public Map<Player, CardGoal> getGoalCards() {
+        Map<Player, CardGoal> ris = new HashMap<>();
+
+        for (Player p : players) {
+            ris.put(p, p.getSecretGoal());
+        }
+        return ris;
+    }
+
+    public List<CommonCard> getCommonCards() {
+        return commonCards;
+    }
+
+    public boolean doAllPlayersHaveGoalCard() {
+        for (Player p : players) {
+            if (p.getSecretGoal().getGoalType().equals(CardGoalType.NOT_SET))
+                return false;
+        }
+        return true;
+    }
+
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
         List<Tile> ris;
         try {
@@ -267,7 +261,7 @@ public class GameModel {
             p.setInHandTile(ris);
             listenersHandler.notify_grabbedTile(this);
 
-        } catch (TileGrabbedNotCorrectException e) {
+        } catch (TileGrabbedNotCorrectException | TyleNotUsedException e) {
             //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
             listenersHandler.notify_grabbedTileNotCorrect(this);
         }
@@ -437,7 +431,7 @@ public class GameModel {
 
     public void setAsConnected(String nick) {
         getPlayerEntity(nick).setConnected(true);
-        listenersHandler.notify_playerReconnected(this,nick);
+        listenersHandler.notify_playerReconnected(this, nick);
     }
 
 }
