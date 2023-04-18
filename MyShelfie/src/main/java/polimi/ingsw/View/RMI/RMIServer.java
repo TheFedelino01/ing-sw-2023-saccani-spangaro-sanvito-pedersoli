@@ -51,9 +51,11 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
         //Return the GameController already existed => not necessary to re-Export Object
         GameControllerInterface ris = mainController.joinFirstAvailableGame(lis,nick);
-        //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
-        UnicastRemoteObject.exportObject(ris,0);
-        System.out.println("[RMI] "+nick+" joined in first available game");
+        if(ris!=null) {
+            //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+            UnicastRemoteObject.exportObject(ris, 0);
+            System.out.println("[RMI] " + nick + " joined in first available game");
+        }
         return ris;
     }
 

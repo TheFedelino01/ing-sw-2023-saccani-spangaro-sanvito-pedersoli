@@ -26,6 +26,7 @@ import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -36,26 +37,27 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private final Scanner scanner = new Scanner(System.in);
     private String nickname;
 
-    private EventList events = new EventList();
+    private final EventList events = new EventList();
 
     private CommonClientActions server;
-    private FileDisconnection fileDisconnection;
+    private final FileDisconnection fileDisconnection;
 
     private String lastPlayerReconnected;
 
-    private Console console;
+    private final Console console;
+
+
 
 
     public TextUI(ConnectionSelection selection) {
         console = new Console();
-        console.init();
         nickname = "";
         if (selection.equals(ConnectionSelection.SOCKET)) {
             server = new ClientSocket(this);
         } else if (selection.equals(ConnectionSelection.RMI)) {
             server = new RMIClient(this);
         }
-        fileDisconnection= new FileDisconnection();
+        fileDisconnection = new FileDisconnection();
         new Thread(this).start();
     }
 
@@ -111,25 +113,26 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     private void statusNotInAGame(EventElement event) {
         switch (event.getType()) {
-            case GAME_ID_NOT_EXISTS:
+            case GAME_ID_NOT_EXISTS -> {
+                nickname = null;
                 System.out.println("It does not exist any game with this GameId");
                 Integer gameId = askGameId();
-                if(gameId!=-1) {
-                    try {
-                        joinGame(nickname, gameId);
-                    } catch (IOException | InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }else{
-                    try {
-                        askSelectGame();
-                    } catch (IOException | InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                if (gameId != -1) {
+                    joinGame(nickname, gameId);
+                } else {
+                    askSelectGame();
                 }
-
-                break;
-
+            }
+            case JOIN_UNABLE_NICKNAME_ALREADY_IN -> {
+                nickname = null;
+                askSelectGame();
+                console.addImportantEvent("WARNING> Nickname already used!");
+            }
+            case JOIN_UNABLE_GAME_FULL -> {
+                nickname = null;
+                askSelectGame();
+                console.addImportantEvent("WARNING> Game is Full!");
+            }
         }
     }
 
@@ -140,7 +143,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case PLAYER_JOINED:
                 if (nickLastPlayer.equals(nickname)) {
                     console.showPlayerJoined(event.getModel());
-                    saveGameId(fileDisconnection,event.getModel());
+                    saveGameId(fileDisconnection, event.getModel());
                     askReadyToStart(event.getModel());
                 }
                 break;
@@ -172,13 +175,13 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     console.showCommonCards(event.getModel());
                     console.showAllShelves(event.getModel());
 
-                    if(event.getType().equals(PLAYER_RECONNECTED)){
-                        System.out.println("[EVENT]: Player reconnected!");
-                        if(nickname.equals(lastPlayerReconnected)){
+                    if (event.getType().equals(PLAYER_RECONNECTED)) {
+                        console.addImportantEvent("[EVENT]: Player reconnected!");
+                        if (nickname.equals(lastPlayerReconnected)) {
                             askPickTiles();
                         }
-                        //else the player who has just reconnected is not me
-                    }else{
+                        //else the player who has just reconnected is not me, and so I do nothing
+                    } else {
                         askPickTiles();
                     }
 
@@ -204,7 +207,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     console.show_playground(event.getModel());
                     console.showCommonCards(event.getModel());
                     console.showAllShelves(event.getModel());
-                    console.show_grabbedTile(nickname,event.getModel());
+                    console.show_grabbedTile(nickname, event.getModel());
                 }
             }
             case POSITIONED_TILE -> {
@@ -214,21 +217,21 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.showCommonCards(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
                 console.showAllShelves(event.getModel());
-                System.out.println("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
+                console.addImportantEvent("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
                     events.add(event.getModel(), EventType.GRABBED_TILE);
                 }
             }
-            case PLAYER_RECONNECTED->{
+            case PLAYER_RECONNECTED -> {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_playground(event.getModel());
                 console.showCommonCards(event.getModel());
                 //System.out.println("Player "+event.getModel().getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf!");
                 console.showAllShelves(event.getModel());
-                System.out.println("[EVENT]: Player reconnected!");
-                if(event.getModel().isMyTurn(nickname)){
-                    events.add(event.getModel(),NEXT_TURN);
+                console.addImportantEvent("[EVENT]: Player reconnected!");
+                if (event.getModel().isMyTurn(nickname)) {
+                    events.add(event.getModel(), NEXT_TURN);
                 }
             }
         }
@@ -236,12 +239,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private void statusEnded(EventElement event) {
-        switch(event.getType()){
+        switch (event.getType()) {
             case GAMEENDED:
                 System.out.println("[EVENT]: " + event.getModel().getGameId() + " ended! \n" +
                         "The winner is: " + event.getModel().getWinner().getNickname() + "\n" +
                         "Score board: todo");
-                resetGameId(fileDisconnection,event.getModel());
+                resetGameId(fileDisconnection, event.getModel());
                 break;
         }
     }
@@ -250,7 +253,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     //-----------------------------------------
     //METODI DI RICHIESTA INPUT DA TASTIERA
 
-    private void askNickname() throws IOException, InterruptedException {
+    private void askNickname() {
         console.clearCMD();
         console.show_titleMyShelfie();
         System.out.println("> Insert your nickname: ");
@@ -259,7 +262,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
 
-    private void askSelectGame() throws IOException, InterruptedException {
+    private void askSelectGame() {
         boolean reAsk;
         String optionChoose;
         do {
@@ -278,26 +281,24 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             if (optionChoose.equals("."))
                 return;
             askNickname();
-            try {
-                switch (optionChoose) {
-                    case "c" -> createGame(nickname);
-                    case "j" -> joinFirstAvailable(nickname);
-                    case "js" -> {
-                        Integer gameId = askGameId();
-                        if (gameId == -1)
-                            askSelectGame();
-                        else
-                            joinGame(nickname, gameId);
-                    }
-                    case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
-                    default -> {
-                        System.out.println("> Selection incorrect!");
-                        reAsk = true;
-                    }
+
+            switch (optionChoose) {
+                case "c" -> createGame(nickname);
+                case "j" -> joinFirstAvailable(nickname);
+                case "js" -> {
+                    Integer gameId = askGameId();
+                    if (gameId == -1)
+                        askSelectGame();
+                    else
+                        joinGame(nickname, gameId);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
+                default -> {
+                    System.out.println("> Selection incorrect!");
+                    reAsk = true;
+                }
             }
+
         } while (reAsk);
     }
 
@@ -339,8 +340,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             throw new RuntimeException(e);
         }
     }
-
-
 
 
     private Integer askNum(String msg) {
@@ -452,41 +451,56 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
 
-
-
     //-----------------------------------------
     //METODI CHE IL CLIENT PUÓ RICHIEDERE VERSO IL SERVER
 
     @Override
-    public void createGame(String nick) throws IOException, InterruptedException {
+    public void createGame(String nick) {
         console.clearCMD();
         console.show_titleMyShelfie();
         System.out.println("> Creating a new game...");
-        server.createGame(nick);
+
+        try {
+            server.createGame(nick);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void joinFirstAvailable(String nick) throws IOException, InterruptedException {
+    public void joinFirstAvailable(String nick) {
         console.clearCMD();
         console.show_titleMyShelfie();
         System.out.println("> Connecting to the first available game...");
-        server.joinFirstAvailable(nick);
+        try {
+            server.joinFirstAvailable(nick);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void joinGame(String nick, int idGame) throws IOException, InterruptedException {
+    public void joinGame(String nick, int idGame) {
         console.clearCMD();
         console.show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
-        server.joinGame(nick, idGame);
+        try {
+            server.joinGame(nick, idGame);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void reconnect(String nick, int idGame) throws IOException, InterruptedException {
+    public void reconnect(String nick, int idGame) {
         console.clearCMD();
         console.show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
-        server.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
+        try {
+            server.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -501,7 +515,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
+    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException  {
         server.grabTileFromPlayground(x, y, direction, num);
     }
 
@@ -532,11 +546,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gameModel) throws RemoteException {
         //System.out.println("[EVENT]: "+ wantedToJoin+" tried to entry but the game is full!");
+        events.add(null, JOIN_UNABLE_GAME_FULL);
     }
 
     @Override
     public void playerReconnected(GameModelImmutable gameModel, String nickPlayerReconnected) {
-        lastPlayerReconnected=nickPlayerReconnected;
+        lastPlayerReconnected = nickPlayerReconnected;
         events.add(gameModel, EventType.PLAYER_RECONNECTED);
         //events.add(gameModel, EventType.PLAYER_JOINED);
     }
@@ -544,6 +559,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
         //System.out.println("[EVENT]: "+ wantedToJoin.getNickname() + " has already in");
+        events.add(null, JOIN_UNABLE_NICKNAME_ALREADY_IN);
     }
 
     @Override
@@ -621,14 +637,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void addedPoint(Player p, Point point) {
-        System.out.println("[EVENT]:  Player " + p.getNickname() + " obtained " + point.getPoint() + " points by achieving " + point.getReferredTo());
-
+        console.addImportantEvent("[EVENT]:  Player " + p.getNickname() + " obtained " + point.getPoint() + " points by achieving " + point.getReferredTo());
     }
 
     @Override
     public void playerDisconnected(String nick) throws RemoteException {
-        System.out.println("[EVENT]:  Player " + nick + " has just disconnected");
-
+        console.addImportantEvent("[EVENT]:  Player " + nick + " has just disconnected");
     }
 
 

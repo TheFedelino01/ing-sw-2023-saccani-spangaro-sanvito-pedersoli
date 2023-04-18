@@ -6,25 +6,41 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Tile;
+import polimi.ingsw.View.userView.Events.EventElement;
 
 import javax.print.DocFlavor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class Console {
 
+    private List<String> importantEvents; //events that needs to be showed always in screen
     public Console(){
-
+        init();
     }
 
     public void init() {
         AnsiConsole.systemInstall();
+        importantEvents= new ArrayList<>();
     }
 
+    public void addImportantEvent(String imp){
+        //Want to show only the first maxnum_of_last_event_tobe_showed important event happened
+        if(importantEvents.size()+1>=DefaultValue.maxnum_of_last_event_tobe_showed){
+            importantEvents.remove(0);
+            importantEvents.add(imp);
+        }
+    }
+
+    public List<String> getImportantEvents(){
+        return new ArrayList<>(importantEvents);
+    }
 
     public void show_allPlayers(GameModelImmutable model) {
         System.out.println("Current Players: \n" + model.toStringListPlayers());
@@ -146,7 +162,7 @@ public class Console {
                 """).reset());
     }
 
-    public void clearCMD() throws IOException, InterruptedException {
+    public void clearCMD() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }catch(IOException | InterruptedException e){
@@ -154,7 +170,11 @@ public class Console {
             System.out.print("\033\143");
 
             //This might work too, but exec is deprecated
-            //Runtime.getRuntime().exec("clear");
+            try {
+                Runtime.getRuntime().exec("clear");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }
