@@ -359,6 +359,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     public void askPickTiles() {
+
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get? ");

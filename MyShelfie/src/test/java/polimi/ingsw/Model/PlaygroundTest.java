@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.TileGrabbedNotCorrectException;
-import polimi.ingsw.Model.Exceptions.TileNotUsedException;
 
 import java.util.List;
 
@@ -85,8 +84,6 @@ class PlaygroundTest {
         List<Tile> ris= null;
         try {
             ris = p2.grabTile(1,3, Direction.RIGHT,2);
-        } catch (TileNotUsedException e) {
-            assertTrue(false, "Impossibile to grab tiles but that's not true");
         } catch (TileGrabbedNotCorrectException e) {
             throw new RuntimeException(e);
         }
