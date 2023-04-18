@@ -181,8 +181,8 @@ public class Console {
             ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events+1+i, 86).a(s).fg(DEFAULT));
             i++;
         }
-
         System.out.println(ris);
+        System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
 
     private void show_alwaysOn_elements(){
