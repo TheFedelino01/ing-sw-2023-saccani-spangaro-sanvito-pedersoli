@@ -6,15 +6,13 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Tile;
-import polimi.ingsw.View.userView.Events.EventElement;
 
-import javax.print.DocFlavor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -97,9 +95,16 @@ public class Console {
     public void showCommonCards(GameModelImmutable gameModel){
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_commonCards,DefaultValue.col_commonCards));
-        for(CommonCard c : gameModel.getCommonCards())
-            ris.append(c.toString(c.getCommonType()));
+        int i = 0;
+        for(CommonCard c : gameModel.getCommonCards()) {
+            ris.append(c.toString(c.getCommonType(), i));
+            i+=2;
+        }
         System.out.println(ris);
+    }
+
+    public void showGoalCards(Player toShow){
+        System.out.println(toShow.getSecretGoal().toString(DefaultValue.col_goalCards));
     }
 
     public void showPlayerJoined(GameModelImmutable gameModel) throws IOException, InterruptedException {

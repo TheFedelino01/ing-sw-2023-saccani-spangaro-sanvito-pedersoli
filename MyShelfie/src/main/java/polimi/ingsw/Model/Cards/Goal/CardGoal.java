@@ -138,4 +138,8 @@ public class CardGoal extends Card {
         }
         return false;
     }
+
+    public String toString(int col){
+        return layoutToMatch.toString(col);
+    }
 }

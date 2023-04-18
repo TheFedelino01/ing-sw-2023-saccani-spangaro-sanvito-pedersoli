@@ -47,6 +47,8 @@ public class DefaultValue implements Serializable {
     public final static int col_playground=0;
     public final static int row_shelves=21;
     public final static int col_shelves=3;
-    public final static int row_commonCards=4;
+    public final static int row_commonCards=9;
     public final static int col_commonCards=50;
+    public final static int col_goalCards=80;
+
 }

@@ -168,6 +168,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case NEXT_TURN -> {
                 console.clearCMD();
                 console.show_titleMyShelfie();
+                for(Player p : event.getModel().getPlayers())
+                    if(p.getNickname().equals(nickname))
+                        console.showGoalCards(p);
                 System.out.println("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn
