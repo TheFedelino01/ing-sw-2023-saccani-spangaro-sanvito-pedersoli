@@ -344,6 +344,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             numTiles = askNum("> How many tiles do you want to get? ");
         } while (numTiles == null);
 
+
         Integer row;
         do {
             row = askNum("> Which tiles do you want to get?\n> Choose row: ");
@@ -373,7 +374,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             throw new RuntimeException(e);
         }
     }
-    public void displayHand(GameModelImmutable model){
+
+    public void askPlaceTile(GameModelImmutable model) {
         System.out.println(">This is your hand:");
         String ris = "";
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
@@ -398,9 +400,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
 
         System.out.println(ris);
-    }
-    public void askPlaceTileAgain(GameModelImmutable model, int col){
-        displayHand(model);
+
         System.out.println("> Which tile do you want to place?");
         Integer indexHand;
         do {
@@ -411,22 +411,18 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             }
         } while (indexHand == null);
 
+
+        Integer column;
+        do {
+            column = askNum("> Choose column to place the tile:");
+        } while (column == null);
+
+
         try {
-            positionTileOnShelf(col, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
+            positionTileOnShelf(column, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-    public void askPlaceTile(GameModelImmutable model) {
-        displayHand(model);
-        Integer column;
-        do {
-            column = askNum("> Choose column to place your tiles:");
-        } while (column == null);
-        for (int i = 0; i < model.getPlayerEntity(nickname).getInHandTile().size(); i++){
-            askPlaceTileAgain(model, column);
-        }
-
 
     }
 
