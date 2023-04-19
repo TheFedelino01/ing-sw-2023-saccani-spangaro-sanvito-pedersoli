@@ -7,6 +7,7 @@ import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Tile;
+import polimi.ingsw.View.userView.Events.EventElement;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -228,5 +229,18 @@ public class Console {
                 throw new RuntimeException(ex);
             }
         }
+    }
+
+    public void alwaysShow(GameModelImmutable model, String nick){
+        clearCMD();
+        show_titleMyShelfie();
+        show_playground(model);
+        showCommonCards(model);
+        for (Player p : model.getPlayers())
+            if (p.getNickname().equals(nick))
+                showGoalCards(p);
+        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + model.getGameId() + ", First turn is played by: " + model.getNicknameCurrentPlaying()).toString());
+        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + model.getNicknameCurrentPlaying()).toString());
+        showAllShelves(model);
     }
 }

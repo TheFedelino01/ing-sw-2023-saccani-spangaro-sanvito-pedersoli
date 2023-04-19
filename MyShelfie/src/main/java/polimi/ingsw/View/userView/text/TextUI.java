@@ -1,15 +1,12 @@
 package polimi.ingsw.View.userView.text;
 
-import org.fusesource.jansi.AnsiConsole;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
-import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
-import polimi.ingsw.Model.Tile;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.CommonClientActions;
@@ -21,8 +18,6 @@ import polimi.ingsw.View.userView.FileDisconnection;
 import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -168,7 +163,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
             }
             case NEXT_TURN -> {
-                alwaysShow(event);
+                console.alwaysShow(event.getModel(), nickname);
+                for(Player p : event.getModel().getPlayers())
+                    //resets column choice
+                    p.setColumnChosen(-1);
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
                         console.addImportantEvent("[EVENT]: Player reconnected!");
@@ -184,10 +182,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             }
 
             case GRABBED_TILE -> {
-                alwaysShow(event);
+                console.alwaysShow(event.getModel(), nickname);
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn, so I'm the current playing
-                    askPlaceTile(event.getModel());
+                    if (event.getModel().getPlayerEntity(event.getModel().getNicknameCurrentPlaying()).getColumnChosen() == -1)
+                        askColumn(event.getModel());
+                    askWhichTileToPlace(event.getModel());
                 } else {
                     console.show_grabbedTile(nickname, event.getModel());
                 }
@@ -195,7 +195,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
             }
             case POSITIONED_TILE -> {
-                alwaysShow(event);
+                console.alwaysShow(event.getModel(), nickname);
                 console.addImportantEvent("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
                     events.add(event.getModel(), EventType.GRABBED_TILE);
@@ -204,7 +204,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
             }
             case PLAYER_RECONNECTED -> {
-                alwaysShow(event);
+                console.alwaysShow(event.getModel(), nickname);
                 console.addImportantEvent("[EVENT]: Player reconnected!");
                 if (event.getModel().isMyTurn(nickname)) {
                     events.add(event.getModel(), NEXT_TURN);
@@ -214,19 +214,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             }
         }
 
-    }
-
-    private void alwaysShow(EventElement event) {
-        console.clearCMD();
-        console.show_titleMyShelfie();
-        console.show_playground(event.getModel());
-        console.showCommonCards(event.getModel());
-        for (Player p : event.getModel().getPlayers())
-            if (p.getNickname().equals(nickname))
-                console.showGoalCards(p);
-        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
-        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + event.getModel().getNicknameCurrentPlaying()).toString());
-        console.showAllShelves(event.getModel());
     }
 
     private void statusEnded(EventElement event) {
@@ -249,7 +236,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         console.show_titleMyShelfie();
         System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("> Insert your nickname: "));
         nickname = scanner.nextLine();
-        System.out.println(ansi().cursor(DefaultValue.row_gameID+2, 0).a("> Your nickname is: " + nickname));
+        System.out.println(ansi().cursor(DefaultValue.row_gameID + 2, 0).a("> Your nickname is: " + nickname));
     }
 
 
@@ -336,7 +323,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private Integer askNum(String msg) {
         System.out.print(msg);
         System.out.flush();
-
         int numT = -1;
 
         do {
@@ -350,7 +336,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     public void askPickTiles() {
-
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get? ");
@@ -385,7 +370,25 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
-    public void askPlaceTileAgain(GameModelImmutable model, int col) {
+    private void askColumn(GameModelImmutable model) {
+        /* Gets the current playing player
+
+        Player currentPlaying = model.getPlayers().stream()
+                .filter(x -> x.getNickname().equals(model.getNicknameCurrentPlaying()))
+                .toList().get(0);
+
+         */
+        console.alwaysShow(model, nickname);
+        console.show_playerHand(model);
+        Integer column;
+        do {
+            column = askNum("> Choose column to place the tile:");
+        } while (column == null);
+        model.getPlayerEntity(model.getNicknameCurrentPlaying()).setColumnChosen(column);
+    }
+
+    public void askWhichTileToPlace(GameModelImmutable model) {
+        console.alwaysShow(model, nickname);
         console.show_playerHand(model);
         System.out.println("> Which tile do you want to place?");
         Integer indexHand;
@@ -398,22 +401,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         } while (indexHand == null);
 
         try {
-            positionTileOnShelf(col, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
+            positionTileOnShelf(model.getPlayerEntity(model.getNicknameCurrentPlaying()).getColumnChosen(), model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-    }
-
-    public void askPlaceTile(GameModelImmutable model) {
-        console.show_playerHand(model);
-        Integer column;
-        do {
-            column = askNum("> Choose column to place the tile:");
-        } while (column == null);
-        for (int i = model.getPlayerEntity(nickname).getInHandTile().size(); i > 0; i--) {
-            askPlaceTileAgain(model, column);
-        }
     }
 
 

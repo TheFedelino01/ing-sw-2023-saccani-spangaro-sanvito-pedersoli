@@ -22,6 +22,7 @@ public class Player implements Serializable {
     private List<Point> obtainedPoints;
     private boolean readyToStart = false;
     private boolean connected = true;
+    private Integer columnChosen;
 
     private transient List<GameListener> listeners;
 
@@ -33,15 +34,17 @@ public class Player implements Serializable {
         inHandTile = new ArrayList<>();
         obtainedPoints = new ArrayList<>();
         listeners = new ArrayList<>();
+        columnChosen = -1;
     }
 
-    public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTile, List<Point> obtainedPoints) {
+    public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTile, List<Point> obtainedPoints, Integer columnChosen) {
         this.nickname = nickname;
         this.shelf = shelf;
         this.secretGoal = secretGoal;
         this.inHandTile = inHandTile;
         this.obtainedPoints = obtainedPoints;
         listeners = new ArrayList<>();
+        this.columnChosen = columnChosen;
     }
 
     public String getNickname() {
@@ -84,7 +87,11 @@ public class Player implements Serializable {
         }
     }
 
+    public void setColumnChosen(Integer columnChosen){
+        this.columnChosen = columnChosen;
+    }
 
+    public Integer getColumnChosen(){return this.columnChosen;}
 
 
 

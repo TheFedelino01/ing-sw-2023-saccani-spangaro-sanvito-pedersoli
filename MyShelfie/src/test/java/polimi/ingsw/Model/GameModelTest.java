@@ -233,7 +233,7 @@ public class GameModelTest {
     @DisplayName("Check final shelf true")
     void checkFinalShelfTrue() {
         try {
-            model.addPlayer(new Player("0", new Shelf(), new CardGoal(CardGoalType.GOAL1), new ArrayList<>(), new ArrayList<>()));
+            model.addPlayer(new Player("0", new Shelf(), new CardGoal(CardGoalType.GOAL1), new ArrayList<>(), new ArrayList<>(), -1));
         } catch (PlayerAlreadyInException | MaxPlayersInException e) {
             throw new RuntimeException(e);
         }
@@ -248,8 +248,8 @@ public class GameModelTest {
     @DisplayName("Check final shelf false")
     void checkFinalShelfFalse() {
         try {
-            model.addPlayer(new Player("0", new Shelf(), new CardGoal(CardGoalType.GOAL0), new ArrayList<>(), new ArrayList<>()));
-            model.addPlayer(new Player("1", new Shelf(), new CardGoal(CardGoalType.GOAL0), new ArrayList<>(), new ArrayList<>()));
+            model.addPlayer(new Player("0", new Shelf(), new CardGoal(CardGoalType.GOAL0), new ArrayList<>(), new ArrayList<>(), -1));
+            model.addPlayer(new Player("1", new Shelf(), new CardGoal(CardGoalType.GOAL0), new ArrayList<>(), new ArrayList<>(), -1));
         } catch (PlayerAlreadyInException | MaxPlayersInException e) {
             throw new RuntimeException(e);
         }
