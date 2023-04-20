@@ -12,6 +12,9 @@ import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -32,17 +35,51 @@ public class RMIClient implements CommonClientActions, Runnable {
         new Thread(this).start();
     }
     public void connect(){
-        try {
-            Registry registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
-            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+        boolean retry=false;
+        int attempt=1;
+        int i=0;
 
-            modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler,0);
+        do {
+            try {
+                Registry registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
+                requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
 
-            System.out.println("Client RMI ready");
-        } catch (Exception e) {
-            System.err.println("Server RMI exception: " + e);
-            e.printStackTrace();
-        }
+                modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler,0);
+
+                System.out.println("Client RMI ready");
+                retry=false;
+            } catch (Exception e) {
+                if (retry == false) {
+                    System.err.println("[ERROR] CONNECTING TO RMI SERVER: \n\tClient RMI exception: "+e.toString()+"\n");
+                }
+                System.out.print("[#"+attempt+"]Waiting to reconnect to RMI Server on port: '"+DefaultValue.Default_port_RMI+"' with name: '"+DefaultValue.Default_servername_RMI+"'");
+
+                i=0;
+                while(i<DefaultValue.seconds_between_reconnection){
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    System.out.print(".");
+                    i++;
+                }
+                System.out.print("\n");
+
+                if(attempt>=DefaultValue.num_of_attempt_to_connect_toServer_before_giveup){
+                    System.out.print("Give up!");
+                    try {
+                        System.in.read();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    System.exit(-1);
+                }
+                retry=true;
+                attempt++;
+            }
+        }while(retry);
+
     }
 
     @Override

@@ -52,4 +52,7 @@ public class DefaultValue implements Serializable {
     public final static int row_gameID=9;
     public final static int row_nextTurn=10;
 
+    public final static int num_of_attempt_to_connect_toServer_before_giveup=5;
+    public final static int seconds_between_reconnection=5;
+
 }

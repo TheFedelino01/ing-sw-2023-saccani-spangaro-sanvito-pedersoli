@@ -6,9 +6,11 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 
+import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RMIServer extends UnicastRemoteObject implements MainControllerInterface {
@@ -25,12 +27,12 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
 
 
             System.out.println("Server RMI ready");
-        } catch (Exception e) {
-            System.err.println("Server RMI exception: " + e.toString());
-            e.printStackTrace();
+        } catch (RemoteException e) {
+            System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: "+e.toString());
         }
         return obj;
     }
+
 
     public RMIServer() throws RemoteException{
         super();
