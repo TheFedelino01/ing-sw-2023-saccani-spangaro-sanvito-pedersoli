@@ -182,7 +182,13 @@ public class RMIClient implements CommonClientActions, Runnable {
                 gameController.heartbeat(nickname, modelInvokedEvents);
             }
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.err.println("[ERROR] Connection to server lost! "+e.toString());
+            try {
+                System.in.read();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            System.exit(-1);
         }
     }
 

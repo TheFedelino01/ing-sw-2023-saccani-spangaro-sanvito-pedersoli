@@ -51,7 +51,13 @@ public class ClientSocket extends Thread implements CommonClientActions {
                 msg.execute(modelInvokedEvents);
 
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
-                throw new RuntimeException(e);
+                System.err.println("[ERROR] Connection to server lost! "+e.toString());
+                try {
+                    System.in.read();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                System.exit(-1);
             }
         }
     }
