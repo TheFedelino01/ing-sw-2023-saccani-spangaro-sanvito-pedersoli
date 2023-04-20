@@ -40,6 +40,14 @@ public class Console {
         show_important_events();
     }
 
+    public void resize(){
+        try{
+            new ProcessBuilder("cmd", "/c", "mode con:cols=300 lines=70").inheritIO().start().waitFor();
+        }catch(IOException | InterruptedException e) {
+            //couldn't resize the terminal window
+        }
+    }
+
     public List<String> getImportantEvents() {
         return new ArrayList<>(importantEvents);
     }
@@ -218,8 +226,9 @@ public class Console {
     public void clearCMD() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            //if not on a Windows machine
         } catch (IOException | InterruptedException e) {
-            //per mac
+            //for mac
             System.out.print("\033\143");
 
             //This might work too, but exec is deprecated
@@ -233,6 +242,7 @@ public class Console {
 
     public void alwaysShow(GameModelImmutable model, String nick){
         clearCMD();
+        resize();
         show_titleMyShelfie();
         show_playground(model);
         showCommonCards(model);
