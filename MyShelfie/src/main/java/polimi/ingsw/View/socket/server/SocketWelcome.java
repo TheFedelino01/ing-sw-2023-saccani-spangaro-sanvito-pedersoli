@@ -11,10 +11,14 @@ public class SocketWelcome extends Thread {
     private List<ClientHandler> handler;
 
     public void start(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
-        handler = new ArrayList<>();
-        this.start();
-        System.out.println("Server Socket ready");
+        try {
+            serverSocket = new ServerSocket(port);
+            handler = new ArrayList<>();
+            this.start();
+            System.out.println("Server Socket ready");
+        } catch (IOException e) {
+            System.err.println("[ERROR] STARTING SOCKET SERVER: \n\tServer RMI exception: "+e.toString());
+        }
     }
 
     public void run() {
@@ -24,11 +28,10 @@ public class SocketWelcome extends Thread {
                 handler.get(handler.size() - 1).start();
                 System.out.println("[SOCKET] new connection accepted");
             }
-        } catch (ClosedByInterruptException e) {
-            //interrupted by close
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("[ERROR] ACCEPTING WELCOME SOCKET CONNECTION: \n\tServer RMI exception: "+e.toString());
         }
+
         try {
             serverSocket.close();
         } catch (IOException e) {

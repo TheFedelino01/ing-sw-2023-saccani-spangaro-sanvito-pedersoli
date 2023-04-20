@@ -20,6 +20,7 @@ import polimi.ingsw.View.userView.View;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientSocket extends Thread implements CommonClientActions {
 
@@ -50,20 +51,61 @@ public class ClientSocket extends Thread implements CommonClientActions {
                 msg.execute(modelInvokedEvents);
 
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
-                throw new RuntimeException(e);
+                System.err.println("[ERROR] Connection to server lost! "+e.toString());
+                try {
+                    System.in.read();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                System.exit(-1);
             }
         }
     }
 
 
     private void startConnection(String ip, int port) {
-        try {
-            clientSoc = new Socket(ip, port);
-            out = new ObjectOutputStream(clientSoc.getOutputStream());
-            in = new ObjectInputStream(clientSoc.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        boolean retry=false;
+        int attempt=1;
+        int i=0;
+
+        do {
+            try {
+                clientSoc = new Socket(ip, port);
+                out = new ObjectOutputStream(clientSoc.getOutputStream());
+                in = new ObjectInputStream(clientSoc.getInputStream());
+                retry=false;
+            } catch (IOException e) {
+                if (retry == false) {
+                    System.err.println("[ERROR] CONNECTING TO SOCKET SERVER: \n\tClient RMI exception: " + e.toString()+"\n");
+                }
+                System.out.print("[#"+attempt+"]Waiting to reconnect to Socket Server on port: '"+port+"' with ip: '"+ip+"'");
+
+                i=0;
+                while(i<DefaultValue.seconds_between_reconnection){
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    System.out.print(".");
+                    i++;
+                }
+                System.out.print("\n");
+
+                if(attempt>=DefaultValue.num_of_attempt_to_connect_toServer_before_giveup){
+                    System.out.print("Give up!");
+                    try {
+                        System.in.read();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    System.exit(-1);
+                }
+                retry=true;
+                attempt++;
+            }
+        }while(retry);
+
     }
 
 
