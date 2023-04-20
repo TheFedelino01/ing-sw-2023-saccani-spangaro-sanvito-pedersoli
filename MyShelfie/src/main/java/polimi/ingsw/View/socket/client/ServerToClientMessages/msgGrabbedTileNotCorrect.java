@@ -14,6 +14,6 @@ public class msgGrabbedTileNotCorrect extends SocketServerGenericMessage{
 
     @Override
     public void execute(GameListener lis) throws RemoteException {
-        lis.grabbedTile(gamemodel);
+        lis.grabbedTileNotCorrect(gamemodel);
     }
 }

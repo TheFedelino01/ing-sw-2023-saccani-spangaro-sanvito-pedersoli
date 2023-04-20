@@ -197,6 +197,7 @@ public class Playground implements Serializable {
     public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException{
         List<Tile> ris = new ArrayList<>();
         checkBeforeGrab(x,y,direction,num);
+
         int i = 0;
         while (i < num) {
             if(playground[x][y].isSameType(TileType.NOT_USED)) {

@@ -38,7 +38,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private final FileDisconnection fileDisconnection;
 
     private String lastPlayerReconnected;
-
+    private int columnChosen=-1;
     private final Console console;
 
 
@@ -162,14 +162,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
             }
-            case NEXT_TURN -> {
+            case NEXT_TURN,PLAYER_RECONNECTED -> {
                 console.alwaysShow(event.getModel(), nickname);
-                for(Player p : event.getModel().getPlayers())
-                    //resets column choice
-                    p.setColumnChosen(-1);
+                columnChosen=-1;
+
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
+
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
+                        console.alwaysShow(event.getModel(), nickname);
                         console.addImportantEvent("[EVENT]: Player reconnected!");
+                        System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
+
                         if (nickname.equals(lastPlayerReconnected)) {
                             askPickTiles();
                         }
@@ -185,8 +188,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.alwaysShow(event.getModel(), nickname);
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn, so I'm the current playing
-                    if (event.getModel().getPlayerEntity(event.getModel().getNicknameCurrentPlaying()).getColumnChosen() == -1)
+
+                    if (columnChosen == -1) {
+                        //If I haven't selected the column than I select the column in which I want to place all the tiles that I have grabbed (now in Hand)
                         askColumn(event.getModel());
+                    }
                     askWhichTileToPlace(event.getModel());
                 } else {
                     console.show_grabbedTile(nickname, event.getModel());
@@ -197,21 +203,23 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case POSITIONED_TILE -> {
                 console.alwaysShow(event.getModel(), nickname);
                 console.addImportantEvent("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
-                if (event.getModel().getHandOfCurrentPlaying().size() > 0) {
+                if (event.getModel().getHandOfCurrentPlaying().size() > 0 && event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
+                    //Ask to place other tiles
                     events.add(event.getModel(), EventType.GRABBED_TILE);
                 }
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
             }
-            case PLAYER_RECONNECTED -> {
+            case GRABBED_TILE_NOT_CORRECT ->{
                 console.alwaysShow(event.getModel(), nickname);
-                console.addImportantEvent("[EVENT]: Player reconnected!");
-                if (event.getModel().isMyTurn(nickname)) {
-                    events.add(event.getModel(), NEXT_TURN);
+                if(event.getModel().getNicknameCurrentPlaying().equals(nickname)){
+                    columnChosen=-1;
+                    askPickTiles();
                 }
-                System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
+
         }
 
     }
@@ -343,12 +351,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
         Integer row;
         do {
-            row = askNum("> Which tiles do you want to get?\n> Choose row: ");
+            row = askNum("> Which tiles do you want to get?\n\t> Choose row: ");
         } while (row > DefaultValue.PlaygroundSize);
 
         Integer column;
         do {
-            column = askNum("> Choose column: ");
+            column = askNum("\t> Choose column: ");
         } while (column > DefaultValue.PlaygroundSize);
 
         //Ask the direction only if the player wants to grab more than 1 tile
@@ -356,7 +364,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         if (numTiles > 1) {
             String direction;
             do {
-                System.out.println("> Choose direction (r=right,l=left,u=up,d=down): ");
+                System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
                 direction = new Scanner(System.in).nextLine();
                 d = Direction.getDirection(direction);
             } while (d == null);
@@ -382,26 +390,26 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         console.show_playerHand(model);
         Integer column;
         do {
-            column = askNum("> Choose column to place the tile:");
-        } while (column == null);
-        model.getPlayerEntity(model.getNicknameCurrentPlaying()).setColumnChosen(column);
+            column = askNum("> Choose column to place all the tiles:");
+        } while (column == null || column>=DefaultValue.NumOfColumnsShelf || column<0);
+        columnChosen=column;
     }
 
     public void askWhichTileToPlace(GameModelImmutable model) {
         console.alwaysShow(model, nickname);
         console.show_playerHand(model);
-        System.out.println("> Which tile do you want to place?");
+        System.out.println("> Select which tile do you want to place:");
         Integer indexHand;
         do {
-            indexHand = askNum("> Choose Tile in hand (0,1,2):");
+            indexHand = askNum("\t> Choose Tile in hand (0,1,2):");
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
-                System.out.println("Wrong Tile selection offset");
+                System.out.println("\tWrong Tile selection offset");
                 indexHand = null;
             }
         } while (indexHand == null);
 
         try {
-            positionTileOnShelf(model.getPlayerEntity(model.getNicknameCurrentPlaying()).getColumnChosen(), model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
+            positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -565,6 +573,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         //System.out.println("[EVENT]: a tile has been grabbed");
         //shared.set(gameModel, shared.isNeedto_showCommonCards(), true,shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
         events.add(gameModel, EventType.GRABBED_TILE);
+
     }
 
     //shared.set(gameModel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
@@ -573,6 +582,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         //System.out.println("[EVENT]: a tile has not been grabbed correctly");
         // shared.set(gameModel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),true);
         events.add(gameModel, EventType.GRABBED_TILE_NOT_CORRECT);
+        console.addImportantEvent("[EVENT]: A set of not grabbable tiles has been requested by Player: "+gameModel.getNicknameCurrentPlaying());
     }
 
     @Override

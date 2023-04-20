@@ -355,55 +355,6 @@ public class GameModel {
 
     }
 
-    /*
-    @SuppressWarnings("unchecked")
-    public void saveChat() {
-        JSONObject save = new JSONObject();
-        JSONObject msg = new JSONObject();
-        JSONArray list = new JSONArray();
-        for (Message m : chat.getMsgs()) {
-            save.put("sender", m.getSender().getNickname());
-            save.put("time", m.getTime().toString());
-            save.put("text", m.getText());
-            msg.put("message", save);
-            list.add(msg);
-        }
-        try (FileWriter write = new FileWriter("./src/main/java/polimi/ingsw/JSON/" + gameId.toString() + ".json")) {
-            write.write(list.toJSONString());
-            write.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadChat() {
-        String jsonString = "./src/main/java/polimi/ingsw/JSON/" + gameId.toString() + ".json";
-        Message single = new Message();
-        List<Message> tempMessage = new ArrayList<>();
-        try (Reader read = new FileReader(jsonString)) {
-            JSONArray chatSaved = (JSONArray) new JSONParser().parse(read);
-            JSONObject msg;
-            for (Object o : chatSaved) {
-                msg = (JSONObject) o;
-                single.setTime(LocalTime.parse(msg.get("time").toString()));
-                single.setText(msg.get("text").toString());
-                String nick = msg.get("sender").toString();
-                for (Player p : players) {
-                    if (p.getNickname().equals(nick)) {
-                        single.setSender(p);
-                        break;
-                    }
-                }
-                tempMessage.add(single);
-            }
-            chat.setMsgs(tempMessage);
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    */
 
     public void addListener(GameListener obj) {
         listenersHandler.addListener(obj);
