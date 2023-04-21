@@ -1,9 +1,12 @@
 package polimi.ingsw.Model.Chat;
 
+import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Player;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class Message implements Serializable {
     private String text;
@@ -22,13 +25,11 @@ public class Message implements Serializable {
         this.sender = null;
     }
 
-    @Override
-    public String toString(){
-        return this.time.toString().concat(" ")
-                .concat(this.getSender().getNickname())
-                .concat(": ")
-                .concat(this.text)
-                .concat("\n");
+    public String toString(int i){
+        StringBuilder ret = new StringBuilder();
+        ret.append(ansi().cursor(DefaultValue.row_chat+i, 86).a("[").a(this.time.toString().split(".")[0]).a("] ")
+                .a(this.getSender().getNickname()).a(": ").a(this.text));
+        return ret.toString();
     }
 
     public String getText() {

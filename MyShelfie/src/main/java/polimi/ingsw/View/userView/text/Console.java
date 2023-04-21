@@ -2,12 +2,12 @@ package polimi.ingsw.View.userView.text;
 
 import org.fusesource.jansi.AnsiConsole;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
+import polimi.ingsw.Model.Chat.Chat;
+import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
-import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Tile;
-import polimi.ingsw.View.userView.Events.EventElement;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -21,6 +21,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class Console {
 
     private List<String> importantEvents; //events that needs to be showed always in screen
+    private Chat chat;
 
     public Console() {
         init();
@@ -29,6 +30,7 @@ public class Console {
     public void init() {
         AnsiConsole.systemInstall();
         importantEvents = new ArrayList<>();
+        chat = new Chat();
     }
 
     public void addImportantEvent(String imp) {
@@ -40,13 +42,18 @@ public class Console {
         show_important_events();
     }
 
-    public void resize(){
-        try{
+    /* Need to ask if I can import all the stuff made for the "find window and resize accordingly functionality"
+       as of now, if this command is run in Windows terminal, it bugs out
+
+    public void resize() {
+        try {
             new ProcessBuilder("cmd", "/c", "mode con:cols=300 lines=70").inheritIO().start().waitFor();
-        }catch(IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             //couldn't resize the terminal window
         }
     }
+
+     */
 
     public List<String> getImportantEvents() {
         return new ArrayList<>(importantEvents);
@@ -210,7 +217,7 @@ public class Console {
     }
 
     private void show_important_events() {
-        if(importantEvents.size()>0) {
+        if (importantEvents.size() > 0) {
             StringBuilder ris = new StringBuilder();
             int i = 0;
             ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, 85).bold().a("Latest Events:").fg(DEFAULT).boldOff());
@@ -240,9 +247,24 @@ public class Console {
         }
     }
 
-    public void alwaysShow(GameModelImmutable model, String nick){
+    public void showMessages() {
+        if (chat.getMsgs().size() > 0) {
+            String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, 85).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
+                    ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, 86).a(chat.toString()).fg(DEFAULT);
+            System.out.println(ris);
+        }
+        System.out.println(ansi().cursor(DefaultValue.row_input, 0));
+    }
+
+    public void addMessage(Message msg) {
+        chat.addMsg(msg);
+        showMessages();
+    }
+
+
+    public void alwaysShow(GameModelImmutable model, String nick) {
         clearCMD();
-        resize();
+        //resize();
         show_titleMyShelfie();
         show_playground(model);
         showCommonCards(model);

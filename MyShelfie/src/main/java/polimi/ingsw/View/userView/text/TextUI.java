@@ -57,7 +57,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void run() {
         EventElement event;
         try {
-            console.resize();
+            //console.resize();
             console.show_Publisher();
             Thread.sleep(2500);
             console.clearCMD();
@@ -174,11 +174,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                         System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
                         if (nickname.equals(lastPlayerReconnected)) {
-                            askPickTiles();
+                            askPickTiles(event.getModel());
                         }
                         //else the player who has just reconnected is not me, and so I do nothing
                     } else {
-                        askPickTiles();
+                        askPickTiles(event.getModel());
                     }
                 }
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
@@ -214,7 +214,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.alwaysShow(event.getModel(), nickname);
                 if(event.getModel().getNicknameCurrentPlaying().equals(nickname)){
                     columnChosen=-1;
-                    askPickTiles();
+                    askPickTiles(event.getModel());
                 }
 
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
@@ -262,6 +262,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     \t(js) Join a specific Game by idGame
                     \t(x) Reconnect
                     \t(.) to leave
+                    \tRemember! At any point in the game, if you type "/c [msg]"
+                    \tyou can write in chat!
                     \t""").fg(DEFAULT));
             optionChoose = scanner.nextLine();
             if (optionChoose.equals("."))
@@ -328,14 +330,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
 
-    private Integer askNum(String msg) {
+    private Integer askNum(String msg, GameModelImmutable gameModel) {
         System.out.print(msg);
         System.out.flush();
+        String temp;
         int numT = -1;
 
         do {
             try {
-                numT = new Scanner(System.in).nextInt();
+                temp = new Scanner(System.in).nextLine();
+                if(temp.equals(""))
+                    continue;
+                if (temp.startsWith("/c")){
+                    sentMessage(new Message(temp.substring(2), gameModel.getPlayerEntity(nickname)));
+                    continue;
+                }
+                numT = Integer.parseInt(temp);
             } catch (InputMismatchException e) {
                 System.out.println("Nan");
             }
@@ -343,20 +353,20 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         return numT;
     }
 
-    public void askPickTiles() {
+    public void askPickTiles(GameModelImmutable gameModel) {
         Integer numTiles;
         do {
-            numTiles = askNum("> How many tiles do you want to get? ");
+            numTiles = askNum("> How many tiles do you want to get? ", gameModel);
         } while (!(numTiles >= DefaultValue.minNumOfGrabbableTiles && numTiles <= DefaultValue.maxNumOfGrabbableTiles));
 
         Integer row;
         do {
-            row = askNum("> Which tiles do you want to get?\n\t> Choose row: ");
+            row = askNum("> Which tiles do you want to get?\n\t> Choose row: ", gameModel);
         } while (row > DefaultValue.PlaygroundSize);
 
         Integer column;
         do {
-            column = askNum("\t> Choose column: ");
+            column = askNum("\t> Choose column: ", gameModel);
         } while (column > DefaultValue.PlaygroundSize);
 
         //Ask the direction only if the player wants to grab more than 1 tile
@@ -366,6 +376,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             do {
                 System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
                 direction = new Scanner(System.in).nextLine();
+                if(direction.equals(""))
+                    continue;
+                if (direction.startsWith("/c")){
+                    sentMessage(new Message(direction.substring(2), gameModel.getPlayerEntity(nickname)));
+                    continue;
+                }
                 d = Direction.getDirection(direction);
             } while (d == null);
         }
@@ -390,7 +406,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         console.show_playerHand(model);
         Integer column;
         do {
-            column = askNum("> Choose column to place all the tiles:");
+            column = askNum("> Choose column to place all the tiles:", model);
         } while (column == null || column>=DefaultValue.NumOfColumnsShelf || column<0);
         columnChosen=column;
     }
@@ -401,7 +417,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         System.out.println("> Select which tile do you want to place:");
         Integer indexHand;
         do {
-            indexHand = askNum("\t> Choose Tile in hand (0,1,2):");
+            indexHand = askNum("\t> Choose Tile in hand (0,1,2):", model);
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
                 System.out.println("\tWrong Tile selection offset");
                 indexHand = null;
@@ -432,6 +448,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             throw new RuntimeException(e);
         }
     }
+
+
 
     @Override
     public void joinFirstAvailable(String nick) {
@@ -564,8 +582,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void sentMessage(Message msg) {
-        System.out.println("[EVENT]: new Message: \"" + msg.toString() + "\"");
-
+        console.addMessage(msg);
     }
 
     @Override

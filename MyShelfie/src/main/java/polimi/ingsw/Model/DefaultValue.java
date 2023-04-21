@@ -39,7 +39,7 @@ public class DefaultValue implements Serializable {
 
     public final static int maxnum_of_last_event_tobe_showed=4;
 
-    public final static int row_input = 30;
+    public final static int row_input = 32;
     public final static int row_important_events=2;
     public final static int row_playground=11;
     public final static int col_playground=0;
@@ -54,5 +54,7 @@ public class DefaultValue implements Serializable {
 
     public final static int num_of_attempt_to_connect_toServer_before_giveup=5;
     public final static int seconds_between_reconnection=5;
+    public final static int row_chat = 17;
+    public final static int max_messagesShown = 3;
 
 }
