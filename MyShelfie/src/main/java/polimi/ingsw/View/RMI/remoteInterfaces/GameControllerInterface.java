@@ -4,6 +4,7 @@ import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
+import polimi.ingsw.Model.Chat.Message;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -17,5 +18,7 @@ public interface GameControllerInterface extends Remote {
     void setConnectionStatus(String nick, GameListener lisOfClient, boolean connected) throws RemoteException;
 
     void heartbeat(String nick, GameListener me) throws RemoteException;
+
+    void sentMessage(Message msg) throws RemoteException;
 
 }

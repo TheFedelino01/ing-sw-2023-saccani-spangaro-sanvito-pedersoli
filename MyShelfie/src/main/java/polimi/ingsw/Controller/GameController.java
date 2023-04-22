@@ -5,6 +5,7 @@ import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.*;
+import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
@@ -276,6 +277,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void heartbeat(String nick, GameListener me) throws RemoteException {
         heartbeats.put(me, new Heartbeat(System.currentTimeMillis(), nick));
         //System.out.println("heartbeat rec: "+heartbeats.get(me));
+    }
+
+    @Override
+    public void sentMessage(Message msg) throws RemoteException {
+        model.sentMessage(msg.getSender(), msg.getText());
     }
 
 

@@ -1,6 +1,7 @@
 package polimi.ingsw.View.RMI;
 
 import polimi.ingsw.Listener.GameListener;
+import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
@@ -12,9 +13,6 @@ import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -37,7 +35,7 @@ public class RMIClient implements CommonClientActions, Runnable {
     public void connect(){
         boolean retry=false;
         int attempt=1;
-        int i=0;
+        int i;
 
         do {
             try {
@@ -49,8 +47,8 @@ public class RMIClient implements CommonClientActions, Runnable {
                 System.out.println("Client RMI ready");
                 retry=false;
             } catch (Exception e) {
-                if (retry == false) {
-                    System.err.println("[ERROR] CONNECTING TO RMI SERVER: \n\tClient RMI exception: "+e.toString()+"\n");
+                if (!retry) {
+                    System.err.println("[ERROR] CONNECTING TO RMI SERVER: \n\tClient RMI exception: "+e+"\n");
                 }
                 System.out.print("[#"+attempt+"]Waiting to reconnect to RMI Server on port: '"+DefaultValue.Default_port_RMI+"' with name: '"+DefaultValue.Default_servername_RMI+"'");
 
@@ -139,6 +137,15 @@ public class RMIClient implements CommonClientActions, Runnable {
         }
     }
 
+    @Override
+    public void sendMessage(Message msg){
+        try {
+            gameController.sentMessage(msg);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void setAsReady(){
         try {
             if(gameController!=null){
@@ -182,7 +189,7 @@ public class RMIClient implements CommonClientActions, Runnable {
                 gameController.heartbeat(nickname, modelInvokedEvents);
             }
         } catch (RemoteException e) {
-            System.err.println("[ERROR] Connection to server lost! "+e.toString());
+            System.err.println("[ERROR] Connection to server lost! "+e);
             try {
                 System.in.read();
             } catch (IOException ex) {
@@ -191,6 +198,5 @@ public class RMIClient implements CommonClientActions, Runnable {
             System.exit(-1);
         }
     }
-
 
 }

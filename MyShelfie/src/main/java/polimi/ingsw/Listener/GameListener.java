@@ -1,13 +1,10 @@
 package polimi.ingsw.Listener;
 
-import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
-import polimi.ingsw.Model.GameModel;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
-import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
 import java.rmi.Remote;
@@ -26,7 +23,7 @@ public interface GameListener extends Remote {
     void gameStarted(GameModelImmutable gamemodel) throws RemoteException;
     void gameEnded(GameModelImmutable gamemodel) throws RemoteException;
 
-    void sentMessage(Message msg) throws RemoteException;
+    void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException;
     void grabbedTile(GameModelImmutable gamemodel) throws RemoteException;
     void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException;
     void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException;

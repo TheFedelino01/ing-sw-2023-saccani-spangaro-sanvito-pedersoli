@@ -26,10 +26,9 @@ public class Message implements Serializable {
     }
 
     public String toString(int i){
-        StringBuilder ret = new StringBuilder();
-        ret.append(ansi().cursor(DefaultValue.row_chat+i, 86).a("[").a(this.time.toString().split(".")[0]).a("] ")
+        return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, 86).a("[").a(this.time.getHour()).a(":").a(this.time.getMinute())
+                .a(":").a(this.time.getSecond()).a("] ")
                 .a(this.getSender().getNickname()).a(": ").a(this.text));
-        return ret.toString();
     }
 
     public String getText() {

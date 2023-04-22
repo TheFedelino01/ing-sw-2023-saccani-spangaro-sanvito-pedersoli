@@ -1,7 +1,6 @@
 package polimi.ingsw.View.handlerResponsesByClient;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
@@ -78,9 +77,9 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void sentMessage(Message msg) throws RemoteException {
+    public void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException {
         //System.out.println(this.hashCode() + "> new Message: \""+msg.toString()+"\" [by Socket]");
-        gui.sentMessage(msg);
+        gui.sentMessage(gameModel, msg);
     }
 
     @Override

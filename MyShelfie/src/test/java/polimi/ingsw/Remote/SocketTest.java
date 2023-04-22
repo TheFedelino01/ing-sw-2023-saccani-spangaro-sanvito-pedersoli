@@ -11,9 +11,6 @@ import polimi.ingsw.View.userView.text.TextUI;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.Scanner;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled
 public class SocketTest {
@@ -63,7 +60,7 @@ public class SocketTest {
 
 
     }
-
+    /*
     @Test
     @DisplayName("Test multiple connection")
     void testMulConnection() throws IOException, ClassNotFoundException {
@@ -71,17 +68,17 @@ public class SocketTest {
         client2 = new ClientSocket(gui2);
         client3 = new ClientSocket(gui3);
 
-        String respCl10 = client1.sendMsg("ciao");
-        String respCl11 = client1.sendMsg("ciao again");
-        String respCl12 = client1.sendMsg(".");
+        String respCl10 = client1.sentMessage("ciao");
+        String respCl11 = client1.sentMessage("ciao again");
+        String respCl12 = client1.sentMessage(".");
 
-        String respCl20 = client2.sendMsg("bau");
-        String respCl21 = client2.sendMsg("miao");
-        String respCl22 = client2.sendMsg(".");
+        String respCl20 = client2.sentMessage("bau");
+        String respCl21 = client2.sentMessage("miao");
+        String respCl22 = client2.sentMessage(".");
 
-        String respCl30 = client3.sendMsg("test magico");
-        String respCl31 = client3.sendMsg("test magico 2");
-        String respCl32 = client3.sendMsg(".");
+        String respCl30 = client3.sentMessage("test magico");
+        String respCl31 = client3.sentMessage("test magico 2");
+        String respCl32 = client3.sentMessage(".");
 
 
         assertEquals("ciao", respCl10);
@@ -100,11 +97,11 @@ public class SocketTest {
     void testInfinite() throws IOException, ClassNotFoundException {
         client4 = new ClientSocket(gui4);
         for (int i = 0; i < 10; i++) {
-            String ciao = client4.sendMsg("ciao");
+            String ciao = client4.sentMessage("ciao");
             assertEquals("ciao", ciao);
         }
         //Closes the connection
-        client4.sendMsg(".");
+        client4.sentMessage(".");
     }
 
     @Test
@@ -115,5 +112,7 @@ public class SocketTest {
 
     }
 
+
+     */
 
 }

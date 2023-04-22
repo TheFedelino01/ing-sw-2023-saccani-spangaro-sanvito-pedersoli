@@ -107,10 +107,10 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
-    public void sentMessage(Message msg) throws RemoteException {
+    public void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException {
         try {
             out.reset();
-            out.writeObject(new msgSentMessage(msg));
+            out.writeObject(new msgSentMessage(gameModel, msg));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

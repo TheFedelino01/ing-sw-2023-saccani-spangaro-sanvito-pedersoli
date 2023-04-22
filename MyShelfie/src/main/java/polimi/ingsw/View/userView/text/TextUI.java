@@ -162,6 +162,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
             }
+            case SENT_MESSAGE -> console.alwaysShow(event.getModel(), nickname);
             case NEXT_TURN,PLAYER_RECONNECTED -> {
                 console.alwaysShow(event.getModel(), nickname);
                 columnChosen=-1;
@@ -226,12 +227,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     private void statusEnded(EventElement event) {
         switch (event.getType()) {
-            case GAMEENDED:
+            case GAMEENDED -> {
                 console.addImportantEvent(ansi().a("[EVENT]: ").a(event.getModel().getGameId()).a(" ended! ").cursorDownLine().a(
                         "The winner is: ").a(event.getModel().getWinner().getNickname()).cursorDownLine().a(
                         "Score board: todo").toString());
                 resetGameId(fileDisconnection, event.getModel());
-                break;
+            }
         }
     }
 
@@ -342,11 +343,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if(temp.equals(""))
                     continue;
                 if (temp.startsWith("/c")){
-                    sentMessage(new Message(temp.substring(2), gameModel.getPlayerEntity(nickname)));
+                    sendMessage(new Message(temp.substring(2), gameModel.getPlayerEntity(nickname)));
                     continue;
                 }
                 numT = Integer.parseInt(temp);
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException | NumberFormatException e) {
                 System.out.println("Nan");
             }
         } while (numT < 0);
@@ -379,7 +380,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if(direction.equals(""))
                     continue;
                 if (direction.startsWith("/c")){
-                    sentMessage(new Message(direction.substring(2), gameModel.getPlayerEntity(nickname)));
+                    sendMessage(new Message(direction.substring(2), gameModel.getPlayerEntity(nickname)));
                     continue;
                 }
                 d = Direction.getDirection(direction);
@@ -513,6 +514,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         server.heartbeat();
     }
 
+    @Override
+    public void sendMessage(Message msg){
+        server.sendMessage(msg);
+    }
+
 
     //-----------------------------------------------------------------------
     //RICEZIONE DEGLI EVENTI DAL SERVER
@@ -538,6 +544,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         lastPlayerReconnected = nickPlayerReconnected;
         events.add(gameModel, EventType.PLAYER_RECONNECTED);
         //events.add(gameModel, EventType.PLAYER_JOINED);
+    }
+
+    @Override
+    public void sentMessage(GameModelImmutable gameModel, Message msg) {
+        console.addMessage(msg);
+        events.add(gameModel, SENT_MESSAGE);
     }
 
     @Override
@@ -581,11 +593,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void sentMessage(Message msg) {
-        console.addMessage(msg);
-    }
-
-    @Override
     public void grabbedTile(GameModelImmutable gameModel) {
         //System.out.println("[EVENT]: a tile has been grabbed");
         //shared.set(gameModel, shared.isNeedto_showCommonCards(), true,shared.isGrabbed(),shared.isPlaced(),shared.isNeedto_showPositionedTile());
@@ -599,7 +606,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         //System.out.println("[EVENT]: a tile has not been grabbed correctly");
         // shared.set(gameModel, shared.isNeedto_showCommonCards(), shared.isNeedto_showGrabbedTile(),shared.isGrabbed(),shared.isPlaced(),true);
         events.add(gameModel, EventType.GRABBED_TILE_NOT_CORRECT);
-        console.addImportantEvent("[EVENT]: A set of not grabbable tiles has been requested by Player: "+gameModel.getNicknameCurrentPlaying());
+        console.addImportantEvent("[EVENT]: A set of not grabbable tiles has been requested by Player: " + gameModel.getNicknameCurrentPlaying());
     }
 
     @Override

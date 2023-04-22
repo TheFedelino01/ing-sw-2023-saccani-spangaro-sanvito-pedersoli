@@ -194,10 +194,10 @@ public class GameModel {
         return chat;
     }
 
-    public void sendMessage(Player p, String txt) {
+    public void sentMessage(Player p, String txt) {
         if (players.stream().filter(x -> x.equals(p)).count() == 1) {
             chat.addMsg(p, txt);
-            listenersHandler.notify_SentMessage(chat.getLastMessage());
+            listenersHandler.notify_SentMessage(this, chat.getLastMessage());
         } else {
             throw new ActionPerformedByAPlayerNotPlayingException();
         }

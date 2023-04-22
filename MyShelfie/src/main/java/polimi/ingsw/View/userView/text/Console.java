@@ -161,9 +161,9 @@ public class Console {
         int i = 0;
         for (Player p : gameModel.getPlayers()) {
             if (p.getReadyToStart()) {
-                ris.append(ansi().cursor(12 + +i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" is ready!\n");
+                ris.append(ansi().cursor(12 + i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" is ready!\n");
             } else {
-                ris.append(ansi().cursor(12 + +i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" has joined!\n");
+                ris.append(ansi().cursor(12 + i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" has joined!\n");
             }
             i++;
         }
@@ -238,12 +238,14 @@ public class Console {
             //for mac
             System.out.print("\033\143");
 
-            //This might work too, but exec is deprecated
+            /*This might work too, but exec is deprecated
             try {
                 Runtime.getRuntime().exec("clear");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+
+             */
         }
     }
 
@@ -268,11 +270,14 @@ public class Console {
         show_titleMyShelfie();
         show_playground(model);
         showCommonCards(model);
+        showMessages();
         for (Player p : model.getPlayers())
             if (p.getNickname().equals(nick))
                 showGoalCards(p);
         System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + model.getGameId() + ", First turn is played by: " + model.getNicknameCurrentPlaying()).toString());
         System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + model.getNicknameCurrentPlaying()).toString());
         showAllShelves(model);
+        show_important_events();
+        System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
 }

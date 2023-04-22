@@ -1,6 +1,5 @@
 package polimi.ingsw.Listener;
 
-import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModel;
@@ -94,10 +93,10 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_SentMessage(Message msg) {
+    public synchronized void notify_SentMessage(GameModel gameModel, Message msg) {
         for (GameListener l : listeners) {
             try {
-                l.sentMessage(msg);
+                l.sentMessage(new GameModelImmutable(gameModel), msg);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
