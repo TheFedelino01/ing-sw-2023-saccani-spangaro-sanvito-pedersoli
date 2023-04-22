@@ -40,6 +40,7 @@ public class DefaultValue implements Serializable {
     public final static int maxnum_of_last_event_tobe_showed=4;
 
     public final static int row_input = 32;
+    public final static int col_input = 40;
     public final static int row_important_events=2;
     public final static int row_playground=11;
     public final static int col_playground=0;

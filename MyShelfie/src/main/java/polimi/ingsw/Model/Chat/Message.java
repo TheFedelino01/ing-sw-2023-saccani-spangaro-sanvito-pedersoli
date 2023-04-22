@@ -25,10 +25,11 @@ public class Message implements Serializable {
         this.sender = null;
     }
 
-    public String toString(int i){
+    public String toString(int i, int len){
+        String padding = " ".repeat(Math.max(0, len));
         return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, 86).a("[").a(this.time.getHour()).a(":").a(this.time.getMinute())
                 .a(":").a(this.time.getSecond()).a("] ")
-                .a(this.getSender().getNickname()).a(": ").a(this.text));
+                .a(this.getSender().getNickname()).a(": ").a(this.text).a(padding));
     }
 
     public String getText() {

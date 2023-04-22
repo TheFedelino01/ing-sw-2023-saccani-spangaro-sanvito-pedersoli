@@ -54,8 +54,12 @@ public class Chat implements Serializable {
     public String toString() {
         StringBuilder ret = new StringBuilder();
         int i = 0;
+        int len = this.getMsgs().stream()
+                .map(Message::getText)
+                .reduce((a, b) -> b.length() > a.length() ? b : a)
+                .toString().length();
         for (Message msg : msgs) {
-            ret.append(msg.toString(i));
+            ret.append(msg.toString(i, len));
             i++;
         }
         return ret.toString();
