@@ -37,7 +37,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private final FileDisconnection fileDisconnection;
 
     private String lastPlayerReconnected;
-    private int columnChosen=-1;
+    private int columnChosen = -1;
     private final Console console;
 
 
@@ -137,7 +137,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (nickLastPlayer.equals(nickname)) {
                     console.showPlayerJoined(event.getModel(), nickname);
                     saveGameId(fileDisconnection, event.getModel());
-                    askReadyToStart(event.getModel());
+                    askReadyToStart();
                 }
                 break;
         }
@@ -163,9 +163,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
             }
             case SENT_MESSAGE -> console.alwaysShow(event.getModel(), nickname);
-            case NEXT_TURN,PLAYER_RECONNECTED -> {
+            case NEXT_TURN, PLAYER_RECONNECTED -> {
                 console.alwaysShow(event.getModel(), nickname);
-                columnChosen=-1;
+                columnChosen = -1;
 
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
 
@@ -211,10 +211,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
             }
-            case GRABBED_TILE_NOT_CORRECT ->{
+            case GRABBED_TILE_NOT_CORRECT -> {
                 console.alwaysShow(event.getModel(), nickname);
-                if(event.getModel().getNicknameCurrentPlaying().equals(nickname)){
-                    columnChosen=-1;
+                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
+                    columnChosen = -1;
                     askPickTiles(event.getModel());
                 }
 
@@ -317,7 +317,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         return gameId;
     }
 
-    public void askReadyToStart(GameModelImmutable gameModel) {
+    public void askReadyToStart() {
         String ris;
         try {
             do {
@@ -332,18 +332,23 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
 
     private Integer askNum(String msg, GameModelImmutable gameModel) {
-        System.out.print(msg);
-        System.out.flush();
         String temp;
         int numT = -1;
-
         do {
             try {
+                console.alwaysShow(gameModel, nickname);
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
+                System.out.flush();
                 temp = new Scanner(System.in).nextLine();
-                if(temp.equals(""))
+                if (temp.equals(""))
                     continue;
-                if (temp.startsWith("/c")){
-                    sendMessage(new Message(temp.substring(2), gameModel.getPlayerEntity(nickname)));
+                if (temp.startsWith("/c")) {
+                    if(temp.charAt(2) == ' '){
+                        sendMessage(new Message(temp.substring(3), gameModel.getPlayerEntity(nickname)));
+                    }else{
+                        sendMessage(new Message(temp.substring(2), gameModel.getPlayerEntity(nickname)));
+                    }
+                    System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
                     continue;
                 }
                 numT = Integer.parseInt(temp);
@@ -377,9 +382,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             do {
                 System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
                 direction = new Scanner(System.in).nextLine();
-                if(direction.equals(""))
+                if (direction.equals(""))
                     continue;
-                if (direction.startsWith("/c")){
+                if (direction.startsWith("/c")) {
                     sendMessage(new Message(direction.substring(2), gameModel.getPlayerEntity(nickname)));
                     continue;
                 }
@@ -408,8 +413,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer column;
         do {
             column = askNum("> Choose column to place all the tiles:", model);
-        } while (column == null || column>=DefaultValue.NumOfColumnsShelf || column<0);
-        columnChosen=column;
+        } while (column == null || column >= DefaultValue.NumOfColumnsShelf || column < 0);
+        columnChosen = column;
     }
 
     public void askWhichTileToPlace(GameModelImmutable model) {
@@ -449,7 +454,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             throw new RuntimeException(e);
         }
     }
-
 
 
     @Override
@@ -515,7 +519,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void sendMessage(Message msg){
+    public void sendMessage(Message msg) {
         server.sendMessage(msg);
     }
 

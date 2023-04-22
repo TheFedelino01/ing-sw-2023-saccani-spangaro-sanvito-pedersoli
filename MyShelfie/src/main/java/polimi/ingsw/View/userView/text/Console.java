@@ -254,16 +254,20 @@ public class Console {
             String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, 85).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
                     ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, 86).a(chat.toString()).fg(DEFAULT);
             System.out.println(ris);
+            System.out.println(ansi().cursor(DefaultValue.row_input, 0));
         }
+    }
+
+    public int getLengthLongestMessage(){
+        return chat.getMsgs().stream()
+                .map(Message::getText)
+                .reduce((a, b) -> a.length() > b.length() ? a : b)
+                .toString().length();
     }
 
     public void addMessage(Message msg) {
         chat.addMsg(msg);
         showMessages();
-        System.out.println(ansi().cursor(DefaultValue.row_input, DefaultValue.col_input).a(" ".repeat(chat.getMsgs().stream()
-                .map(Message::getText)
-                .reduce((a, b) -> a.length() > b.length() ? a : b)
-                .toString().length())));
     }
 
 
