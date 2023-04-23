@@ -171,7 +171,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
                         console.alwaysShow(event.getModel(), nickname);
-                        console.addImportantEvent("[EVENT]: Player reconnected!");
                         System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
                         if (nickname.equals(lastPlayerReconnected)) {
@@ -547,6 +546,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void playerReconnected(GameModelImmutable gameModel, String nickPlayerReconnected) {
         lastPlayerReconnected = nickPlayerReconnected;
         events.add(gameModel, EventType.PLAYER_RECONNECTED);
+        console.addImportantEvent("[EVENT]: Player reconnected!");
         //events.add(gameModel, EventType.PLAYER_JOINED);
     }
 
