@@ -105,7 +105,7 @@ public class GameModel {
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
         Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
-        if (pIn.isConnected() == false) {
+        if (!pIn.isConnected()) {
             pIn.setConnected(true);
             listenersHandler.notify_playerReconnected(this, p.getNickname());
             //listenersHandler.notify_playerJoined(this);
