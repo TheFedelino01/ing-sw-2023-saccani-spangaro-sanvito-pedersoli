@@ -326,11 +326,9 @@ public class GameModel {
     }
 
     /**
-     * Controllo chi tra i vari player ha piú punti
-     * Ritorna il Player con piú punti
-     *
+     *  find the winner of the game based on the points of every player
+     * TODO: if there are more than one player with the same points, the winner is chosen randomly?
      */
-
     private void findWinner() {
         int max = -1;
         int winnerIndex = -1;
