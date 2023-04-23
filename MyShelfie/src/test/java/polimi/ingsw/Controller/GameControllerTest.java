@@ -144,7 +144,12 @@ public class GameControllerTest {
                 assertEquals(ris.get(player).getGoalType(), CardGoalType.GOAL2, "The new card is not in the list");
             }
         });
-        //TODO Implementare controllo assegnazione punteggio
+        for (int i = 0; i < gameController.getNumOfPlayers(); i++) {
+            for (int j = i + 1; j < gameController.getNumOfPlayers(); j++) {
+                assertNotEquals(gameController.getGoalCard(i), gameController.getGoalCard(j), "In Cards Goal extracted there are duplicates");
+            }
+        }
+
     }
 
 
