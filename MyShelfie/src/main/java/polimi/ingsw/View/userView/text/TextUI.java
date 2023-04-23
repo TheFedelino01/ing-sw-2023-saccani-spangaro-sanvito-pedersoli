@@ -196,13 +196,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     }
                     askWhichTileToPlace(event.getModel());
                 } else {
-                    console.show_grabbedTile(nickname, event.getModel());
+                    console.show_grabbedTile(event.getModel());
                 }
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
             }
             case POSITIONED_TILE -> {
                 console.alwaysShow(event.getModel(), nickname);
+                console.show_grabbedTile(event.getModel());
                 console.addImportantEvent("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0 && event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //Ask to place other tiles
@@ -337,15 +338,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         do {
             try {
                 console.alwaysShow(gameModel, nickname);
-                System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
+                if (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().size() > 0) {
+                    if (gameModel.getNicknameCurrentPlaying().equals(nickname)) {
+                        console.show_playerHand(gameModel);
+                    } else {
+                        console.show_grabbedTile(gameModel);
+                    }
+                }
+                System.out.println(ansi().cursor(DefaultValue.row_input + 1, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
                 System.out.flush();
                 temp = new Scanner(System.in).nextLine();
                 if (temp.equals(""))
                     continue;
                 if (temp.startsWith("/c")) {
-                    if(temp.charAt(2) == ' '){
+                    if (temp.charAt(2) == ' ') {
                         sendMessage(new Message(temp.substring(3), gameModel.getPlayerEntity(nickname)));
-                    }else{
+                    } else {
                         sendMessage(new Message(temp.substring(2), gameModel.getPlayerEntity(nickname)));
                     }
                     System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
@@ -372,24 +380,13 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
         Integer column;
         do {
-            column = askNum("\t> Choose column: ", gameModel);
+            column = askNum("> Which tiles do you want to get?\n\t> Choose column: ", gameModel);
         } while (column > DefaultValue.PlaygroundSize);
 
         //Ask the direction only if the player wants to grab more than 1 tile
         Direction d = Direction.RIGHT;
         if (numTiles > 1) {
-            String direction;
-            do {
-                System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
-                direction = new Scanner(System.in).nextLine();
-                if (direction.equals(""))
-                    continue;
-                if (direction.startsWith("/c")) {
-                    sendMessage(new Message(direction.substring(2), gameModel.getPlayerEntity(nickname)));
-                    continue;
-                }
-                d = Direction.getDirection(direction);
-            } while (d == null);
+            d = askDirection(gameModel, "> Which tiles do you want to get?\n\t> Choose direction (r=right,l=left,u=up,d=down): ");
         }
         //System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
 
@@ -398,6 +395,24 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Direction askDirection(GameModelImmutable gameModel, String msg){
+        Direction d = Direction.RIGHT;
+        String direction;
+        do {
+            System.out.println(ansi().cursor(DefaultValue.row_input + 1, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
+            System.out.flush();
+            direction = new Scanner(System.in).nextLine();
+            if (direction.equals(""))
+                continue;
+            if (direction.startsWith("/c")) {
+                sendMessage(new Message(direction.substring(2), gameModel.getPlayerEntity(nickname)));
+                continue;
+            }
+            d = Direction.getDirection(direction);
+        } while (d == null);
+        return d;
     }
 
     private void askColumn(GameModelImmutable model) {
@@ -412,7 +427,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         console.show_playerHand(model);
         Integer column;
         do {
-            column = askNum("> Choose column to place all the tiles:", model);
+            column = askNum("\n> Choose column to place all the tiles:", model);
         } while (column == null || column >= DefaultValue.NumOfColumnsShelf || column < 0);
         columnChosen = column;
     }
