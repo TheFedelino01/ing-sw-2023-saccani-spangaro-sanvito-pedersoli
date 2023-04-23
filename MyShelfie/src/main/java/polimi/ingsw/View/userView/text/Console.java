@@ -80,8 +80,8 @@ public class Console {
     }
 
     public void show_playerHand(GameModelImmutable gameModel) {
-        System.out.println(">This is your hand:");
         StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_input, 0).a(">This is your hand:"));
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
             if (i < gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().size()) {
                 switch (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType()) {
@@ -104,19 +104,27 @@ public class Console {
         System.out.println(ris);
     }
 
-    public void show_grabbedTile(String nickname, GameModelImmutable model) {
-        StringBuilder ris = new StringBuilder("| ");
+    public void show_grabbedTile(GameModelImmutable model) {
+        StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_input, 0).a("> Player: ").a(model.getNicknameCurrentPlaying()).a(" has grabbed some tiles: "));
+
         for (Tile t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
-                case CAT -> ris.append(ansi().bg(GREEN).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case TROPHY -> ris.append(ansi().bg(CYAN).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case PLANT -> ris.append(ansi().bg(MAGENTA).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case BOOK -> ris.append(ansi().bg(WHITE).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case ACTIVITY -> ris.append(ansi().bg(YELLOW).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case FRAME -> ris.append(ansi().bg(BLUE).a(t.toString()).bg(DEFAULT)).append(" | ");
+                case CAT ->
+                        ris.append(ansi().bg(GREEN).fg(WHITE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case TROPHY ->
+                        ris.append(ansi().bg(CYAN).fg(WHITE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case PLANT ->
+                        ris.append(ansi().bg(MAGENTA).fg(WHITE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case BOOK ->
+                        ris.append(ansi().bg(WHITE).fg(BLACK).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case ACTIVITY ->
+                        ris.append(ansi().bg(YELLOW).fg(WHITE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case FRAME ->
+                        ris.append(ansi().bg(BLUE).fg(WHITE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
             }
         }
-        System.out.println(nickname + ": Player: " + model.getNicknameCurrentPlaying() + " has grabbed some tiles: " + ris);
+        System.out.println(ris);
     }
 
 
@@ -150,7 +158,7 @@ public class Console {
         System.out.println(toShow.getSecretGoal().getLayoutToMatch().toStringGoalCard());
     }
 
-    public void showPlayerJoined(GameModelImmutable gameModel, String nick) throws IOException, InterruptedException {
+    public void showPlayerJoined(GameModelImmutable gameModel, String nick) {
         clearCMD();
         show_titleMyShelfie();
         System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
@@ -258,7 +266,7 @@ public class Console {
         }
     }
 
-    public int getLengthLongestMessage(){
+    public int getLengthLongestMessage() {
         return chat.getMsgs().stream()
                 .map(Message::getText)
                 .reduce((a, b) -> a.length() > b.length() ? a : b)
