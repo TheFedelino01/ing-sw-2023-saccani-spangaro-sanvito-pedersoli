@@ -77,6 +77,12 @@ public class GameModel {
         return players;
     }
 
+    /**
+     * add a player to the game
+     * @param p player to add
+     * @throws PlayerAlreadyInException if the player is already in the game
+     * @throws MaxPlayersInException if the game is full
+     */
     public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
         //Verifico per prima cosa che il player non è gia' presente
         //poi se non vado in overflow
