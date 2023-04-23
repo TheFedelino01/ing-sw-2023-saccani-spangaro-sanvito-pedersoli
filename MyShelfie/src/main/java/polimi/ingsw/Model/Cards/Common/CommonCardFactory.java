@@ -3,7 +3,7 @@ package polimi.ingsw.Model.Cards.Common;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 
 public class CommonCardFactory {
-    public CommonCard getCommonCard(CardCommonType type){
+    public CommonCard getCommonCard(CardCommonType type) {
         return switch (type) {
             //Six groups of 2 tiles of the same type (tile type can change between groups)
             case CommonGroup0 -> new CommonGroupsCard(CardCommonType.CommonGroup0, 0);

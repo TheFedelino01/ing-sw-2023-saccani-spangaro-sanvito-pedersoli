@@ -2,7 +2,6 @@ package polimi.ingsw.View.socket.client.GameControllerMessages;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Chat.Message;
-import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
@@ -13,6 +12,7 @@ import java.rmi.RemoteException;
 
 public class SocketClientMessageNewChatMessage extends SocketClientGenericMessage {
     private Message msg;
+
     public SocketClientMessageNewChatMessage(Message msg) {
         this.msg = msg;
         this.nick = msg.getSender().getNickname();

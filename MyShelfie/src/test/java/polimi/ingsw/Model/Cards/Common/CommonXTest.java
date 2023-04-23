@@ -36,15 +36,15 @@ public class CommonXTest {
      */
     @Test
     @DisplayName("Test X")
-    public void testX(){
+    public void testX() {
         Shelf test = new Shelf();
-        for(int i = 0; i< DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
-                if((i==0 && j==0)||
-                        (i==0 && j==2)||
-                        (i==2 && j==0)||
-                        (i==2 && j==2)||
-                        (i==1 && j==1))
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if ((i == 0 && j == 0) ||
+                        (i == 0 && j == 2) ||
+                        (i == 2 && j == 0) ||
+                        (i == 2 && j == 2) ||
+                        (i == 1 && j == 1))
                     test.setSingleTile(new Tile(TileType.USED), i, j);
                 else
                     test.setSingleTile(new Tile(TileType.randomTile()), i, j);
@@ -57,12 +57,12 @@ public class CommonXTest {
     @DisplayName("Test expected to return false")
     public void testFail() {
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
-                if((i==0 && j==0)||
-                        (i==0 && j==2)||
-                        (i==2 && j==0)||
-                        (i==2 && j==2))
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if ((i == 0 && j == 0) ||
+                        (i == 0 && j == 2) ||
+                        (i == 2 && j == 0) ||
+                        (i == 2 && j == 2))
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
                 else
                     test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
@@ -73,10 +73,10 @@ public class CommonXTest {
 
     @Test
     @DisplayName("Test with empty shelf")
-    public void testEmptyShelf(){
+    public void testEmptyShelf() {
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }

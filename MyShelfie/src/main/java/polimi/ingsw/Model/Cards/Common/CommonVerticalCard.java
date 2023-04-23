@@ -20,8 +20,6 @@ public class CommonVerticalCard extends CommonCard {
     /**
      * Check if the player's shelf met the vertical goals
      *
-     *
-     *
      * @return true if the goal is satisfied, false else
      */
     @Override
@@ -58,7 +56,7 @@ public class CommonVerticalCard extends CommonCard {
         }
     }
 
-    private int checkLines(Shelf toCheck, int j){
+    private int checkLines(Shelf toCheck, int j) {
         Map<TileType, Integer> colCheck = new HashMap<>();
         int ok = 0;
         int count = 0;
@@ -73,8 +71,8 @@ public class CommonVerticalCard extends CommonCard {
                     ofNullable(colCheck.get(t)).
                     orElse(0);
         }
-        if(count>0)
-            ok=4;
+        if (count > 0)
+            ok = 4;
         return ok;
     }
 

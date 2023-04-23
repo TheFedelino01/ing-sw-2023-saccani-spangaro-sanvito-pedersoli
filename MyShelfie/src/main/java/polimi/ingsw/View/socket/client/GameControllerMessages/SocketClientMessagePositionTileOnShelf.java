@@ -1,7 +1,6 @@
 package polimi.ingsw.View.socket.client.GameControllerMessages;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.GameEndedException;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
@@ -15,10 +14,10 @@ public class SocketClientMessagePositionTileOnShelf extends SocketClientGenericM
     private TileType type;
 
     public SocketClientMessagePositionTileOnShelf(String nick, int column, TileType type) {
-        this.column=column;
-        this.type=type;
+        this.column = column;
+        this.type = type;
         this.nick = nick;
-        this.isMessageForMainController=false;
+        this.isMessageForMainController = false;
     }
 
 
@@ -29,6 +28,6 @@ public class SocketClientMessagePositionTileOnShelf extends SocketClientGenericM
 
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException {
-        gameController.positionTileOnShelf(nick,column,type);
+        gameController.positionTileOnShelf(nick, column, type);
     }
 }

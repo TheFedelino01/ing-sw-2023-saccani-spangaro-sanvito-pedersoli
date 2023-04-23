@@ -1,23 +1,17 @@
 package polimi.ingsw.Main.rmiMain;
 
-import polimi.ingsw.Model.Enumeration.Direction;
-import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.View.RMI.RMIClient;
-import polimi.ingsw.View.RMI.RMIServer;
 import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.View;
 import polimi.ingsw.View.userView.text.TextUI;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 /**
  * Hello world!
- *
  */
-public class AppClient
-{
-    public static void main( String[] args ) throws RemoteException {
+public class AppClient {
+    public static void main(String[] args) throws RemoteException {
         View gui = new TextUI(ConnectionSelection.RMI);
 
         RMIClient client = new RMIClient(gui);

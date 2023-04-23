@@ -1,7 +1,6 @@
 package polimi.ingsw.Main.socketMain;
 
 import polimi.ingsw.Model.DefaultValue;
-import polimi.ingsw.View.RMI.RMIServer;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.socket.server.SocketWelcome;
 import polimi.ingsw.View.userView.ConnectionSelection;
@@ -9,7 +8,6 @@ import polimi.ingsw.View.userView.View;
 import polimi.ingsw.View.userView.text.TextUI;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 public class AppSocket {
 
@@ -22,7 +20,7 @@ public class AppSocket {
         server = new SocketWelcome();
         server.start(DefaultValue.Default_port_Socket);
 
-        View gui1= new TextUI(ConnectionSelection.SOCKET),gui2 = new TextUI(ConnectionSelection.SOCKET);
+        View gui1 = new TextUI(ConnectionSelection.SOCKET), gui2 = new TextUI(ConnectionSelection.SOCKET);
 
         client = new ClientSocket(gui1);
 

@@ -52,7 +52,7 @@ public class CommonDiagonalTest {
 
     @Test
     @DisplayName("Test Diagonal cards from bottom left to top right")
-    public void testDiagonalBT(){
+    public void testDiagonalBT() {
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -91,12 +91,13 @@ public class CommonDiagonalTest {
         assertFalse(model.get(6).verify(test));
         assertFalse(model.get(11).verify(test));
     }
-        @Test
+
+    @Test
     @DisplayName("Test with empty shelf")
-    public void testEmptyShelf(){
+    public void testEmptyShelf() {
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }

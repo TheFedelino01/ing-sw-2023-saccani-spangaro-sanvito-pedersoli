@@ -14,7 +14,7 @@ public class SocketClientMessageJoinGame extends SocketClientGenericMessage {
     public SocketClientMessageJoinGame(String nick, int idGame) {
         this.idGame = idGame;
         this.nick = nick;
-        this.isMessageForMainController=true;
+        this.isMessageForMainController = true;
     }
 
     @Override

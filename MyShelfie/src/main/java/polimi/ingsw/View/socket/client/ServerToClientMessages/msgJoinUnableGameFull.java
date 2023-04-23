@@ -6,7 +6,7 @@ import polimi.ingsw.Model.Player;
 
 import java.rmi.RemoteException;
 
-public class msgJoinUnableGameFull extends SocketServerGenericMessage{
+public class msgJoinUnableGameFull extends SocketServerGenericMessage {
     private Player p;
     private GameModelImmutable gamemodel;
 
@@ -17,6 +17,6 @@ public class msgJoinUnableGameFull extends SocketServerGenericMessage{
 
     @Override
     public void execute(GameListener lis) throws RemoteException {
-       // lis.JoinUnableGameFull(p,gamemodel);
+        // lis.JoinUnableGameFull(p,gamemodel);
     }
 }

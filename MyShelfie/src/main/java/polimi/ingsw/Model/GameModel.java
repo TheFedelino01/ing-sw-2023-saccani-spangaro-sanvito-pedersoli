@@ -79,9 +79,10 @@ public class GameModel {
 
     /**
      * add a player to the game
+     *
      * @param p player to add
      * @throws PlayerAlreadyInException if the player is already in the game
-     * @throws MaxPlayersInException if the game is full
+     * @throws MaxPlayersInException    if the game is full
      */
     public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
         //Verifico per prima cosa che il player non è gia' presente
@@ -328,7 +329,6 @@ public class GameModel {
     /**
      * Controllo chi tra i vari player ha piú punti
      * Ritorna il Player con piú punti
-     *
      */
 
     private void findWinner() {

@@ -14,10 +14,16 @@ public abstract class SocketClientGenericMessage implements Serializable {
     protected boolean isMessageForMainController;
 
     public abstract GameControllerInterface execute(GameListener lis, MainControllerInterface mainController) throws RemoteException;
+
     public abstract void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException;
 
-    public boolean isMessageForMainController() {return isMessageForMainController;}
-    public void setMessageForMainController(boolean messageForMainController) {isMessageForMainController = messageForMainController;}
+    public boolean isMessageForMainController() {
+        return isMessageForMainController;
+    }
+
+    public void setMessageForMainController(boolean messageForMainController) {
+        isMessageForMainController = messageForMainController;
+    }
 
     public String getNick() {
         return nick;

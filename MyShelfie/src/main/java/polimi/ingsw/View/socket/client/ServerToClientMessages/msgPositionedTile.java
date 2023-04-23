@@ -6,7 +6,7 @@ import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgPositionedTile extends SocketServerGenericMessage{
+public class msgPositionedTile extends SocketServerGenericMessage {
     private GameModelImmutable gamemodel;
     private TileType type;
     private int column;
@@ -19,6 +19,6 @@ public class msgPositionedTile extends SocketServerGenericMessage{
 
     @Override
     public void execute(GameListener lis) throws RemoteException {
-        lis.positionedTile(gamemodel,type,column);
+        lis.positionedTile(gamemodel, type, column);
     }
 }

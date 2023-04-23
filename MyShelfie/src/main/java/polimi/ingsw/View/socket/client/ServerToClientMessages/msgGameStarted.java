@@ -9,7 +9,7 @@ public class msgGameStarted extends SocketServerGenericMessage {
 
     private GameModelImmutable model;
 
-    public msgGameStarted(){
+    public msgGameStarted() {
 
     }
 

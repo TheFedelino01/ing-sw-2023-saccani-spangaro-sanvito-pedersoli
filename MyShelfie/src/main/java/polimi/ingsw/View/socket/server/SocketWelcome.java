@@ -2,7 +2,6 @@ package polimi.ingsw.View.socket.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.nio.channels.ClosedByInterruptException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class SocketWelcome extends Thread {
             this.start();
             System.out.println("Server Socket ready");
         } catch (IOException e) {
-            System.err.println("[ERROR] STARTING SOCKET SERVER: \n\tServer RMI exception: "+e.toString());
+            System.err.println("[ERROR] STARTING SOCKET SERVER: \n\tServer RMI exception: " + e);
         }
     }
 
@@ -29,7 +28,7 @@ public class SocketWelcome extends Thread {
                 System.out.println("[SOCKET] new connection accepted");
             }
         } catch (IOException e) {
-            System.err.println("[ERROR] ACCEPTING WELCOME SOCKET CONNECTION: \n\tServer RMI exception: "+e.toString());
+            System.err.println("[ERROR] ACCEPTING WELCOME SOCKET CONNECTION: \n\tServer RMI exception: " + e);
         }
 
         try {

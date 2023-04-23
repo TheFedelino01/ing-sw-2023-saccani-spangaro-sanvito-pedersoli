@@ -100,7 +100,8 @@ public class CommonHorizontalTest {
                         case (3) -> test.setSingleTile(new Tile(TileType.TROPHY), i, j);
                         case (4) -> test.setSingleTile(new Tile(TileType.ACTIVITY), i, j);
                         case (5) -> test.setSingleTile(new Tile(TileType.PLANT), i, j);
-                        default -> {}
+                        default -> {
+                        }
                     }
                 } else {
                     test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
@@ -113,10 +114,10 @@ public class CommonHorizontalTest {
 
     @Test
     @DisplayName("Test with empty shelf")
-    public void testEmptyShelf(){
+    public void testEmptyShelf() {
         Shelf test = new Shelf();
-        for(int i = 0; i<DefaultValue.NumOfRowsShelf; i++){
-            for(int j = 0; j<DefaultValue.NumOfColumnsShelf; j++){
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }

@@ -25,7 +25,6 @@ public class CommonGroupsCard extends CommonCard {
      * Check if the player's shelf met the "adjacent" goal not in line
      * One card is adjacent to the other if one of the edges touches the other
      *
-     *
      * @return true if the goal is satisfied, false else
      */
 
@@ -131,8 +130,6 @@ public class CommonGroupsCard extends CommonCard {
     /**
      * Erase the adjacencies already counted
      *
-     *
-     *
      * @set the adjacent to FINISHED_USING
      */
     private static void deleteAdjacent(Shelf playerShelf, int i, int j, Tile tile) {
@@ -147,15 +144,15 @@ public class CommonGroupsCard extends CommonCard {
     }
 
     private static void adjacentToFU(Shelf playerShelf, int i, int j, Tile tile) {     //useful for adjacent count(FU is finished_using)
-        if (checkIfSafe(playerShelf, i, j, tile)){
+        if (checkIfSafe(playerShelf, i, j, tile)) {
             playerShelf.setSingleTile(new Tile(TileType.FINISHED_USING), i, j);     //finished using
-            if(i>0)
+            if (i > 0)
                 adjacentToFU(playerShelf, i - 1, j, tile); // up
-            if(i<DefaultValue.NumOfRowsShelf-1)
+            if (i < DefaultValue.NumOfRowsShelf - 1)
                 adjacentToFU(playerShelf, i + 1, j, tile); // down
-            if(j>0)
+            if (j > 0)
                 adjacentToFU(playerShelf, i, j - 1, tile); // sx
-            if(j<DefaultValue.NumOfColumnsShelf-1)
+            if (j < DefaultValue.NumOfColumnsShelf - 1)
                 adjacentToFU(playerShelf, i, j + 1, tile); // dx
         }
     }
@@ -163,7 +160,6 @@ public class CommonGroupsCard extends CommonCard {
     /**
      * Check if the indices meet the shelf number of rows and columns
      * Check if a different type of tile is found
-     *
      *
      * @return false if the limits are exceeded or is found a different type, the type of the tile else
      */
@@ -173,9 +169,9 @@ public class CommonGroupsCard extends CommonCard {
             return false;
         }
         //check if different type is found
-        try{
+        try {
             return playerShelf.get(i, j).getType() == tile.getType();
-        }catch(StackOverflowError er){
+        } catch (StackOverflowError er) {
             er.printStackTrace();
             return false;
         }
@@ -183,8 +179,6 @@ public class CommonGroupsCard extends CommonCard {
 
     /**
      * Count the number of adjacent tiles of the same type
-     *
-     *
      *
      * @return res = number of adjacent tiles
      */

@@ -5,7 +5,7 @@ import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgGrabbedTile extends SocketServerGenericMessage{
+public class msgGrabbedTile extends SocketServerGenericMessage {
 
     private GameModelImmutable gamemodel;
 

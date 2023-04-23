@@ -67,7 +67,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     private void startConnection(String ip, int port) {
         boolean retry = false;
         int attempt = 1;
-        int i = 0;
+        int i;
 
         do {
             try {
@@ -77,7 +77,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
                 retry = false;
             } catch (IOException e) {
                 if (!retry) {
-                    System.err.println("[ERROR] CONNECTING TO SOCKET SERVER: \n\tClient RMI exception: " + e.toString() + "\n");
+                    System.err.println("[ERROR] CONNECTING TO SOCKET SERVER: \n\tClient RMI exception: " + e + "\n");
                 }
                 System.out.print("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip + "'");
 
@@ -161,7 +161,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     }
 
     @Override
-    public void sendMessage(Message msg){
+    public void sendMessage(Message msg) {
         try {
             out.writeObject(new SocketClientMessageNewChatMessage(msg));
         } catch (IOException e) {

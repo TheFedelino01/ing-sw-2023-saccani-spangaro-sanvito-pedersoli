@@ -10,7 +10,7 @@ import polimi.ingsw.Model.Enumeration.CardGoalType;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
     GameController gameController;
@@ -61,16 +61,13 @@ class PlayerTest {
     }
 
 
-
-
-
     @Test
     @DisplayName("Test Player readyToStart")
     void ReadyToStart() {
         Player player = new Player("Test");
-        assertEquals(false, player.getReadyToStart());
+        assertFalse(player.getReadyToStart());
         player.setReadyToStart();
-        assertEquals(true, player.getReadyToStart());
+        assertTrue(player.getReadyToStart());
     }
 
 }

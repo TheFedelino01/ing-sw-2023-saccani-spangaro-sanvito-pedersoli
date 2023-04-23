@@ -25,16 +25,16 @@ public class Playground implements Serializable {
     }
 
     /*
-    TODO:   to write in the json file:
-            the "-" is the row separator
-            the "," is the column separator, so
-            0,0,0,0-1,1,1,1 is equal to the matrix
-            0 0 0 0
-            1 1 1 1
-            Also, the number that identifies the long strings in the json
-            is the player number that the matrix/string implements
-            E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription
-            of the playground default for 2 player based games, and so on
+    Watch out:  to write in the json file:
+                the "-" is the row separator
+                the "," is the column separator, so
+                0,0,0,0-1,1,1,1 is equal to the matrix
+                0 0 0 0
+                1 1 1 1
+                Also, the number that identifies the long strings in the json
+                is the player number that the matrix/string implements
+                    E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription
+                    of the playground default for 2 player based games, and so on
      */
     public Playground(int numberOfPlayers) {
         bag = new ArrayList<>();
@@ -176,13 +176,13 @@ public class Playground implements Serializable {
         Collections.shuffle(bag);
     }
 
-    public void checkBeforeGrab(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException{
+    public void checkBeforeGrab(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException {
         int i = 0;
         while (i < num) {
-            if(!playground[x][y].isFreeSide()){
+            if (!playground[x][y].isFreeSide()) {
                 throw new TileGrabbedNotCorrectException();
             }
-            if(playground[x][y].isSameType(TileType.NOT_USED)) {
+            if (playground[x][y].isSameType(TileType.NOT_USED)) {
                 throw new TileGrabbedNotCorrectException();
             }
             i++;
@@ -194,13 +194,14 @@ public class Playground implements Serializable {
             }
         }
     }
-    public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException{
+
+    public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException {
         List<Tile> ris = new ArrayList<>();
-        checkBeforeGrab(x,y,direction,num);
+        checkBeforeGrab(x, y, direction, num);
 
         int i = 0;
         while (i < num) {
-            if(playground[x][y].isSameType(TileType.NOT_USED)) {
+            if (playground[x][y].isSameType(TileType.NOT_USED)) {
                 throw new TileGrabbedNotCorrectException();
 
             }
@@ -234,19 +235,26 @@ public class Playground implements Serializable {
     }
 
     public String toString() {
-        StringBuilder ris= new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_playground,DefaultValue.col_playground).a("   0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |").toString());
+        StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_playground, DefaultValue.col_playground).a("   0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |").toString());
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
-            ris.append(ansi().cursor(DefaultValue.row_playground+i+1, DefaultValue.col_playground).a(i)).append(":");
+            ris.append(ansi().cursor(DefaultValue.row_playground + i + 1, DefaultValue.col_playground).a(i)).append(":");
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
-                switch (playground[i][j].getType()){
-                    case CAT -> ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
-                    case BOOK -> ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
-                    case TROPHY -> ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
-                    case FRAME -> ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
-                    case ACTIVITY -> ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
-                    case PLANT -> ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
-                    default -> ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                switch (playground[i][j].getType()) {
+                    case CAT ->
+                            ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case BOOK ->
+                            ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case TROPHY ->
+                            ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case FRAME ->
+                            ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case ACTIVITY ->
+                            ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    case PLANT ->
+                            ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(" ").a(playground[i][j].toString().substring(0, 1)).a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
+                    default ->
+                            ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(" ").a("N").a(" ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append("|");
                 }
             }
         }

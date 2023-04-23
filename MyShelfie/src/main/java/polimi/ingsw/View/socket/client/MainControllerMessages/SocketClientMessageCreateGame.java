@@ -12,11 +12,11 @@ public class SocketClientMessageCreateGame extends SocketClientGenericMessage {
 
     public SocketClientMessageCreateGame(String nick) {
         this.nick = nick;
-        this.isMessageForMainController=true;
+        this.isMessageForMainController = true;
     }
 
     @Override
-    public GameControllerInterface execute(GameListener lis,MainControllerInterface mainController) throws RemoteException {
+    public GameControllerInterface execute(GameListener lis, MainControllerInterface mainController) throws RemoteException {
         return mainController.createGame(lis, nick);
     }
 

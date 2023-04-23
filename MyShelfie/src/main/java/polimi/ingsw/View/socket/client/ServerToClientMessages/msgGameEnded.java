@@ -5,7 +5,7 @@ import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgGameEnded extends SocketServerGenericMessage{
+public class msgGameEnded extends SocketServerGenericMessage {
     private GameModelImmutable gamemodel;
 
     public msgGameEnded(GameModelImmutable gamemodel) {

@@ -9,16 +9,16 @@ import polimi.ingsw.View.socket.client.SocketClientGenericMessage;
 import java.rmi.RemoteException;
 
 public class SocketClientMessageGrabTileFromPlayground extends SocketClientGenericMessage {
-    private int x,y,num;
+    private int x, y, num;
     private Direction direction;
 
-    public SocketClientMessageGrabTileFromPlayground(String nick, int x, int y, Direction direction,int num) {
+    public SocketClientMessageGrabTileFromPlayground(String nick, int x, int y, Direction direction, int num) {
         this.x = x;
         this.y = y;
         this.num = num;
         this.direction = direction;
         this.nick = nick;
-        this.isMessageForMainController=false;
+        this.isMessageForMainController = false;
     }
 
 
@@ -29,7 +29,7 @@ public class SocketClientMessageGrabTileFromPlayground extends SocketClientGener
 
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException {
-        gameController.grabTileFromPlayground(nick,x,y,direction,num);
+        gameController.grabTileFromPlayground(nick, x, y, direction, num);
     }
 
 }

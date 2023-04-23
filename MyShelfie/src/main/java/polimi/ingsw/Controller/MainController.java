@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 //Gestisce tutte le partite in particolare la creazione, il join e il leave
 public class MainController implements MainControllerInterface, Serializable {
@@ -24,18 +23,16 @@ public class MainController implements MainControllerInterface, Serializable {
     private List<GameController> runningGames;
 
 
-    private MainController(){
+    private MainController() {
         runningGames = new ArrayList<GameController>();
     }
 
-    public synchronized static MainController getInstance(){
+    public synchronized static MainController getInstance() {
         if (instance == null) {
             instance = new MainController();
         }
         return instance;
     }
-
-
 
 
     @Override
@@ -44,7 +41,7 @@ public class MainController implements MainControllerInterface, Serializable {
 
 
         GameController c = new GameController();
-        c.addListener(lis,p);
+        c.addListener(lis, p);
         runningGames.add(c);
         try {
             c.addPlayer(p);
@@ -58,15 +55,15 @@ public class MainController implements MainControllerInterface, Serializable {
     @Override
     public synchronized GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
 
-        List<GameController> ris = runningGames.stream().filter(x->(x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers()<DefaultValue.MaxNumOfPlayer)).toList();
+        List<GameController> ris = runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers() < DefaultValue.MaxNumOfPlayer)).toList();
         Player p = new Player(nick);
-        if(ris.size()>0){
+        if (ris.size() > 0) {
             try {
-                ris.get(0).addListener(lis,p);
+                ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
                 return ris.get(0);
-            }catch(MaxPlayersInException  | PlayerAlreadyInException e){
-                ris.get(0).removeListener(lis,p);
+            } catch (MaxPlayersInException | PlayerAlreadyInException e) {
+                ris.get(0).removeListener(lis, p);
             }
         }
         return null;
@@ -75,18 +72,18 @@ public class MainController implements MainControllerInterface, Serializable {
 
     @Override
     public synchronized GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
-        List<GameController> ris = runningGames.stream().filter(x->(x.getId()==idGame)).toList();
+        List<GameController> ris = runningGames.stream().filter(x -> (x.getId() == idGame)).toList();
         Player p = new Player(nick);
 
-        if(ris.size()==1){
+        if (ris.size() == 1) {
             try {
-                ris.get(0).addListener(lis,p);
+                ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
                 return ris.get(0);
-            }catch(MaxPlayersInException  | PlayerAlreadyInException e){
-                ris.get(0).removeListener(lis,p);
+            } catch (MaxPlayersInException | PlayerAlreadyInException e) {
+                ris.get(0).removeListener(lis, p);
             }
-        }else{
+        } else {
             //This is the only call not inside the model
             lis.gameIdNotExists(idGame);
         }
@@ -96,25 +93,25 @@ public class MainController implements MainControllerInterface, Serializable {
 
     @Override
     public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
-        List<GameController> ris = runningGames.stream().filter(x->(x.getId()==idGame)).toList();
+        List<GameController> ris = runningGames.stream().filter(x -> (x.getId() == idGame)).toList();
 
-        if(ris.size()==1){
+        if (ris.size() == 1) {
             try {
                 Player player = ris.get(0).getPlayers()
                         .stream()
                         .filter(x -> x.getNickname().equals(nick))
                         .toList().get(0);
 
-                ris.get(0).addListener(lis,player);
+                ris.get(0).addListener(lis, player);
                 ris.get(0).reconnectPlayer(player);
                 return ris.get(0);
-            }catch(MaxPlayersInException e){
-                ris.get(0).removeListener(lis,ris.get(0).getPlayers()
+            } catch (MaxPlayersInException e) {
+                ris.get(0).removeListener(lis, ris.get(0).getPlayers()
                         .stream()
                         .filter(x -> x.getNickname().equals(nick))
                         .toList().get(0));
             }
-        }else{
+        } else {
             //This is the only call not inside the model
             lis.gameIdNotExists(idGame);
         }

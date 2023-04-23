@@ -18,7 +18,7 @@ public class ClientHandler extends Thread {
 
     private GameListenersHandlerSocket gameListenersHandlerSocket;
 
-    private String nick=null;
+    private String nick = null;
 
     public ClientHandler(Socket soc) throws IOException {
         this.clientSocket = soc;
@@ -35,14 +35,14 @@ public class ClientHandler extends Thread {
     public void run() {
         SocketClientGenericMessage temp;
 
-        while(true){
+        while (true) {
             try {
                 temp = (SocketClientGenericMessage) in.readObject();
 
                 try {
                     if (temp.isMessageForMainController()) {
                         gameController = temp.execute(gameListenersHandlerSocket, MainController.getInstance());
-                        nick = gameController!=null?temp.getNick():null;
+                        nick = gameController != null ? temp.getNick() : null;
 
                     } else {
                         temp.execute(gameController);
@@ -54,9 +54,9 @@ public class ClientHandler extends Thread {
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("[SOCKET] Client disconnected!");
 
-                if(nick!=null && gameController!=null){
+                if (nick != null && gameController != null) {
                     try {
-                        gameController.setConnectionStatus(nick,gameListenersHandlerSocket,false);
+                        gameController.setConnectionStatus(nick, gameListenersHandlerSocket, false);
                         return; //This ClientHandler now dies
 
                     } catch (RemoteException ex) {
@@ -70,7 +70,6 @@ public class ClientHandler extends Thread {
 
         }
     }
-
 
 
 }

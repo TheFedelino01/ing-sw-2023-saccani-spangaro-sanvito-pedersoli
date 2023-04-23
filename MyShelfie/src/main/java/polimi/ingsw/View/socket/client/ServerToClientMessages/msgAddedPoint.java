@@ -6,7 +6,7 @@ import polimi.ingsw.Model.Point;
 
 import java.rmi.RemoteException;
 
-public class msgAddedPoint extends SocketServerGenericMessage{
+public class msgAddedPoint extends SocketServerGenericMessage {
     private Player p;
     private Point point;
 
@@ -17,6 +17,6 @@ public class msgAddedPoint extends SocketServerGenericMessage{
 
     @Override
     public void execute(GameListener lis) throws RemoteException {
-        lis.addedPoint(p,point);
+        lis.addedPoint(p, point);
     }
 }

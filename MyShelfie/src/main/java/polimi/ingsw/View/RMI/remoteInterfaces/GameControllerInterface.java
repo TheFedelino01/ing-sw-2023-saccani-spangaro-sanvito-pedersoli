@@ -11,8 +11,11 @@ import java.rmi.RemoteException;
 
 public interface GameControllerInterface extends Remote {
     boolean playerIsReadyToStart(String p) throws RemoteException;
+
     void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) throws RemoteException;
+
     void positionTileOnShelf(String p, int column, TileType type) throws RemoteException, GameEndedException;
+
     boolean isThisMyTurn(String nick) throws RemoteException;
 
     void setConnectionStatus(String nick, GameListener lisOfClient, boolean connected) throws RemoteException;

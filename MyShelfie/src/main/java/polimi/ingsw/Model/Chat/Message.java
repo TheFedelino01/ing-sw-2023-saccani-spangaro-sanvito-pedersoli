@@ -19,13 +19,13 @@ public class Message implements Serializable {
         this.sender = sender;
     }
 
-    public Message(){
+    public Message() {
         this.time = null;
         this.text = null;
         this.sender = null;
     }
 
-    public String toString(int i, int len){
+    public String toString(int i, int len) {
         String padding = " ".repeat(Math.max(0, len));
         return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, 86).a("[").a(this.time.getHour()).a(":").a(this.time.getMinute())
                 .a(":").a(this.time.getSecond()).a("] ")

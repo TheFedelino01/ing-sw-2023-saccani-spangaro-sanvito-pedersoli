@@ -150,7 +150,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     private Queue<Point> getListPointForCommonCard(CommonCard card) {
         //Creo i punti per la carta
-        Queue<Point> ris = new ArrayDeque<Point>();
+        Queue<Point> ris = new ArrayDeque<>();
         for (int i = 0; i < DefaultValue.pointsValue.length; i++)
             ris.add(new Point(DefaultValue.pointsValue[i], card.getCommonType()));
 
@@ -263,12 +263,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void setConnectionStatus(String nick, GameListener lisOfClient, boolean connected) throws RemoteException {
         if (!connected) {
             //Player has just disconnected so I remove the notifications for him
-            removeListener(lisOfClient,model.getPlayerEntity(nick));
+            removeListener(lisOfClient, model.getPlayerEntity(nick));
             model.setAsDisconnected(nick);
 
         } else {
             //Player rejoined
-            addListener(lisOfClient,model.getPlayerEntity(nick));
+            addListener(lisOfClient, model.getPlayerEntity(nick));
             model.setAsConnected(nick);
         }
     }

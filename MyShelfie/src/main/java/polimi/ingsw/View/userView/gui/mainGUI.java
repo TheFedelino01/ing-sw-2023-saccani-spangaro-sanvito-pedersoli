@@ -3,18 +3,19 @@ package polimi.ingsw.View.userView.gui;
 public class mainGUI {
     private static boolean hasChosen, isRMI, isGUI;
     private static boolean testing = false;
+
     public static void main(String[] args) {
         firstPanel();
     }
 
-    public static synchronized void firstPanel(){
+    public static synchronized void firstPanel() {
         hasChosen = false;
         FirstChoice panel = new FirstChoice();
         panel.init();
         Thread check = new Thread(
                 () -> {
                     while (!hasChosen) {
-                        if (panel.isCheck1() && panel.isCheck0()){
+                        if (panel.isCheck1() && panel.isCheck0()) {
                             hasChosen = true;
                         }
                     }
@@ -26,7 +27,7 @@ public class mainGUI {
         );
         check.setDaemon(true);
         check.start();
-        while(!testing){
+        while (!testing) {
             //stops elaboration
         }
         System.out.println(isRMI ? "True" : "False");

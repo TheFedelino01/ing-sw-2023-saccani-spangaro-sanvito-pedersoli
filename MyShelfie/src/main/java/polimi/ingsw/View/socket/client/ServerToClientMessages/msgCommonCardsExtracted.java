@@ -1,12 +1,11 @@
 package polimi.ingsw.View.socket.client.ServerToClientMessages;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgCommonCardsExtracted extends SocketServerGenericMessage{
+public class msgCommonCardsExtracted extends SocketServerGenericMessage {
     private GameModelImmutable model;
 
     public msgCommonCardsExtracted(GameModelImmutable gamemodel) {

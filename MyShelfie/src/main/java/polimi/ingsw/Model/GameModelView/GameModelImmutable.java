@@ -1,19 +1,10 @@
 package polimi.ingsw.Model.GameModelView;
 
-import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Listener.ListenersHandler;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
-import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
-import polimi.ingsw.Model.Enumeration.CardGoalType;
-import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.GameStatus;
-import polimi.ingsw.Model.Enumeration.TileType;
-import polimi.ingsw.Model.Exceptions.*;
 
-import java.io.ObjectStreamException;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,8 +27,8 @@ public class GameModelImmutable implements Serializable {
 
 
     public GameModelImmutable() {
-        players = new ArrayList<Player>();
-        commonCards = new ArrayList<CommonCard>();
+        players = new ArrayList<>();
+        commonCards = new ArrayList<>();
         gameId = -1;
 
         pg = new Playground();
@@ -109,7 +100,7 @@ public class GameModelImmutable implements Serializable {
     }
 
     public Player getPlayerEntity(String playerNick) {
-        return players.stream().filter(x -> x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+        return players.stream().filter(x -> x.getNickname().equals(playerNick)).toList().get(0);
     }
 
     public boolean isMyTurn(String nickname) {
@@ -120,18 +111,18 @@ public class GameModelImmutable implements Serializable {
         String ris = "";
         int i = 1;
         for (Player p : players) {
-            ris += "[#"+i+"]: "+p.getNickname()+"\n";
+            ris += "[#" + i + "]: " + p.getNickname() + "\n";
             i++;
         }
         return ris;
     }
 
-    public Player getLastPlayer(){
-        return players.get(players.size()-1);
+    public Player getLastPlayer() {
+        return players.get(players.size() - 1);
     }
 
     public CommonCard getLastCommonCard() {
-        return commonCards.get(commonCards.size()-1);
+        return commonCards.get(commonCards.size() - 1);
     }
 
     public Player getEntityCurrentPlaying() {

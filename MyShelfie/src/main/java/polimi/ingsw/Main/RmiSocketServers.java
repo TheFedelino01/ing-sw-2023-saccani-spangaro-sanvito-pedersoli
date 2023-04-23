@@ -5,9 +5,10 @@ import polimi.ingsw.View.RMI.RMIServer;
 import polimi.ingsw.View.socket.server.SocketWelcome;
 
 import java.io.IOException;
+
 public class RmiSocketServers {
 
-    public static void main( String[] args ) throws IOException {
+    public static void main(String[] args) throws IOException {
 
         RMIServer serverRMI = RMIServer.bind();
 

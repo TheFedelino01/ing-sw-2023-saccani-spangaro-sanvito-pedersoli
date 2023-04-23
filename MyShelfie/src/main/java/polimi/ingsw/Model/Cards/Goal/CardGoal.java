@@ -23,47 +23,47 @@ public class CardGoal extends Card {
     private static Map<Integer, Point> legendPoint;
     private CardGoalType goalType;
 
-    public CardGoal(){
+    public CardGoal() {
         initialiseLayout(CardGoalType.NOT_SET);
         legendPoint = new HashMap<>();
-        goalType=CardGoalType.NOT_SET;
+        goalType = CardGoalType.NOT_SET;
     }
 
-    public CardGoal(CardGoalType type){
+    public CardGoal(CardGoalType type) {
         initialiseLayout(type);
         legendPoint = new HashMap<>();
-        for(int i=0; i<7; i++){
-            switch(i){
-                case(0) -> legendPoint.put(i, new Point(0, type));
-                case(1) -> legendPoint.put(i, new Point(1, type));
-                case(2) -> legendPoint.put(i, new Point(2, type));
-                case(3) -> legendPoint.put(i, new Point(4, type));
-                case(4) -> legendPoint.put(i, new Point(6, type));
-                case(5) -> legendPoint.put(i, new Point(9, type));
-                case(6) -> legendPoint.put(i, new Point(12, type));
+        for (int i = 0; i < 7; i++) {
+            switch (i) {
+                case (0) -> legendPoint.put(i, new Point(0, type));
+                case (1) -> legendPoint.put(i, new Point(1, type));
+                case (2) -> legendPoint.put(i, new Point(2, type));
+                case (3) -> legendPoint.put(i, new Point(4, type));
+                case (4) -> legendPoint.put(i, new Point(6, type));
+                case (5) -> legendPoint.put(i, new Point(9, type));
+                case (6) -> legendPoint.put(i, new Point(12, type));
             }
         }
-        goalType=type;
+        goalType = type;
     }
 
     public CardGoal(Shelf layoutToMatch, CardGoalType type) {
         legendPoint = new HashMap<>();
         this.layoutToMatch = layoutToMatch;
-        for(int i=0; i<7; i++){
-            switch(i){
-                case(0) -> legendPoint.put(i, new Point(0, type));
-                case(1) -> legendPoint.put(i, new Point(1, type));
-                case(2) -> legendPoint.put(i, new Point(2, type));
-                case(3) -> legendPoint.put(i, new Point(4, type));
-                case(4) -> legendPoint.put(i, new Point(6, type));
-                case(5) -> legendPoint.put(i, new Point(9, type));
-                case(6) -> legendPoint.put(i, new Point(12, type));
+        for (int i = 0; i < 7; i++) {
+            switch (i) {
+                case (0) -> legendPoint.put(i, new Point(0, type));
+                case (1) -> legendPoint.put(i, new Point(1, type));
+                case (2) -> legendPoint.put(i, new Point(2, type));
+                case (3) -> legendPoint.put(i, new Point(4, type));
+                case (4) -> legendPoint.put(i, new Point(6, type));
+                case (5) -> legendPoint.put(i, new Point(9, type));
+                case (6) -> legendPoint.put(i, new Point(12, type));
             }
         }
         this.goalType = type;
     }
 
-    private void initialiseLayout(CardGoalType type){
+    private void initialiseLayout(CardGoalType type) {
         String rowSplit = "-";
         String colSplit = ",";
         String s = null;
@@ -85,8 +85,8 @@ public class CardGoal extends Card {
         layoutToMatch = new Shelf();
 
         //this method is for splitting the string returned from the json file in a matrix
-        for(int i = 0; i<sizeRow; i++){
-            for(int j = 0; j<sizeCol; j++){
+        for (int i = 0; i < sizeRow; i++) {
+            for (int j = 0; j < sizeCol; j++) {
                 layoutToMatch.setSingleTile(new Tile(TileType.getValues().get(
                         Integer.parseInt(s.split(rowSplit)[i]
                                 .split(colSplit)[j]))), i, j);
@@ -94,11 +94,11 @@ public class CardGoal extends Card {
         }
     }
 
-    public Point verify(Shelf toCheck){
+    public Point verify(Shelf toCheck) {
         int check = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if ((!(layoutToMatch.get(i, j).isSameType(TileType.NOT_USED)))&&(layoutToMatch.get(i, j).isSameType(toCheck.get(i, j).getType()))) {
+                if ((!(layoutToMatch.get(i, j).isSameType(TileType.NOT_USED))) && (layoutToMatch.get(i, j).isSameType(toCheck.get(i, j).getType()))) {
                     check++;
                 }
             }
@@ -133,13 +133,13 @@ public class CardGoal extends Card {
 
     @Override
     public boolean isSameType(Card c) {
-        if(c instanceof CardGoal) {
+        if (c instanceof CardGoal) {
             return this.goalType.equals(((CardGoal) c).goalType);
         }
         return false;
     }
 
-    public String toString(int col){
+    public String toString(int col) {
         return layoutToMatch.toString(col);
     }
 }

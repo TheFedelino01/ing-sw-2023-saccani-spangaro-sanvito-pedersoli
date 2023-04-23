@@ -20,14 +20,12 @@ public class CommonHorizontalCard extends CommonCard {
     /**
      * Check if the player's shelf met the horizontal goals
      *
-     *
-     *
      * @return true if the goal is satisfied, false else
      */
     @Override
-    public boolean verify(Shelf toCheck){
-        param = super.getCommonType().compareTo(CardCommonType.CommonHorizontal0)> 0 ? 1 : 0;
-        int sum=0;
+    public boolean verify(Shelf toCheck) {
+        param = super.getCommonType().compareTo(CardCommonType.CommonHorizontal0) > 0 ? 1 : 0;
+        int sum = 0;
         switch (param) {
             case (0) -> {       //4 lines with up to 3 different types of tiles
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
@@ -58,7 +56,7 @@ public class CommonHorizontalCard extends CommonCard {
         }
     }
 
-    private int check(Shelf toCheck, int i){
+    private int check(Shelf toCheck, int i) {
         Map<TileType, Integer> rowCheck = new HashMap<>();
         int ok = 0;
         int count = 0;
@@ -73,8 +71,8 @@ public class CommonHorizontalCard extends CommonCard {
                     ofNullable(rowCheck.get(t)).
                     orElse(0);
         }
-        if(count>0)
-            ok=4;
+        if (count > 0)
+            ok = 4;
         return ok;
     }
 }

@@ -86,7 +86,7 @@ public class FirstChoice {
 
     }
 
-    public void close(){
+    public void close() {
         frame.dispose();
     }
 

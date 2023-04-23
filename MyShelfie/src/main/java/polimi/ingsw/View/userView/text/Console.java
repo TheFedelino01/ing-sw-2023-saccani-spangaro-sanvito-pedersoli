@@ -258,7 +258,7 @@ public class Console {
         }
     }
 
-    public int getLengthLongestMessage(){
+    public int getLengthLongestMessage() {
         return chat.getMsgs().stream()
                 .map(Message::getText)
                 .reduce((a, b) -> a.length() > b.length() ? a : b)

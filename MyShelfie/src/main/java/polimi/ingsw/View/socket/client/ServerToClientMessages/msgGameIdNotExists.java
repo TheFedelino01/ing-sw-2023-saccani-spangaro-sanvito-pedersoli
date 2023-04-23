@@ -1,11 +1,10 @@
 package polimi.ingsw.View.socket.client.ServerToClientMessages;
 
 import polimi.ingsw.Listener.GameListener;
-import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgGameIdNotExists extends SocketServerGenericMessage{
+public class msgGameIdNotExists extends SocketServerGenericMessage {
     private int gameid;
 
     public msgGameIdNotExists(int gameid) {

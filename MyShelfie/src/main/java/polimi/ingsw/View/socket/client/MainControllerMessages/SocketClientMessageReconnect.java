@@ -14,7 +14,7 @@ public class SocketClientMessageReconnect extends SocketClientGenericMessage {
     public SocketClientMessageReconnect(String nick, int idGame) {
         this.idGame = idGame;
         this.nick = nick;
-        this.isMessageForMainController=true;
+        this.isMessageForMainController = true;
     }
 
     @Override

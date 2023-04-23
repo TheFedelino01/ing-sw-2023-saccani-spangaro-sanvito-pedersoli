@@ -12,7 +12,8 @@ import java.util.Objects;
 
 public class FileDisconnection {
     private String path;
-    public FileDisconnection(){
+
+    public FileDisconnection() {
         path = System.getProperty("user.dir");
     }
 
@@ -39,6 +40,7 @@ public class FileDisconnection {
         else
             return -1;
     }
+
     @SuppressWarnings("unchecked")
     public void setLastGameId(String nickname, int gameId) {
         JSONObject data = new JSONObject();

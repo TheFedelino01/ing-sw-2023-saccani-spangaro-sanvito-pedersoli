@@ -5,7 +5,7 @@ import polimi.ingsw.Model.Player;
 
 import java.rmi.RemoteException;
 
-public class msgJoinUnableNicknameAlreadyIn extends SocketServerGenericMessage{
+public class msgJoinUnableNicknameAlreadyIn extends SocketServerGenericMessage {
 
 
     private Player wantedToJoin;

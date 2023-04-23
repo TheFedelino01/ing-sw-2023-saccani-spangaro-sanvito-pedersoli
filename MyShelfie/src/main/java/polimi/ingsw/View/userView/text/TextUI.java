@@ -133,13 +133,13 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         String nickLastPlayer = event.getModel().getLastPlayer().getNickname();
         //If the event is that I joined then I wait until the user inputs 'y'
         switch (event.getType()) {
-            case PLAYER_JOINED:
+            case PLAYER_JOINED -> {
                 if (nickLastPlayer.equals(nickname)) {
                     console.showPlayerJoined(event.getModel(), nickname);
                     saveGameId(fileDisconnection, event.getModel());
                     askReadyToStart();
                 }
-                break;
+            }
         }
 
     }
@@ -342,9 +342,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (temp.equals(""))
                     continue;
                 if (temp.startsWith("/c")) {
-                    if(temp.charAt(2) == ' '){
+                    if (temp.charAt(2) == ' ') {
                         sendMessage(new Message(temp.substring(3), gameModel.getPlayerEntity(nickname)));
-                    }else{
+                    } else {
                         sendMessage(new Message(temp.substring(2), gameModel.getPlayerEntity(nickname)));
                     }
                     System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));

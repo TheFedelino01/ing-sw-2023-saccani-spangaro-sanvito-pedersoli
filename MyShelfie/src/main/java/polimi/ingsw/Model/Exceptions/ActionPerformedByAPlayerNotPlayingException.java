@@ -1,5 +1,7 @@
 package polimi.ingsw.Model.Exceptions;
 
-public class ActionPerformedByAPlayerNotPlayingException extends RuntimeException{
-    public ActionPerformedByAPlayerNotPlayingException(){super();}
+public class ActionPerformedByAPlayerNotPlayingException extends RuntimeException {
+    public ActionPerformedByAPlayerNotPlayingException() {
+        super();
+    }
 }

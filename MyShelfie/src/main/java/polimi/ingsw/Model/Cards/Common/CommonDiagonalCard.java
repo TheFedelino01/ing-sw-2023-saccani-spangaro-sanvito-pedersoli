@@ -16,8 +16,6 @@ public class CommonDiagonalCard extends CommonCard {
     /**
      * Check if the player's shelf met the diagonal goals
      *
-     *
-     *
      * @return true if the goal is satisfied, false else
      */
     @Override

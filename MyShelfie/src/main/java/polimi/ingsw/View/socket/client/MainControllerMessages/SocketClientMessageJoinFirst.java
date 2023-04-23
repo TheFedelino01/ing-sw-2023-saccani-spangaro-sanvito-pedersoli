@@ -11,11 +11,11 @@ public class SocketClientMessageJoinFirst extends SocketClientGenericMessage {
 
     public SocketClientMessageJoinFirst(String nick) {
         this.nick = nick;
-        this.isMessageForMainController=true;
+        this.isMessageForMainController = true;
     }
 
     @Override
-    public GameControllerInterface execute(GameListener lis,MainControllerInterface mainController) throws RemoteException {
+    public GameControllerInterface execute(GameListener lis, MainControllerInterface mainController) throws RemoteException {
         return mainController.joinFirstAvailableGame(lis, nick);
     }
 

@@ -4,7 +4,7 @@ import polimi.ingsw.Listener.GameListener;
 
 import java.rmi.RemoteException;
 
-public class msgPlayerDisconnected extends SocketServerGenericMessage{
+public class msgPlayerDisconnected extends SocketServerGenericMessage {
     private String nick;
 
     public msgPlayerDisconnected(String nick) {

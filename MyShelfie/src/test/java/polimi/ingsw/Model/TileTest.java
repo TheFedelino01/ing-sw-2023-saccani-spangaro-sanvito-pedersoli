@@ -2,13 +2,10 @@ package polimi.ingsw.Model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.Model.Enumeration.TileType;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static polimi.ingsw.Model.Enumeration.TileType.NOT_USED;
 
 public class TileTest {
     Tile tile;
@@ -21,12 +18,12 @@ public class TileTest {
     @Test
     @DisplayName("Check tile type")
     void testType() {
-        boolean found=false;
-        for(int i = 0; i<TileType.values().length && found==false;i++){
-            if(TileType.values()[i].equals(tile.getType()))
-                found=true;
+        boolean found = false;
+        for (int i = 0; i < TileType.values().length && !found; i++) {
+            if (TileType.values()[i].equals(tile.getType()))
+                found = true;
         }
-        assertTrue(found,"Tile type corrent");
+        assertTrue(found, "Tile type corrent");
     }
 
     /*

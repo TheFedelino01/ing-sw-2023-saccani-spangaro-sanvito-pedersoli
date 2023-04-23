@@ -17,29 +17,30 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
 
     private View gui;
 
-    public GameListenersHandlerClient(View gui){
-        this.gui=gui;
+    public GameListenersHandlerClient(View gui) {
+        this.gui = gui;
     }
+
     @Override
     public void playerJoined(GameModelImmutable gamemodel) throws IOException, InterruptedException {
-       // System.out.println(this.hashCode()+"> "+nickNewPlayer+" has just joined! [by Socket]");
+        // System.out.println(this.hashCode()+"> "+nickNewPlayer+" has just joined! [by Socket]");
         gui.playerJoined(gamemodel);
     }
 
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(this.hashCode() + "> " + wantedToJoin+" tried to entry but the game is full! [by Socket]");
-        gui.joinUnableGameFull(wantedToJoin,gamemodel);
+        gui.joinUnableGameFull(wantedToJoin, gamemodel);
     }
 
     @Override
     public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws IOException, InterruptedException {
-        gui.playerReconnected(gamemodel,nickPlayerReconnected);
+        gui.playerReconnected(gamemodel, nickPlayerReconnected);
     }
 
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
-       // System.out.println(this.hashCode() + "> " + wantedToJoin.getNickname() + " has already in [by Socket]");
+        // System.out.println(this.hashCode() + "> " + wantedToJoin.getNickname() + " has already in [by Socket]");
         System.out.println("Error");
         gui.joinUnableNicknameAlreadyIn(wantedToJoin);
     }
@@ -52,7 +53,7 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     @Override
     public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException, InterruptedException {
         //System.out.println(this.hashCode() + "> " + nick + " ready to start! [by Socket]");
-        gui.playerIsReadyToStart(gamemodel,nick);
+        gui.playerIsReadyToStart(gamemodel, nick);
     }
 
     @Override
@@ -91,14 +92,14 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
 
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException {
-       // System.out.println(this.hashCode() + "> a set of non grabbable tiles have been required [by Socket]");
+        // System.out.println(this.hashCode() + "> a set of non grabbable tiles have been required [by Socket]");
         gui.grabbedTileNotCorrect(gamemodel);
     }
 
     @Override
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
         //System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf! [by Socket]");
-        gui.positionedTile(gamemodel,type,column);
+        gui.positionedTile(gamemodel, type, column);
         //setModel(gamemodel);
     }
 
@@ -111,15 +112,14 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     @Override
     public void addedPoint(Player p, Point point) throws RemoteException {
         //System.out.println(this.hashCode() + "> Player "+p.getNickname()+" obtained "+point.getPoint()+" points by achieving "+point.getReferredTo()+" [by Socket]");
-        gui.addedPoint(p,point);
+        gui.addedPoint(p, point);
     }
 
     @Override
     public void playerDisconnected(String nick) throws RemoteException {
-       // System.out.println(this.hashCode() + "> Player "+nick+" just disconnected [by Socket]");
+        // System.out.println(this.hashCode() + "> Player "+nick+" just disconnected [by Socket]");
         gui.playerDisconnected(nick);
     }
-
 
 
 }

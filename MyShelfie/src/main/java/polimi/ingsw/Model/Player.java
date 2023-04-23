@@ -1,18 +1,12 @@
 package polimi.ingsw.Model;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Player implements Serializable {
     private String nickname;
@@ -85,7 +79,6 @@ public class Player implements Serializable {
     }
 
 
-
     private List<Point> getObtainedPoints() {
         return obtainedPoints;
     }
@@ -112,6 +105,7 @@ public class Player implements Serializable {
     public void setReadyToStart() {
         readyToStart = true;
     }
+
     public void setNotReadyToStart() {
         readyToStart = false;
     }
@@ -142,7 +136,9 @@ public class Player implements Serializable {
         }
     }
 
-    public List<GameListener> getListeners (){return listeners;}
+    public List<GameListener> getListeners() {
+        return listeners;
+    }
 
     public void removeListener(GameListener lis) {
         listeners.remove(lis);

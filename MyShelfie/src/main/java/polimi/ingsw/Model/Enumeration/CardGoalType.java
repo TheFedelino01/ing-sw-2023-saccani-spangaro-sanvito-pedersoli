@@ -1,6 +1,5 @@
 package polimi.ingsw.Model.Enumeration;
 
-import polimi.ingsw.Model.Cards.Card;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -8,8 +7,8 @@ import java.util.stream.Collectors;
 public enum CardGoalType implements CardType {
     GOAL0, GOAL1, GOAL2, GOAL3, GOAL4, GOAL5, GOAL6, GOAL7, GOAL8, GOAL9, GOAL10, GOAL11, NOT_SET;
 
-    public static String toString(CardGoalType type){
-        switch(type){
+    public static String toString(CardGoalType type) {
+        switch (type) {
             case GOAL0 -> {
                 return "GOAL0";
             }
@@ -53,10 +52,14 @@ public enum CardGoalType implements CardType {
         return "NOT_SET";
     }
 
-    public static List<CardGoalType> getValues(){return Arrays.stream(values()).filter(x -> !x.equals(CardGoalType.NOT_SET)).collect(Collectors.toList());}
+    public static List<CardGoalType> getValues() {
+        return Arrays.stream(values()).filter(x -> !x.equals(CardGoalType.NOT_SET)).collect(Collectors.toList());
+    }
 
     //for testing purposes ONLY
-    public static List<CardGoalType> getValuesBUT(){return Arrays.stream(values()).filter(x -> !x.equals(CardGoalType.NOT_SET))
-            .filter(x -> !x.equals(CardGoalType.GOAL0)).collect(Collectors.toList());}
+    public static List<CardGoalType> getValuesBUT() {
+        return Arrays.stream(values()).filter(x -> !x.equals(CardGoalType.NOT_SET))
+                .filter(x -> !x.equals(CardGoalType.GOAL0)).collect(Collectors.toList());
+    }
 
 }

@@ -10,13 +10,14 @@ public class Tile implements Serializable {
     private TileType TYPE;
     private boolean freeSide;
 
-    public Tile(){
-        TYPE=NOT_USED;
-        freeSide=false;
+    public Tile() {
+        TYPE = NOT_USED;
+        freeSide = false;
     }
-    public Tile(TileType type){
+
+    public Tile(TileType type) {
         this.TYPE = type;
-        freeSide=false;
+        freeSide = false;
     }
 
     public Tile(TileType TYPE, boolean freeSide) {
@@ -41,12 +42,12 @@ public class Tile implements Serializable {
     }
 
 
-    public boolean isSameType(TileType type){
-        return this.TYPE==type;
+    public boolean isSameType(TileType type) {
+        return this.TYPE == type;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return TYPE.toString();
     }
 }

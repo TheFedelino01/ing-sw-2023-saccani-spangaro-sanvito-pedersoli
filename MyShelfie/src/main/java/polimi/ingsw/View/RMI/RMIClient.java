@@ -21,20 +21,21 @@ import java.rmi.server.UnicastRemoteObject;
 public class RMIClient implements CommonClientActions, Runnable {
 
     private MainControllerInterface requests;
-    private GameControllerInterface gameController=null;
+    private GameControllerInterface gameController = null;
     private GameListener modelInvokedEvents;
     private String nickname;
     private GameListenersHandlerClient gameListenersHandler;
 
     public RMIClient(View gui) {
         super();
-        gameListenersHandler=new GameListenersHandlerClient(gui);
+        gameListenersHandler = new GameListenersHandlerClient(gui);
         connect();
         new Thread(this).start();
     }
-    public void connect(){
-        boolean retry=false;
-        int attempt=1;
+
+    public void connect() {
+        boolean retry = false;
+        int attempt = 1;
         int i;
 
         do {
@@ -42,18 +43,18 @@ public class RMIClient implements CommonClientActions, Runnable {
                 Registry registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
                 requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
 
-                modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler,0);
+                modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler, 0);
 
                 System.out.println("Client RMI ready");
-                retry=false;
+                retry = false;
             } catch (Exception e) {
                 if (!retry) {
-                    System.err.println("[ERROR] CONNECTING TO RMI SERVER: \n\tClient RMI exception: "+e+"\n");
+                    System.err.println("[ERROR] CONNECTING TO RMI SERVER: \n\tClient RMI exception: " + e + "\n");
                 }
-                System.out.print("[#"+attempt+"]Waiting to reconnect to RMI Server on port: '"+DefaultValue.Default_port_RMI+"' with name: '"+DefaultValue.Default_servername_RMI+"'");
+                System.out.print("[#" + attempt + "]Waiting to reconnect to RMI Server on port: '" + DefaultValue.Default_port_RMI + "' with name: '" + DefaultValue.Default_servername_RMI + "'");
 
-                i=0;
-                while(i<DefaultValue.seconds_between_reconnection){
+                i = 0;
+                while (i < DefaultValue.seconds_between_reconnection) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
@@ -64,7 +65,7 @@ public class RMIClient implements CommonClientActions, Runnable {
                 }
                 System.out.print("\n");
 
-                if(attempt>=DefaultValue.num_of_attempt_to_connect_toServer_before_giveup){
+                if (attempt >= DefaultValue.num_of_attempt_to_connect_toServer_before_giveup) {
                     System.out.print("Give up!");
                     try {
                         System.in.read();
@@ -73,17 +74,17 @@ public class RMIClient implements CommonClientActions, Runnable {
                     }
                     System.exit(-1);
                 }
-                retry=true;
+                retry = true;
                 attempt++;
             }
-        }while(retry);
+        } while (retry);
 
     }
 
     @Override
     public void run() {
         //For the heartbeat
-        while(true){
+        while (true) {
             heartbeat();//send heartbeat so the server knows I am still online
             try {
                 Thread.sleep(1000);
@@ -93,20 +94,20 @@ public class RMIClient implements CommonClientActions, Runnable {
         }
     }
 
-    public void createGame(String nick){
+    public void createGame(String nick) {
         try {
-            gameController = requests.createGame(modelInvokedEvents,nick);
-            nickname=nick;
+            gameController = requests.createGame(modelInvokedEvents, nick);
+            nickname = nick;
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void joinFirstAvailable(String nick){
+    public void joinFirstAvailable(String nick) {
         try {
-            gameController = requests.joinFirstAvailableGame(modelInvokedEvents,nick);
-            nickname=nick;
+            gameController = requests.joinFirstAvailableGame(modelInvokedEvents, nick);
+            nickname = nick;
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -114,11 +115,11 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     }
 
-    public void joinGame(String nick, int idGame){
+    public void joinGame(String nick, int idGame) {
         try {
-            gameController = requests.joinGame(modelInvokedEvents,nick,idGame);
+            gameController = requests.joinGame(modelInvokedEvents, nick, idGame);
 
-            nickname=nick;
+            nickname = nick;
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -128,9 +129,9 @@ public class RMIClient implements CommonClientActions, Runnable {
     @Override
     public void reconnect(String nick, int idGame) {
         try {
-            gameController = requests.reconnect(modelInvokedEvents,nick,idGame);
+            gameController = requests.reconnect(modelInvokedEvents, nick, idGame);
 
-            nickname=nick;
+            nickname = nick;
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -138,7 +139,7 @@ public class RMIClient implements CommonClientActions, Runnable {
     }
 
     @Override
-    public void sendMessage(Message msg){
+    public void sendMessage(Message msg) {
         try {
             gameController.sentMessage(msg);
         } catch (RemoteException e) {
@@ -146,9 +147,9 @@ public class RMIClient implements CommonClientActions, Runnable {
         }
     }
 
-    public void setAsReady(){
+    public void setAsReady() {
         try {
-            if(gameController!=null){
+            if (gameController != null) {
                 gameController.playerIsReadyToStart(nickname);
             }
         } catch (RemoteException e) {
@@ -156,7 +157,7 @@ public class RMIClient implements CommonClientActions, Runnable {
         }
     }
 
-    public boolean isMyTurn(){
+    public boolean isMyTurn() {
         try {
             return gameController.isThisMyTurn(nickname);
         } catch (RemoteException e) {
@@ -166,15 +167,15 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     public void grabTileFromPlayground(int x, int y, Direction direction, int num) {
         try {
-            gameController.grabTileFromPlayground(nickname,x,y,direction,num);
+            gameController.grabTileFromPlayground(nickname, x, y, direction, num);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void positionTileOnShelf(int column, TileType type){
+    public void positionTileOnShelf(int column, TileType type) {
         try {
-            gameController.positionTileOnShelf(nickname,column,type);
+            gameController.positionTileOnShelf(nickname, column, type);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (GameEndedException e) {
@@ -185,11 +186,11 @@ public class RMIClient implements CommonClientActions, Runnable {
     @Override
     public void heartbeat() {
         try {
-            if(gameController!=null) {
+            if (gameController != null) {
                 gameController.heartbeat(nickname, modelInvokedEvents);
             }
         } catch (RemoteException e) {
-            System.err.println("[ERROR] Connection to server lost! "+e);
+            System.err.println("[ERROR] Connection to server lost! " + e);
             try {
                 System.in.read();
             } catch (IOException ex) {

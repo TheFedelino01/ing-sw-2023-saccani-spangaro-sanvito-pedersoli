@@ -16,9 +16,11 @@ import java.rmi.RemoteException;
 public class GameListenersHandlerSocket implements GameListener, Serializable {
 
     private ObjectOutputStream out;
-    public GameListenersHandlerSocket(ObjectOutputStream o){
-        out=o;
+
+    public GameListenersHandlerSocket(ObjectOutputStream o) {
+        out = o;
     }
+
     @Override
     public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(nickNewPlayer +" by socket");
@@ -35,12 +37,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         //System.out.println(nickNewPlayer +" by socket");
         try {
             out.reset();
-            out.writeObject(new msgPlayerReconnected(gamemodel,nickPlayerReconnected));
+            out.writeObject(new msgPlayerReconnected(gamemodel, nickPlayerReconnected));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 
 
     @Override
@@ -66,9 +67,9 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void playerIsReadyToStart(GameModelImmutable model, String nick) throws RemoteException {
         //System.out.println(nick +" ready to start by socket");
-       try {
-           out.reset();
-           out.writeObject(new msgPlayerIsReadyToStart(model,nick));
+        try {
+            out.reset();
+            out.writeObject(new msgPlayerIsReadyToStart(model, nick));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -140,7 +141,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
         try {
             out.reset();
-            out.writeObject(new msgPositionedTile(gamemodel,type,column));
+            out.writeObject(new msgPositionedTile(gamemodel, type, column));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -160,7 +161,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     public void addedPoint(Player p, Point point) throws RemoteException {
         try {
             out.reset();
-            out.writeObject(new msgAddedPoint(p,point));
+            out.writeObject(new msgAddedPoint(p, point));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

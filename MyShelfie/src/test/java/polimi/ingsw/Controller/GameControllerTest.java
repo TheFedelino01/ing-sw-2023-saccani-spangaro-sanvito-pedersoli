@@ -92,19 +92,18 @@ public class GameControllerTest {
         assertThrows(PositioningATileNotGrabbedException.class, () -> gameController.positionTileOnShelf(plist.get(currentPlayer).getNickname(), 0, TileType.NOT_USED), "Wanted to position a Tail not grabbed");
 
 
-        assertTrue(plist.get(currentPlayer).getInHandTile().size()==1,"Grabbed mismatch");
+        assertEquals(1, plist.get(currentPlayer).getInHandTile().size(), "Grabbed mismatch");
         try {
             gameController.positionTileOnShelf(plist.get(currentPlayer).getNickname(), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
         } catch (GameEndedException e) {
             throw new RuntimeException(e);
         }
-        assertTrue(plist.get(currentPlayer).getInHandTile().size()==0,"Positioned tile on shelf but player's hand not free");
+        assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned tile on shelf but player's hand not free");
 
 
-        if(!plist.get(currentPlayer).getShelf().get(DefaultValue.NumOfRowsShelf-1,0).isSameType(grabbed.getType())){
+        if (!plist.get(currentPlayer).getShelf().get(DefaultValue.NumOfRowsShelf - 1, 0).isSameType(grabbed.getType())) {
             assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned a wrong tile");
         }
-
 
 
     }
@@ -182,8 +181,6 @@ public class GameControllerTest {
             assertEquals(currentPlayer, 1, "The current player is not correct");
         }
     }
-
-
 
 
 }
