@@ -323,7 +323,6 @@ public class GameModel {
      * Controllo chi tra i vari player ha piú punti
      * Ritorna il Player con piú punti
      *
-     * @apiNote Ho cambiato il tipo di ritorno da void a Player
      */
 
     private void findWinner() {
