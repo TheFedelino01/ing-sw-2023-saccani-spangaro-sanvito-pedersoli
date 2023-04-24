@@ -1,19 +1,24 @@
 package polimi.ingsw.View.userView.gui;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import polimi.ingsw.Main.rmiMain.App;
+
+import java.util.Objects;
 
 public class HelloWorld extends Application {
 
     @Override
-    public void start(Stage stage) {
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        Scene scene = new Scene(new StackPane(l), 640, 480);
+    public void start(Stage stage) throws Exception {
+        Parent parent = FXMLLoader.load(getClass().getResource("/ui.fxml"));
+
+
+        Scene scene = new Scene(parent, 300, 275);
+
+        stage.setTitle("FXML Welcome");
         stage.setScene(scene);
         stage.show();
     }
