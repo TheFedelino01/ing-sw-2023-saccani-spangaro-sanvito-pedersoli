@@ -22,6 +22,18 @@ public class CommonHorizontalCard extends CommonCard {
      *
      * @return true if the goal is satisfied, false else
      */
+
+    public boolean verifyxRowsofyDiffTiles(Shelf toCheck, int x, int y){
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            int ok = check(toCheck, i);
+            if (ok <= y)
+                sum++;
+            if (sum == x) {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public boolean verify(Shelf toCheck) {
         param = super.getCommonType().compareTo(CardCommonType.CommonHorizontal0) > 0 ? 1 : 0;

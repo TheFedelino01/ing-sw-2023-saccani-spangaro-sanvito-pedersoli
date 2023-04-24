@@ -28,7 +28,7 @@ public class CommonGroupsCard extends CommonCard {
      * @return true if the goal is satisfied, false else
      */
 
-    public boolean verifyIfxGroupsofyTiles (Shelf toCheck, int x, int y){
+    public boolean verifyIfxGroupsOfyTiles (Shelf toCheck, int x, int y){
         int check = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
