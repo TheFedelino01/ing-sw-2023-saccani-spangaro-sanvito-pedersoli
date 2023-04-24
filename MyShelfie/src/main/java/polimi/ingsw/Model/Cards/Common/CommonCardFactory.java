@@ -16,13 +16,13 @@ public class CommonCardFactory {
             case CommonGroup1 -> new CommonGroupsCard(CardCommonType.CommonGroup1, 0, 4, 4);
 
             //Two groups of 2x2 tiles of the same type (tile type CANNOT change between groups)
-            case CommonGroup2 -> new CommonGroupsCard(CardCommonType.CommonGroup2, 2);
+            case CommonGroup2 -> new CommonGroupsCard(CardCommonType.CommonGroup2, 2, 0, 0);
 
             //Three columns made with max three different tile types (combinations may vary, but AT MAX three different types)
             case CommonVertical0 -> new CommonVerticalCard(CardCommonType.CommonVertical0, 0, 3, 3);
 
             //Eight tiles of the same type
-            case CommonGroup3 -> new CommonGroupsCard(CardCommonType.CommonGroup3, 3);
+            case CommonGroup3 -> new CommonGroupsCard(CardCommonType.CommonGroup3, 3, 0, 0);
 
             //Five tiles of the same type, creating a diagonal line across the shelf
             case CommonDiagonal0 -> new CommonDiagonalCard(CardCommonType.CommonDiagonal0, 0);

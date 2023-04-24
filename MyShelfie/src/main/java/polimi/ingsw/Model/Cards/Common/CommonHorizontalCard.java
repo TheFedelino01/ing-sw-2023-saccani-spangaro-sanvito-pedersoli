@@ -76,7 +76,7 @@ public class CommonHorizontalCard extends CommonCard {
                 return false;
             }
         }
-    }
+    }*/
 
     private int check(Shelf toCheck, int i) {
         Map<TileType, Integer> rowCheck = new HashMap<>();
@@ -96,5 +96,5 @@ public class CommonHorizontalCard extends CommonCard {
         if (count > 0)
             ok = 4;
         return ok;
-    }*/
+    }
 }
