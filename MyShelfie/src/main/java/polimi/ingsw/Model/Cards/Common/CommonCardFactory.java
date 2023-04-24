@@ -28,13 +28,13 @@ public class CommonCardFactory {
             case CommonDiagonal0 -> new CommonDiagonalCard(CardCommonType.CommonDiagonal0, 0);
 
             //Like "commonVertical0", but with 4 rows instead of 3 columns
-            case CommonHorizontal0 -> new CommonHorizontalCard(CardCommonType.CommonHorizontal0, 0);
+            case CommonHorizontal0 -> new CommonHorizontalCard(CardCommonType.CommonHorizontal0, 3, 4);
 
             //Two columns made with all different tile types
             case CommonVertical1 -> new CommonVerticalCard(CardCommonType.CommonVertical1, 0, 6, 2);
 
             //Two rows made with all different tile types
-            case CommonHorizontal1 -> new CommonHorizontalCard(CardCommonType.CommonHorizontal1, 1);
+            case CommonHorizontal1 -> new CommonHorizontalCard(CardCommonType.CommonHorizontal1, 5, 2);
 
             //An "X" pattern is formed on the board, with tiles of the same type
             case CommonX -> new CommonXCard(CardCommonType.CommonX);
