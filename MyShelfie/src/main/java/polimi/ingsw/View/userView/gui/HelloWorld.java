@@ -13,6 +13,7 @@ public class HelloWorld extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        //Si trova in resources
         Parent parent = FXMLLoader.load(getClass().getResource("/ui.fxml"));
 
 
