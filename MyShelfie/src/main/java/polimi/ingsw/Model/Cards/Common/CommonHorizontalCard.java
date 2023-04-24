@@ -26,8 +26,14 @@ public class CommonHorizontalCard extends CommonCard {
     public boolean verifyxRowsofyDiffTiles(Shelf toCheck, int x, int y){
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             int ok = check(toCheck, i);
-            if (ok <= y)
-                sum++;
+            if(y==5){
+                if (ok == y)
+                    sum++;
+            }
+            else {
+                if (ok <= y)
+                    sum++;
+            }
             if (sum == x) {
                 return true;
             }

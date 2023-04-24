@@ -22,6 +22,24 @@ public class CommonVerticalCard extends CommonCard {
      *
      * @return true if the goal is satisfied, false else
      */
+
+    public boolean verifyxColumnsOfyDiffTiles(Shelf toCheck, int x. int y){
+        for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+            int ok = checkLines(toCheck, j);
+            if(y==6){
+                if (ok == y)
+                    sum++;
+            }
+            else {
+                if (ok <= y)
+                    sum++;
+            }
+            if (sum == x) {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public boolean verify(Shelf toCheck) {
         param = super.getCommonType().compareTo(CardCommonType.CommonVertical0) > 0 ? 1 : 0;
