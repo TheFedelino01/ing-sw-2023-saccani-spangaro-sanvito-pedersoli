@@ -15,13 +15,13 @@ import java.util.Optional;
 public class CommonGroupsCard extends CommonCard {
 
     private static int param;
-    private static int numOfTiles;
-    private static int numOfGroups;
-    public CommonGroupsCard(CardCommonType type, int param, int numOfTiles, int numOfGroups) {
+    //private static int numOfTiles;
+    //private static int numOfGroups;
+    public CommonGroupsCard(CardCommonType type, int param) {
         super(type);
         CommonGroupsCard.param = param;
-        CommonGroupsCard.numOfTiles = numOfTiles;
-        CommonGroupsCard.numOfGroups = numOfGroups;
+        //CommonGroupsCard.numOfTiles = numOfTiles;
+        //CommonGroupsCard.numOfGroups = numOfGroups;
     }
 
     /**
@@ -35,7 +35,7 @@ public class CommonGroupsCard extends CommonCard {
     public boolean verify(Shelf toCheck) {
         int sum = 0;
         switch (param) {
-            case(0) -> {
+            /*case(0) -> {
                 int check = 0;
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -53,8 +53,8 @@ public class CommonGroupsCard extends CommonCard {
                         }
                     }
                 }
-            }
-           /* case (0) -> {       //check if there are 6 separate groups formed by 2 adjacent tiles of the same type
+            }*/
+            case (0) -> {       //check if there are 6 separate groups formed by 2 adjacent tiles of the same type
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //check vertical
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -79,7 +79,6 @@ public class CommonGroupsCard extends CommonCard {
                         }
                     }
                 }
-                return false;
             }
             case (1) -> {       //check if there are 4 separate groups formed by 4 adjacent tiles of the same type
                 int check = 0;
@@ -100,7 +99,7 @@ public class CommonGroupsCard extends CommonCard {
                     }
                 }
                 return false;
-            }*/
+            }
             case (2) -> {       //check if there are 2 separate groups formed by 4 adjacent "squared" tiles of the same type
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //vertical check
                 {
@@ -147,6 +146,7 @@ public class CommonGroupsCard extends CommonCard {
                 return false;
             }
         }
+     return false;
     }
 
     /**

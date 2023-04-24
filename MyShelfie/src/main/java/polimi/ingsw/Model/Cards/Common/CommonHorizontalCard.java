@@ -10,14 +10,14 @@ import java.util.Map;
 import java.util.Optional;
 
 public class CommonHorizontalCard extends CommonCard {
-    //private static int param;
-    private static int numOfTiles;
-    private static int numOfRows;
-    public CommonHorizontalCard(CardCommonType type, int numOfTiles, int numOfRows ) {
+    private static int param;
+    //private static int numOfTiles;
+    //private static int numOfRows;
+    public CommonHorizontalCard(CardCommonType type, int param) {
         super(type);
-        //CommonHorizontalCard.param = param;
-        CommonHorizontalCard.numOfTiles = numOfTiles;
-        CommonHorizontalCard.numOfRows = numOfRows;
+        CommonHorizontalCard.param = param;
+        //CommonHorizontalCard.numOfTiles = numOfTiles;
+        //CommonHorizontalCard.numOfRows = numOfRows;
     }
 
     /**
@@ -25,8 +25,9 @@ public class CommonHorizontalCard extends CommonCard {
      *
      * @return true if the goal is satisfied, false else
      */
-    @Override
+    /*@Override
     public boolean verify(Shelf toCheck){
+        int sum=0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             int ok = check(toCheck, i);
             if(numOfTiles==5){
@@ -42,8 +43,8 @@ public class CommonHorizontalCard extends CommonCard {
             }
         }
         return false;
-    }
-    /*
+    }*/
+
     @Override
     public boolean verify(Shelf toCheck) {
         param = super.getCommonType().compareTo(CardCommonType.CommonHorizontal0) > 0 ? 1 : 0;
@@ -76,7 +77,7 @@ public class CommonHorizontalCard extends CommonCard {
                 return false;
             }
         }
-    }*/
+    }
 
     private int check(Shelf toCheck, int i) {
         Map<TileType, Integer> rowCheck = new HashMap<>();
