@@ -11,11 +11,6 @@ public class mainGUI {
     public static synchronized void firstPanel() {
         hasChosen = false;
         FirstChoice panel = new FirstChoice();
-        MainWindow main = new MainWindow();
-        main.init();
-
-
-
         panel.init();
         Thread check = new Thread(
                 () -> {

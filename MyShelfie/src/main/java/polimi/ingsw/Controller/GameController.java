@@ -124,7 +124,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         //Estraggo in modo random 'DefaultValue.NumOfCommonCards' carte comuni
         CommonCardFactory cfactory = new CommonCardFactory();
         do {
-            int extracted = random.nextInt(CardCommonType.values().length);
+            Integer extracted = random.nextInt(CardCommonType.values().length);
             try {
                 CommonCard ca = cfactory.getCommonCard(CardCommonType.values()[extracted]);
                 model.addCommonCard(ca);//Aggiungo la card al model
