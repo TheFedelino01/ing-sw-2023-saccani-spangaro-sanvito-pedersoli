@@ -15,10 +15,13 @@ import java.util.Optional;
 public class CommonGroupsCard extends CommonCard {
 
     private static int param;
-
-    public CommonGroupsCard(CardCommonType type, int param) {
+    private static int numOfTiles;
+    private static int numOfGroups;
+    public CommonGroupsCard(CardCommonType type, int param, int numOfTiles, int numOfGroups) {
         super(type);
         CommonGroupsCard.param = param;
+        CommonGroupsCard.numOfTiles = numOfTiles;
+        CommonGroupsCard.numOfGroups = numOfGroups;
     }
 
     /**
@@ -28,74 +31,30 @@ public class CommonGroupsCard extends CommonCard {
      * @return true if the goal is satisfied, false else
      */
 
-    public boolean verifyIfxGroupsOfyTiles (Shelf toCheck, int x, int y){
-        int check = 0;
-        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (!toCheck.get(i, j).isSameType(TileType.NOT_USED)) {  //check for groups of 4
-                    adjacentToFU(toCheck, i, j, toCheck.get(i, j));
-                    sum = countAdjacent(toCheck);
-                    if (sum >= x) {
-                        //delete all the same adjacent elements
-                        deleteAdjacent(toCheck, i, j, toCheck.get(i, j));
-                        check = check + 1;
-                        if (check == y) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-
-    public boolean verifySquared (Shelf toCheck){
-            for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //vertical check
-            {
-                for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                    if (i < DefaultValue.NumOfRowsShelf - 1 && j < DefaultValue.NumOfColumnsShelf - 1) {   //analyse square
-                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED) &&
-                                toCheck.get(i, j) == toCheck.get(i + 1, j) &&
-                                toCheck.get(i, j) == toCheck.get(i, j + 1) &&
-                                toCheck.get(i, j) == toCheck.get(i + 1, j + 1)) {
-                            sum = sum + 1;
-                            if (sum == 2) {
-                                return true;
-                            }
-                            //delete all the same adjacent elements
-                            deleteAdjacent(toCheck, i, j, toCheck.get(i, j));
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-    public boolean verify8 (Shelf toCheck){
-            Map<TileType, Integer> tileCheck = new HashMap<>();
-            for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                    if (!toCheck.get(i, j).isSameType(TileType.NOT_USED)) {
-                        if (tileCheck.get(toCheck.get(i, j).getType()) == null) {
-                            tileCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
-                        } else {
-                            tileCheck.put(toCheck.get(i, j).getType(), tileCheck.get(toCheck.get(i, j).getType()) + 1);
-                        }
-                    }
-                }
-            }
-            for (TileType t : TileType.values()) {
-                if (Optional.ofNullable(tileCheck.get(t)).orElse(0) >= 8) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
     @Override
     public boolean verify(Shelf toCheck) {
         int sum = 0;
         switch (param) {
-            case (0) -> {       //check if there are 6 separate groups formed by 2 adjacent tiles of the same type
+            case(0) -> {
+                int check = 0;
+                for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+                    for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                        if (!toCheck.get(i, j).isSameType(TileType.NOT_USED)) {  //check for groups of 4
+                            adjacentToFU(toCheck, i, j, toCheck.get(i, j));
+                            sum = countAdjacent(toCheck);
+                            if (sum >= numOfTiles) {     //number of tiles of the same type
+                                //delete all the same adjacent elements
+                                deleteAdjacent(toCheck, i, j, toCheck.get(i, j));
+                                check = check + 1;
+                                if (check == numOfGroups) {   //number of groups
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+           /* case (0) -> {       //check if there are 6 separate groups formed by 2 adjacent tiles of the same type
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //check vertical
                 {
                     for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -141,7 +100,7 @@ public class CommonGroupsCard extends CommonCard {
                     }
                 }
                 return false;
-            }
+            }*/
             case (2) -> {       //check if there are 2 separate groups formed by 4 adjacent "squared" tiles of the same type
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //vertical check
                 {

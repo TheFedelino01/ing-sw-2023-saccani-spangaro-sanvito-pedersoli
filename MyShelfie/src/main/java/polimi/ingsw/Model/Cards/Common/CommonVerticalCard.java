@@ -10,11 +10,15 @@ import java.util.Map;
 import java.util.Optional;
 
 public class CommonVerticalCard extends CommonCard {
-    private static int param;
+    //private static int param;
+    private static int numOfTiles;
+    private static int numOfColumns;
 
-    public CommonVerticalCard(CardCommonType type, int param) {
+    public CommonVerticalCard(CardCommonType type, int numOfTiles, int numOfColumns) {
         super(type);
-        CommonVerticalCard.param = param;
+        //CommonVerticalCard.param = param;
+        CommonVerticalCard.numOfTiles = numOfColumns;
+        CommonVerticalCard.numOfColumns = numOfColumns;
     }
 
     /**
@@ -23,24 +27,25 @@ public class CommonVerticalCard extends CommonCard {
      * @return true if the goal is satisfied, false else
      */
 
-    public boolean verifyxColumnsOfyDiffTiles(Shelf toCheck, int x. int y){
+    @Override
+    public boolean verify(Shelf toCheck) {
         for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
             int ok = checkLines(toCheck, j);
-            if(y==6){
-                if (ok == y)
+            if(numOfTiles==6){
+                if (ok == numOfTiles)    //num of different tiles type
                     sum++;
             }
             else {
-                if (ok <= y)
+                if (ok <= numOfTiles)
                     sum++;
             }
-            if (sum == x) {
+            if (sum == numOfColumns) {     //num of different columns
                 return true;
             }
         }
         return false;
     }
-    @Override
+    /*@Override
     public boolean verify(Shelf toCheck) {
         param = super.getCommonType().compareTo(CardCommonType.CommonVertical0) > 0 ? 1 : 0;
         int sum = 0;
@@ -72,7 +77,7 @@ public class CommonVerticalCard extends CommonCard {
                 return false;
             }
         }
-    }
+    }*/
 
     private int checkLines(Shelf toCheck, int j) {
         Map<TileType, Integer> colCheck = new HashMap<>();
