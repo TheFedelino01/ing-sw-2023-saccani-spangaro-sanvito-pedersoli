@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import polimi.ingsw.Main.rmiMain.App;
 
 import java.util.Objects;
 
@@ -14,7 +13,7 @@ public class HelloWorld extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //Si trova in resources
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui.fxml")));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/WelcomeScene1.fxml")));
 
 
         Scene scene = new Scene(parent, 1280, 720);

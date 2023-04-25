@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
+            prefWidth="1280.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.GUIController">
+    <children>
+        <Button layoutX="14.0" layoutY="603.0" mnemonicParsing="false" onAction="#Settings_Button"
+                stylesheets="@style.css" text="Option_gear"/>
+        <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="451.0" layoutY="77.0" strokeType="OUTSIDE"
+              strokeWidth="0.0" text="MY SHELFIE" textAlignment="CENTER" wrappingWidth="377.13671875">
+            <font>
+                <Font name="Calisto MT" size="68.0"/>
+            </font>
+        </Text>
+        <Button layoutX="25.0" layoutY="214.0" mnemonicParsing="false" onAction="#CreateANewGame_Button"
+                stylesheets="@style.css" text="Create a new game"/>
+        <Button layoutX="302.0" layoutY="214.0" mnemonicParsing="false" onAction="#JoinARandomGame_Button"
+                stylesheets="@style.css" text="Join to a random game"/>
+        <Button layoutX="672.0" layoutY="214.0" mnemonicParsing="false" onAction="#JoinASpecificGame_Button"
+                stylesheets="@style.css" text="Join a specific game by idGame"/>
+        <Button layoutX="1098.0" layoutY="214.0" mnemonicParsing="false" onAction="#Reconnect_Button"
+                stylesheets="@style.css" text="Reconnect"/>
+        <Button layoutX="14.0" layoutY="660.0" mnemonicParsing="false" onAction="#Exit_Button" stylesheets="@style.css"
+                text="Exit"/>
+        <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="987.0" layoutY="701.0" strokeType="OUTSIDE"
+              strokeWidth="0.0" text="Credit" textAlignment="CENTER" wrappingWidth="278.13671875">
+            <font>
+                <Font name="Calisto MT" size="18.0"/>
+            </font>
+        </Text>
+    </children>
+</AnchorPane>
