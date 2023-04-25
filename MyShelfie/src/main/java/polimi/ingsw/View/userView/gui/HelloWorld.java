@@ -14,13 +14,14 @@ public class HelloWorld extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //Si trova in resources
-        Parent parent = FXMLLoader.load(getClass().getResource("/ui.fxml"));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui.fxml")));
 
 
-        Scene scene = new Scene(parent, 300, 275);
-
+        Scene scene = new Scene(parent, 1280, 720);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
         stage.setTitle("FXML Welcome");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

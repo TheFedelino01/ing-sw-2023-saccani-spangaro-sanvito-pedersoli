@@ -1,0 +1,13 @@
+.button {
+    //round button with withe background and black text
+    -fx-background-radius: 100;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-padding: 10px;
+    -fx-border-radius: 100;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+}
