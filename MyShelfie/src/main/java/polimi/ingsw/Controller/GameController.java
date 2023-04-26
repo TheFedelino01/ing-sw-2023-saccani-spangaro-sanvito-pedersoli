@@ -262,7 +262,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public void setConnectionStatus(String nick, GameListener lisOfClient, boolean connected) throws RemoteException {
         if (!connected) {
-            //Player has just disconnected so I remove the notifications for him
+            //Player has just disconnected, so I remove the notifications for him
             removeListener(lisOfClient, model.getPlayerEntity(nick));
             model.setAsDisconnected(nick);
 

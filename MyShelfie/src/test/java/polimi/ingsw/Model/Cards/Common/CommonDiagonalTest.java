@@ -36,26 +36,6 @@ public class CommonDiagonalTest {
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (i >= j) {
-                    if (i == j) {
-                        test.setSingleTile(new Tile(TileType.USED), i, j);
-                    } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
-                    }
-                }
-            }
-        }
-        assertTrue(model.get(6).verify(test));
-        assertTrue(model.get(11).verify(test));
-    }
-
-
-    @Test
-    @DisplayName("Test Diagonal cards from bottom left to top right")
-    public void testDiagonalBT() {
-        Shelf test = new Shelf();
-        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i <= j) {
                     if (i == j) {
                         test.setSingleTile(new Tile(TileType.CAT), i, j);
@@ -65,8 +45,36 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(model.get(6).verify(test));
-        assertTrue(model.get(11).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
+                .toList().get(0).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
+                .toList().get(0).verify(test));
+    }
+
+
+    @Test
+    @DisplayName("Test Diagonal cards from bottom left to top right")
+    public void testDiagonalBT() {
+        Shelf test = new Shelf();
+        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
+            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
+                if (i >= j) {
+                    if (i == j) {
+                        test.setSingleTile(new Tile(TileType.CAT), i, j);
+                    } else {
+                        test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
+                    }
+                }
+            }
+        }
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
+                .toList().get(0).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
+                .toList().get(0).verify(test));
     }
 
     //I copied methods from other test classes to initialise the shelf,
@@ -77,19 +85,21 @@ public class CommonDiagonalTest {
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (j == 0) {
-                    test.setSingleTile(new Tile(TileType.CAT), i, j);
-                } else if (j == 2) {
-                    test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                } else if (j == 4) {
-                    test.setSingleTile(new Tile(TileType.TROPHY), i, j);
-                } else {
-                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                switch(j){
+                    case 0 -> test.setSingleTile(new Tile(TileType.CAT), i, j);
+                    case 1 -> test.setSingleTile(new Tile(TileType.BOOK), i, j);
+                    case 2 -> test.setSingleTile(new Tile(TileType.TROPHY), i, j);
+                    case 3 -> test.setSingleTile(new Tile(TileType.ACTIVITY), i, j);
+                    case 4 -> test.setSingleTile(new Tile(TileType.FRAME), i, j);
                 }
             }
         }
-        assertFalse(model.get(6).verify(test));
-        assertFalse(model.get(11).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
+                .toList().get(0).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
+                .toList().get(0).verify(test));
     }
 
     @Test
@@ -101,8 +111,12 @@ public class CommonDiagonalTest {
                 test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }
-        assertFalse(model.get(6).verify(test));
-        assertFalse(model.get(11).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
+                .toList().get(0).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
+                .toList().get(0).verify(test));
     }
 
 }

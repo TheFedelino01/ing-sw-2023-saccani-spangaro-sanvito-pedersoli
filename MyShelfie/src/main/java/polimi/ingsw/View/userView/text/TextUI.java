@@ -57,7 +57,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void run() {
         EventElement event;
         try {
-            //console.resize();
+            console.resize();
             console.show_Publisher();
             Thread.sleep(2500);
             console.clearCMD();
@@ -180,6 +180,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     } else {
                         askPickTiles(event.getModel());
                     }
+                } else {
+                    new Thread() {
+                        public void run() {
+                            while (!this.isInterrupted()) {
+                                System.out.println(ansi().cursor(DefaultValue.row_input, 0));
+                                String temp = new Scanner(System.in).nextLine();
+                                if (temp.startsWith("/c")) {
+                                    if (temp.charAt(2) == ' ') {
+                                        sendMessage(new Message(temp.substring(3), event.getModel().getPlayerEntity(nickname)));
+                                    } else {
+                                        sendMessage(new Message(temp.substring(2), event.getModel().getPlayerEntity(nickname)));
+                                    }
+                                }
+                            }
+                        }
+                    }.start();
                 }
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
@@ -262,8 +278,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     \t(js) Join a specific Game by idGame
                     \t(x) Reconnect
                     \t(.) to leave
-                    \tRemember! At any point in the game, if you type "/c [msg]"
-                    \tyou can write in chat!
+                    \t -> Remember! At any point in the game, if you type "/c [msg]"
+                    \t    you can write in chat!
                     \t""").fg(DEFAULT));
             optionChoose = scanner.nextLine();
             if (optionChoose.equals("."))
