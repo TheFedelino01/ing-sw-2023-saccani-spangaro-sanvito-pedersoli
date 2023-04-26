@@ -20,7 +20,7 @@ public class CommonHorizontalCard extends CommonCard {
     /**
      * Check if the player's shelf met the horizontal goals
      *
-     * @return true if the goal is satisfied, false else
+     * @return true if the goal is satisfied, false if not
      */
     @Override
     public boolean verify(Shelf toCheck) {

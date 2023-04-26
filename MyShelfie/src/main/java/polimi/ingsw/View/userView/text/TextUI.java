@@ -180,6 +180,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     } else {
                         askPickTiles(event.getModel());
                     }
+                } else {
+                    new Thread() {
+                        public void run() {
+                            while (!this.isInterrupted()) {
+                                System.out.println(ansi().cursor(DefaultValue.row_input, 0));
+                                String temp = new Scanner(System.in).nextLine();
+                                if (temp.startsWith("/c")) {
+                                    if (temp.charAt(2) == ' ') {
+                                        sendMessage(new Message(temp.substring(3), event.getModel().getPlayerEntity(nickname)));
+                                    } else {
+                                        sendMessage(new Message(temp.substring(2), event.getModel().getPlayerEntity(nickname)));
+                                    }
+                                }
+                            }
+                        }
+                    }.start();
                 }
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
