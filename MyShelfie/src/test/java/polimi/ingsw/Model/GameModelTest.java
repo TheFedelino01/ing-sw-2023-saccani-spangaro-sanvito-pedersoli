@@ -79,7 +79,7 @@ public class GameModelTest {
             fail("There are more common Cards than expected");
 
         CommonCard c1 = new CommonHorizontalCard(CardCommonType.CommonDiagonal0, 0);
-        CommonCard c2 = new CommonDiagonalCard(CardCommonType.CommonVertix, 0);
+        CommonCard c2 = new CommonStair(CardCommonType.CommonVertix);
         try {
             model.addCommonCard(c1);
         } catch (MaxCommonCardsAddedException e) {

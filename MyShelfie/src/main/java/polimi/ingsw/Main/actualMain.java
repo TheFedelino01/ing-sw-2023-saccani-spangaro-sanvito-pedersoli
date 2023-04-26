@@ -13,9 +13,6 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class actualMain {
 
-    private static ClientSocket clientSocket;
-    private static RMIClient clientRMI;
-
     public static void main(String[] args) {
         String choiceVisual, choiceComms;
         View view;
@@ -46,7 +43,7 @@ public class actualMain {
                     //case "2" -> view = new graphicUI(ConnectionSelection.SOCKET);
                     default -> view = null;
                 }
-                clientSocket = new ClientSocket(view);
+                ClientSocket clientSocket = new ClientSocket(view);
             }
             case 2 -> {
                 switch (choiceVisual){
@@ -54,7 +51,7 @@ public class actualMain {
                     //case "2" -> view = new graphicUI(ConnectionSelection.RMI);
                     default -> view = null;
                 }
-                clientRMI = new RMIClient(view);
+                RMIClient clientRMI = new RMIClient(view);
             }
         }
 

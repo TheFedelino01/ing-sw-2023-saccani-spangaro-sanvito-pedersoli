@@ -38,15 +38,19 @@ public class CommonDiagonalTest {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i >= j) {
                     if (i == j) {
-                        test.setSingleTile(new Tile(TileType.USED), i, j);
+                        test.setSingleTile(new Tile(TileType.CAT), i, j);
                     } else {
                         test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
                     }
                 }
             }
         }
-        assertTrue(model.get(6).verify(test));
-        assertTrue(model.get(11).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonDiagonal0))
+                .toList().get(0).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonDiagonal1))
+                .toList().get(0).verify(test));
     }
 
 
@@ -65,8 +69,12 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(model.get(6).verify(test));
-        assertTrue(model.get(11).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonDiagonal0))
+                .toList().get(0).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonDiagonal1))
+                .toList().get(0).verify(test));
     }
 
     //I copied methods from other test classes to initialise the shelf,
