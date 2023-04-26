@@ -18,7 +18,7 @@ public class CommonSixGroups extends CommonMethods{
         {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i < DefaultValue.NumOfRowsShelf - 1) {   //vertical analysis
-                    if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j) == toCheck.get(i + 1, j)) {
+                    if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j).isSameType(toCheck.get(i + 1, j).getType())) {
                         sum++;
                         if (sum == 6) {
                             return true;
@@ -28,7 +28,7 @@ public class CommonSixGroups extends CommonMethods{
                     }
                 }
                 if (j < DefaultValue.NumOfColumnsShelf - 1) { //check horizontal
-                    if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j) == toCheck.get(i, j + 1)) {
+                    if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j).isSameType(toCheck.get(i, j + 1).getType())) {
                         sum++;
                         if (sum == 6) {
                             return true;

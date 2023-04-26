@@ -9,6 +9,10 @@ import polimi.ingsw.Model.Tile;
 import java.util.Objects;
 
 public abstract class CommonMethods extends CommonCard {
+
+    @Override
+    public abstract boolean verify(Shelf toCheck);
+
     public CommonMethods(CardCommonType type) {
         super(type);
     }
@@ -19,7 +23,6 @@ public abstract class CommonMethods extends CommonCard {
      * @set the adjacent to FINISHED_USING
      */
     static void deleteAdjacent(Shelf playerShelf, int i, int j, Tile tile) {
-
         if (checkIfSafe(playerShelf, i, j, tile)) {
             playerShelf.setSingleTile(new Tile(TileType.FINISHED_USING), i, j);      //delete
             deleteAdjacent(playerShelf, i - 1, j, tile); // up
@@ -44,10 +47,10 @@ public abstract class CommonMethods extends CommonCard {
     }
 
     /**
-     * Check if the indices meet the shelf number of rows and columns
+     * Check if the indexes meet the shelf number of rows and columns
      * Check if a different type of tile is found
      *
-     * @return false if the limits are exceeded or is found a different type, the type of the tile else
+     * @return false if the limits are exceeded or is found a different tile type
      */
     static boolean checkIfSafe(Shelf playerShelf, int i, int j, Tile tile) {
         if (i < 0 || i >= DefaultValue.NumOfRowsShelf || j < 0
@@ -55,12 +58,7 @@ public abstract class CommonMethods extends CommonCard {
             return false;
         }
         //check if different type is found
-        try {
-            return playerShelf.get(i, j).getType() == tile.getType();
-        } catch (StackOverflowError er) {
-            er.printStackTrace();
-            return false;
-        }
+        return playerShelf.get(i, j).getType().equals(tile.getType());
     }
 
     /**

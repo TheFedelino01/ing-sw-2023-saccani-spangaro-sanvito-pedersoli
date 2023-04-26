@@ -1,8 +1,8 @@
 package polimi.ingsw.Model.Enumeration;
 
 public enum CardCommonType implements CardType {
-    CommonGroup0, CommonVertix, CommonGroup1, CommonGroup2, CommonVertical0, CommonGroup3,
-    CommonDiagonal0, CommonHorizontal0, CommonVertical1, CommonHorizontal1, CommonX, CommonDiagonal1;
+    CommonSixGroups, CommonVertix, CommonFourGroups, CommonSquares, CommonVertical0, CommonEight,
+    CommonSameDiagonal, CommonHorizontal0, CommonVertical1, CommonHorizontal1, CommonX, CommonStair;
 
 
 }

@@ -51,14 +51,14 @@ public abstract class CommonCard extends Card {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> Two columns made all by different tile types"));
                 return ris.toString();
             }
-            case CommonDiagonal0 -> {
+            case CommonSameDiagonal -> {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i, DefaultValue.col_commonCards).a("First diagonal card!"));
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> 5 tiles of the same type in a diagonal pattern"));
                 return ris.toString();
             }
-            case CommonDiagonal1 -> {
+            case CommonStair -> {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i, DefaultValue.col_commonCards).a("Second diagonal card!"));
-                ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> Tiles on the shelf must form a ladder"));
+                ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> Tiles on the shelf must form a staircase"));
                 return ris.toString();
             }
             case CommonVertix -> {
@@ -71,22 +71,22 @@ public abstract class CommonCard extends Card {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> 5 tiles of the same type, in an X pattern"));
                 return ris.toString();
             }
-            case CommonGroup0 -> {
+            case CommonSixGroups -> {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i, DefaultValue.col_commonCards).a("First group card!"));
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> Six separated groups of two made by all of the same types (per single group)"));
                 return ris.toString();
             }
-            case CommonGroup1 -> {
+            case CommonFourGroups -> {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i, DefaultValue.col_commonCards).a("Second group card!"));
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> Four separated groups of two made by all of the same types (per single group)"));
                 return ris.toString();
             }
-            case CommonGroup2 -> {
+            case CommonSquares -> {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i, DefaultValue.col_commonCards).a("Third group card!"));
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> Two separated 2x2 groups made all by the same type"));
                 return ris.toString();
             }
-            case CommonGroup3 -> {
+            case CommonEight -> {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i, DefaultValue.col_commonCards).a("Fourth group card!"));
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a("-> 8 of the same type tiles, any pattern"));
                 return ris.toString();

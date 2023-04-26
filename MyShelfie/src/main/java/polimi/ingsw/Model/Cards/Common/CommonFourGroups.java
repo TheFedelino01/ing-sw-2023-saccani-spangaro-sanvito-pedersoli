@@ -13,7 +13,7 @@ public class CommonFourGroups extends CommonMethods {
 
     @Override
     public boolean verify(Shelf toCheck) {
-        int sum = 0;
+        int sum;
         int check = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {

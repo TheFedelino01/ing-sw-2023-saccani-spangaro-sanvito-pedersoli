@@ -28,7 +28,7 @@ public class CommonGroupsTest {
 
     @Test
     @DisplayName("Test Group 0")
-    public void testGroup0() {
+    public void testSixGroups() {
         int count;
         Shelf test = new Shelf();
         //case 1
@@ -81,12 +81,14 @@ public class CommonGroupsTest {
         }
 
         //check this algorithm
-        assertTrue(model.get(0).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSixGroups))
+                .toList().get(0).verify(test));
     }
 
     @Test
     @DisplayName("Test Group 1")
-    public void testGroup1() {
+    public void testFourGroups() {
         //four groups of four tiles of the same type (will be testing two columns in this test case)
         //third common card
         /*
@@ -97,6 +99,7 @@ public class CommonGroupsTest {
         X X X X X
         X X X X X
          */
+
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -110,12 +113,14 @@ public class CommonGroupsTest {
                 }
             }
         }
-        assertTrue(model.get(2).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonFourGroups))
+                .toList().get(0).verify(test));
     }
 
     @Test
     @DisplayName("Test Group 2")
-    public void testGroup2() {
+    public void testSquares() {
         //two separated groups of 2x2 tiles with the same type
         //fourth common card
         /*
@@ -137,12 +142,14 @@ public class CommonGroupsTest {
                 }
             }
         }
-        assertTrue(model.get(3).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
+                .toList().get(0).verify(test));
     }
 
     @Test
     @DisplayName("Test Group 3")
-    public void testGroup3() {
+    public void testEight() {
         //8 random occurrences of the same tile type
         //sixth common card
         /*
@@ -164,7 +171,9 @@ public class CommonGroupsTest {
                 count++;
             }
         }
-        assertTrue(model.get(5).verify(test));
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonEight))
+                .toList().get(0).verify(test));
     }
 
     @Test
@@ -181,10 +190,18 @@ public class CommonGroupsTest {
                     test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }
-        assertFalse(model.get(0).verify(test));
-        assertFalse(model.get(2).verify(test));
-        assertFalse(model.get(3).verify(test));
-        assertFalse(model.get(5).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonFourGroups))
+                .toList().get(0).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSixGroups))
+                .toList().get(0).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
+                .toList().get(0).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonEight))
+                .toList().get(0).verify(test));
 
     }
 
@@ -197,9 +214,17 @@ public class CommonGroupsTest {
                 test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }
-        assertFalse(model.get(0).verify(test));
-        assertFalse(model.get(2).verify(test));
-        assertFalse(model.get(3).verify(test));
-        assertFalse(model.get(5).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonFourGroups))
+                .toList().get(0).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSixGroups))
+                .toList().get(0).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
+                .toList().get(0).verify(test));
+        assertFalse(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonEight))
+                .toList().get(0).verify(test));
     }
 }

@@ -18,9 +18,9 @@ public class CommonSquares extends CommonMethods {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i < DefaultValue.NumOfRowsShelf - 1 && j < DefaultValue.NumOfColumnsShelf - 1) {   //analyse square
                     if (!toCheck.get(i, j).isSameType(TileType.NOT_USED) &&
-                            toCheck.get(i, j) == toCheck.get(i + 1, j) &&
-                            toCheck.get(i, j) == toCheck.get(i, j + 1) &&
-                            toCheck.get(i, j) == toCheck.get(i + 1, j + 1)) {
+                            toCheck.get(i, j).isSameType(toCheck.get(i + 1, j).getType()) &&
+                            toCheck.get(i, j).isSameType(toCheck.get(i, j + 1).getType()) &&
+                            toCheck.get(i, j).isSameType(toCheck.get(i + 1, j + 1).getType())) {
                         sum++;
                         if (sum == 2) {
                             return true;
