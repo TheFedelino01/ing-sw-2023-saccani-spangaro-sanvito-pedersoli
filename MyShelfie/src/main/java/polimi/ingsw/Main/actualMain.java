@@ -41,17 +41,19 @@ public class actualMain {
         } while (!choiceComms.equals("1") && !choiceComms.equals("2"));
         switch (Integer.parseInt(choiceComms)) {
             case 1 -> {
-                //if(choiceVisual.equals("1"))
-                    view = new TextUI(ConnectionSelection.SOCKET);
-                //else
-                    //view = new graphicUI(ConnectionSelection.SOCKET);
+                switch (choiceVisual){
+                    case "1" -> view = new TextUI(ConnectionSelection.SOCKET);
+                    //case "2" -> view = new graphicUI(ConnectionSelection.SOCKET);
+                    default -> view = null;
+                }
                 clientSocket = new ClientSocket(view);
             }
             case 2 -> {
-                //if(choiceVisual.equals("1"))
-                    view = new TextUI(ConnectionSelection.RMI);
-                //else
-                    //view = new graphicUI(ConnectionSelection.SOCKET);
+                switch (choiceVisual){
+                    case "1" -> view = new TextUI(ConnectionSelection.RMI);
+                    //case "2" -> view = new graphicUI(ConnectionSelection.RMI);
+                    default -> view = null;
+                }
                 clientRMI = new RMIClient(view);
             }
         }
