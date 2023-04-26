@@ -27,7 +27,7 @@ public class CommonGroupsTest {
     }
 
     @Test
-    @DisplayName("Test Group 0")
+    @DisplayName("Test six groups")
     public void testSixGroups() {
         int count;
         Shelf test = new Shelf();
@@ -41,41 +41,14 @@ public class CommonGroupsTest {
         C B C B X
         X X X X X
          */
-        count = 0;
-        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (count < 2) {
-                    if (j == 0 && i < 2) {
-                        test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    } else if (j == 0 && i > 3) {
-                        test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    } else {
-
-                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
-                    }
-                    count++;
-                } else if (count < 4) {
-                    if (j == 1 && i < 2) {
-                        test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                    } else if (j == 1 && i > 3) {
-                        test.setSingleTile(new Tile(TileType.BOOK), i, j);
-
-                    } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
-                    }
-                    count++;
-                } else if (count < 6) {
-                    if (j == 2 && i < 2) {
-                        test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    } else if (j == 2 && i > 3) {
-                        test.setSingleTile(new Tile(TileType.CAT), i, j);
-                    } else {
-
-                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
-                    }
-                    count++;
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if ((c == 0 && r < 2) || (c == 2 && r < 2) || (c == 0 && r > 2 && r < 5) || (c == 2 && r > 2 && r < 5)) {
+                    test.setSingleTile(new Tile(TileType.CAT), r, c);
+                } else if ((c == 1 && r < 2) || (c == 3 && r < 2) || (c == 1 && r > 2 && r < 5) || (c == 3 && r > 2 && r < 5)) {
+                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
                 } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
+                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                 }
             }
         }
@@ -87,7 +60,7 @@ public class CommonGroupsTest {
     }
 
     @Test
-    @DisplayName("Test Group 1")
+    @DisplayName("Test four groups")
     public void testFourGroups() {
         //four groups of four tiles of the same type (will be testing two columns in this test case)
         //third common card
@@ -101,15 +74,14 @@ public class CommonGroupsTest {
          */
 
         Shelf test = new Shelf();
-        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (j < 4 && j % 2 == 0 && i < 4) {
-                    test.setSingleTile(new Tile(TileType.CAT), i, j);
-                } else if (j < 4 && i < 4) {
-                    test.setSingleTile(new Tile(TileType.BOOK), i, j);
-
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if (c < 4 && c % 2 == 0 && r < 4) {
+                    test.setSingleTile(new Tile(TileType.CAT), r, c);
+                } else if (c < 4 && r < 4) {
+                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
                 } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
+                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                 }
             }
         }
@@ -119,7 +91,7 @@ public class CommonGroupsTest {
     }
 
     @Test
-    @DisplayName("Test Group 2")
+    @DisplayName("Test squares")
     public void testSquares() {
         //two separated groups of 2x2 tiles with the same type
         //fourth common card
@@ -148,7 +120,7 @@ public class CommonGroupsTest {
     }
 
     @Test
-    @DisplayName("Test Group 3")
+    @DisplayName("Test eight tiles")
     public void testEight() {
         //8 random occurrences of the same tile type
         //sixth common card

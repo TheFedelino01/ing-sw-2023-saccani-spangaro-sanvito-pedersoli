@@ -57,7 +57,8 @@ public abstract class CommonMethods extends CommonCard {
                 || j >= DefaultValue.NumOfColumnsShelf) {  //check if out of bounds
             return false;
         }
-        //check if different type is found
+        if (tile.isSameType(TileType.FINISHED_USING))
+            return false;
         return playerShelf.get(i, j).getType().equals(tile.getType());
     }
 
@@ -68,10 +69,10 @@ public abstract class CommonMethods extends CommonCard {
      */
     static int countAdjacent(Shelf playerShelf) {
         int res = 0;
-        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (Objects.equals(playerShelf.get(i, j), new Tile(TileType.FINISHED_USING))) {
-                    res = res + 1;
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if (playerShelf.get(r, c).isSameType(TileType.FINISHED_USING)) {
+                    res++;
                 }
             }
         }
