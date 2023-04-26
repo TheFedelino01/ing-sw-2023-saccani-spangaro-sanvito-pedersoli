@@ -262,8 +262,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     \t(js) Join a specific Game by idGame
                     \t(x) Reconnect
                     \t(.) to leave
-                    \tRemember! At any point in the game, if you type "/c [msg]"
-                    \tyou can write in chat!
+                    \t -> Remember! At any point in the game, if you type "/c [msg]"
+                    \t    you can write in chat!
                     \t""").fg(DEFAULT));
             optionChoose = scanner.nextLine();
             if (optionChoose.equals("."))
