@@ -41,10 +41,6 @@ public class Console {
         importantEvents.add(imp);
         show_important_events();
     }
-
-    /* Need to ask if I can import all the stuff made for the "find window and resize accordingly functionality"
-       as of now, if this command is run in Windows terminal, it bugs out
-
     public void resize() {
         try {
             new ProcessBuilder("cmd", "/c", "mode con:cols=300 lines=70").inheritIO().start().waitFor();
@@ -52,8 +48,6 @@ public class Console {
             //couldn't resize the terminal window
         }
     }
-
-     */
 
     public List<String> getImportantEvents() {
         return new ArrayList<>(importantEvents);
@@ -273,7 +267,7 @@ public class Console {
 
     public void alwaysShow(GameModelImmutable model, String nick) {
         clearCMD();
-        //resize();
+        resize();
         show_titleMyShelfie();
         show_playground(model);
         showCommonCards(model);

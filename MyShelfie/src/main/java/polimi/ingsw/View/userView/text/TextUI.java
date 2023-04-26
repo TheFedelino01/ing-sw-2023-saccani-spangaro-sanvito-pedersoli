@@ -57,7 +57,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void run() {
         EventElement event;
         try {
-            //console.resize();
+            console.resize();
             console.show_Publisher();
             Thread.sleep(2500);
             console.clearCMD();
