@@ -11,5 +11,4 @@
             fx:controller="polimi.ingsw.View.userView.gui.GUIController"
             prefHeight="400.0" prefWidth="600.0">
 
-
 </AnchorPane>
