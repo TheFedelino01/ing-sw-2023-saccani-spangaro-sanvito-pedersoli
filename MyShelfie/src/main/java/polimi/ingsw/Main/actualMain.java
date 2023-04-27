@@ -16,26 +16,31 @@ public class actualMain {
     public static void main(String[] args) {
         String choiceVisual, choiceComms;
         View view;
+        boolean debug=true;
+        if(!debug) {
+            do {
+                clearCMD();
+                System.out.println(ansi().cursor(1, 0).a("""
+                        Select view:
+                        \t (1) TextUI
+                        \t (2) GraphicUI
+                        """));
+                choiceVisual = new Scanner(System.in).nextLine();
+            } while (!choiceVisual.equals("1") && !choiceVisual.equals("2"));
 
-        do {
-            clearCMD();
-            System.out.println(ansi().cursor(1, 0).a("""
-                    Select view:
-                    \t (1) TextUI
-                    \t (2) GraphicUI
-                    """));
-            choiceVisual = new Scanner(System.in).nextLine();
-        } while (!choiceVisual.equals("1") && !choiceVisual.equals("2"));
-
-        do {
-            clearCMD();
-            System.out.println(ansi().cursor(1, 0).a("""
-                    Select communication protocol:
-                    \t (1) Socket
-                    \t (2) RMI
-                    """));
-            choiceComms = new Scanner(System.in).nextLine();
-        } while (!choiceComms.equals("1") && !choiceComms.equals("2"));
+            do {
+                clearCMD();
+                System.out.println(ansi().cursor(1, 0).a("""
+                        Select communication protocol:
+                        \t (1) Socket
+                        \t (2) RMI
+                        """));
+                choiceComms = new Scanner(System.in).nextLine();
+            } while (!choiceComms.equals("1") && !choiceComms.equals("2"));
+        }else{
+            choiceVisual="1";
+            choiceComms="1";
+        }
         switch (Integer.parseInt(choiceComms)) {
             case 1 -> {
                 switch (choiceVisual){

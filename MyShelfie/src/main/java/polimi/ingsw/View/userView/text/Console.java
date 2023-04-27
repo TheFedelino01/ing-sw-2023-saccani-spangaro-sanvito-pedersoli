@@ -43,7 +43,7 @@ public class Console {
     }
     public void resize() {
         try {
-            new ProcessBuilder("cmd", "/c", "mode con:cols=300 lines=70").inheritIO().start().waitFor();
+            new ProcessBuilder("cmd", "/c", "mode con:cols=160 lines=50").inheritIO().start().waitFor();
         } catch (IOException | InterruptedException e) {
             //couldn't resize the terminal window
         }
