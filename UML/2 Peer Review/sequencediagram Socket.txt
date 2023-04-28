@@ -1,0 +1,50 @@
+title Socket Communication Protocol
+
+participant GameListenersHandlerClient
+
+participant View
+
+participant ClientSocket
+
+
+participant SocketWelcome
+participant ClientHandler
+
+participant MainController
+participant GameListenersHandlerSocket
+
+participant GameController
+
+
+ClientSocket (starting Point)->SocketWelcome:new Socket(ip,port)
+SocketWelcome->ClientHandler:new ClientHandler(serverSocket.accept())
+SocketWelcome->ClientSocket (starting Point):Socket
+
+ClientSocket (starting Point)->ClientHandler:out.writeObject(new SocketClientMessageCreateGame(nick))
+
+
+ClientHandler->MainController:createGame(GameListenerHandlerSocket, nick)
+
+note over MainController:...
+
+GameListenersHandlerSocket->ClientSocket (starting Point):out.writeObject(new msgPlayerJoined(gamemodelImmutable)
+
+
+ClientSocket (starting Point)->GameListenersHandlerClient:playerJoined(gamemodelimmutable)
+GameListenersHandlerClient->View:gui.playerJoined(gamemodel);
+note over View:...
+note over ClientSocket (starting Point):...
+
+ClientSocket (starting Point)->ClientHandler:out.writeObject(new SocketClientMessageSetReady(nick))
+
+ClientHandler->GameController:playerIsReadyToStart(nick)
+
+note over GameController:...
+
+GameListenersHandlerSocket->ClientSocket (starting Point):out.writeObject(new msgPlayerIsReadyToStart(gamemodelimmutable, nick));
+
+ClientSocket (starting Point)->GameListenersHandlerClient:playerIsReadyToStart(gamemodelimmutable, nick);
+
+GameListenersHandlerClient->View:gui.playerIsReadyToStart(gamemodel);
+note over View:...
+note over ClientSocket (starting Point):...
