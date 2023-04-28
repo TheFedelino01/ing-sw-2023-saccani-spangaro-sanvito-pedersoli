@@ -61,7 +61,7 @@ public class Console {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset()
-        ).println(ansi().fg(YELLOW).a("""
+        ).println(ansi().cursor(0, 0).fg(YELLOW).a("""
 
                 ███╗░░░███╗██╗░░░██╗        ░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗
                 ████╗░████║╚██╗░██╔╝        ██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝

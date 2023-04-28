@@ -3,6 +3,7 @@ package polimi.ingsw.View.userView.text;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
+import polimi.ingsw.Model.Enumeration.GameCaseType;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
@@ -19,8 +20,7 @@ import polimi.ingsw.View.userView.View;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
@@ -39,8 +39,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private String lastPlayerReconnected;
     private int columnChosen = -1;
     private final Console console;
-    private Thread chatThread = null;
-    private String lastInput = new String("");
+    private SaveReads saveReads;
 
     public TextUI(ConnectionSelection selection) {
         console = new Console();
@@ -57,8 +56,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void run() {
         EventElement event;
+
         try {
-            console.resize();
+            //console.resize();
             console.show_Publisher();
             Thread.sleep(2500);
             console.clearCMD();
@@ -106,6 +106,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private void statusNotInAGame(EventElement event) {
+
         switch (event.getType()) {
             case GAME_ID_NOT_EXISTS -> {
                 nickname = null;
@@ -146,6 +147,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private void statusRunning(EventElement event) throws IOException, InterruptedException {
+        saveReads = new SaveReads(event.getModel(), nickname, console, this);
+        saveReads.setChosen(GameCaseType.none);
+        saveReads.start();
         switch (event.getType()) {
             case GAMESTARTED -> {
                 console.clearCMD();
@@ -164,18 +168,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
             }
             case SENT_MESSAGE -> console.alwaysShow(event.getModel(), nickname);
-
             case NEXT_TURN, PLAYER_RECONNECTED -> {
                 console.alwaysShow(event.getModel(), nickname);
                 columnChosen = -1;
 
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
-
-                    if (chatThread != null) {
-                        //It's my turn, I don't want anymore a th for reading about the /c msg command
-                        chatThread.interrupt();
-                        //Ask the th to stop but it is blocked in reading the System.in
-                    }
 
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
                         console.alwaysShow(event.getModel(), nickname);
@@ -183,30 +180,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                         if (nickname.equals(lastPlayerReconnected)) {
                             askPickTiles(event.getModel());
+                        } else {
+                            console.addImportantEvent("[EVENT]: Player reconnected!");
                         }
                         //else the player who has just reconnected is not me, and so I do nothing
                     } else {
                         askPickTiles(event.getModel());
-                    }
-                } else {
-                    //It's not my turn so, I create a th for reading the System.in for detecting command /c msg
-                    if (chatThread == null) {
-                        chatThread = new Thread() {
-                            public void run() {
-                                while (!this.isInterrupted()) {
-                                    String temp = new Scanner(System.in).nextLine();
-                                    setLastInput(temp);//I set the input as the last input read
-                                    if (temp.startsWith("/c")) {
-                                        if (temp.charAt(2) == ' ') {
-                                            sendMessage(new Message(temp.substring(3), event.getModel().getPlayerEntity(nickname)));
-                                        } else {
-                                            sendMessage(new Message(temp.substring(2), event.getModel().getPlayerEntity(nickname)));
-                                        }
-                                    }
-                                }
-                            }
-                        };
-                        chatThread.start();
                     }
                 }
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
@@ -250,17 +229,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
         }
 
-    }
-
-    private void setLastInput(String msg) {
-        synchronized(lastInput) {
-            lastInput = msg;
-        }
-    }
-    private String getLastInput(){
-        synchronized(lastInput) {
-            return lastInput;
-        }
     }
 
     private void statusEnded(EventElement event) {
@@ -377,31 +345,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.alwaysShow(gameModel, nickname);
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
                 System.out.flush();
-
-                //If there was a th for the chat, I then wait until it stops running
-                if(chatThread!=null) {
-                    synchronized (chatThread) {
-                        try {
-                            chatThread.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    //thChat stopped running
-                    chatThread=null;
-                }
-
-                //If the thChat has read something, then I use the last value read by the th
-                if(getLastInput().equals("")){
-                    temp = new Scanner(System.in).nextLine();
-                }else{
-                    temp = getLastInput();
-                    if(temp.startsWith("/c")){
-                        temp=""; //Otherwise It sends the message two times
-                    }
-                    setLastInput("");
-                }
-
+                temp = new Scanner(System.in).nextLine();
                 if (temp.equals(""))
                     continue;
                 if (temp.startsWith("/c")) {
@@ -423,35 +367,32 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     public void askPickTiles(GameModelImmutable gameModel) {
         Integer numTiles;
-        do {
-            numTiles = askNum("> How many tiles do you want to get? ", gameModel);
-        } while (!(numTiles >= DefaultValue.minNumOfGrabbableTiles && numTiles <= DefaultValue.maxNumOfGrabbableTiles));
+        saveReads.setChosen(GameCaseType.numTilesToPick);
+        saveReads.setMsg("> How many tiles do you want to get? ");
+        numTiles = saveReads.getReadInt();
 
         Integer row;
         do {
-            row = askNum("> Which tiles do you want to get?\n\t> Choose row: ", gameModel);
+            saveReads.setChosen(GameCaseType.rowTilesToPick);
+            saveReads.setMsg("> Which tiles do you want to get?\n\t> Choose row: ");
+            row = saveReads.getReadInt();
         } while (row > DefaultValue.PlaygroundSize);
 
         Integer column;
         do {
-            column = askNum("\t> Choose column: ", gameModel);
+            saveReads.setChosen(GameCaseType.colTilesToPick);
+            saveReads.setMsg("> Which tiles do you want to get?\n\t> Choose column: ");
+            column = saveReads.getReadInt();
         } while (column > DefaultValue.PlaygroundSize);
 
         //Ask the direction only if the player wants to grab more than 1 tile
         Direction d = Direction.RIGHT;
         if (numTiles > 1) {
             String direction;
-            do {
-                System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
-                direction = new Scanner(System.in).nextLine();
-                if (direction.equals(""))
-                    continue;
-                if (direction.startsWith("/c")) {
-                    sendMessage(new Message(direction.substring(2), gameModel.getPlayerEntity(nickname)));
-                    continue;
-                }
-                d = Direction.getDirection(direction);
-            } while (d == null);
+            saveReads.setChosen(GameCaseType.dirTilesToPick);
+            saveReads.setMsg("> Which tiles do you want to get?\n\t> Choose direction (r=right,l=left,u=up,d=down): ");
+            direction = saveReads.getReadString();
+            d = Direction.getDirection(direction);
         }
         //System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
 
@@ -474,18 +415,22 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         console.show_playerHand(model);
         Integer column;
         do {
-            column = askNum("> Choose column to place all the tiles:", model);
-        } while (column == null || column >= DefaultValue.NumOfColumnsShelf || column < 0);
+            saveReads.setChosen(GameCaseType.colPlaceTile);
+            saveReads.setMsg("> Choose column to place all the tiles:");
+            column = saveReads.getReadInt();
+        } while (column >= DefaultValue.NumOfColumnsShelf || column < 0);
         columnChosen = column;
     }
 
     public void askWhichTileToPlace(GameModelImmutable model) {
         console.alwaysShow(model, nickname);
         console.show_playerHand(model);
-        System.out.println("> Select which tile do you want to place:");
+        System.out.println("> Select which tile do you want to place: ");
         Integer indexHand;
         do {
-            indexHand = askNum("\t> Choose Tile in hand (0,1,2):", model);
+            saveReads.setChosen(GameCaseType.indexPlaceTile);
+            saveReads.setMsg("\t> Choose Tile in hand (0,1,2): ");
+            indexHand = saveReads.getReadInt();
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
                 System.out.println("\tWrong Tile selection offset");
                 indexHand = null;
