@@ -147,11 +147,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private void statusRunning(EventElement event) throws IOException, InterruptedException {
-        saveReads = new SaveReads(event.getModel(), nickname, console, this);
-        saveReads.setChosen(GameCaseType.none);
-        saveReads.start();
         switch (event.getType()) {
             case GAMESTARTED -> {
+                saveReads = new SaveReads(event.getModel(), nickname, console, this);
+                saveReads.setChosen(GameCaseType.none);
+                saveReads.start();
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_allPlayers(event.getModel());
@@ -171,13 +171,15 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case NEXT_TURN, PLAYER_RECONNECTED -> {
                 console.alwaysShow(event.getModel(), nickname);
                 columnChosen = -1;
-
+                for(Player p : event.getModel().getPlayers())
+                    if(!event.getModel().getPlayerEntity(event.getModel().getNicknameCurrentPlaying()).equals(p)){
+                        saveReads.setMsg(" ");
+                        notify();
+                    }
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
-
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
                         console.alwaysShow(event.getModel(), nickname);
                         System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
-
                         if (nickname.equals(lastPlayerReconnected)) {
                             askPickTiles(event.getModel());
                         } else {
@@ -190,7 +192,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 }
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
-
             case GRABBED_TILE -> {
                 console.alwaysShow(event.getModel(), nickname);
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
@@ -369,12 +370,15 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer numTiles;
         saveReads.setChosen(GameCaseType.numTilesToPick);
         saveReads.setMsg("> How many tiles do you want to get? ");
+        notify();
+
         numTiles = saveReads.getReadInt();
 
         Integer row;
         do {
             saveReads.setChosen(GameCaseType.rowTilesToPick);
             saveReads.setMsg("> Which tiles do you want to get?\n\t> Choose row: ");
+            notify();
             row = saveReads.getReadInt();
         } while (row > DefaultValue.PlaygroundSize);
 
@@ -382,6 +386,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         do {
             saveReads.setChosen(GameCaseType.colTilesToPick);
             saveReads.setMsg("> Which tiles do you want to get?\n\t> Choose column: ");
+            notify();
             column = saveReads.getReadInt();
         } while (column > DefaultValue.PlaygroundSize);
 
@@ -391,6 +396,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             String direction;
             saveReads.setChosen(GameCaseType.dirTilesToPick);
             saveReads.setMsg("> Which tiles do you want to get?\n\t> Choose direction (r=right,l=left,u=up,d=down): ");
+            notify();
             direction = saveReads.getReadString();
             d = Direction.getDirection(direction);
         }
@@ -417,6 +423,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         do {
             saveReads.setChosen(GameCaseType.colPlaceTile);
             saveReads.setMsg("> Choose column to place all the tiles:");
+            notify();
             column = saveReads.getReadInt();
         } while (column >= DefaultValue.NumOfColumnsShelf || column < 0);
         columnChosen = column;
@@ -425,11 +432,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void askWhichTileToPlace(GameModelImmutable model) {
         console.alwaysShow(model, nickname);
         console.show_playerHand(model);
-        System.out.println("> Select which tile do you want to place: ");
         Integer indexHand;
         do {
             saveReads.setChosen(GameCaseType.indexPlaceTile);
-            saveReads.setMsg("\t> Choose Tile in hand (0,1,2): ");
+            saveReads.setMsg("> Select which tile do you want to place: \n\t> Choose Tile in hand (0,1,2): ");
+            notify();
             indexHand = saveReads.getReadInt();
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
                 System.out.println("\tWrong Tile selection offset");

@@ -18,7 +18,7 @@ public class SaveReads extends Thread {
     private Console console;
     private Message message;
     private GameCaseType chosen;
-    private BlockingDeque reads;
+    private BlockingDeque<String> reads;
     private TextUI ui;
     private ReadInput readInput;
 
@@ -42,7 +42,7 @@ public class SaveReads extends Thread {
         readInt = null;
         readString = null;
         message = null;
-        reads = new LinkedBlockingDeque();
+        reads = new LinkedBlockingDeque<>();
         this.console = console;
         this.nickname = nickname;
         chosen = GameCaseType.none;
@@ -56,15 +56,15 @@ public class SaveReads extends Thread {
         while (!this.isInterrupted()) {
             setReads(readInput.getReads());
             String temp;
-            Integer tempInt;
+            int tempInt;
             try {
                 console.alwaysShow(gameModel, nickname);
-                if (msg != null)
-                    System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
-                else
-                    System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(" ".repeat(console.getLengthLongestMessage())));
+                while(msg == null){
+                    wait();
+                }
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
                 System.out.flush();
-                temp = (String) reads.take();
+                temp = reads.take();
                 if (temp.equals(""))
                     continue;
                 if (temp.startsWith("/c")) {
@@ -142,13 +142,14 @@ public class SaveReads extends Thread {
 
                 }
             } catch (InterruptedException e) {
-                // thread is interrupted
+                console.clearCMD();
+                System.out.println("Input interrupted error" + e.getMessage());
             }
 
         }
     }
 
-    public synchronized void setReads(BlockingDeque reads) {
+    public synchronized void setReads(BlockingDeque<String> reads) {
         this.reads = reads;
     }
 
@@ -162,12 +163,22 @@ public class SaveReads extends Thread {
 
     public synchronized Integer getReadInt() {
         while (readInt == null) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         return readInt;
     }
 
     public synchronized String getReadString() {
         while (readString == null) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         return readString;
     }
