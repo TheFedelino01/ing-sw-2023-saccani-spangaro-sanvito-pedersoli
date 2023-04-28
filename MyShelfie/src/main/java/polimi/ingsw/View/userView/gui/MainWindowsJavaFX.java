@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class HelloWorld extends Application {
+public class MainWindowsJavaFX extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -18,7 +18,7 @@ public class HelloWorld extends Application {
 
         Scene scene = new Scene(parent, 1280, 720);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
-        stage.setTitle("FXML Welcome");
+        stage.setTitle("My Shelfie");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

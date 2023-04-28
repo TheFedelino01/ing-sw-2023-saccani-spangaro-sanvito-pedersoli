@@ -1,36 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
-            prefWidth="1280.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.GUIController">
+
+<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.GUIController">
     <children>
-        <Button layoutX="14.0" layoutY="603.0" mnemonicParsing="false" onAction="#Settings_Button"
-                stylesheets="@style.css" text="Option_gear"/>
-        <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="451.0" layoutY="77.0" strokeType="OUTSIDE"
-              strokeWidth="0.0" text="MY SHELFIE" textAlignment="CENTER" wrappingWidth="377.13671875">
+        <Button layoutX="14.0" layoutY="603.0" mnemonicParsing="false" onAction="#Settings_Button" stylesheets="@style.css" text="Option_gear" />
+        <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="451.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MY SHELFIE" textAlignment="CENTER" wrappingWidth="377.13671875">
             <font>
-                <Font name="Calisto MT" size="68.0"/>
+                <Font name="Calisto MT" size="68.0" />
             </font>
         </Text>
-        <Button layoutX="25.0" layoutY="214.0" mnemonicParsing="false" onAction="#CreateANewGame_Button"
-                stylesheets="@style.css" text="Create a new game"/>
-        <Button layoutX="302.0" layoutY="214.0" mnemonicParsing="false" onAction="#JoinARandomGame_Button"
-                stylesheets="@style.css" text="Join to a random game"/>
-        <Button layoutX="672.0" layoutY="214.0" mnemonicParsing="false" onAction="#JoinASpecificGame_Button"
-                stylesheets="@style.css" text="Join a specific game by idGame"/>
-        <Button layoutX="1098.0" layoutY="214.0" mnemonicParsing="false" onAction="#Reconnect_Button"
-                stylesheets="@style.css" text="Reconnect"/>
-        <Button layoutX="14.0" layoutY="660.0" mnemonicParsing="false" onAction="#Exit_Button" stylesheets="@style.css"
-                text="Exit"/>
-        <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="987.0" layoutY="701.0" strokeType="OUTSIDE"
-              strokeWidth="0.0" text="Credit" textAlignment="CENTER" wrappingWidth="278.13671875">
+        <Button layoutX="25.0" layoutY="214.0" mnemonicParsing="false" onAction="#CreateANewGame_Button" stylesheets="@style.css" text="Create a new game" />
+        <Button layoutX="302.0" layoutY="214.0" mnemonicParsing="false" onAction="#JoinARandomGame_Button" stylesheets="@style.css" text="Join to a random game" />
+        <Button layoutX="672.0" layoutY="214.0" mnemonicParsing="false" onAction="#JoinASpecificGame_Button" stylesheets="@style.css" text="Join a specific game by idGame" />
+        <Button layoutX="1098.0" layoutY="214.0" mnemonicParsing="false" onAction="#Reconnect_Button" stylesheets="@style.css" text="Reconnect" />
+        <Button fx:id="exitButton" layoutX="14.0" layoutY="660.0" mnemonicParsing="false" onAction="#Exit_Button" stylesheets="@style.css" text="Exit" />
+        <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="987.0" layoutY="701.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit" textAlignment="CENTER" wrappingWidth="278.13671875">
             <font>
-                <Font name="Calisto MT" size="18.0"/>
+                <Font name="Calisto MT" size="18.0" />
             </font>
         </Text>
+      <DialogPane fx:id="dialogPane" layoutX="144.0" layoutY="93.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="803.0" visible="false">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0">
+               <children>
+                  <Button layoutX="728.0" layoutY="368.0" mnemonicParsing="false" onAction="#CloseSettings_Button" stylesheets="@style.css" text="Exit" />
+               </children>
+            </AnchorPane>
+          </content>
+          <expandableContent>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+          </expandableContent>
+         <graphic>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="235.0" prefWidth="290.0" />
+         </graphic>
+         <header>
+            <AnchorPane prefHeight="85.0" prefWidth="803.0">
+               <children>
+                  <Text layoutX="222.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Options" textAlignment="CENTER" wrappingWidth="359.0">
+                     <font>
+                        <Font name="Berlin Sans FB Demi Bold" size="54.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </header>
+      </DialogPane>
     </children>
 </AnchorPane>
