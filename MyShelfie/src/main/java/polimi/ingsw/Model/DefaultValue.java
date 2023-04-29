@@ -50,25 +50,29 @@ public class DefaultValue implements Serializable {
     public final static int col_important_events = 86;
 
     //PLAYGROUND
-    public final static int row_playground = 11;
+    public final static int row_playground = 13;
     public final static int col_playground = 0;
 
     //SHELVES
-    public final static int row_shelves = 25;
+    public final static int row_shelves = 24;
     public final static int col_shelves = 3;
 
     //COMMON CARDS
-    public final static int row_commonCards = 11;
+    public final static int row_commonCards = 9;
     public final static int col_commonCards = 50;
 
 
     //POINTS
-    public final static int row_points = 17;
+    public final static int row_points = 16;
     public final static int col_points = 78;
 
     //GOAL CARDS
-    public final static int row_goalCards = 17;
+    public final static int row_goalCards = 16;
     public final static int col_goalCards = 50;
+
+    //CHAT
+    public final static int row_chat = 16;
+    public final static int col_chat = 96;
 
     //GAME INFO
     public final static int row_gameID = 9;
@@ -78,8 +82,7 @@ public class DefaultValue implements Serializable {
 
     public final static int num_of_attempt_to_connect_toServer_before_giveup = 5;
     public final static int seconds_between_reconnection = 5;
-    public final static int row_chat = 17;
-    public final static int col_chat = 96;
+
     public final static int max_messagesShown = 3;
 
 }

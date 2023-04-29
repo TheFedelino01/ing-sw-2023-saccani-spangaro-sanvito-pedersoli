@@ -120,20 +120,27 @@ public class Console {
     public void showAllShelves(GameModelImmutable model) {
         int i = DefaultValue.col_shelves;
 
+        StringBuilder ris = new StringBuilder();
+
         for (Player p : model.getPlayers()) {
-            System.out.print(ansi().cursor(DefaultValue.row_shelves, i - 3).toString() +
-                    p.getNickname() + ": " + p.getShelf().toString(i));
+            ris.append(ansi().cursor(DefaultValue.row_shelves, i - 3).a(p.getNickname() + ": "));
+            ris.append(ansi().cursor(DefaultValue.row_shelves+1,i - 3).a(p.getShelf().toString(i)).toString());
+
             i += DefaultValue.displayShelfNextCol;
         }
-        System.out.println(" ");
+        System.out.println(ris);
     }
 
     public void showCommonCards(GameModelImmutable gameModel) {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));
-        int i = 0;
+
+        String title = String.valueOf(ansi().fg(WHITE).cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards-1).bold().a("Common Cards: ").fg(DEFAULT).boldOff());
+        System.out.println(title);
+
+        int i = 1;
         for (CommonCard c : gameModel.getCommonCards()) {
-            ris.append(c.toString(c.getCommonType(), i));
+            ris.append(c.toString(i));
             i += 3;
         }
         System.out.println(ris);
@@ -228,7 +235,7 @@ public class Console {
         int i = 0;
         ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events-1 ).bold().a("Latest Events:").fg(DEFAULT).boldOff());
         for (String s : importantEvents) {
-            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, 86).a(s).fg(DEFAULT));
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).fg(DEFAULT));
             i++;
         }
         System.out.println(ris);
@@ -296,10 +303,11 @@ public class Console {
         for (Player p : model.getPlayers())
             if (p.getNickname().equals(nick))
                 showGoalCards(p);
-        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + model.getGameId() + ", First turn is played by: " + model.getNicknameCurrentPlaying()).toString());
-        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + model.getNicknameCurrentPlaying()).toString());
+
+        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + model.getGameId() + "]").boldOff().toString());
+        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + model.getNicknameCurrentPlaying()).boldOff().toString());
         showAllShelves(model);
-        show_important_events();
+
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
 
