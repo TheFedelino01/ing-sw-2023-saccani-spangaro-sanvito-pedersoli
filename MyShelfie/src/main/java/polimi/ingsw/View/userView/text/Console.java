@@ -76,7 +76,6 @@ public class Console {
     public void show_playerHand(GameModelImmutable gameModel) {
         System.out.println(">This is your hand:");
         StringBuilder ris = new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_input-1, 0));
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
             if (i < gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().size()) {
                 switch (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType()) {
@@ -100,8 +99,7 @@ public class Console {
     }
 
     public void show_grabbedTile(String nickname, GameModelImmutable model) {
-        StringBuilder ris = new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_input-1, 0));
+        StringBuilder ris = new StringBuilder("| ");
         for (Tile t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
                 case CAT -> ris.append(ansi().bg(GREEN).a(t.toString()).bg(DEFAULT)).append(" | ");
@@ -122,6 +120,7 @@ public class Console {
 
     public void showAllShelves(GameModelImmutable model) {
         int i = DefaultValue.col_shelves;
+
         for (Player p : model.getPlayers()) {
             System.out.print(ansi().cursor(DefaultValue.row_shelves, i - 3).toString() +
                     p.getNickname() + ": " + p.getShelf().toString(i));

@@ -10,7 +10,7 @@ public class BufferData {
     private Queue<String> data;
 
     public BufferData(){
-        data = new ArrayDeque<>();
+        data = new ArrayDeque<String>();
     }
 
     public void addData(String txt){

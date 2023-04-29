@@ -42,8 +42,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private Thread chatThread = null;
     private String lastInput = new String("");
 
-    private inputParser inputParser = null;
-    private inputReader inputReader = null;
+    private inputParser inputParser=null;
+    private inputReader inputReader=null;
 
     public TextUI(ConnectionSelection selection) {
         console = new Console();
@@ -162,7 +162,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                 //Change input from scanf to threads
                 this.inputReader = new inputReader();
-                this.inputParser = new inputParser(this.inputReader.getBuffer(), this, event.getModel().getPlayerEntity(nickname));
+                this.inputParser = new inputParser(this.inputReader.getBuffer(),this,event.getModel().getPlayerEntity(nickname));
                 //Now all the input must be read with inputParse!!!
 
             }
@@ -243,13 +243,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     private void setLastInput(String msg) {
-        synchronized (lastInput) {
+        synchronized(lastInput) {
             lastInput = msg;
         }
     }
-
-    private String getLastInput() {
-        synchronized (lastInput) {
+    private String getLastInput(){
+        synchronized(lastInput) {
             return lastInput;
         }
     }
@@ -359,6 +358,29 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
+
+    private Integer askNum(String msg, GameModelImmutable gameModel) {
+        String temp;
+        int numT = -1;
+        do {
+            try {
+                console.alwaysShow(gameModel, nickname);
+                System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
+                System.out.flush();
+
+                try {
+                    temp = this.inputParser.getDataToProcess().popData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                numT = Integer.parseInt(temp);
+            } catch (InputMismatchException | NumberFormatException e) {
+                System.out.println("Nan");
+            }
+        } while (numT < 0);
+        return numT;
+    }
+
     public void askPickTiles(GameModelImmutable gameModel) {
         Integer numTiles;
         do {
@@ -372,7 +394,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
         Integer column;
         do {
-            column = askNum("> Which tiles do you want to get?\n\t> Choose column: ", gameModel);
+            column = askNum("\t> Choose column: ", gameModel);
         } while (column > DefaultValue.PlaygroundSize);
 
         //Ask the direction only if the player wants to grab more than 1 tile
@@ -380,7 +402,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         if (numTiles > 1) {
             String direction;
             do {
-                System.out.println(ansi().cursor(DefaultValue.row_input, 0).a("> Which tiles do you want to get?\n\t> Choose direction (r=right,l=left,u=up,d=down): "));
+                System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
 
                 try {
                     direction = this.inputParser.getDataToProcess().popData();
@@ -435,29 +457,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
 
-    private Integer askNum(String msg, GameModelImmutable gameModel) {
-        String temp;
-        int numT = -1;
-        do {
-            try {
-                console.alwaysShow(gameModel, nickname);
-                System.out.println(ansi().cursor(DefaultValue.row_input-1, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
-                System.out.print(ansi().cursor(DefaultValue.row_input, 0).a(" ".repeat(console.getLengthLongestMessage())));
-                System.out.flush();
-
-                try {
-                    temp = this.inputParser.getDataToProcess().popData();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                numT = Integer.parseInt(temp);
-            } catch (InputMismatchException | NumberFormatException e) {
-                System.out.println("Nan");
-            }
-        } while (numT < 0);
-        return numT;
     }
 
 
