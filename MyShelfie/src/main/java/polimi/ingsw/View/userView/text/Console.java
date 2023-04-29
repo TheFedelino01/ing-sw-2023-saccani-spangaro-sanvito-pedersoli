@@ -70,7 +70,6 @@ public class Console {
                 ██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
                 ╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
                 """).reset());
-        show_important_events();
     }
 
     public void show_playerHand(GameModelImmutable gameModel) {
@@ -140,6 +139,22 @@ public class Console {
         System.out.println(ris);
     }
 
+    public void showPoints(GameModelImmutable gameModel) {
+        StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_points, DefaultValue.col_points));
+
+        String title = String.valueOf(ansi().fg(RED).cursor(DefaultValue.row_points, DefaultValue.col_points-1).bold().a("Points: ").fg(DEFAULT).boldOff());
+        System.out.println(title);
+
+        int i = 1;
+        for (Player p : gameModel.getPlayers()) {
+            ris.append(ansi().cursor(DefaultValue.row_points + i, DefaultValue.col_points).a(p.getNickname()+": "+p.getTotalPoints()+" points"));
+            i++;
+        }
+        System.out.println(ris);
+    }
+
+
     public void showGoalCards(Player toShow) {
         System.out.println(toShow.getSecretGoal().getLayoutToMatch().toStringGoalCard());
     }
@@ -162,10 +177,7 @@ public class Console {
             i++;
         }
         System.out.println(ris);
-        //TODO:
-        // need to check if the player is ready or not, and
-        // in case he's ready not show him this line, now everyone
-        // will see it
+
         for (Player p : gameModel.getPlayers())
             if (!p.getReadyToStart() && p.getNickname().equals(nick))
                 System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
@@ -211,16 +223,16 @@ public class Console {
     }
 
     private void show_important_events() {
-        if (importantEvents.size() > 0) {
-            StringBuilder ris = new StringBuilder();
-            int i = 0;
-            ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, 85).bold().a("Latest Events:").fg(DEFAULT).boldOff());
-            for (String s : importantEvents) {
-                ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, 86).a(s).fg(DEFAULT));
-                i++;
-            }
-            System.out.println(ris);
+
+        StringBuilder ris = new StringBuilder();
+        int i = 0;
+        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events-1 ).bold().a("Latest Events:").fg(DEFAULT).boldOff());
+        for (String s : importantEvents) {
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, 86).a(s).fg(DEFAULT));
+            i++;
         }
+        System.out.println(ris);
+
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
 
@@ -244,13 +256,15 @@ public class Console {
     }
 
     public void showMessages() {
+        String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat-1).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
+                ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(chat.toString()).fg(DEFAULT);
+        System.out.println(ris);
         if (chat.getMsgs().size() > 0) {
-            String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, 85).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
-                    ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, 86).a(chat.toString()).fg(DEFAULT);
-            System.out.println(ris);
             System.out.println(ansi().cursor(DefaultValue.row_input, 0));
         }
     }
+
+
 
     public int getLengthLongestMessage() {
         return chat.getMsgs().stream()
@@ -265,13 +279,20 @@ public class Console {
     }
 
 
-    public void alwaysShow(GameModelImmutable model, String nick) {
+    public void alwaysShowForAll(GameModelImmutable model){
         clearCMD();
         resize();
         show_titleMyShelfie();
         show_playground(model);
         showCommonCards(model);
         showMessages();
+        showPoints(model);
+        show_important_events();
+    }
+
+    public void alwaysShow(GameModelImmutable model, String nick) {
+        alwaysShowForAll(model);
+
         for (Player p : model.getPlayers())
             if (p.getNickname().equals(nick))
                 showGoalCards(p);
@@ -281,4 +302,6 @@ public class Console {
         show_important_events();
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
+
+
 }

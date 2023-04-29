@@ -37,25 +37,49 @@ public class DefaultValue implements Serializable {
 
     public final static Long timeout_for_detecting_disconnection = 4000L;
 
-    public final static int maxnum_of_last_event_tobe_showed = 4;
+    public final static int maxnum_of_last_event_tobe_showed = 6;
 
+    //CONSOLE OUTPUT INDEXES
+
+    //INPUT
     public final static int row_input = 32;
     public final static int col_input = 40;
+
+    //IMPORTANT EVENTS
     public final static int row_important_events = 2;
+    public final static int col_important_events = 86;
+
+    //PLAYGROUND
     public final static int row_playground = 11;
     public final static int col_playground = 0;
+
+    //SHELVES
     public final static int row_shelves = 25;
     public final static int col_shelves = 3;
+
+    //COMMON CARDS
     public final static int row_commonCards = 11;
     public final static int col_commonCards = 50;
+
+
+    //POINTS
+    public final static int row_points = 17;
+    public final static int col_points = 78;
+
+    //GOAL CARDS
     public final static int row_goalCards = 17;
     public final static int col_goalCards = 50;
+
+    //GAME INFO
     public final static int row_gameID = 9;
     public final static int row_nextTurn = 10;
+
+
 
     public final static int num_of_attempt_to_connect_toServer_before_giveup = 5;
     public final static int seconds_between_reconnection = 5;
     public final static int row_chat = 17;
+    public final static int col_chat = 96;
     public final static int max_messagesShown = 3;
 
 }
