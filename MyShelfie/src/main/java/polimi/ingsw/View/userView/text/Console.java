@@ -70,7 +70,6 @@ public class Console {
                 ██║░╚═╝░██║░░░██║░░░        ██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
                 ╚═╝░░░░░╚═╝░░░╚═╝░░░        ╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
                 """).reset());
-        show_important_events();
     }
 
     public void show_playerHand(GameModelImmutable gameModel) {
@@ -121,24 +120,47 @@ public class Console {
     public void showAllShelves(GameModelImmutable model) {
         int i = DefaultValue.col_shelves;
 
+        StringBuilder ris = new StringBuilder();
+
         for (Player p : model.getPlayers()) {
-            System.out.print(ansi().cursor(DefaultValue.row_shelves, i - 3).toString() +
-                    p.getNickname() + ": " + p.getShelf().toString(i));
+            ris.append(ansi().cursor(DefaultValue.row_shelves, i - 3).a(p.getNickname() + ": "));
+            ris.append(ansi().cursor(DefaultValue.row_shelves+1,i - 3).a(p.getShelf().toString(i)).toString());
+
             i += DefaultValue.displayShelfNextCol;
         }
-        System.out.println(" ");
+        System.out.println(ris);
     }
 
     public void showCommonCards(GameModelImmutable gameModel) {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));
-        int i = 0;
+
+        String title = String.valueOf(ansi().fg(WHITE).cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards-1).bold().a("Common Cards: ").fg(DEFAULT).boldOff());
+        System.out.println(title);
+
+        int i = 1;
         for (CommonCard c : gameModel.getCommonCards()) {
-            ris.append(c.toString(c.getCommonType(), i));
+            ris.append(c.toString(i));
             i += 3;
         }
         System.out.println(ris);
     }
+
+    public void showPoints(GameModelImmutable gameModel) {
+        StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_points, DefaultValue.col_points));
+
+        String title = String.valueOf(ansi().fg(RED).cursor(DefaultValue.row_points, DefaultValue.col_points-1).bold().a("Points: ").fg(DEFAULT).boldOff());
+        System.out.println(title);
+
+        int i = 1;
+        for (Player p : gameModel.getPlayers()) {
+            ris.append(ansi().cursor(DefaultValue.row_points + i, DefaultValue.col_points).a(p.getNickname()+": "+p.getTotalPoints()+" points"));
+            i++;
+        }
+        System.out.println(ris);
+    }
+
 
     public void showGoalCards(Player toShow) {
         System.out.println(toShow.getSecretGoal().getLayoutToMatch().toStringGoalCard());
@@ -162,10 +184,7 @@ public class Console {
             i++;
         }
         System.out.println(ris);
-        //TODO:
-        // need to check if the player is ready or not, and
-        // in case he's ready not show him this line, now everyone
-        // will see it
+
         for (Player p : gameModel.getPlayers())
             if (!p.getReadyToStart() && p.getNickname().equals(nick))
                 System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
@@ -211,16 +230,16 @@ public class Console {
     }
 
     private void show_important_events() {
-        if (importantEvents.size() > 0) {
-            StringBuilder ris = new StringBuilder();
-            int i = 0;
-            ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, 85).bold().a("Latest Events:").fg(DEFAULT).boldOff());
-            for (String s : importantEvents) {
-                ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, 86).a(s).fg(DEFAULT));
-                i++;
-            }
-            System.out.println(ris);
+
+        StringBuilder ris = new StringBuilder();
+        int i = 0;
+        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events-1 ).bold().a("Latest Events:").fg(DEFAULT).boldOff());
+        for (String s : importantEvents) {
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).fg(DEFAULT));
+            i++;
         }
+        System.out.println(ris);
+
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
 
@@ -244,13 +263,15 @@ public class Console {
     }
 
     public void showMessages() {
+        String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat-1).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
+                ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(chat.toString()).fg(DEFAULT);
+        System.out.println(ris);
         if (chat.getMsgs().size() > 0) {
-            String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, 85).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
-                    ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, 86).a(chat.toString()).fg(DEFAULT);
-            System.out.println(ris);
             System.out.println(ansi().cursor(DefaultValue.row_input, 0));
         }
     }
+
+
 
     public int getLengthLongestMessage() {
         return chat.getMsgs().stream()
@@ -265,20 +286,30 @@ public class Console {
     }
 
 
-    public void alwaysShow(GameModelImmutable model, String nick) {
+    public void alwaysShowForAll(GameModelImmutable model){
         clearCMD();
         resize();
         show_titleMyShelfie();
         show_playground(model);
         showCommonCards(model);
         showMessages();
+        showPoints(model);
+        show_important_events();
+    }
+
+    public void alwaysShow(GameModelImmutable model, String nick) {
+        alwaysShowForAll(model);
+
         for (Player p : model.getPlayers())
             if (p.getNickname().equals(nick))
                 showGoalCards(p);
-        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + model.getGameId() + ", First turn is played by: " + model.getNicknameCurrentPlaying()).toString());
-        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).a("Next turn! It's up to: " + model.getNicknameCurrentPlaying()).toString());
+
+        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + model.getGameId() + "]").boldOff().toString());
+        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + model.getNicknameCurrentPlaying()).boldOff().toString());
         showAllShelves(model);
-        show_important_events();
+
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
+
+
 }
