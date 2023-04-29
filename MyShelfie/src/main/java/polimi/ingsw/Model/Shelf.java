@@ -88,7 +88,7 @@ public class Shelf implements Serializable {
 
     public String toStringGoalCard() {
         StringBuilder ris = new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_goalCards, DefaultValue.col_goalCards).bold().a("Personal goal:").boldOff().toString());
+        ris.append(ansi().cursor(DefaultValue.row_goalCards, DefaultValue.col_goalCards-1).bold().a("Personal goal:").boldOff().toString());
         int row = 1;
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             ris.append(ansi().cursor(DefaultValue.row_goalCards + row, DefaultValue.col_goalCards).toString());
