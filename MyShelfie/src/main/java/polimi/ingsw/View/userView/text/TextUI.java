@@ -42,6 +42,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private Thread chatThread = null;
     private String lastInput = new String("");
 
+    private inputParser inputParser=null;
+    private inputReader inputReader=null;
+
     public TextUI(ConnectionSelection selection) {
         console = new Console();
         nickname = "";
@@ -52,6 +55,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
         fileDisconnection = new FileDisconnection();
         new Thread(this).start();
+
+
     }
 
     @Override
@@ -153,6 +158,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.show_allPlayers(event.getModel());
                 System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
+
+                //Change input from scanf to threads
+                this.inputReader = new inputReader();
+                this.inputParser = new inputParser(this.inputReader.getBuffer(),this,event.getModel().getPlayerEntity(nickname));
+                //Now all the input must be read with inputParse!!!
+
             }
             case COMMON_CARD_EXTRACTED -> {
                 console.clearCMD();
@@ -162,6 +173,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.showCommonCards(event.getModel());
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
+
             }
             case SENT_MESSAGE -> console.alwaysShow(event.getModel(), nickname);
 
@@ -170,12 +182,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 columnChosen = -1;
 
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
-
-                    if (chatThread != null) {
-                        //It's my turn, I don't want anymore a th for reading about the /c msg command
-                        chatThread.interrupt();
-                        //Ask the th to stop but it is blocked in reading the System.in
-                    }
 
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
                         console.alwaysShow(event.getModel(), nickname);
@@ -189,25 +195,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                         askPickTiles(event.getModel());
                     }
                 } else {
-                    //It's not my turn so, I create a th for reading the System.in for detecting command /c msg
-                    if (chatThread == null) {
-                        chatThread = new Thread() {
-                            public void run() {
-                                while (!this.isInterrupted()) {
-                                    String temp = new Scanner(System.in).nextLine();
-                                    setLastInput(temp);//I set the input as the last input read
-                                    if (temp.startsWith("/c")) {
-                                        if (temp.charAt(2) == ' ') {
-                                            sendMessage(new Message(temp.substring(3), event.getModel().getPlayerEntity(nickname)));
-                                        } else {
-                                            sendMessage(new Message(temp.substring(2), event.getModel().getPlayerEntity(nickname)));
-                                        }
-                                    }
-                                }
-                            }
-                        };
-                        chatThread.start();
-                    }
+                    //I remove all the input that the user sends when It is not his turn
+                    this.inputParser.getDataToProcess().popAllData();
                 }
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
@@ -378,40 +367,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
                 System.out.flush();
 
-                //If there was a th for the chat, I then wait until it stops running
-                if(chatThread!=null) {
-                    synchronized (chatThread) {
-                        try {
-                            chatThread.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    //thChat stopped running
-                    chatThread=null;
-                }
-
-                //If the thChat has read something, then I use the last value read by the th
-                if(getLastInput().equals("")){
-                    temp = new Scanner(System.in).nextLine();
-                }else{
-                    temp = getLastInput();
-                    if(temp.startsWith("/c")){
-                        temp=""; //Otherwise It sends the message two times
-                    }
-                    setLastInput("");
-                }
-
-                if (temp.equals(""))
-                    continue;
-                if (temp.startsWith("/c")) {
-                    if (temp.charAt(2) == ' ') {
-                        sendMessage(new Message(temp.substring(3), gameModel.getPlayerEntity(nickname)));
-                    } else {
-                        sendMessage(new Message(temp.substring(2), gameModel.getPlayerEntity(nickname)));
-                    }
-                    System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(console.getLengthLongestMessage())));
-                    continue;
+                try {
+                    temp = this.inputParser.getDataToProcess().popData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
                 numT = Integer.parseInt(temp);
             } catch (InputMismatchException | NumberFormatException e) {
@@ -443,13 +402,13 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             String direction;
             do {
                 System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
-                direction = new Scanner(System.in).nextLine();
-                if (direction.equals(""))
-                    continue;
-                if (direction.startsWith("/c")) {
-                    sendMessage(new Message(direction.substring(2), gameModel.getPlayerEntity(nickname)));
-                    continue;
+
+                try {
+                    direction = this.inputParser.getDataToProcess().popData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
+
                 d = Direction.getDirection(direction);
             } while (d == null);
         }
