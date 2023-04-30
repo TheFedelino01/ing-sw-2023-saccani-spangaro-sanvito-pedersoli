@@ -5,6 +5,7 @@ import polimi.ingsw.Listener.ListenersHandler;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Chat;
+import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Enumeration.CardGoalType;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.GameStatus;
@@ -201,9 +202,11 @@ public class GameModel {
         return chat;
     }
 
-    public void sentMessage(Player p, String txt) {
-        if (players.stream().filter(x -> x.equals(p)).count() == 1) {
-            chat.addMsg(p, txt);
+
+    //Player p, String txt
+    public void sentMessage(Message m) {
+        if (players.stream().filter(x -> x.equals(m.getSender())).count() == 1) {
+            chat.addMsg(m);
             listenersHandler.notify_SentMessage(this, chat.getLastMessage());
         } else {
             throw new ActionPerformedByAPlayerNotPlayingException();

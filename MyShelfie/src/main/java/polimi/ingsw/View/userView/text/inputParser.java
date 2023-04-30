@@ -2,25 +2,26 @@ package polimi.ingsw.View.userView.text;
 
 import org.w3c.dom.Text;
 import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.Chat.MessagePrivate;
 import polimi.ingsw.Model.Player;
 
-public class inputParser extends Thread{
+public class inputParser extends Thread {
     private BufferData bufferInput;
     private BufferData dataToProcess;
     private TextUI gui;
     private Player p;
 
-    public inputParser(BufferData bufferInput, TextUI gui, Player p){
-        this.bufferInput=bufferInput;
+    public inputParser(BufferData bufferInput, TextUI gui, Player p) {
+        this.bufferInput = bufferInput;
         dataToProcess = new BufferData();
-        this.gui=gui;
-        this.p=p;
+        this.gui = gui;
+        this.p = p;
         this.start();
     }
 
-    public void run(){
+    public void run() {
         String txt;
-        while(!this.isInterrupted()){
+        while (!this.isInterrupted()) {
 
             //I keep popping data from the buffer synch
             //(so I wait myself If no data is available on the buffer)
@@ -31,24 +32,28 @@ public class inputParser extends Thread{
             }
 
             //I popped a data from the buffer
-            if(txt.startsWith("/c")){
-                //I send a message
+            if (txt.startsWith("/cs")) {
+                txt = txt.charAt(2) == ' ' ? txt.substring(5) : txt.substring(4);
+                String receiver = txt.substring(0, txt.indexOf(" "));
+                String msg = txt.substring(receiver.length()+1);
 
-                if (txt.startsWith("/c")) {
-                    txt = txt.charAt(2) == ' '?txt.substring(3):txt.substring(2);
-                    gui.sendMessage(new Message(txt, p));
-                }
-            }else{
+                gui.sendMessage(new MessagePrivate(msg, p, receiver));
+            } else if (txt.startsWith("/c")) {
+                //I send a message
+                txt = txt.charAt(2) == ' ' ? txt.substring(3) : txt.substring(2);
+                gui.sendMessage(new Message(txt, p));
+            } else {
                 //I didn't popped a message
 
                 //I add the data to the buffer processed via TextUI
                 dataToProcess.addData(txt);
             }
-
         }
+
     }
 
-    public BufferData getDataToProcess(){
+
+    public BufferData getDataToProcess() {
         return dataToProcess;
     }
 

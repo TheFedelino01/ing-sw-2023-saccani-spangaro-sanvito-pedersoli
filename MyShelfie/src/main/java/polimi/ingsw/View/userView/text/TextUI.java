@@ -575,8 +575,15 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) {
-        console.addMessage(msg);
-        events.add(gameModel, SENT_MESSAGE);
+        //Visualizzo il messaggio solo se e' per tutti o e' solo per me
+        if(msg.whoIsReceiver().equals("*")) {
+            console.addMessage(msg);
+            events.add(gameModel, SENT_MESSAGE);
+        }else if(msg.whoIsReceiver().equals(nickname) || msg.getSender().getNickname().equals(nickname)){
+            msg.setText("[PRIVATE]: "+msg.getText());
+            console.addMessage(msg);
+            events.add(gameModel, SENT_MESSAGE);
+        }
     }
 
     @Override

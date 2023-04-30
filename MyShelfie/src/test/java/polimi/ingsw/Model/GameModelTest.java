@@ -206,12 +206,12 @@ public class GameModelTest {
             throw new RuntimeException(e);
         }
 
-        model.sentMessage(p1, "msg1");
-        model.sentMessage(p2, "msg2");
-        model.sentMessage(p3, "msg3");
+        model.sentMessage(new Message( "msg1",p1));
+        model.sentMessage(new Message( "msg2",p2));
+        model.sentMessage(new Message( "msg3",p3));
 
 
-        assertThrows(ActionPerformedByAPlayerNotPlayingException.class, () -> model.sentMessage(new Player("z"), "msg4"), "Player not playing sent a message");
+        assertThrows(ActionPerformedByAPlayerNotPlayingException.class, () -> model.sentMessage(new Message("msg4",new Player("z"))), "Player not playing sent a message");
 
         boolean found;
         for (Message m : model.getChat().getMsgs()) {
