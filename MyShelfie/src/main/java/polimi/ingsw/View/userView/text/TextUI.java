@@ -44,6 +44,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     private inputParser inputParser=null;
     private inputReader inputReader=null;
+    private boolean ended=false;
 
     public TextUI(ConnectionSelection selection) {
         console = new Console();
@@ -210,6 +211,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     if (columnChosen == -1) {
                         //If I haven't selected the column than I select the column in which I want to place all the tiles that I have grabbed (now in Hand)
                         askColumn(event.getModel());
+                        if(ended) return;
                     }
                     askWhichTileToPlace(event.getModel());
                 } else {
@@ -256,10 +258,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private void statusEnded(EventElement event) {
         switch (event.getType()) {
             case GAMEENDED -> {
-                console.addImportantEvent(ansi().a("[EVENT]: ").a(event.getModel().getGameId()).a(" ended! ").cursorDownLine().a(
+                /*console.addImportantEvent(ansi().a("[EVENT]: ").a(event.getModel().getGameId()).a(" ended! ").cursorDownLine().a(
                         "The winner is: ").a(event.getModel().getWinner().getNickname()).cursorDownLine().a(
                         "Score board: todo").toString());
-                resetGameId(fileDisconnection, event.getModel());
+                resetGameId(fileDisconnection, event.getModel());*/
             }
         }
     }
@@ -282,6 +284,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         String optionChoose;
         do {
             reAsk = false;
+            ended=false;
             console.clearCMD();
             console.show_titleMyShelfie();
             System.out.println(ansi().cursor(9, 0).a("""
@@ -370,6 +373,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                 try {
                     temp = this.inputParser.getDataToProcess().popData();
+                    if(ended) return null;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -385,16 +389,19 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get? ", gameModel);
+            if(ended) return;
         } while (!(numTiles >= DefaultValue.minNumOfGrabbableTiles && numTiles <= DefaultValue.maxNumOfGrabbableTiles));
 
         Integer row;
         do {
             row = askNum("> Which tiles do you want to get?\n\t> Choose row: ", gameModel);
+            if(ended) return;
         } while (row > DefaultValue.PlaygroundSize);
 
         Integer column;
         do {
             column = askNum("\t> Choose column: ", gameModel);
+            if(ended) return;
         } while (column > DefaultValue.PlaygroundSize);
 
         //Ask the direction only if the player wants to grab more than 1 tile
@@ -406,6 +413,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                 try {
                     direction = this.inputParser.getDataToProcess().popData();
+                    if(ended) return;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -435,6 +443,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer column;
         do {
             column = askNum("> Choose column to place all the tiles:", model);
+            if(ended) return;
         } while (column == null || column >= DefaultValue.NumOfColumnsShelf || column < 0);
         columnChosen = column;
     }
@@ -446,6 +455,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer indexHand;
         do {
             indexHand = askNum("\t> Choose Tile in hand (0,1,2):", model);
+            if(ended) return;
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
                 System.out.println("\tWrong Tile selection offset");
                 indexHand = null;
@@ -623,7 +633,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void gameEnded(GameModelImmutable gameModel) {
         //shared.setLastModelReceived(gameModel);
+        ended=true;
         events.add(gameModel, EventType.GAMEENDED);
+        console.showGameEnded(gameModel);
+        resetGameId(fileDisconnection, gameModel);
+
     }
 
     @Override

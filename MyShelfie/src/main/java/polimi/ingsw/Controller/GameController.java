@@ -81,6 +81,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getNumOfPlayers();
     }
 
+    public int getNumOfOnlinePlayers() {
+        return model.getNumOfOnlinePlayers();
+    }
+
     /**
      * Return the secret Goal Card associated with the player in index @param indexPlayer
      *

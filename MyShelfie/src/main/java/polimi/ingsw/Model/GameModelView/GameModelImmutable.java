@@ -24,6 +24,7 @@ public class GameModelImmutable implements Serializable {
     private final Integer firstFinishedPlayer = -1;
 
     private final Integer indexWonPlayer = -1;
+    private Map<Integer, Integer>  leaderBoard;
 
 
     public GameModelImmutable() {
@@ -32,6 +33,7 @@ public class GameModelImmutable implements Serializable {
         gameId = -1;
 
         pg = new Playground();
+        leaderBoard= new HashMap<>();
         currentPlaying = -1;
         chat = new Chat();
         status = GameStatus.WAIT;
@@ -46,6 +48,7 @@ public class GameModelImmutable implements Serializable {
         currentPlaying = modelToCopy.getCurrentPlaying();
         chat = modelToCopy.getChat();
         status = modelToCopy.getStatus();
+        leaderBoard = modelToCopy.getLeaderBoard();
     }
 
     public String getNicknameCurrentPlaying() {
@@ -101,6 +104,10 @@ public class GameModelImmutable implements Serializable {
 
     public Player getPlayerEntity(String playerNick) {
         return players.stream().filter(x -> x.getNickname().equals(playerNick)).toList().get(0);
+    }
+
+    public Map<Integer, Integer> getLeaderBoard() {
+        return leaderBoard;
     }
 
     public boolean isMyTurn(String nickname) {

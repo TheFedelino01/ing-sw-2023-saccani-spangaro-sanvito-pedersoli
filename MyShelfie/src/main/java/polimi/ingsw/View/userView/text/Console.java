@@ -14,6 +14,7 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
@@ -285,6 +286,43 @@ public class Console {
         showMessages();
     }
 
+    public void showGameEnded(GameModelImmutable model){
+        clearCMD();
+        resize();
+        show_titleMyShelfie();
+
+        StringBuilder title = new StringBuilder();
+        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+0, 15).a("░██████╗░░█████╗░███╗░░░███╗███████╗        ███████╗███╗░░██╗██████╗░███████╗██████╗░").fg(DEFAULT));
+        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+1, 15).a("██╔════╝░██╔══██╗████╗░████║██╔════╝        ██╔════╝████╗░██║██╔══██╗██╔════╝██╔══██╗").fg(DEFAULT));
+        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+2, 15).a("██║░░██╗░███████║██╔████╔██║█████╗░░        █████╗░░██╔██╗██║██║░░██║█████╗░░██║░░██║").fg(DEFAULT));
+        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+3, 15).a("██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░        ██╔══╝░░██║╚████║██║░░██║██╔══╝░░██║░░██║").fg(DEFAULT));
+        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+4, 15).a("╚██████╔╝██║░░██║██║░╚═╝░██║███████╗        ███████╗██║░╚███║██████╔╝███████╗██████╔╝").fg(DEFAULT));
+        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+5, 15).a("░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝        ╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝╚═════╝░").fg(DEFAULT));
+
+        System.out.println(title);
+
+        for(int i=0; i<model.getPlayers().size();i++){
+            System.out.println(ansi().cursor(DefaultValue.row_input, 0));
+        }
+
+        StringBuilder ris = new StringBuilder();
+
+        ris.append(ansi().fg(CYAN).cursor(DefaultValue.row_gameID+7, 24).a("█     █▀▀▀  █▀▀█  █▀▀▄  █▀▀▀  █▀▀█    █▀▀█  █▀▀▀█  █▀▀█  █▀▀█  █▀▀▄").fg(DEFAULT));
+        ris.append(ansi().fg(CYAN).cursor(DefaultValue.row_gameID+8, 24).a("█     █▀▀▀  █▄▄█  █  █  █▀▀▀  █▄▄▀    █▀▀▄  █   █  █▄▄█  █▄▄▀  █  █").fg(DEFAULT));
+        ris.append(ansi().fg(CYAN).cursor(DefaultValue.row_gameID+9, 24).a("█▄▄█  █▄▄▄  █  █  █▄▄▀  █▄▄▄  █  █    █▄▄█  █▄▄▄█  █  █  █  █  █▄▄▀").fg(DEFAULT));
+
+        int i=1;
+        int classif = 1;
+        for (Map.Entry<Integer, Integer> entry : model.getLeaderBoard().entrySet()) {
+            System.out.println();
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_gameID + 10 + i, 30).a("#"+classif+" "+model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue()+" points").fg(DEFAULT));
+            i+=2;
+            classif++;
+        }
+
+        System.out.println(ris);
+
+    }
 
     public void alwaysShowForAll(GameModelImmutable model){
         clearCMD();

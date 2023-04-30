@@ -74,6 +74,10 @@ public class GameModel {
         return players.size();
     }
 
+    public int getNumOfOnlinePlayers() {
+        return players.stream().filter(x->x.isConnected()).collect(Collectors.toList()).size();
+    }
+
     public List<Player> getPlayers() {
         return players;
     }
@@ -386,11 +390,19 @@ public class GameModel {
         getPlayerEntity(nick).setConnected(false);
         getPlayerEntity(nick).setNotReadyToStart();
         listenersHandler.notify_playerDisconnected(nick);
+
+        //Check if there are at least 2 players to keep playing
+        if(players.stream().filter(x->x.isConnected()).collect(Collectors.toList()).size()<=1){
+            //No enough players
+            this.setStatus(GameStatus.ENDED);
+        }
     }
+
 
     public void setAsConnected(String nick) {
         getPlayerEntity(nick).setConnected(true);
         listenersHandler.notify_playerReconnected(this, nick);
     }
+
 
 }

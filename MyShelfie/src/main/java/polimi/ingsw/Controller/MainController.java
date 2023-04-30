@@ -54,8 +54,7 @@ public class MainController implements MainControllerInterface, Serializable {
 
     @Override
     public synchronized GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
-
-        List<GameController> ris = runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers() < DefaultValue.MaxNumOfPlayer)).toList();
+        List<GameController> ris = runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT) && x.getNumOfOnlinePlayers() < DefaultValue.MaxNumOfPlayer)).toList();
         Player p = new Player(nick);
         if (ris.size() > 0) {
             try {
