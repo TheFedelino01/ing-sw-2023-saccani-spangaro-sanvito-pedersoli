@@ -306,6 +306,8 @@ public class Console {
 
         System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + model.getGameId() + "]").boldOff().toString());
         System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + model.getNicknameCurrentPlaying()).boldOff().toString());
+        System.out.println(ansi().cursor(DefaultValue.row_nextTurn+1, 0).bold().a("Welcome " + nick).boldOff().toString());
+
         showAllShelves(model);
 
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
