@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //Gestisce tutte le partite in particolare la creazione, il join e il leave
 public class MainController implements MainControllerInterface, Serializable {
@@ -43,6 +44,10 @@ public class MainController implements MainControllerInterface, Serializable {
         GameController c = new GameController();
         c.addListener(lis, p);
         runningGames.add(c);
+
+        System.out.println(">Game "+c.getGameId()+" added to runningGames");
+        printRunningGames();
+
         try {
             c.addPlayer(p);
         } catch (MaxPlayersInException | PlayerAlreadyInException e) {
@@ -54,12 +59,15 @@ public class MainController implements MainControllerInterface, Serializable {
 
     @Override
     public synchronized GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
-        List<GameController> ris = runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT) && x.getNumOfOnlinePlayers() < DefaultValue.MaxNumOfPlayer)).toList();
+        List<GameController> ris = runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers() < DefaultValue.MaxNumOfPlayer)).toList();
         Player p = new Player(nick);
         if (ris.size() > 0) {
             try {
                 ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
+
+                System.out.println(">Game "+ris.get(0).getGameId()+" entered player");
+                printRunningGames();
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
                 ris.get(0).removeListener(lis, p);
@@ -71,13 +79,15 @@ public class MainController implements MainControllerInterface, Serializable {
 
     @Override
     public synchronized GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
-        List<GameController> ris = runningGames.stream().filter(x -> (x.getId() == idGame)).toList();
+        List<GameController> ris = runningGames.stream().filter(x -> (x.getGameId() == idGame)).toList();
         Player p = new Player(nick);
 
         if (ris.size() == 1) {
             try {
                 ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
+                System.out.println(">Game "+ris.get(0).getGameId()+" entered player");
+                printRunningGames();
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
                 ris.get(0).removeListener(lis, p);
@@ -92,7 +102,7 @@ public class MainController implements MainControllerInterface, Serializable {
 
     @Override
     public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
-        List<GameController> ris = runningGames.stream().filter(x -> (x.getId() == idGame)).toList();
+        List<GameController> ris = runningGames.stream().filter(x -> (x.getGameId() == idGame)).toList();
 
         if (ris.size() == 1) {
             try {
@@ -115,6 +125,22 @@ public class MainController implements MainControllerInterface, Serializable {
             lis.gameIdNotExists(idGame);
         }
         return null;
+    }
+
+    public void deleteGame(int idGame){
+        GameController gameToRemove = runningGames.stream().filter(x->x.getGameId()==idGame).collect(Collectors.toList()).get(0);
+        if(gameToRemove!=null) {
+            runningGames.remove(gameToRemove);
+            System.out.println(">Game "+idGame+" removed from runningGames");
+            printRunningGames();
+        }
+
+    }
+
+    private void printRunningGames(){
+        System.out.print("runningGames: ");
+        runningGames.stream().forEach(x->System.out.print(x.getGameId()+" "));
+        System.out.println("");
     }
 
 

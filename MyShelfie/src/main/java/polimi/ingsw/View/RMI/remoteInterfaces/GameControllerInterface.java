@@ -24,4 +24,8 @@ public interface GameControllerInterface extends Remote {
 
     void sentMessage(Message msg) throws RemoteException;
 
+    int getGameId() throws RemoteException;
+
+    int getNumOnlinePlayers() throws RemoteException;
+
 }

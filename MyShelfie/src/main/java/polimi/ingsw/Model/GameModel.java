@@ -226,10 +226,10 @@ public class GameModel {
     public void setStatus(GameStatus status) {
         //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
         if (status.equals(GameStatus.RUNNING) &&
-                (players.size() < DefaultValue.minNumOfPlayer
+                ((players.size() < DefaultValue.minNumOfPlayer
                         || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
                         || !doAllPlayersHaveGoalCard())
-                || currentPlaying == -1) {
+                || currentPlaying == -1)) {
             throw new NotReadyToRunException();
         } else {
             this.status = status;

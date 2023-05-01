@@ -38,11 +38,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 if (System.currentTimeMillis() - entry.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                     try {
                         this.setConnectionStatus(entry.getValue().getNick(), entry.getKey(), false);
+
+                        if(this.getNumOnlinePlayers()==0) {
+                            MainController.getInstance().deleteGame(this.getGameId());
+                        }
+
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
                     System.out.println("Disconnection detected by heartbeat");
                     heartbeats.remove(entry.getKey());
+
+
                 }
             }
             try {
@@ -365,11 +372,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getStatus();
     }
 
-    public int getId() {
-        return model.getGameId();
-    }
-
-
     public void addListener(GameListener l, Player p) {
         model.addListener(l);
         p.addListener(l);
@@ -378,6 +380,16 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void removeListener(GameListener lis, Player p) {
         model.removeListener(lis);
         p.removeListener(lis);
+    }
+
+    @Override
+    public int getGameId(){
+        return model.getGameId();
+    }
+
+    @Override
+    public int getNumOnlinePlayers() throws RemoteException {
+        return model.getNumOfOnlinePlayers();
     }
 
 
