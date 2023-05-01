@@ -15,4 +15,5 @@ public interface MainControllerInterface extends Remote {
     GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException;
 
 
+    GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException;
 }

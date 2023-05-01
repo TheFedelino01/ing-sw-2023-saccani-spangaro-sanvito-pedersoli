@@ -16,6 +16,7 @@ public interface CommonClientActions {
 
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException;
 
+    public void leave(String nick, int idGame) throws IOException;
 
     public void setAsReady() throws IOException;
 

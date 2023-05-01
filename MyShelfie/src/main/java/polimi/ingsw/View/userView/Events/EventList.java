@@ -21,6 +21,8 @@ public class EventList {
         if (type.equals(EventType.PLAYER_JOINED) || (model != null && model.getStatus().equals(GameStatus.RUNNING)))
             joined = true;
 
+        if(type.equals(EventType.APP_MENU))
+            joined=false;
         /*if(model!=null && model.getStatus().equals(GameStatus.ENDED))
             joined=false;*/
     }

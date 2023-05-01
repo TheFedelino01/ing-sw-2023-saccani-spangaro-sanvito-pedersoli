@@ -28,5 +28,5 @@ public interface GameControllerInterface extends Remote {
 
     int getNumOnlinePlayers() throws RemoteException;
 
-
+    void leave(GameListener lis, String nick) throws RemoteException;
 }

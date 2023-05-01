@@ -112,6 +112,11 @@ public class GameModel {
     public void removePlayer(String nick) {
         players.remove(players.stream().filter(x->x.getNickname().equals(nick)).collect(Collectors.toList()).get(0));
         listenersHandler.notify_playerLeft(this, nick);
+
+        if(this.status.equals(GameStatus.RUNNING) && players.stream().filter(x->x.isConnected()).collect(Collectors.toList()).size()<=1){
+            //No enough players to keep playing
+            this.setStatus(GameStatus.ENDED);
+        }
     }
 
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
@@ -403,9 +408,6 @@ public class GameModel {
             this.setStatus(GameStatus.ENDED);
         }
 
-        if(this.status.equals(GameStatus.WAIT)){
-
-        }
     }
 
 

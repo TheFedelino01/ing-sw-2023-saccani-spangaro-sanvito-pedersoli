@@ -87,7 +87,12 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         return ris;
     }
 
+    @Override
+    public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
+        mainController.leaveGame(lis,nick,idGame);
 
+        return null;
+    }
 
 
 }

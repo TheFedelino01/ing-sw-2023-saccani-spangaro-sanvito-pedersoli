@@ -3,6 +3,7 @@ package polimi.ingsw.View.userView.text;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
+import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
@@ -39,8 +40,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private String lastPlayerReconnected;
     private int columnChosen = -1;
     private final Console console;
-    private Thread chatThread = null;
-    private String lastInput = new String("");
 
     private inputParser inputParser = null;
     private inputReader inputReader = null;
@@ -174,7 +173,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                 //Change input from scanf to threads
                 this.inputReader = new inputReader();
-                this.inputParser = new inputParser(this.inputReader.getBuffer(), this, event.getModel().getPlayerEntity(nickname));
+                this.inputParser = new inputParser(this.inputReader.getBuffer(), this, event.getModel().getPlayerEntity(nickname),event.getModel().getGameId());
                 //Now all the input must be read with inputParse!!!
 
             }
@@ -262,9 +261,13 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             case GAMEENDED -> {
                 System.out.println("\nPress any key to return to the menu");
                 new Scanner(System.in).nextLine();
-                //TODO NEED TO LEAVE THE GAME! and set events as joined=false so can display APP_MENU
-                events.add(null,APP_MENU);
 
+                try {
+                    this.leave(nickname,event.getModel().getGameId());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                this.youleft();
             }
         }
     }
@@ -296,8 +299,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 \t(js) Join a specific Game by idGame
                 \t(x) Reconnect
                 \t(.) to leave
-                \t -> Remember! At any point in the game, if you type "/c [msg]" (public msg) or "/cs [playerName] [msg]" (private msg)
-                \t    you can write in chat!
+                \t
+                \t -> Useful commands that can be used at any point in the game:
+                \t\t  type "/c [msg]" (public msg) or "/cs [playerName] [msg]" (private msg) and you can write in chat!
+                \t\t  type "/quit" and you can leave the game!
                 \t""").fg(DEFAULT));
         optionChoose = scanner.nextLine();
         if (optionChoose.equals("."))
@@ -472,6 +477,13 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     }
 
+    public void youleft() {
+        ended=true;
+        events.add(null,APP_MENU);
+        inputReader.interrupt();//TODO NEED TO READ INPUT ALWAYS WITH THIS SO I DONT NEED TO STOP AND RESTART IT
+        inputParser.interrupt();
+    }
+
 
     //-----------------------------------------
     //METODI CHE IL CLIENT PUÓ RICHIEDERE VERSO IL SERVER
@@ -526,6 +538,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
+    @Override
+    public void leave(String nick, int idGame) throws IOException {
+        server.leave(nick,idGame);
+    }
 
 
     @Override
@@ -560,6 +576,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
 
+
     //-----------------------------------------------------------------------
     //RICEZIONE DEGLI EVENTI DAL SERVER
 
@@ -581,13 +598,18 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException {
-        try {
-            console.showPlayerJoined(gamemodel, nickname);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if(gamemodel.getStatus().equals(GameStatus.WAIT)) {
+            try {
+                console.showPlayerJoined(gamemodel, nickname);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            console.addImportantEvent("[EVENT]: Player "+nick+" decided to leave the game!");
         }
+
     }
 
     @Override
@@ -724,6 +746,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             throw new RuntimeException(e);
         }
     }
+
 
 
 }

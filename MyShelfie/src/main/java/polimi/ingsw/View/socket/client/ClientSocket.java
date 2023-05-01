@@ -7,7 +7,7 @@ import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessageNewChatMessage;
-import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageReconnect;
+import polimi.ingsw.View.socket.client.MainControllerMessages.*;
 import polimi.ingsw.View.userView.CommonClientActions;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.RMI.remoteInterfaces.MainControllerInterface;
@@ -15,9 +15,6 @@ import polimi.ingsw.View.handlerResponsesByClient.GameListenersHandlerClient;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessageGrabTileFromPlayground;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessagePositionTileOnShelf;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessageSetReady;
-import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageCreateGame;
-import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageJoinFirst;
-import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageJoinGame;
 import polimi.ingsw.View.socket.client.ServerToClientMessages.SocketServerGenericMessage;
 import polimi.ingsw.View.userView.View;
 
@@ -141,6 +138,11 @@ public class ClientSocket extends Thread implements CommonClientActions {
         out.writeObject(new SocketClientMessageReconnect(nick, idGame));
     }
 
+    @Override
+    public void leave(String nick, int idGame) throws IOException {
+        out.writeObject(new SocketClientMessageLeave(nick, idGame));
+        nickname=null;
+    }
 
 
     @Override

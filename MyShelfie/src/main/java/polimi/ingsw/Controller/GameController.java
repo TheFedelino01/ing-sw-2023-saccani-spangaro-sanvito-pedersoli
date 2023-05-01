@@ -401,6 +401,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getNumOfOnlinePlayers();
     }
 
+    @Override
+    public void leave(GameListener lis, String nick) throws RemoteException {
+        removeListener(lis,model.getPlayerEntity(nick));
+        model.removePlayer(nick);
+    }
 
 
 }

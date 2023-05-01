@@ -137,12 +137,27 @@ public class MainController implements MainControllerInterface, Serializable {
         return null;
     }
 
+    @Override
+    public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
+        List<GameController> ris = runningGames.stream().filter(x->x.getGameId()==idGame).collect(Collectors.toList());
+        if(ris.size()==1){
+            ris.get(0).leave(lis,nick);
+            System.out.println("\t>Game " + ris.get(0).getGameId() + " player: \"" + nick + "\" decided to leave");
+            printRunningGames();
+
+            if(ris.get(0).getNumOfOnlinePlayers()==0){
+                deleteGame(idGame);
+            }
+        }
+        return null;
+    }
 
 
     public void deleteGame(int idGame) {
         GameController gameToRemove = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList()).get(0);
         if (gameToRemove != null) {
             runningGames.remove(gameToRemove);
+
             System.out.println("\t>Game " + idGame + " removed from runningGames");
             printRunningGames();
         }

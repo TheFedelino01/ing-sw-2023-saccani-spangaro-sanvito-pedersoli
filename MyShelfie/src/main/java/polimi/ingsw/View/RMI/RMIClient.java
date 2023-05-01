@@ -139,6 +139,12 @@ public class RMIClient implements CommonClientActions, Runnable {
         }
     }
 
+    @Override
+    public void leave(String nick, int idGame) throws IOException {
+        requests.leaveGame(modelInvokedEvents,nick,idGame);
+        gameController=null;
+        nickname=null;
+    }
 
 
     @Override
