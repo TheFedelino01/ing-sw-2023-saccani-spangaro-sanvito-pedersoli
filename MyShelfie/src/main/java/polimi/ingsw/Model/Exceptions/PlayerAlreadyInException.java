@@ -2,7 +2,7 @@ package polimi.ingsw.Model.Exceptions;
 
 public class PlayerAlreadyInException extends RuntimeException {
     public PlayerAlreadyInException() {
-        super();
+        super("Player already in exception");
     }
 
 }

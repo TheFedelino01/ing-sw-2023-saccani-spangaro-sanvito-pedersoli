@@ -42,9 +42,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private Thread chatThread = null;
     private String lastInput = new String("");
 
-    private inputParser inputParser=null;
-    private inputReader inputReader=null;
-    private boolean ended=false;
+    private inputParser inputParser = null;
+    private inputReader inputReader = null;
+    private boolean ended = false;
 
     public TextUI(ConnectionSelection selection) {
         console = new Console();
@@ -69,7 +69,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             Thread.sleep(2500);
             console.clearCMD();
             console.show_titleMyShelfie();
-            askSelectGame();
+            events.add(null,APP_MENU);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -113,6 +113,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     private void statusNotInAGame(EventElement event) {
         switch (event.getType()) {
+            case APP_MENU ->{
+                boolean selectionok;
+                do {
+                    selectionok= askSelectGame();
+                }while(!selectionok);
+            }
             case GAME_ID_NOT_EXISTS -> {
                 nickname = null;
                 System.out.println("It does not exist any game with this GameId");
@@ -120,24 +126,23 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (gameId != -1) {
                     joinGame(nickname, gameId);
                 } else {
-                    askSelectGame();
+                    events.add(null,APP_MENU);
                 }
             }
             case JOIN_UNABLE_NICKNAME_ALREADY_IN -> {
                 nickname = null;
-                askSelectGame();
+                events.add(null,APP_MENU);
                 console.addImportantEvent("WARNING> Nickname already used!");
             }
             case JOIN_UNABLE_GAME_FULL -> {
                 nickname = null;
-                askSelectGame();
+                events.add(null,APP_MENU);
                 console.addImportantEvent("WARNING> Game is Full!");
             }
-            case NO_GAMES_AVAILABLE_TO_JOIN ->{
-                console.showNoAvailableGamesToJoin();
+            case GENERIC_ERROR_WHEN_ENTRYING_GAME -> {
                 System.out.println("\nPress any key to return to the menu");
                 new Scanner(System.in).nextLine();
-                askSelectGame();
+                events.add(null,APP_MENU);
             }
         }
     }
@@ -169,7 +174,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                 //Change input from scanf to threads
                 this.inputReader = new inputReader();
-                this.inputParser = new inputParser(this.inputReader.getBuffer(),this,event.getModel().getPlayerEntity(nickname));
+                this.inputParser = new inputParser(this.inputReader.getBuffer(), this, event.getModel().getPlayerEntity(nickname));
                 //Now all the input must be read with inputParse!!!
 
             }
@@ -197,10 +202,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                         if (nickname.equals(lastPlayerReconnected)) {
                             askPickTiles(event.getModel());
+                            if (ended) return;
                         }
                         //else the player who has just reconnected is not me, and so I do nothing
                     } else {
                         askPickTiles(event.getModel());
+                        if (ended) return;
                     }
                 } else {
                     //I remove all the input that the user sends when It is not his turn
@@ -217,7 +224,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                     if (columnChosen == -1) {
                         //If I haven't selected the column than I select the column in which I want to place all the tiles that I have grabbed (now in Hand)
                         askColumn(event.getModel());
-                        if(ended) return;
+                        if (ended) return;
                     }
                     askWhichTileToPlace(event.getModel());
                 } else {
@@ -250,24 +257,14 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     }
 
-    private void setLastInput(String msg) {
-        synchronized(lastInput) {
-            lastInput = msg;
-        }
-    }
-    private String getLastInput(){
-        synchronized(lastInput) {
-            return lastInput;
-        }
-    }
-
     private void statusEnded(EventElement event) {
         switch (event.getType()) {
             case GAMEENDED -> {
-                /*console.addImportantEvent(ansi().a("[EVENT]: ").a(event.getModel().getGameId()).a(" ended! ").cursorDownLine().a(
-                        "The winner is: ").a(event.getModel().getWinner().getNickname()).cursorDownLine().a(
-                        "Score board: todo").toString());
-                resetGameId(fileDisconnection, event.getModel());*/
+                System.out.println("\nPress any key to return to the menu");
+                new Scanner(System.in).nextLine();
+                //TODO NEED TO LEAVE THE GAME! and set events as joined=false so can display APP_MENU
+                events.add(null,APP_MENU);
+
             }
         }
     }
@@ -285,47 +282,46 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
 
-    private void askSelectGame() {
-        boolean reAsk;
+    //return: false need to recall askSelectGame
+    private boolean askSelectGame() {
         String optionChoose;
-        do {
-            reAsk = false;
-            ended=false;
-            console.clearCMD();
-            console.show_titleMyShelfie();
-            System.out.println(ansi().cursor(9, 0).a("""
-                    > Select one option:
-                    \t(c) Create a new Game
-                    \t(j) Join to a random Game
-                    \t(js) Join a specific Game by idGame
-                    \t(x) Reconnect
-                    \t(.) to leave
-                    \t -> Remember! At any point in the game, if you type "/c [msg]"
-                    \t    you can write in chat!
-                    \t""").fg(DEFAULT));
-            optionChoose = scanner.nextLine();
-            if (optionChoose.equals("."))
-                return;
-            askNickname();
 
-            switch (optionChoose) {
-                case "c" -> createGame(nickname);
-                case "j" -> joinFirstAvailable(nickname);
-                case "js" -> {
-                    Integer gameId = askGameId();
-                    if (gameId == -1)
-                        askSelectGame();
-                    else
-                        joinGame(nickname, gameId);
-                }
-                case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
-                default -> {
-                    System.out.println("> Selection incorrect!");
-                    reAsk = true;
-                }
+        ended = false;
+        console.clearCMD();
+        console.show_titleMyShelfie();
+        System.out.println(ansi().cursor(9, 0).a("""
+                > Select one option:
+                \t(c) Create a new Game
+                \t(j) Join to a random Game
+                \t(js) Join a specific Game by idGame
+                \t(x) Reconnect
+                \t(.) to leave
+                \t -> Remember! At any point in the game, if you type "/c [msg]" (public msg) or "/cs [playerName] [msg]" (private msg)
+                \t    you can write in chat!
+                \t""").fg(DEFAULT));
+        optionChoose = scanner.nextLine();
+        if (optionChoose.equals("."))
+            System.exit(1);
+        askNickname();
+
+        switch (optionChoose) {
+            case "c" -> createGame(nickname);
+            case "j" -> joinFirstAvailable(nickname);
+            case "js" -> {
+                Integer gameId = askGameId();
+                if (gameId == -1)
+                    return false;
+                else
+                    joinGame(nickname, gameId);
             }
+            case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
+            default -> {
+                System.out.println("> Selection incorrect!");
+                return false;
+            }
+        }
 
-        } while (reAsk);
+        return true;
     }
 
     private Integer askGameId() {
@@ -379,7 +375,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                 try {
                     temp = this.inputParser.getDataToProcess().popData();
-                    if(ended) return null;
+                    if (ended) return null;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -395,19 +391,19 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer numTiles;
         do {
             numTiles = askNum("> How many tiles do you want to get? ", gameModel);
-            if(ended) return;
+            if (ended) return;
         } while (!(numTiles >= DefaultValue.minNumOfGrabbableTiles && numTiles <= DefaultValue.maxNumOfGrabbableTiles));
 
         Integer row;
         do {
             row = askNum("> Which tiles do you want to get?\n\t> Choose row: ", gameModel);
-            if(ended) return;
+            if (ended) return;
         } while (row > DefaultValue.PlaygroundSize);
 
         Integer column;
         do {
             column = askNum("\t> Choose column: ", gameModel);
-            if(ended) return;
+            if (ended) return;
         } while (column > DefaultValue.PlaygroundSize);
 
         //Ask the direction only if the player wants to grab more than 1 tile
@@ -419,7 +415,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                 try {
                     direction = this.inputParser.getDataToProcess().popData();
-                    if(ended) return;
+                    if (ended) return;
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -449,7 +445,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer column;
         do {
             column = askNum("> Choose column to place all the tiles:", model);
-            if(ended) return;
+            if (ended) return;
         } while (column == null || column >= DefaultValue.NumOfColumnsShelf || column < 0);
         columnChosen = column;
     }
@@ -461,7 +457,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer indexHand;
         do {
             indexHand = askNum("\t> Choose Tile in hand (0,1,2):", model);
-            if(ended) return;
+            if (ended) return;
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
                 System.out.println("\tWrong Tile selection offset");
                 indexHand = null;
@@ -530,6 +526,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         }
     }
 
+
+
     @Override
     public void setAsReady() throws IOException {
         server.setAsReady();
@@ -566,7 +564,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     //RICEZIONE DEGLI EVENTI DAL SERVER
 
     @Override
-    public void playerJoined(GameModelImmutable gameModel)  {
+    public void playerJoined(GameModelImmutable gameModel) {
         //shared.setLastModelReceived(gameModel);
         //show_allPlayers();
         events.add(gameModel, EventType.PLAYER_JOINED);
@@ -582,7 +580,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void playerLeft(GameModelImmutable gamemodel,String nick) throws RemoteException {
+    public void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException {
         try {
             console.showPlayerJoined(gamemodel, nickname);
         } catch (IOException e) {
@@ -609,11 +607,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) {
         //Visualizzo il messaggio solo se e' per tutti o e' solo per me
-        if(msg.whoIsReceiver().equals("*")) {
+        if (msg.whoIsReceiver().equals("*")) {
             console.addMessage(msg);
             events.add(gameModel, SENT_MESSAGE);
-        }else if(msg.whoIsReceiver().equals(nickname) || msg.getSender().getNickname().equals(nickname)){
-            msg.setText("[PRIVATE]: "+msg.getText());
+        } else if (msg.whoIsReceiver().equals(nickname) || msg.getSender().getNickname().equals(nickname)) {
+            msg.setText("[PRIVATE]: " + msg.getText());
             console.addMessage(msg);
             events.add(gameModel, SENT_MESSAGE);
         }
@@ -631,8 +629,9 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void noGamesAvailableToJoin() throws RemoteException {
-        events.add(null, NO_GAMES_AVAILABLE_TO_JOIN);
+    public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+        console.showNoAvailableGamesToJoin(why);
+        events.add(null, GENERIC_ERROR_WHEN_ENTRYING_GAME);
     }
 
     @Override
@@ -665,7 +664,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     @Override
     public void gameEnded(GameModelImmutable gameModel) {
         //shared.setLastModelReceived(gameModel);
-        ended=true;
+        ended = true;
         events.add(gameModel, EventType.GAMEENDED);
         console.showGameEnded(gameModel);
         resetGameId(fileDisconnection, gameModel);
@@ -713,7 +712,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void playerDisconnected(GameModelImmutable gameModel, String nick){
+    public void playerDisconnected(GameModelImmutable gameModel, String nick) {
         console.addImportantEvent("[EVENT]:  Player " + nick + " has just disconnected");
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events

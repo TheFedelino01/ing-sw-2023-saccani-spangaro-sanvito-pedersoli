@@ -4,14 +4,15 @@ import polimi.ingsw.Listener.GameListener;
 
 import java.rmi.RemoteException;
 
-public class msgNoGamesAvailableToJoin extends SocketServerGenericMessage{
+public class msgGenericErrorWhenEntryingGame extends SocketServerGenericMessage{
 
-    public msgNoGamesAvailableToJoin() {
-
+    private String why;
+    public msgGenericErrorWhenEntryingGame(String why) {
+        this.why=why;
     }
 
     @Override
     public void execute(GameListener lis) throws RemoteException {
-        lis.noGamesAvailableToJoin();
+        lis.genericErrorWhenEntryingGame(why);
     }
 }

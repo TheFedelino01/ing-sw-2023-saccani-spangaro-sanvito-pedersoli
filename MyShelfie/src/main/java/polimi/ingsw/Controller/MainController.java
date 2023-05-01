@@ -45,13 +45,13 @@ public class MainController implements MainControllerInterface, Serializable {
         c.addListener(lis, p);
         runningGames.add(c);
 
-        System.out.println("\t>Game "+c.getGameId()+" added to runningGames, created by player:\""+nick+"\"");
+        System.out.println("\t>Game " + c.getGameId() + " added to runningGames, created by player:\"" + nick + "\"");
         printRunningGames();
 
         try {
             c.addPlayer(p);
         } catch (MaxPlayersInException | PlayerAlreadyInException e) {
-            throw new RuntimeException(e);
+            lis.genericErrorWhenEntryingGame(e.getMessage());
         }
 
         return c;
@@ -66,15 +66,16 @@ public class MainController implements MainControllerInterface, Serializable {
                 ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
 
-                System.out.println("\t>Game "+ris.get(0).getGameId()+" player:\""+nick+"\" entered player");
+                System.out.println("\t>Game " + ris.get(0).getGameId() + " player:\"" + nick + "\" entered player");
                 printRunningGames();
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
                 ris.get(0).removeListener(lis, p);
+                lis.genericErrorWhenEntryingGame(e.getMessage());
             }
-        }else{
+        } else {
             //This is the only call not inside the model
-            lis.noGamesAvailableToJoin();
+            lis.genericErrorWhenEntryingGame("No games currently available to join...");
         }
         return null;
 
@@ -89,11 +90,12 @@ public class MainController implements MainControllerInterface, Serializable {
             try {
                 ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
-                System.out.println("\t>Game "+ris.get(0).getGameId()+" player:\""+nick+"\" entered player");
+                System.out.println("\t>Game " + ris.get(0).getGameId() + " player:\"" + nick + "\" entered player");
                 printRunningGames();
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
                 ris.get(0).removeListener(lis, p);
+                lis.genericErrorWhenEntryingGame(e.getMessage());
             }
         } else {
             //This is the only call not inside the model
@@ -106,22 +108,27 @@ public class MainController implements MainControllerInterface, Serializable {
     @Override
     public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
         List<GameController> ris = runningGames.stream().filter(x -> (x.getGameId() == idGame)).toList();
-
+        List<Player> players = new ArrayList<>();
         if (ris.size() == 1) {
             try {
-                Player player = ris.get(0).getPlayers()
+                players = ris.get(0).getPlayers()
                         .stream()
                         .filter(x -> x.getNickname().equals(nick))
-                        .toList().get(0);
+                        .toList();
+                //The game exists, check if nickname exists
+                if (players.size() == 1) {
+                    ris.get(0).addListener(lis, players.get(0));
+                    ris.get(0).reconnectPlayer(players.get(0));
+                    return ris.get(0);
+                } else {
+                    //Game exists but the nick no
+                    lis.genericErrorWhenEntryingGame("The nickname used was not connected in a running game");
+                    return null;
+                }
 
-                ris.get(0).addListener(lis, player);
-                ris.get(0).reconnectPlayer(player);
-                return ris.get(0);
             } catch (MaxPlayersInException e) {
-                ris.get(0).removeListener(lis, ris.get(0).getPlayers()
-                        .stream()
-                        .filter(x -> x.getNickname().equals(nick))
-                        .toList().get(0));
+                ris.get(0).removeListener(lis, players.get(0));
+                lis.genericErrorWhenEntryingGame(e.getMessage());
             }
         } else {
             //This is the only call not inside the model
@@ -130,19 +137,21 @@ public class MainController implements MainControllerInterface, Serializable {
         return null;
     }
 
-    public void deleteGame(int idGame){
-        GameController gameToRemove = runningGames.stream().filter(x->x.getGameId()==idGame).collect(Collectors.toList()).get(0);
-        if(gameToRemove!=null) {
+
+
+    public void deleteGame(int idGame) {
+        GameController gameToRemove = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList()).get(0);
+        if (gameToRemove != null) {
             runningGames.remove(gameToRemove);
-            System.out.println("\t>Game "+idGame+" removed from runningGames");
+            System.out.println("\t>Game " + idGame + " removed from runningGames");
             printRunningGames();
         }
 
     }
 
-    private void printRunningGames(){
+    private void printRunningGames() {
         System.out.print("\t\trunningGames: ");
-        runningGames.stream().forEach(x->System.out.print(x.getGameId()+" "));
+        runningGames.stream().forEach(x -> System.out.print(x.getGameId() + " "));
         System.out.println("");
     }
 

@@ -75,10 +75,10 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
-    public void noGamesAvailableToJoin() throws RemoteException {
+    public void genericErrorWhenEntryingGame(String why) throws RemoteException {
         try {
             out.reset();
-            out.writeObject(new msgNoGamesAvailableToJoin());
+            out.writeObject(new msgGenericErrorWhenEntryingGame(why));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

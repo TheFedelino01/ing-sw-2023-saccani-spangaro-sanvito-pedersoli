@@ -139,6 +139,8 @@ public class RMIClient implements CommonClientActions, Runnable {
         }
     }
 
+
+
     @Override
     public void sendMessage(Message msg) {
         try {

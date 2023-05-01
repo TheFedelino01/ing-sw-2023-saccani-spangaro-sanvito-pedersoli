@@ -141,6 +141,8 @@ public class ClientSocket extends Thread implements CommonClientActions {
         out.writeObject(new SocketClientMessageReconnect(nick, idGame));
     }
 
+
+
     @Override
     public void setAsReady() throws IOException {
         out.writeObject(new SocketClientMessageSetReady(nickname));

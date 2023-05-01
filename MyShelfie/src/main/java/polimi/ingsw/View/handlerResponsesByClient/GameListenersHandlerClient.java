@@ -56,8 +56,8 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void noGamesAvailableToJoin() throws RemoteException {
-        gui.noGamesAvailableToJoin();
+    public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+        gui.genericErrorWhenEntryingGame(why);
     }
 
     @Override

@@ -2,7 +2,7 @@ package polimi.ingsw.Model.Exceptions;
 
 public class MaxPlayersInException extends RuntimeException {
     public MaxPlayersInException() {
-        super();
+        super("Max number of players in reached");
     }
 
 }
