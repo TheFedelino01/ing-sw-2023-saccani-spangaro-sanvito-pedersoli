@@ -5,17 +5,17 @@ import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgPlayerDisconnected extends SocketServerGenericMessage {
+public class msgPlayerLeft extends SocketServerGenericMessage{
+    private GameModelImmutable gamemodel;
     private String nick;
-    private GameModelImmutable gameModel;
 
-    public msgPlayerDisconnected(GameModelImmutable gameModel,String nick) {
-        this.nick = nick;
-        this.gameModel=gameModel;
+    public msgPlayerLeft(GameModelImmutable gamemodel,String nick) {
+        this.gamemodel = gamemodel;
+        this.nick=nick;
     }
 
     @Override
     public void execute(GameListener lis) throws RemoteException {
-        lis.playerDisconnected(gameModel,nick);
+        lis.playerLeft(gamemodel,nick);
     }
 }

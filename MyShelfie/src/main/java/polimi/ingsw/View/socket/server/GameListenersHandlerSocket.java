@@ -33,6 +33,16 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
+    public void playerLeft(GameModelImmutable gamemodel,String nick) throws RemoteException {
+        try {
+            out.reset();
+            out.writeObject(new msgPlayerLeft(gamemodel,nick));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
         //System.out.println(nickNewPlayer +" by socket");
         try {
@@ -59,6 +69,16 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         try {
             out.reset();
             out.writeObject(new msgGameIdNotExists(gameid));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void noGamesAvailableToJoin() throws RemoteException {
+        try {
+            out.reset();
+            out.writeObject(new msgNoGamesAvailableToJoin());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -168,10 +188,10 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
-    public void playerDisconnected(String nick) throws RemoteException {
+    public void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException {
         try {
             out.reset();
-            out.writeObject(new msgPlayerDisconnected(nick));
+            out.writeObject(new msgPlayerDisconnected(gameModel,nick));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -133,6 +133,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 askSelectGame();
                 console.addImportantEvent("WARNING> Game is Full!");
             }
+            case NO_GAMES_AVAILABLE_TO_JOIN ->{
+                console.showNoAvailableGamesToJoin();
+                System.out.println("\nPress any key to return to the menu");
+                new Scanner(System.in).nextLine();
+                askSelectGame();
+            }
         }
     }
 
@@ -560,13 +566,30 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     //RICEZIONE DEGLI EVENTI DAL SERVER
 
     @Override
-    public void playerJoined(GameModelImmutable gameModel) throws IOException, InterruptedException {
+    public void playerJoined(GameModelImmutable gameModel)  {
         //shared.setLastModelReceived(gameModel);
         //show_allPlayers();
         events.add(gameModel, EventType.PLAYER_JOINED);
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
-        console.showPlayerJoined(gameModel, nickname);
+        try {
+            console.showPlayerJoined(gameModel, nickname);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void playerLeft(GameModelImmutable gamemodel,String nick) throws RemoteException {
+        try {
+            console.showPlayerJoined(gamemodel, nickname);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -608,8 +631,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException, InterruptedException {
-        console.showPlayerJoined(gameModel, nickname);
+    public void noGamesAvailableToJoin() throws RemoteException {
+        events.add(null, NO_GAMES_AVAILABLE_TO_JOIN);
+    }
+
+    @Override
+    public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException {
+        try {
+            console.showPlayerJoined(gameModel, nickname);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         // if(nick.equals(nickname))
         //    toldIAmReady=true;
         events.add(gameModel, PLAYER_IS_READY_TO_START);
@@ -681,8 +713,17 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void playerDisconnected(String nick) throws RemoteException {
+    public void playerDisconnected(GameModelImmutable gameModel, String nick){
         console.addImportantEvent("[EVENT]:  Player " + nick + " has just disconnected");
+
+        //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
+        try {
+            console.showPlayerJoined(gameModel, nickname);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

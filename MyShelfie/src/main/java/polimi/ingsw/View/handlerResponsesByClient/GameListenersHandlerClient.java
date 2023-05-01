@@ -22,9 +22,14 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void playerJoined(GameModelImmutable gamemodel) throws IOException, InterruptedException {
+    public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
         // System.out.println(this.hashCode()+"> "+nickNewPlayer+" has just joined! [by Socket]");
         gui.playerJoined(gamemodel);
+    }
+
+    @Override
+    public void playerLeft(GameModelImmutable gamemodel,String nick) throws RemoteException {
+        gui.playerLeft(gamemodel,nick);
     }
 
     @Override
@@ -34,7 +39,7 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws IOException, InterruptedException {
+    public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
         gui.playerReconnected(gamemodel, nickPlayerReconnected);
     }
 
@@ -51,7 +56,12 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException, InterruptedException {
+    public void noGamesAvailableToJoin() throws RemoteException {
+        gui.noGamesAvailableToJoin();
+    }
+
+    @Override
+    public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException {
         //System.out.println(this.hashCode() + "> " + nick + " ready to start! [by Socket]");
         gui.playerIsReadyToStart(gamemodel, nick);
     }
@@ -116,9 +126,9 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void playerDisconnected(String nick) throws RemoteException {
+    public void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException {
         // System.out.println(this.hashCode() + "> Player "+nick+" just disconnected [by Socket]");
-        gui.playerDisconnected(nick);
+        gui.playerDisconnected(gameModel,nick);
     }
 
 

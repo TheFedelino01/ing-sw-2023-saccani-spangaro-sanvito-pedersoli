@@ -36,7 +36,6 @@ public class inputParser extends Thread {
                 txt = txt.charAt(2) == ' ' ? txt.substring(5) : txt.substring(4);
                 String receiver = txt.substring(0, txt.indexOf(" "));
                 String msg = txt.substring(receiver.length()+1);
-
                 gui.sendMessage(new MessagePrivate(msg, p, receiver));
             } else if (txt.startsWith("/c")) {
                 //I send a message

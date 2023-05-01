@@ -275,7 +275,16 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         if (!connected) {
             //Player has just disconnected, so I remove the notifications for him
             removeListener(lisOfClient, model.getPlayerEntity(nick));
-            model.setAsDisconnected(nick);
+
+            if(model.getStatus().equals(GameStatus.WAIT)){
+                //The game is in Wait (game not started yet), the player disconnected so I remove him from the game)
+                model.removePlayer(nick);
+            }else{
+                //Tha game is running so I set him as disconnected (He can reconnects soon)
+                model.setAsDisconnected(nick);
+            }
+
+
 
         } else {
             //Player rejoined

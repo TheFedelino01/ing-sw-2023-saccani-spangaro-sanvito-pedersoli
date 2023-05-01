@@ -45,7 +45,7 @@ public class MainController implements MainControllerInterface, Serializable {
         c.addListener(lis, p);
         runningGames.add(c);
 
-        System.out.println(">Game "+c.getGameId()+" added to runningGames");
+        System.out.println("\t>Game "+c.getGameId()+" added to runningGames, created by player:\""+nick+"\"");
         printRunningGames();
 
         try {
@@ -66,12 +66,15 @@ public class MainController implements MainControllerInterface, Serializable {
                 ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
 
-                System.out.println(">Game "+ris.get(0).getGameId()+" entered player");
+                System.out.println("\t>Game "+ris.get(0).getGameId()+" player:\""+nick+"\" entered player");
                 printRunningGames();
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
                 ris.get(0).removeListener(lis, p);
             }
+        }else{
+            //This is the only call not inside the model
+            lis.noGamesAvailableToJoin();
         }
         return null;
 
@@ -86,7 +89,7 @@ public class MainController implements MainControllerInterface, Serializable {
             try {
                 ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
-                System.out.println(">Game "+ris.get(0).getGameId()+" entered player");
+                System.out.println("\t>Game "+ris.get(0).getGameId()+" player:\""+nick+"\" entered player");
                 printRunningGames();
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
@@ -131,14 +134,14 @@ public class MainController implements MainControllerInterface, Serializable {
         GameController gameToRemove = runningGames.stream().filter(x->x.getGameId()==idGame).collect(Collectors.toList()).get(0);
         if(gameToRemove!=null) {
             runningGames.remove(gameToRemove);
-            System.out.println(">Game "+idGame+" removed from runningGames");
+            System.out.println("\t>Game "+idGame+" removed from runningGames");
             printRunningGames();
         }
 
     }
 
     private void printRunningGames(){
-        System.out.print("runningGames: ");
+        System.out.print("\t\trunningGames: ");
         runningGames.stream().forEach(x->System.out.print(x.getGameId()+" "));
         System.out.println("");
     }

@@ -11,17 +11,20 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface GameListener extends Remote {
-    void playerJoined(GameModelImmutable gamemodel) throws IOException, InterruptedException;
+    void playerJoined(GameModelImmutable gamemodel) throws RemoteException;
+    void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException;
 
     void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException;
 
-    void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws IOException, InterruptedException;
+    void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException;
 
     void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
 
     void gameIdNotExists(int gameid) throws RemoteException;
 
-    void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException, InterruptedException;
+    void noGamesAvailableToJoin() throws RemoteException;
+
+    void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException;
 
     void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException;
 
@@ -41,6 +44,6 @@ public interface GameListener extends Remote {
 
     void addedPoint(Player p, Point point) throws RemoteException;
 
-    void playerDisconnected(String nick) throws RemoteException;
+    void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException;
 
 }

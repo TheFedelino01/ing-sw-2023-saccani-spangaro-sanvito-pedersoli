@@ -286,6 +286,15 @@ public class Console {
         showMessages();
     }
 
+    public void showNoAvailableGamesToJoin(){
+        String ris = String.valueOf(ansi().fg(RED).cursor(11, 4).bold().a("No games currently available to join...").fg(DEFAULT).boldOff()) +
+                String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a("Try later or create a new game!").fg(DEFAULT).boldOff());
+        ansi().fg(WHITE).cursor(13, 4).a(chat.toString()).fg(DEFAULT);
+
+
+        System.out.println(ris);
+    }
+
     public void showGameEnded(GameModelImmutable model){
         clearCMD();
         resize();

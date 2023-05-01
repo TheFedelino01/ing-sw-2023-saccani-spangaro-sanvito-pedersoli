@@ -11,6 +11,7 @@ import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.GameStatus;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.*;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.io.ObjectStreamException;
 import java.io.Serial;
@@ -106,6 +107,11 @@ public class GameModel {
             throw new PlayerAlreadyInException();
         }
 
+    }
+
+    public void removePlayer(String nick) {
+        players.remove(players.stream().filter(x->x.getNickname().equals(nick)).collect(Collectors.toList()).get(0));
+        listenersHandler.notify_playerLeft(this, nick);
     }
 
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
@@ -389,12 +395,16 @@ public class GameModel {
     public void setAsDisconnected(String nick) {
         getPlayerEntity(nick).setConnected(false);
         getPlayerEntity(nick).setNotReadyToStart();
-        listenersHandler.notify_playerDisconnected(nick);
+        listenersHandler.notify_playerDisconnected(this,nick);
 
-        //Check if there are at least 2 players to keep playing
-        if(players.stream().filter(x->x.isConnected()).collect(Collectors.toList()).size()<=1){
+        //Check if there are at least 2 players to keep playing (if the game is running)
+        if(this.status.equals(GameStatus.RUNNING) && players.stream().filter(x->x.isConnected()).collect(Collectors.toList()).size()<=1){
             //No enough players
             this.setStatus(GameStatus.ENDED);
+        }
+
+        if(this.status.equals(GameStatus.WAIT)){
+
         }
     }
 
@@ -403,6 +413,7 @@ public class GameModel {
         getPlayerEntity(nick).setConnected(true);
         listenersHandler.notify_playerReconnected(this, nick);
     }
+
 
 
 }

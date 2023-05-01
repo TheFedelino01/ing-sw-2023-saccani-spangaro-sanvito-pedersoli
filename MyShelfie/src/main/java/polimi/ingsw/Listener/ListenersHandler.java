@@ -26,7 +26,7 @@ public class ListenersHandler {
         for (GameListener l : listeners) {
             try {
                 l.playerJoined(new GameModelImmutable(model));
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -36,7 +36,7 @@ public class ListenersHandler {
         for (GameListener l : listeners) {
             try {
                 l.playerReconnected(new GameModelImmutable(model), nickPlayerReconnected);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -67,7 +67,7 @@ public class ListenersHandler {
         for (GameListener l : listeners) {
             try {
                 l.playerIsReadyToStart(new GameModelImmutable(model), nick);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -153,10 +153,10 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_playerDisconnected(String nick) {
+    public synchronized void notify_playerDisconnected(GameModel gamemodel,String nick) {
         for (GameListener l : listeners) {
             try {
-                l.playerDisconnected(nick);
+                l.playerDisconnected(new GameModelImmutable(gamemodel),nick);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -168,4 +168,13 @@ public class ListenersHandler {
     }
 
 
+    public void notify_playerLeft(GameModel gameModel, String nick) {
+        for (GameListener l : listeners) {
+            try {
+                l.playerLeft(new GameModelImmutable(gameModel),nick);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

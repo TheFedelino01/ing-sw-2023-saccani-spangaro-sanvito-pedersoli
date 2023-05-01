@@ -5,6 +5,7 @@ import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.socket.client.GameControllerMessages.SocketClientMessageNewChatMessage;
 import polimi.ingsw.View.socket.client.MainControllerMessages.SocketClientMessageReconnect;
 import polimi.ingsw.View.userView.CommonClientActions;
