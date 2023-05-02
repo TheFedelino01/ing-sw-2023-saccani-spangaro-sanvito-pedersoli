@@ -55,7 +55,7 @@ public class Shelf implements Serializable {
 
     public void position(int column, TileType tipo) {
         //push the tile in the column making it slide down until it finds a tile, or it reaches the bottom
-        for (int i = DefaultValue.NumOfRowsShelf - 1; i > 0; i--) {
+        for (int i = DefaultValue.NumOfRowsShelf - 1; i >= 0; i--) {
             if (shelf[i][column].isSameType(TileType.NOT_USED)) {
                 shelf[i][column].setType(tipo);
                 freeSpace--;
