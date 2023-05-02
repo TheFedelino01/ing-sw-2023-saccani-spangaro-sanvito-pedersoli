@@ -126,8 +126,8 @@ public class Console {
         StringBuilder ris = new StringBuilder();
 
         for (Player p : model.getPlayers()) {
-            ris.append(ansi().cursor(DefaultValue.row_shelves, i - 3).a(p.getNickname() + ": "));
-            ris.append(ansi().cursor(DefaultValue.row_shelves+1,i - 3).a(p.getShelf().toString(i)).toString());
+            ris.append(ansi().cursor(DefaultValue.row_playerName, i - 3).a(p.getNickname() + ": "));
+            ris.append(ansi().cursor(DefaultValue.row_shelves,i - 3).a(p.getShelf().toString(i)).toString());
 
             i += DefaultValue.displayShelfNextCol;
         }
@@ -354,18 +354,28 @@ public class Console {
         show_important_events();
     }
 
+    public void showGameId(GameModelImmutable gameModel){
+        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + gameModel.getGameId() + "]").boldOff());
+    }
+
+    public void showNextTurn(GameModelImmutable gameModel){
+        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + gameModel.getNicknameCurrentPlaying()).boldOff());
+    }
+
+    public void showWelcome(String nick){
+        System.out.println(ansi().cursor(DefaultValue.row_nextTurn+1, 0).bold().a("Welcome " + nick).boldOff());
+    }
+
     public void alwaysShow(GameModelImmutable model, String nick) {
         alwaysShowForAll(model);
 
         for (Player p : model.getPlayers())
             if (p.getNickname().equals(nick))
                 showGoalCards(p);
-
-        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + model.getGameId() + "]").boldOff().toString());
-        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + model.getNicknameCurrentPlaying()).boldOff().toString());
-        System.out.println(ansi().cursor(DefaultValue.row_nextTurn+1, 0).bold().a("Welcome " + nick).boldOff().toString());
-
         showAllShelves(model);
+        showGameId(model);
+        showNextTurn(model);
+        showWelcome(nick);
 
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }

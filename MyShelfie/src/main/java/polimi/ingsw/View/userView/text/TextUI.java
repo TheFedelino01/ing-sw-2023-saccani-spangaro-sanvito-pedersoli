@@ -169,7 +169,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.show_titleMyShelfie();
                 console.show_allPlayers(event.getModel());
                 console.alwaysShowForAll(event.getModel());
-                System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
+                console.showGameId(event.getModel());
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
                 //Change input from scanf to threads
@@ -182,7 +182,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 console.clearCMD();
                 console.show_titleMyShelfie();
                 console.show_playground(event.getModel());
-                System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
+                console.showGameId(event.getModel());
                 console.showCommonCards(event.getModel());
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
