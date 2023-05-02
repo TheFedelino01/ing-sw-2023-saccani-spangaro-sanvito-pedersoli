@@ -76,6 +76,7 @@
             radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
+    -fx-font-size:22;
 }
 .record-sales:hover {
     -fx-background-color:
@@ -83,6 +84,7 @@
             #9d4024,
             #d86e3a,
             radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+    -fx-font-size:33px !important;
 }
 .record-sales:pressed {
     -fx-padding: 10 15 13 15;
@@ -104,6 +106,7 @@
             radial-gradient(center 50% 50%, radius 100%, #205ab0, #5e79a6);
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
+    -fx-font-size:22;
 }
 .record-sales2:hover {
     -fx-background-color:
@@ -111,6 +114,7 @@
             #205ab0,
             #5e79a6,
             radial-gradient(center 50% 50%, radius 100%, #205ab0, #5e79a6);
+    -fx-font-size:33px !important;
 }
 .record-sales2:pressed {
     -fx-padding: 10 15 13 15;
@@ -128,6 +132,7 @@
             radial-gradient(center 50% 50%, radius 100%, #138112, #739b6a);
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
+    -fx-font-size:22;
 }
 .record-sales3:hover {
     -fx-background-color:
@@ -135,6 +140,7 @@
             #138112,
             #739b6a,
             radial-gradient(center 50% 50%, radius 100%, #138112, #739b6a);
+    -fx-font-size:33px !important;
 }
 .record-sales3:pressed {
     -fx-padding: 10 15 13 15;
@@ -157,6 +163,7 @@
             radial-gradient(center 50% 50%, radius 100%, #ffff00, #c9a730);
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
+    -fx-font-size:22;
 }
 .record-sales4:hover {
     -fx-background-color:
@@ -164,6 +171,7 @@
             #ffff00,
             #c9a730,
             radial-gradient(center 50% 50%, radius 100%, #ffff00, #c9a730);
+    -fx-font-size:33px !important;
 }
 .record-sales4:pressed {
     -fx-padding: 10 15 13 15;
@@ -305,4 +313,19 @@
     -fx-padding: 3 30 3 30;
     -fx-text-fill: black;
     -fx-font-size: 14px;
+}
+
+
+
+.backgroundmio{
+    -fx-background-image: url("img/img/Publisher_material/Display_1.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.backgroundTitle{
+    -fx-background-image: url("img/img/Publisher_material/Title_2000x618px.png");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-background-size: 900 506;
 }

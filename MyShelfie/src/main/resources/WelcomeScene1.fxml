@@ -9,23 +9,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.GUIController">
+<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #263340;" styleClass="backgroundWelcome" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.GUIController">
     <children>
-      <ImageView fitHeight="740.0" fitWidth="1279.0">
-         <image>
-            <Image url="@img/17_MyShelfie_BGA/Publisher%20material/Display_1.jpg" />
-         </image>
-      </ImageView>
-        <Button layoutX="119.0" layoutY="683.0" mnemonicParsing="false" onAction="#Settings_Button" styleClass="windows7" stylesheets="@style.css" text="Option_gear" AnchorPane.bottomAnchor="13.0" />
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="201.0" mnemonicParsing="false" onAction="#CreateANewGame_Button" prefHeight="86.0" prefWidth="453.0" styleClass="record-sales" stylesheets="@style.css" text="Create a new game" AnchorPane.leftAnchor="-29.0">
+      <Pane prefHeight="740.0" prefWidth="1279.0" styleClass="backgroundmio" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="201.0" mnemonicParsing="false" onAction="#CreateANewGame_Button" prefHeight="86.0" prefWidth="453.0" style="-fx-font-size: 22;" styleClass="record-sales" stylesheets="@style.css" text="Create a new game" AnchorPane.leftAnchor="-29.0">
          <font>
             <Font size="22.0" />
-         </font></Button>
+         </font>
+      </Button>
         <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="307.0" mnemonicParsing="false" onAction="#JoinARandomGame_Button" prefHeight="86.0" prefWidth="423.0" styleClass="record-sales2" stylesheets="@style.css" text="Join to a random game" AnchorPane.leftAnchor="-29.0">
          <font>
             <Font size="22.0" />
          </font></Button>
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="413.0" mnemonicParsing="false" onAction="#JoinASpecificGame_Button" prefHeight="86.0" prefWidth="393.0" styleClass="record-sales3" stylesheets="@style.css" text="Join a specific game by idGame" AnchorPane.leftAnchor="-29.0">
+        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="413.0" mnemonicParsing="false" onAction="#JoinASpecificGame_Button" prefHeight="86.0" prefWidth="393.0" styleClass="record-sales3" stylesheets="@style.css" text="Join to specific Game" AnchorPane.leftAnchor="-29.0">
          <font>
             <Font size="22.0" />
          </font></Button>
@@ -66,14 +62,14 @@
          </header>
       </DialogPane>
       <Pane layoutX="36.0" layoutY="33.0" opacity="0.8" prefHeight="137.0" prefWidth="1152.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="33.0" />
-      <ImageView fitHeight="481.0" fitWidth="844.0" layoutX="218.0" layoutY="-102.0" AnchorPane.topAnchor="-135.0">
+      <ImageView fitHeight="477.0" fitWidth="844.0" layoutX="218.0" layoutY="-102.0" AnchorPane.topAnchor="-135.0">
          <image>
-            <Image url="@img/17_MyShelfie_BGA/Publisher%20material/Title%202000x2000px.png" />
+            <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="102.0" fitWidth="95.0" layoutX="1164.0" layoutY="612.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="13.0">
          <image>
-            <Image url="@img/17_MyShelfie_BGA/Publisher%20material/Publisher.png" />
+            <Image url="@img/img/Publisher_material/Publisher.png" />
          </image>
       </ImageView>
     </children>
