@@ -42,8 +42,7 @@ public class DefaultValue implements Serializable {
     //CONSOLE OUTPUT INDEXES
 
     //INPUT
-    public final static int row_input = 32;
-    public final static int col_input = 40;
+    public final static int row_input = 33;
 
     //IMPORTANT EVENTS
     public final static int row_important_events = 2;

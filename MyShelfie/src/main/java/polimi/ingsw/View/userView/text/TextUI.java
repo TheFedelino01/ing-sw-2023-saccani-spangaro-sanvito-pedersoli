@@ -476,8 +476,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 .toList().get(0);
 
          */
-        console.alwaysShow(model, nickname);
-        console.show_playerHand(model);
         Integer column;
         do {
             column = askNum("> Choose column to place all the tiles:", model);
@@ -488,8 +486,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     public void askWhichTileToPlace(GameModelImmutable model) {
-        console.alwaysShow(model, nickname);
-        console.show_playerHand(model);
         System.out.println("> Select which tile do you want to place:");
         Integer indexHand;
         do {
