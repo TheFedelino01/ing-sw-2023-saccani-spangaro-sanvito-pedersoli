@@ -289,7 +289,7 @@ public class Console {
     }
 
     public void showNoAvailableGamesToJoin(String msgToVisualize){
-        String ris = String.valueOf(ansi().fg(RED).cursor(11, 4).bold().a(msgToVisualize).fg(DEFAULT).boldOff()) +
+        String ris = ansi().fg(RED).cursor(11, 4).bold().a(msgToVisualize).fg(DEFAULT).boldOff() +
                 String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a("Try later or create a new game!").fg(DEFAULT).boldOff());
         ansi().fg(WHITE).cursor(13, 4).a(chat.toString()).fg(DEFAULT);
 
@@ -313,18 +313,19 @@ public class Console {
                 ╚██████╔╝██║░░██║██║░╚═╝░██║███████╗        ███████╗██║░╚███║██████╔╝███████╗██████╔╝
                 ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝        ╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝╚═════╝░
                 
-                """).reset());
+                """).fg(DEFAULT).reset());
 
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset()
-        ).println(ansi().cursor(DefaultValue.row_nextTurn + 10, 0).fg(CYAN).a("""
+        ).println(ansi().cursor(DefaultValue.row_nextTurn + 10, 0).bg(CYAN).a("""
 
-                █     █▀▀▀  █▀▀█  █▀▀▄  █▀▀▀  █▀▀█    █▀▀█  █▀▀▀█  █▀▀█  █▀▀█  █▀▀▄
-                █     █▀▀▀  █▄▄█  █  █  █▀▀▀  █▄▄▀    █▀▀▄  █   █  █▄▄█  █▄▄▀  █  █
-                █▄▄█  █▄▄▄  █  █  █▄▄▀  █▄▄▄  █  █    █▄▄█  █▄▄▄█  █  █  █  █  █▄▄▀
+                ██████████████████████████████████████████████████████████████████
+                █▄─▄███▄─▄▄─██▀▄─██▄─▄▄▀█▄─▄▄─█▄─▄▄▀█▄─▄─▀█─▄▄─██▀▄─██▄─▄▄▀█▄─▄▄▀█
+                ██─██▀██─▄█▀██─▀─███─██─██─▄█▀██─▄─▄██─▄─▀█─██─██─▀─███─▄─▄██─██─█
+                ▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▀▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▀▀▄▄▄▄▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▄▄▀▀
         
-                """).reset());
+                """).bg(DEFAULT).reset());
 
 
 
@@ -334,7 +335,7 @@ public class Console {
         StringBuilder ris = new StringBuilder();
         for (Map.Entry<Integer, Integer> entry : model.getLeaderBoard().entrySet()) {
             System.out.println();
-            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_nextTurn + 17 + i, 30).a("#"+classif+" "+model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue()+" points").fg(DEFAULT));
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_nextTurn + 20 + i, 30).a("#"+classif+" "+model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue()+" points").fg(DEFAULT));
             i+=2;
             classif++;
         }
@@ -365,6 +366,13 @@ public class Console {
 
     public void showWelcome(String nick){
         System.out.println(ansi().cursor(DefaultValue.row_nextTurn+1, 0).bold().a("Welcome " + nick).boldOff());
+    }
+
+    public void resetChat(){
+        this.chat = new Chat();
+    }
+    public void resetImportantEvents(){
+        this.importantEvents = new ArrayList<>();
     }
 
     public void alwaysShow(GameModelImmutable model, String nick) {

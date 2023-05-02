@@ -17,8 +17,10 @@ public class inputReader extends Thread{
         Scanner sc = new Scanner(System.in);
         while(!this.isInterrupted()){
             //Reads the input and add what It reads to the buffer synch
-            buffer.addData(sc.nextLine());
-            System.out.println(ansi().cursor(DefaultValue.row_input, 0));
+            String temp = sc.nextLine();
+            buffer.addData(temp);
+            System.out.println(ansi().cursorUpLine().a(" ".repeat(temp.length())));
+            System.out.println(ansi().cursor(DefaultValue.row_input+1, 0));
         }
     }
 

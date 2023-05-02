@@ -481,6 +481,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer column;
         do {
             column = askNum("> Choose column to place all the tiles:", model);
+            console.show_playerHand(model);
             if (ended) return;
         } while (column == null || column >= DefaultValue.NumOfColumnsShelf || column < 0);
         columnChosen = column;
@@ -493,6 +494,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         Integer indexHand;
         do {
             indexHand = Objects.requireNonNullElse(askNum("\t> Choose Tile in hand (0,1,2):", model), -1);
+            console.show_playerHand(model);
             if (ended) return;
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
                 System.out.println("\tWrong Tile selection offset");
@@ -510,6 +512,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     public void youleft() {
         ended=true;
+        console.resetChat();
+        console.resetImportantEvents();
         events.add(null,APP_MENU);
         //inputReader.interrupt();//TODO NEED TO READ INPUT ALWAYS WITH THIS SO I DONT NEED TO STOP AND RESTART IT
         //inputParser.interrupt();

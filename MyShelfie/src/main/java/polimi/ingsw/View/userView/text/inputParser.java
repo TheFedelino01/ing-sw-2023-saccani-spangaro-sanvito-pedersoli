@@ -27,15 +27,15 @@ public class inputParser extends Thread {
         String txt;
         while (!this.isInterrupted()) {
 
-            //I keep popping data from the buffer synch
-            //(so I wait myself If no data is available on the buffer)
+            //I keep popping data from the buffer sync
+            //(so I wait myself if no data is available on the buffer)
             try {
                 txt = bufferInput.popData();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-            //I popped a data from the buffer
+            //I popped an input from the buffer
             if (p!=null && txt.startsWith("/cs")) {
                 txt = txt.charAt(2) == ' ' ? txt.substring(5) : txt.substring(4);
                 String receiver = txt.substring(0, txt.indexOf(" "));
@@ -56,7 +56,7 @@ public class inputParser extends Thread {
                 }
 
             } else {
-                //I didn't popped a message
+                //I didn't pop a message
 
                 //I add the data to the buffer processed via TextUI
                 dataToProcess.addData(txt);
