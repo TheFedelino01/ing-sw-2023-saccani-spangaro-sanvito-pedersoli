@@ -334,7 +334,7 @@ public class Console {
         StringBuilder ris = new StringBuilder();
         for (Map.Entry<Integer, Integer> entry : model.getLeaderBoard().entrySet()) {
             System.out.println();
-            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_nextTurn + 10 + i, 30).a("#"+classif+" "+model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue()+" points").fg(DEFAULT));
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_nextTurn + 17 + i, 30).a("#"+classif+" "+model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue()+" points").fg(DEFAULT));
             i+=2;
             classif++;
         }
