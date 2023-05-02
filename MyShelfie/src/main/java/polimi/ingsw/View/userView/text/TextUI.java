@@ -21,6 +21,7 @@ import polimi.ingsw.View.userView.View;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -68,7 +69,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             Thread.sleep(2500);
             console.clearCMD();
             console.show_titleMyShelfie();
-            events.add(null,APP_MENU);
+            events.add(null, APP_MENU);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -112,11 +113,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     private void statusNotInAGame(EventElement event) {
         switch (event.getType()) {
-            case APP_MENU ->{
+            case APP_MENU -> {
                 boolean selectionok;
                 do {
-                    selectionok= askSelectGame();
-                }while(!selectionok);
+                    selectionok = askSelectGame();
+                } while (!selectionok);
             }
             case GAME_ID_NOT_EXISTS -> {
                 nickname = null;
@@ -125,23 +126,23 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (gameId != -1) {
                     joinGame(nickname, gameId);
                 } else {
-                    events.add(null,APP_MENU);
+                    events.add(null, APP_MENU);
                 }
             }
             case JOIN_UNABLE_NICKNAME_ALREADY_IN -> {
                 nickname = null;
-                events.add(null,APP_MENU);
+                events.add(null, APP_MENU);
                 console.addImportantEvent("WARNING> Nickname already used!");
             }
             case JOIN_UNABLE_GAME_FULL -> {
                 nickname = null;
-                events.add(null,APP_MENU);
+                events.add(null, APP_MENU);
                 console.addImportantEvent("WARNING> Game is Full!");
             }
             case GENERIC_ERROR_WHEN_ENTRYING_GAME -> {
                 System.out.println("\nPress any key to return to the menu");
                 new Scanner(System.in).nextLine();
-                events.add(null,APP_MENU);
+                events.add(null, APP_MENU);
             }
         }
     }
@@ -173,7 +174,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
                 //Change input from scanf to threads
                 this.inputReader = new inputReader();
-                this.inputParser = new inputParser(this.inputReader.getBuffer(), this, event.getModel().getPlayerEntity(nickname),event.getModel().getGameId());
+                this.inputParser = new inputParser(this.inputReader.getBuffer(), this, event.getModel().getPlayerEntity(nickname), event.getModel().getGameId());
                 //Now all the input must be read with inputParse!!!
 
             }
@@ -263,7 +264,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 new Scanner(System.in).nextLine();
 
                 try {
-                    this.leave(nickname,event.getModel().getGameId());
+                    this.leave(nickname, event.getModel().getGameId());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -395,19 +396,19 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void askPickTiles(GameModelImmutable gameModel) {
         Integer numTiles;
         do {
-            numTiles = askNum("> How many tiles do you want to get? ", gameModel);
+            numTiles = Objects.requireNonNullElse(askNum("> How many tiles do you want to get? ", gameModel), DefaultValue.minNumOfGrabbableTiles - 1);
             if (ended) return;
         } while (!(numTiles >= DefaultValue.minNumOfGrabbableTiles && numTiles <= DefaultValue.maxNumOfGrabbableTiles));
 
         Integer row;
         do {
-            row = askNum("> Which tiles do you want to get?\n\t> Choose row: ", gameModel);
+            row = Objects.requireNonNullElse(askNum("> Which tiles do you want to get?\n\t> Choose row: ", gameModel), DefaultValue.PlaygroundSize + 11);
             if (ended) return;
         } while (row > DefaultValue.PlaygroundSize);
 
         Integer column;
         do {
-            column = askNum("\t> Choose column: ", gameModel);
+            column = Objects.requireNonNullElse(askNum("\t> Choose column: ", gameModel), DefaultValue.PlaygroundSize + 1);
             if (ended) return;
         } while (column > DefaultValue.PlaygroundSize);
 
@@ -461,7 +462,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         System.out.println("> Select which tile do you want to place:");
         Integer indexHand;
         do {
-            indexHand = askNum("\t> Choose Tile in hand (0,1,2):", model);
+            indexHand = Objects.requireNonNullElse(askNum("\t> Choose Tile in hand (0,1,2):", model), -1);
             if (ended) return;
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
                 System.out.println("\tWrong Tile selection offset");
@@ -478,8 +479,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
     public void youleft() {
-        ended=true;
-        events.add(null,APP_MENU);
+        ended = true;
+        events.add(null, APP_MENU);
         inputReader.interrupt();//TODO NEED TO READ INPUT ALWAYS WITH THIS SO I DONT NEED TO STOP AND RESTART IT
         inputParser.interrupt();
     }
@@ -540,7 +541,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void leave(String nick, int idGame) throws IOException {
-        server.leave(nick,idGame);
+        server.leave(nick, idGame);
     }
 
 
@@ -576,7 +577,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     }
 
 
-
     //-----------------------------------------------------------------------
     //RICEZIONE DEGLI EVENTI DAL SERVER
 
@@ -598,7 +598,7 @@ public class TextUI extends View implements Runnable, CommonClientActions {
 
     @Override
     public void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException {
-        if(gamemodel.getStatus().equals(GameStatus.WAIT)) {
+        if (gamemodel.getStatus().equals(GameStatus.WAIT)) {
             try {
                 console.showPlayerJoined(gamemodel, nickname);
             } catch (IOException e) {
@@ -606,8 +606,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }else{
-            console.addImportantEvent("[EVENT]: Player "+nick+" decided to leave the game!");
+        } else {
+            console.addImportantEvent("[EVENT]: Player " + nick + " decided to leave the game!");
         }
 
     }
@@ -746,7 +746,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             throw new RuntimeException(e);
         }
     }
-
 
 
 }

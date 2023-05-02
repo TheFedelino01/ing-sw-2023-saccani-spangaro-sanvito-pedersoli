@@ -76,6 +76,7 @@ public class Console {
     public void show_playerHand(GameModelImmutable gameModel) {
         System.out.println(">This is your hand:");
         StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_input-1, 0));
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
             if (i < gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().size()) {
                 switch (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType()) {
@@ -99,7 +100,8 @@ public class Console {
     }
 
     public void show_grabbedTile(String nickname, GameModelImmutable model) {
-        StringBuilder ris = new StringBuilder("| ");
+        StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_input-1, 0).a(nickname).a(": Player: ").a(model.getNicknameCurrentPlaying()).a(" has grabbed some tiles"));
         for (Tile t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
                 case CAT -> ris.append(ansi().bg(GREEN).a(t.toString()).bg(DEFAULT)).append(" | ");
@@ -110,7 +112,7 @@ public class Console {
                 case FRAME -> ris.append(ansi().bg(BLUE).a(t.toString()).bg(DEFAULT)).append(" | ");
             }
         }
-        System.out.println(nickname + ": Player: " + model.getNicknameCurrentPlaying() + " has grabbed some tiles: " + ris);
+        System.out.println(ris);
     }
 
 
@@ -299,32 +301,40 @@ public class Console {
         clearCMD();
         resize();
         show_titleMyShelfie();
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println(ansi().cursor(DefaultValue.row_nextTurn, 0).fg(GREEN).a("""
 
-        StringBuilder title = new StringBuilder();
-        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+0, 15).a("░██████╗░░█████╗░███╗░░░███╗███████╗        ███████╗███╗░░██╗██████╗░███████╗██████╗░").fg(DEFAULT));
-        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+1, 15).a("██╔════╝░██╔══██╗████╗░████║██╔════╝        ██╔════╝████╗░██║██╔══██╗██╔════╝██╔══██╗").fg(DEFAULT));
-        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+2, 15).a("██║░░██╗░███████║██╔████╔██║█████╗░░        █████╗░░██╔██╗██║██║░░██║█████╗░░██║░░██║").fg(DEFAULT));
-        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+3, 15).a("██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░        ██╔══╝░░██║╚████║██║░░██║██╔══╝░░██║░░██║").fg(DEFAULT));
-        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+4, 15).a("╚██████╔╝██║░░██║██║░╚═╝░██║███████╗        ███████╗██║░╚███║██████╔╝███████╗██████╔╝").fg(DEFAULT));
-        title.append(ansi().fg(GREEN).cursor(DefaultValue.row_gameID+5, 15).a("░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝        ╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝╚═════╝░").fg(DEFAULT));
+                ░██████╗░░█████╗░███╗░░░███╗███████╗        ███████╗███╗░░██╗██████╗░███████╗██████╗░
+                ██╔════╝░██╔══██╗████╗░████║██╔════╝        ██╔════╝████╗░██║██╔══██╗██╔════╝██╔══██╗
+                ██║░░██╗░███████║██╔████╔██║█████╗░░        █████╗░░██╔██╗██║██║░░██║█████╗░░██║░░██║
+                ██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░        ██╔══╝░░██║╚████║██║░░██║██╔══╝░░██║░░██║
+                ╚██████╔╝██║░░██║██║░╚═╝░██║███████╗        ███████╗██║░╚███║██████╔╝███████╗██████╔╝
+                ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝        ╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝╚═════╝░
+                
+                """).reset());
 
-        System.out.println(title);
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println(ansi().cursor(DefaultValue.row_nextTurn + 10, 0).fg(CYAN).a("""
 
-        for(int i=0; i<model.getPlayers().size();i++){
-            System.out.println(ansi().cursor(DefaultValue.row_input, 0));
-        }
+                █     █▀▀▀  █▀▀█  █▀▀▄  █▀▀▀  █▀▀█    █▀▀█  █▀▀▀█  █▀▀█  █▀▀█  █▀▀▄
+                █     █▀▀▀  █▄▄█  █  █  █▀▀▀  █▄▄▀    █▀▀▄  █   █  █▄▄█  █▄▄▀  █  █
+                █▄▄█  █▄▄▄  █  █  █▄▄▀  █▄▄▄  █  █    █▄▄█  █▄▄▄█  █  █  █  █  █▄▄▀
+        
+                """).reset());
 
-        StringBuilder ris = new StringBuilder();
 
-        ris.append(ansi().fg(CYAN).cursor(DefaultValue.row_gameID+7, 24).a("█     █▀▀▀  █▀▀█  █▀▀▄  █▀▀▀  █▀▀█    █▀▀█  █▀▀▀█  █▀▀█  █▀▀█  █▀▀▄").fg(DEFAULT));
-        ris.append(ansi().fg(CYAN).cursor(DefaultValue.row_gameID+8, 24).a("█     █▀▀▀  █▄▄█  █  █  █▀▀▀  █▄▄▀    █▀▀▄  █   █  █▄▄█  █▄▄▀  █  █").fg(DEFAULT));
-        ris.append(ansi().fg(CYAN).cursor(DefaultValue.row_gameID+9, 24).a("█▄▄█  █▄▄▄  █  █  █▄▄▀  █▄▄▄  █  █    █▄▄█  █▄▄▄█  █  █  █  █  █▄▄▀").fg(DEFAULT));
+
 
         int i=1;
         int classif = 1;
+        StringBuilder ris = new StringBuilder();
         for (Map.Entry<Integer, Integer> entry : model.getLeaderBoard().entrySet()) {
             System.out.println();
-            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_gameID + 10 + i, 30).a("#"+classif+" "+model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue()+" points").fg(DEFAULT));
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_nextTurn + 10 + i, 30).a("#"+classif+" "+model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue()+" points").fg(DEFAULT));
             i+=2;
             classif++;
         }
