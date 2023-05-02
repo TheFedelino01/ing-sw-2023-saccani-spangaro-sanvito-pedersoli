@@ -21,7 +21,7 @@ public class SceneController {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root, 1280, 720);
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
     }
 
@@ -30,7 +30,7 @@ public class SceneController {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root, 1280, 720);
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
     }
 
@@ -39,7 +39,7 @@ public class SceneController {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root, 1280, 720);
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
     }
 
@@ -48,7 +48,7 @@ public class SceneController {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root, 1280, 720);
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
     }
 
