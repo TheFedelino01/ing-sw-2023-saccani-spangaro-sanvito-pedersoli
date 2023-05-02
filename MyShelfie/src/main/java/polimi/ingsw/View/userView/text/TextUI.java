@@ -57,6 +57,10 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         new Thread(this).start();
 
 
+        //Change input from scanf to threads
+        this.inputReader = new inputReader();
+        this.inputParser = new inputParser(this.inputReader.getBuffer(), this);
+        //Now all the input must be read with inputParse!!!
     }
 
     @Override
@@ -140,7 +144,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
             }
             case GENERIC_ERROR_WHEN_ENTRYING_GAME -> {
                 System.out.println("\nPress any key to return to the menu");
-                new Scanner(System.in).nextLine();
+                try {
+                    this.inputParser.getDataToProcess().popData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 events.add(null,APP_MENU);
             }
         }
@@ -171,10 +179,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("Game with id: " + event.getModel().getGameId() + ", First turn is played by: " + event.getModel().getNicknameCurrentPlaying()).toString());
                 System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
-                //Change input from scanf to threads
-                this.inputReader = new inputReader();
-                this.inputParser = new inputParser(this.inputReader.getBuffer(), this, event.getModel().getPlayerEntity(nickname),event.getModel().getGameId());
-                //Now all the input must be read with inputParse!!!
+                this.inputParser.setPlayer(event.getModel().getPlayerEntity(nickname));
+                this.inputParser.setIdGame(event.getModel().getGameId());
 
             }
             case COMMON_CARD_EXTRACTED -> {
@@ -260,7 +266,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         switch (event.getType()) {
             case GAMEENDED -> {
                 System.out.println("\nPress any key to return to the menu");
-                new Scanner(System.in).nextLine();
+                //new Scanner(System.in).nextLine();
+                try {
+                    this.inputParser.getDataToProcess().popData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
                 try {
                     this.leave(nickname,event.getModel().getGameId());
@@ -280,7 +291,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         console.clearCMD();
         console.show_titleMyShelfie();
         System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("> Insert your nickname: "));
-        nickname = scanner.nextLine();
+        //nickname = scanner.nextLine();
+        try {
+            nickname=this.inputParser.getDataToProcess().popData();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(ansi().cursor(DefaultValue.row_gameID + 2, 0).a("> Your nickname is: " + nickname));
     }
 
@@ -304,7 +320,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 \t\t  type "/c [msg]" (public msg) or "/cs [playerName] [msg]" (private msg) and you can write in chat!
                 \t\t  type "/quit" and you can leave the game!
                 \t""").fg(DEFAULT));
-        optionChoose = scanner.nextLine();
+        //optionChoose = scanner.nextLine();
+        try {
+            optionChoose=this.inputParser.getDataToProcess().popData();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         if (optionChoose.equals("."))
             System.exit(1);
         askNickname();
@@ -335,7 +356,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         do {
             System.out.println("> Input the GameId ('.' to leave): ");
             try {
-                temp = scanner.nextLine();
+                //temp = scanner.nextLine();
+                try {
+                    temp=this.inputParser.getDataToProcess().popData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 if (temp.equals(".")) {
                     return -1;
                 }
@@ -360,7 +386,12 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         try {
             do {
                 System.out.println(ansi().cursor(18, 0).fg(DEFAULT));
-                ris = scanner.nextLine();
+                //ris = scanner.nextLine();
+                try {
+                    ris=this.inputParser.getDataToProcess().popData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             } while (!ris.equals("y"));
             setAsReady();
         } catch (IOException e) {
@@ -480,8 +511,11 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     public void youleft() {
         ended=true;
         events.add(null,APP_MENU);
-        inputReader.interrupt();//TODO NEED TO READ INPUT ALWAYS WITH THIS SO I DONT NEED TO STOP AND RESTART IT
-        inputParser.interrupt();
+        //inputReader.interrupt();//TODO NEED TO READ INPUT ALWAYS WITH THIS SO I DONT NEED TO STOP AND RESTART IT
+        //inputParser.interrupt();
+
+        this.inputParser.setPlayer(null);
+        this.inputParser.setIdGame(null);
     }
 
 

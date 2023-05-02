@@ -12,14 +12,14 @@ public class inputParser extends Thread {
     private BufferData dataToProcess;
     private TextUI gui;
     private Player p;
-    private int gameId;
+    private Integer gameId;
 
-    public inputParser(BufferData bufferInput, TextUI gui, Player p, int gameId) {
+    public inputParser(BufferData bufferInput, TextUI gui) {
         this.bufferInput = bufferInput;
         dataToProcess = new BufferData();
         this.gui = gui;
-        this.p = p;
-        this.gameId = gameId;
+        this.p = null;
+        this.gameId = null;
         this.start();
     }
 
@@ -36,13 +36,13 @@ public class inputParser extends Thread {
             }
 
             //I popped a data from the buffer
-            if (txt.startsWith("/cs")) {
+            if (p!=null && txt.startsWith("/cs")) {
                 txt = txt.charAt(2) == ' ' ? txt.substring(5) : txt.substring(4);
                 String receiver = txt.substring(0, txt.indexOf(" "));
                 String msg = txt.substring(receiver.length() + 1);
                 gui.sendMessage(new MessagePrivate(msg, p, receiver));
 
-            } else if (txt.startsWith("/c")) {
+            } else if (p!=null && txt.startsWith("/c")) {
                 //I send a message
                 txt = txt.charAt(2) == ' ' ? txt.substring(3) : txt.substring(2);
                 gui.sendMessage(new Message(txt, p));
@@ -65,6 +65,12 @@ public class inputParser extends Thread {
     }
 
 
+    public void setIdGame(Integer gameId){
+        this.gameId=gameId;
+    }
+    public void setPlayer(Player p){
+        this.p=p;
+    }
     public BufferData getDataToProcess() {
         return dataToProcess;
     }
