@@ -329,3 +329,9 @@
     -fx-background-position: center center;
     -fx-background-size: 900 506;
 }
+
+.backgroundNickname{
+    -fx-background-image: url("img/img/Publisher_material/Display_1.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
