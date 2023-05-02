@@ -37,7 +37,7 @@ public class inputParser extends Thread {
 
             //I popped an input from the buffer
             if (p!=null && txt.startsWith("/cs")) {
-                txt = txt.charAt(3) == ' ' ? txt.substring(5) : txt.substring(4);
+                txt = txt.charAt(3) == ' ' ? txt.substring(4) : txt.substring(3);
                 String receiver = txt.substring(0, txt.indexOf(" "));
                 String msg = txt.substring(receiver.length() + 1);
                 gui.sendMessage(new MessagePrivate(msg, p, receiver));
