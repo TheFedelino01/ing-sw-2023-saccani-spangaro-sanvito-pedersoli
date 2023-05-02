@@ -203,8 +203,6 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
 
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
-                        console.alwaysShow(event.getModel(), nickname);
-                        System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
                         if (nickname.equals(lastPlayerReconnected)) {
                             askPickTiles(event.getModel());
@@ -318,7 +316,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
                 \t(.) to leave
                 \t
                 \t -> Useful commands that can be used at any point in the game:
-                \t\t  type "/c [msg]" (public msg) or "/cs [playerName] [msg]" (private msg) and you can write in chat!
+                \t\t  type "/c [msg]" to send a public message!
+                \t\t  type "/cs [playerName] [msg]" to send a private message!
                 \t\t  type "/quit" and you can leave the game!
                 \t""").fg(DEFAULT));
         //optionChoose = scanner.nextLine();

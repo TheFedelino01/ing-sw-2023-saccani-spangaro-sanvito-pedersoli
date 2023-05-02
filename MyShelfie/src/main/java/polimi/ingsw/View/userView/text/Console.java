@@ -345,7 +345,8 @@ public class Console {
 
     public void alwaysShowForAll(GameModelImmutable model){
         clearCMD();
-        resize();
+        // TODO: MERGE THE alwaysShowForAll and AlwaysShow and correct the resizing
+        //resize();
         show_titleMyShelfie();
         show_playground(model);
         showCommonCards(model);
@@ -368,7 +369,6 @@ public class Console {
 
     public void alwaysShow(GameModelImmutable model, String nick) {
         alwaysShowForAll(model);
-
         for (Player p : model.getPlayers())
             if (p.getNickname().equals(nick))
                 showGoalCards(p);
