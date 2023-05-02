@@ -257,7 +257,22 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     public synchronized void positionTileOnShelf(String p, int column, TileType type) throws GameEndedException {
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
+
             model.positionTileOnShelf(model.getPlayerEntity(p), column, type);
+
+            checkCommonCards(whoIsPlaying());
+            if (whoIsPlaying().getShelf().getFreeSpace() == 0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+                //Il gioco è finito perche ha completato tutta la sua shelf ed è stato il primo
+                model.setStatus(GameStatus.LAST_CIRCLE);
+                model.setFinishedPlayer(model.getCurrentPlaying());
+            }
+
+            try {
+                model.nextTurn();
+            } catch (GameEndedException e) {
+                checkGoalCards();
+                model.setStatus(GameStatus.ENDED);
+            }
         } else {
             throw new NotPlayerTurnException();
         }
