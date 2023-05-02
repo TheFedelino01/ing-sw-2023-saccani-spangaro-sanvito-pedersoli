@@ -267,12 +267,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 model.setFinishedPlayer(model.getCurrentPlaying());
             }
 
-            try {
-                model.nextTurn();
-            } catch (GameEndedException e) {
-                checkGoalCards();
-                model.setStatus(GameStatus.ENDED);
-            }
         } else {
             throw new NotPlayerTurnException();
         }
