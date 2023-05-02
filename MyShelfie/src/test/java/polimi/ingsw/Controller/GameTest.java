@@ -47,6 +47,6 @@ public class GameTest {
             i = i + 1;
 
         }
-        System.out.println("The winner is: " + gameController.whoIsPlaying().getNickname());
+        
     }
 }
