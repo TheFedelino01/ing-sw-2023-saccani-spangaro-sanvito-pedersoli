@@ -771,12 +771,16 @@ public class TextUI extends View implements Runnable, CommonClientActions {
         console.addImportantEvent("[EVENT]:  Player " + nick + " has just disconnected");
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
-        try {
-            console.showPlayerJoined(gameModel, nickname);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if(gameModel.getStatus().equals(GameStatus.WAIT)) {
+            try {
+                console.showPlayerJoined(gameModel, nickname);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            console.addImportantEvent("[EVENT]: Player " + nick + " decided to leave the game!");
         }
     }
 

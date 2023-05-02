@@ -34,7 +34,6 @@ public class GameTest {
         assert (gameController.getStatus() == GameStatus.RUNNING);
         while (gameController.getStatus() == GameStatus.RUNNING) {
             do {
-
                 Random random = new Random();
                 int c = random.nextInt(9);
                 int r = random.nextInt(9);

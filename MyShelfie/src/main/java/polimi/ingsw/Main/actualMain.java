@@ -16,9 +16,9 @@ public class actualMain {
     public static void main(String[] args) {
         String choiceVisual, choiceComms;
         View view;
-        boolean debug=true;
+        boolean debug=false;
         if(!debug) {
-            do {
+            /*do {
                 clearCMD();
                 System.out.println(ansi().cursor(1, 0).a("""
                         Select view:
@@ -27,7 +27,8 @@ public class actualMain {
                         """));
                 choiceVisual = new Scanner(System.in).nextLine();
             } while (!choiceVisual.equals("1") && !choiceVisual.equals("2"));
-
+            */
+            choiceVisual="1";
             do {
                 clearCMD();
                 System.out.println(ansi().cursor(1, 0).a("""
