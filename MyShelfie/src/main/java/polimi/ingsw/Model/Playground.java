@@ -2,10 +2,10 @@ package polimi.ingsw.Model;
 
 import org.fusesource.jansi.Ansi;
 import org.json.simple.JSONObject;
-import polimi.ingsw.Model.Enumeration.Direction;
-import polimi.ingsw.Model.Enumeration.TileType;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import polimi.ingsw.Model.Enumeration.Direction;
+import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Exceptions.TileGrabbedNotCorrectException;
 
 import java.io.*;
@@ -153,7 +153,7 @@ public class Playground implements Serializable {
         int random;
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
-                if (playground[i][j].isSameType(TileType.USED)) {
+                if (playground[i][j].isSameType(TileType.USED) || playground[i][j].isSameType(TileType.FINISHED_USING)) {
                     random = (int) (Math.random() * bag.size());
                     playground[i][j] = bag.get(random);
                     //If the tile is a border-tile then set free side to true (sure at least 1 side free)
@@ -197,8 +197,19 @@ public class Playground implements Serializable {
 
     public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException {
         List<Tile> ris = new ArrayList<>();
+        //check if all the tile are not used or finished using
+        int nums = 0;
+        for (int k = 0; k < DefaultValue.PlaygroundSize; k++) {
+            for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
+                if ((playground[k][j].isSameType(TileType.NOT_USED)) || (playground[k][j].isSameType(TileType.FINISHED_USING))) {
+                    nums++;
+                    if (nums == DefaultValue.PlaygroundSize * DefaultValue.PlaygroundSize) {
+                        setPlayground();
+                    }
+                }
+            }
+        }
         checkBeforeGrab(x, y, direction, num);
-
         int i = 0;
         while (i < num) {
             if (playground[x][y].isSameType(TileType.NOT_USED)) {
@@ -231,6 +242,7 @@ public class Playground implements Serializable {
             }
         }
         updateFreeSide();
+
         return ris;
     }
 

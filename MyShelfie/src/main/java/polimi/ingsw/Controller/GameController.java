@@ -4,8 +4,8 @@ import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
-import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
 import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
@@ -39,7 +39,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                     try {
                         this.setConnectionStatus(entry.getValue().getNick(), entry.getKey(), false);
 
-                        if(this.getNumOnlinePlayers()==0) {
+                        if (this.getNumOnlinePlayers() == 0) {
                             MainController.getInstance().deleteGame(this.getGameId());
                         }
 
@@ -276,14 +276,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             //Player has just disconnected, so I remove the notifications for him
             removeListener(lisOfClient, model.getPlayerEntity(nick));
 
-            if(model.getStatus().equals(GameStatus.WAIT)){
+            if (model.getStatus().equals(GameStatus.WAIT)) {
                 //The game is in Wait (game not started yet), the player disconnected so I remove him from the game)
                 model.removePlayer(nick);
-            }else{
+            } else {
                 //Tha game is running so I set him as disconnected (He can reconnects soon)
                 model.setAsDisconnected(nick);
             }
-
 
 
         } else {
@@ -392,7 +391,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     @Override
-    public int getGameId(){
+    public int getGameId() {
         return model.getGameId();
     }
 
@@ -403,7 +402,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void leave(GameListener lis, String nick) throws RemoteException {
-        removeListener(lis,model.getPlayerEntity(nick));
+        removeListener(lis, model.getPlayerEntity(nick));
         model.removePlayer(nick);
     }
 
