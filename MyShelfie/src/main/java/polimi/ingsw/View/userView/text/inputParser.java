@@ -37,7 +37,7 @@ public class inputParser extends Thread {
 
             //I popped an input from the buffer
             if (p!=null && txt.startsWith("/cs")) {
-                txt = txt.charAt(2) == ' ' ? txt.substring(5) : txt.substring(4);
+                txt = txt.charAt(3) == ' ' ? txt.substring(5) : txt.substring(4);
                 String receiver = txt.substring(0, txt.indexOf(" "));
                 String msg = txt.substring(receiver.length() + 1);
                 gui.sendMessage(new MessagePrivate(msg, p, receiver));
@@ -49,6 +49,7 @@ public class inputParser extends Thread {
 
             } else if (txt.startsWith("/quit")) {
                 try {
+                    assert p != null;
                     gui.leave(p.getNickname(), gameId);
                     gui.youleft();
                 } catch (IOException e) {

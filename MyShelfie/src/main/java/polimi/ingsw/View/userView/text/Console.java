@@ -42,6 +42,7 @@ public class Console {
         importantEvents.add(imp);
         show_important_events();
     }
+
     public void resize() {
         try {
             new ProcessBuilder("cmd", "/c", "mode con:cols=160 lines=50").inheritIO().start().waitFor();
@@ -76,7 +77,7 @@ public class Console {
     public void show_playerHand(GameModelImmutable gameModel) {
         System.out.println(">This is your hand:");
         StringBuilder ris = new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_input-1, 0));
+        ris.append(ansi().cursor(DefaultValue.row_input - 1, 0));
         for (int i = 0; i < DefaultValue.maxTilesInHand; i++) {
             if (i < gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().size()) {
                 switch (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType()) {
@@ -101,7 +102,7 @@ public class Console {
 
     public void show_grabbedTile(String nickname, GameModelImmutable model) {
         StringBuilder ris = new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_input-1, 0).a(nickname).a(": Player: ").a(model.getNicknameCurrentPlaying()).a(" has grabbed some tiles"));
+        ris.append(ansi().cursor(DefaultValue.row_input - 1, 0).a(nickname).a(": Player: ").a(model.getNicknameCurrentPlaying()).a(" has grabbed some tiles: | "));
         for (Tile t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
                 case CAT -> ris.append(ansi().bg(GREEN).a(t.toString()).bg(DEFAULT)).append(" | ");
@@ -127,7 +128,7 @@ public class Console {
 
         for (Player p : model.getPlayers()) {
             ris.append(ansi().cursor(DefaultValue.row_playerName, i - 3).a(p.getNickname() + ": "));
-            ris.append(ansi().cursor(DefaultValue.row_shelves,i - 3).a(p.getShelf().toString(i)).toString());
+            ris.append(ansi().cursor(DefaultValue.row_shelves, i - 3).a(p.getShelf().toString(i)).toString());
 
             i += DefaultValue.displayShelfNextCol;
         }
@@ -138,7 +139,7 @@ public class Console {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));
 
-        String title = String.valueOf(ansi().fg(WHITE).cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards-1).bold().a("Common Cards: ").fg(DEFAULT).boldOff());
+        String title = String.valueOf(ansi().fg(WHITE).cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards - 1).bold().a("Common Cards: ").fg(DEFAULT).boldOff());
         System.out.println(title);
 
         int i = 1;
@@ -153,12 +154,12 @@ public class Console {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_points, DefaultValue.col_points));
 
-        String title = String.valueOf(ansi().fg(RED).cursor(DefaultValue.row_points, DefaultValue.col_points-1).bold().a("Points: ").fg(DEFAULT).boldOff());
+        String title = String.valueOf(ansi().fg(RED).cursor(DefaultValue.row_points, DefaultValue.col_points - 1).bold().a("Points: ").fg(DEFAULT).boldOff());
         System.out.println(title);
 
         int i = 1;
         for (Player p : gameModel.getPlayers()) {
-            ris.append(ansi().cursor(DefaultValue.row_points + i, DefaultValue.col_points).a(p.getNickname()+": "+p.getTotalPoints()+" points"));
+            ris.append(ansi().cursor(DefaultValue.row_points + i, DefaultValue.col_points).a(p.getNickname() + ": " + p.getTotalPoints() + " points"));
             i++;
         }
         System.out.println(ris);
@@ -236,7 +237,7 @@ public class Console {
 
         StringBuilder ris = new StringBuilder();
         int i = 0;
-        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events-1 ).bold().a("Latest Events:").fg(DEFAULT).boldOff());
+        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events - 1).bold().a("Latest Events:").fg(DEFAULT).boldOff());
         for (String s : importantEvents) {
             ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).fg(DEFAULT));
             i++;
@@ -266,14 +267,13 @@ public class Console {
     }
 
     public void showMessages() {
-        String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat-1).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
+        String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat - 1).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
                 ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(chat.toString()).fg(DEFAULT);
         System.out.println(ris);
         if (chat.getMsgs().size() > 0) {
             System.out.println(ansi().cursor(DefaultValue.row_input, 0));
         }
     }
-
 
 
     public int getLengthLongestMessage() {
@@ -288,7 +288,7 @@ public class Console {
         showMessages();
     }
 
-    public void showNoAvailableGamesToJoin(String msgToVisualize){
+    public void showNoAvailableGamesToJoin(String msgToVisualize) {
         String ris = ansi().fg(RED).cursor(11, 4).bold().a(msgToVisualize).fg(DEFAULT).boldOff() +
                 String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a("Try later or create a new game!").fg(DEFAULT).boldOff());
         ansi().fg(WHITE).cursor(13, 4).a(chat.toString()).fg(DEFAULT);
@@ -297,7 +297,7 @@ public class Console {
         System.out.println(ris);
     }
 
-    public void showGameEnded(GameModelImmutable model){
+    public void showGameEnded(GameModelImmutable model) {
         clearCMD();
         resize();
         show_titleMyShelfie();
@@ -312,7 +312,7 @@ public class Console {
                 ██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░        ██╔══╝░░██║╚████║██║░░██║██╔══╝░░██║░░██║
                 ╚██████╔╝██║░░██║██║░╚═╝░██║███████╗        ███████╗██║░╚███║██████╔╝███████╗██████╔╝
                 ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝        ╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝╚═════╝░
-                
+                                
                 """).fg(DEFAULT).reset());
 
         new PrintStream(System.out, true, System.console() != null
@@ -324,19 +324,17 @@ public class Console {
                 █▄─▄███▄─▄▄─██▀▄─██▄─▄▄▀█▄─▄▄─█▄─▄▄▀█▄─▄─▀█─▄▄─██▀▄─██▄─▄▄▀█▄─▄▄▀█
                 ██─██▀██─▄█▀██─▀─███─██─██─▄█▀██─▄─▄██─▄─▀█─██─██─▀─███─▄─▄██─██─█
                 ▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▀▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▀▀▄▄▄▄▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▄▄▀▀
-        
+                        
                 """).bg(DEFAULT).reset());
 
 
-
-
-        int i=1;
+        int i = 1;
         int classif = 1;
         StringBuilder ris = new StringBuilder();
         for (Map.Entry<Integer, Integer> entry : model.getLeaderBoard().entrySet()) {
             System.out.println();
-            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_nextTurn + 20 + i, 30).a("#"+classif+" "+model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue()+" points").fg(DEFAULT));
-            i+=2;
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_nextTurn + 20 + i, 30).a("#" + classif + " " + model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue() + " points").fg(DEFAULT));
+            i += 2;
             classif++;
         }
 
@@ -344,7 +342,7 @@ public class Console {
 
     }
 
-    public void alwaysShowForAll(GameModelImmutable model){
+    public void alwaysShowForAll(GameModelImmutable model) {
         clearCMD();
         // TODO: MERGE THE alwaysShowForAll and AlwaysShow and correct the resizing
         //resize();
@@ -356,30 +354,37 @@ public class Console {
         show_important_events();
     }
 
-    public void showGameId(GameModelImmutable gameModel){
+    public void showGameId(GameModelImmutable gameModel) {
         System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + gameModel.getGameId() + "]").boldOff());
     }
 
-    public void showNextTurn(GameModelImmutable gameModel){
+    public void showNextTurn(GameModelImmutable gameModel) {
         System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + gameModel.getNicknameCurrentPlaying()).boldOff());
     }
 
-    public void showWelcome(String nick){
-        System.out.println(ansi().cursor(DefaultValue.row_nextTurn+1, 0).bold().a("Welcome " + nick).boldOff());
+    public void showWelcome(String nick) {
+        System.out.println(ansi().cursor(DefaultValue.row_nextTurn + 1, 0).bold().a("Welcome " + nick).boldOff());
     }
 
-    public void resetChat(){
+    public void resetChat() {
         this.chat = new Chat();
     }
-    public void resetImportantEvents(){
+
+    public void resetImportantEvents() {
         this.importantEvents = new ArrayList<>();
     }
 
     public void alwaysShow(GameModelImmutable model, String nick) {
         alwaysShowForAll(model);
-        for (Player p : model.getPlayers())
+        for (Player p : model.getPlayers()) {
             if (p.getNickname().equals(nick))
                 showGoalCards(p);
+            if (p.getInHandTile().size() > 0)
+                if (p.getNickname().equals(nick)) {
+                    show_playerHand(model);
+                } else
+                    show_grabbedTile(model.getNicknameCurrentPlaying(), model);
+        }
         showAllShelves(model);
         showGameId(model);
         showNextTurn(model);
