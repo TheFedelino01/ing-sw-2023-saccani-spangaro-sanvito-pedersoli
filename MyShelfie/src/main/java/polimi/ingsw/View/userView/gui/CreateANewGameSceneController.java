@@ -19,7 +19,7 @@ public class CreateANewGameSceneController {
             nickName = nickNameTextField.getText();
             System.out.println("Nickname :" + nickName);
             //For testing
-            sceneController.switchToClientGameScene(e);
+            sceneController.switchToLobbyScene(e);
         } else {
             //Generate an error message
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #263340;" styleClass="backgroundWelcome" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.GUIController">
     <children>
-      <Pane prefHeight="740.0" prefWidth="1279.0" styleClass="backgroundmio" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane prefHeight="740.0" prefWidth="1279.0" styleClass="backgroundmio" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="201.0" mnemonicParsing="false" onAction="#CreateANewGame_Button" prefHeight="86.0" prefWidth="453.0" style="-fx-font-size: 22;" styleClass="record-sales" stylesheets="@style.css" text="Create a new game" AnchorPane.leftAnchor="-29.0">
          <font>
             <Font size="22.0" />

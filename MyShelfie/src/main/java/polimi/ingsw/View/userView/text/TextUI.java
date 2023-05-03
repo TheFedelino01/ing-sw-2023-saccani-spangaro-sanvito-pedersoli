@@ -30,7 +30,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 import static polimi.ingsw.View.userView.Events.EventType.*;
 
 public class TextUI extends View implements Runnable, CommonClientActions {
-    private final Scanner scanner = new Scanner(System.in);
+
     private String nickname;
 
     private final EventList events = new EventList();
@@ -42,8 +42,8 @@ public class TextUI extends View implements Runnable, CommonClientActions {
     private int columnChosen = -1;
     private final Console console;
 
-    private inputParser inputParser = null;
-    private inputReader inputReader = null;
+    private inputParser inputParser;
+    private inputReader inputReader;
     private boolean ended = false;
 
     public TextUI(ConnectionSelection selection) {

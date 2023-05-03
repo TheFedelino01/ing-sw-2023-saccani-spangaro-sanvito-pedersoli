@@ -331,7 +331,13 @@
 }
 
 .backgroundNickname{
-    -fx-background-image: url("img/img/Publisher_material/Display_1.jpg");
+    -fx-background-image: url("img/img/Publisher_material/Display_5.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.backgroundLobby{
+    -fx-background-image: url("img/img/Publisher_material/Display_3.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }

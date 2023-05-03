@@ -19,38 +19,41 @@ public class SceneController {
     public void switchToCreateGameScene(ActionEvent e) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/CreateANewGameScene.fxml")));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root, 1280, 720);
+        scene = new Scene(root);
         stage.setScene(scene);
-        stage.setResizable(true);
         stage.show();
     }
 
     public void switchToJoinARandomGameScene(ActionEvent e) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/JoinARandomGameScene.fxml")));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root, 1280, 720);
+        scene = new Scene(root);
         stage.setScene(scene);
-        stage.setResizable(true);
         stage.show();
     }
 
     public void switchToJoinASpecificGameScene(ActionEvent e) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/JoinASpecificGameScene.fxml")));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root, 1280, 720);
+        scene = new Scene(root);
         stage.setScene(scene);
-        stage.setResizable(true);
         stage.show();
     }
 
     public void switchToClientGameScene(ActionEvent e) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ClientGameScene.fxml")));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        scene = new Scene(root, 1280, 720);
+        scene = new Scene(root);
         stage.setScene(scene);
-        stage.setResizable(true);
         stage.show();
     }
 
+    public void switchToLobbyScene(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Lobby.fxml")));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
 }
