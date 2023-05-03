@@ -1,9 +1,10 @@
 package polimi.ingsw.Main.rmiMain;
 
-import polimi.ingsw.View.RMI.RMIClient;
+import polimi.ingsw.View.networking.RMI.RMIClient;
 import polimi.ingsw.View.userView.ConnectionSelection;
-import polimi.ingsw.View.userView.View;
-import polimi.ingsw.View.userView.text.TextUI;
+import polimi.ingsw.View.userView.UISelection;
+import polimi.ingsw.View.userView.Flow;
+import polimi.ingsw.View.userView.GameFlow;
 
 import java.rmi.RemoteException;
 
@@ -12,7 +13,7 @@ import java.rmi.RemoteException;
  */
 public class AppClient {
     public static void main(String[] args) throws RemoteException {
-        View gui = new TextUI(ConnectionSelection.RMI);
+        Flow gui = new GameFlow(ConnectionSelection.RMI, UISelection.TUI);
 
         RMIClient client = new RMIClient(gui);
 

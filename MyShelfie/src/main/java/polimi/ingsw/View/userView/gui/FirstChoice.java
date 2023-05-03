@@ -31,7 +31,7 @@ public class FirstChoice {
         buttonSetup("RMI");
         buttonSetup("Socket");
         buttonSetup("GUI");
-        buttonSetup("TextUI");
+        buttonSetup("GameFlow");
         for (JButton b : buttons) {
             //sets buttons dimensions
             b.setPreferredSize(new Dimension(DefaultValue.defButtonXSize, DefaultValue.defButtonYSize));
@@ -74,7 +74,7 @@ public class FirstChoice {
                     check0 = true;
                 });
             }
-            case ("GUI"), ("TextUI") -> {
+            case ("GUI"), ("GameFlow") -> {
                 buttons.add(new JButton(name));
                 buttons.get(buttons.size() - 1).setActionCommand(name);
                 buttons.get(buttons.size() - 1).addActionListener(e -> {

@@ -1,11 +1,12 @@
 package polimi.ingsw.Remote;
 
 import org.junit.jupiter.api.*;
-import polimi.ingsw.View.RMI.RMIClient;
-import polimi.ingsw.View.RMI.RMIServer;
+import polimi.ingsw.View.networking.RMI.RMIClient;
+import polimi.ingsw.View.networking.RMI.RMIServer;
 import polimi.ingsw.View.userView.ConnectionSelection;
-import polimi.ingsw.View.userView.View;
-import polimi.ingsw.View.userView.text.TextUI;
+import polimi.ingsw.View.userView.UISelection;
+import polimi.ingsw.View.userView.Flow;
+import polimi.ingsw.View.userView.GameFlow;
 
 import java.io.IOException;
 
@@ -13,16 +14,16 @@ import java.io.IOException;
 public class RMITest {
 
     private static RMIClient client, client1, client2, client3, client4, client5, client6;
-    private static View gui, gui1;
+    private static Flow gui, gui1;
     private static RMIServer server;
 
     @BeforeAll
     static void setup() throws IOException {
         server = RMIServer.bind();
 
-        gui = new TextUI(ConnectionSelection.RMI);
+        gui = new GameFlow(ConnectionSelection.RMI, UISelection.TUI);
 
-        gui1 = new TextUI(ConnectionSelection.RMI);
+        gui1 = new GameFlow(ConnectionSelection.RMI, UISelection.TUI);
 
     }
 
