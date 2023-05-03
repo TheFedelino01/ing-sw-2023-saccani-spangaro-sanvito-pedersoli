@@ -42,7 +42,7 @@ public class DefaultValue implements Serializable {
     //CONSOLE OUTPUT INDEXES
 
     //INPUT
-    public final static int row_input = 33;
+    public final static int row_input = 34;
 
     //IMPORTANT EVENTS
     public final static int row_important_events = 2;
@@ -74,6 +74,10 @@ public class DefaultValue implements Serializable {
     public final static int row_chat = 16;
     public final static int col_chat = 96;
 
+    //LEADERBOARD
+    public final static int row_leaderboard = 20;
+    public final static int col_leaderboard = 15;
+
     //GAME INFO
     public final static int row_gameID = 9;
     public final static int row_nextTurn = 10;
@@ -84,5 +88,6 @@ public class DefaultValue implements Serializable {
     public final static int seconds_between_reconnection = 5;
 
     public final static int max_messagesShown = 3;
+
 
 }

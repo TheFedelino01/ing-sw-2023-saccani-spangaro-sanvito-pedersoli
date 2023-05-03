@@ -6,7 +6,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
-import polimi.ingsw.View.userView.View;
+import polimi.ingsw.View.userView.Flow;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -15,9 +15,9 @@ import java.rmi.RemoteException;
 public class GameListenersHandlerClient implements GameListener, Serializable {
 
 
-    private View gui;
+    private Flow gui;
 
-    public GameListenersHandlerClient(View gui) {
+    public GameListenersHandlerClient(Flow gui) {
         this.gui = gui;
     }
 

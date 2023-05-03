@@ -1,10 +1,10 @@
 package polimi.ingsw.Main;
 
-import polimi.ingsw.View.RMI.RMIClient;
-import polimi.ingsw.View.socket.client.ClientSocket;
+import polimi.ingsw.View.networking.RMI.RMIClient;
+import polimi.ingsw.View.networking.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.ConnectionSelection;
-import polimi.ingsw.View.userView.UiSelection;
-import polimi.ingsw.View.userView.View;
+import polimi.ingsw.View.userView.UISelection;
+import polimi.ingsw.View.userView.Flow;
 import polimi.ingsw.View.userView.GameFlow;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class actualMain {
 
     public static void main(String[] args) {
         String choiceVisual, choiceComms;
-        View view;
+        Flow view;
         boolean debug=false;
         if(!debug) {
             /*do {
@@ -46,7 +46,7 @@ public class actualMain {
         switch (Integer.parseInt(choiceComms)) {
             case 1 -> {
                 switch (choiceVisual){
-                    case "1" -> view = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI);
+                    case "1" -> view = new GameFlow(ConnectionSelection.SOCKET, UISelection.TUI);
                     //case "2" -> view = new graphicUI(ConnectionSelection.SOCKET, UiSelection.GUI);
                     default -> view = null;
                 }
@@ -54,7 +54,7 @@ public class actualMain {
             }
             case 2 -> {
                 switch (choiceVisual){
-                    case "1" -> view = new GameFlow(ConnectionSelection.RMI, UiSelection.TUI);
+                    case "1" -> view = new GameFlow(ConnectionSelection.RMI, UISelection.TUI);
                     //case "2" -> view = new graphicUI(ConnectionSelection.RMI, UiSelection.GUI);
                     default -> view = null;
                 }

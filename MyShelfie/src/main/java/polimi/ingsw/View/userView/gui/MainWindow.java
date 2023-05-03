@@ -1,7 +1,5 @@
 package polimi.ingsw.View.userView.gui;
 
-import polimi.ingsw.Model.DefaultValue;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;

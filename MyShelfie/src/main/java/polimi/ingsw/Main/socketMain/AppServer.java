@@ -1,8 +1,7 @@
 package polimi.ingsw.Main.socketMain;
 
 import polimi.ingsw.Model.DefaultValue;
-import polimi.ingsw.View.socket.client.ClientSocket;
-import polimi.ingsw.View.socket.server.SocketWelcome;
+import polimi.ingsw.View.networking.socket.server.SocketWelcome;
 
 import java.io.IOException;
 

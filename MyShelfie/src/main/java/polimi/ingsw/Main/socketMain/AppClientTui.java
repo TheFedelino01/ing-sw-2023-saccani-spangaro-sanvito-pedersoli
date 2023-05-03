@@ -1,10 +1,10 @@
 package polimi.ingsw.Main.socketMain;
 
 
-import polimi.ingsw.View.socket.client.ClientSocket;
+import polimi.ingsw.View.networking.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.ConnectionSelection;
-import polimi.ingsw.View.userView.UiSelection;
-import polimi.ingsw.View.userView.View;
+import polimi.ingsw.View.userView.UISelection;
+import polimi.ingsw.View.userView.Flow;
 import polimi.ingsw.View.userView.GameFlow;
 
 import java.util.Scanner;
@@ -16,7 +16,7 @@ public class AppClientTui {
     private static Scanner keys;
 
     public static void main(String[] args) throws IOException {
-        View gui = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI);
+        Flow gui = new GameFlow(ConnectionSelection.SOCKET, UISelection.TUI);
         client = new ClientSocket(gui);
     }
 }

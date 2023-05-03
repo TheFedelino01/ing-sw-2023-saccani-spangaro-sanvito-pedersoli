@@ -1,11 +1,11 @@
 package polimi.ingsw.Main.socketMain;
 
 import polimi.ingsw.Model.DefaultValue;
-import polimi.ingsw.View.socket.client.ClientSocket;
-import polimi.ingsw.View.socket.server.SocketWelcome;
+import polimi.ingsw.View.networking.socket.client.ClientSocket;
+import polimi.ingsw.View.networking.socket.server.SocketWelcome;
 import polimi.ingsw.View.userView.ConnectionSelection;
-import polimi.ingsw.View.userView.UiSelection;
-import polimi.ingsw.View.userView.View;
+import polimi.ingsw.View.userView.UISelection;
+import polimi.ingsw.View.userView.Flow;
 import polimi.ingsw.View.userView.GameFlow;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class AppSocket {
         server = new SocketWelcome();
         server.start(DefaultValue.Default_port_Socket);
 
-        View gui1 = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI), gui2 = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI);
+        Flow gui1 = new GameFlow(ConnectionSelection.SOCKET, UISelection.TUI), gui2 = new GameFlow(ConnectionSelection.SOCKET, UISelection.TUI);
 
         client = new ClientSocket(gui1);
 
