@@ -1,6 +1,6 @@
 package polimi.ingsw.Main.rmiMain;
 
-import polimi.ingsw.View.RMI.RMIServer;
+import polimi.ingsw.View.networking.RMI.RMIServer;
 
 import java.rmi.RemoteException;
 

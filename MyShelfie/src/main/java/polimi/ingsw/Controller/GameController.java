@@ -8,8 +8,8 @@ import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
-import polimi.ingsw.View.RMI.remoteInterfaces.GameControllerInterface;
-import polimi.ingsw.View.userView.View;
+import polimi.ingsw.View.networking.RMI.remoteInterfaces.GameControllerInterface;
+import polimi.ingsw.View.userView.Flow;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -18,7 +18,7 @@ import java.util.*;
 public class GameController implements GameControllerInterface, Serializable, Runnable {
     private final GameModel model;
     private final Random random = new Random();
-    private View view;
+    private Flow view;
     private transient Map<GameListener, Heartbeat> heartbeats;
 
     /**

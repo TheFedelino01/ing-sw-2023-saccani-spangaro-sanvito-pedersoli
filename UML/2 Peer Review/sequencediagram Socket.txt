@@ -31,7 +31,7 @@ GameListenersHandlerSocket->ClientSocket (starting Point):out.writeObject(new ms
 
 
 ClientSocket (starting Point)->GameListenersHandlerClient:playerJoined(gamemodelimmutable)
-GameListenersHandlerClient->View:gui.playerJoined(gamemodel);
+GameListenersHandlerClient->View:gameFlow.playerJoined(gamemodel);
 note over View:...
 note over ClientSocket (starting Point):...
 
@@ -45,6 +45,6 @@ GameListenersHandlerSocket->ClientSocket (starting Point):out.writeObject(new ms
 
 ClientSocket (starting Point)->GameListenersHandlerClient:playerIsReadyToStart(gamemodelimmutable, nick);
 
-GameListenersHandlerClient->View:gui.playerIsReadyToStart(gamemodel);
+GameListenersHandlerClient->View:gameFlow.playerIsReadyToStart(gamemodel);
 note over View:...
 note over ClientSocket (starting Point):...
