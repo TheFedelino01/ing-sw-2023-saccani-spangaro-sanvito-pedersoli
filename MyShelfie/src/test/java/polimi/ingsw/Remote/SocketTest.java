@@ -5,8 +5,9 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.socket.server.SocketWelcome;
 import polimi.ingsw.View.userView.ConnectionSelection;
+import polimi.ingsw.View.userView.UiSelection;
 import polimi.ingsw.View.userView.View;
-import polimi.ingsw.View.userView.text.TextUI;
+import polimi.ingsw.View.userView.GameFlow;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -28,12 +29,12 @@ public class SocketTest {
 
 
         /*
-        gui1 = new TextUI(ConnectionSelection.SOCKET);
-        gui2 = new TextUI(ConnectionSelection.SOCKET);
-        gui3 = new TextUI(ConnectionSelection.SOCKET);
-        gui4 = new TextUI(ConnectionSelection.SOCKET);
-        gui5 = new TextUI(ConnectionSelection.SOCKET);
-        gui6 = new TextUI(ConnectionSelection.SOCKET);
+        gui1 = new GameFlow(ConnectionSelection.SOCKET);
+        gui2 = new GameFlow(ConnectionSelection.SOCKET);
+        gui3 = new GameFlow(ConnectionSelection.SOCKET);
+        gui4 = new GameFlow(ConnectionSelection.SOCKET);
+        gui5 = new GameFlow(ConnectionSelection.SOCKET);
+        gui6 = new GameFlow(ConnectionSelection.SOCKET);
         */
     }
 
@@ -52,8 +53,8 @@ public class SocketTest {
     void testConnection() throws IOException {
         String nick1 = "player1";
         String nick2 = "player2";
-        gui = new TextUI(ConnectionSelection.SOCKET);
-        gui1 = new TextUI(ConnectionSelection.SOCKET);
+        gui = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI);
+        gui1 = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI);
         client = new ClientSocket(gui);
         keyboardBot.keyPress(KeyEvent.VK_C);
         client1 = new ClientSocket(gui1);

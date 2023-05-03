@@ -3,14 +3,15 @@ package polimi.ingsw.Main.rmiMain;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.RMI.RMIServer;
 import polimi.ingsw.View.userView.ConnectionSelection;
+import polimi.ingsw.View.userView.UiSelection;
 import polimi.ingsw.View.userView.View;
-import polimi.ingsw.View.userView.text.TextUI;
+import polimi.ingsw.View.userView.GameFlow;
 
 import java.rmi.RemoteException;
 
 public class App {
     public static void main(String[] args) throws RemoteException {
-        View gui1 = new TextUI(ConnectionSelection.RMI), gui2 = new TextUI(ConnectionSelection.RMI);
+        View gui1 = new GameFlow(ConnectionSelection.RMI, UiSelection.TUI), gui2 = new GameFlow(ConnectionSelection.RMI, UiSelection.TUI);
         RMIServer.bind();
 
         RMIClient client = new RMIClient(gui1);

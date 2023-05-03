@@ -3,8 +3,9 @@ package polimi.ingsw.Main;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.ConnectionSelection;
+import polimi.ingsw.View.userView.UiSelection;
 import polimi.ingsw.View.userView.View;
-import polimi.ingsw.View.userView.text.TextUI;
+import polimi.ingsw.View.userView.GameFlow;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -22,8 +23,8 @@ public class actualMain {
                 clearCMD();
                 System.out.println(ansi().cursor(1, 0).a("""
                         Select view:
-                        \t (1) TextUI
-                        \t (2) GraphicUI
+                        \t (1) TUI
+                        \t (2) GUI
                         """));
                 choiceVisual = new Scanner(System.in).nextLine();
             } while (!choiceVisual.equals("1") && !choiceVisual.equals("2"));
@@ -45,16 +46,16 @@ public class actualMain {
         switch (Integer.parseInt(choiceComms)) {
             case 1 -> {
                 switch (choiceVisual){
-                    case "1" -> view = new TextUI(ConnectionSelection.SOCKET);
-                    //case "2" -> view = new graphicUI(ConnectionSelection.SOCKET);
+                    case "1" -> view = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI);
+                    //case "2" -> view = new graphicUI(ConnectionSelection.SOCKET, UiSelection.GUI);
                     default -> view = null;
                 }
                 ClientSocket clientSocket = new ClientSocket(view);
             }
             case 2 -> {
                 switch (choiceVisual){
-                    case "1" -> view = new TextUI(ConnectionSelection.RMI);
-                    //case "2" -> view = new graphicUI(ConnectionSelection.RMI);
+                    case "1" -> view = new GameFlow(ConnectionSelection.RMI, UiSelection.TUI);
+                    //case "2" -> view = new graphicUI(ConnectionSelection.RMI, UiSelection.GUI);
                     default -> view = null;
                 }
                 RMIClient clientRMI = new RMIClient(view);

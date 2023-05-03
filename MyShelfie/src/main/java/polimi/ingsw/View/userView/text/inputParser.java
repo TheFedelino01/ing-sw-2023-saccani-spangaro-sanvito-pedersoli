@@ -1,23 +1,23 @@
 package polimi.ingsw.View.userView.text;
 
-import org.w3c.dom.Text;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.Chat.MessagePrivate;
 import polimi.ingsw.Model.Player;
+import polimi.ingsw.View.userView.GameFlow;
 
 import java.io.IOException;
 
 public class inputParser extends Thread {
     private BufferData bufferInput;
     private BufferData dataToProcess;
-    private TextUI gui;
+    private GameFlow gameFlow;
     private Player p;
     private Integer gameId;
 
-    public inputParser(BufferData bufferInput, TextUI gui) {
+    public inputParser(BufferData bufferInput, GameFlow gameFlow) {
         this.bufferInput = bufferInput;
         dataToProcess = new BufferData();
-        this.gui = gui;
+        this.gameFlow = gameFlow;
         this.p = null;
         this.gameId = null;
         this.start();
@@ -40,18 +40,18 @@ public class inputParser extends Thread {
                 txt = txt.charAt(3) == ' ' ? txt.substring(4) : txt.substring(3);
                 String receiver = txt.substring(0, txt.indexOf(" "));
                 String msg = txt.substring(receiver.length() + 1);
-                gui.sendMessage(new MessagePrivate(msg, p, receiver));
+                gameFlow.sendMessage(new MessagePrivate(msg, p, receiver));
 
             } else if (p!=null && txt.startsWith("/c")) {
                 //I send a message
                 txt = txt.charAt(2) == ' ' ? txt.substring(3) : txt.substring(2);
-                gui.sendMessage(new Message(txt, p));
+                gameFlow.sendMessage(new Message(txt, p));
 
             } else if (txt.startsWith("/quit")) {
                 try {
                     assert p != null;
-                    gui.leave(p.getNickname(), gameId);
-                    gui.youleft();
+                    gameFlow.leave(p.getNickname(), gameId);
+                    gameFlow.youleft();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -59,7 +59,7 @@ public class inputParser extends Thread {
             } else {
                 //I didn't pop a message
 
-                //I add the data to the buffer processed via TextUI
+                //I add the data to the buffer processed via GameFlow
                 dataToProcess.addData(txt);
             }
         }

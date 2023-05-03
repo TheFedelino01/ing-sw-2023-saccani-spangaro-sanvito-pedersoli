@@ -1,10 +1,12 @@
 package polimi.ingsw.View.userView.text;
 
 import polimi.ingsw.View.userView.ConnectionSelection;
+import polimi.ingsw.View.userView.GameFlow;
+import polimi.ingsw.View.userView.UiSelection;
 
 public class mainTextUI_2 {
     public static void main(String[] args) {
-        TextUI textUI = new TextUI(ConnectionSelection.SOCKET);
+        GameFlow gameFlow = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI);
 
     }
 }

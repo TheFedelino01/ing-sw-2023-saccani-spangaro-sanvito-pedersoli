@@ -4,8 +4,9 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.View.socket.client.ClientSocket;
 import polimi.ingsw.View.socket.server.SocketWelcome;
 import polimi.ingsw.View.userView.ConnectionSelection;
+import polimi.ingsw.View.userView.UiSelection;
 import polimi.ingsw.View.userView.View;
-import polimi.ingsw.View.userView.text.TextUI;
+import polimi.ingsw.View.userView.GameFlow;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ public class AppSocket {
         server = new SocketWelcome();
         server.start(DefaultValue.Default_port_Socket);
 
-        View gui1 = new TextUI(ConnectionSelection.SOCKET), gui2 = new TextUI(ConnectionSelection.SOCKET);
+        View gui1 = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI), gui2 = new GameFlow(ConnectionSelection.SOCKET, UiSelection.TUI);
 
         client = new ClientSocket(gui1);
 

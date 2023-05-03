@@ -4,8 +4,9 @@ import org.junit.jupiter.api.*;
 import polimi.ingsw.View.RMI.RMIClient;
 import polimi.ingsw.View.RMI.RMIServer;
 import polimi.ingsw.View.userView.ConnectionSelection;
+import polimi.ingsw.View.userView.UiSelection;
 import polimi.ingsw.View.userView.View;
-import polimi.ingsw.View.userView.text.TextUI;
+import polimi.ingsw.View.userView.GameFlow;
 
 import java.io.IOException;
 
@@ -20,9 +21,9 @@ public class RMITest {
     static void setup() throws IOException {
         server = RMIServer.bind();
 
-        gui = new TextUI(ConnectionSelection.RMI);
+        gui = new GameFlow(ConnectionSelection.RMI, UiSelection.TUI);
 
-        gui1 = new TextUI(ConnectionSelection.RMI);
+        gui1 = new GameFlow(ConnectionSelection.RMI, UiSelection.TUI);
 
     }
 
