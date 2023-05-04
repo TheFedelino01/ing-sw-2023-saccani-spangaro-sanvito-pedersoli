@@ -110,7 +110,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>polimi.ingsw.Main.RmiSocketServers</mainClass>
+                                    <mainClass>polimi.ingsw.Main.MainServer</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -127,7 +127,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>polimi.ingsw.Main.actualMain</mainClass>
+                                    <mainClass>polimi.ingsw.Main.MainClient</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

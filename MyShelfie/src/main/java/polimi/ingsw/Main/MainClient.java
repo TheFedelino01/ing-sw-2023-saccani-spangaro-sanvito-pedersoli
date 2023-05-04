@@ -1,18 +1,16 @@
 package polimi.ingsw.Main;
 
-import polimi.ingsw.View.networking.RMI.RMIClient;
-import polimi.ingsw.View.networking.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.Flow;
 import polimi.ingsw.View.userView.GameFlow;
 import polimi.ingsw.View.userView.UISelection;
-import polimi.ingsw.View.userView.UISelection.*;
+
 import java.io.IOException;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class actualMain {
+public class MainClient {
 
     public static void main(String[] args) throws Exception {
         String UISelectionStr, protocolSelectionStr;
@@ -20,7 +18,7 @@ public class actualMain {
         boolean debug=false;
 
         if(!debug) {
-            /*do {
+            do{
                 clearCMD();
                 System.out.println(ansi().cursor(1, 0).a("""
                         Select view:
@@ -29,8 +27,7 @@ public class actualMain {
                         """));
                 UISelectionStr = new Scanner(System.in).nextLine();
             } while (!UISelectionStr.equals("1") && !UISelectionStr.equals("2"));
-            */
-            UISelectionStr="1";
+
             do {
                 clearCMD();
                 System.out.println(ansi().cursor(1, 0).a("""
@@ -41,7 +38,7 @@ public class actualMain {
                 protocolSelectionStr = new Scanner(System.in).nextLine();
             } while (!protocolSelectionStr.equals("1") && !protocolSelectionStr.equals("2"));
         }else{
-            UISelectionStr="1";
+            UISelectionStr="2";
             protocolSelectionStr="1";
         }
 
@@ -59,9 +56,7 @@ public class actualMain {
             uiSel=UISelection.GUI;
         }
 
-        view = new GameFlow(conSel,uiSel);
-
-
+        new GameFlow(conSel,uiSel);
 
 
     }

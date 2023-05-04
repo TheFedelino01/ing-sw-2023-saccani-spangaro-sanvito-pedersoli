@@ -6,7 +6,7 @@ import polimi.ingsw.View.networking.socket.server.SocketWelcome;
 
 import java.io.IOException;
 
-public class RmiSocketServers {
+public class MainServer {
 
     public static void main(String[] args) throws IOException {
 

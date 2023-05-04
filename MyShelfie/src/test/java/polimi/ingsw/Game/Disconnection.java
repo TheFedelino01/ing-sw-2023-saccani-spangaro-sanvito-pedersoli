@@ -424,12 +424,10 @@ public class Disconnection {
 
         assert (gameController.getStatus() == GameStatus.RUNNING);
 
-        //come disconnettere p2?
         mainController.leaveGame(lis2,p2.getNickname(),gameController.getGameId());
 
-
         assertEquals(3, gameController.getNumOfOnlinePlayers());
-        
+
 
         mainController.reconnect(lis2, p2.getNickname(), gameController.getGameId());
 

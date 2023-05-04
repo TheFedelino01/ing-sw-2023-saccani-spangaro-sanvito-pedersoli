@@ -1,5 +1,6 @@
 package polimi.ingsw.View.userView.gui;
 
+import javafx.application.Application;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
@@ -9,7 +10,6 @@ import java.io.IOException;
 
 public class GUI extends UI {
 
-    private MainWindowsJavaFX mainWindow = new MainWindowsJavaFX();
     public GUI() {
     }
 
@@ -19,8 +19,8 @@ public class GUI extends UI {
     }
 
     @Override
-    protected void show_publisher() throws IOException, InterruptedException {
-
+    protected void show_publisher() {
+        Application.launch(MainWindowsJavaFX.class, "");
     }
 
     @Override
