@@ -43,7 +43,7 @@ public class TUI extends UI {
         show_important_events();
     }
 
-    @Override
+
     public void resize() {
         try {
             new ProcessBuilder("cmd", "/c", "mode con:cols=160 lines=50").inheritIO().start().waitFor();
@@ -52,12 +52,12 @@ public class TUI extends UI {
         }
     }
 
-    @Override
+
     public void show_allPlayers(GameModelImmutable model) {
         System.out.println("Current Players: \n" + model.toStringListPlayers());
     }
 
-    @Override
+
     public void show_titleMyShelfie() {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
@@ -115,12 +115,12 @@ public class TUI extends UI {
         System.out.println(ris);
     }
 
-    @Override
+
     public void show_playground(GameModelImmutable model) {
         System.out.println(model.getPg().toString());
     }
 
-    @Override
+
     public void show_allShelves(GameModelImmutable model) {
         int i = DefaultValue.col_shelves;
 
@@ -137,6 +137,11 @@ public class TUI extends UI {
 
     @Override
     public void show_commonCards(GameModelImmutable gameModel) {
+        this.clearScreen();
+        this.show_titleMyShelfie();
+        this.show_playground(gameModel);
+        this.show_gameId(gameModel);
+
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));
 
@@ -151,7 +156,7 @@ public class TUI extends UI {
         System.out.println(ris);
     }
 
-    @Override
+
     public void show_points(GameModelImmutable gameModel) {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_points, DefaultValue.col_points));
@@ -167,7 +172,7 @@ public class TUI extends UI {
         System.out.println(ris);
     }
 
-    @Override
+
     public void show_goalCards(Player toShow) {
         System.out.println(toShow.getSecretGoal().getLayoutToMatch().toStringGoalCard());
     }
@@ -202,6 +207,9 @@ public class TUI extends UI {
 
     @Override
     public void show_publisher() {
+        this.resize();
+
+
         clearScreen();
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
@@ -236,9 +244,16 @@ public class TUI extends UI {
                  \\   \\ .'          \\   \\  / |  ,     .-./  ---`-'  |  ,   /         '---'        `--'---'  \s
                   `---`             `----'   `--`---'               ---`-'                                 \s
                 """).reset());
+
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        this.show_titleMyShelfie();
     }
 
-    @Override
+
     public void show_important_events() {
 
         StringBuilder ris = new StringBuilder();
@@ -253,7 +268,7 @@ public class TUI extends UI {
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));
     }
 
-    @Override
+
     public void clearScreen() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -273,7 +288,7 @@ public class TUI extends UI {
         }
     }
 
-    @Override
+
     public void show_messages() {
         String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat - 1).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
                 ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(chat.toString()).fg(DEFAULT);
@@ -352,9 +367,9 @@ public class TUI extends UI {
 
     }
 
-    @Override
+
     public void show_alwaysShowForAll(GameModelImmutable model) {
-        clearScreen();
+        this.clearScreen();
         // TODO: MERGE THE alwaysShowForAll and AlwaysShow and correct the resizing
         //resize();
         show_titleMyShelfie();
@@ -365,17 +380,17 @@ public class TUI extends UI {
         show_important_events();
     }
 
-    @Override
+
     public void show_gameId(GameModelImmutable gameModel) {
         System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + gameModel.getGameId() + "]").boldOff());
     }
 
-    @Override
+
     public void show_nextTurn(GameModelImmutable gameModel) {
         System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + gameModel.getNicknameCurrentPlaying()).boldOff());
     }
 
-    @Override
+
     public void show_welcome(String nick) {
         System.out.println(ansi().cursor(DefaultValue.row_nextTurn + 1, 0).bold().a("Welcome " + nick).boldOff());
     }
@@ -395,9 +410,49 @@ public class TUI extends UI {
         System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
     }
 
-    @Override
+
     public void removeInput(String msg) {
         System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(getLengthLongestMessage())));
+    }
+
+    @Override
+    public void show_sentMessage(GameModelImmutable model, String nickname) {
+        this.show_alwaysShow(model, nickname);
+    }
+
+    @Override
+    public void show_grabbedTileMainMsg(GameModelImmutable model, String nickname) {
+        this.show_alwaysShow(model, nickname);
+    }
+
+    @Override
+    public void show_positionedTile(GameModelImmutable model, String nickname) {
+        this.show_alwaysShow(model, nickname);
+    }
+
+    @Override
+    public void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname) {
+        this.show_alwaysShow(model, nickname);
+    }
+
+    @Override
+    public void show_askNum(String msg, GameModelImmutable gameModel, String nickname) {
+        this.show_alwaysShow(gameModel, nickname);
+        this.removeInput(msg);
+    }
+
+    @Override
+    public void show_gameStarted(GameModelImmutable model) {
+        this.clearScreen();
+        this.show_titleMyShelfie();
+        this.show_allPlayers(model);
+        this.show_alwaysShowForAll(model);
+        this.show_gameId(model);
+    }
+
+    @Override
+    public void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname) {
+        this.show_alwaysShow(model, nickname);
     }
 
     @Override
@@ -407,6 +462,8 @@ public class TUI extends UI {
 
     @Override
     public void show_insertNicknameMsg() {
+        this.clearScreen();
+        this.show_titleMyShelfie();
         System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("> Insert your nickname: "));
     }
 
@@ -417,6 +474,8 @@ public class TUI extends UI {
 
     @Override
     public void show_menuOptions() {
+        this.clearScreen();
+        this.show_titleMyShelfie();
         System.out.println(ansi().cursor(9, 0).a("""
                 > Select one option:
                 \t(c) Create a new Game
@@ -448,26 +507,32 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_wrongSelectionMsg() {
+    public void show_wrongSelectionHandMsg() {
         System.out.println("\tWrong Tile selection offset");
     }
 
     @Override
     public void show_creatingNewGameMsg() {
+        this.clearScreen();
+        this.show_titleMyShelfie();
         System.out.println("> Creating a new game...");
     }
 
     @Override
     public void show_joiningFirstAvailableMsg() {
+        this.clearScreen();
+        this.show_titleMyShelfie();
         System.out.println("> Connecting to the first available game...");
     }
 
     @Override
     public void show_joiningToGameIdMsg(int idGame) {
+        this.clearScreen();
+        this.show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
     }
 
-    @Override
+
     public void show_alwaysShow(GameModelImmutable model, String nick) {
         show_alwaysShowForAll(model);
         for (Player p : model.getPlayers()) {

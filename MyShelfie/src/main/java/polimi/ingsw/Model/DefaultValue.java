@@ -75,7 +75,7 @@ public class DefaultValue implements Serializable {
     public final static int col_chat = 96;
 
     //LEADERBOARD
-    public final static int row_leaderboard = 20;
+    public final static int row_leaderboard = 25;
     public final static int col_leaderboard = 15;
 
     //GAME INFO

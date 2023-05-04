@@ -3,10 +3,10 @@ package polimi.ingsw.Main;
 import polimi.ingsw.View.networking.RMI.RMIClient;
 import polimi.ingsw.View.networking.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.ConnectionSelection;
-import polimi.ingsw.View.userView.UISelection;
 import polimi.ingsw.View.userView.Flow;
 import polimi.ingsw.View.userView.GameFlow;
-
+import polimi.ingsw.View.userView.UISelection;
+import polimi.ingsw.View.userView.UISelection.*;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -14,10 +14,11 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class actualMain {
 
-    public static void main(String[] args) {
-        String choiceVisual, choiceComms;
+    public static void main(String[] args) throws Exception {
+        String UISelectionStr, protocolSelectionStr;
         Flow view;
         boolean debug=false;
+
         if(!debug) {
             /*do {
                 clearCMD();
@@ -26,10 +27,10 @@ public class actualMain {
                         \t (1) TUI
                         \t (2) GUI
                         """));
-                choiceVisual = new Scanner(System.in).nextLine();
-            } while (!choiceVisual.equals("1") && !choiceVisual.equals("2"));
+                UISelectionStr = new Scanner(System.in).nextLine();
+            } while (!UISelectionStr.equals("1") && !UISelectionStr.equals("2"));
             */
-            choiceVisual="1";
+            UISelectionStr="1";
             do {
                 clearCMD();
                 System.out.println(ansi().cursor(1, 0).a("""
@@ -37,30 +38,31 @@ public class actualMain {
                         \t (1) Socket
                         \t (2) RMI
                         """));
-                choiceComms = new Scanner(System.in).nextLine();
-            } while (!choiceComms.equals("1") && !choiceComms.equals("2"));
+                protocolSelectionStr = new Scanner(System.in).nextLine();
+            } while (!protocolSelectionStr.equals("1") && !protocolSelectionStr.equals("2"));
         }else{
-            choiceVisual="1";
-            choiceComms="1";
+            UISelectionStr="1";
+            protocolSelectionStr="1";
         }
-        switch (Integer.parseInt(choiceComms)) {
-            case 1 -> {
-                switch (choiceVisual){
-                    case "1" -> view = new GameFlow(ConnectionSelection.SOCKET, UISelection.TUI);
-                    //case "2" -> view = new graphicUI(ConnectionSelection.SOCKET, UiSelection.GUI);
-                    default -> view = null;
-                }
-                ClientSocket clientSocket = new ClientSocket(view);
-            }
-            case 2 -> {
-                switch (choiceVisual){
-                    case "1" -> view = new GameFlow(ConnectionSelection.RMI, UISelection.TUI);
-                    //case "2" -> view = new graphicUI(ConnectionSelection.RMI, UiSelection.GUI);
-                    default -> view = null;
-                }
-                RMIClient clientRMI = new RMIClient(view);
-            }
+
+        ConnectionSelection conSel=null;
+        if(Integer.parseInt(protocolSelectionStr)==1){
+            conSel=ConnectionSelection.SOCKET;
+        }else if (Integer.parseInt(protocolSelectionStr)==2){
+            conSel=ConnectionSelection.RMI;
         }
+
+        UISelection uiSel=null;
+        if(Integer.parseInt(UISelectionStr)==1){
+            uiSel= UISelection.TUI;
+        }else if (Integer.parseInt(UISelectionStr)==2){
+            uiSel=UISelection.GUI;
+        }
+
+        view = new GameFlow(conSel,uiSel);
+
+
+
 
     }
 

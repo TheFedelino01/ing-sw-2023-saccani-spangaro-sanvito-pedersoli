@@ -10,6 +10,7 @@ import polimi.ingsw.Model.Player;
 import polimi.ingsw.Model.Point;
 import polimi.ingsw.View.networking.RMI.RMIClient;
 import polimi.ingsw.View.networking.socket.client.ClientSocket;
+import polimi.ingsw.View.userView.gui.GUI;
 import polimi.ingsw.View.userView.utilities.events.EventElement;
 import polimi.ingsw.View.userView.utilities.events.EventList;
 import polimi.ingsw.View.userView.utilities.events.EventType;
@@ -20,7 +21,9 @@ import polimi.ingsw.View.userView.utilities.inputReader;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Objects;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -41,21 +44,19 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     private final UI ui;
     protected inputParser inputParser;
     protected inputReader inputReader;
-
+    protected List<String> importantEvents; //events that needs to be showed always in screen
     private boolean ended = false;
 
 
     public GameFlow(ConnectionSelection connectionSelection, UISelection uiSelection) {
+        importantEvents = new ArrayList<>();
         nickname = "";
         switch (uiSelection) {
             case TUI ->{
                 ui = new TUI();
             }
             case GUI -> {
-                System.out.println("Not yet implemented!");
-                ui = new TUI();
-                //TODO: implement an actual gui
-                //ui = new Gui();
+                ui = new GUI();
             }
             default -> {
                 ui = new TUI();
@@ -80,16 +81,17 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     @Override
     public void run() {
         EventElement event;
+
         try {
-            ui.resize();
             ui.show_publisher();
-            Thread.sleep(2500);
-            ui.clearScreen();
-            ui.show_titleMyShelfie();
             events.add(null, APP_MENU);
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+
         while (!Thread.interrupted()) {
             if (events.isJoined()) {
                 //Get one event
@@ -185,11 +187,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     private void statusRunning(EventElement event) throws IOException, InterruptedException {
         switch (event.getType()) {
             case GAMESTARTED -> {
-                ui.clearScreen();
-                ui.show_titleMyShelfie();
-                ui.show_allPlayers(event.getModel());
-                ui.show_alwaysShowForAll(event.getModel());
-                ui.show_gameId(event.getModel());
+                ui.show_gameStarted(event.getModel());
                 //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
                 this.inputParser.setPlayer(event.getModel().getPlayerEntity(nickname));
@@ -197,19 +195,17 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
             }
             case COMMON_CARD_EXTRACTED -> {
-                ui.clearScreen();
-                ui.show_titleMyShelfie();
-                ui.show_playground(event.getModel());
-                ui.show_gameId(event.getModel());
                 ui.show_commonCards(event.getModel());
                 //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
-
             }
-            case SENT_MESSAGE -> ui.show_alwaysShow(event.getModel(), nickname);
+            case SENT_MESSAGE ->{
+                ui.show_sentMessage(event.getModel(),nickname);
+            }
 
             case NEXT_TURN, PLAYER_RECONNECTED -> {
-                ui.show_alwaysShow(event.getModel(), nickname);
+                ui.show_nextTurnOrPlayerReconnected(event.getModel(),nickname);
+
                 columnChosen = -1;
 
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
@@ -225,15 +221,13 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                         askPickTiles(event.getModel());
                         if (ended) return;
                     }
-                } else {
-                    //I remove all the input that the user sends when It is not his turn
-                    this.inputParser.getDataToProcess().popAllData();
                 }
                 //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
 
             case GRABBED_TILE -> {
-                ui.show_alwaysShow(event.getModel(), nickname);
+                ui.show_grabbedTileMainMsg(event.getModel(), nickname);
+
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn, so I'm the current playing
 
@@ -250,7 +244,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
             }
             case POSITIONED_TILE -> {
-                ui.show_alwaysShow(event.getModel(), nickname);
+                ui.show_positionedTile(event.getModel(), nickname);
+
                 ui.addImportantEvent("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0 && event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //Ask to place other tiles
@@ -260,7 +255,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
             }
             case GRABBED_TILE_NOT_CORRECT -> {
-                ui.show_alwaysShow(event.getModel(), nickname);
+                ui.show_grabbedTileNotCorrect(event.getModel(), nickname);
+
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     columnChosen = -1;
                     askPickTiles(event.getModel());
@@ -319,12 +315,12 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         return fileDisconnection;
     }
 
+
+
     ///////////////////////////////
     //ASK
 
     private void askNickname() {
-        ui.clearScreen();
-        ui.show_titleMyShelfie();
         ui.show_insertNicknameMsg();
         //nickname = scanner.nextLine();
         try {
@@ -339,10 +335,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     //return: false need to recall askSelectGame
     private boolean askSelectGame() {
         String optionChoose;
-
         ended = false;
-        ui.clearScreen();
-        ui.show_titleMyShelfie();
         ui.show_menuOptions();
 
         //optionChoose = scanner.nextLine();
@@ -430,8 +423,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         int numT = -1;
         do {
             try {
-                ui.show_alwaysShow(gameModel, nickname);
-                ui.removeInput(msg);
+                ui.show_askNum(msg,gameModel,nickname);
                 //System.out.flush();
 
                 try {
@@ -517,7 +509,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             ui.show_playerHand(model);
             if (ended) return;
             if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
-                ui.show_wrongSelectionMsg();
+                ui.show_wrongSelectionHandMsg();
                 indexHand = null;
             }
         } while (indexHand == null);
@@ -539,8 +531,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void createGame(String nick) {
-        ui.clearScreen();
-        ui.show_titleMyShelfie();
         ui.show_creatingNewGameMsg();
 
         try {
@@ -553,8 +543,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void joinFirstAvailable(String nick) {
-        ui.clearScreen();
-        ui.show_titleMyShelfie();
         ui.show_joiningFirstAvailableMsg();
         try {
             server.joinFirstAvailable(nick);
@@ -565,8 +553,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void joinGame(String nick, int idGame) {
-        ui.clearScreen();
-        ui.show_titleMyShelfie();
         ui.show_joiningToGameIdMsg(idGame);
         try {
             server.joinGame(nick, idGame);
@@ -577,8 +563,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void reconnect(String nick, int idGame) {
-        ui.clearScreen();
-        ui.show_titleMyShelfie();
         //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
         ui.show_joiningToGameIdMsg(idGame);
         try {
@@ -632,29 +616,17 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     @Override
     public void playerJoined(GameModelImmutable gameModel) {
         //shared.setLastModelReceived(gameModel);
-        //show_allPlayers();
         events.add(gameModel, EventType.PLAYER_JOINED);
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
-        try {
-            ui.show_playerJoined(gameModel, nickname);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        ui.show_playerJoined(gameModel, nickname);
+
     }
 
     @Override
     public void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException {
         if (gamemodel.getStatus().equals(GameStatus.WAIT)) {
-            try {
-                ui.show_playerJoined(gamemodel, nickname);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            ui.show_playerJoined(gamemodel, nickname);
         } else {
             ui.addImportantEvent("[EVENT]: Player " + nick + " decided to leave the game!");
         }
@@ -706,11 +678,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException {
-        try {
-            ui.show_playerJoined(gameModel, nickname);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        ui.show_playerJoined(gameModel, nickname);
+
         // if(nick.equals(nickname))
         //    toldIAmReady=true;
         events.add(gameModel, PLAYER_IS_READY_TO_START);
@@ -755,6 +724,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     @Override
     public void nextTurn(GameModelImmutable gameModel) {
         events.add(gameModel, EventType.NEXT_TURN);
+
+        //I remove all the input that the user sends when It is not his turn
+        this.inputParser.getDataToProcess().popAllData();
     }
 
     @Override
@@ -768,13 +740,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         if (gameModel.getStatus().equals(GameStatus.WAIT)) {
-            try {
                 ui.show_playerJoined(gameModel, nickname);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         } else {
             ui.addImportantEvent("[EVENT]: Player " + nick + " decided to leave the game!");
         }

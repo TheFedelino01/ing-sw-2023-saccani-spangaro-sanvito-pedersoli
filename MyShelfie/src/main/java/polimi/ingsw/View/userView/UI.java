@@ -3,9 +3,9 @@ package polimi.ingsw.View.userView;
 import polimi.ingsw.Model.Chat.Chat;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
-import polimi.ingsw.Model.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class UI {
@@ -17,52 +17,52 @@ public abstract class UI {
     //----------------------
     //SHOW
     //----------------------
-    protected abstract void show_allPlayers(GameModelImmutable model);
+    protected abstract void show_publisher() throws IOException, InterruptedException;
+    protected abstract void show_menuOptions();
 
-    protected abstract void show_titleMyShelfie();
+    public abstract void show_creatingNewGameMsg();
 
+    public abstract void show_joiningFirstAvailableMsg();
+
+    public abstract void show_joiningToGameIdMsg(int idGame);
+    public abstract void show_inputGameIdMsg();
+    protected abstract void show_insertNicknameMsg();
+    public abstract void show_choosenNickname(String nickname);
+
+    protected abstract void show_gameStarted(GameModelImmutable model);
+    protected abstract void show_noAvailableGamesToJoin(String msgToVisualize);
+    protected abstract void show_gameEnded(GameModelImmutable model);
+
+    protected abstract void show_playerJoined(GameModelImmutable gameModel, String nick);
+
+    protected abstract void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname);
+
+    protected abstract void show_askNum(String msg, GameModelImmutable gameModel, String nickname);
     protected abstract void show_playerHand(GameModelImmutable gameModel);
 
     protected abstract void show_grabbedTile(String nickname, GameModelImmutable model);
 
-    protected abstract void show_playground(GameModelImmutable model);
-
-    protected abstract void show_allShelves(GameModelImmutable model);
-
     protected abstract void show_commonCards(GameModelImmutable gameModel);
+    protected abstract void show_sentMessage(GameModelImmutable model, String nickname);
+    protected abstract void show_grabbedTileMainMsg(GameModelImmutable model, String nickname);
+    public abstract void show_whichTileToPlaceMsg();
+    public abstract void show_wrongSelectionHandMsg();
+    protected abstract void show_positionedTile(GameModelImmutable model, String nickname);
+    protected abstract void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname);
 
-    protected abstract void show_points(GameModelImmutable gameModel);
 
-    protected abstract void show_goalCards(Player toShow);
+    public abstract void show_NaNMsg();
+    public abstract void show_returnToMenuMsg();
 
-    protected abstract void show_playerJoined(GameModelImmutable gameModel, String nick) throws IOException, InterruptedException;
 
-    protected abstract void show_publisher() throws IOException, InterruptedException;
-
-    protected abstract void show_important_events();
-
-    protected abstract void show_messages();
-    protected abstract void show_noAvailableGamesToJoin(String msgToVisualize);
-    protected abstract void show_gameEnded(GameModelImmutable model);
-
-    protected abstract void show_alwaysShowForAll(GameModelImmutable model);
-
-    protected abstract void show_alwaysShow(GameModelImmutable model, String nick);
-    protected abstract void show_gameId(GameModelImmutable gameModel);
-
-    protected abstract void show_nextTurn(GameModelImmutable gameModel);
-
-    protected abstract void show_welcome(String nick);
-
+    public abstract void show_direction();
 
 
     //----------------------
     //ACTIONS
     //----------------------
-    public abstract void addImportantEvent(String imp);
-    protected abstract void resize();
+    public abstract void addImportantEvent(String impt);
 
-    protected abstract void clearScreen();
     protected abstract int getLengthLongestMessage();
 
     protected abstract void addMessage(Message msg);
@@ -71,29 +71,5 @@ public abstract class UI {
 
     protected abstract void resetImportantEvents();
 
-    public abstract void show_direction();
 
-    public abstract void removeInput(String msg);
-
-    public abstract void show_returnToMenuMsg();
-
-    public abstract void show_insertNicknameMsg();
-
-    public abstract void show_choosenNickname(String nickname);
-
-    public abstract void show_menuOptions();
-
-    public abstract void show_inputGameIdMsg();
-
-    public abstract void show_NaNMsg();
-
-    public abstract void show_whichTileToPlaceMsg();
-
-    public abstract void show_wrongSelectionMsg();
-
-    public abstract void show_creatingNewGameMsg();
-
-    public abstract void show_joiningFirstAvailableMsg();
-
-    public abstract void show_joiningToGameIdMsg(int idGame);
 }
