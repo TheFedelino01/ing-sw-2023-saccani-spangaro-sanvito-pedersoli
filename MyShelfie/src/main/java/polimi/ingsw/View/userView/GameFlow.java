@@ -94,6 +94,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         fileDisconnection = new FileDisconnection();
         this.inputReader = new inputReader();
         this.inputParser = new inputParser(this.inputReader.getBuffer(), this);
+
         new Thread(this).start();
     }
 
@@ -104,7 +105,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             case RMI -> server = new RMIClient(this);
         }
         ui = new GUI(guiApplication);
-
         importantEvents = new ArrayList<>();
         nickname = "";
         fileDisconnection = new FileDisconnection();
@@ -113,9 +113,13 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         new Thread(this).start();
     }
 
+
+
     @Override
     public void run() {
         EventElement event;
+
+
 
         try {
             ui.show_publisher();
