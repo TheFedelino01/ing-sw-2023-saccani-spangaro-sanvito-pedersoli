@@ -51,7 +51,7 @@ public class MainController implements MainControllerInterface, Serializable {
         try {
             c.addPlayer(p);
         } catch (MaxPlayersInException | PlayerAlreadyInException e) {
-            lis.genericErrorWhenEntryingGame(e.getMessage());
+            lis.genericErrorWhenEnteringGame(e.getMessage());
         }
 
         return c;
@@ -71,11 +71,11 @@ public class MainController implements MainControllerInterface, Serializable {
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
                 ris.get(0).removeListener(lis, p);
-                lis.genericErrorWhenEntryingGame(e.getMessage());
+                lis.genericErrorWhenEnteringGame(e.getMessage());
             }
         } else {
             //This is the only call not inside the model
-            lis.genericErrorWhenEntryingGame("No games currently available to join...");
+            lis.genericErrorWhenEnteringGame("No games currently available to join...");
         }
         return null;
 
@@ -95,7 +95,7 @@ public class MainController implements MainControllerInterface, Serializable {
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
                 ris.get(0).removeListener(lis, p);
-                lis.genericErrorWhenEntryingGame(e.getMessage());
+                lis.genericErrorWhenEnteringGame(e.getMessage());
             }
         } else {
             //This is the only call not inside the model
@@ -122,13 +122,13 @@ public class MainController implements MainControllerInterface, Serializable {
                     return ris.get(0);
                 } else {
                     //Game exists but the nick no
-                    lis.genericErrorWhenEntryingGame("The nickname used was not connected in a running game");
+                    lis.genericErrorWhenEnteringGame("The nickname used was not connected in a running game");
                     return null;
                 }
 
             } catch (MaxPlayersInException e) {
                 ris.get(0).removeListener(lis, players.get(0));
-                lis.genericErrorWhenEntryingGame(e.getMessage());
+                lis.genericErrorWhenEnteringGame(e.getMessage());
             }
         } else {
             //This is the only call not inside the model

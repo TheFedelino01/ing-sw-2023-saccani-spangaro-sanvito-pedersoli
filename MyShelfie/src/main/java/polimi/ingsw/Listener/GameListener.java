@@ -22,7 +22,7 @@ public interface GameListener extends Remote {
 
     void gameIdNotExists(int gameid) throws RemoteException;
 
-    void genericErrorWhenEntryingGame(String why) throws RemoteException;
+    void genericErrorWhenEnteringGame(String why) throws RemoteException;
 
     void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException;
 

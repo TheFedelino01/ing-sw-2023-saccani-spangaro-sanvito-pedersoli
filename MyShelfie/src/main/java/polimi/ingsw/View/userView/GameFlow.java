@@ -710,7 +710,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
         ui.show_noAvailableGamesToJoin(why);
         events.add(null, GENERIC_ERROR_WHEN_ENTRYING_GAME);
     }

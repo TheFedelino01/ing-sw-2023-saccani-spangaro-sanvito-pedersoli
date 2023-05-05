@@ -62,7 +62,7 @@ public class Disconnection {
         }
 
         @Override
-        public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+        public void genericErrorWhenEnteringGame(String why) throws RemoteException {
 
         }
 
@@ -153,7 +153,7 @@ public class Disconnection {
         }
 
         @Override
-        public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+        public void genericErrorWhenEnteringGame(String why) throws RemoteException {
 
         }
 
@@ -244,7 +244,7 @@ public class Disconnection {
         }
 
         @Override
-        public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+        public void genericErrorWhenEnteringGame(String why) throws RemoteException {
 
         }
 
@@ -335,7 +335,7 @@ public class Disconnection {
         }
 
         @Override
-        public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+        public void genericErrorWhenEnteringGame(String why) throws RemoteException {
 
         }
 

@@ -75,7 +75,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
-    public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
         try {
             out.reset();
             out.writeObject(new msgGenericErrorWhenEntryingGame(why));

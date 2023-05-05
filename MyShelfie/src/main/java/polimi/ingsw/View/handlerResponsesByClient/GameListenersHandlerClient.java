@@ -56,8 +56,8 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void genericErrorWhenEntryingGame(String why) throws RemoteException {
-        gui.genericErrorWhenEntryingGame(why);
+    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
+        gui.genericErrorWhenEnteringGame(why);
     }
 
     @Override

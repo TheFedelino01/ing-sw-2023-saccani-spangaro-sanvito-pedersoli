@@ -80,7 +80,7 @@ public class MultipleGames {
             }
 
             @Override
-            public void genericErrorWhenEntryingGame(String why) throws RemoteException {
+            public void genericErrorWhenEnteringGame(String why) throws RemoteException {
 
             }
 
