@@ -24,11 +24,17 @@ public class GUI extends UI {
 
     @Override
     protected void show_publisher() {
-        //Platform.runLater(() -> myApp.changeScene("scene2"));
-        this.guiApplication.changeScene("scene1");
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
+        pause2.setOnFinished(event -> {
+            this.guiApplication.setActiveScene(SceneEnum.PUBLISHER);
+        });
+        pause2.play();
+
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(event -> {
             alreadyShowedPublisher=true;
+            this.guiApplication.createNewWindowWithStyle();
             this.show_menuOptions();
         });
         pause.play();
@@ -37,7 +43,8 @@ public class GUI extends UI {
     @Override
     protected void show_menuOptions() {
         if(alreadyShowedPublisher) {
-            this.guiApplication.changeScene("scene2");
+            this.guiApplication.setActiveScene(SceneEnum.MENU);
+            //this.guiApplication.changeScene("scene2");
         }
     }
 

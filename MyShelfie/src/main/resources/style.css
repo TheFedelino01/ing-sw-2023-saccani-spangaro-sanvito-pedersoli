@@ -341,3 +341,9 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+
+.backgroundPublisher{
+    -fx-background-image: url("img/img/Publisher_material/Box_280x280px.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
