@@ -1,16 +1,20 @@
 package polimi.ingsw.View.userView.gui;
 
-import javafx.application.Application;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
-import polimi.ingsw.Model.Player;
 import polimi.ingsw.View.userView.UI;
-
-import java.io.IOException;
 
 public class GUI extends UI {
 
-    public GUI() {
+    private GUIApplication guiApplication;
+    private boolean alreadyShowedPublisher=false;
+
+    public GUI(GUIApplication guiApplication) {
+        this.guiApplication = guiApplication;
     }
 
     @Override
@@ -20,12 +24,21 @@ public class GUI extends UI {
 
     @Override
     protected void show_publisher() {
-        Application.launch(MainWindowsJavaFX.class, "");
+        //Platform.runLater(() -> myApp.changeScene("scene2"));
+        this.guiApplication.changeScene("scene1");
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            alreadyShowedPublisher=true;
+            this.show_menuOptions();
+        });
+        pause.play();
     }
 
     @Override
     protected void show_menuOptions() {
-
+        if(alreadyShowedPublisher) {
+            this.guiApplication.changeScene("scene2");
+        }
     }
 
     @Override

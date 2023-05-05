@@ -1,5 +1,6 @@
 package polimi.ingsw.View.userView;
 
+import javafx.application.Platform;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
@@ -11,6 +12,7 @@ import polimi.ingsw.Model.Point;
 import polimi.ingsw.View.networking.RMI.RMIClient;
 import polimi.ingsw.View.networking.socket.client.ClientSocket;
 import polimi.ingsw.View.userView.gui.GUI;
+import polimi.ingsw.View.userView.gui.GUIApplication;
 import polimi.ingsw.View.userView.utilities.events.EventElement;
 import polimi.ingsw.View.userView.utilities.events.EventList;
 import polimi.ingsw.View.userView.utilities.events.EventType;
@@ -41,13 +43,13 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     private String lastPlayerReconnected;
     private int columnChosen = -1;
-    private final UI ui;
+    private UI ui;
     protected inputParser inputParser;
     protected inputReader inputReader;
     protected List<String> importantEvents; //events that needs to be showed always in screen
     private boolean ended = false;
 
-
+/*
     public GameFlow(ConnectionSelection connectionSelection, UISelection uiSelection) {
         importantEvents = new ArrayList<>();
         nickname = "";
@@ -69,13 +71,46 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             case RMI -> server = new RMIClient(this);
         }
         fileDisconnection = new FileDisconnection();
-        new Thread(this).start();
+
 
 
         //Change input from scanf to threads
         this.inputReader = new inputReader();
         this.inputParser = new inputParser(this.inputReader.getBuffer(), this);
         //Now all the input must be read with inputParse!!!
+
+        new Thread(this).start();
+    }*/
+
+    public GameFlow(ConnectionSelection connectionSelection){
+        switch (connectionSelection) {
+            case SOCKET -> server = new ClientSocket(this);
+            case RMI -> server = new RMIClient(this);
+        }
+        ui = new TUI();
+
+        importantEvents = new ArrayList<>();
+        nickname = "";
+        fileDisconnection = new FileDisconnection();
+        this.inputReader = new inputReader();
+        this.inputParser = new inputParser(this.inputReader.getBuffer(), this);
+        new Thread(this).start();
+    }
+
+
+    public GameFlow(GUIApplication guiApplication,ConnectionSelection connectionSelection){
+        switch (connectionSelection) {
+            case SOCKET -> server = new ClientSocket(this);
+            case RMI -> server = new RMIClient(this);
+        }
+        ui = new GUI(guiApplication);
+
+        importantEvents = new ArrayList<>();
+        nickname = "";
+        fileDisconnection = new FileDisconnection();
+        this.inputReader = new inputReader();
+        this.inputParser = new inputParser(this.inputReader.getBuffer(), this);
+        new Thread(this).start();
     }
 
     @Override
