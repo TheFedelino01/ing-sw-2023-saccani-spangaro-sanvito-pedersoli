@@ -195,28 +195,6 @@ public class Playground implements Serializable {
         }
     }
 
-    boolean allTileHaveAllFreeSide() {
-        for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
-            for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
-                try {
-                    if (!(playground[i + 1][j].isSameType(TileType.NOT_USED)
-                            && playground[i - 1][j].isSameType(TileType.NOT_USED)
-                    ) && playground[i][j + 1].isSameType(TileType.NOT_USED)
-                            && playground[i][j - 1].isSameType(TileType.NOT_USED)
-                            && playground[i + 1][j].isSameType(TileType.FINISHED_USING)
-                            && playground[i - 1][j].isSameType(TileType.FINISHED_USING)
-                            && playground[i][j + 1].isSameType(TileType.FINISHED_USING)
-                            && playground[i][j - 1].isSameType(TileType.FINISHED_USING)) {
-                        return false;
-                    }
-                } catch (ArrayIndexOutOfBoundsException ignored) {
-                }
-
-            }
-        }
-        return true;
-    }
-
     public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException {
         List<Tile> ris = new ArrayList<>();
         //check if all the tile are not used or finished using
@@ -225,7 +203,7 @@ public class Playground implements Serializable {
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
                 if ((playground[k][j].isSameType(TileType.NOT_USED)) || (playground[k][j].isSameType(TileType.FINISHED_USING))) {
                     nums++;
-                    if (nums == DefaultValue.PlaygroundSize * DefaultValue.PlaygroundSize || allTileHaveAllFreeSide()) {
+                    if (nums == DefaultValue.PlaygroundSize * DefaultValue.PlaygroundSize) {
                         setPlayground();
                     }
                 }
