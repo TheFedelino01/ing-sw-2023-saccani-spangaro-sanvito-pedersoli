@@ -1,5 +1,6 @@
 package polimi.ingsw.Controller;
 
+import junit.framework.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,10 +44,10 @@ public class GameTest {
             if (i == 5) {
                 i = 0;
             }
+
             gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             i = i + 1;
-
         }
-        
+        Assert.assertEquals(GameStatus.LAST_CIRCLE, gameController.getStatus());
     }
 }
