@@ -30,7 +30,6 @@ public class TUI extends UI {
         AnsiConsole.systemInstall();
         importantEvents = new ArrayList<>();
         chat = new Chat();
-
     }
 
     @Override

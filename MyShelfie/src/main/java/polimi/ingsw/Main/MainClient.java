@@ -1,10 +1,14 @@
 package polimi.ingsw.Main;
 
+import javafx.application.Application;
+import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.Flow;
 import polimi.ingsw.View.userView.GameFlow;
 import polimi.ingsw.View.userView.UISelection;
+import polimi.ingsw.View.userView.gui.GUIApplication;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -13,51 +17,47 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class MainClient {
 
     public static void main(String[] args) throws Exception {
-        String UISelectionStr, protocolSelectionStr;
-        Flow view;
-        boolean debug=false;
+        clearCMD();
+        Integer selection;
 
-        if(!debug) {
-            do{
-                clearCMD();
-                System.out.println(ansi().cursor(1, 0).a("""
-                        Select view:
-                        \t (1) TUI
-                        \t (2) GUI
-                        """));
-                UISelectionStr = new Scanner(System.in).nextLine();
-            } while (!UISelectionStr.equals("1") && !UISelectionStr.equals("2"));
+        if(!DefaultValue.DEBUG) {
+            String input = null;
 
             do {
-                clearCMD();
                 System.out.println(ansi().cursor(1, 0).a("""
-                        Select communication protocol:
-                        \t (1) Socket
-                        \t (2) RMI
+                        Select option:
+                        \t (1) TUI + Socket
+                        \t (2) TUI + RMI
+                        \t
+                        \t (3) GUI + Socket
+                        \t (4) GUI + RMI
                         """));
-                protocolSelectionStr = new Scanner(System.in).nextLine();
-            } while (!protocolSelectionStr.equals("1") && !protocolSelectionStr.equals("2"));
+                input = new Scanner(System.in).nextLine();
+                selection = Integer.parseInt(input);
+            } while (selection != 1 && selection != 2 && selection != 3 && selection != 4);
         }else{
-            UISelectionStr="2";
-            protocolSelectionStr="1";
+            selection=2; //Default run configuration
         }
 
+
+        //Get the Communication Protocol wanted
         ConnectionSelection conSel=null;
-        if(Integer.parseInt(protocolSelectionStr)==1){
+        if(selection==1 || selection==3){
             conSel=ConnectionSelection.SOCKET;
-        }else if (Integer.parseInt(protocolSelectionStr)==2){
+        }else if(selection==2 || selection==4){
             conSel=ConnectionSelection.RMI;
         }
 
-        UISelection uiSel=null;
-        if(Integer.parseInt(UISelectionStr)==1){
-            uiSel= UISelection.TUI;
-        }else if (Integer.parseInt(UISelectionStr)==2){
-            uiSel=UISelection.GUI;
+        //Starts the UI wanted
+        if(selection==1 || selection==2){
+            //Starts the game with TUI
+            //I can start directly here the GameFlow
+            new GameFlow(conSel);
+        }else if (selection==3 || selection==4){
+            //Starts the game with GUI
+            //For doing so, I need to start the Main of GUI (GameFlow needs to be started inside the thread of GUI)
+            Application.launch(GUIApplication.class, conSel.toString());
         }
-
-        new GameFlow(conSel,uiSel);
-
 
     }
 
@@ -65,19 +65,8 @@ public class MainClient {
     private static void clearCMD() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            //if not on a Windows machine
         } catch (IOException | InterruptedException e) {
-            //for mac
-            System.out.print("\033\143");
-
-            /*This might work too, but exec is deprecated
-            try {
-                Runtime.getRuntime().exec("clear");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
-             */
+            System.out.print("\033\143");   //for Mac
         }
     }
 }
