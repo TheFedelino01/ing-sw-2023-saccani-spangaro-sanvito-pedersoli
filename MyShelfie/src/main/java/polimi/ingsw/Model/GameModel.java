@@ -334,6 +334,7 @@ public class GameModel {
         } else {
             throw new GameNotStartedException();
         }
+
     }
 
     public void setFinishedPlayer(Integer indexPlayer) {
