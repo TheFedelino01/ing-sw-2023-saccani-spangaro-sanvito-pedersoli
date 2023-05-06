@@ -205,6 +205,11 @@ public class TUI extends UI {
     }
 
     @Override
+    protected void show_youReadyToStart(GameModelImmutable gameModel, String nicknameofyou) {
+
+    }
+
+    @Override
     public void show_publisher() {
         this.resize();
 

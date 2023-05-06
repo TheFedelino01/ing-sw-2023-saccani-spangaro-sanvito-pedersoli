@@ -102,12 +102,12 @@ public class GUIApplication extends Application {
         hidePanesInLobby();
         int i=0;
         for(Player p:model.getPlayers()){
-            addLobbyPanePlayer(p.getNickname(),i);
+            addLobbyPanePlayer(p.getNickname(),i, p.getReadyToStart());
             i++;
         }
     }
 
-    private void addLobbyPanePlayer(String nick, int indexPlayer){
+    private void addLobbyPanePlayer(String nick, int indexPlayer, boolean isReady){
         SceneEnum se=null;
         switch(indexPlayer){
             case 0->se=SceneEnum.PLAYER_LOBBY_CARD0;
@@ -118,8 +118,11 @@ public class GUIApplication extends Application {
         Pane paneToLoad;
         SceneInfo sceneToLoad = scenes.get(getSceneIndex(se));
         paneToLoad = (Pane)sceneToLoad.getScene().getRoot();
+
         ((PlayerLobbyCardController)sceneToLoad.getGenericController()).setNickname(nick);
 
+        Pane paneReady = (Pane) this.primaryStage.getScene().getRoot().lookup("#ready" + indexPlayer);
+        paneReady.setVisible(isReady);
 
         Pane panePlayerLobby = (Pane)this.primaryStage.getScene().getRoot().lookup("#pane"+indexPlayer);
         panePlayerLobby.setVisible(true);
@@ -144,6 +147,9 @@ public class GUIApplication extends Application {
         for(int i=0; i<4;i++) {
             Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup("#pane" + i);
             panePlayerLobby.setVisible(false);
+
+            Pane paneReady = (Pane) this.primaryStage.getScene().getRoot().lookup("#ready" + i);
+            paneReady.setVisible(false);
         }
     }
     private void openPopup(Scene scene){
@@ -162,6 +168,11 @@ public class GUIApplication extends Application {
     public void closePopUpStage(){
         if(popUpStage!=null)
             popUpStage.hide();
+    }
+
+    public void disableBtnReadyToStart() {
+        //I set not visible the btn "Ready to start"
+        ((LobbyController)scenes.get(getSceneIndex(SceneEnum.LOBBY)).getGenericController()).setVisibleBtnReady(false);
     }
 
     private int getSceneIndex(SceneEnum sceneName) {

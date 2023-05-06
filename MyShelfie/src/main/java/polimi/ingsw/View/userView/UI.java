@@ -20,14 +20,14 @@ public abstract class UI {
     protected abstract void show_publisher() throws IOException, InterruptedException;
     protected abstract void show_menuOptions();
 
-    public abstract void show_creatingNewGameMsg(String nickname);
+    protected abstract void show_creatingNewGameMsg(String nickname);
 
-    public abstract void show_joiningFirstAvailableMsg(String nickname);
+    protected abstract void show_joiningFirstAvailableMsg(String nickname);
 
-    public abstract void show_joiningToGameIdMsg(int idGame,String nickname);
-    public abstract void show_inputGameIdMsg();
+    protected abstract void show_joiningToGameIdMsg(int idGame,String nickname);
+    protected abstract void show_inputGameIdMsg();
     protected abstract void show_insertNicknameMsg();
-    public abstract void show_choosenNickname(String nickname);
+    protected abstract void show_choosenNickname(String nickname);
 
     protected abstract void show_gameStarted(GameModelImmutable model);
     protected abstract void show_noAvailableGamesToJoin(String msgToVisualize);
@@ -35,6 +35,8 @@ public abstract class UI {
 
 
     protected abstract void show_playerJoined(GameModelImmutable gameModel, String nick);
+
+    protected abstract void show_youReadyToStart(GameModelImmutable gameModel, String nicknameofyou);
 
     protected abstract void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname);
 

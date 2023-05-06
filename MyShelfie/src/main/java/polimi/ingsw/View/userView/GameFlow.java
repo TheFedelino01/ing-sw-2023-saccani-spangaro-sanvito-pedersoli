@@ -722,6 +722,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException {
         ui.show_playerJoined(gameModel, nickname);
 
+        if(nick.equals(nickname)){
+            ui.show_youReadyToStart(gameModel, nickname);
+        }
         // if(nick.equals(nickname))
         //    toldIAmReady=true;
         events.add(gameModel, PLAYER_IS_READY_TO_START);

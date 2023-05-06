@@ -15,7 +15,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Pane>
-      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="222.0" styleClass="record-sales5" stylesheets="@style.css" text="NOT READY" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
+      <Button fx:id="btnReady" mnemonicParsing="false" onAction="#actionIamReady" prefHeight="60.0" prefWidth="222.0" styleClass="record-sales5" stylesheets="@style.css" text="NOT READY" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
          <font>
             <Font name="Arial" size="30.0" />
          </font>
@@ -39,5 +39,41 @@
       <Pane fx:id="pane1" layoutX="-443.0" layoutY="164.0" prefHeight="418.0" prefWidth="286.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="200.0" />
       <Pane fx:id="pane2" layoutX="-433.0" layoutY="174.0" prefHeight="418.0" prefWidth="286.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="670.0" AnchorPane.topAnchor="200.0" />
       <Pane fx:id="pane3" layoutX="-423.0" layoutY="184.0" prefHeight="418.0" prefWidth="286.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="980.0" AnchorPane.topAnchor="200.0" />
+      <Pane fx:id="ready0" layoutX="-368.0" layoutY="434.0" prefHeight="83.0" prefWidth="286.0" style="-fx-background-color: #25DE00;" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="500.0">
+         <children>
+            <Text fill="WHITE" layoutX="39.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" textAlignment="CENTER" wrappingWidth="208.78767451105625">
+               <font>
+                  <Font name="Arial Black" size="59.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane fx:id="ready1" layoutX="-358.0" layoutY="444.0" prefHeight="83.0" prefWidth="286.0" style="-fx-background-color: #25DE00;" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="500.0">
+         <children>
+            <Text fill="WHITE" layoutX="39.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" textAlignment="CENTER" wrappingWidth="208.78767451105625">
+               <font>
+                  <Font name="Arial Black" size="59.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane fx:id="ready2" layoutX="-348.0" layoutY="454.0" prefHeight="83.0" prefWidth="286.0" style="-fx-background-color: #25DE00;" AnchorPane.leftAnchor="670.0" AnchorPane.topAnchor="500.0">
+         <children>
+            <Text fill="WHITE" layoutX="39.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" textAlignment="CENTER" wrappingWidth="208.78767451105625">
+               <font>
+                  <Font name="Arial Black" size="59.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane fx:id="ready3" layoutX="-338.0" layoutY="464.0" prefHeight="83.0" prefWidth="286.0" style="-fx-background-color: #25DE00;" AnchorPane.leftAnchor="980.0" AnchorPane.topAnchor="500.0">
+         <children>
+            <Text fill="WHITE" layoutX="39.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" textAlignment="CENTER" wrappingWidth="208.78767451105625">
+               <font>
+                  <Font name="Arial Black" size="59.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

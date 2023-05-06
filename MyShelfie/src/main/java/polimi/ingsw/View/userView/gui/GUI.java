@@ -119,7 +119,10 @@ public class GUI extends UI {
 
     }
 
-
+    @Override
+    protected void show_youReadyToStart(GameModelImmutable gameModel, String nicknameofyou) {
+        callPlatformRunLater(() -> this.guiApplication.disableBtnReadyToStart());
+    }
 
 
     @Override
