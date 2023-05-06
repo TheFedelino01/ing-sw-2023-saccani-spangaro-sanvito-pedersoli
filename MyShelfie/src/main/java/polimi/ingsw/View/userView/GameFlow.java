@@ -1,6 +1,5 @@
 package polimi.ingsw.View.userView;
 
-import javafx.application.Platform;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
@@ -19,7 +18,7 @@ import polimi.ingsw.View.userView.utilities.events.EventType;
 import polimi.ingsw.View.userView.utilities.FileDisconnection;
 import polimi.ingsw.View.userView.text.TUI;
 import polimi.ingsw.View.userView.utilities.inputParser;
-import polimi.ingsw.View.userView.utilities.inputReader;
+import polimi.ingsw.View.userView.utilities.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -83,6 +82,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }*/
 
     public GameFlow(ConnectionSelection connectionSelection){
+        //Invoked for starting with TUI
         switch (connectionSelection) {
             case SOCKET -> server = new ClientSocket(this);
             case RMI -> server = new RMIClient(this);
@@ -92,7 +92,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         importantEvents = new ArrayList<>();
         nickname = "";
         fileDisconnection = new FileDisconnection();
-        this.inputReader = new inputReader();
+        this.inputReader = new inputReaderTUI();
         this.inputParser = new inputParser(this.inputReader.getBuffer(), this);
 
         new Thread(this).start();
@@ -100,15 +100,18 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
 
     public GameFlow(GUIApplication guiApplication,ConnectionSelection connectionSelection){
+        //Invoked for starting with GUI
         switch (connectionSelection) {
             case SOCKET -> server = new ClientSocket(this);
             case RMI -> server = new RMIClient(this);
         }
-        ui = new GUI(guiApplication);
+        this.inputReader = new inputReaderGUI();
+
+        ui = new GUI(guiApplication,(inputReaderGUI) inputReader);
         importantEvents = new ArrayList<>();
         nickname = "";
         fileDisconnection = new FileDisconnection();
-        this.inputReader = new inputReader();
+
         this.inputParser = new inputParser(this.inputReader.getBuffer(), this);
         new Thread(this).start();
     }

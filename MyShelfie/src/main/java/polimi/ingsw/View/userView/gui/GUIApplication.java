@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.GameFlow;
+import polimi.ingsw.View.userView.gui.controllers.GenericController;
+import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,14 +42,22 @@ public class GUIApplication extends Application {
         scenes = new ArrayList<>();
         FXMLLoader loader;
         Parent root;
+        GenericController gc;
         for(int i=0; i<SceneEnum.values().length;i++){
             loader = new FXMLLoader(getClass().getResource(SceneEnum.values()[i].value()));
             try {
                 root = loader.load();
+                gc=loader.getController();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            scenes.add(new SceneInfo(new Scene(root),SceneEnum.values()[i]));
+            scenes.add(new SceneInfo(new Scene(root),SceneEnum.values()[i],gc));
+        }
+    }
+
+    public void setInputReaderGUItoAllControllers(inputReaderGUI inputReaderGUI) {
+        for(SceneInfo s:scenes){
+            s.setInputReaderGUI(inputReaderGUI);
         }
     }
 

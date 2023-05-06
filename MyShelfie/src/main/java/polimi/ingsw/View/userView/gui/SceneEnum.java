@@ -2,7 +2,8 @@ package polimi.ingsw.View.userView.gui;
 
 public enum SceneEnum {
     PUBLISHER("/Publisher.fxml"),
-    MENU("/Menu.fxml");
+    MENU("/Menu.fxml"),
+    NICKNAME("/Nickname.fxml");
 
 
     private final String value;

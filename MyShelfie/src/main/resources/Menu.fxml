@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,58 +8,32 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #263340;" styleClass="backgroundWelcome" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.WelcomeSceneController">
+<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #263340;" styleClass="backgroundWelcome" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.controllers.MenuController">
     <children>
       <Pane prefHeight="740.0" prefWidth="1279.0" styleClass="backgroundmio" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="201.0" mnemonicParsing="false" onAction="#CreateANewGame_Button" prefHeight="86.0" prefWidth="453.0" style="-fx-font-size: 22;" styleClass="record-sales" stylesheets="@style.css" text="Create a new game" AnchorPane.leftAnchor="-29.0">
+        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="201.0" mnemonicParsing="false" onAction="#actionCreateANewGame" prefHeight="86.0" prefWidth="453.0" style="-fx-font-size: 22;" styleClass="record-sales" stylesheets="@style.css" text="Create a new game" AnchorPane.leftAnchor="-29.0">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="307.0" mnemonicParsing="false" onAction="#JoinARandomGame_Button" prefHeight="86.0" prefWidth="423.0" styleClass="record-sales2" stylesheets="@style.css" text="Join to a random game" AnchorPane.leftAnchor="-29.0">
+        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="307.0" mnemonicParsing="false" onAction="#actionJoinFirstAvailableGame" prefHeight="86.0" prefWidth="423.0" styleClass="record-sales2" stylesheets="@style.css" text="Join to a random game" AnchorPane.leftAnchor="-29.0">
          <font>
             <Font size="22.0" />
          </font></Button>
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="413.0" mnemonicParsing="false" onAction="#JoinASpecificGame_Button" prefHeight="86.0" prefWidth="393.0" styleClass="record-sales3" stylesheets="@style.css" text="Join to specific Game" AnchorPane.leftAnchor="-29.0">
+        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="413.0" mnemonicParsing="false" onAction="#actionJoinToASpecificGame" prefHeight="86.0" prefWidth="393.0" styleClass="record-sales3" stylesheets="@style.css" text="Join to specific Game" AnchorPane.leftAnchor="-29.0">
          <font>
             <Font size="22.0" />
          </font></Button>
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="519.0" mnemonicParsing="false" onAction="#Reconnect_Button" prefHeight="86.0" prefWidth="363.0" styleClass="record-sales4" stylesheets="@style.css" text="Reconnect">
+        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="519.0" mnemonicParsing="false" onAction="#actionReconnect" prefHeight="86.0" prefWidth="363.0" styleClass="record-sales4" stylesheets="@style.css" text="Reconnect">
          <font>
             <Font size="22.0" />
          </font></Button>
-        <Button fx:id="exitButton" layoutX="26.0" layoutY="676.0" mnemonicParsing="false" onAction="#Exit_Button" prefWidth="83.0" styleClass="windows7" stylesheets="@style.css" text="Exit" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" />
+        <Button fx:id="exitButton" layoutX="26.0" layoutY="676.0" mnemonicParsing="false" prefWidth="83.0" styleClass="windows7" stylesheets="@style.css" text="Exit" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" />
         <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="1008.0" layoutY="701.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit" textAlignment="CENTER" wrappingWidth="278.13671875" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="-6.13671875">
             <font>
                 <Font name="Calisto MT" size="18.0" />
             </font>
         </Text>
-      <DialogPane fx:id="dialogPane" layoutX="144.0" layoutY="93.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="803.0" visible="false">
-          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0">
-               <children>
-                  <Button layoutX="728.0" layoutY="368.0" mnemonicParsing="false" onAction="#CloseSettings_Button" stylesheets="@style.css" text="Exit" />
-               </children>
-            </AnchorPane>
-          </content>
-          <expandableContent>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
-          </expandableContent>
-         <graphic>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="235.0" prefWidth="290.0" />
-         </graphic>
-         <header>
-            <AnchorPane prefHeight="85.0" prefWidth="803.0">
-               <children>
-                  <Text layoutX="222.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Options" textAlignment="CENTER" wrappingWidth="359.0">
-                     <font>
-                        <Font name="Berlin Sans FB Demi Bold" size="54.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-         </header>
-      </DialogPane>
       <Pane layoutX="36.0" layoutY="33.0" opacity="0.8" prefHeight="137.0" prefWidth="1152.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="33.0" />
       <ImageView fitHeight="477.0" fitWidth="844.0" layoutX="218.0" layoutY="-102.0" AnchorPane.topAnchor="-135.0">
          <image>

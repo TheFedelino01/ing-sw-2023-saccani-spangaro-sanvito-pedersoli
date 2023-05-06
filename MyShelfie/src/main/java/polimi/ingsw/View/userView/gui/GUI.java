@@ -7,15 +7,19 @@ import javafx.util.Duration;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.userView.UI;
+import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
 public class GUI extends UI {
 
     private GUIApplication guiApplication;
+    private inputReaderGUI inputReaderGUI;
     private boolean alreadyShowedPublisher=false;
 
-    public GUI(GUIApplication guiApplication) {
+    public GUI(GUIApplication guiApplication, inputReaderGUI inputReaderGUI) {
         this.guiApplication = guiApplication;
+        this.inputReaderGUI=inputReaderGUI;
     }
+
 
     @Override
     public void init() {
@@ -34,6 +38,7 @@ public class GUI extends UI {
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(event -> {
             alreadyShowedPublisher=true;
+            this.guiApplication.setInputReaderGUItoAllControllers(this.inputReaderGUI);//So the controllers can add text to the buffer for the gameflow
             this.guiApplication.createNewWindowWithStyle();
             this.show_menuOptions();
         });
@@ -46,6 +51,11 @@ public class GUI extends UI {
             this.guiApplication.setActiveScene(SceneEnum.MENU);
             //this.guiApplication.changeScene("scene2");
         }
+    }
+
+    @Override
+    protected void show_insertNicknameMsg() {
+        this.guiApplication.setActiveScene(SceneEnum.NICKNAME);
     }
 
     @Override
@@ -68,10 +78,7 @@ public class GUI extends UI {
 
     }
 
-    @Override
-    protected void show_insertNicknameMsg() {
 
-    }
 
     @Override
     public void show_choosenNickname(String nickname) {
