@@ -573,7 +573,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void createGame(String nick) {
-        ui.show_creatingNewGameMsg();
+        ui.show_creatingNewGameMsg(nick);
 
         try {
             server.createGame(nick);
@@ -585,7 +585,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void joinFirstAvailable(String nick) {
-        ui.show_joiningFirstAvailableMsg();
+        ui.show_joiningFirstAvailableMsg(nick);
         try {
             server.joinFirstAvailable(nick);
         } catch (IOException | InterruptedException e) {
@@ -595,7 +595,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void joinGame(String nick, int idGame) {
-        ui.show_joiningToGameIdMsg(idGame);
+        ui.show_joiningToGameIdMsg(idGame,nick);
         try {
             server.joinGame(nick, idGame);
         } catch (IOException | InterruptedException e) {
@@ -606,7 +606,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     @Override
     public void reconnect(String nick, int idGame) {
         //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
-        ui.show_joiningToGameIdMsg(idGame);
+        ui.show_joiningToGameIdMsg(idGame,nick);
         try {
             server.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
         } catch (IOException | InterruptedException e) {

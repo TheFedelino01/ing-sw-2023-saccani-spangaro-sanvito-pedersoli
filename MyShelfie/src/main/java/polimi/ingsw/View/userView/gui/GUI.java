@@ -2,11 +2,15 @@ package polimi.ingsw.View.userView.gui;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import polimi.ingsw.Model.Chat.Message;
+import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
+import polimi.ingsw.Model.Player;
 import polimi.ingsw.View.userView.UI;
+import polimi.ingsw.View.userView.gui.controllers.LobbyController;
+import polimi.ingsw.View.userView.gui.controllers.NicknamePopupController;
+import polimi.ingsw.View.userView.gui.controllers.PlayerLobbyCardController;
 import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
 public class GUI extends UI {
@@ -14,6 +18,7 @@ public class GUI extends UI {
     private GUIApplication guiApplication;
     private inputReaderGUI inputReaderGUI;
     private boolean alreadyShowedPublisher=false;
+    private boolean alreadyShowedLobby=false;
 
     public GUI(GUIApplication guiApplication, inputReaderGUI inputReaderGUI) {
         this.guiApplication = guiApplication;
@@ -25,21 +30,23 @@ public class GUI extends UI {
     public void init() {
 
     }
+    public void callPlatformRunLater(Runnable r){
+        //Need to use this method to call any methods inside the GuiApplication
+        //Doing so, the method requested will be executed on the JavaFX Thread (else exception)
+        Platform.runLater(r);
+    }
 
     @Override
     protected void show_publisher() {
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
-        pause2.setOnFinished(event -> {
-            this.guiApplication.setActiveScene(SceneEnum.PUBLISHER);
-        });
-        pause2.play();
+        callPlatformRunLater(()->this.guiApplication.setActiveScene(SceneEnum.PUBLISHER));
 
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        PauseTransition pause = new PauseTransition(Duration.seconds(DefaultValue.time_publisher_showing_seconds));
         pause.setOnFinished(event -> {
             alreadyShowedPublisher=true;
             this.guiApplication.setInputReaderGUItoAllControllers(this.inputReaderGUI);//So the controllers can add text to the buffer for the gameflow
             this.guiApplication.createNewWindowWithStyle();
+
             this.show_menuOptions();
         });
         pause.play();
@@ -48,29 +55,38 @@ public class GUI extends UI {
     @Override
     protected void show_menuOptions() {
         if(alreadyShowedPublisher) {
-            this.guiApplication.setActiveScene(SceneEnum.MENU);
-            //this.guiApplication.changeScene("scene2");
+            callPlatformRunLater(()->this.guiApplication.setActiveScene(SceneEnum.MENU));
         }
     }
 
     @Override
     protected void show_insertNicknameMsg() {
-        this.guiApplication.setActiveScene(SceneEnum.NICKNAME);
+        callPlatformRunLater(()->this.guiApplication.setActiveScene(SceneEnum.NICKNAME));
     }
 
     @Override
-    public void show_creatingNewGameMsg() {
+    public void show_choosenNickname(String nickname) {
 
+    }
+    private void show_popupInfoAndNickname(String nick,String text){
+        callPlatformRunLater(()->((NicknamePopupController)this.guiApplication.getController(SceneEnum.NICKNAME_POPUP)).showNicknameAndText(nick,text));
+        callPlatformRunLater(()->this.guiApplication.setActiveScene(SceneEnum.NICKNAME_POPUP));
+    }
+
+
+    @Override
+    public void show_creatingNewGameMsg(String nickname) {
+        show_popupInfoAndNickname(nickname,"Creating a new Game...");
     }
 
     @Override
-    public void show_joiningFirstAvailableMsg() {
-
+    public void show_joiningFirstAvailableMsg(String nickname) {
+        show_popupInfoAndNickname(nickname,"Joining to a Game...");
     }
 
     @Override
-    public void show_joiningToGameIdMsg(int idGame) {
-
+    public void show_joiningToGameIdMsg(int idGame,String nickname) {
+        show_popupInfoAndNickname(nickname,"Joining to specific...");
     }
 
     @Override
@@ -81,9 +97,30 @@ public class GUI extends UI {
 
 
     @Override
-    public void show_choosenNickname(String nickname) {
+    protected void show_playerJoined(GameModelImmutable gameModel, String nick) {
+        if(!alreadyShowedLobby) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> {
+                callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+                callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneEnum.LOBBY)).setUsernameLabel(nick));
+
+
+                callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneEnum.LOBBY));
+                callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
+                alreadyShowedLobby=true;
+            });
+            pause.play();
+
+        }else{
+            //The player is in lobby and another player has joined
+            callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
+        }
+
 
     }
+
+
+
 
     @Override
     protected void show_gameStarted(GameModelImmutable model) {
@@ -100,10 +137,7 @@ public class GUI extends UI {
 
     }
 
-    @Override
-    protected void show_playerJoined(GameModelImmutable gameModel, String nick) {
 
-    }
 
     @Override
     protected void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname) {

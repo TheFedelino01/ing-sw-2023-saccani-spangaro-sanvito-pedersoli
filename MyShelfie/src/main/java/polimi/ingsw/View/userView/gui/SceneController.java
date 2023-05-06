@@ -17,7 +17,7 @@ public class SceneController {
 
     //TODO Avoid Repetition
     public void switchToCreateGameScene(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/CreateANewGameScene.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Nickname.fxml")));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

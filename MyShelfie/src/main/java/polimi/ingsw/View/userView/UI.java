@@ -20,11 +20,11 @@ public abstract class UI {
     protected abstract void show_publisher() throws IOException, InterruptedException;
     protected abstract void show_menuOptions();
 
-    public abstract void show_creatingNewGameMsg();
+    public abstract void show_creatingNewGameMsg(String nickname);
 
-    public abstract void show_joiningFirstAvailableMsg();
+    public abstract void show_joiningFirstAvailableMsg(String nickname);
 
-    public abstract void show_joiningToGameIdMsg(int idGame);
+    public abstract void show_joiningToGameIdMsg(int idGame,String nickname);
     public abstract void show_inputGameIdMsg();
     protected abstract void show_insertNicknameMsg();
     public abstract void show_choosenNickname(String nickname);
@@ -32,6 +32,7 @@ public abstract class UI {
     protected abstract void show_gameStarted(GameModelImmutable model);
     protected abstract void show_noAvailableGamesToJoin(String msgToVisualize);
     protected abstract void show_gameEnded(GameModelImmutable model);
+
 
     protected abstract void show_playerJoined(GameModelImmutable gameModel, String nick);
 
@@ -70,6 +71,7 @@ public abstract class UI {
     protected abstract void resetChat();
 
     protected abstract void resetImportantEvents();
+
 
 
 }

@@ -28,4 +28,8 @@ public class SceneInfo {
             genericController.setInputReaderGUI(inputReaderGUI);
         }
     }
+
+    public GenericController getGenericController(){
+        return genericController;
+    }
 }

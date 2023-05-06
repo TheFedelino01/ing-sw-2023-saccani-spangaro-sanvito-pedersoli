@@ -245,7 +245,7 @@ public class TUI extends UI {
                 """).reset());
 
         try {
-            Thread.sleep(2500);
+            Thread.sleep(DefaultValue.time_publisher_showing_seconds*1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -365,6 +365,8 @@ public class TUI extends UI {
         System.out.println(ris);
 
     }
+
+
 
 
     public void show_alwaysShowForAll(GameModelImmutable model) {
@@ -511,21 +513,21 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_creatingNewGameMsg() {
+    public void show_creatingNewGameMsg(String nickname) {
         this.clearScreen();
         this.show_titleMyShelfie();
         System.out.println("> Creating a new game...");
     }
 
     @Override
-    public void show_joiningFirstAvailableMsg() {
+    public void show_joiningFirstAvailableMsg(String nickname) {
         this.clearScreen();
         this.show_titleMyShelfie();
         System.out.println("> Connecting to the first available game...");
     }
 
     @Override
-    public void show_joiningToGameIdMsg(int idGame) {
+    public void show_joiningToGameIdMsg(int idGame,String nickname) {
         this.clearScreen();
         this.show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
