@@ -37,7 +37,6 @@ public class GUIApplication extends Application {
         this.primaryStage.setTitle("My App");
 
         root = new StackPane();
-
     }
 
     private void loadScenes(){

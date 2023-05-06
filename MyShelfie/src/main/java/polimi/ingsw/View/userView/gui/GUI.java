@@ -91,7 +91,7 @@ public class GUI extends UI {
 
     @Override
     public void show_inputGameIdMsg() {
-
+        callPlatformRunLater(()->this.guiApplication.setActiveScene(SceneEnum.JOIN_SPECIFIC));
     }
 
 
