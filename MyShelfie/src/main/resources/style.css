@@ -416,3 +416,8 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+.backgroundInGame{
+    -fx-background-image: url("img/img/misc/sfondo_parquet.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
