@@ -421,3 +421,42 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+
+
+.tileCat{
+    -fx-background-image: url("img/img/item_tiles/Gatti1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileBook{
+    -fx-background-image: url("img/img/item_tiles/Libri1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileActivity{
+    -fx-background-image: url("img/img/item_tiles/Giochi1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileFrame{
+    -fx-background-image: url("img/img/item_tiles/Cornici1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileTrophy{
+    -fx-background-image: url("img/img/item_tiles/Trofei1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tilePlant{
+    -fx-background-image: url("img/img/item_tiles/Piante1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileHover:hover{
+    -fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 8, 0.0, 0, 3);
+    -fx-background-radius: 8, 7, 6;
+    -fx-background-insets: 0, 1, 2;
+    -fx-border-color: #3939ff;
+    -fx-border-width: 2px;
+}

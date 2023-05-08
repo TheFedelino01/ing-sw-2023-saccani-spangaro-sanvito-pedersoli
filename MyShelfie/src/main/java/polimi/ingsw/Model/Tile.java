@@ -9,6 +9,7 @@ import static polimi.ingsw.Model.Enumeration.TileType.NOT_USED;
 public class Tile implements Serializable {
     private TileType TYPE;
     private boolean freeSide;
+    private String backgroundImg;
 
     public Tile() {
         TYPE = NOT_USED;

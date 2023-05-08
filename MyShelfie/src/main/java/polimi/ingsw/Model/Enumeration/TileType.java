@@ -1,23 +1,35 @@
 package polimi.ingsw.Model.Enumeration;
 
 import polimi.ingsw.Model.DefaultValue;
+import polimi.ingsw.Model.Tile;
 
 import java.util.List;
 import java.util.Random;
 
 public enum TileType {
-    CAT,
-    BOOK,
-    ACTIVITY,
-    FRAME,
-    TROPHY,
-    PLANT,
-    NOT_USED,
-    FINISHED_USING,
-    USED;
+    CAT("tileCat"),
+    BOOK("tileBook"),
+    ACTIVITY("tileActivity"),
+    FRAME("tileFrame"),
+    TROPHY("tileTrophy"),
+    PLANT("tilePlant"),
+    NOT_USED("tileNotused"),
+    FINISHED_USING("tileFinishedusing"),
+    USED("tileUsed");
+
+
+    TileType(String backgroundClass){
+        this.backgroundClass=backgroundClass;
+    }
+
     //for testing purposes
     private static final List<TileType> values = List.of(values());
     private static final Random rand = new Random();
+
+    private String backgroundClass="";
+    public String getBackgroundClass() {
+        return backgroundClass;
+    }
 
     public static TileType randomTile() {
         return values.get(rand.nextInt(DefaultValue.NumOfTileTypes));

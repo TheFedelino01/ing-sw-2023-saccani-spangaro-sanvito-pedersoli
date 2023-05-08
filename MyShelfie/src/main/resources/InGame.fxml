@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1243.0" prefWidth="1865.0" style="-fx-background-color: #263340;" styleClass="backgroundWelcome" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.controllers.MenuController">
+<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1243.0" prefWidth="1865.0" style="-fx-background-color: #263340;" styleClass="backgroundWelcome" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.controllers.InGameController">
     <children>
       <Pane prefHeight="946.0" prefWidth="1615.0" styleClass="backgroundInGame" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -48,22 +49,28 @@
          </font>
       </Label>
       <Pane layoutX="1290.0" prefHeight="140.0" prefWidth="238.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="645.0" AnchorPane.topAnchor="915.0" />
-      <Pane AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="920.0">
+      <Pane styleClass="tileHover" stylesheets="@style.css" AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="920.0">
          <children>
             <ImageView fitHeight="131.0" fitWidth="228.0">
                <image>
                   <Image url="@img/img/common_goal_cards/1.jpg" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
          </children>
       </Pane>
       <Pane layoutX="1300.0" layoutY="10.0" prefHeight="140.0" prefWidth="238.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="915.0" />
-      <Pane layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="950.0" AnchorPane.topAnchor="920.0">
+      <Pane layoutX="10.0" layoutY="10.0" styleClass="tileHover" stylesheets="@style.css" AnchorPane.leftAnchor="950.0" AnchorPane.topAnchor="920.0">
          <children>
             <ImageView fitHeight="131.0" fitWidth="228.0">
                <image>
                   <Image url="@img/img/common_goal_cards/2.jpg" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
          </children>
       </Pane>
@@ -102,71 +109,234 @@
             <Image url="@img/img/boards/bookshelf.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="180.0" fitWidth="119.0" preserveRatio="true" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="300.0">
-         <image>
-            <Image url="@img/img/personal_goal_cards/back.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="180.0" fitWidth="119.0" layoutX="10.0" layoutY="10.0" preserveRatio="true" AnchorPane.leftAnchor="1290.0" AnchorPane.topAnchor="300.0">
-         <image>
-            <Image url="@img/img/personal_goal_cards/back.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="180.0" fitWidth="119.0" layoutX="20.0" layoutY="20.0" preserveRatio="true" AnchorPane.leftAnchor="1290.0" AnchorPane.topAnchor="750.0">
-         <image>
-            <Image url="@img/img/personal_goal_cards/back.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="180.0" fitWidth="119.0" layoutX="30.0" layoutY="30.0" preserveRatio="true" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="750.0">
-         <image>
-            <Image url="@img/img/personal_goal_cards/back.jpg" />
-         </image>
-      </ImageView>
-      <Pane prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="155.0" />
-      <Pane layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="155.0" />
-      <Pane layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="228.0" />
-      <Pane layoutX="20.0" layoutY="20.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="301.0" />
-      <Pane layoutX="30.0" layoutY="30.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="374.0" />
-      <Pane layoutX="40.0" layoutY="40.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="447.0" />
-      <Pane layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="520.0" />
-      <Pane layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="593.0" />
-      <Pane layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="666.0" />
-      <Pane layoutX="20.0" layoutY="20.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="228.0" />
-      <Pane layoutX="30.0" layoutY="30.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="301.0" />
-      <Pane layoutX="40.0" layoutY="40.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="374.0" />
-      <Pane layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="447.0" />
-      <Pane layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="520.0" />
-      <Pane layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="593.0" />
-      <Pane layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="666.0" />
-      <Pane layoutX="30.0" layoutY="30.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="228.0" />
-      <Pane layoutX="40.0" layoutY="40.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="301.0" />
-      <Pane layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="301.0" />
-      <Pane layoutX="30.0" layoutY="30.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="301.0" />
-      <Pane layoutX="40.0" layoutY="40.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="374.0" />
-      <Pane layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="447.0" />
-      <Pane layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="520.0" />
-      <Pane layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="593.0" />
-      <Pane layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="657.0" AnchorPane.topAnchor="374.0" />
-      <Pane layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="657.0" AnchorPane.topAnchor="447.0" />
-      <Pane layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="657.0" AnchorPane.topAnchor="520.0" />
-      <Pane layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="585.0" AnchorPane.topAnchor="447.0" />
-      <Pane layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="585.0" AnchorPane.topAnchor="520.0" />
-      <Pane layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="946.0" AnchorPane.topAnchor="374.0" />
-      <Pane layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="946.0" AnchorPane.topAnchor="447.0" />
-      <Pane layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="520.0" />
-      <Pane layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="593.0" />
-      <Pane layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="666.0" />
-      <Pane layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="739.0" />
-      <Pane layoutX="100.0" layoutY="100.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="739.0" />
-      <Pane layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="374.0" />
-      <Pane layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="447.0" />
-      <Pane layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="520.0" />
-      <Pane layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="593.0" />
-      <Pane layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1090.0" AnchorPane.topAnchor="374.0" />
-      <Pane layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1090.0" AnchorPane.topAnchor="447.0" />
-      <Pane layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1090.0" AnchorPane.topAnchor="520.0" />
-      <Pane layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1162.0" AnchorPane.topAnchor="374.0" />
-      <Pane layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="1162.0" AnchorPane.topAnchor="447.0" />
+      <Pane layoutX="410.0" layoutY="300.0" styleClass="tileHover" stylesheets="@style.css" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="300.0">
+         <children>
+            <ImageView fitHeight="180.0" fitWidth="119.0" preserveRatio="true" styleClass="tileHover">
+               <image>
+                  <Image url="@img/img/personal_goal_cards/back.jpg" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="1290.0" layoutY="300.0" styleClass="tileHover" stylesheets="@style.css" AnchorPane.leftAnchor="1290.0" AnchorPane.topAnchor="300.0">
+         <children>
+            <ImageView fitHeight="180.0" fitWidth="119.0" preserveRatio="true">
+               <image>
+                  <Image url="@img/img/personal_goal_cards/back.jpg" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="1290.0" layoutY="750.0" styleClass="tileHover" stylesheets="@style.css" AnchorPane.leftAnchor="1290.0" AnchorPane.topAnchor="750.0">
+         <children>
+            <ImageView fitHeight="180.0" fitWidth="119.0" preserveRatio="true">
+               <image>
+                  <Image url="@img/img/personal_goal_cards/back.jpg" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="410.0" layoutY="750.0" styleClass="tileHover" stylesheets="@style.css" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="750.0">
+         <children>
+            <ImageView fitHeight="180.0" fitWidth="119.0" preserveRatio="true" styleClass="tileHover">
+               <image>
+                  <Image url="@img/img/personal_goal_cards/back.jpg" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="pg03" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="155.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg04" layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="155.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg13" layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="228.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg23" layoutX="20.0" layoutY="20.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="301.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg33" layoutX="30.0" layoutY="30.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="374.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg43" layoutX="40.0" layoutY="40.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg53" layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="520.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg63" layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="593.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg73" layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="801.0" AnchorPane.topAnchor="666.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg14" layoutX="20.0" layoutY="20.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="228.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg24" layoutX="30.0" layoutY="30.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="301.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg34" layoutX="40.0" layoutY="40.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="374.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg44" layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg54" layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="520.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg64" layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="593.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg74" layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="666.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg15" layoutX="30.0" layoutY="30.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="228.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg25" layoutX="40.0" layoutY="40.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="301.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg26" layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="301.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg22" layoutX="30.0" layoutY="30.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="301.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg32" layoutX="40.0" layoutY="40.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="374.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg42" layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg52" layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="520.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg62" layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="729.0" AnchorPane.topAnchor="593.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg31" layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="657.0" AnchorPane.topAnchor="374.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg41" layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="657.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg51" layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="657.0" AnchorPane.topAnchor="520.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg40" layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="585.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg50" layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="585.0" AnchorPane.topAnchor="520.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg35" layoutX="50.0" layoutY="50.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="946.0" AnchorPane.topAnchor="374.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg45" layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="946.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg55" layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="520.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg65" layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="593.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg75" layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="666.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg84" layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="873.0" AnchorPane.topAnchor="739.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg85" layoutX="100.0" layoutY="100.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="945.0" AnchorPane.topAnchor="739.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg36" layoutX="60.0" layoutY="60.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="374.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg46" layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg56" layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="520.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg66" layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1018.0" AnchorPane.topAnchor="593.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg37" layoutX="70.0" layoutY="70.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1090.0" AnchorPane.topAnchor="374.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg47" layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1090.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg57" layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1090.0" AnchorPane.topAnchor="520.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg38" layoutX="80.0" layoutY="80.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1162.0" AnchorPane.topAnchor="374.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Pane fx:id="pg48" layoutX="90.0" layoutY="90.0" prefHeight="68.0" prefWidth="68.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="1162.0" AnchorPane.topAnchor="447.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
       <Label layoutX="10.0" layoutY="10.0" text="Player1" textFill="#030000" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="490.0">
          <font>
             <Font name="Arial Black" size="35.0" />

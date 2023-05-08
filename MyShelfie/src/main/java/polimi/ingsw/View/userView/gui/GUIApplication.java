@@ -10,8 +10,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import polimi.ingsw.Model.DefaultValue;
+import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Tile;
 import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.GameFlow;
 import polimi.ingsw.View.userView.gui.controllers.*;
@@ -86,6 +89,7 @@ public class GUIApplication extends Application {
                 }
                 case MENU->{
                     this.primaryStage.centerOnScreen();
+                    this.primaryStage.setAlwaysOnTop(false);
                 }
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
@@ -181,6 +185,31 @@ public class GUIApplication extends Application {
         }
         return -1;
     }
+
+    public void showTilesToPlayground(GameModelImmutable model){
+        Tile t;
+        Pane tilePane;
+        for(int r=0; r< DefaultValue.PlaygroundSize;r++){
+            for(int c=0; c< DefaultValue.PlaygroundSize;c++) {
+                t = model.getPg().getTile(r,c);
+                tilePane= (Pane) this.primaryStage.getScene().getRoot().lookup("#pg" + r+c);
+
+                if(tilePane!=null){
+                    if(!t.getType().equals(TileType.NOT_USED) &&  !t.getType().equals(TileType.USED) && !t.getType().equals(TileType.FINISHED_USING) ) {
+                        tilePane.getStyleClass().add(t.getType().getBackgroundClass());
+                        tilePane.getStyleClass().add("tileHover");
+                        tilePane.setVisible(true);
+                    }else{
+                        tilePane.setVisible(false);
+                    }
+                }
+
+            }
+        }
+    }
+
+
+
     public void createNewWindowWithStyle() {
         // Crea una nuova finestra con lo stile desiderato
         Stage newStage = new Stage();

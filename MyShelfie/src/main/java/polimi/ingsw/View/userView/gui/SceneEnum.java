@@ -10,7 +10,8 @@ public enum SceneEnum {
     PLAYER_LOBBY_CARD1("/PlayerLobbyCard1.fxml"),
     PLAYER_LOBBY_CARD2("/PlayerLobbyCard2.fxml"),
     PLAYER_LOBBY_CARD3("/PlayerLobbyCard3.fxml"),
-    JOIN_SPECIFIC("/JoinSpecific.fxml");
+    JOIN_SPECIFIC("/JoinSpecific.fxml"),
+    INGAME("/InGame.fxml");
 
     private final String value;
 
