@@ -2,7 +2,6 @@ package polimi.ingsw.View.userView.gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -186,12 +185,19 @@ public class GUIApplication extends Application {
         return -1;
     }
 
-    public void showTilesToPlayground(GameModelImmutable model){
+    public void showInGameModel(GameModelImmutable model){
+        showTilesToPlayground(model);
+        showCommonCards(model);
+        showPersonalCard(model);
+    }
+    private void showTilesToPlayground(GameModelImmutable model){
         Tile t;
         Pane tilePane;
+        //AnchorPane anchor = (AnchorPane) this.primaryStage.getScene().getRoot().lookup("#anchorMain");
         for(int r=0; r< DefaultValue.PlaygroundSize;r++){
             for(int c=0; c< DefaultValue.PlaygroundSize;c++) {
                 t = model.getPg().getTile(r,c);
+
                 tilePane= (Pane) this.primaryStage.getScene().getRoot().lookup("#pg" + r+c);
 
                 if(tilePane!=null){
@@ -207,6 +213,34 @@ public class GUIApplication extends Application {
             }
         }
     }
+
+    private void showCommonCards(GameModelImmutable model){
+        Pane tilePane;
+        tilePane= (Pane) this.primaryStage.getScene().getRoot().lookup("#cc0");
+
+        tilePane.getStyleClass().add(model.getCommonCards().get(0).getCommonType().getBackgroundClass());
+        tilePane.getStyleClass().add("tileHover");
+        tilePane.setVisible(true);
+
+        tilePane= (Pane) this.primaryStage.getScene().getRoot().lookup("#cc1");
+        tilePane.getStyleClass().add(model.getCommonCards().get(1).getCommonType().getBackgroundClass());
+        tilePane.getStyleClass().add("tileHover");
+        tilePane.setVisible(true);
+
+    }
+
+    private void showPersonalCard(GameModelImmutable model){
+        Pane tilePane;
+        for(int i=0;i<model.getPlayers().size();i++){
+            tilePane= (Pane) this.primaryStage.getScene().getRoot().lookup("#pc"+(i+1));
+            tilePane.getStyleClass().add(model.getPlayers().get(i).getSecretGoal().getGoalType().getBackgroundClass());
+            tilePane.getStyleClass().add("tileHover");
+            tilePane.setVisible(true);
+        }
+
+
+    }
+
 
 
 
