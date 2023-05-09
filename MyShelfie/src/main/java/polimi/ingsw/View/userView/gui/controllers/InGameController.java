@@ -1,22 +1,21 @@
 package polimi.ingsw.View.userView.gui.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Tile;
+import polimi.ingsw.View.userView.gui.intRecord;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InGameController extends GenericController{
 
@@ -38,11 +37,9 @@ public class InGameController extends GenericController{
     private boolean firstClick=true;
     private Integer rowFirstTile,colFirstTile,rowSecondTile,colSecondTile;
     public void actionClickOnTile(MouseEvent e) throws IOException {
-        final Node source = (Node) e.getSource();
-        String id = source.getId();
-        String rowCol = id.replaceAll("pg", "");
-        Integer row = Integer.parseInt(String.valueOf(rowCol.charAt(0)));
-        Integer col = Integer.parseInt(String.valueOf(rowCol.charAt(1)));;
+        intRecord rowCol = getRowColFrom(e);
+        Integer row = rowCol.row();
+        Integer col = rowCol.col();
 
         if(!firstClick) {
           //Second click so client selected first and last Tile in the playground
@@ -56,6 +53,65 @@ public class InGameController extends GenericController{
         }
         firstClick=!firstClick;
     }
+    private intRecord getRowColFrom(MouseEvent e){
+        final Node source = (Node) e.getSource();
+        String id = source.getId();
+        String rowCol = id.replaceAll("pg", "");
+        int row = Integer.parseInt(String.valueOf(rowCol.charAt(0)));
+        int col = Integer.parseInt(String.valueOf(rowCol.charAt(1)));;
+        return new intRecord(row,col);
+    }
+
+    public void actionMouseEnteredTile(MouseEvent e) throws IOException{
+        if(rowFirstTile!=null && colFirstTile!=null && rowSecondTile==null && colSecondTile==null){
+            makeTilesNotSelectedExpectTheFirstOne();
+            //I make visible the selected tiles until second click
+            Pane tilePane;
+            intRecord destinPoint = getRowColFrom(e);
+            List<intRecord> points = getPointsBetween(rowFirstTile,colFirstTile,destinPoint.row(),destinPoint.col());
+            for(intRecord p:points){
+                tilePane = (Pane) tilesPane.lookup("#pg"+p.row()+p.col());
+                tilePane.getStyleClass().add("selected");
+            }
+        }
+    }
+    public void actionMouseEnteredPlayground(MouseEvent e){
+        makeTilesNotSelectedExpectTheFirstOne();
+    }
+
+    private void makeTilesNotSelectedExpectTheFirstOne(){
+        String selector = ".selected";
+        tilesPane.lookupAll(selector).forEach(element -> {
+            element.getStyleClass().remove("selected");
+        });
+
+        if(rowFirstTile!=null && colFirstTile!=null){
+            ((Pane) tilesPane.lookup("#pg"+rowFirstTile+colFirstTile)).getStyleClass().add("selected");
+        }
+    }
+    private List<intRecord> getPointsBetween(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
+        List<intRecord> points = new ArrayList<>();
+
+        if (rowFirstTile == rowSecondTile || colFirstTile == colSecondTile) {
+            int minRow = Math.min(rowFirstTile, rowSecondTile);
+            int maxRow = Math.max(rowFirstTile, rowSecondTile);
+            int minCol = Math.min(colFirstTile, colSecondTile);
+            int maxCol = Math.max(colFirstTile, colSecondTile);
+
+            if (rowFirstTile == rowSecondTile) {
+                for (int col = minCol; col <= maxCol; col++) {
+                    points.add(new intRecord(rowFirstTile, col));
+                }
+            } else {
+                for (int row = minRow; row <= maxRow; row++) {
+                    points.add(new intRecord(row, colFirstTile));
+                }
+            }
+        }
+
+        return points;
+    }
+
 
     private void checkAlignment(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
         Direction dir = null;
@@ -79,9 +135,9 @@ public class InGameController extends GenericController{
             } else {
                 dir=Direction.UP;
             }
-        } else {
-            //return "false";
         }
+        //else return "false";
+
 
         if(dir!=null){
             getInputReaderGUI().addTxt(String.valueOf(distance));
@@ -92,6 +148,11 @@ public class InGameController extends GenericController{
             if(distance!=1){
                 getInputReaderGUI().addTxt(dir.toString());
             }
+            this.rowFirstTile=null;
+            this.colFirstTile=null;
+            this.rowSecondTile=null;
+            this.colSecondTile=null;
+            makeTilesNotSelectedExpectTheFirstOne();
         }
 
     }

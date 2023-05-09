@@ -592,5 +592,10 @@
     -fx-background-radius: 8, 7, 6;
     -fx-background-insets: 0, 1, 2;
     -fx-border-color: #3939ff;
-    -fx-border-width: 2px;
+    -fx-border-width: 3px;
+}
+
+.selected{
+    -fx-border-color: #3939ff;
+    -fx-border-width: 4px;
 }
