@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -35,7 +36,7 @@ public class InGameController extends GenericController{
 
     private boolean firstClick=true;
     private Integer rowFirstTile,colFirstTile,rowSecondTile,colSecondTile;
-    public void actionClickOnTile(ActionEvent e) throws IOException {
+    public void actionClickOnTile(MouseEvent e) throws IOException {
         final Node source = (Node) e.getSource();
         String id = source.getId();
         String rowCol = id.replaceAll("pg", "");
