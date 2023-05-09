@@ -23,227 +23,227 @@
       </ImageView>
       <Pane fx:id="tilesPane" layoutX="524.0" layoutY="130.0" AnchorPane.leftAnchor="464.0" AnchorPane.topAnchor="75.0">
          <children>
-            <Pane fx:id="pg03" layoutX="187.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg03" layoutX="187.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg04" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg04" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg13" layoutX="187.0" layoutY="62.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg13" layoutX="187.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg23" layoutX="187.0" layoutY="124.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg23" layoutX="187.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg33" layoutX="187.0" layoutY="186.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg33" layoutX="187.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg43" layoutX="187.0" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg43" layoutX="187.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg53" layoutX="187.0" layoutY="310.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg53" layoutX="187.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg63" layoutX="187.0" layoutY="372.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg63" layoutX="187.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg73" layoutX="187.0" layoutY="434.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg73" layoutX="187.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg14" layoutX="250.0" layoutY="62.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg14" layoutX="250.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg24" layoutX="250.0" layoutY="124.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg24" layoutX="250.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg34" layoutX="250.0" layoutY="186.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg34" layoutX="250.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg44" layoutX="250.0" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg44" layoutX="250.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg54" layoutX="250.0" layoutY="310.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg54" layoutX="250.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg64" layoutX="250.0" layoutY="372.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg64" layoutX="250.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg74" layoutX="250.0" layoutY="434.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg74" layoutX="250.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg15" layoutX="312.0" layoutY="62.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg15" layoutX="312.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg25" layoutX="312.0" layoutY="124.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg25" layoutX="312.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg26" layoutX="374.0" layoutY="124.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg26" layoutX="374.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg22" layoutX="125.0" layoutY="124.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg22" layoutX="125.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg32" layoutX="125.0" layoutY="186.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg32" layoutX="125.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg42" layoutX="125.0" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg42" layoutX="125.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg52" layoutX="125.0" layoutY="310.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg52" layoutX="125.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg62" layoutX="125.0" layoutY="372.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg62" layoutX="125.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg31" layoutX="63.0" layoutY="186.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg31" layoutX="63.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg41" layoutX="63.0" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg41" layoutX="63.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg51" layoutX="63.0" layoutY="310.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg51" layoutX="63.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg40" layoutX="250.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg40" layoutX="250.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg50" layoutY="310.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg50" layoutY="310.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg35" layoutX="312.0" layoutY="186.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg35" layoutX="312.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg45" layoutX="312.0" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg45" layoutX="312.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg55" layoutX="312.0" layoutY="310.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg55" layoutX="312.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg65" layoutX="312.0" layoutY="372.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg65" layoutX="312.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg75" layoutX="312.0" layoutY="434.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg75" layoutX="312.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg84" layoutX="250.0" layoutY="496.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg84" layoutX="250.0" layoutY="496.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg85" layoutX="312.0" layoutY="496.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg85" layoutX="312.0" layoutY="496.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg36" layoutX="374.0" layoutY="186.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg36" layoutX="374.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg46" layoutX="374.0" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg46" layoutX="374.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg56" layoutX="374.0" layoutY="310.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg56" layoutX="374.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg66" layoutX="374.0" layoutY="372.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg66" layoutX="374.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg37" layoutX="436.0" layoutY="186.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg37" layoutX="436.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg47" layoutX="436.0" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg47" layoutX="436.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg57" layoutX="436.0" layoutY="310.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg57" layoutX="436.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg38" layoutX="498.0" layoutY="186.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg38" layoutX="498.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg48" layoutX="498.0" layoutY="248.0" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg48" layoutX="498.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

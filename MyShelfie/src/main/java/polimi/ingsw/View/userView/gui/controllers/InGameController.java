@@ -1,6 +1,9 @@
 package polimi.ingsw.View.userView.gui.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -10,6 +13,8 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Tile;
+
+import java.io.IOException;
 
 public class InGameController extends GenericController{
 
@@ -27,6 +32,27 @@ public class InGameController extends GenericController{
 
     @FXML
     private AnchorPane mainAnchor;
+
+    private boolean firstClick=true;
+    private Integer rowFirstTile,colFirstTile,rowSecondTile,colSecondTile;
+    public void actionClickOnTile(ActionEvent e) throws IOException {
+        final Node source = (Node) e.getSource();
+        String id = source.getId();
+        String rowCol = id.replaceAll("pg", "");
+        Integer row = Integer.parseInt(String.valueOf(rowCol.charAt(0)));
+        Integer col = Integer.parseInt(String.valueOf(rowCol.charAt(1)));;
+
+        if(!firstClick) {
+          //Second click so client selected first and last Tile in the playground
+            rowSecondTile=row;
+            colSecondTile=col;
+            System.out.println(rowFirstTile+":"+colFirstTile+" - "+rowSecondTile+":"+colSecondTile);
+        }else{
+            rowFirstTile=row;
+            colFirstTile=col;
+        }
+        firstClick=!firstClick;
+    }
 
     public void setNickname(GameModelImmutable model){
         int playerNum = model.getPlayers().size();
