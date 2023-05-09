@@ -145,7 +145,7 @@ public class GUI extends UI {
 
     @Override
     protected void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname) {
-
+        System.out.println("Turno di "+nickname);
     }
 
     @Override
@@ -175,7 +175,7 @@ public class GUI extends UI {
 
     @Override
     protected void show_grabbedTileMainMsg(GameModelImmutable model, String nickname) {
-
+        callPlatformRunLater(() -> this.guiApplication.showUpdatePlayground(model));
     }
 
     @Override
@@ -195,7 +195,7 @@ public class GUI extends UI {
 
     @Override
     protected void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname) {
-
+        System.out.println("NO Grabbed!!! "+nickname);
     }
 
     @Override

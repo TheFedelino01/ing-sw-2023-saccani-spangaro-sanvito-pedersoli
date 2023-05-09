@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import polimi.ingsw.Model.DefaultValue;
+import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Tile;
@@ -48,11 +49,51 @@ public class InGameController extends GenericController{
             rowSecondTile=row;
             colSecondTile=col;
             System.out.println(rowFirstTile+":"+colFirstTile+" - "+rowSecondTile+":"+colSecondTile);
+            checkAlignment(rowFirstTile,colFirstTile,rowSecondTile,colSecondTile);
         }else{
             rowFirstTile=row;
             colFirstTile=col;
         }
         firstClick=!firstClick;
+    }
+
+    private void checkAlignment(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
+        Direction dir = null;
+        Integer distance =null;
+
+        if (rowFirstTile == rowSecondTile && Math.abs(colFirstTile - colSecondTile) <= 3) {
+            distance = Math.abs(colFirstTile - colSecondTile) + 1;
+
+            if(distance!=1) {
+                if (colFirstTile < colSecondTile) {
+                    dir=Direction.RIGHT;
+                } else {
+                    dir=Direction.LEFT;
+                }
+            }
+        } else if (colFirstTile == colSecondTile && Math.abs(rowFirstTile - rowSecondTile) <= 3) {
+            distance = Math.abs(rowFirstTile - rowSecondTile) + 1;
+
+            if (rowFirstTile < rowSecondTile) {
+                dir=Direction.DOWN;
+            } else {
+                dir=Direction.UP;
+            }
+        } else {
+            //return "false";
+        }
+
+        if(dir!=null){
+            getInputReaderGUI().addTxt(String.valueOf(distance));
+
+            getInputReaderGUI().addTxt(String.valueOf(rowFirstTile));
+            getInputReaderGUI().addTxt(String.valueOf(colFirstTile));
+
+            if(distance!=1){
+                getInputReaderGUI().addTxt(dir.toString());
+            }
+        }
+
     }
 
     public void setNickname(GameModelImmutable model){

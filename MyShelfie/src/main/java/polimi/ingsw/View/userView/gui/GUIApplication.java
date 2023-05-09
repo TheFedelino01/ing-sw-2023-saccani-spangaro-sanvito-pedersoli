@@ -200,6 +200,11 @@ public class GUIApplication extends Application {
         controller.setVisibleShelves(model);
     }
 
+    public void showUpdatePlayground(GameModelImmutable model){
+        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
+        controller.setPlayground(model);
+    }
+
 
 
 
