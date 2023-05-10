@@ -20,8 +20,8 @@ public class MainClient {
         clearCMD();
         Integer selection;
 
-        if(!DefaultValue.DEBUG) {
-            String input = null;
+        if (!DefaultValue.DEBUG) {
+            String input;
 
             do {
                 System.out.println(ansi().cursor(1, 0).a("""
@@ -35,25 +35,25 @@ public class MainClient {
                 input = new Scanner(System.in).nextLine();
                 selection = Integer.parseInt(input);
             } while (selection != 1 && selection != 2 && selection != 3 && selection != 4);
-        }else{
-            selection=2; //Default run configuration
+        } else {
+            selection = 2; //Default run configuration
         }
 
 
         //Get the Communication Protocol wanted
-        ConnectionSelection conSel=null;
-        if(selection==1 || selection==3){
-            conSel=ConnectionSelection.SOCKET;
-        }else if(selection==2 || selection==4){
-            conSel=ConnectionSelection.RMI;
+        ConnectionSelection conSel;
+        if (selection == 1 || selection == 3) {
+            conSel = ConnectionSelection.SOCKET;
+        } else {
+            conSel = ConnectionSelection.RMI;
         }
 
         //Starts the UI wanted
-        if(selection==1 || selection==2){
+        if (selection == 1 || selection == 2) {
             //Starts the game with TUI
             //I can start directly here the GameFlow
             new GameFlow(conSel);
-        }else if (selection==3 || selection==4){
+        } else {
             //Starts the game with GUI
             //For doing so, I need to start the Main of GUI (GameFlow needs to be started inside the thread of GUI)
             Application.launch(GUIApplication.class, conSel.toString());

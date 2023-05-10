@@ -2,6 +2,7 @@ package polimi.ingsw.View.userView.gui;
 
 import javafx.scene.Scene;
 import polimi.ingsw.View.userView.gui.controllers.GenericController;
+import polimi.ingsw.View.userView.gui.scenes.SceneEnum;
 import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
 public class SceneInfo {

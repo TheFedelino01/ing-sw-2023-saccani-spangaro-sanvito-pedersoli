@@ -14,6 +14,7 @@ import polimi.ingsw.Model.Player;
 import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.GameFlow;
 import polimi.ingsw.View.userView.gui.controllers.*;
+import polimi.ingsw.View.userView.gui.scenes.SceneEnum;
 import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class GUIApplication extends Application {
         loadScenes();
 
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("My App");
+        this.primaryStage.setTitle("My Shelfie");
 
         root = new StackPane();
     }
@@ -218,6 +219,7 @@ public class GUIApplication extends Application {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.changeTurn(model,nickname);
     }
+
 
 
 

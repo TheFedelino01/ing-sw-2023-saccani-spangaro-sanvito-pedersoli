@@ -1,4 +1,4 @@
-package polimi.ingsw.View.userView.gui;
+package polimi.ingsw.View.userView.gui.scenes;
 
 public enum SceneEnum {
     PUBLISHER("/Publisher.fxml"),

@@ -9,6 +9,7 @@ import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.userView.UI;
 import polimi.ingsw.View.userView.gui.controllers.LobbyController;
 import polimi.ingsw.View.userView.gui.controllers.NicknamePopupController;
+import polimi.ingsw.View.userView.gui.scenes.SceneEnum;
 import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
 public class GUI extends UI {

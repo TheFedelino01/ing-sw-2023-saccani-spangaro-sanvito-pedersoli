@@ -118,28 +118,28 @@ public class Playground implements Serializable {
         for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
             for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
                 if (!playground[i][j].isSameType(TileType.NOT_USED) &&
-                        !(playground[i][j].isSameType(TileType.FINISHED_USING))) {
+                    !(playground[i][j].isSameType(TileType.FINISHED_USING))) {
                     if (i > 0) {
                         if (playground[i - 1][j].isSameType(TileType.NOT_USED) ||
-                                playground[i - 1][j].isSameType(TileType.FINISHED_USING)) {
+                            playground[i - 1][j].isSameType(TileType.FINISHED_USING)) {
                             playground[i][j].setFreeSide(true);
                         }
                     }
                     if (i < DefaultValue.PlaygroundSize - 1) {
                         if (playground[i + 1][j].isSameType(TileType.NOT_USED) ||
-                                playground[i + 1][j].isSameType(TileType.FINISHED_USING)) {
+                            playground[i + 1][j].isSameType(TileType.FINISHED_USING)) {
                             playground[i][j].setFreeSide(true);
                         }
                     }
                     if (j >= 1) {
                         if (playground[i][j - 1].isSameType(TileType.NOT_USED) ||
-                                playground[i][j - 1].isSameType(TileType.FINISHED_USING)) {
+                            playground[i][j - 1].isSameType(TileType.FINISHED_USING)) {
                             playground[i][j].setFreeSide(true);
                         }
                     }
                     if (j < DefaultValue.PlaygroundSize - 1) {
                         if (playground[i][j + 1].isSameType(TileType.NOT_USED) ||
-                                playground[i][j + 1].isSameType(TileType.FINISHED_USING)) {
+                            playground[i][j + 1].isSameType(TileType.FINISHED_USING)) {
                             playground[i][j].setFreeSide(true);
                         }
                     }
@@ -176,95 +176,135 @@ public class Playground implements Serializable {
         Collections.shuffle(bag);
     }
 
-    public void checkBeforeGrab(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException {
+    public boolean checkBeforeGrab(int r, int c, Direction direction, int num) {
         int i = 0;
         while (i < num) {
-            if (!playground[x][y].isFreeSide()) {
-                throw new TileGrabbedNotCorrectException();
+            if (r >= DefaultValue.PlaygroundSize || c >= DefaultValue.PlaygroundSize)
+                return false;
+            if (playground[r][c] == null)
+                return false;
+            if (!playground[r][c].isFreeSide()) {
+                return false;
             }
-            if (playground[x][y].isSameType(TileType.NOT_USED)) {
-                throw new TileGrabbedNotCorrectException();
+            if (playground[r][c].isSameType(TileType.NOT_USED)) {
+                return false;
+            }
+            if (playground[r][c].isSameType(TileType.FINISHED_USING)) {
+                return false;
             }
             i++;
             switch (direction) {
-                case UP -> x--;
-                case DOWN -> x++;
-                case LEFT -> y--;
-                case RIGHT -> y++;
-            }
-        }
-    }
-
-    boolean allTileHaveAllFreeSide() {
-        for (int i = 0; i < DefaultValue.PlaygroundSize; i++) {
-            for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
-                try {
-                    if (!(playground[i + 1][j].isSameType(TileType.NOT_USED)
-                            && playground[i - 1][j].isSameType(TileType.NOT_USED)
-                    ) && playground[i][j + 1].isSameType(TileType.NOT_USED)
-                            && playground[i][j - 1].isSameType(TileType.NOT_USED)
-                            && playground[i + 1][j].isSameType(TileType.FINISHED_USING)
-                            && playground[i - 1][j].isSameType(TileType.FINISHED_USING)
-                            && playground[i][j + 1].isSameType(TileType.FINISHED_USING)
-                            && playground[i][j - 1].isSameType(TileType.FINISHED_USING)) {
-                        return false;
-                    }
-                } catch (ArrayIndexOutOfBoundsException ignored) {
-                }
-
+                case UP -> r--;
+                case DOWN -> r++;
+                case LEFT -> c--;
+                case RIGHT -> c++;
             }
         }
         return true;
     }
 
-    public List<Tile> grabTile(int x, int y, Direction direction, int num) throws TileGrabbedNotCorrectException {
+    boolean allTileHaveAllFreeSide() {
+        boolean check = true;
+        for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
+            for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
+                //checks the 4 vertexes
+                if ((c == 0 && r == 0) && !((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                             playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                             playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                } else if ((c == 0 && r == DefaultValue.PlaygroundSize - 1)
+                           && !((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                 playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
+                                (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                 playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                } else if ((c == DefaultValue.PlaygroundSize - 1 && r == 0)
+                           && !((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                 playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                                 playground[c - 1][r].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                } else if ((c == DefaultValue.PlaygroundSize - 1 && r == DefaultValue.PlaygroundSize - 1)
+                           && !((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                 playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
+                                (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                                 playground[c - 1][r].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                }
+                //checks borders
+                else if (c == 0 && !((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                      playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                     (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                      playground[c + 1][r].isSameType(TileType.FINISHED_USING)) &&
+                                     (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                      playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                } else if (c == DefaultValue.PlaygroundSize - 1 &&
+                           !((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                              playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                             (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                              playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
+                             (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                              playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                } else if (r == DefaultValue.PlaygroundSize - 1 &&
+                           !((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                              playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
+                             (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                              playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
+                             (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                              playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                } else if (r == 0 &&
+                           !((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                              playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                             (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                              playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
+                             (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                              playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                }
+                //checks inside tiles
+                else if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                            playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                           (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                            playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
+                           (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                            playground[c + 1][r].isSameType(TileType.FINISHED_USING)) &&
+                           (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                            playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
+                    check = false;
+                }
+            }
+        }
+        return check;
+    }
+
+    public List<Tile> grabTile(int r, int c, Direction direction, int num) throws TileGrabbedNotCorrectException {
         List<Tile> ris = new ArrayList<>();
         //check if all the tile are not used or finished using
-        int nums = 0;
-        for (int k = 0; k < DefaultValue.PlaygroundSize; k++) {
-            for (int j = 0; j < DefaultValue.PlaygroundSize; j++) {
-                if ((playground[k][j].isSameType(TileType.NOT_USED)) || (playground[k][j].isSameType(TileType.FINISHED_USING))) {
-                    nums++;
-                    if (nums == DefaultValue.PlaygroundSize * DefaultValue.PlaygroundSize || allTileHaveAllFreeSide()) {
-                        setPlayground();
-                    }
-                }
-            }
+
+        if (!checkBeforeGrab(r, c, direction, num)) {
+            throw new TileGrabbedNotCorrectException();
         }
-        checkBeforeGrab(x, y, direction, num);
+
         int i = 0;
         while (i < num) {
-            if (playground[x][y].isSameType(TileType.NOT_USED)) {
-                throw new TileGrabbedNotCorrectException();
-
-            }
-            if (((y == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.DOWN))) ||
-                    ((y == 0) && (direction.equals(Direction.UP))) ||
-                    ((x == DefaultValue.PlaygroundSize - 1) && (direction.equals(Direction.RIGHT))) ||
-                    ((x == 0) && (direction.equals(Direction.LEFT)))) {
-                updateFreeSide();
-                return ris;
-            }
-            if ((playground[x][y] != null) ||
-                    !(Objects.requireNonNull(playground[x][y]).isSameType(TileType.NOT_USED)) ||
-                    !(playground[x][y].isSameType(TileType.NOT_USED))) {
-                if (playground[x][y].isFreeSide()) {
-                    ris.add(playground[x][y]);
-                    playground[x][y] = new Tile(TileType.FINISHED_USING);
-                } else {
-                    throw new TileGrabbedNotCorrectException();
-                }
-            }
+            ris.add(playground[r][c]);
+            playground[r][c].setType(TileType.FINISHED_USING);
+            updateFreeSide();
             i++;
             switch (direction) {
-                case UP -> x--;
-                case DOWN -> x++;
-                case LEFT -> y--;
-                case RIGHT -> y++;
+                case UP -> r--;
+                case DOWN -> r++;
+                case LEFT -> c--;
+                case RIGHT -> c++;
             }
         }
-        updateFreeSide();
-
+        if (allTileHaveAllFreeSide()) {
+            setPlayground();
+        }
         return ris;
     }
 
