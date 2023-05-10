@@ -483,6 +483,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     public void askPickTiles(GameModelImmutable gameModel) {
+        ui.show_askPickTilesMainMsg();
         Integer numTiles;
         do {
             numTiles = Objects.requireNonNullElse(askNum("> How many tiles do you want to get? ", gameModel), DefaultValue.minNumOfGrabbableTiles - 1);
@@ -534,6 +535,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                 .toList().get(0);
          */
         Integer column;
+        ui.show_askColumnMainMsg();
         do {
             column = askNum("> Choose column to place all the tiles:", model);
             ui.show_playerHand(model);

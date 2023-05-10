@@ -455,7 +455,8 @@
 }
 
 .tileEmpty{
-
+    -fx-opacity:0.8;
+    -fx-background-color:white;
 }
 
 .cc1{
@@ -614,4 +615,11 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
     -fx-padding: 10;
     -fx-background-radius: 5;
+}
+
+.textYellow{
+    -fx-text-fill:yellow !important;
+}
+.backgroundTransparent{
+    -fx-background-color: transparent !important;
 }

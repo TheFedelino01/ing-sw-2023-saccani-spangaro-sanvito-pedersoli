@@ -6,11 +6,9 @@ import javafx.util.Duration;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
-import polimi.ingsw.Model.Player;
 import polimi.ingsw.View.userView.UI;
 import polimi.ingsw.View.userView.gui.controllers.LobbyController;
 import polimi.ingsw.View.userView.gui.controllers.NicknamePopupController;
-import polimi.ingsw.View.userView.gui.controllers.PlayerLobbyCardController;
 import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
 public class GUI extends UI {
@@ -149,22 +147,22 @@ public class GUI extends UI {
 
     @Override
     protected void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname) {
-        System.out.println("Turno di "+nickname);
+        callPlatformRunLater(() -> this.guiApplication.changeTurn(model, nickname));
     }
 
     @Override
     protected void show_askNum(String msg, GameModelImmutable gameModel, String nickname) {
-
+        //callPlatformRunLater(() -> this.guiApplication.showMessageInGame(msg,null));
     }
 
     @Override
     protected void show_playerHand(GameModelImmutable gameModel) {
-
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Player hand updated!",null));
     }
 
     @Override
     protected void show_grabbedTile(String nickname, GameModelImmutable model) {
-
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Player "+nickname+" has grabbed some tiles",null));
     }
 
     @Override
@@ -179,32 +177,35 @@ public class GUI extends UI {
 
     @Override
     protected void show_grabbedTileMainMsg(GameModelImmutable model, String nickname) {
-        callPlatformRunLater(() -> this.guiApplication.showUpdatePlayground(model));
+        callPlatformRunLater(() -> this.guiApplication.showPlayerGrabbedTiles(model,nickname));
+        if(model.getNicknameCurrentPlaying().equals(this.nickname)){
+            callPlatformRunLater(() -> this.guiApplication.showSelectionColShelfie());
+        }
     }
 
     @Override
     public void show_whichTileToPlaceMsg() {
-
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Select one of your Tile to place it into the shelfie",null));
     }
 
     @Override
     public void show_wrongSelectionHandMsg() {
-
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Wrong selection of tile in hand!",false));
     }
 
     @Override
     protected void show_positionedTile(GameModelImmutable model, String nickname) {
-
+        callPlatformRunLater(() -> this.guiApplication.showPlayerPositionedTile(model,nickname));
     }
 
     @Override
     protected void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname) {
-        System.out.println("NO Grabbed!!! "+nickname);
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Tiles grabbed not valid!",false));
     }
 
     @Override
     public void show_NaNMsg() {
-
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("NaN",false));
     }
 
     @Override
@@ -213,8 +214,18 @@ public class GUI extends UI {
     }
 
     @Override
+    protected void show_askColumnMainMsg() {
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Select one column to place all the tiles",null));
+    }
+
+    @Override
     public void show_direction() {
 
+    }
+
+    @Override
+    protected void show_askPickTilesMainMsg() {
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Grab some tiles from the playground",true));
     }
 
     @Override

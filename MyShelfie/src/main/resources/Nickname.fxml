@@ -26,7 +26,7 @@
             <Font name="Arial" size="22.0" />
          </font>
       </TextField>
-      <Button layoutX="489.0" layoutY="672.0" mnemonicParsing="false" onAction="#actionEnter" prefHeight="60.0" prefWidth="334.0" styleClass="record-sales" stylesheets="@style.css" text="ENTER" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="430.0">
+      <Button defaultButton="true" layoutX="489.0" layoutY="672.0" mnemonicParsing="false" onAction="#actionEnter" prefHeight="60.0" prefWidth="334.0" styleClass="record-sales" stylesheets="@style.css" text="ENTER" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="430.0">
          <font>
             <Font name="Arial" size="22.0" />
          </font>

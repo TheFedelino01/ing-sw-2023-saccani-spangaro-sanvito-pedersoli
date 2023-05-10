@@ -15,7 +15,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Pane>
-      <Button fx:id="btnReady" mnemonicParsing="false" onAction="#actionIamReady" prefHeight="60.0" prefWidth="222.0" styleClass="record-sales5" stylesheets="@style.css" text="NOT READY" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
+      <Button fx:id="btnReady" defaultButton="true" mnemonicParsing="false" onAction="#actionIamReady" prefHeight="60.0" prefWidth="222.0" styleClass="record-sales5" stylesheets="@style.css" text="NOT READY" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
          <font>
             <Font name="Arial" size="30.0" />
          </font>

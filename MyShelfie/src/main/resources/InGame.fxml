@@ -277,7 +277,10 @@
                <styleClass>
                   <String fx:value="tileHover" />
                   <String fx:value="roundBorder" />
-               </styleClass></Pane>
+               </styleClass>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
          </children>
       </Pane>
       <Pane layoutX="795.0" layoutY="697.0" stylesheets="@style.css" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="700.0">
@@ -286,25 +289,31 @@
                <styleClass>
                   <String fx:value="tileHover" />
                   <String fx:value="roundBorder" />
-               </styleClass></Pane>
+               </styleClass>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
          </children>
       </Pane>
-      <Label fx:id="lableGameId" layoutX="10.0" layoutY="10.0" text="Game ID: 00000" textFill="WHITE" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="7.0">
+      <Label layoutX="10.0" layoutY="10.0" text="Game ID:" textFill="WHITE" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="7.0">
          <font>
             <Font name="Arial Black" size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="460.0" fitWidth="390.0" layoutX="5.0" layoutY="60.0" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
+      <ImageView fitHeight="460.0" fitWidth="390.0" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
          <image>
             <Image url="@img/img/boards/bookshelf.png" />
          </image>
       </ImageView>
-      <Pane fx:id="youPersonal" layoutX="330.0" layoutY="220.0" prefHeight="230.0" prefWidth="170.0" style="-fx-background-color: white;" stylesheets="@style.css" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="550.0">
+      <Pane fx:id="youPersonal" layoutX="330.0" layoutY="220.0" prefHeight="260.0" prefWidth="170.0" style="-fx-background-color: white;" stylesheets="@style.css" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="550.0">
          <styleClass>
             <String fx:value="tileHover" />
             <String fx:value="roundBorder" />
-         </styleClass></Pane>
-      <Label fx:id="youNickname" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="365.0" prefHeight="53.0" prefWidth="308.0" text="YouPlayer" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="390.0">
+         </styleClass>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
+      <Label fx:id="youNickname" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="365.0" prefHeight="53.0" prefWidth="308.0" stylesheets="@style.css" text="YouPlayer" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="390.0">
          <font>
             <Font name="Arial Black" size="35.0" />
          </font>
@@ -316,7 +325,7 @@
                   <Image url="@img/img/boards/bookshelf.png" />
                </image>
             </ImageView>
-            <Label fx:id="playerLabel3" alignment="CENTER" contentDisplay="CENTER" layoutX="121.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" text="Player3" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="playerLabel3" alignment="CENTER" contentDisplay="CENTER" layoutX="121.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" stylesheets="@style.css" text="Player3" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="30.0" />
                </font>
@@ -331,6 +340,40 @@
                   <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
+            <Pane layoutX="131.0" layoutY="18.0">
+               <children>
+                  <Pane fx:id="player3Shelf50" layoutX="1.0" layoutY="162.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf40" layoutX="1.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf30" layoutX="1.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf20" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf10" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf00" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf51" layoutX="38.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf41" layoutX="38.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf31" layoutX="38.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf21" layoutX="38.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf11" layoutX="38.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf01" layoutX="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf52" layoutX="76.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf42" layoutX="75.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf32" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf22" layoutX="76.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf12" layoutX="76.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf02" layoutX="76.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf53" layoutX="113.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf43" layoutX="113.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf33" layoutX="113.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf23" layoutX="113.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf13" layoutX="114.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf03" layoutX="114.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf54" layoutX="150.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf44" layoutX="151.0" layoutY="132.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf34" layoutX="151.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf24" layoutX="152.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf14" layoutX="152.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player3Shelf04" layoutX="152.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+               </children>
+            </Pane>
          </children>
       </Pane>
       <Pane fx:id="workspace1" layoutX="1100.0" layoutY="50.0">
@@ -340,7 +383,7 @@
                   <Image url="@img/img/boards/bookshelf.png" />
                </image>
             </ImageView>
-            <Label fx:id="playerLabel1" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="202.0" prefHeight="44.0" prefWidth="194.0" text="Player1" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="playerLabel1" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="202.0" prefHeight="44.0" prefWidth="194.0" stylesheets="@style.css" text="Player1" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="30.0" />
                </font>
@@ -355,6 +398,40 @@
                   <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
+            <Pane layoutX="131.0" layoutY="14.0">
+               <children>
+                  <Pane fx:id="player1Shelf50" layoutX="2.0" layoutY="166.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf40" layoutX="2.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf30" layoutX="2.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf20" layoutX="1.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf10" layoutX="1.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf00" layoutX="1.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf51" layoutX="39.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf41" layoutX="39.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf31" layoutX="39.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf21" layoutX="39.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf11" layoutX="39.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf01" layoutX="38.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf52" layoutX="76.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf42" layoutX="76.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf32" layoutX="76.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf22" layoutX="76.0" layoutY="71.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf12" layoutX="76.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf02" layoutX="76.0" layoutY="5.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf53" layoutX="113.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf43" layoutX="113.0" layoutY="134.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf33" layoutX="114.0" layoutY="102.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf23" layoutX="114.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf13" layoutX="114.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf03" layoutX="114.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf54" layoutX="151.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf44" layoutX="152.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf34" layoutX="152.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf24" layoutX="152.0" layoutY="71.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf14" layoutX="152.0" layoutY="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player1Shelf04" layoutX="152.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+               </children>
+            </Pane>
          </children>
       </Pane>
       <Pane fx:id="workspace2" layoutX="1100.0" layoutY="320.0">
@@ -364,7 +441,7 @@
                   <Image url="@img/img/boards/bookshelf.png" />
                </image>
             </ImageView>
-            <Label fx:id="playerLabel2" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" text="Player2" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="playerLabel2" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" stylesheets="@style.css" text="Player2" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="30.0" />
                </font>
@@ -379,6 +456,40 @@
                   <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
+            <Pane layoutX="131.0" layoutY="18.0">
+               <children>
+                  <Pane fx:id="player2Shelf50" layoutX="1.0" layoutY="162.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf40" layoutX="1.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf30" layoutX="1.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf20" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf10" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf00" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf51" layoutX="38.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf41" layoutX="38.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf31" layoutX="38.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf21" layoutX="38.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf11" layoutX="38.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf01" layoutX="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf52" layoutX="76.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf42" layoutX="76.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf32" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf22" layoutX="76.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf12" layoutX="76.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf02" layoutX="76.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf53" layoutX="113.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf43" layoutX="113.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf33" layoutX="113.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf23" layoutX="113.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf13" layoutX="114.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf03" layoutX="114.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf54" layoutX="150.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf44" layoutX="151.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf34" layoutX="151.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf24" layoutX="151.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf14" layoutX="152.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="player2Shelf04" layoutX="152.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+               </children>
+            </Pane>
          </children>
       </Pane>
       <Pane layoutX="481.0" layoutY="700.0" prefHeight="77.0" prefWidth="534.0" stylesheets="@style.css" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="700.0">
@@ -387,27 +498,27 @@
             <String fx:value="backgroundWall" />
          </styleClass>
       </Pane>
-      <ImageView fitHeight="30.0" fitWidth="90.0" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+      <ImageView fitHeight="59.0" fitWidth="40.0" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <image>
             <Image url="@img/img/Publisher_material/Publisher.png" />
          </image>
       </ImageView>
-      <Pane fx:id="pgGrab0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="615.0" AnchorPane.topAnchor="710.0">
+      <Pane fx:id="pgGrab00" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css" AnchorPane.leftAnchor="615.0" AnchorPane.topAnchor="710.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane fx:id="pgGrab1" layoutX="10.0" layoutY="10.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="735.0" AnchorPane.topAnchor="710.0">
+      <Pane fx:id="pgGrab01" layoutX="10.0" layoutY="10.0" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css" AnchorPane.leftAnchor="735.0" AnchorPane.topAnchor="710.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane fx:id="pgGrab2" layoutX="20.0" layoutY="20.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="855.0" AnchorPane.topAnchor="710.0">
+      <Pane fx:id="pgGrab02" layoutX="20.0" layoutY="20.0" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css" AnchorPane.leftAnchor="855.0" AnchorPane.topAnchor="710.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <ImageView fitHeight="162.0" fitWidth="166.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="430.0">
+      <ImageView fitHeight="162.0" fitWidth="166.0" AnchorPane.leftAnchor="430.0" AnchorPane.topAnchor="688.0">
          <image>
             <Image url="@img/img/misc/Sacchetto%20Aperto.png" />
          </image>
@@ -430,6 +541,140 @@
       <Label fx:id="youPoints" layoutX="20.0" layoutY="20.0" prefHeight="38.0" prefWidth="58.0" text="0" AnchorPane.leftAnchor="185.0" AnchorPane.topAnchor="450.0">
          <font>
             <Font name="Arial Black" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lableGameId" layoutX="20.0" layoutY="20.0" prefHeight="29.0" prefWidth="101.0" text="000000" textFill="WHITE" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="7.0">
+         <font>
+            <Font name="Arial Black" size="20.0" />
+         </font>
+      </Label>
+      <Pane layoutX="59.0" layoutY="79.0">
+         <children>
+            <Pane fx:id="youShelf50" layoutX="2.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf40" layoutX="2.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf30" layoutX="2.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf20" layoutX="2.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf10" layoutX="1.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf00" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf51" layoutX="62.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf41" layoutX="62.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf31" layoutX="62.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf21" layoutX="62.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf11" layoutX="62.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf01" layoutX="62.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf52" layoutX="122.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf42" layoutX="123.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf32" layoutX="124.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf22" layoutX="124.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf12" layoutX="124.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf02" layoutX="124.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf53" layoutX="184.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf43" layoutX="184.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf33" layoutX="184.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf23" layoutX="185.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf13" layoutX="185.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf03" layoutX="186.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf54" layoutX="245.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf44" layoutX="245.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf34" layoutX="245.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf24" layoutX="246.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf04" layoutX="248.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+            <Pane fx:id="youShelf14" layoutX="247.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+         </children>
+      </Pane>
+      <Label fx:id="labelMessage" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="29.0" prefWidth="610.0" textFill="WHITE" AnchorPane.leftAnchor="460.0" AnchorPane.topAnchor="7.0">
+         <font>
+            <Font name="Arial Black" size="20.0" />
          </font>
       </Label>
     </children>

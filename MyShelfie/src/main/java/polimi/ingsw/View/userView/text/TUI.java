@@ -416,6 +416,11 @@ public class TUI extends UI {
         System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
     }
 
+    @Override
+    protected void show_askPickTilesMainMsg() {
+
+    }
+
 
     public void removeInput(String msg) {
         System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(getLengthLongestMessage())));
@@ -464,6 +469,11 @@ public class TUI extends UI {
     @Override
     public void show_returnToMenuMsg() {
         System.out.println("\nPress any key to return to the menu");
+    }
+
+    @Override
+    protected void show_askColumnMainMsg() {
+
     }
 
     @Override

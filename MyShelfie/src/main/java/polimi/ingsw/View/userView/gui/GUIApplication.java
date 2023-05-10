@@ -193,13 +193,31 @@ public class GUIApplication extends Application {
         controller.setPersonalCard(model,nickname);
         controller.setVisibleShelves(model);
         controller.setHandTiles(model,nickname);
+        controller.setAllShefies(model, nickname);
     }
 
-    public void showUpdatePlayground(GameModelImmutable model){
+
+    public void showPlayerGrabbedTiles(GameModelImmutable model, String nickname){
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setPlayground(model);
+        controller.setPlayerGrabbedTiles(model, nickname);
     }
-
+    public void showPlayerPositionedTile(GameModelImmutable model, String nickname){
+        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
+        controller.setHandTiles(model,nickname);
+        controller.setAllShefies(model, nickname);
+    }
+    public void showMessageInGame(String msg, Boolean success){
+        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
+        controller.setMsgToShow(msg,success);
+    }
+    public void showSelectionColShelfie() {
+        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
+        controller.showSelectionColShelfie();
+    }
+    public void changeTurn(GameModelImmutable model, String nickname) {
+        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
+        controller.changeTurn(model,nickname);
+    }
 
 
 
@@ -232,6 +250,7 @@ public class GUIApplication extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 
 
 }

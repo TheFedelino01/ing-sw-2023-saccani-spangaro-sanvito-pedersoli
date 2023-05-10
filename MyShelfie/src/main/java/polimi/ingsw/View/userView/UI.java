@@ -49,17 +49,17 @@ public abstract class UI {
     protected abstract void show_sentMessage(GameModelImmutable model, String nickname);
     protected abstract void show_grabbedTileMainMsg(GameModelImmutable model, String nickname);
     public abstract void show_whichTileToPlaceMsg();
-    public abstract void show_wrongSelectionHandMsg();
+    protected abstract void show_wrongSelectionHandMsg();
     protected abstract void show_positionedTile(GameModelImmutable model, String nickname);
     protected abstract void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname);
 
 
-    public abstract void show_NaNMsg();
-    public abstract void show_returnToMenuMsg();
+    protected abstract void show_NaNMsg();
+    protected abstract void show_returnToMenuMsg();
+    protected abstract void show_askColumnMainMsg();
 
-
-    public abstract void show_direction();
-
+    protected abstract void show_direction();
+    protected abstract void show_askPickTilesMainMsg();
 
     //----------------------
     //ACTIONS
