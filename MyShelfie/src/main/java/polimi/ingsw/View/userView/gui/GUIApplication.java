@@ -7,20 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import polimi.ingsw.Model.DefaultValue;
-import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
-import polimi.ingsw.Model.Tile;
 import polimi.ingsw.View.userView.ConnectionSelection;
 import polimi.ingsw.View.userView.GameFlow;
 import polimi.ingsw.View.userView.gui.controllers.*;
 import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -190,14 +185,14 @@ public class GUIApplication extends Application {
         return -1;
     }
 
-    public void showInGameModel(GameModelImmutable model) {
+    public void showInGameModel(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setNickname(model);
+        controller.setNicknamesAndPoints(model,nickname);
         controller.setPlayground(model);
         controller.setCommonCards(model);
-
-        controller.setInvisibleAllShelves();
+        controller.setPersonalCard(model,nickname);
         controller.setVisibleShelves(model);
+        controller.setHandTiles(model,nickname);
     }
 
     public void showUpdatePlayground(GameModelImmutable model){

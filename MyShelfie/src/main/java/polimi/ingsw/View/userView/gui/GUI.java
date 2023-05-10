@@ -20,9 +20,12 @@ public class GUI extends UI {
     private boolean alreadyShowedPublisher=false;
     private boolean alreadyShowedLobby=false;
 
+    private String nickname;
+
     public GUI(GUIApplication guiApplication, inputReaderGUI inputReaderGUI) {
         this.guiApplication = guiApplication;
         this.inputReaderGUI=inputReaderGUI;
+        nickname=null;
     }
 
 
@@ -71,6 +74,7 @@ public class GUI extends UI {
     private void show_popupInfoAndNickname(String nick,String text){
         callPlatformRunLater(()->((NicknamePopupController)this.guiApplication.getController(SceneEnum.NICKNAME_POPUP)).showNicknameAndText(nick,text));
         callPlatformRunLater(()->this.guiApplication.setActiveScene(SceneEnum.NICKNAME_POPUP));
+        nickname=nick;
     }
 
 
@@ -128,7 +132,7 @@ public class GUI extends UI {
     @Override
     protected void show_gameStarted(GameModelImmutable model) {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneEnum.INGAME));
-        callPlatformRunLater(() -> this.guiApplication.showInGameModel(model));//Add all info of the model to the scene
+        callPlatformRunLater(() -> this.guiApplication.showInGameModel(model, nickname));//Add all info of the model to the scene
     }
 
     @Override

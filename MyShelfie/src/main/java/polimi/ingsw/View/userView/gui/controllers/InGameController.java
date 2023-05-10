@@ -20,19 +20,41 @@ import java.util.List;
 public class InGameController extends GenericController{
 
     @FXML
-    private Label lablePlayer1;
-    @FXML
-    private Label lablePlayer2;
-    @FXML
-    private Label lablePlayer3;
-    @FXML
-    private Label lablePlayer4;
-
-    @FXML
     private Pane tilesPane;
 
     @FXML
     private AnchorPane mainAnchor;
+
+
+    @FXML
+    private Label youNickname;
+    @FXML
+    private Label youPoints;
+    @FXML
+    private Pane youPersonal;
+
+
+    @FXML
+    private Label pgTilesTotal;
+
+
+    @FXML
+    private Label playerLabel1;
+    @FXML
+    private Label player1Points;
+
+
+    @FXML
+    private Label playerLabel2;
+    @FXML
+    private Label player2Points;
+
+
+    @FXML
+    private Label playerLabel3;
+    @FXML
+    private Label player3Points;
+
 
     private boolean firstClick=true;
     private Integer rowFirstTile,colFirstTile,rowSecondTile,colSecondTile;
@@ -157,21 +179,30 @@ public class InGameController extends GenericController{
 
     }
 
-    public void setNickname(GameModelImmutable model){
+    public void setNicknamesAndPoints(GameModelImmutable model, String nickname){
+        youNickname.setText(nickname);
+        youPoints.setText(String.valueOf(model.getPlayerEntity(nickname).getTotalPoints()));
+
         int playerNum = model.getPlayers().size();
+        String otherNick;
+
         for (int i = 0; i < playerNum; i++) {
-            switch (i){
-                case 0->{
-                    lablePlayer1.setText(model.getPlayers().get(i).getNickname());
-                }
-                case 1->{
-                    lablePlayer2.setText(model.getPlayers().get(i).getNickname());
-                }
-                case 2->{
-                    lablePlayer3.setText(model.getPlayers().get(i).getNickname());
-                }
-                case 3->{
-                    lablePlayer4.setText(model.getPlayers().get(i).getNickname());
+            otherNick =model.getPlayers().get(i).getNickname();
+
+            if(!otherNick.equals(nickname)) {
+                switch (i) {
+                    case 1 -> {
+                        playerLabel1.setText(otherNick);
+                        player1Points.setText(String.valueOf(model.getPlayers().get(i).getTotalPoints()));
+                    }
+                    case 2 -> {
+                        playerLabel2.setText(otherNick);
+                        player2Points.setText(String.valueOf(model.getPlayers().get(i).getTotalPoints()));
+                    }
+                    case 3 -> {
+                        playerLabel3.setText(otherNick);
+                        player3Points.setText(String.valueOf(model.getPlayers().get(i).getTotalPoints()));
+                    }
                 }
             }
         }
@@ -205,43 +236,61 @@ public class InGameController extends GenericController{
         tilePane = (Pane) mainAnchor.lookup("#cc0");
 
         tilePane.getStyleClass().add(model.getCommonCards().get(0).getCommonType().getBackgroundClass());
-        tilePane.getStyleClass().add("tileHover");
         tilePane.setVisible(true);
 
         tilePane = (Pane) mainAnchor.lookup("#cc1");
         tilePane.getStyleClass().add(model.getCommonCards().get(1).getCommonType().getBackgroundClass());
-        tilePane.getStyleClass().add("tileHover");
         tilePane.setVisible(true);
     }
 
-    public void setInvisibleAllShelves(){
-        Pane pane;
-        for(int i=1;i<=DefaultValue.MaxNumOfPlayer;i++){
-            pane = (Pane) mainAnchor.lookup("#player" + (i));
-            pane.setVisible(false);
-        }
-    }
 
     public void setVisibleShelves(GameModelImmutable model){
         Pane pane;
 
+        setInvisibleAllShelves();
+
         int playerNum = model.getPlayers().size();
-        //Show personal goal and shelf of the player in game
-        for (int i = 0; i < playerNum; i++) {
-            pane = (Pane) mainAnchor.lookup("#player" + (i + 1));
+        for (int i = 1; i < playerNum; i++) {
+            pane = (Pane) mainAnchor.lookup("#workspace" + (i));
             pane.setVisible(true);
 
-            showPersonalCard(i+1,model.getPlayers().get(i).getSecretGoal().getGoalType().getBackgroundClass());
+            //showPersonalCard(i+1,model.getPlayers().get(i).getSecretGoal().getGoalType().getBackgroundClass());
+        }
+    }
+    private void setInvisibleAllShelves(){
+        Pane pane;
+        for(int i=1;i<=DefaultValue.MaxNumOfPlayer-1;i++){
+            pane = (Pane) mainAnchor.lookup("#workspace" + (i));
+            pane.setVisible(false);
         }
     }
 
-    private void showPersonalCard(int playerIndex, String backgroundClass) {
-        Pane tilePane;
-        tilePane = (Pane) mainAnchor.lookup("#pc" + playerIndex);
-        tilePane.getStyleClass().add(backgroundClass);
-        tilePane.getStyleClass().add("tileHover");
-        tilePane.setVisible(true);
 
+    public void setPersonalCard(GameModelImmutable model,String nickname) {
+        Pane tilePane;
+        tilePane = (Pane) mainAnchor.lookup("#youPersonal");
+        tilePane.getStyleClass().add(model.getPlayerEntity(nickname).getSecretGoal().getGoalType().getBackgroundClass());
+        tilePane.setVisible(true);
     }
 
+    public void setHandTiles(GameModelImmutable model, String nickname) {
+        if(model.getNicknameCurrentPlaying().equals(nickname)){
+            Pane pane;
+            int i=0;
+            setEmptyHand();
+            for(Tile t: model.getHandOfCurrentPlaying()){
+                pane = (Pane) mainAnchor.lookup("#pgGrab"+i);
+                pane.getStyleClass().add(t.getType().getBackgroundClass());
+                pane.setVisible(true);
+                i++;
+            }
+        }else{
+            setEmptyHand();
+        }
+    }
+
+    private void setEmptyHand(){
+        Pane pane = (Pane) mainAnchor.lookup("#pgGrab0");
+        pane.getStyleClass().add("tileEmpty");
+    }
 }

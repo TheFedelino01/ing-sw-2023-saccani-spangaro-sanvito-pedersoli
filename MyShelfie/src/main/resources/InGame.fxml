@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -16,7 +17,7 @@
             <Image url="@img/img/misc/base_pagina2.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="610.0" fitWidth="613.0" onMouseEntered="#actionMouseEnteredPlayground" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="440.0" AnchorPane.topAnchor="45.0">
+      <ImageView fitHeight="610.0" fitWidth="613.0" onMouseEntered="#actionMouseEnteredPlayground" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" AnchorPane.leftAnchor="460.0" AnchorPane.topAnchor="55.0">
          <image>
             <Image url="@img/img/boards/livingroom.png" />
          </image>
@@ -31,7 +32,7 @@
             <Image url="@img/img/Publisher_material/Title_2000x618px.png" />
          </image>
       </ImageView>
-      <Pane fx:id="tilesPane" layoutX="524.0" layoutY="130.0" onMouseEntered="#actionMouseEnteredPlayground" prefHeight="0.0" prefWidth="0.0" AnchorPane.leftAnchor="464.0" AnchorPane.topAnchor="75.0">
+      <Pane fx:id="tilesPane" layoutX="524.0" layoutY="130.0" onMouseEntered="#actionMouseEnteredPlayground" prefHeight="0.0" prefWidth="0.0" AnchorPane.leftAnchor="484.0" AnchorPane.topAnchor="85.0">
          <children>
             <Pane fx:id="pg03" layoutX="187.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
@@ -265,97 +266,171 @@
             <Image url="@img/img/Publisher_material/banner%201386x400px.png" />
          </image>
       </ImageView>
-      <Label layoutX="470.0" layoutY="653.0" text="Common Cards" AnchorPane.leftAnchor="620.0" AnchorPane.topAnchor="653.0">
+      <Label layoutX="470.0" layoutY="653.0" text="Common Cards" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="510.0">
          <font>
-            <Font name="Arial Black" size="30.0" />
+            <Font name="Arial Black" size="25.0" />
          </font>
       </Label>
-      <Pane layoutX="495.0" layoutY="697.0" AnchorPane.leftAnchor="460.0">
+      <Pane layoutX="495.0" layoutY="697.0" stylesheets="@style.css" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="550.0">
          <children>
-            <Pane prefHeight="140.0" prefWidth="238.0" style="-fx-background-color: black;" />
-            <Pane fx:id="cc0" layoutX="5.0" layoutY="5.0" prefHeight="131.0" prefWidth="228.0" styleClass="tileHover" stylesheets="@style.css" />
+            <Pane fx:id="cc0" layoutX="5.0" layoutY="5.0" prefHeight="131.0" prefWidth="228.0" style="-fx-background-color: white;" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="tileHover" />
+                  <String fx:value="roundBorder" />
+               </styleClass></Pane>
          </children>
       </Pane>
-      <Pane layoutX="795.0" layoutY="697.0" AnchorPane.leftAnchor="800.0">
+      <Pane layoutX="795.0" layoutY="697.0" stylesheets="@style.css" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="700.0">
          <children>
-            <Pane prefHeight="140.0" prefWidth="238.0" style="-fx-background-color: black;" />
-            <Pane fx:id="cc1" layoutX="5.0" layoutY="5.0" prefHeight="131.0" prefWidth="228.0" styleClass="tileHover" stylesheets="@style.css" />
+            <Pane fx:id="cc1" layoutX="5.0" layoutY="5.0" prefHeight="131.0" prefWidth="228.0" style="-fx-background-color: white;" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="tileHover" />
+                  <String fx:value="roundBorder" />
+               </styleClass></Pane>
          </children>
       </Pane>
-      <Label fx:id="lableGameId" layoutX="10.0" layoutY="10.0" text="Game ID: 00000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0">
+      <Label fx:id="lableGameId" layoutX="10.0" layoutY="10.0" text="Game ID: 00000" textFill="WHITE" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="7.0">
          <font>
             <Font name="Arial Black" size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="136.0" fitWidth="141.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="683.0">
+      <ImageView fitHeight="460.0" fitWidth="390.0" layoutX="5.0" layoutY="60.0" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
          <image>
-            <Image url="@img/img/misc/Sacchetto%20Aperto.png" />
+            <Image url="@img/img/boards/bookshelf.png" />
          </image>
       </ImageView>
-      <Pane fx:id="player1" layoutX="5.0" layoutY="60.0">
+      <Pane fx:id="youPersonal" layoutX="330.0" layoutY="220.0" prefHeight="230.0" prefWidth="170.0" style="-fx-background-color: white;" stylesheets="@style.css" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="550.0">
+         <styleClass>
+            <String fx:value="tileHover" />
+            <String fx:value="roundBorder" />
+         </styleClass></Pane>
+      <Label fx:id="youNickname" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="365.0" prefHeight="53.0" prefWidth="308.0" text="YouPlayer" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="390.0">
+         <font>
+            <Font name="Arial Black" size="35.0" />
+         </font>
+      </Label>
+      <Pane fx:id="workspace3" layoutX="1100.0" layoutY="590.0">
          <children>
-            <ImageView fitHeight="460.0" fitWidth="350.0" preserveRatio="true">
+            <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
                <image>
                   <Image url="@img/img/boards/bookshelf.png" />
                </image>
             </ImageView>
-            <Pane fx:id="pc1" layoutX="325.0" layoutY="160.0" prefHeight="135.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="tileHover" stylesheets="@style.css" />
-            <Label fx:id="lablePlayer1" layoutX="105.0" layoutY="305.0" text="Player1" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="playerLabel3" alignment="CENTER" contentDisplay="CENTER" layoutX="121.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" text="Player3" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Arial Black" size="35.0" />
+                  <Font name="Arial Black" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutY="120.0" text="Points:">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="player3Points" layoutX="80.0" layoutY="120.0" prefHeight="29.0" prefWidth="40.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="player3" layoutY="450.0">
+      <Pane fx:id="workspace1" layoutX="1100.0" layoutY="50.0">
          <children>
-            <ImageView fitHeight="460.0" fitWidth="350.0" preserveRatio="true">
+            <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
                <image>
                   <Image url="@img/img/boards/bookshelf.png" />
                </image>
             </ImageView>
-            <Pane fx:id="pc3" layoutX="330.0" layoutY="160.0" prefHeight="135.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="tileHover" stylesheets="@style.css" />
-            <Label fx:id="lablePlayer3" layoutX="110.0" layoutY="305.0" text="Player3" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="playerLabel1" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="202.0" prefHeight="44.0" prefWidth="194.0" text="Player1" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Arial Black" size="35.0" />
+                  <Font name="Arial Black" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutY="150.0" text="Points:">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="player1Points" layoutX="80.0" layoutY="150.0" prefHeight="29.0" prefWidth="40.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="player2" layoutX="1080.0" layoutY="60.0">
+      <Pane fx:id="workspace2" layoutX="1100.0" layoutY="320.0">
          <children>
-            <ImageView fitHeight="460.0" fitWidth="350.0" layoutX="65.0" preserveRatio="true">
+            <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
                <image>
                   <Image url="@img/img/boards/bookshelf.png" />
                </image>
             </ImageView>
-            <Pane fx:id="pc2" layoutY="160.0" prefHeight="135.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="tileHover" stylesheets="@style.css" />
-            <Label fx:id="lablePlayer2" layoutX="170.0" layoutY="305.0" text="Player2" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="playerLabel2" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" text="Player2" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Arial Black" size="35.0" />
+                  <Font name="Arial Black" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutY="150.0" text="Points:">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="player2Points" layoutX="80.0" layoutY="150.0" prefHeight="29.0" prefWidth="40.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="player4" layoutX="1080.0" layoutY="450.0">
-         <children>
-            <ImageView fitHeight="460.0" fitWidth="350.0" layoutX="65.0" preserveRatio="true">
-               <image>
-                  <Image url="@img/img/boards/bookshelf.png" />
-               </image>
-            </ImageView>
-            <Pane fx:id="pc4" layoutY="160.0" prefHeight="135.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="tileHover" stylesheets="@style.css" />
-            <Label fx:id="lablePlayer4" layoutX="170.0" layoutY="305.0" text="Player4" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Arial Black" size="35.0" />
-               </font>
-            </Label>
-         </children>
+      <Pane layoutX="481.0" layoutY="700.0" prefHeight="77.0" prefWidth="534.0" stylesheets="@style.css" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="700.0">
+         <styleClass>
+            <String fx:value="roundBorder" />
+            <String fx:value="backgroundWall" />
+         </styleClass>
       </Pane>
       <ImageView fitHeight="30.0" fitWidth="90.0" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <image>
             <Image url="@img/img/Publisher_material/Publisher.png" />
          </image>
       </ImageView>
+      <Pane fx:id="pgGrab0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="615.0" AnchorPane.topAnchor="710.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Pane fx:id="pgGrab1" layoutX="10.0" layoutY="10.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="735.0" AnchorPane.topAnchor="710.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Pane fx:id="pgGrab2" layoutX="20.0" layoutY="20.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css" AnchorPane.leftAnchor="855.0" AnchorPane.topAnchor="710.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <ImageView fitHeight="162.0" fitWidth="166.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="430.0">
+         <image>
+            <Image url="@img/img/misc/Sacchetto%20Aperto.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="pgTilesTotal" text="120" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="465.0">
+         <font>
+            <Font name="Arial Black" size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="480.0" layoutY="663.0" text="Personal" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="510.0">
+         <font>
+            <Font name="Arial Black" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="10.0" text="Total Point:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="450.0">
+         <font>
+            <Font name="Arial Black" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="youPoints" layoutX="20.0" layoutY="20.0" prefHeight="38.0" prefWidth="58.0" text="0" AnchorPane.leftAnchor="185.0" AnchorPane.topAnchor="450.0">
+         <font>
+            <Font name="Arial Black" size="25.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

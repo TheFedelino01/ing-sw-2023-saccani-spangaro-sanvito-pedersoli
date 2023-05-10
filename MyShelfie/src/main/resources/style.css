@@ -454,6 +454,10 @@
     -fx-background-size: cover;
 }
 
+.tileEmpty{
+
+}
+
 .cc1{
     -fx-background-image: url("img/img/common_goal_cards/1.jpg");
     -fx-background-repeat: stretch;
@@ -598,4 +602,16 @@
 .selected{
     -fx-border-color: #3939ff;
     -fx-border-width: 4px;
+}
+
+.backgroundWall{
+    -fx-background-image: url("img/img/misc/base_pagina2.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.roundBorder{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-padding: 10;
+    -fx-background-radius: 5;
 }

@@ -28,7 +28,7 @@ public class SocketWelcome extends Thread {
                 System.out.println("[SOCKET] new connection accepted");
             }
         } catch (IOException e) {
-            System.err.println("[ERROR] ACCEPTING WELCOME SOCKET CONNECTION: \n\tServer RMI exception: " + e);
+            System.err.println("[ERROR] ACCEPTING WELCOME SOCKET CONNECTION: \n\tServer SOCKET exception: " + e);
         }
 
         try {

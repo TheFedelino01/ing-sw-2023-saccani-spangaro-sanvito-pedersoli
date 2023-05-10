@@ -37,7 +37,7 @@ public class DefaultValue implements Serializable {
     public final static int Default_port_Socket = 4320;
     public final static String Default_servername_RMI = "MyShelfie";
 
-    public final static String Remote_ip = "saccani.zapto.org";
+    public final static String Remote_ip = "127.0.0.1";
 
     public final static Long timeout_for_detecting_disconnection = 4000L;
 
