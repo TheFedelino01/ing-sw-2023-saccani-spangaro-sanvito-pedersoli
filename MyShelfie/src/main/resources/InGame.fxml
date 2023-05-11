@@ -24,7 +24,7 @@
       </ImageView>
       <ImageView fitHeight="40.0" fitWidth="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@img/img/Publisher_material/Icon%2050x50px.png" />
+            <Image url="@img/img/Publisher_material/Icon_50x50px.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="61.0" fitWidth="130.0" preserveRatio="true" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="2.0">
@@ -263,7 +263,7 @@
       </Pane>
       <ImageView fitHeight="40.0" fitWidth="233.0" preserveRatio="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@img/img/Publisher_material/banner%201386x400px.png" />
+            <Image url="@img/img/Publisher_material/banner_1386x400px.png" />
          </image>
       </ImageView>
       <Label layoutX="470.0" layoutY="653.0" text="Common Cards" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="510.0">
@@ -520,7 +520,7 @@
       </Pane>
       <ImageView fitHeight="162.0" fitWidth="166.0" AnchorPane.leftAnchor="430.0" AnchorPane.topAnchor="688.0">
          <image>
-            <Image url="@img/img/misc/Sacchetto%20Aperto.png" />
+            <Image url="@img/img/misc/Sacchetto_Aperto.png" />
          </image>
       </ImageView>
       <Label fx:id="pgTilesTotal" text="120" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="465.0">
