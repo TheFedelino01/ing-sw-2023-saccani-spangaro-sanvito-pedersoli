@@ -370,9 +370,89 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 p.addPoint(point);
             }
         }
-
-
     }
+/*
+    private void checkFinal() {
+        for (Player p : model.getPlayers()) {
+
+        }
+    }
+
+    private int checkAdjacent(TileType typeToCheck, Shelf toCheck) {
+        int res = 0, r = 0, c = 0;
+        Shelf temp = new Shelf(toCheck.getShelf(), toCheck.getFreeSpace());
+        while(r < DefaultValue.NumOfRowsShelf-1){
+            while(c<DefaultValue.NumOfColumnsShelf-1){
+                switch (r){
+                    case(0) -> {
+                        switch (c){
+                            case(0)->{
+                                if(temp.get(r, c + 1).isSameType(typeToCheck)){
+                                    temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                                    res++;
+                                    c++;
+                                }else if(temp.get(r + 1, c).isSameType(typeToCheck)){
+                                    temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                                    res++;
+                                    r++;
+                                }else{
+                                    c++;
+                                }
+                            }
+                            case(DefaultValue.NumOfColumnsShelf-1)->{
+                                if(temp.get(r, c - 1).isSameType(typeToCheck)){
+                                    temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                                    res++;
+                                    c--;
+                                }else if(temp.get(r + 1, c).isSameType(typeToCheck)){
+                                    temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                                    res++;
+                                    r++;
+                                }else{
+                                    c++;
+                                }
+                            }
+                            default -> {
+                                if(temp.get(r, c - 1).isSameType(typeToCheck)){
+                                    temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                                    res++;
+                                    c--;
+                                }else if(temp.get(r + 1, c).isSameType(typeToCheck)){
+                                    temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                                    res++;
+                                    r++;
+                                }else if(temp.get(r, c + 1).isSameType(typeToCheck)){
+                                    temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                                    res++;
+                                    c++;
+                                }else{
+                                    c++;
+                                }
+                            }
+                        }
+                    }
+                    case(DefaultValue.NumOfRowsShelf-1) -> {
+                        switch (c){
+                            case(0)->{
+                            }
+                            case(DefaultValue.NumOfColumnsShelf-1)->{}
+                            default -> {}
+                        }
+                    }
+                    default -> {
+                        switch (c){
+                            case(0)->{
+                            }
+                            case(DefaultValue.NumOfColumnsShelf-1)->{}
+                            default -> {}
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+*/
 
     public Player getPlayer(String playerNick) {
         return model.getPlayerEntity(playerNick);
