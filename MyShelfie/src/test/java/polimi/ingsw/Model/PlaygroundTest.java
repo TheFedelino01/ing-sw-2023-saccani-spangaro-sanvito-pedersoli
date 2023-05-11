@@ -9,7 +9,7 @@ import polimi.ingsw.Model.Exceptions.TileGrabbedNotCorrectException;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlaygroundTest {
 
@@ -88,10 +88,39 @@ class PlaygroundTest {
         }
 
         if (!p2.getTile(1, 3).isSameType(TileType.FINISHED_USING) || !p2.getTile(1, 4).isSameType(TileType.FINISHED_USING)) {
-            assertTrue(false, "Tile grabbed wrong");
+            fail("Tile grabbed wrong");
         }
         if (ris.size() != 2) {
-            assertTrue(false, "Tile grabbed wrong");
+            fail("Tile grabbed wrong");
         }
+    }
+
+    @Test
+    @DisplayName("Refill playground")
+    void testRefill() throws TileGrabbedNotCorrectException {
+        Playground ptest = new Playground(2);
+        Playground blank = new Playground(2);
+        ptest.setEmptyPlayground();
+
+        //place some tiles so that the playground doesn't get refilled if not after
+        // the grabbing of a tile
+        ptest.setSingleTile(TileType.TROPHY, 1, 2);
+        ptest.setSingleTile(TileType.TROPHY, 1, 3);
+
+        //random tiles that aren't touching
+        ptest.setSingleTile(TileType.TROPHY, 4, 4);
+        ptest.setSingleTile(TileType.TROPHY, 0, 0);
+        ptest.setSingleTile(TileType.TROPHY, 0, 4);
+
+        System.out.println(ptest.getPlayground());
+
+        //empty the playground by grabbing all the tiles I've set
+        ptest.grabTile(1, 2, Direction.RIGHT, 2);
+
+        //if the grabTile works, the playground ptest should now be refilled, and different from a blank one
+        blank.setEmptyPlayground();
+        assertNotEquals(ptest, blank, "Playground is not being refilled");
+
+        System.out.println(ptest.getPlayground());
     }
 }
