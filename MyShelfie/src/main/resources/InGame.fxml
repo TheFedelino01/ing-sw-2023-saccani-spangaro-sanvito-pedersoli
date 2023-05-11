@@ -39,7 +39,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg04" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg40" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -169,7 +169,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Pane>
-            <Pane fx:id="pg40" layoutX="250.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+            <Pane fx:id="pg04" layoutX="250.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
