@@ -35,8 +35,8 @@ public class CommonXTest {
     X X X X X
      */
     @Test
-    @DisplayName("Test X")
-    public void testX() {
+    @DisplayName("First test X")
+    public void firstTestX() {
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -48,6 +48,35 @@ public class CommonXTest {
                     test.setSingleTile(new Tile(TileType.USED), i, j);
                 else
                     test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+            }
+        }
+        assertTrue(model.get(10).verify(test));
+    }
+
+    /*
+    N N N N N
+    N N N N N
+    N N N N N
+    X C X C X
+    X X C X X
+    X C X C X
+     */
+    @Test
+    @DisplayName("Second test X")
+    public void secondTestX() {
+        Shelf test = new Shelf();
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if ((r == 5 && c == 1) ||
+                        (r == 5 && c == 3) ||
+                        (r == 4 && c == 2) ||
+                        (r == 3 && c == 3) ||
+                        (r == 3 && c == 1))
+                    test.setSingleTile(new Tile(TileType.USED), r, c);
+                else if (r > 2)
+                    test.setSingleTile(new Tile(TileType.randomTile()), r, c);
+                else
+                    test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
             }
         }
         assertTrue(model.get(10).verify(test));

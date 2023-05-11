@@ -27,9 +27,8 @@ public class CommonGroupsTest {
     }
 
     @Test
-    @DisplayName("Test six groups")
-    public void testSixGroups() {
-        int count;
+    @DisplayName("Test six groups 1")
+    public void testSixGroups1() {
         Shelf test = new Shelf();
         //case 1
         //first common card
@@ -60,8 +59,40 @@ public class CommonGroupsTest {
     }
 
     @Test
-    @DisplayName("Test four groups")
-    public void testFourGroups() {
+    @DisplayName("Test six groups 2")
+    public void testSixGroups2() {
+        Shelf test = new Shelf();
+        //case 1
+        //first common card
+        /*
+        N N N N N
+        N B C B C
+        X B C B C
+        X X X X X
+        C B C B X
+        C B C B X
+         */
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if ((c == 0 && r > 3) || (c == 2 && r > 3) || (c == 2 && r > 0 && r < 3) || (c == 4 && r > 0 && r < 3)) {
+                    test.setSingleTile(new Tile(TileType.CAT), r, c);
+                } else if ((c == 1 && r > 3) || (c == 3 && r > 3) || (c == 1 && r > 0 && r < 3) || (c == 3 && r > 0 && r < 3)) {
+                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                } else if (r == 3) {
+                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
+                } else test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+            }
+        }
+
+        //check this algorithm
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSixGroups))
+                .toList().get(0).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test four groups 1")
+    public void testFourGroups1() {
         //four groups of four tiles of the same type (will be testing two columns in this test case)
         //third common card
         /*
@@ -83,6 +114,37 @@ public class CommonGroupsTest {
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                 }
+            }
+        }
+        assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonFourGroups))
+                .toList().get(0).verify(test));
+    }
+
+    @Test
+    @DisplayName("Test four groups 2")
+    public void testFourGroups2() {
+        //four groups of four tiles of the same type (will be testing two columns in this test case)
+        //third common card
+        /*
+        N N N N N
+        N N N N N
+        C B C B N
+        C B C B N
+        C B C B T
+        C B C B T
+         */
+
+        Shelf test = new Shelf();
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if ((c == 0 || c == 2) && r > 1) {
+                    test.setSingleTile(new Tile(TileType.CAT), r, c);
+                } else if ((c == 1 || c == 3) && r > 1) {
+                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                } else if (c == DefaultValue.NumOfColumnsShelf - 1 && r > 4) {
+                    test.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                } else test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
             }
         }
         assertTrue(model.stream()
@@ -227,13 +289,13 @@ public class CommonGroupsTest {
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if(r==0){
+                if (r == 0) {
                     test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-                }else{
-                    if((r == 3 && c == 0)||(r == 4 && c == 1)||(r == 2 && c == 2)||(r == 3 && c == 2)||(r == 2 && c == 3)
-                            ||(r == 3 && c == 3)||(r == 5 && c == 3)||(r == 5 && c == 4)){
+                } else {
+                    if ((r == 3 && c == 0) || (r == 4 && c == 1) || (r == 2 && c == 2) || (r == 3 && c == 2) || (r == 2 && c == 3)
+                            || (r == 3 && c == 3) || (r == 5 && c == 3) || (r == 5 && c == 4)) {
                         test.setSingleTile(new Tile(TileType.CAT), r, c);
-                    }else{
+                    } else {
                         test.setSingleTile(new Tile(TileType.randomTileCAT()), r, c);
                     }
                 }

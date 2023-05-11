@@ -25,10 +25,7 @@ public class CommonHorizontalTest {
             model.add(c.getCommonCard(t));
     }
 
-    @Test
-    @DisplayName("Test Horizontal 0 ")
-    public void testHorizontal0() {
-        /*
+    /*
     C C C C C
     B B B B B
     T T T T T
@@ -36,6 +33,10 @@ public class CommonHorizontalTest {
     X X X X X
     X X X X X
      */
+    @Test
+    @DisplayName("First test Horizontal 0 ")
+    public void firstTestHorizontal0() {
+
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -54,10 +55,35 @@ public class CommonHorizontalTest {
         assertTrue(model.get(7).verify(test));
     }
 
+    /*
+N N N N N
+X X X X X
+C C C C C
+T T T T T
+C C C C C
+B B B B B
+ */
     @Test
-    @DisplayName("Test Horizontal 1")
-    public void testHorizontal1() {
-        /*
+    @DisplayName("Second test Horizontal 0 ")
+    public void secondTestHorizontal0() {
+        Shelf test = new Shelf();
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if (r == 2 || r == 4) {
+                    test.setSingleTile(new Tile(TileType.CAT), r, c);
+                } else if (r == 5) {
+                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                } else if (r == 3) {
+                    test.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                } else if (r == 1) {
+                    test.setSingleTile(new Tile(TileType.randomTile()), r, c);
+                } else test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+            }
+        }
+        assertTrue(model.get(7).verify(test));
+    }
+
+    /*
         C B F T A
         X X X X X
         C B F T A
@@ -65,21 +91,58 @@ public class CommonHorizontalTest {
         X X X X X
         X X X X X
          */
+    @Test
+    @DisplayName("Test Horizontal 1")
+    public void testHorizontal1() {
         Shelf test = new Shelf();
-        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (i == 0 || i == 2) {
-                    switch (j) {
-                        case (0) -> test.setSingleTile(new Tile(TileType.USED), i, j);
-                        case (1) -> test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                        case (2) -> test.setSingleTile(new Tile(TileType.FRAME), i, j);
-                        case (3) -> test.setSingleTile(new Tile(TileType.TROPHY), i, j);
-                        case (4) -> test.setSingleTile(new Tile(TileType.ACTIVITY), i, j);
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if (r == 0 || r == 2) {
+                    switch (c) {
+                        case (0) -> test.setSingleTile(new Tile(TileType.USED), r, c);
+                        case (1) -> test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                        case (2) -> test.setSingleTile(new Tile(TileType.FRAME), r, c);
+                        case (3) -> test.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                        case (4) -> test.setSingleTile(new Tile(TileType.ACTIVITY), r, c);
                         default -> {
                         }
                     }
                 } else {
-                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                    test.setSingleTile(new Tile(TileType.randomTile()), r, c);
+                }
+            }
+        }
+        assertTrue(model.get(9).verify(test));
+    }
+
+    @Test
+    @DisplayName("Second test Horizontal 1")
+    public void secondTestHorizontal1() {
+        /*
+        N N N N N
+        N N N N N
+        X X X X X
+        C B F T A
+        C B F T A
+        X X X X X
+         */
+        Shelf test = new Shelf();
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if (r == 3 || r == 4) {
+                    switch (c) {
+                        case (0) -> test.setSingleTile(new Tile(TileType.USED), r, c);
+                        case (1) -> test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                        case (2) -> test.setSingleTile(new Tile(TileType.FRAME), r, c);
+                        case (3) -> test.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                        case (4) -> test.setSingleTile(new Tile(TileType.ACTIVITY), r, c);
+                        default -> {
+                        }
+                    }
+                } else if (r < 3) {
+                    test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                } else {
+                    test.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 }
             }
         }
