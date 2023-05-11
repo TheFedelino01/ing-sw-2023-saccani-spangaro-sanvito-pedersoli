@@ -5,19 +5,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public enum CardGoalType implements CardType {
-    //TODO MODIFICARE LINK CLASSE IMG
     GOAL0("pc1"),
-    GOAL1("pc1"),
-    GOAL2("pc1"),
-    GOAL3("pc1"),
-    GOAL4("pc1"),
-    GOAL5("pc1"),
-    GOAL6("pc1"),
-    GOAL7("pc1"),
-    GOAL8("pc1"),
-    GOAL9("pc1"),
-    GOAL10("pc1"),
-    GOAL11("pc1"),
+    GOAL1("pc2"),
+    GOAL2("pc3"),
+    GOAL3("pc4"),
+    GOAL4("pc5"),
+    GOAL5("pc6"),
+    GOAL6("pc7"),
+    GOAL7("pc8"),
+    GOAL8("pc9"),
+    GOAL9("pc10"),
+    GOAL10("pc11"),
+    GOAL11("pc12"),
 
     NOT_SET("pc0");
 
