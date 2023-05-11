@@ -21,7 +21,7 @@ public class MainClient {
         Integer selection;
 
         if (!DefaultValue.DEBUG) {
-            String input;
+            String input = null;
 
             do {
                 System.out.println(ansi().cursor(1, 0).a("""

@@ -355,6 +355,18 @@
     -fx-background-size: cover;
 }
 
+.backgroundJG{
+    -fx-background-image: url("img/img/Publisher_material/Display_5.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.creatorLogo{
+    -fx-background-image: url("img/img/Publisher_material/Publisher.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
 .backgroundTitle{
     -fx-background-image: url("img/img/Publisher_material/Title_2000x618px.png");
     -fx-background-repeat: stretch;
