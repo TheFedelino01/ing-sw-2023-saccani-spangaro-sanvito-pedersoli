@@ -25,16 +25,16 @@ public class Playground implements Serializable {
     }
 
     /**
-    Watch out:  to write in the json file:
-                the "-" is the row separator
-                the "," is the column separator, so
-                0,0,0,0-1,1,1,1 is equal to the matrix
-                0 0 0 0
-                1 1 1 1
-                Also, the number that identifies the long strings in the json
-                is the player number that the matrix/string implements
-                    E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription
-                    of the playground default for 2 player based games, and so on
+     * Watch out:  to write in the json file:
+     * the "-" is the row separator
+     * the "," is the column separator, so
+     * 0,0,0,0-1,1,1,1 is equal to the matrix
+     * 0 0 0 0
+     * 1 1 1 1
+     * Also, the number that identifies the long strings in the json
+     * is the player number that the matrix/string implements
+     * E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription
+     * of the playground default for 2 player based games, and so on
      */
     public Playground(int numberOfPlayers) {
         bag = new ArrayList<>();
@@ -239,114 +239,116 @@ public class Playground implements Serializable {
     boolean allTileHaveAllFreeSide() {
         for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
             for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
-                if(!(playground[r][c].isSameType(TileType.NOT_USED) || playground[r][c].isSameType(TileType.FINISHED_USING)))
-                switch (r) {
-                    case (0) -> {
-                        switch (c) {
-                            //checks [0][0] top row, top col, a vertex
-                            case (0) -> {
-                                if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
+                if (!(playground[r][c].isSameType(TileType.NOT_USED) ||
+                        playground[r][c].isSameType(TileType.FINISHED_USING) ||
+                        playground[r][c].isSameType(TileType.USED)))
+                    switch (r) {
+                        case (0) -> {
+                            switch (c) {
+                                //checks [0][0] top row, top col, a vertex
+                                case (0) -> {
+                                    if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
+                                }
+                                //checks [0][last] top row, bottom col, a vertex
+                                case (DefaultValue.PlaygroundSize - 1) -> {
+                                    if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c - 1][r].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
+                                }
+                                //checks [0][rand] top row (no vertexes)
+                                default -> {
+                                    if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
                                 }
                             }
-                            //checks [0][last] top row, bottom col, a vertex
-                            case (DefaultValue.PlaygroundSize - 1) -> {
-                                if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c - 1][r].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
+                        }
+                        case (DefaultValue.PlaygroundSize - 1) -> {
+                            switch (c) {
+                                //checks [last][0] bottom row, first col, a vertex
+                                case (0) -> {
+                                    if (!((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
+                                }
+                                //checks [last][last] last row, last col, a vertex
+                                case (DefaultValue.PlaygroundSize - 1) -> {
+                                    if (!((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c - 1][r].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
+                                }
+                                //checks [last][rand] last row (no vertexes)
+                                default -> {
+                                    if (!((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
                                 }
                             }
-                            //checks [0][rand] top row (no vertexes)
-                            default -> {
-                                if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
+                        }
+                        default -> {
+                            switch (c) {
+                                //checks [rand][0] first column (no vertexes)
+                                case (0) -> {
+                                    if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c + 1][r].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                                    playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
+                                }
+                                //checks [rand][last] last column (no vertexes)
+                                case (DefaultValue.PlaygroundSize - 1) -> {
+                                    if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                                    playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
+                                }
+                                //checks [rand][rand] middle of playground
+                                default -> {
+                                    if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
+                                            playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
+                                                    playground[c + 1][r].isSameType(TileType.FINISHED_USING)) &&
+                                            (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
+                                                    playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
+                                        return false;
+                                    }
                                 }
                             }
                         }
                     }
-                    case (DefaultValue.PlaygroundSize - 1) -> {
-                        switch (c) {
-                            //checks [last][0] bottom row, first col, a vertex
-                            case (0) -> {
-                                if (!((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
-                                }
-                            }
-                            //checks [last][last] last row, last col, a vertex
-                            case (DefaultValue.PlaygroundSize - 1) -> {
-                                if (!((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c - 1][r].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
-                                }
-                            }
-                            //checks [last][rand] last row (no vertexes)
-                            default -> {
-                                if (!((playground[c][r - 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r - 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c + 1][r].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                    default -> {
-                        switch (c) {
-                            //checks [rand][0] first column (no vertexes)
-                            case (0) -> {
-                                if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c + 1][r].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
-                                                playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
-                                }
-                            }
-                            //checks [rand][last] last column (no vertexes)
-                            case (DefaultValue.PlaygroundSize - 1) -> {
-                                if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
-                                                playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
-                                }
-                            }
-                            //checks [rand][rand] middle of playground
-                            default -> {
-                                if (!((playground[c][r + 1].isSameType(TileType.NOT_USED) ||
-                                        playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c - 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c - 1][r].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c + 1][r].isSameType(TileType.NOT_USED) ||
-                                                playground[c + 1][r].isSameType(TileType.FINISHED_USING)) &&
-                                        (playground[c][r - 1].isSameType(TileType.NOT_USED) ||
-                                                playground[c][r - 1].isSameType(TileType.FINISHED_USING)))) {
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
         return true;
@@ -406,6 +408,7 @@ public class Playground implements Serializable {
         }
         return ris.toString();
     }
+
 
     //for testing ONLY (Deprecated so that no one uses them)
     @Deprecated

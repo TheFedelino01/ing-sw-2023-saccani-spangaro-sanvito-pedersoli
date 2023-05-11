@@ -61,7 +61,7 @@ public abstract class CommonCard extends Card {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a(" -> Tiles on the shelf must form a staircase"));
                 return ris.toString();
             }
-            case CommonVertix -> {
+            case CommonVertex -> {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i, DefaultValue.col_commonCards).a("Vertexes card!"));
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a(" -> All vertexes must be of the same type"));
                 return ris.toString();
