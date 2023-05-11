@@ -523,7 +523,7 @@
             <Image url="@img/img/misc/Sacchetto_Aperto.png" />
          </image>
       </ImageView>
-      <Label fx:id="pgTilesTotal" text="120" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="465.0">
+      <Label fx:id="pgTilesTotal" alignment="CENTER" text="120" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="465.0">
          <font>
             <Font name="Arial Black" size="40.0" />
          </font>

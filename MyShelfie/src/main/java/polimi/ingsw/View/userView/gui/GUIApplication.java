@@ -217,6 +217,7 @@ public class GUIApplication extends Application {
     }
     public void changeTurn(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
+        controller.setNicknamesAndPoints(model,nickname);
         controller.changeTurn(model,nickname);
     }
 

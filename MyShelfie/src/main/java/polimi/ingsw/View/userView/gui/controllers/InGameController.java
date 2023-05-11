@@ -354,18 +354,21 @@ public class InGameController extends GenericController {
     }
 
     public void setHandTiles(GameModelImmutable model, String nickname) {
+        float opacity=0.5f;
+
         if (model.getNicknameCurrentPlaying().equals(nickname)) {
-            Pane pane;
-            int i = 0;
-            setEmptyHand();
-            for (Tile t : model.getHandOfCurrentPlaying()) {
-                pane = (Pane) mainAnchor.lookup("#pgGrab0" + i);
-                pane.getStyleClass().add(t.getType().getBackgroundClass());
-                pane.setOpacity(1);
-                i++;
-            }
-        } else {
-            setEmptyHand();
+            opacity=1;
+        }
+
+        Pane pane;
+        int i = 0;
+        setEmptyHand();
+        for (Tile t : model.getHandOfCurrentPlaying()) {
+            pane = (Pane) mainAnchor.lookup("#pgGrab0" + i);
+            pane.getStyleClass().remove(pane.getStyleClass().get(0));
+            pane.getStyleClass().add(t.getType().getBackgroundClass());
+            pane.setOpacity(opacity);
+            i++;
         }
     }
 
@@ -380,10 +383,13 @@ public class InGameController extends GenericController {
     }
 
     private void setEmptyHand() {
-        Pane pane = (Pane) mainAnchor.lookup("#pgGrab00");
-        pane.getStyleClass().add("tileEmpty");
-        pane.setOpacity(0.9);
-        pane.setVisible(true);
+        for(int i=0;i<DefaultValue.maxNumOfGrabbableTiles;i++) {
+            Pane pane = (Pane) mainAnchor.lookup("#pgGrab0"+i);
+            pane.getStyleClass().remove(pane.getStyleClass().get(0));
+            pane.getStyleClass().add("tileEmpty");
+            pane.setOpacity(0.9);
+            pane.setVisible(true);
+        }
     }
 
     public void setAllShefies(GameModelImmutable model, String nickname){
