@@ -26,7 +26,7 @@ public class Message implements Serializable {
     }
 
     public String toString(int i, int len) {
-        String padding = " ".repeat(Math.max(0, len));
+        String padding = " ".repeat(Math.max(0, (len - text.length())));
         return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, DefaultValue.col_chat).a("[").a(this.time.getHour()).a(":").a(this.time.getMinute())
                 .a(":").a(this.time.getSecond()).a("] ")
                 .a(this.getSender().getNickname()).a(": ").a(this.text).a(padding));
@@ -56,7 +56,7 @@ public class Message implements Serializable {
         this.time = time;
     }
 
-    public String whoIsReceiver(){
+    public String whoIsReceiver() {
         return "*";
     }
 }
