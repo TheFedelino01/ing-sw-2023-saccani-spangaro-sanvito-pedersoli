@@ -85,9 +85,11 @@ public class Player implements Serializable {
 
     public void addPoint(Point obtainedPoints) {
         for (Point p : this.obtainedPoints) {
-            if (p.getReferredTo().equals(obtainedPoints.getReferredTo())) {
-                throw new IllegalArgumentException("You can't have more than one point for the same card");
-            }
+            //If referred to is null it means that the point is relative to the last game check
+            if (p.getReferredTo() != null)
+                if (p.getReferredTo().equals(obtainedPoints.getReferredTo())) {
+                    throw new IllegalArgumentException("You can't have more than one point for the same card");
+                }
         }
         //Nessun eccezione sollevata, aggiungo il punto al giocatore e notifico
         this.obtainedPoints.add(obtainedPoints);

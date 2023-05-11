@@ -1,6 +1,7 @@
 package polimi.ingsw.Controller;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.Model.*;
@@ -185,6 +186,95 @@ public class GameControllerTest {
             currentPlayer = gameController.getIndexCurrentPlaying();
             assertEquals(currentPlayer, 1, "The current player is not correct");
         }
+    }
+
+
+    /**
+     * Test whether the final game checks work or not
+     * <br>
+     * Player shelf:
+     * C C C C C
+     * C C B B B
+     * T T C C C
+     * F F F F F
+     * P P T T T
+     * T T T T T
+     */
+    @Test
+    @DisplayName("Test final points")
+    public void testFinalPoints() {
+        GameController game = new GameController();
+        Player p = new Player("test");
+        Shelf playerShelf = new Shelf();
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if (r == 0)
+                    playerShelf.setSingleTile(new Tile(TileType.CAT), r, c);
+                else if (r == DefaultValue.NumOfRowsShelf - 1)
+                    playerShelf.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                else if (r == 3)
+                    playerShelf.setSingleTile(new Tile(TileType.FRAME), r, c);
+                else if (r == 1 && c < 2)
+                    playerShelf.setSingleTile(new Tile(TileType.CAT), r, c);
+                else if (r == 1)
+                    playerShelf.setSingleTile(new Tile(TileType.BOOK), r, c);
+                else if (r == 2 && c < 2)
+                    playerShelf.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                else if (r == 2)
+                    playerShelf.setSingleTile(new Tile(TileType.CAT), r, c);
+                else if (c < 2){
+                    playerShelf.setSingleTile(new Tile(TileType.PLANT), r, c);
+                }else playerShelf.setSingleTile(new Tile(TileType.TROPHY), r, c);
+            }
+        }
+        p.setShelf(playerShelf);
+        game.addPlayer(p);
+        game.checkFinal();
+        assertEquals(25, game.getPlayers().get(0).getTotalPoints(), "Wrong checking algorithm!");
+    }
+
+    /**
+     * Test whether the final game checks work or not
+     * <br>
+     * Player shelf:
+     * N N N N N
+     * C C B B B
+     * T T C C C
+     * F F F F F
+     * P P T T T
+     * T T T T T
+     */
+    @Test
+    @DisplayName("Test final points 2")
+    public void secondTestFinalPoints() {
+        GameController game = new GameController();
+        Player p = new Player("test");
+        Shelf playerShelf = new Shelf();
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if (r == 0)
+                    playerShelf.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                else if (r == DefaultValue.NumOfRowsShelf - 1)
+                    playerShelf.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                else if (r == 3)
+                    playerShelf.setSingleTile(new Tile(TileType.FRAME), r, c);
+                else if (r == 1 && c < 2)
+                    playerShelf.setSingleTile(new Tile(TileType.CAT), r, c);
+                else if (r == 1)
+                    playerShelf.setSingleTile(new Tile(TileType.BOOK), r, c);
+                else if (r == 2 && c < 2)
+                    playerShelf.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                else if (r == 2)
+                    playerShelf.setSingleTile(new Tile(TileType.CAT), r, c);
+                else if (c < 2){
+                    playerShelf.setSingleTile(new Tile(TileType.PLANT), r, c);
+                }else playerShelf.setSingleTile(new Tile(TileType.TROPHY), r, c);
+            }
+        }
+        p.setShelf(playerShelf);
+        game.addPlayer(p);
+        game.checkFinal();
+        assertEquals(17, game.getPlayers().get(0).getTotalPoints(), "Wrong checking algorithm!");
     }
 
 

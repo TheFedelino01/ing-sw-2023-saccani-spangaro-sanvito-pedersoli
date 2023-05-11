@@ -49,5 +49,8 @@ public enum TileType {
         return values;
     }
 
+    public static List<TileType> getUsableValues() {return values.stream()
+            .filter(x -> (!(x.equals(TileType.USED)||x.equals(TileType.NOT_USED)||x.equals(TileType.FINISHED_USING)))).toList();}
+
 }
 

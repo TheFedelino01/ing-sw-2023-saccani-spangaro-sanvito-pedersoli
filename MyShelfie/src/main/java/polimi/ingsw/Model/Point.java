@@ -14,6 +14,11 @@ public class Point implements Serializable {
         this.referredTo = referredTo;
     }
 
+    public Point(Integer point){
+        this.point = point;
+        this.referredTo = null;
+    }
+
     public Integer getPoint() {
         return point;
     }
