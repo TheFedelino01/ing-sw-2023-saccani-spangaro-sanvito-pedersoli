@@ -21,7 +21,7 @@ public enum CardGoalType implements CardType {
     NOT_SET("pc0");
 
 
-    private String backgroundClass="";
+    private String backgroundClass;
 
     CardGoalType(String backgroundClass){
         this.backgroundClass=backgroundClass;
@@ -82,6 +82,7 @@ public enum CardGoalType implements CardType {
     }
 
     //for testing purposes ONLY
+    @Deprecated
     public static List<CardGoalType> getValuesBUT() {
         return Arrays.stream(values()).filter(x -> !x.equals(CardGoalType.NOT_SET))
                 .filter(x -> !x.equals(CardGoalType.GOAL0)).collect(Collectors.toList());

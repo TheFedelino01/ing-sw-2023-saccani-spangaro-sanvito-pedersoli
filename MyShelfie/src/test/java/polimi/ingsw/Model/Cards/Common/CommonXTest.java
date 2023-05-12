@@ -45,9 +45,9 @@ public class CommonXTest {
                         (i == 2 && j == 0) ||
                         (i == 2 && j == 2) ||
                         (i == 1 && j == 1))
-                    test.setSingleTile(new Tile(TileType.USED), i, j);
+                    test.setSingleTile(new Tile(TileType.CAT), i, j);
                 else
-                    test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                    test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
             }
         }
         assertTrue(model.get(10).verify(test));

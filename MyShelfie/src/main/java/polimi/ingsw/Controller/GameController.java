@@ -16,7 +16,11 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 public class GameController implements GameControllerInterface, Serializable, Runnable {
-    private final GameModel model;
+
+    // TODO: FIND A WAY SO THAT THE MODEL IS NOT FINAL IN THE LATEST RELEASE
+    //  BECAUSE IT CAN'T BE FINAL FOR TESTING
+    //private final GameModel model;
+    private GameModel model; // testing
     private final Random random = new Random();
     private Flow view;
     private transient Map<GameListener, Heartbeat> heartbeats;
@@ -584,4 +588,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
+
+    //TESTING METHODS
+    @Deprecated
+    public void setModel(GameModel model){
+        this.model = model;
+    }
 }
