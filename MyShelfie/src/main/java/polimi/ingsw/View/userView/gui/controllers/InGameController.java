@@ -295,6 +295,8 @@ public class InGameController extends GenericController {
 
                 tilePane = (Pane) tilesPane.lookup("#pg" + r + c);
 
+                removeallBackgroundClass(tilePane);
+
                 if (tilePane != null) {
                     if (!t.getType().equals(TileType.NOT_USED) && !t.getType().equals(TileType.USED) && !t.getType().equals(TileType.FINISHED_USING)) {
                         tilePane.getStyleClass().add(t.getType().getBackgroundClass());
@@ -309,6 +311,15 @@ public class InGameController extends GenericController {
         }
 
         pgTilesTotal.setText(String.valueOf(model.getPg().getNumOfTileinTheBag()));
+    }
+    private void removeallBackgroundClass(Pane tilePane){
+        if(tilePane!=null) {
+            for (TileType t : TileType.values()) {
+                if (tilePane.getStyleClass().contains(t.getBackgroundClass())) {
+                    tilePane.getStyleClass().remove(t.getBackgroundClass());
+                }
+            }
+        }
     }
 
     public void setCommonCards(GameModelImmutable model) {
@@ -419,24 +430,7 @@ public class InGameController extends GenericController {
 
         }
     }
-    private void setInvisibleAllShelfies(){
-        Pane paneTile;
-        for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
-            for(int c=0; c<DefaultValue.NumOfColumnsShelf;c++){
-                paneTile = (Pane) mainAnchor.lookup("#youShelf"+r+c);
-                paneTile.setVisible(false);
 
-                paneTile = (Pane) mainAnchor.lookup("#player1Shelf"+r+c);
-                paneTile.setVisible(false);
-
-                paneTile = (Pane) mainAnchor.lookup("#player2Shelf"+r+c);
-                paneTile.setVisible(false);
-
-                paneTile = (Pane) mainAnchor.lookup("#player3Shelf"+r+c);
-                paneTile.setVisible(false);
-            }
-        }
-    }
 
     private void setShelfie(Shelf shelf, String prefixIdPane){
         Pane paneTile;
