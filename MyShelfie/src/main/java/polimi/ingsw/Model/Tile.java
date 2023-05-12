@@ -34,7 +34,7 @@ public class Tile implements Serializable {
         this.TYPE = TYPE;
     }
 
-    public boolean isFreeSide() {
+    public boolean hasFreeSide() {
         return freeSide;
     }
 

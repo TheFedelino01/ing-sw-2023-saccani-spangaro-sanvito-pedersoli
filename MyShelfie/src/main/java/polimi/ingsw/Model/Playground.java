@@ -91,93 +91,6 @@ public class Playground implements Serializable {
         }
     }
 
-    private boolean isABorderTile(int r, int c) {
-        if (r > 0) {
-            if (playground[r - 1][c].isSameType(TileType.NOT_USED)) {
-                return true;
-            }
-        }
-        if (r < DefaultValue.PlaygroundSize - 1) {
-            if (playground[r + 1][c].isSameType(TileType.NOT_USED)) {
-                return true;
-            }
-        }
-        if (c > 0) {
-            if (playground[r][c - 1].isSameType(TileType.NOT_USED)) {
-                return true;
-            }
-        }
-        if (c < DefaultValue.PlaygroundSize - 1) {
-            return playground[r][c + 1].isSameType(TileType.NOT_USED);
-        }
-        return false;
-    }
-
-    public void updateFreeSide() {
-        //set free side to true where the tiles are near a not used tile or a finished using tile
-        for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
-            for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
-                if (playground[r][c].isSameType(TileType.NOT_USED) || playground[r][c].isSameType(TileType.FINISHED_USING))
-                    switch (r) {
-                        case (0) -> {
-                            switch (c) {
-                                case (0) -> {
-                                    playground[r + 1][c].setFreeSide(true);
-                                    playground[r][c + 1].setFreeSide(true);
-                                }
-                                case (DefaultValue.PlaygroundSize - 1) -> {
-                                    playground[r + 1][c].setFreeSide(true);
-                                    playground[r][c - 1].setFreeSide(true);
-                                }
-                                default -> {
-                                    playground[r + 1][c].setFreeSide(true);
-                                    playground[r][c + 1].setFreeSide(true);
-                                    playground[r][c - 1].setFreeSide(true);
-                                }
-                            }
-                        }
-                        case (DefaultValue.PlaygroundSize - 1) -> {
-                            switch (c) {
-                                case (0) -> {
-                                    playground[r - 1][c].setFreeSide(true);
-                                    playground[r][c + 1].setFreeSide(true);
-                                }
-                                case (DefaultValue.PlaygroundSize - 1) -> {
-                                    playground[r - 1][c].setFreeSide(true);
-                                    playground[r][c - 1].setFreeSide(true);
-                                }
-                                default -> {
-                                    playground[r - 1][c].setFreeSide(true);
-                                    playground[r][c + 1].setFreeSide(true);
-                                    playground[r][c - 1].setFreeSide(true);
-                                }
-                            }
-                        }
-                        default -> {
-                            switch (c) {
-                                case (0) -> {
-                                    playground[r + 1][c].setFreeSide(true);
-                                    playground[r - 1][c].setFreeSide(true);
-                                    playground[r][c + 1].setFreeSide(true);
-                                }
-                                case (DefaultValue.PlaygroundSize - 1) -> {
-                                    playground[r + 1][c].setFreeSide(true);
-                                    playground[r - 1][c].setFreeSide(true);
-                                    playground[r][c - 1].setFreeSide(true);
-                                }
-                                default -> {
-                                    playground[r + 1][c].setFreeSide(true);
-                                    playground[r - 1][c].setFreeSide(true);
-                                    playground[r][c + 1].setFreeSide(true);
-                                    playground[r][c - 1].setFreeSide(true);
-                                }
-                            }
-                        }
-                    }
-            }
-        }
-    }
-
 
     public void setPlayground() {
         int random;
@@ -186,12 +99,44 @@ public class Playground implements Serializable {
                 if (playground[r][c].isSameType(TileType.USED) || playground[r][c].isSameType(TileType.FINISHED_USING)) {
                     random = (int) (Math.random() * bag.size());
                     playground[r][c] = new Tile(bag.get(random).getType());
-                    //If the tile is a border-tile then set free side to true (sure at least 1 side free)
-                    if (isABorderTile(r, c)) {
-                        playground[r][c].setFreeSide(true);
-                    }
                     bag.remove(random);
                 }
+            }
+        }
+        setFreeSides();
+    }
+
+    private void setFreeSides() {
+        for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
+            for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
+                if (!(playground[r][c].isSameType(TileType.NOT_USED) || playground[r][c].isSameType(TileType.FINISHED_USING)))
+                    switch (r) {
+                        //first and last row, all have free sides
+                        case (0), (DefaultValue.PlaygroundSize - 1) -> {
+                            playground[r][c].setFreeSide(true);
+                        }
+                        default -> {
+                            //First and last column, all have free sides
+                            switch (c) {
+                                case (0), (DefaultValue.PlaygroundSize - 1) -> {
+                                    playground[r][c].setFreeSide(true);
+                                }
+                                default -> {
+                                    //if the tile is near a not-used or empty one, then it has a free side
+                                    if ((playground[r][c + 1].isSameType(TileType.NOT_USED)
+                                            || playground[r][c - 1].isSameType(TileType.NOT_USED)
+                                            || playground[r + 1][c].isSameType(TileType.NOT_USED)
+                                            || playground[r - 1][c].isSameType(TileType.NOT_USED))||
+                                            playground[r][c + 1].isSameType(TileType.FINISHED_USING)
+                                            || playground[r][c - 1].isSameType(TileType.FINISHED_USING)
+                                            || playground[r + 1][c].isSameType(TileType.FINISHED_USING)
+                                            || playground[r - 1][c].isSameType(TileType.FINISHED_USING)) {
+                                        playground[r][c].setFreeSide(true);
+                                    }
+                                }
+                            }
+                        }
+                    }
             }
         }
     }
@@ -215,10 +160,9 @@ public class Playground implements Serializable {
             if (playground[r][c] == null) {
                 return false;
             }
-            if (!playground[r][c].isFreeSide()) {
+            if (!playground[r][c].hasFreeSide()) {
                 return false;
             }
-
             if (playground[r][c].isSameType(TileType.NOT_USED)) {
                 return false;
             }
@@ -366,7 +310,7 @@ public class Playground implements Serializable {
             ris.add(new Tile(playground[r][c].getType()));
             System.out.println(ris);
             playground[r][c].setType(TileType.FINISHED_USING);
-            updateFreeSide();
+            setFreeSides();
             i++;
             switch (direction) {
                 case UP -> r--;
