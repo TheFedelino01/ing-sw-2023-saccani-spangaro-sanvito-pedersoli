@@ -139,7 +139,7 @@ public class GameModel {
     public boolean arePlayersReadyToStartAndEnough() {
         //Se tutti i giocatori sono pronti a giocare, inizia il game
         return players.stream().filter(Player::getReadyToStart)
-                .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
+                       .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
     }
 
 
@@ -236,10 +236,10 @@ public class GameModel {
     public void setStatus(GameStatus status) {
         //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
         if (status.equals(GameStatus.RUNNING) &&
-                ((players.size() < DefaultValue.minNumOfPlayer
-                        || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
-                        || !doAllPlayersHaveGoalCard())
-                        || currentPlaying == -1)) {
+            ((players.size() < DefaultValue.minNumOfPlayer
+              || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
+              || !doAllPlayersHaveGoalCard())
+             || currentPlaying == -1)) {
             throw new NotReadyToRunException();
         } else {
             this.status = status;
@@ -319,7 +319,7 @@ public class GameModel {
 
 
     public void nextTurn() throws GameEndedException {
-        if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE))
+        if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
             if (players.get(currentPlaying).getInHandTile().size() == 0) {
                 currentPlaying = (currentPlaying + 1) % players.size();
                 if (currentPlaying.equals(firstFinishedPlayer)) {
@@ -329,7 +329,10 @@ public class GameModel {
                 }
             } else {
                 throw new NotEmptyHandException();
-            }else {
+            }
+        } else if (status.equals(GameStatus.ENDED)){
+            throw new GameEndedException();
+        } else {
             throw new GameNotStartedException();
         }
 
