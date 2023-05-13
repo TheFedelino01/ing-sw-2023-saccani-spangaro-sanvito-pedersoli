@@ -25,9 +25,12 @@ public class Message implements Serializable {
         this.sender = null;
     }
 
-    public String toString(int i, int len) {
+    public String toString(int i, int len, boolean isPrivate) {
         String padding = " ".repeat(Math.max(0, (len - text.length())));
-        return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, DefaultValue.col_chat).a("[").a(this.time.getHour()).a(":").a(this.time.getMinute())
+        String priv = "[Private] ";
+        if(!isPrivate)
+            priv="";
+        return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, DefaultValue.col_chat).a(priv+"[").a(this.time.getHour()).a(":").a(this.time.getMinute())
                 .a(":").a(this.time.getSecond()).a("] ")
                 .a(this.getSender().getNickname()).a(": ").a(this.text).a(padding));
     }

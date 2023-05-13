@@ -20,6 +20,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class TUI extends UI {
 
+    private String nickname;
 
     public TUI() {
         init();
@@ -29,7 +30,6 @@ public class TUI extends UI {
     public void init() {
         AnsiConsole.systemInstall();
         importantEvents = new ArrayList<>();
-        chat = new Chat();
     }
 
     @Override
@@ -293,18 +293,18 @@ public class TUI extends UI {
     }
 
 
-    public void show_messages() {
+    public void show_messages(GameModelImmutable model) {
         String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat - 1).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
-                ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(chat.toString()).fg(DEFAULT);
+                ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(model.getChat().toString(this.nickname)).fg(DEFAULT);
         System.out.println(ris);
-        if (chat.getMsgs().size() > 0) {
+        if (model.getChat().getMsgs().size() > 0) {
             System.out.println(ansi().cursor(DefaultValue.row_input, 0));
         }
     }
 
     @Override
-    public int getLengthLongestMessage() {
-        return chat.getMsgs().stream()
+    public int getLengthLongestMessage(GameModelImmutable model) {
+        return model.getChat().getMsgs().stream()
                 .map(Message::getText)
                 .reduce((a, b) -> a.length() > b.length() ? a : b)
                 .toString().length();
@@ -312,15 +312,14 @@ public class TUI extends UI {
 
     @Override
     public void addMessage(Message msg, GameModelImmutable model) {
-        chat.addMsg(msg);
-        show_messages();
+        show_messages(model);
     }
 
     @Override
     public void show_noAvailableGamesToJoin(String msgToVisualize) {
         String ris = ansi().fg(RED).cursor(11, 4).bold().a(msgToVisualize).fg(DEFAULT).boldOff() +
                 String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a("Try later or create a new game!").fg(DEFAULT).boldOff());
-        ansi().fg(WHITE).cursor(13, 4).a(chat.toString()).fg(DEFAULT);
+        ansi().fg(DEFAULT);
 
 
         System.out.println(ris);
@@ -381,7 +380,7 @@ public class TUI extends UI {
         show_titleMyShelfie();
         show_playground(model);
         show_commonCards(model);
-        show_messages();
+        show_messages(model);
         show_points(model);
         show_important_events();
     }
@@ -401,14 +400,11 @@ public class TUI extends UI {
         System.out.println(ansi().cursor(DefaultValue.row_nextTurn + 1, 0).bold().a("Welcome " + nick).boldOff());
     }
 
-    @Override
-    public void resetChat() {
-        this.chat = new Chat();
-    }
 
     @Override
     public void resetImportantEvents() {
         this.importantEvents = new ArrayList<>();
+        this.nickname=null;
     }
 
     @Override
@@ -422,8 +418,8 @@ public class TUI extends UI {
     }
 
 
-    public void removeInput(String msg) {
-        System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(getLengthLongestMessage())));
+    public void removeInput(String msg, GameModelImmutable model) {
+        System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(getLengthLongestMessage(model))));
     }
 
     @Override
@@ -449,7 +445,7 @@ public class TUI extends UI {
     @Override
     public void show_askNum(String msg, GameModelImmutable gameModel, String nickname) {
         this.show_alwaysShow(gameModel, nickname);
-        this.removeInput(msg);
+        this.removeInput(msg,gameModel);
     }
 
     @Override
@@ -532,6 +528,7 @@ public class TUI extends UI {
         this.clearScreen();
         this.show_titleMyShelfie();
         System.out.println("> Creating a new game...");
+        this.nickname=nickname;
     }
 
     @Override
@@ -539,6 +536,7 @@ public class TUI extends UI {
         this.clearScreen();
         this.show_titleMyShelfie();
         System.out.println("> Connecting to the first available game...");
+        this.nickname=nickname;
     }
 
     @Override
@@ -546,6 +544,7 @@ public class TUI extends UI {
         this.clearScreen();
         this.show_titleMyShelfie();
         System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
+        this.nickname=nickname;
     }
 
 

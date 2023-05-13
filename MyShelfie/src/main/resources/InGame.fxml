@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
@@ -68,6 +69,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
+            <ComboBox fx:id="comboBoxMessage" layoutX="21.0" layoutY="640.0" prefHeight="25.0" prefWidth="92.0" />
          </children></Pane>
       <ImageView fitHeight="40.0" fitWidth="1522.0" pickOnBounds="true">
          <image>
@@ -698,7 +700,7 @@
          <children>
             <ListView fx:id="chatList" layoutY="2.0" prefHeight="162.0" prefWidth="374.0" />
          </children></Pane>
-      <TextField fx:id="messageText" onKeyPressed="#actionKeyPressedOnTextMessage" prefHeight="26.0" prefWidth="340.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="640.0" />
+      <TextField fx:id="messageText" layoutX="120.0" onKeyPressed="#actionKeyPressedOnTextMessage" prefHeight="26.0" prefWidth="240.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="640.0" />
       <Pane layoutX="10.0" layoutY="703.0" prefHeight="136.0" prefWidth="566.0" style="-fx-background-color: white;" AnchorPane.topAnchor="703.0" />
       <Label layoutX="11.0" layoutY="675.0" text="Latest events" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="675.0">
          <font>

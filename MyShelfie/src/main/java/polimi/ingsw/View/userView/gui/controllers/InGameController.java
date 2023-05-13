@@ -3,6 +3,7 @@ package polimi.ingsw.View.userView.gui.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -52,6 +53,9 @@ public class InGameController extends GenericController {
     @FXML
     private ListView chatList;
 
+    @FXML
+    private ComboBox comboBoxMessage;
+
 
     @FXML
     private Label playerLabel1;
@@ -75,7 +79,7 @@ public class InGameController extends GenericController {
     private Integer rowFirstTile, colFirstTile, rowSecondTile, colSecondTile;
     private boolean needToDetectColSelection = false, needToDetectTileInHandGrabbing = false;
 
-    public void actionClickOnTile(MouseEvent e) throws IOException {
+    public void actionClickOnTile(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
             intRecord rowCol = getRowColFrom(e, "pg");
             Integer row = rowCol.row();
@@ -163,7 +167,13 @@ public class InGameController extends GenericController {
 
     public void actionSendMessage(MouseEvent e) {
         if (!messageText.getText().isEmpty()) {
-            getInputReaderGUI().addTxt("/c " + messageText.getText());
+            if (comboBoxMessage.getValue().toString().isEmpty()) {
+                getInputReaderGUI().addTxt("/c " + messageText.getText());
+            } else {
+                //Player wants to send a private message
+                getInputReaderGUI().addTxt("/cs " + comboBoxMessage.getValue().toString() + " " + messageText.getText());
+                comboBoxMessage.getSelectionModel().selectFirst();
+            }
             messageText.setText("");
         }
     }
@@ -277,6 +287,16 @@ public class InGameController extends GenericController {
             if (model.getNicknameCurrentPlaying().equals(p.getNickname())) {
                 labelNick.setTextFill(Color.YELLOW);
             }
+        }
+
+        if (comboBoxMessage.getItems().size() == 0) {
+            comboBoxMessage.getItems().add("");
+            for (Player p : model.getPlayers()) {
+
+                if (!p.getNickname().equals(nickname))
+                    comboBoxMessage.getItems().add(p.getNickname());
+            }
+            comboBoxMessage.getSelectionModel().selectFirst();
         }
 
     }
@@ -485,10 +505,17 @@ public class InGameController extends GenericController {
         needToDetectColSelection = true;
     }
 
-    public void setMessage(List<Message> msgs) {
+    public void setMessage(List<Message> msgs, String myNickname) {
         chatList.getItems().clear();
         for (Message m : msgs) {
-            chatList.getItems().add(m.getSender().getNickname() + " [" + m.getTime().getHour()+":"+m.getTime().getMinute()+":"+m.getTime().getSecond() + "]" + m.getText());
+            String r = "[" + m.getTime().getHour() + ":" + m.getTime().getMinute() + ":" + m.getTime().getSecond() + "] "+m.getSender().getNickname() +": "+  m.getText();
+
+            if (m.whoIsReceiver().equals("*")) {
+                chatList.getItems().add(r);
+            } else if (m.whoIsReceiver().equals(myNickname) || m.getSender().getNickname().equals(myNickname)) {
+                //Message private
+                chatList.getItems().add("[Private] "+r);
+            }
         }
     }
 

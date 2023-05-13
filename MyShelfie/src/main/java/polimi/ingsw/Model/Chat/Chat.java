@@ -59,7 +59,27 @@ public class Chat implements Serializable {
                 .reduce((a, b) -> b.length() > a.length() ? b : a)
                 .toString().length();
         for (Message msg : msgs) {
-            ret.append(msg.toString(i, len));
+            ret.append(msg.toString(i, len,false));
+            i++;
+        }
+        return ret.toString();
+    }
+
+    public String toString(String privateMsgByNickname) {
+        StringBuilder ret = new StringBuilder();
+        int i = 0;
+        int len = this.getMsgs().stream()
+                .map(Message::getText)
+                .reduce((a, b) -> b.length() > a.length() ? b : a)
+                .toString().length();
+
+        for (Message msg : msgs) {
+            if(!msg.whoIsReceiver().equals("*") && ((msg.getSender().getNickname().equals(privateMsgByNickname) || msg.whoIsReceiver().equals(privateMsgByNickname)))){
+                ret.append(msg.toString(i, len,true));
+            }else{
+                ret.append(msg.toString(i, len,false));
+            }
+
             i++;
         }
         return ret.toString();

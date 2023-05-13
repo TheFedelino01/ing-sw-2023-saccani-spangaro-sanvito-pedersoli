@@ -220,9 +220,9 @@ public class GUIApplication extends Application {
         controller.setNicknamesAndPoints(model,nickname);
         controller.changeTurn(model,nickname);
     }
-    public void showMessages(GameModelImmutable model) {
+    public void showMessages(GameModelImmutable model, String myNickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setMessage(model.getChat().getMsgs());
+        controller.setMessage(model.getChat().getMsgs(), myNickname);
     }
 
 

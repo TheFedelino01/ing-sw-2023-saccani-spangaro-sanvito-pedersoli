@@ -10,7 +10,6 @@ import java.util.List;
 
 public abstract class UI {
     protected List<String> importantEvents; //events that needs to be showed always in screen
-    protected Chat chat;
 
     public abstract void init();
 
@@ -66,11 +65,10 @@ public abstract class UI {
     //----------------------
     public abstract void addImportantEvent(String impt);
 
-    protected abstract int getLengthLongestMessage();
+    protected abstract int getLengthLongestMessage(GameModelImmutable model);
 
     protected abstract void addMessage(Message msg,GameModelImmutable model);
 
-    protected abstract void resetChat();
 
     protected abstract void resetImportantEvents();
 

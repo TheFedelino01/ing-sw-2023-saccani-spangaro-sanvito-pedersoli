@@ -335,7 +335,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     public void youleft() {
         ended = true;
-        ui.resetChat();
         ui.resetImportantEvents();
         events.add(null, APP_MENU);
         //inputReader.interrupt();//TODO NEED TO READ INPUT ALWAYS WITH THIS SO I DONT NEED TO STOP AND RESTART IT
@@ -692,14 +691,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) {
-        //Visualizzo il messaggio solo se e' per tutti o e' solo per me
-        if (msg.whoIsReceiver().equals("*")) {
+        //Show the message only if is for everyone or is for me (or I sent it)
+        if (msg.whoIsReceiver().equals("*") || msg.whoIsReceiver().equals(nickname) || msg.getSender().getNickname().equals(nickname)) {
             ui.addMessage(msg,gameModel);
             events.add(gameModel, SENT_MESSAGE);
-        } else if (msg.whoIsReceiver().equals(nickname) || msg.getSender().getNickname().equals(nickname)) {
-            msg.setText("[PRIVATE]: " + msg.getText());
-            ui.addMessage(msg,gameModel);
-            events.add(gameModel, SENT_MESSAGE);
+            //msg.setText("[PRIVATE]: " + msg.getText());
         }
     }
 

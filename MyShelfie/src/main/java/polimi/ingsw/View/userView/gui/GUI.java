@@ -173,7 +173,7 @@ public class GUI extends UI {
 
     @Override
     protected void show_sentMessage(GameModelImmutable model, String nickname) {
-        callPlatformRunLater(() -> this.guiApplication.showMessages(model));
+        callPlatformRunLater(() -> this.guiApplication.showMessages(model,this.nickname));
     }
 
     @Override
@@ -235,7 +235,7 @@ public class GUI extends UI {
     }
 
     @Override
-    protected int getLengthLongestMessage() {
+    protected int getLengthLongestMessage(GameModelImmutable model) {
         return 0;
     }
 
@@ -244,13 +244,9 @@ public class GUI extends UI {
         show_sentMessage(model,model.getChat().getLastMessage().getSender().getNickname());
     }
 
-    @Override
-    protected void resetChat() {
-
-    }
 
     @Override
     protected void resetImportantEvents() {
-
+        this.nickname=null;
     }
 }
