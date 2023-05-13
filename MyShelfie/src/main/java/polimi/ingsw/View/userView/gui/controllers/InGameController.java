@@ -512,7 +512,7 @@ public class InGameController extends GenericController {
 
             if (m.whoIsReceiver().equals("*")) {
                 chatList.getItems().add(r);
-            } else if (m.whoIsReceiver().equals(myNickname) || m.getSender().getNickname().equals(myNickname)) {
+            } else if (m.whoIsReceiver().toUpperCase().equals(myNickname.toUpperCase()) || m.getSender().getNickname().toUpperCase().equals(myNickname.toUpperCase())) {
                 //Message private
                 chatList.getItems().add("[Private] "+r);
             }

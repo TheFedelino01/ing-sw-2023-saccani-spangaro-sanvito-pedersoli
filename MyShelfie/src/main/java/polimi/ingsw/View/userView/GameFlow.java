@@ -692,7 +692,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) {
         //Show the message only if is for everyone or is for me (or I sent it)
-        if (msg.whoIsReceiver().equals("*") || msg.whoIsReceiver().equals(nickname) || msg.getSender().getNickname().equals(nickname)) {
+        if (msg.whoIsReceiver().equals("*") || msg.whoIsReceiver().toUpperCase().equals(nickname.toUpperCase()) || msg.getSender().getNickname().toUpperCase().equals(nickname.toUpperCase())) {
             ui.addMessage(msg,gameModel);
             events.add(gameModel, SENT_MESSAGE);
             //msg.setText("[PRIVATE]: " + msg.getText());
