@@ -52,6 +52,10 @@ public class InGameController extends GenericController {
     private TextField messageText;
     @FXML
     private ListView chatList;
+    @FXML
+    private ListView importantEventsList;
+
+
 
     @FXML
     private ComboBox comboBoxMessage;
@@ -495,6 +499,8 @@ public class InGameController extends GenericController {
         }
     }
 
+
+
     public void changeTurn(GameModelImmutable model, String nickname) {
         needToDetectTileInHandGrabbing = false;
     }
@@ -504,6 +510,7 @@ public class InGameController extends GenericController {
         //Now the client can select a col from his shelfie to position all tiles
         needToDetectColSelection = true;
     }
+
 
     public void setMessage(List<Message> msgs, String myNickname) {
         chatList.getItems().clear();
@@ -518,6 +525,15 @@ public class InGameController extends GenericController {
             }
         }
     }
+
+    public void setImportantEvents(List<String> importantEvents) {
+        importantEventsList.getItems().clear();
+        for(String s:importantEvents){
+            importantEventsList.getItems().add(s);
+        }
+        importantEventsList.scrollTo(importantEventsList.getItems().size());
+    }
+
 
 
 }

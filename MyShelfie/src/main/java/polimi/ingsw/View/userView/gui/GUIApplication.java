@@ -19,6 +19,7 @@ import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GUIApplication extends Application {
 
@@ -225,7 +226,10 @@ public class GUIApplication extends Application {
         controller.setMessage(model.getChat().getMsgs(), myNickname);
     }
 
-
+    public void showImportantEvents(List<String> importantEvents) {
+        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
+        controller.setImportantEvents(importantEvents);
+    }
 
     public void createNewWindowWithStyle() {
         // Crea una nuova finestra con lo stile desiderato

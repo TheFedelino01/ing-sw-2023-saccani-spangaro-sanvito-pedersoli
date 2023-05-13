@@ -12,6 +12,8 @@ import polimi.ingsw.View.userView.gui.controllers.NicknamePopupController;
 import polimi.ingsw.View.userView.gui.scenes.SceneEnum;
 import polimi.ingsw.View.userView.utilities.inputReaderGUI;
 
+import java.util.ArrayList;
+
 public class GUI extends UI {
 
     private GUIApplication guiApplication;
@@ -25,12 +27,13 @@ public class GUI extends UI {
         this.guiApplication = guiApplication;
         this.inputReaderGUI=inputReaderGUI;
         nickname=null;
+        init();
     }
 
 
     @Override
     public void init() {
-
+        importantEvents = new ArrayList<>();
     }
     public void callPlatformRunLater(Runnable r){
         //Need to use this method to call any methods inside the GuiApplication
@@ -231,7 +234,8 @@ public class GUI extends UI {
 
     @Override
     public void addImportantEvent(String imp) {
-
+        importantEvents.add(imp);
+        callPlatformRunLater(() -> this.guiApplication.showImportantEvents(this.importantEvents));
     }
 
     @Override
@@ -245,8 +249,10 @@ public class GUI extends UI {
     }
 
 
+
     @Override
     protected void resetImportantEvents() {
+        this.importantEvents = new ArrayList<>();
         this.nickname=null;
     }
 }

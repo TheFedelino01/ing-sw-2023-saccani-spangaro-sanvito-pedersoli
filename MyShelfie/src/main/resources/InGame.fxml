@@ -696,13 +696,12 @@
             <Font name="Arial Black" size="20.0" />
          </font>
       </Label>
-      <Pane layoutY="610.0" prefHeight="162.0" prefWidth="374.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="473.0">
-         <children>
-            <ListView fx:id="chatList" layoutY="2.0" prefHeight="162.0" prefWidth="374.0" />
-         </children></Pane>
+      <Pane layoutY="610.0" opacity="0.6" prefHeight="162.0" prefWidth="374.0" styleClass="backgroundWall" stylesheets="@style.css" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="473.0" />
+      <ListView fx:id="chatList" prefHeight="151.0" prefWidth="361.0" styleClass="backgroundTransparent" stylesheets="@style.css" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="478.0" />
       <TextField fx:id="messageText" layoutX="120.0" onKeyPressed="#actionKeyPressedOnTextMessage" prefHeight="26.0" prefWidth="240.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="640.0" />
-      <Pane layoutX="10.0" layoutY="703.0" prefHeight="136.0" prefWidth="566.0" style="-fx-background-color: white;" AnchorPane.topAnchor="703.0" />
-      <Label layoutX="11.0" layoutY="675.0" text="Latest events" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="675.0">
+      <Pane layoutX="10.0" layoutY="703.0" opacity="0.6" prefHeight="145.0" prefWidth="566.0" styleClass="backgroundWall" stylesheets="@style.css" AnchorPane.topAnchor="703.0" />
+      <ListView fx:id="importantEventsList" prefHeight="136.0" prefWidth="556.0" styleClass="backgroundTransparent" stylesheets="@style.css" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="708.0" />
+      <Label layoutX="11.0" layoutY="675.0" text="Latest events" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="674.0">
          <font>
             <Font name="Arial Black" size="20.0" />
          </font>
