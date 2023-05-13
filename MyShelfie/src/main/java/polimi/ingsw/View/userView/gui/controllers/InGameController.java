@@ -239,21 +239,20 @@ public class InGameController extends GenericController {
         //else return "false";
 
 
-        if (dir != null) {
-            getInputReaderGUI().addTxt(String.valueOf(distance));
+        getInputReaderGUI().addTxt(String.valueOf(distance));
 
-            getInputReaderGUI().addTxt(String.valueOf(rowFirstTile));
-            getInputReaderGUI().addTxt(String.valueOf(colFirstTile));
+        getInputReaderGUI().addTxt(String.valueOf(rowFirstTile));
+        getInputReaderGUI().addTxt(String.valueOf(colFirstTile));
 
-            if (distance != 1) {
-                getInputReaderGUI().addTxt(dir.toString());
-            }
-            this.rowFirstTile = null;
-            this.colFirstTile = null;
-            this.rowSecondTile = null;
-            this.colSecondTile = null;
-            makeTilesNotSelectedExpectTheFirstOne();
+        if (distance != 1) {
+            getInputReaderGUI().addTxt(dir.toString());
         }
+        this.rowFirstTile = null;
+        this.colFirstTile = null;
+        this.rowSecondTile = null;
+        this.colSecondTile = null;
+        makeTilesNotSelectedExpectTheFirstOne();
+
 
     }
 
