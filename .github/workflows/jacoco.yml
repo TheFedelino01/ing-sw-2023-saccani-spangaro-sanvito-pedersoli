@@ -18,6 +18,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven
+        working-directory: ./MyShelfie
         run: mvn -B test
 
       - name: Generate JaCoCo Badge
