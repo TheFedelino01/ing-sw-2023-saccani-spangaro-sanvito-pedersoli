@@ -26,34 +26,4 @@ public class TileTest {
         assertTrue(found, "Tile type corrent");
     }
 
-    /*
-    @Test
-    @DisplayName("Check available number")
-    void testAvailable() {
-        boolean ris=true;
-
-        tile.setNumOfAvailable(1);
-        if(tile.getNumOfAvailable()!=1){
-            ris=false;
-        }
-        tile.setNumOfAvailable(0);
-        if(tile.getNumOfAvailable()!=0){
-            ris=false;
-        }
-
-        tile.setNumOfAvailable(23);
-        if(tile.getNumOfAvailable()!=22){
-            ris=false;
-        }
-
-        tile.setNumOfAvailable(-1);
-        if(tile.getNumOfAvailable()!=0){
-            ris=false;
-        }
-
-
-        assertTrue(ris,"Tile available error");
-    }
-    */
-
 }
