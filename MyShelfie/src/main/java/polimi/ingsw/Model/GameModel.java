@@ -75,7 +75,7 @@ public class GameModel {
     }
 
     public int getNumOfOnlinePlayers() {
-        return players.stream().filter(x -> x.isConnected()).collect(Collectors.toList()).size();
+        return players.stream().filter(Player::isConnected).toList().size();
     }
 
     public List<Player> getPlayers() {
