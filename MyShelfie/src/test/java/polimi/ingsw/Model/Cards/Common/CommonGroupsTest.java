@@ -19,6 +19,12 @@ public class CommonGroupsTest {
 
     List<CommonCard> model = new ArrayList<>();
 
+    /**
+     * Legend:<br>
+     * N means that the tile has not been set<br>
+     * C means that the tile is a CAT one (and so on, so T for TROPHY, ecc)<br>
+     * R/X means that the tile is a random one
+     */
     @BeforeEach
     void setUp() {
         CommonCardFactory c = new CommonCardFactory();
@@ -26,20 +32,21 @@ public class CommonGroupsTest {
             model.add(c.getCommonCard(t));
     }
 
+    /**
+     * case 1<br>
+     * first common card<br>
+     * <p>
+     * C B C B X<br>
+     * C B C B X<br>
+     * X X X X X<br>
+     * C B C B X<br>
+     * C B C B X<br>
+     * X X X X X<br>
+     */
     @Test
     @DisplayName("Test six groups 1")
     public void testSixGroups1() {
         Shelf test = new Shelf();
-        //case 1
-        //first common card
-        /*
-        C B C B X
-        C B C B X
-        X X X X X
-        C B C B X
-        C B C B X
-        X X X X X
-         */
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 if ((c == 0 && r < 2) || (c == 2 && r < 2) || (c == 0 && r > 2 && r < 5) || (c == 2 && r > 2 && r < 5)) {
@@ -58,20 +65,22 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
+    /**
+     * case 1<br>
+     * first common card<br>
+     * <p>
+     * N N N N N<br>
+     * N B C B C<br>
+     * X B C B C<br>
+     * X X X X X<br>
+     * C B C B X<br>
+     * C B C B X<br>
+     */
     @Test
     @DisplayName("Test six groups 2")
     public void testSixGroups2() {
         Shelf test = new Shelf();
-        //case 1
-        //first common card
-        /*
-        N N N N N
-        N B C B C
-        X B C B C
-        X X X X X
-        C B C B X
-        C B C B X
-         */
+
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 if ((c == 0 && r > 3) || (c == 2 && r > 3) || (c == 2 && r > 0 && r < 3) || (c == 4 && r > 0 && r < 3)) {
@@ -90,19 +99,21 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
+    /**
+     * four groups of four tiles of the same type (will be testing two columns in this test case)<br>
+     * third common card<br>
+     * <p>
+     * C B C B X<br>
+     * C B C B X<br>
+     * C B C B X<br>
+     * C B C B X<br>
+     * X X X X X<br>
+     * X X X X X<br>
+     */
     @Test
     @DisplayName("Test four groups 1")
     public void testFourGroups1() {
-        //four groups of four tiles of the same type (will be testing two columns in this test case)
-        //third common card
-        /*
-        C B C B X
-        C B C B X
-        C B C B X
-        C B C B X
-        X X X X X
-        X X X X X
-         */
+
 
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
@@ -121,19 +132,21 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
+    /**
+     * four groups of four tiles of the same type (will be testing two columns in this test case)<br>
+     * third common card<br>
+     * <p>
+     * N N N N N<br>
+     * N N N N N<br>
+     * C B C B N<br>
+     * C B C B N<br>
+     * C B C B T<br>
+     * C B C B T<br>
+     */
     @Test
     @DisplayName("Test four groups 2")
     public void testFourGroups2() {
-        //four groups of four tiles of the same type (will be testing two columns in this test case)
-        //third common card
-        /*
-        N N N N N
-        N N N N N
-        C B C B N
-        C B C B N
-        C B C B T
-        C B C B T
-         */
+
 
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
@@ -152,18 +165,21 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
+    /**
+     * two separated groups of 2x2 tiles with the same type<br>
+     * fourth common card<br>
+     * <p>
+     * C C X X X<br>
+     * C C X X X<br>
+     * X X X X X<br>
+     * X X X C C<br>
+     * X X X C C<br>
+     * X X X X X<br>
+     */
     @Test
     @DisplayName("Test squares 1")
     public void testSquares1() {
-        //two separated groups of 2x2 tiles with the same type
-        //fourth common card
-        /*
-        C C X X X
-        C C X X X
-        X X X X X
-        X X X C C
-        X X X C C
-         */
+
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -181,18 +197,19 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
+    /**
+     * two separated groups of 2x2 tiles with the same type<br>
+     * fourth common card<br>
+     * <p>
+     * X C C X X<br>
+     * X C C X X<br>
+     * X X X X X<br>
+     * X X C C X<br>
+     * X X C C X<br>
+     */
     @Test
     @DisplayName("Test squares 2")
     public void testSquares2() {
-        //two separated groups of 2x2 tiles with the same type
-        //fourth common card
-        /*
-        X C C X X
-        X C C X X
-        X X X X X
-        X X C C X
-        X X C C X
-         */
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
@@ -210,18 +227,19 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
+    /**
+     * two separated groups of 2x2 tiles with the same type<br>
+     * fourth common card<br>
+     * <p>
+     * N C C X N<br>
+     * N C C X N<br>
+     * N X X X N<br>
+     * N X C C N<br>
+     * N X C C N<br>
+     */
     @Test
     @DisplayName("Test squares with empty columns")
     public void testSquares3() {
-        //two separated groups of 2x2 tiles with the same type
-        //fourth common card
-        /*
-        N C C X N
-        N C C X N
-        N X X X N
-        N X C C N
-        N X C C N
-         */
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
@@ -243,19 +261,20 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
+    /**
+     * 8 random occurrences of the same tile type<br>
+     * sixth common card<br>
+     * <p>
+     * C C C C C<br>
+     * C C C X X<br>
+     * X X X X X<br>
+     * X X X X X<br>
+     * X X X X X<br>
+     * X X X X X<br>
+     */
     @Test
     @DisplayName("Test eight tiles 1")
     public void testEight1() {
-        //8 random occurrences of the same tile type
-        //sixth common card
-        /*
-        C C C C C
-        C C C X X
-        X X X X X
-        X X X X X
-        X X X X X
-        X X X X X
-         */
         int count = 0;
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
@@ -272,19 +291,21 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
+    /**
+     * 8 random occurrences of the same tile type<br>
+     * sixth common card<br>
+     * <p>
+     * N N N N N<br>
+     * X X N N N<br>
+     * X X C C X<br>
+     * C X C C X<br>
+     * X C X X X<br>
+     * X X X C C<br>
+     */
     @Test
     @DisplayName("Test eight tiles 2")
     public void testEight2() {
-        //8 random occurrences of the same tile type
-        //sixth common card
-        /*
-        N N N N N
-        X X N N N
-        X X C C X
-        C X C C X
-        X C X X X
-        X X X C C
-         */
+
 
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
@@ -293,7 +314,7 @@ public class CommonGroupsTest {
                     test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
                 } else {
                     if ((r == 3 && c == 0) || (r == 4 && c == 1) || (r == 2 && c == 2) || (r == 3 && c == 2) || (r == 2 && c == 3)
-                            || (r == 3 && c == 3) || (r == 5 && c == 3) || (r == 5 && c == 4)) {
+                        || (r == 3 && c == 3) || (r == 5 && c == 3) || (r == 5 && c == 4)) {
                         test.setSingleTile(new Tile(TileType.CAT), r, c);
                     } else {
                         test.setSingleTile(new Tile(TileType.randomTileCAT()), r, c);

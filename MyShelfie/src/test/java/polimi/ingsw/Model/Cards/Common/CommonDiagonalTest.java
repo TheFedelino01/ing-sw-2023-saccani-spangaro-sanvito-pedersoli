@@ -17,24 +17,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommonDiagonalTest {
 
-    List<CommonCard> model = new ArrayList<>();
+    List<CommonCard> cards = new ArrayList<>();
 
+    /**
+     * Legend:<br>
+     * N means that the tile has not been set<br>
+     * C means that the tile is a CAT one (and so on, so T for TROPHY, ecc)<br>
+     * R/X means that the tile is a random one
+     */
     @BeforeEach
     void setUp() {
         CommonCardFactory c = new CommonCardFactory();
         for (CardCommonType t : CardCommonType.values())
-            model.add(c.getCommonCard(t));
+            cards.add(c.getCommonCard(t));
     }
 
-    //I'll be using the CAT tile as the one to assert its value
-    /*
-    C = CAT, N = NOT_USED, R = RANDOM_TILE
-        C N N N N
-        R C N N N
-        R R C N N
-        R R R C N
-        R R R R C
-        R R R R R
+    /**
+     * I'll be using the CAT tile as the one to assert its value<br>
+     * C = CAT, N = NOT_USED, R = RANDOM_TILE<br>
+     * C N N N N<br>
+     * R C N N N<br>
+     * R R C N N<br>
+     * R R R C N<br>
+     * R R R R C<br>
+     * R R R R R<br>
      */
     @Test
     @DisplayName("Test Diagonal cards from top left to bottom right")
@@ -51,23 +57,23 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(model.stream()
+        assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
                 .toList().get(0).verify(test));
-        assertTrue(model.stream()
+        assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
     }
 
 
-    /*
-    C = CAT, N = NOT_USED, R = RANDOM_TILE
-        N N N N N
-        C N N N N
-        R C N N N
-        R R C N N
-        R R R C N
-        R R R R C
+    /**
+     * C = CAT, N = NOT_USED, R = RANDOM_TILE<br>
+     * N N N N N<br>
+     * C N N N N<br>
+     * R C N N N<br>
+     * R R C N N<br>
+     * R R R C N<br>
+     * R R R R C<br>
      */
     @Test
     @DisplayName("Test Diagonal first row empty")
@@ -84,23 +90,23 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(model.stream()
+        assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
                 .toList().get(0).verify(test));
-        assertTrue(model.stream()
+        assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
     }
 
-    /*
-        C = CAT, N = NOT_USED, R = RANDOM_TILE
-            N N N N C
-            N N N C R
-            N N C R R
-            N C R R R
-            C R R R R
-            R R R R R
-         */
+    /**
+     * C = CAT, N = NOT_USED, R = RANDOM_TILE<br>
+     * N N N N C<br>
+     * N N N C R<br>
+     * N N C R R<br>
+     * N C R R R<br>
+     * C R R R R<br>
+     * R R R R R<br>
+     */
     @Test
     @DisplayName("Test Diagonal cards from bottom left to top right")
     public void testDiagonalBT() {
@@ -116,24 +122,23 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(model.stream()
+        assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
                 .toList().get(0).verify(test));
-        assertTrue(model.stream()
+        assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
     }
 
-    /*
-        C = CAT, N = NOT_USED, R = RANDOM_TILE
-            N N N N N
-            N N N N C
-            N N N C R
-            N N C R R
-            N C R R R
-            C R R R R
-         */
-
+    /**
+     * C = CAT, N = NOT_USED, R = RANDOM_TILE<br>
+     * N N N N N<br>
+     * N N N N C<br>
+     * N N N C R<br>
+     * N N C R R<br>
+     * N C R R R<br>
+     * C R R R R<br>
+     */
     @Test
     @DisplayName("Test Diagonal first row empty")
     public void testDiagonalBT2() {
@@ -155,16 +160,18 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(model.stream()
+        assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
                 .toList().get(0).verify(test));
-        assertTrue(model.stream()
+        assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
     }
 
-    //I copied methods from other test classes to initialise the shelf,
-    //so that it cannot verify the diagonal condition
+    /**
+     * I copied methods from other test classes to initialise the shelf,<br>
+     * so that it cannot verify the diagonal condition<br>
+     */
     @Test
     @DisplayName("Test expected to return false")
     public void testFail() {
@@ -180,10 +187,10 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertFalse(model.stream()
+        assertFalse(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
                 .toList().get(0).verify(test));
-        assertFalse(model.stream()
+        assertFalse(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
     }
@@ -197,10 +204,10 @@ public class CommonDiagonalTest {
                 test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }
-        assertFalse(model.stream()
+        assertFalse(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
                 .toList().get(0).verify(test));
-        assertFalse(model.stream()
+        assertFalse(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
     }

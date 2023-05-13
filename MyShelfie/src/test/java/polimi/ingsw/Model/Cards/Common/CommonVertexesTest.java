@@ -19,6 +19,12 @@ public class CommonVertexesTest {
 
     List<CommonCard> model = new ArrayList<>();
 
+    /**
+     * Legend:<br>
+     * N means that the tile has not been set<br>
+     * C means that the tile is a CAT one (and so on, so T for TROPHY, ecc)<br>
+     * R/X means that the tile is a random one
+     */
     @BeforeEach
     void setUp() {
         CommonCardFactory c = new CommonCardFactory();
@@ -26,13 +32,13 @@ public class CommonVertexesTest {
             model.add(c.getCommonCard(t));
     }
 
-    /*
-    C X X X C
-    X X X X X
-    X X X X X
-    X X X X X
-    X X X X X
-    C X X X C
+    /**
+    C X X X C<br>
+    X X X X X<br>
+    X X X X X<br>
+    X X X X X<br>
+    X X X X X<br>
+    C X X X C<br>
      */
     @Test
     @DisplayName("Test vertexes")

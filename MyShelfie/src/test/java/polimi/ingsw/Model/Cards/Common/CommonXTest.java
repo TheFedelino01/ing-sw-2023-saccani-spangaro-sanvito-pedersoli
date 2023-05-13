@@ -19,6 +19,12 @@ public class CommonXTest {
 
     List<CommonCard> model = new ArrayList<>();
 
+    /**
+     * Legend:<br>
+     * N means that the tile has not been set<br>
+     * C means that the tile is a CAT one (and so on, so T for TROPHY, ecc)<br>
+     * R/X means that the tile is a random one
+     */
     @BeforeEach
     void setUp() {
         CommonCardFactory c = new CommonCardFactory();
@@ -26,13 +32,13 @@ public class CommonXTest {
             model.add(c.getCommonCard(t));
     }
 
-    /*
-    C X C X X
-    X C X X X
-    C X C X X
-    X X X X X
-    X X X X X
-    X X X X X
+    /**
+    C X C X X<br>
+    X C X X X<br>
+    C X C X X<br>
+    X X X X X<br>
+    X X X X X<br>
+    X X X X X<br>
      */
     @Test
     @DisplayName("First test X")
@@ -53,13 +59,13 @@ public class CommonXTest {
         assertTrue(model.get(10).verify(test));
     }
 
-    /*
-    N N N N N
-    N N N N N
-    N N N N N
-    X C X C X
-    X X C X X
-    X C X C X
+    /**
+    N N N N N<br>
+    N N N N N<br>
+    N N N N N<br>
+    X C X C X<br>
+    X X C X X<br>
+    X C X C X<br>
      */
     @Test
     @DisplayName("Second test X")

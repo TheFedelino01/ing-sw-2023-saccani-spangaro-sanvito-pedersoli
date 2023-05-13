@@ -18,6 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CommonHorizontalTest {
     List<CommonCard> model = new ArrayList<>();
 
+    /**
+     * Legend:<br>
+     * N means that the tile has not been set<br>
+     * C means that the tile is a CAT one (and so on, so T for TROPHY, ecc)<br>
+     * R/X means that the tile is a random one
+     */
     @BeforeEach
     void setUp() {
         CommonCardFactory c = new CommonCardFactory();
@@ -25,13 +31,13 @@ public class CommonHorizontalTest {
             model.add(c.getCommonCard(t));
     }
 
-    /*
-    C C C C C
-    B B B B B
-    T T T T T
-    C C C C C
-    X X X X X
-    X X X X X
+    /**
+     * C C C C C<br>
+     * B B B B B<br>
+     * T T T T T<br>
+     * C C C C C<br>
+     * X X X X X<br>
+     * X X X X X<br>
      */
     @Test
     @DisplayName("First test Horizontal 0 ")
@@ -55,14 +61,14 @@ public class CommonHorizontalTest {
         assertTrue(model.get(7).verify(test));
     }
 
-    /*
-N N N N N
-X X X X X
-C C C C C
-T T T T T
-C C C C C
-B B B B B
- */
+    /**
+     * N N N N N<br>
+     * X X X X X<br>
+     * C C C C C<br>
+     * T T T T T<br>
+     * C C C C C<br>
+     * B B B B B<br>
+     */
     @Test
     @DisplayName("Second test Horizontal 0 ")
     public void secondTestHorizontal0() {
@@ -83,14 +89,14 @@ B B B B B
         assertTrue(model.get(7).verify(test));
     }
 
-    /*
-        C B F T A
-        X X X X X
-        C B F T A
-        X X X X X
-        X X X X X
-        X X X X X
-         */
+    /**
+     * C B F T A<br>
+     * X X X X X<br>
+     * C B F T A<br>
+     * X X X X X<br>
+     * X X X X X<br>
+     * X X X X X<br>
+     */
     @Test
     @DisplayName("Test Horizontal 1")
     public void testHorizontal1() {
@@ -115,17 +121,18 @@ B B B B B
         assertTrue(model.get(9).verify(test));
     }
 
+    /**
+     * N N N N N<br>
+     * N N N N N<br>
+     * X X X X X<br>
+     * C B F T A<br>
+     * C B F T A<br>
+     * X X X X X<br>
+     */
     @Test
     @DisplayName("Second test Horizontal 1")
     public void secondTestHorizontal1() {
-        /*
-        N N N N N
-        N N N N N
-        X X X X X
-        C B F T A
-        C B F T A
-        X X X X X
-         */
+
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {

@@ -18,6 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CommonVerticalTest {
     List<CommonCard> model = new ArrayList<>();
 
+    /**
+     * Legend:<br>
+     * N means that the tile has not been set<br>
+     * C means that the tile is a CAT one (and so on, so T for TROPHY, ecc)<br>
+     * R/X means that the tile is a random one
+     */
     @BeforeEach
     void setUp() {
         CommonCardFactory c = new CommonCardFactory();
@@ -25,17 +31,18 @@ public class CommonVerticalTest {
             model.add(c.getCommonCard(t));
     }
 
+    /**
+     * C X B X T<br>
+     * C X B X T<br>
+     * C X B X T<br>
+     * C X B X T<br>
+     * C X B X T<br>
+     * C X B X T<br>
+     */
     @Test
     @DisplayName("First test Vertical 0")
     public void firstTestVertical0() {
-        /*
-    C X B X T
-    C X B X T
-    C X B X T
-    C X B X T
-    C X B X T
-    C X B X T
-     */
+
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -54,17 +61,18 @@ public class CommonVerticalTest {
         assertTrue(model.get(4).verify(test));
     }
 
+    /**
+     * N C B N T<br>
+     * N C B N T<br>
+     * N C B X T<br>
+     * N C B X T<br>
+     * N C B X T<br>
+     * N C B X T<br>
+     */
     @Test
     @DisplayName("Second test Vertical 0")
     public void secondTestVertical0() {
-        /*
-    N C B N T
-    N C B N T
-    N C B X T
-    N C B X T
-    N C B X T
-    N C B X T
-     */
+
         Shelf test = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
@@ -86,18 +94,17 @@ public class CommonVerticalTest {
         assertTrue(model.get(4).verify(test));
     }
 
+    /**
+     * C X C X X<br>
+     * B X B X X<br>
+     * F X F X X<br>
+     * T X T X X<br>
+     * A X A X X<br>
+     * P X P X X<br>
+     */
     @Test
     @DisplayName("First test Vertical 1")
     public void firstTestVertical1() {
-
-        /*
-        C X C X X
-        B X B X X
-        F X F X X
-        T X T X X
-        A X A X X
-        P X P X X
-         */
         Shelf test = new Shelf();
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -120,14 +127,14 @@ public class CommonVerticalTest {
         assertTrue(model.get(8).verify(test));
     }
 
-    /*
-        N N C C N
-        N N B B N
-        N X F F X
-        N X T T X
-        N X A A X
-        N X P P X
-         */
+    /**
+     * N N C C N<br>
+     * N N B B N<br>
+     * N X F F X<br>
+     * N X T T X<br>
+     * N X A A X<br>
+     * N X P P X<br>
+     */
     @Test
     @DisplayName("Second test Vertical 1")
     public void secondTestVertical1() {
