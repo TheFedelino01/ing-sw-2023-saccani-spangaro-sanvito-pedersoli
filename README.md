@@ -18,4 +18,5 @@ NB: è stato confermato tramite slack che il gioco può runnare sul terminale ch
     funzione di resize del terminale funzionante
       
       
+Per generare la Code Coverage del progetto, runnare i test tramite il menù Maven -> MyShelfie\Lifecycle\test  
 Per vedere la code coverage del progetto: MyShelfie\target\site\jacoco\index.html  
