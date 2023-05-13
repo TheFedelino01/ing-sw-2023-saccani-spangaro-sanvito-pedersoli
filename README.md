@@ -16,3 +16,6 @@ Ripetere da (1) ogni volta che si modifica il codice per aggiornare i jar
 NB: è stato confermato tramite slack che il gioco può runnare sul terminale che vogliamo noi  
     in fase di testing quindi, runnarlo da CMD, che permette di avere colori migliori, e una   
     funzione di resize del terminale funzionante
+      
+      
+Per vedere la code coverage del progetto: MyShelfie\target\site\jacoco\index.html  
