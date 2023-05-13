@@ -23,7 +23,7 @@ jobs:
           java-version: '17'
 
         env:
-          ACCESS_TOKEN: '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'
+          ACCESS_TOKEN: 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
       - name: Build with Maven
         working-directory: ./MyShelfie
         run: mvn -B package
