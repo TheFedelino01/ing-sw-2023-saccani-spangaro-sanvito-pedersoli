@@ -1,6 +1,9 @@
 # IngSW2023
 Prova Finale Ingegneria del Software AA 2022-2023 (Cugola Gianpaolo)
 
+![Coverage](.github/badges/jacoco.svg)  
+![Branches](.github/badges/branches.svg)  
+
 Per runnare e testare il gioco:  
 1. Intellij: menù maven -> MyShelfie -> Lifecycle -> Verify  
   
