@@ -173,7 +173,7 @@ public class GUI extends UI {
 
     @Override
     protected void show_sentMessage(GameModelImmutable model, String nickname) {
-
+        callPlatformRunLater(() -> this.guiApplication.showMessages(model));
     }
 
     @Override
@@ -240,8 +240,8 @@ public class GUI extends UI {
     }
 
     @Override
-    protected void addMessage(Message msg) {
-
+    protected void addMessage(Message msg, GameModelImmutable model) {
+        show_sentMessage(model,model.getChat().getLastMessage().getSender().getNickname());
     }
 
     @Override

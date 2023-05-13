@@ -311,7 +311,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void addMessage(Message msg) {
+    public void addMessage(Message msg, GameModelImmutable model) {
         chat.addMsg(msg);
         show_messages();
     }

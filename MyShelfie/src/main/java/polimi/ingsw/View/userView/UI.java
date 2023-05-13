@@ -68,7 +68,7 @@ public abstract class UI {
 
     protected abstract int getLengthLongestMessage();
 
-    protected abstract void addMessage(Message msg);
+    protected abstract void addMessage(Message msg,GameModelImmutable model);
 
     protected abstract void resetChat();
 

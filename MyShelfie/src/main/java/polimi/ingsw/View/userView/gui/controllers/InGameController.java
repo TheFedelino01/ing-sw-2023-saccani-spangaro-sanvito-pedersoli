@@ -1,14 +1,16 @@
 package polimi.ingsw.View.userView.gui.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.Direction;
 import polimi.ingsw.Model.Enumeration.TileType;
@@ -44,7 +46,11 @@ public class InGameController extends GenericController {
     @FXML
     private Label lableGameId;
     @FXML
-    private  Label labelMessage;
+    private Label labelMessage;
+    @FXML
+    private TextField messageText;
+    @FXML
+    private ListView chatList;
 
 
     @FXML
@@ -67,11 +73,11 @@ public class InGameController extends GenericController {
 
     private boolean firstClick = true;
     private Integer rowFirstTile, colFirstTile, rowSecondTile, colSecondTile;
-    private boolean needToDetectColSelection=false, needToDetectTileInHandGrabbing=false;
+    private boolean needToDetectColSelection = false, needToDetectTileInHandGrabbing = false;
 
     public void actionClickOnTile(MouseEvent e) throws IOException {
         if (e.getButton() == MouseButton.PRIMARY) {
-            intRecord rowCol = getRowColFrom(e,"pg");
+            intRecord rowCol = getRowColFrom(e, "pg");
             Integer row = rowCol.row();
             Integer col = rowCol.col();
 
@@ -98,7 +104,7 @@ public class InGameController extends GenericController {
     }
 
     public void actionHandTileClick(MouseEvent e) {
-        if(needToDetectTileInHandGrabbing){
+        if (needToDetectTileInHandGrabbing) {
             Integer indexTileHandToPlace = getRowColFrom(e, "pgGrab").col();
             getInputReaderGUI().addTxt(indexTileHandToPlace.toString());
         }
@@ -119,7 +125,7 @@ public class InGameController extends GenericController {
             makeTilesNotSelectedExpectTheFirstOne();
             //I make visible the selected tiles until second click
             Pane tilePane;
-            intRecord destinPoint = getRowColFrom(e,"pg");
+            intRecord destinPoint = getRowColFrom(e, "pg");
             List<intRecord> points = getPointsBetween(rowFirstTile, colFirstTile, destinPoint.row(), destinPoint.col());
             for (intRecord p : points) {
                 tilePane = (Pane) tilesPane.lookup("#pg" + p.row() + p.col());
@@ -146,15 +152,27 @@ public class InGameController extends GenericController {
         }
     }
 
-    public void actionTileShelfieClick(MouseEvent e){
-        if(needToDetectColSelection) {
+    public void actionTileShelfieClick(MouseEvent e) {
+        if (needToDetectColSelection) {
             Integer colToPlaceTiles = getRowColFrom(e, "youShelf").col();
-            needToDetectColSelection=false;
-            needToDetectTileInHandGrabbing=true;
+            needToDetectColSelection = false;
+            needToDetectTileInHandGrabbing = true;
             getInputReaderGUI().addTxt(colToPlaceTiles.toString());
         }
     }
 
+    public void actionSendMessage(MouseEvent e) {
+        if (!messageText.getText().isEmpty()) {
+            getInputReaderGUI().addTxt("/c " + messageText.getText());
+            messageText.setText("");
+        }
+    }
+
+    public void actionKeyPressedOnTextMessage(KeyEvent ke) {
+        if (ke.getCode().equals(KeyCode.ENTER)) {
+            actionSendMessage(null);
+        }
+    }
 
 
     private List<intRecord> getPointsBetween(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
@@ -312,8 +330,9 @@ public class InGameController extends GenericController {
 
         pgTilesTotal.setText(String.valueOf(model.getPg().getNumOfTileinTheBag()));
     }
-    private void removeallBackgroundClass(Pane tilePane){
-        if(tilePane!=null) {
+
+    private void removeallBackgroundClass(Pane tilePane) {
+        if (tilePane != null) {
             for (TileType t : TileType.values()) {
                 if (tilePane.getStyleClass().contains(t.getBackgroundClass())) {
                     tilePane.getStyleClass().remove(t.getBackgroundClass());
@@ -365,10 +384,10 @@ public class InGameController extends GenericController {
     }
 
     public void setHandTiles(GameModelImmutable model, String nickname) {
-        float opacity=0.5f;
+        float opacity = 0.5f;
 
         if (model.getNicknameCurrentPlaying().equals(nickname)) {
-            opacity=1;
+            opacity = 1;
         }
 
         Pane pane;
@@ -394,8 +413,8 @@ public class InGameController extends GenericController {
     }
 
     private void setEmptyHand() {
-        for(int i=0;i<DefaultValue.maxNumOfGrabbableTiles;i++) {
-            Pane pane = (Pane) mainAnchor.lookup("#pgGrab0"+i);
+        for (int i = 0; i < DefaultValue.maxNumOfGrabbableTiles; i++) {
+            Pane pane = (Pane) mainAnchor.lookup("#pgGrab0" + i);
             pane.getStyleClass().remove(pane.getStyleClass().get(0));
             pane.getStyleClass().add("tileEmpty");
             pane.setOpacity(0.9);
@@ -403,8 +422,8 @@ public class InGameController extends GenericController {
         }
     }
 
-    public void setAllShefies(GameModelImmutable model, String nickname){
-        String prefixIdPane=null;
+    public void setAllShefies(GameModelImmutable model, String nickname) {
+        String prefixIdPane = null;
         Integer refToGui;
         //setInvisibleAllShelfies();
 
@@ -413,56 +432,64 @@ public class InGameController extends GenericController {
 
             switch (refToGui) {
                 case 0 -> {
-                    prefixIdPane="#youShelf";
+                    prefixIdPane = "#youShelf";
                 }
                 case 1 -> {
-                    prefixIdPane="#player1Shelf";
+                    prefixIdPane = "#player1Shelf";
                 }
                 case 2 -> {
-                    prefixIdPane="#player2Shelf";
+                    prefixIdPane = "#player2Shelf";
                 }
                 case 3 -> {
-                    prefixIdPane="#player3Shelf";
+                    prefixIdPane = "#player3Shelf";
                 }
             }
 
-            setShelfie(p.getShelf(),prefixIdPane);
+            setShelfie(p.getShelf(), prefixIdPane);
 
         }
     }
 
 
-    private void setShelfie(Shelf shelf, String prefixIdPane){
+    private void setShelfie(Shelf shelf, String prefixIdPane) {
         Pane paneTile;
-        for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
-            for(int c=0; c<DefaultValue.NumOfColumnsShelf;c++){
-                paneTile = (Pane) mainAnchor.lookup(prefixIdPane+r+c);
-                if(!(shelf.get(r,c).getType().equals(TileType.NOT_USED) || shelf.get(r,c).getType().equals(TileType.FINISHED_USING))){
-                    paneTile.getStyleClass().add(shelf.get(r,c).getType().getBackgroundClass());
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                paneTile = (Pane) mainAnchor.lookup(prefixIdPane + r + c);
+                if (!(shelf.get(r, c).getType().equals(TileType.NOT_USED) || shelf.get(r, c).getType().equals(TileType.FINISHED_USING))) {
+                    paneTile.getStyleClass().add(shelf.get(r, c).getType().getBackgroundClass());
                 }
 
             }
         }
     }
 
-    public void setMsgToShow(String msg,Boolean success) {
+    public void setMsgToShow(String msg, Boolean success) {
         labelMessage.setText(msg);
-        if(success==null){
+        if (success == null) {
             labelMessage.setTextFill(Color.WHITE);
-        }else if(success){
+        } else if (success) {
             labelMessage.setTextFill(Color.GREEN);
-        }else{
+        } else {
             labelMessage.setTextFill(Color.RED);
         }
     }
+
     public void changeTurn(GameModelImmutable model, String nickname) {
-        needToDetectTileInHandGrabbing=false;
+        needToDetectTileInHandGrabbing = false;
     }
 
 
     public void showSelectionColShelfie() {
         //Now the client can select a col from his shelfie to position all tiles
-        needToDetectColSelection=true;
+        needToDetectColSelection = true;
+    }
+
+    public void setMessage(List<Message> msgs) {
+        chatList.getItems().clear();
+        for (Message m : msgs) {
+            chatList.getItems().add(m.getSender().getNickname() + " [" + m.getTime().getHour()+":"+m.getTime().getMinute()+":"+m.getTime().getSecond() + "]" + m.getText());
+        }
     }
 
 

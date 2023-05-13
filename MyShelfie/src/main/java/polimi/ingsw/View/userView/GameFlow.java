@@ -694,11 +694,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     public void sentMessage(GameModelImmutable gameModel, Message msg) {
         //Visualizzo il messaggio solo se e' per tutti o e' solo per me
         if (msg.whoIsReceiver().equals("*")) {
-            ui.addMessage(msg);
+            ui.addMessage(msg,gameModel);
             events.add(gameModel, SENT_MESSAGE);
         } else if (msg.whoIsReceiver().equals(nickname) || msg.getSender().getNickname().equals(nickname)) {
             msg.setText("[PRIVATE]: " + msg.getText());
-            ui.addMessage(msg);
+            ui.addMessage(msg,gameModel);
             events.add(gameModel, SENT_MESSAGE);
         }
     }

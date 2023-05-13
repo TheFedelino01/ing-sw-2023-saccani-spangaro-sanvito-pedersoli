@@ -91,7 +91,7 @@ public class DefaultValue implements Serializable {
     public final static int num_of_attempt_to_connect_toServer_before_giveup = 5;
     public final static int seconds_between_reconnection = 5;
 
-    public final static int max_messagesShown = 3;
+    public final static int max_messagesShown = 5;
 
 
 }
