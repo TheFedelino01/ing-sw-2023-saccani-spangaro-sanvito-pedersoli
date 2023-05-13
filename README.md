@@ -3,7 +3,13 @@ Prova Finale Ingegneria del Software AA 2022-2023 (Cugola Gianpaolo)
 
 ![Coverage](.github/badges/jacoco.svg)  
 ![Branches](.github/badges/branches.svg)  
-
+  
+  
+  
+Per generare la Code Coverage del progetto, runnare i test tramite il menù Maven -> MyShelfie\Lifecycle\test  
+Per vedere la code coverage del progetto: MyShelfie\target\site\jacoco\index.html  
+  
+  
 Per runnare e testare il gioco:  
 1. Intellij: menù maven -> MyShelfie -> Lifecycle -> Verify  
   
@@ -21,5 +27,5 @@ NB: è stato confermato tramite slack che il gioco può runnare sul terminale ch
     funzione di resize del terminale funzionante
       
       
-Per generare la Code Coverage del progetto, runnare i test tramite il menù Maven -> MyShelfie\Lifecycle\test  
-Per vedere la code coverage del progetto: MyShelfie\target\site\jacoco\index.html  
+
+
