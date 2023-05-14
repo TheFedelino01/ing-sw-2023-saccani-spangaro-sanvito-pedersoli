@@ -235,6 +235,10 @@ public class GUIApplication extends Application {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
         controller.show(model);
     }
+    public void showBtnReturnToMenu() {
+        GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
+        controller.showBtnReturnToMenu();
+    }
 
 
     public void createNewWindowWithStyle() {

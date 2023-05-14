@@ -217,7 +217,7 @@ public class GUI extends UI {
 
     @Override
     public void show_returnToMenuMsg() {
-
+        callPlatformRunLater(() -> this.guiApplication.showBtnReturnToMenu());
     }
 
     @Override
