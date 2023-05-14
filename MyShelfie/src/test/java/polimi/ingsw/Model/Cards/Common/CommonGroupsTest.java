@@ -172,8 +172,8 @@ public class CommonGroupsTest {
      * C C X X X<br>
      * C C X X X<br>
      * X X X X X<br>
-     * X X X C C<br>
-     * X X X C C<br>
+     * X X X B B<br>
+     * X X X B B<br>
      * X X X X X<br>
      */
     @Test
@@ -184,11 +184,11 @@ public class CommonGroupsTest {
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 1)) {
-                    test.setSingleTile(new Tile(TileType.USED), i, j);
+                    test.setSingleTile(new Tile(TileType.CAT), i, j);
                 } else if ((i == 3 && j == 3) || (i == 4 && j == 3) || (i == 3 && j == 4) || (i == 4 && j == 4)) {
-                    test.setSingleTile(new Tile(TileType.USED), i, j);
+                    test.setSingleTile(new Tile(TileType.BOOK), i, j);
                 } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
+                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
                 }
             }
         }
@@ -204,8 +204,8 @@ public class CommonGroupsTest {
      * X C C X X<br>
      * X C C X X<br>
      * X X X X X<br>
-     * X X C C X<br>
-     * X X C C X<br>
+     * X X B B X<br>
+     * X X B B X<br>
      */
     @Test
     @DisplayName("Test squares 2")
@@ -214,11 +214,11 @@ public class CommonGroupsTest {
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 if ((r == 0 && c == 1) || (r == 1 && c == 1) || (r == 0 && c == 2) || (r == 1 && c == 2)) {
-                    test.setSingleTile(new Tile(TileType.USED), r, c);
+                    test.setSingleTile(new Tile(TileType.CAT), r, c);
                 } else if ((r == 3 && c == 2) || (r == 4 && c == 2) || (r == 3 && c == 3) || (r == 4 && c == 3)) {
-                    test.setSingleTile(new Tile(TileType.USED), r, c);
+                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
                 } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCAT()), r, c);
+                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                 }
             }
         }
@@ -234,8 +234,8 @@ public class CommonGroupsTest {
      * N C C X N<br>
      * N C C X N<br>
      * N X X X N<br>
-     * N X C C N<br>
-     * N X C C N<br>
+     * N X B B N<br>
+     * N X B B N<br>
      */
     @Test
     @DisplayName("Test squares with empty columns")
@@ -247,16 +247,46 @@ public class CommonGroupsTest {
                     test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
                 } else {
                     if ((r == 0 && c == 1) || (r == 1 && c == 1) || (r == 0 && c == 2) || (r == 1 && c == 2)) {
-                        test.setSingleTile(new Tile(TileType.USED), r, c);
+                        test.setSingleTile(new Tile(TileType.CAT), r, c);
                     } else if ((r == 3 && c == 2) || (r == 4 && c == 2) || (r == 3 && c == 3) || (r == 4 && c == 3)) {
-                        test.setSingleTile(new Tile(TileType.USED), r, c);
+                        test.setSingleTile(new Tile(TileType.BOOK), r, c);
                     } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCAT()), r, c);
+                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                     }
                 }
             }
         }
         assertTrue(model.stream()
+                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
+                .toList().get(0).verify(test));
+    }
+
+    /**
+     * two adjacent groups of 2x2 tiles with the same type<br>
+     * fourth common card<br>
+     * <p>
+     * X C C X X<br>
+     * X C C X X<br>
+     * X B B X X<br>
+     * X B B X X<br>
+     * X X X X X<br>
+     */
+    @Test
+    @DisplayName("Test squares 4")
+    public void testSquares4() {
+        Shelf test = new Shelf();
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if ((r == 0 && c == 1) || (r == 1 && c == 1) || (r == 0 && c == 2) || (r == 1 && c == 2)) {
+                    test.setSingleTile(new Tile(TileType.CAT), r, c);
+                } else if ((r == 2 && c == 1) || (r == 3 && c == 1) || (r == 2 && c == 2) || (r == 3 && c == 2)) {
+                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                } else {
+                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
+                }
+            }
+        }
+        assertFalse(model.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
                 .toList().get(0).verify(test));
     }
