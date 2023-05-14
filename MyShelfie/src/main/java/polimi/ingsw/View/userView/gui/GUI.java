@@ -6,6 +6,8 @@ import javafx.util.Duration;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
+import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Point;
 import polimi.ingsw.View.userView.UI;
 import polimi.ingsw.View.userView.gui.controllers.LobbyController;
 import polimi.ingsw.View.userView.gui.controllers.NicknamePopupController;
@@ -144,7 +146,8 @@ public class GUI extends UI {
 
     @Override
     protected void show_gameEnded(GameModelImmutable model) {
-
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneEnum.GAME_ENDED));
+        callPlatformRunLater(() -> this.guiApplication.showLeaderBoard(model));
     }
 
 
@@ -230,6 +233,11 @@ public class GUI extends UI {
     @Override
     protected void show_askPickTilesMainMsg() {
         callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Grab some tiles from the playground",true));
+    }
+
+    @Override
+    protected void show_addedPoint(Player p, Point point) {
+
     }
 
     @Override

@@ -3,6 +3,8 @@ package polimi.ingsw.View.userView;
 import polimi.ingsw.Model.Chat.Chat;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
+import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +61,8 @@ public abstract class UI {
 
     protected abstract void show_direction();
     protected abstract void show_askPickTilesMainMsg();
+
+    protected abstract void show_addedPoint(Player p, Point point);
 
     //----------------------
     //ACTIONS

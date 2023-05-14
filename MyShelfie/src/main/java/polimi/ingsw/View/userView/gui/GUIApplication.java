@@ -231,6 +231,12 @@ public class GUIApplication extends Application {
         controller.setImportantEvents(importantEvents);
     }
 
+    public void showLeaderBoard(GameModelImmutable model) {
+        GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
+        controller.show(model);
+    }
+
+
     public void createNewWindowWithStyle() {
         // Crea una nuova finestra con lo stile desiderato
         Stage newStage = new Stage();

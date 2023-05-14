@@ -7,6 +7,7 @@ import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.Model.Player;
+import polimi.ingsw.Model.Point;
 import polimi.ingsw.Model.Tile;
 import polimi.ingsw.View.userView.UI;
 
@@ -414,6 +415,11 @@ public class TUI extends UI {
 
     @Override
     protected void show_askPickTilesMainMsg() {
+
+    }
+
+    @Override
+    protected void show_addedPoint(Player p, Point point) {
 
     }
 
