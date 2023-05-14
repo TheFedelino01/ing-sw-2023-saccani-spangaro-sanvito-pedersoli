@@ -6,8 +6,7 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
 import polimi.ingsw.Model.Tile;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Iterator;
 
 public class CommonSquares extends CommonMethods {
     public CommonSquares(CardCommonType type) {
@@ -24,7 +23,8 @@ public class CommonSquares extends CommonMethods {
             }
         }
         int sum = 0;
-        for (TileType t : TileType.getUsableValues()) {
+        for (Iterator<TileType> tileTypeIterator = TileType.getUsableValues().iterator();
+             tileTypeIterator.hasNext(); tileTypeIterator.next()) {
             for (int r = 0; r < DefaultValue.NumOfRowsShelf - 1; r++) {
                 for (int c = 0; c < DefaultValue.NumOfColumnsShelf - 1; c++) {
                     if (temp.get(r, c).isSameType(temp.get(r + 1, c).getType()) &&
@@ -33,7 +33,7 @@ public class CommonSquares extends CommonMethods {
                         !temp.get(r, c).isSameType(TileType.NOT_USED) && !temp.get(r, c).isSameType(TileType.FINISHED_USING)) {
 
                         if (sum == 1) {
-                            if(r != row && c != col){
+                            if (r != row && c != col) {
                                 return true;
                             }
                         } else {
