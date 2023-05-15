@@ -1,5 +1,6 @@
 package polimi.ingsw.Model.Chat;
 
+import com.googlecode.lanterna.terminal.ansi.TelnetTerminalServer;
 import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Player;
 
@@ -28,11 +29,16 @@ public class Message implements Serializable {
     public String toString(int i, int len, boolean isPrivate) {
         String padding = " ".repeat(Math.max(0, (len - text.length())));
         String priv = "[Private] ";
-        if(!isPrivate)
-            priv="";
-        return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, DefaultValue.col_chat).a(priv+"[").a(this.time.getHour()).a(":").a(this.time.getMinute())
-                .a(":").a(this.time.getSecond()).a("] ")
-                .a(this.getSender().getNickname()).a(": ").a(this.text).a(padding));
+        if (!isPrivate)
+            priv = "";
+        if (sender.getNickname().length() > 4)
+            return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, DefaultValue.col_chat).a(priv + "[").a(this.time.getHour()).a(":").a(this.time.getMinute())
+                    .a(":").a(this.time.getSecond()).a("] ")
+                    .a(this.getSender().getNickname().substring(0, 4)).a(".").a(": ").a(this.text).a(padding));
+        else
+            return String.valueOf(ansi().cursor(DefaultValue.row_chat + i + 1, DefaultValue.col_chat).a(priv + "[").a(this.time.getHour()).a(":").a(this.time.getMinute())
+                    .a(":").a(this.time.getSecond()).a("] ")
+                    .a(this.getSender().getNickname()).a(": ").a(this.text).a(padding));
     }
 
     public String getText() {

@@ -282,7 +282,7 @@ public class CommonGroupsTest {
                 } else if ((r == 2 && c == 1) || (r == 3 && c == 1) || (r == 2 && c == 2) || (r == 3 && c == 2)) {
                     test.setSingleTile(new Tile(TileType.BOOK), r, c);
                 } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
+                    test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
                 }
             }
         }
