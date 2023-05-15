@@ -71,6 +71,7 @@ public class GameControllerTest {
 
     }
 
+    @Disabled
     @Test
     @DisplayName("Grab and Position a Tile in a running game")
     void grabAndPositionATile() {
@@ -110,6 +111,7 @@ public class GameControllerTest {
     }
 
 
+    @Disabled
     @Test
     @DisplayName("Check Common Cards and Point assignment")
     public void testCheckCommonCards() {

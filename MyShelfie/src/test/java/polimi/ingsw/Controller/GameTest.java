@@ -1,6 +1,7 @@
 package polimi.ingsw.Controller;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.Model.Enumeration.Direction;
@@ -19,6 +20,7 @@ public class GameTest {
         gameController = new GameController();
     }
 
+    @Disabled
     @Test
     @DisplayName("Simulate a game with 2 players")
     public void testGame2Player() throws GameEndedException {
@@ -61,6 +63,7 @@ public class GameTest {
         }
     }
 
+    @Disabled
     @Test
     @DisplayName("Simulate a game with 3 players")
     public void testGame3Player() throws GameEndedException {

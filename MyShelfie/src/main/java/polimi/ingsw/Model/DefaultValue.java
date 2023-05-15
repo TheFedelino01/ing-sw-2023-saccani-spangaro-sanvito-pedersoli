@@ -31,7 +31,7 @@ public class DefaultValue implements Serializable {
     public final static int NumOfTileTypes = 6;
     public final static int NumOfTilesPerType = 22;
     public final static int PlaygroundSize = 9;
-    public final static int[] pointsValue = {2, 4, 6, 8};
+    public final static int[] pointsValue = {8, 6, 4, 2};
 
     public final static int Default_port_RMI = 4321;
     public final static int Default_port_Socket = 4320;
