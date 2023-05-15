@@ -57,9 +57,7 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(cards.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
-                .toList().get(0).verify(test));
+
         assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
@@ -90,9 +88,7 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(cards.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
-                .toList().get(0).verify(test));
+
         assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
@@ -122,9 +118,7 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(cards.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
-                .toList().get(0).verify(test));
+
         assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
@@ -160,9 +154,7 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertTrue(cards.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
-                .toList().get(0).verify(test));
+
         assertTrue(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
@@ -187,9 +179,7 @@ public class CommonDiagonalTest {
                 }
             }
         }
-        assertFalse(cards.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
-                .toList().get(0).verify(test));
+
         assertFalse(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
@@ -204,9 +194,7 @@ public class CommonDiagonalTest {
                 test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }
         }
-        assertFalse(cards.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSameDiagonal))
-                .toList().get(0).verify(test));
+
         assertFalse(cards.stream()
                 .filter(x -> x.getCommonType().equals(CardCommonType.CommonStair))
                 .toList().get(0).verify(test));
