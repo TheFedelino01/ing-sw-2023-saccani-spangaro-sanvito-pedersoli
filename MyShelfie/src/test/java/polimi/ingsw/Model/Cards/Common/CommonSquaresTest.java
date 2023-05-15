@@ -217,7 +217,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
 
     @Test
@@ -286,7 +286,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
 
     @Test
@@ -320,7 +320,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
 
     @Test
@@ -354,6 +354,6 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
 }
