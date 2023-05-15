@@ -165,37 +165,7 @@ public class CommonGroupsTest {
                 .toList().get(0).verify(test));
     }
 
-    /**
-     * two separated groups of 2x2 tiles with the same type<br>
-     * fourth common card<br>
-     * <p>
-     * C C X X X<br>
-     * C C X X X<br>
-     * X X X X X<br>
-     * X X X B B<br>
-     * X X X B B<br>
-     * X X X X X<br>
-     */
-    @Test
-    @DisplayName("Test squares 1")
-    public void testSquares1() {
 
-        Shelf test = new Shelf();
-        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 1)) {
-                    test.setSingleTile(new Tile(TileType.CAT), i, j);
-                } else if ((i == 3 && j == 3) || (i == 4 && j == 3) || (i == 3 && j == 4) || (i == 4 && j == 4)) {
-                    test.setSingleTile(new Tile(TileType.BOOK), i, j);
-                } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), i, j);
-                }
-            }
-        }
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
-                .toList().get(0).verify(test));
-    }
 
     /**
      * two separated groups of 2x2 tiles with the same type<br>

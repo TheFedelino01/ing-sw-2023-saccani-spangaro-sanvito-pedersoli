@@ -14,7 +14,7 @@ public class CommonCardFactory {
             //Four groups of 4 tiles of the same type (tile type can change between groups)
             case CommonFourGroups -> new CommonFourGroups(CardCommonType.CommonFourGroups);
 
-            //Two groups of 2x2 tiles of the same type (tile type CANNOT change between groups)
+            //Two groups of 2x2 BOX tiles of the same type per Group (tiles can change between groups)
             case CommonSquares -> new CommonSquares(CardCommonType.CommonSquares);
 
             //Three columns made with max three different tile types (combinations may vary, but AT MAX three different types)
