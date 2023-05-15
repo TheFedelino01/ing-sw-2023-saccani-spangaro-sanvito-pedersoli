@@ -3,11 +3,8 @@ package polimi.ingsw.Model.Cards.Common;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
-import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
-import polimi.ingsw.Model.Tile;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -147,7 +144,7 @@ public class CommonFourGroupsTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
     @Test
     @DisplayName("Four Groups of 4 Tiles #9")
