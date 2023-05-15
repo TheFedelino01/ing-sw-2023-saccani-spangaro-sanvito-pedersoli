@@ -16,12 +16,7 @@ public class CommonSquares extends CommonMethods {
     @Override
     public boolean verify(Shelf toCheck) {
         Integer row = null, col = null;
-        Shelf temp = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                temp.setSingleTile(new Tile(toCheck.get(r, c).getType()), r, c);
-            }
-        }
+        Shelf temp = CommonMethods.getCopy(toCheck);
         int sum = 0;
         for (Iterator<TileType> tileTypeIterator = TileType.getUsableValues().iterator();
              tileTypeIterator.hasNext(); tileTypeIterator.next()) {
