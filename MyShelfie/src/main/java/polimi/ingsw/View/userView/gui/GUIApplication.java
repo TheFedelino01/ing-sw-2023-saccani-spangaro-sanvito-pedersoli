@@ -90,6 +90,9 @@ public class GUIApplication extends Application {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);
                 }
+                case GENERIC_ERROR -> {
+                    this.closePopUpStage();
+                }
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
                 }
@@ -238,6 +241,11 @@ public class GUIApplication extends Application {
     public void showBtnReturnToMenu() {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
         controller.showBtnReturnToMenu();
+    }
+
+    public void showErrorGeneric(String msg){
+        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneEnum.GENERIC_ERROR)).getGenericController();
+        controller.setMsg(msg);
     }
 
 

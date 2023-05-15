@@ -12,7 +12,8 @@ public enum SceneEnum {
     PLAYER_LOBBY_CARD3("/PlayerLobbyCard3.fxml"),
     JOIN_SPECIFIC("/JoinSpecific.fxml"),
     INGAME("/InGame.fxml"),
-    GAME_ENDED("/GameEnded.fxml");
+    GAME_ENDED("/GameEnded.fxml"),
+    GENERIC_ERROR("/GenericError.fxml");
 
     private final String value;
 

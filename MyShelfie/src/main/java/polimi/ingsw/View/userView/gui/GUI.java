@@ -141,7 +141,8 @@ public class GUI extends UI {
 
     @Override
     protected void show_noAvailableGamesToJoin(String msgToVisualize) {
-
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneEnum.GENERIC_ERROR));
+        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric(msgToVisualize));
     }
 
     @Override

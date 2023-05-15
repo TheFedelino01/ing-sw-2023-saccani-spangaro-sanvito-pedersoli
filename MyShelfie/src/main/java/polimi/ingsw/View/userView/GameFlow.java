@@ -48,38 +48,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     protected List<String> importantEvents; //events that needs to be showed always in screen
     private boolean ended = false;
 
-/*
-    public GameFlow(ConnectionSelection connectionSelection, UISelection uiSelection) {
-        importantEvents = new ArrayList<>();
-        nickname = "";
-        switch (uiSelection) {
-            case TUI ->{
-                ui = new TUI();
-            }
-            case GUI -> {
-                ui = new GUI();
-            }
-            default -> {
-                ui = new TUI();
-                System.out.println("Error, game will start in TUI mode");
-            }
-
-        }
-        switch (connectionSelection) {
-            case SOCKET -> server = new ClientSocket(this);
-            case RMI -> server = new RMIClient(this);
-        }
-        fileDisconnection = new FileDisconnection();
-
-
-
-        //Change input from scanf to threads
-        this.inputReader = new inputReader();
-        this.inputParser = new inputParser(this.inputReader.getBuffer(), this);
-        //Now all the input must be read with inputParse!!!
-
-        new Thread(this).start();
-    }*/
 
     public GameFlow(ConnectionSelection connectionSelection){
         //Invoked for starting with TUI
