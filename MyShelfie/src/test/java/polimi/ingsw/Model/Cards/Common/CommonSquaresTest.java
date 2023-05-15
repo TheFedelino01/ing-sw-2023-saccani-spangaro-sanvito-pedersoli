@@ -73,8 +73,8 @@ public class CommonSquaresTest extends ShelfConverter{
         String[][] matrix = {
                 {"","","","",""},
                 {"","","","","A"},
-                {"","A","A","A",""},
-                {"","A","A","B","B"},
+                {"A","A","A","A",""},
+                {"A","A","C","B","B"},
                 {"","A","","B","B"},
                 {"A","","","",""}
         };
@@ -105,12 +105,12 @@ public class CommonSquaresTest extends ShelfConverter{
     @DisplayName("2 Groups of 2x2 box tiles with same Tiles inside group #6")
     public void testFourGroups6() {
         String[][] matrix = {
-                {"","","","",""},
-                {"","","","",""},
-                {"A","","","",""},
-                {"A","","","","B"},
-                {"A","A","C","C","C"},
-                {"A","A","C","C","B"}
+                {"","","T","",""},
+                {"","","T","C","C"},
+                {"A","","T","C","C"},
+                {"A","","T","C","B"},
+                {"A","A","T","C","C"},
+                {"A","A","T","C","B"}
         };
 
         Shelf test = setShelf(matrix);
@@ -124,10 +124,10 @@ public class CommonSquaresTest extends ShelfConverter{
         String[][] matrix = {
                 {"","","","",""},
                 {"","","","",""},
-                {"A","","C","C",""},
-                {"A","","C","C","B"},
-                {"A","A","A","C","C"},
-                {"A","A","C","C","B"}
+                {"A","","C","C","C"},
+                {"A","","T","C","C"},
+                {"A","A","T","C","C"},
+                {"A","A","T","C","B"}
         };
 
         Shelf test = setShelf(matrix);
@@ -177,8 +177,8 @@ public class CommonSquaresTest extends ShelfConverter{
                 {"","A","A","A","A"},
                 {"C","C","A","",""},
                 {"C","C","","A","A"},
-                {"T","A","A","C","A"},
-                {"A","C","C","C","C"}
+                {"T","A","A","C","C"},
+                {"A","C","T","C","C"}
         };
 
         Shelf test = setShelf(matrix);
