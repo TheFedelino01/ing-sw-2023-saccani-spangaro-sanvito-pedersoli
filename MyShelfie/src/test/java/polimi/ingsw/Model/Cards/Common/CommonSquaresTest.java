@@ -356,4 +356,55 @@ public class CommonSquaresTest extends ShelfConverter{
 
         assertTrue(card.verify(test));
     }
+
+    @Test
+    @DisplayName("2 Groups of 2x2 box tiles with same Tiles inside group #21")
+    public void testFourGroups21() {
+        String[][] matrix = {
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {"A","A","C","C",""},
+                {"A","A","C","C",""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("2 Groups of 2x2 box tiles with same Tiles inside group #22")
+    public void testFourGroups22() {
+        String[][] matrix = {
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {"A","A","C","C","C"},
+                {"A","A","C","C","C"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertTrue(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("2 Groups of 2x2 box tiles with same Tiles inside group #23")
+    public void testFourGroups23() {
+        String[][] matrix = {
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {"A","A","C","C",""},
+                {"A","A","C","C",""},
+                {"","","","",""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertFalse(card.verify(test));
+    }
 }
