@@ -253,10 +253,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) {
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
             model.grabTileFromPlayground(model.getPlayerEntity(p), x, y, direction, num);
-        } else {
+        }else{
             throw new NotPlayerTurnException();
         }
-
     }
 
     public synchronized void positionTileOnShelf(String p, int column, TileType type) throws GameEndedException {
@@ -320,7 +319,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Check if the player has completed the shelf, otherwise the turn is passed to the next player
      */
     public synchronized void nextTurn() {
-        checkCommonCards(whoIsPlaying());
         if (whoIsPlaying().getShelf().getFreeSpace() == 0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
             //Il gioco è finito perche ha completato tutta la sua shelf ed è stato il primo
             model.setStatus(GameStatus.LAST_CIRCLE);
@@ -342,19 +340,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @apiNote Ho aggiunto il riferimento al Player p (Perchè ho pensato che il check non si vuole fare sempre su tutti i player)
      */
     private void checkCommonCards(Player p) {
-        //controlla tutte le carte comuni
-        for (int i = 0; i < DefaultValue.NumOfCommonCards; i++)
-            if (model.getCommonCard(i).verify(p.getShelf())) {
-                //Aggiungo i punti al player p e li tolgo dalla coda della carta comune
-                try {
-                    p.addPoint(model.getCommonCard(i).getPoints().peek());
-
-                    model.getCommonCard(i).getPoints().remove();//Non ha sollevato eccezione quindi rimuovo il punto
-
-                } catch (IllegalArgumentException e) {
-                    //Punto gia' aggiunto non posso riaggiungerlo
-                }
-
+        for (CommonCard card : model.getCommonCards())
+            if (card.verify(p.getShelf()) && p.getObtainedPoints().stream()
+                    .noneMatch(x -> x.getReferredTo().equals(card.getCommonType()))) {
+                    p.addPoint(card.getPoints().poll());
             }
     }
 
@@ -588,10 +577,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
-
     //TESTING METHODS
     @Deprecated
-    public void setModel(GameModel model){
+    public void setModel(GameModel model) {
         this.model = model;
     }
 }

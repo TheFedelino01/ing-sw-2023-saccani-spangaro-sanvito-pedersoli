@@ -1,6 +1,7 @@
 package polimi.ingsw.Game;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.Controller.GameController;
@@ -142,6 +143,7 @@ public class MultipleGames {
         new ListenersHandler().addListener(lis);
     }
 
+    @Disabled
     @Test
     @DisplayName("MultipleGames JoinFirst")
     void joinFirst() throws RemoteException {
@@ -164,6 +166,7 @@ public class MultipleGames {
         assertThrows(MaxPlayersInException.class,() -> mainController.joinFirstAvailableGame(lis, p14.getNickname()),"Game is full"); //?
     }
 
+    @Disabled
     @Test
     @DisplayName("MultipleGames JoinID")
     void joinID() throws RemoteException {

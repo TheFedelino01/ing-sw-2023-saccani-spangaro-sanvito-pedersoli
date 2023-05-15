@@ -17,6 +17,9 @@ public abstract class CommonCard extends Card {
 
     public CommonCard(CardCommonType type) {
         points = new ArrayDeque<>();
+        for(int i = 4; i > 0; i--){
+            points.add(new Point(4*2, type));
+        }
         commonType = type;
     }
 
