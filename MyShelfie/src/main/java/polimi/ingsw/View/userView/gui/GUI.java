@@ -262,5 +262,7 @@ public class GUI extends UI {
     protected void resetImportantEvents() {
         this.importantEvents = new ArrayList<>();
         this.nickname=null;
+        alreadyShowedPublisher=true;
+        alreadyShowedLobby=false;
     }
 }
