@@ -4,8 +4,9 @@ import polimi.ingsw.Model.DefaultValue;
 import polimi.ingsw.Model.Enumeration.CardCommonType;
 import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
+import polimi.ingsw.Model.Tile;
 
-public class CommonSixGroups extends CommonMethods{
+public class CommonSixGroups extends CommonMethods {
 
     public CommonSixGroups(CardCommonType type) {
         super(type);
@@ -13,31 +14,24 @@ public class CommonSixGroups extends CommonMethods{
 
     @Override
     public boolean verify(Shelf toCheck) {
+        Shelf temp = CommonMethods.getCopy(toCheck);
         int sum = 0;
-        for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) //check vertical
-        {
-            for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (i < DefaultValue.NumOfRowsShelf - 1) {   //vertical analysis
-                    if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j).isSameType(toCheck.get(i + 1, j).getType())) {
-                        sum++;
-                        if (sum == 6) {
-                            return true;
+        while (sum < 6 && !temp.isEmpty()) {
+            for (int r = 0; r < DefaultValue.NumOfRowsShelf - 1; r++) {
+                for (int c = 0; c < DefaultValue.NumOfColumnsShelf - 1; c++) {
+                    if (!temp.get(r, c).isSameType(TileType.NOT_USED)) {
+                        if (temp.get(r, c).isSameType(temp.get(r + 1, c).getType())) {
+                            sum++;
+                            temp.setSingleTile(new Tile(TileType.NOT_USED), r + 1, c);
+                        } else if (temp.get(r, c).isSameType(temp.get(r, c + 1).getType())) {
+                            sum++;
+                            temp.setSingleTile(new Tile(TileType.NOT_USED), r, c + 1);
                         }
-                        //delete all the same adjacent elements
-                        deleteAdjacent(toCheck, i, j, toCheck.get(i, j));
-                    }
-                }
-                if (j < DefaultValue.NumOfColumnsShelf - 1) { //check horizontal
-                    if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) && toCheck.get(i, j).isSameType(toCheck.get(i, j + 1).getType())) {
-                        sum++;
-                        if (sum == 6) {
-                            return true;
-                        }
-                        deleteAdjacent(toCheck, i, j, toCheck.get(i, j));
+                        temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
                     }
                 }
             }
         }
-        return false;
+        return sum >= 6;
     }
 }

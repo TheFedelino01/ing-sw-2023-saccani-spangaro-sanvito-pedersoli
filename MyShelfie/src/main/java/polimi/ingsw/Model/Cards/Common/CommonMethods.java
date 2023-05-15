@@ -6,8 +6,6 @@ import polimi.ingsw.Model.Enumeration.TileType;
 import polimi.ingsw.Model.Shelf;
 import polimi.ingsw.Model.Tile;
 
-import java.util.Objects;
-
 public abstract class CommonMethods extends CommonCard {
 
     @Override
@@ -19,8 +17,8 @@ public abstract class CommonMethods extends CommonCard {
 
     /**
      * Erase the adjacency already counted
-     *
-     * @set the adjacent to FINISHED_USING
+     * <br>
+     * sets the adjacent to FINISHED_USING
      */
     static void deleteAdjacent(Shelf playerShelf, int i, int j, Tile tile) {
         if (checkIfSafe(playerShelf, i, j, tile)) {
@@ -30,6 +28,16 @@ public abstract class CommonMethods extends CommonCard {
             deleteAdjacent(playerShelf, i, j - 1, tile); // sx
             deleteAdjacent(playerShelf, i, j + 1, tile); // dx
         }
+    }
+
+    static Shelf getCopy(Shelf toCopy){
+        Shelf temp = new Shelf();
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                temp.setSingleTile(new Tile(toCopy.get(r, c).getType()), r, c);
+            }
+        }
+        return temp;
     }
 
     static void adjacentToFU(Shelf playerShelf, int i, int j, Tile tile) {     //useful for adjacent count(FU is finished_using)

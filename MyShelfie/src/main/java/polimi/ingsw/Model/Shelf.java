@@ -125,5 +125,15 @@ public class Shelf implements Serializable {
         return ris.toString();
     }
 
+    public boolean isEmpty(){
+        for(int r = 0; r<DefaultValue.NumOfRowsShelf; r++){
+            for(int c = 0; c<DefaultValue.NumOfColumnsShelf; c++){
+                if(!shelf[r][c].isSameType(TileType.NOT_USED))
+                    return false;
+            }
+        }
+        return true;
+    }
+
 }
 
