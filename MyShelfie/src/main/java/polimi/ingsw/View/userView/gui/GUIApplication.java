@@ -234,6 +234,10 @@ public class GUIApplication extends Application {
         controller.setImportantEvents(importantEvents);
     }
 
+    public void showPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname){
+        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
+        controller.setPointsUpdated(model, playerPointChanged, myNickname);
+    }
     public void showLeaderBoard(GameModelImmutable model) {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
         controller.show(model);

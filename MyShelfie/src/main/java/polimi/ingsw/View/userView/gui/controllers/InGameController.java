@@ -533,6 +533,7 @@ public class InGameController extends GenericController {
         importantEventsList.scrollTo(importantEventsList.getItems().size());
     }
 
-
-
+    public void setPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname) {
+        setNicknamesAndPoints(model,myNickname);
+    }
 }

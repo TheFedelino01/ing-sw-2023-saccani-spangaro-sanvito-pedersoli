@@ -299,7 +299,6 @@ public class GameModel {
             listenersHandler.notify_positionedTile(this, type, column);
             //if the hand is empty then call next turn
             if (p.getInHandTile().size() == 0) {
-
                 nextTurn();
             }
         } else {

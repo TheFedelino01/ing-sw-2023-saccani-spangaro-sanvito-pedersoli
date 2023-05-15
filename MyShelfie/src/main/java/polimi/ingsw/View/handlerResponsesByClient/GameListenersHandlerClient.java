@@ -120,9 +120,9 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     }
 
     @Override
-    public void addedPoint(Player p, Point point) throws RemoteException {
+    public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(this.hashCode() + "> Player "+p.getNickname()+" obtained "+point.getPoint()+" points by achieving "+point.getReferredTo()+" [by Socket]");
-        gui.addedPoint(p, point);
+        gui.addedPoint(p, point,gamemodel);
     }
 
     @Override

@@ -131,7 +131,7 @@ public class MultipleGames {
             }
 
             @Override
-            public void addedPoint(Player p, Point point) throws RemoteException {
+            public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
 
             }
 

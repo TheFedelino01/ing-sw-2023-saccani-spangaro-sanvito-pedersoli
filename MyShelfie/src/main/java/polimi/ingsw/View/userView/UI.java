@@ -62,7 +62,7 @@ public abstract class UI {
     protected abstract void show_direction();
     protected abstract void show_askPickTilesMainMsg();
 
-    protected abstract void show_addedPoint(Player p, Point point);
+    protected abstract void show_addedPoint(Player p, Point point, GameModelImmutable gamemodel);
 
     //----------------------
     //ACTIONS

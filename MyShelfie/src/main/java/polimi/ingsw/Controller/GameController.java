@@ -8,6 +8,7 @@ import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.*;
 import polimi.ingsw.Model.Enumeration.*;
 import polimi.ingsw.Model.Exceptions.*;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 import polimi.ingsw.View.networking.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.View.userView.Flow;
 
@@ -261,9 +262,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized void positionTileOnShelf(String p, int column, TileType type) throws GameEndedException {
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
 
+            Player currentPlaying=this.whoIsPlaying();//Because position can call nextTurn
+
             model.positionTileOnShelf(model.getPlayerEntity(p), column, type);
 
-            checkCommonCards(whoIsPlaying());
+            checkCommonCards(currentPlaying);
+
             if (whoIsPlaying().getShelf().getFreeSpace() == 0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
                 //Il gioco è finito perche ha completato tutta la sua shelf ed è stato il primo
                 model.setStatus(GameStatus.LAST_CIRCLE);
@@ -318,6 +322,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * Check if the player has completed the shelf, otherwise the turn is passed to the next player
      */
+    @Deprecated
     public synchronized void nextTurn() {
         if (whoIsPlaying().getShelf().getFreeSpace() == 0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
             //Il gioco è finito perche ha completato tutta la sua shelf ed è stato il primo
@@ -343,7 +348,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         for (CommonCard card : model.getCommonCards())
             if (card.verify(p.getShelf()) && p.getObtainedPoints().stream()
                     .noneMatch(x -> x.getReferredTo().equals(card.getCommonType()))) {
-                    p.addPoint(card.getPoints().poll());
+                    p.addPoint(card.getPoints().poll(),new GameModelImmutable(model));
             }
     }
 
@@ -360,7 +365,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             CardGoal g = model.getGoalCard(i);
             Point point = g.verify(p.getShelf());
             if (point != null) {
-                p.addPoint(point);
+                p.addPoint(point, new GameModelImmutable(model));
             }
         }
     }
@@ -381,13 +386,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 while (!allTilesFound) {
                     toCheck = checkAdjacent(t, p.getShelf(), 0, 0) - 1;
                     if (toCheck == 3) {
-                        p.addPoint(new Point(2));
+                        p.addPoint(new Point(2), new GameModelImmutable(model));
                     } else if (toCheck == 4) {
-                        p.addPoint(new Point(3));
+                        p.addPoint(new Point(3),new GameModelImmutable(model));
                     } else if (toCheck == 5) {
-                        p.addPoint(new Point(5));
+                        p.addPoint(new Point(5),new GameModelImmutable(model));
                     } else if (toCheck > 5) {
-                        p.addPoint(new Point(8));
+                        p.addPoint(new Point(8),new GameModelImmutable(model));
                     }
 
                     //checks whether all the tiles with tileType t have been checked

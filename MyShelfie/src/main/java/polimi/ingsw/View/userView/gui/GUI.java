@@ -228,8 +228,7 @@ public class GUI extends UI {
 
     @Override
     public void show_direction() {
-
-    }
+      }
 
     @Override
     protected void show_askPickTilesMainMsg() {
@@ -237,8 +236,8 @@ public class GUI extends UI {
     }
 
     @Override
-    protected void show_addedPoint(Player p, Point point) {
-
+    protected void show_addedPoint(Player p, Point point, GameModelImmutable gamemodel) {
+        callPlatformRunLater(() -> this.guiApplication.showPointsUpdated(gamemodel,p,this.nickname));
     }
 
     @Override

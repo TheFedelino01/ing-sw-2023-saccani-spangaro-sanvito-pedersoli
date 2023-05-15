@@ -178,10 +178,10 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     }
 
     @Override
-    public void addedPoint(Player p, Point point) throws RemoteException {
+    public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
         try {
             out.reset();
-            out.writeObject(new msgAddedPoint(p, point));
+            out.writeObject(new msgAddedPoint(p, point,gamemodel));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

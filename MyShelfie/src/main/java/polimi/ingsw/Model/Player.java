@@ -2,6 +2,7 @@ package polimi.ingsw.Model;
 
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
+import polimi.ingsw.Model.GameModelView.GameModelImmutable;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -83,9 +84,9 @@ public class Player implements Serializable {
         return obtainedPoints;
     }
 
-    public void addPoint(Point obtainedPoints) {
+    public void addPoint(Point obtainedPoints, GameModelImmutable model) {
         this.obtainedPoints.add(obtainedPoints);
-        notify_addedPoint(obtainedPoints);
+        notify_addedPoint(obtainedPoints, model);
     }
 
     public int getTotalPoints() {
@@ -120,10 +121,10 @@ public class Player implements Serializable {
         listeners.add(obj);
     }
 
-    private void notify_addedPoint(Point point) {
+    private void notify_addedPoint(Point point, GameModelImmutable model) {
         for (GameListener l : listeners) {
             try {
-                l.addedPoint(this, point);
+                l.addedPoint(this, point, model);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

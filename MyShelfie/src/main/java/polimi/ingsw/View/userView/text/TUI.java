@@ -419,7 +419,7 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_addedPoint(Player p, Point point) {
+    protected void show_addedPoint(Player p, Point point, GameModelImmutable gamemodel) {
 
     }
 

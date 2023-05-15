@@ -741,8 +741,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void addedPoint(Player p, Point point) {
+    public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) {
         ui.addImportantEvent("[EVENT]:  Player " + p.getNickname() + " obtained " + point.getPoint() + " points by achieving " + point.getReferredTo());
+        ui.show_addedPoint(p,point,gamemodel);
     }
 
     @Override

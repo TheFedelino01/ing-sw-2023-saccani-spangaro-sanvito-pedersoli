@@ -42,7 +42,7 @@ public interface GameListener extends Remote {
 
     void nextTurn(GameModelImmutable gamemodel) throws RemoteException;
 
-    void addedPoint(Player p, Point point) throws RemoteException;
+    void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException;
 
     void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException;
 
