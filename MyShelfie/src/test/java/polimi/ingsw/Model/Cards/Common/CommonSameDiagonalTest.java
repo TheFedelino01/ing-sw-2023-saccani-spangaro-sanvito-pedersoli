@@ -188,7 +188,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"C","","","","C"}
         };
         Shelf test = this.setShelf(matrix);
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
