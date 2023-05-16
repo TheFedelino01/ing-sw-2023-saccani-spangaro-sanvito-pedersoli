@@ -103,6 +103,7 @@ public class GameTest {
                 Random random = new Random();
                 int c = random.nextInt(9);
                 int r = random.nextInt(9);
+
                 gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), c, r, Direction.DOWN, 1);
             } while (gameController.whoIsPlaying().getInHandTile().size() == 0);
             //check if the tile is correctly added to the player's hand
