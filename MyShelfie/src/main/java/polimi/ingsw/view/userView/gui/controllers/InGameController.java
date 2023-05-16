@@ -210,6 +210,45 @@ public class InGameController extends GenericController {
     public void actionMouseExited(MouseEvent e){
         deselectAllCols();
     }
+
+
+    public void actionMouseEnteredCommonCard(MouseEvent e){
+        final Node source = (Node) e.getSource();
+        String id = source.getId();
+        switch (id){
+            case "cc0"->{
+                ((Pane)source).setMinWidth(490);
+                ((Pane)source).setMinHeight(310);
+            }
+            case "cc1"->{
+                ((Pane)source).setMinWidth(490);
+                ((Pane)source).setMinHeight(310);
+            }
+            case "youPersonal"->{
+                ((Pane)source).setMinWidth(260);
+                ((Pane)source).setMinHeight(400);
+            }
+        }
+    }
+    public void actionMouseExitedCommonCard(MouseEvent e){
+        final Node source = (Node) e.getSource();
+        String id = source.getId();
+        switch (id){
+            case "cc0"->{
+                ((Pane)source).setMinWidth(190);
+                ((Pane)source).setMinHeight(110);
+            }
+            case "cc1"->{
+                ((Pane)source).setMinWidth(190);
+                ((Pane)source).setMinHeight(110);
+            }
+            case "youPersonal"->{
+                ((Pane)source).setMinWidth(130);
+                ((Pane)source).setMinHeight(200);
+            }
+        }
+    }
+
     private void deselectAllCols(){
         Pane tilePane;
         for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
