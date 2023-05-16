@@ -138,7 +138,6 @@ public class Shelf implements Serializable {
         return true;
     }
 
-    @Deprecated
     public void setFreeSpace(int freeSpace){
         this.freeSpace = freeSpace;
     }
