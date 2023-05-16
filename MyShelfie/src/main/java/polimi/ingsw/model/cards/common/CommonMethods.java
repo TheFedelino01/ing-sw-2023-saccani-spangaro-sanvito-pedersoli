@@ -22,6 +22,7 @@ public abstract class CommonMethods extends CommonCard {
                 temp.setSingleTile(new Tile(toCopy.get(r, c).getType()), r, c);
             }
         }
+        temp.setFreeSpace(toCopy.getFreeSpace());
         return temp;
     }
 
