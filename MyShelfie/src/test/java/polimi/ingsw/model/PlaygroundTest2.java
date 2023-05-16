@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.enumeration.Direction;
+import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.exceptions.TileGrabbedNotCorrectException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -30,14 +31,16 @@ public class PlaygroundTest2 {
     @DisplayName("All tile have free side")
     void testFreeSide() {
         Playground p = new Playground(2);
-        p.initialisePlayground();
-        assertFalse(
-                p.allTileHaveAllFreeSide()
-        );
-        p.setPlayground();
-        p.checkBeforeGrab(0, 0, Direction.UP, 1);
-        assertFalse(
-                p.allTileHaveAllFreeSide()
-        );
+        p.setEmptyPlayground();
+
+        //random tiles that aren't touching
+        p.setSingleTile(TileType.TROPHY, 4, 4);
+        p.setSingleTile(TileType.TROPHY, 0, 0);
+        p.setSingleTile(TileType.TROPHY, 0, 4);
+
+
+
+        assert (p.checkBeforeGrab(1, 2, Direction.RIGHT, 2));
+        assert (p.allTileHaveAllFreeSide());
     }
 }
