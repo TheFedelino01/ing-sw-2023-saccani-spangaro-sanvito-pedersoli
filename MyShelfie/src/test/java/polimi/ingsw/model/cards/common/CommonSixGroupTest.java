@@ -1,7 +1,6 @@
 package polimi.ingsw.model.cards.common;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.Shelf;
@@ -16,7 +15,6 @@ public class CommonSixGroupTest extends ShelfConverter {
         card=(CommonSixGroups) CommonCardFactory.getCommonCard(CardCommonType.CommonSixGroups);
     }
 
-    @Disabled
     @Test
     @DisplayName("Test #1")
     public void testVertexes1() {
@@ -28,7 +26,7 @@ public class CommonSixGroupTest extends ShelfConverter {
                 {"","","","",""},
                 {"","","","","T"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
 
