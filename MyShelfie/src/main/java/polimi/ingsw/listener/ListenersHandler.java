@@ -163,9 +163,7 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void removeListener(GameListener lis) {
-        listeners.remove(lis);
-    }
+
 
 
     public void notify_playerLeft(GameModel gameModel, String nick) {
@@ -176,5 +174,19 @@ public class ListenersHandler {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public synchronized void notify_columnShelfTooSmall(GameModel model, int column) {
+        for (GameListener l : listeners) {
+            try {
+                l.columnShelfTooSmall(new GameModelImmutable(model),column);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public synchronized void removeListener(GameListener lis) {
+        listeners.remove(lis);
     }
 }

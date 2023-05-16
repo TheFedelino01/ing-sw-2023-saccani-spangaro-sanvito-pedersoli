@@ -309,8 +309,9 @@ public class InGameController extends GenericController {
             } else {
                 dir = Direction.UP;
             }
+        }else{
+            return;
         }
-        //else return "false";
 
 
         getInputReaderGUI().addTxt(String.valueOf(distance));
@@ -587,6 +588,7 @@ public class InGameController extends GenericController {
     public void showSelectionColShelfie() {
         //Now the client can select a col from his shelfie to position all tiles
         needToDetectColSelection = true;
+        needToDetectTileInHandGrabbing=false;
         changeCursorOnTilesPlayground(Cursor.DEFAULT);
         changeCursorOnTilesMyShelf(Cursor.HAND);
         changeCursorOnInHandTiles(Cursor.DEFAULT);

@@ -160,5 +160,19 @@ public class Shelf implements Serializable {
         }
         return max;
     }
+
+    public int getNumofFreeSpacesInCol(int col) {
+        int tmp=0;
+
+        for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
+            if(!get(r,col).getType().equals(TileType.NOT_USED)){
+                return tmp;
+            }else{
+                tmp++;
+            }
+        }
+
+        return tmp;
+    }
 }
 

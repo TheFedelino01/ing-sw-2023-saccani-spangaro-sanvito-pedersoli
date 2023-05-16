@@ -114,6 +114,11 @@ public class Disconnection {
         public void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException {
 
         }
+
+        @Override
+        public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+
+        }
     };
     GameListener lis2= new GameListener() {
         @Override
@@ -203,6 +208,11 @@ public class Disconnection {
 
         @Override
         public void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException {
+
+        }
+
+        @Override
+        public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
 
         }
     };
@@ -296,6 +306,11 @@ public class Disconnection {
         public void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException {
 
         }
+
+        @Override
+        public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+
+        }
     };
     GameListener lis4= new GameListener() {
         @Override
@@ -385,6 +400,11 @@ public class Disconnection {
 
         @Override
         public void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException {
+
+        }
+
+        @Override
+        public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
 
         }
     };

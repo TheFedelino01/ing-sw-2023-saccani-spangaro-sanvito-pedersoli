@@ -129,6 +129,11 @@ public class Join {
             public void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException {
 
             }
+
+            @Override
+            public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+
+            }
         };
         new ListenersHandler().addListener(lis);
     }

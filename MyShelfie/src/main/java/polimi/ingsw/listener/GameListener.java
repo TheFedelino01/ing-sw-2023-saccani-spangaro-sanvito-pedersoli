@@ -46,4 +46,6 @@ public interface GameListener extends Remote {
 
     void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException;
 
+    void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException;
+
 }

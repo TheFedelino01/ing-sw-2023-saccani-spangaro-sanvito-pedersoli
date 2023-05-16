@@ -296,16 +296,22 @@ public class GameModel {
     }
 
     public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
-        Tile t = popInHandTilePlayer(p, type);
-        if (t != null) {
-            p.getShelf().position(column, type);
-            listenersHandler.notify_positionedTile(this, type, column);
-            //if the hand is empty then call next turn
-            if (p.getInHandTile().size() == 0) {
-                nextTurn();
+        //Check if the player can position all the in hand tiles in this column (are there enough spaces?)
+        if(p.getNumofFreeSpacesInCol(column)>=p.getInHandTile().size()) {
+            //Player can place the tile
+            Tile t = popInHandTilePlayer(p, type);
+            if (t != null) {
+                p.getShelf().position(column, type);
+                listenersHandler.notify_positionedTile(this, type, column);
+                //if the hand is empty then call next turn
+                if (p.getInHandTile().size() == 0) {
+                    nextTurn();
+                }
+            } else {
+                throw new PositioningATileNotGrabbedException();
             }
-        } else {
-            throw new PositioningATileNotGrabbedException();
+        }else{
+            listenersHandler.notify_columnShelfTooSmall(this,column);
         }
 
     }

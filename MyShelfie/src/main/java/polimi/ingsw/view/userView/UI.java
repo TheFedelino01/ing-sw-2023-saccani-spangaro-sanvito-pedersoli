@@ -62,6 +62,9 @@ public abstract class UI {
 
     protected abstract void show_addedPoint(Player p, Point point, GameModelImmutable gamemodel);
 
+
+    protected abstract void columnShelfTooSmall(GameModelImmutable model);
+
     //----------------------
     //ACTIONS
     //----------------------

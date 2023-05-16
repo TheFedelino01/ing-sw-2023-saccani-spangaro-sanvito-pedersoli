@@ -120,6 +120,10 @@ public class Player implements Serializable {
     public int getMaxFreeSpacesInACol(){
         return this.shelf.getMaxFreeSpacesInACol();
     }
+    public int getNumofFreeSpacesInCol(int col){
+        return this.shelf.getNumofFreeSpacesInCol(col);
+    }
+
 
     public void addListener(GameListener obj) {
         listeners.add(obj);

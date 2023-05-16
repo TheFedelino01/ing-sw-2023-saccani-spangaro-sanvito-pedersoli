@@ -497,11 +497,19 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
          */
         Integer column;
         ui.show_askColumnMainMsg();
+        boolean isColumnBigEnough;
         do {
+            isColumnBigEnough=true;
             column = askNum("> Choose column to place all the tiles:", model);
             ui.show_playerHand(model);
             if (ended) return;
-        } while (column == null || column >= DefaultValue.NumOfColumnsShelf || column < 0);
+
+            //Check by client side (// to server)
+            if(!(model.getPlayerEntity(this.nickname).getNumofFreeSpacesInCol(column)>=model.getPlayerEntity(this.nickname).getInHandTile().size())){
+                ui.columnShelfTooSmall(model);
+                isColumnBigEnough=false;
+            }
+        } while (column == null || column >= DefaultValue.NumOfColumnsShelf || column < 0 || !isColumnBigEnough);
         columnChosen = column;
     }
 
@@ -752,6 +760,12 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             ui.addImportantEvent("[EVENT]: Player " + nick + " decided to leave the game!");
         }
     }
+
+    @Override
+    public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+        ui.addImportantEvent("[EVENT]:  Cannot place Tiles in "+column+" column because there are no spaces available to place all");
+    }
+
 
 
 }

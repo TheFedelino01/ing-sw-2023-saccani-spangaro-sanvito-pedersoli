@@ -197,4 +197,14 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    @Override
+    public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+        try {
+            out.reset();
+            out.writeObject(new msgColumnShelfTooSmall(gameModel,column));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

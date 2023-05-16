@@ -241,6 +241,14 @@ public class GUI extends UI {
     }
 
     @Override
+    protected void columnShelfTooSmall(GameModelImmutable model) {
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("The selected column is too small to hold all tiles",false));
+        if(model.getNicknameCurrentPlaying().equals(this.nickname)){
+            callPlatformRunLater(() -> this.guiApplication.showSelectionColShelfie());
+        }
+    }
+
+    @Override
     public void addImportantEvent(String imp) {
         importantEvents.add(imp);
         callPlatformRunLater(() -> this.guiApplication.showImportantEvents(this.importantEvents));

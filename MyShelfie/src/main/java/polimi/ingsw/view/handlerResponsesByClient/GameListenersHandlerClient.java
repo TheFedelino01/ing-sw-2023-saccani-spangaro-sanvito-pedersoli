@@ -131,5 +131,10 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
         gui.playerDisconnected(gameModel,nick);
     }
 
+    @Override
+    public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+        gui.columnShelfTooSmall(gameModel,column);
+    }
+
 
 }

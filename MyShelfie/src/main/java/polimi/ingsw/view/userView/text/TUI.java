@@ -422,6 +422,11 @@ public class TUI extends UI {
 
     }
 
+    @Override
+    protected void columnShelfTooSmall(GameModelImmutable model) {
+
+    }
+
 
     public void removeInput(String msg, GameModelImmutable model) {
         System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(getLengthLongestMessage(model))));
