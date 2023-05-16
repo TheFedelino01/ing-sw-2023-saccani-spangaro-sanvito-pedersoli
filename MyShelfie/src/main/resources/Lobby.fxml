@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1322.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.View.userView.gui.controllers.LobbyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1322.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.userView.gui.controllers.LobbyController">
    <children>
       <Pane layoutX="10.0" layoutY="10.0" prefHeight="740.0" prefWidth="1289.0" styleClass="backgroundLobby" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane layoutX="95.0" layoutY="87.0" maxHeight="449.0" maxWidth="1099.0" opacity="0.8" prefHeight="449.0" prefWidth="1099.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
