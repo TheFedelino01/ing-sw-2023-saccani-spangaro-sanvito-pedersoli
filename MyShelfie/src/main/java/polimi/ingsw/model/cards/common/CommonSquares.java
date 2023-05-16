@@ -16,6 +16,9 @@ public class CommonSquares extends CommonMethods {
         Shelf temp = CommonMethods.getCopy(toCheck);
         int sum = 0;
 
+        if(toCheck.getOccupiedSpace() < 8)
+            return false;
+
         while (!temp.isEmpty() && sum < 2) {
             for (int r = 0; r < DefaultValue.NumOfRowsShelf - 1; r++) {
                 for (int c = 0; c < DefaultValue.NumOfColumnsShelf - 1; c++) {

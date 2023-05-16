@@ -26,9 +26,8 @@ public class CommonHorizontalTest {
      */
     @BeforeEach
     void setUp() {
-        CommonCardFactory c = new CommonCardFactory();
         for (CardCommonType t : CardCommonType.values())
-            model.add(c.getCommonCard(t));
+            model.add(CommonCardFactory.getCommonCard(t));
     }
 
     /**
@@ -48,13 +47,16 @@ public class CommonHorizontalTest {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i == 0 || i == 3) {
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (i == 1) {
-
                     test.setSingleTile(new Tile(TileType.BOOK), i, j);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (i == 2) {
                     test.setSingleTile(new Tile(TileType.TROPHY), i, j);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTile()), i, j);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 }
             }
         }
@@ -77,12 +79,16 @@ public class CommonHorizontalTest {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 if (r == 2 || r == 4) {
                     test.setSingleTile(new Tile(TileType.CAT), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (r == 5) {
                     test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (r == 3) {
                     test.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (r == 1) {
                     test.setSingleTile(new Tile(TileType.randomTile()), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
             }
         }
@@ -116,6 +122,7 @@ public class CommonHorizontalTest {
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 }
+                test.setFreeSpace(test.getFreeSpace() - 1);
             }
         }
         assertTrue(model.get(9).verify(test));
@@ -146,10 +153,12 @@ public class CommonHorizontalTest {
                         default -> {
                         }
                     }
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (r < 3) {
                     test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTile()), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 }
             }
         }
@@ -173,6 +182,7 @@ public class CommonHorizontalTest {
                         default -> {
                         }
                     }
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else {
                     test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
                 }

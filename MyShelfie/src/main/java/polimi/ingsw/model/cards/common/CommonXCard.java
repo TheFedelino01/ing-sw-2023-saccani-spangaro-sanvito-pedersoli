@@ -19,6 +19,10 @@ public class CommonXCard extends CommonCard {
      */
     @Override
     public boolean verify(Shelf toCheck) {
+        System.out.println(toCheck.getOccupiedSpace());
+        if(toCheck.getOccupiedSpace() < 5)
+            return false;
+
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i < DefaultValue.NumOfRowsShelf - 2 && j < DefaultValue.NumOfColumnsShelf - 2) {   //check cross

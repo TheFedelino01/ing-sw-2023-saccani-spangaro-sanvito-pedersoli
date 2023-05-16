@@ -19,6 +19,9 @@ public class CommonFourGroups extends CommonMethods {
 
         boolean allTilesFound;
         int occurrences;
+        if(toCheck.getOccupiedSpace() < 16)
+            return false;
+
         for (TileType t : TileType.getUsableValues()) {
             allTilesFound = false;
             while ((!allTilesFound) && (sum < 4)) {

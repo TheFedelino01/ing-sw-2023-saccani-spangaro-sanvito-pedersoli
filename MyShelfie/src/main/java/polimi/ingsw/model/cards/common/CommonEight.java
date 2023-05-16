@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class CommonEight extends CommonMethods {
-    
+
     public CommonEight(CardCommonType type) {
         super(type);
     }
@@ -18,6 +18,10 @@ public class CommonEight extends CommonMethods {
     @Override
     public boolean verify(Shelf toCheck) {
         Map<TileType, Integer> tileCheck = new HashMap<>();
+
+        if (toCheck.getOccupiedSpace() < 8)
+            return false;
+
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (!toCheck.get(i, j).isSameType(TileType.NOT_USED)) {

@@ -27,9 +27,8 @@ public class CommonGroupsTest {
      */
     @BeforeEach
     void setUp() {
-        CommonCardFactory c = new CommonCardFactory();
         for (CardCommonType t : CardCommonType.values())
-            model.add(c.getCommonCard(t));
+            model.add(CommonCardFactory.getCommonCard(t));
     }
 
     /**
@@ -56,6 +55,7 @@ public class CommonGroupsTest {
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                 }
+                test.setFreeSpace(test.getFreeSpace() - 1);
             }
         }
 
@@ -85,10 +85,13 @@ public class CommonGroupsTest {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 if ((c == 0 && r > 3) || (c == 2 && r > 3) || (c == 2 && r > 0 && r < 3) || (c == 4 && r > 0 && r < 3)) {
                     test.setSingleTile(new Tile(TileType.CAT), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if ((c == 1 && r > 3) || (c == 3 && r > 3) || (c == 1 && r > 0 && r < 3) || (c == 3 && r > 0 && r < 3)) {
                     test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (r == 3) {
                     test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
             }
         }
@@ -120,8 +123,10 @@ public class CommonGroupsTest {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 if (c < 4 && c % 2 == 0 && r < 4) {
                     test.setSingleTile(new Tile(TileType.CAT), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (c < 4 && r < 4) {
                     test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                 }
@@ -153,10 +158,13 @@ public class CommonGroupsTest {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 if ((c == 0 || c == 2) && r > 1) {
                     test.setSingleTile(new Tile(TileType.CAT), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if ((c == 1 || c == 3) && r > 1) {
                     test.setSingleTile(new Tile(TileType.BOOK), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else if (c == DefaultValue.NumOfColumnsShelf - 1 && r > 4) {
                     test.setSingleTile(new Tile(TileType.TROPHY), r, c);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 } else test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
             }
         }
@@ -190,6 +198,7 @@ public class CommonGroupsTest {
                 } else {
                     test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                 }
+                test.setFreeSpace(test.getFreeSpace() - 1);
             }
         }
         assertTrue(model.stream()
@@ -223,6 +232,7 @@ public class CommonGroupsTest {
                     } else {
                         test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
                     }
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 }
             }
         }
@@ -283,6 +293,7 @@ public class CommonGroupsTest {
                     test.setSingleTile(new Tile(TileType.USED), r, c);
                 else
                     test.setSingleTile(new Tile(TileType.randomTileCAT()), r, c);
+                test.setFreeSpace(test.getFreeSpace() - 1);
                 count++;
             }
         }
@@ -319,6 +330,7 @@ public class CommonGroupsTest {
                     } else {
                         test.setSingleTile(new Tile(TileType.randomTileCAT()), r, c);
                     }
+                    test.setFreeSpace(test.getFreeSpace() - 1);
                 }
             }
         }

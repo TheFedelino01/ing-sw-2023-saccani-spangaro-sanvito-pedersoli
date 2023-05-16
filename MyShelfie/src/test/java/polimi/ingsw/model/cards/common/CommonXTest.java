@@ -27,18 +27,17 @@ public class CommonXTest {
      */
     @BeforeEach
     void setUp() {
-        CommonCardFactory c = new CommonCardFactory();
         for (CardCommonType t : CardCommonType.values())
-            model.add(c.getCommonCard(t));
+            model.add(CommonCardFactory.getCommonCard(t));
     }
 
     /**
-    C X C X X<br>
-    X C X X X<br>
-    C X C X X<br>
-    X X X X X<br>
-    X X X X X<br>
-    X X X X X<br>
+     * C X C X X<br>
+     * X C X X X<br>
+     * C X C X X<br>
+     * X X X X X<br>
+     * X X X X X<br>
+     * X X X X X<br>
      */
     @Test
     @DisplayName("First test X")
@@ -47,25 +46,26 @@ public class CommonXTest {
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if ((i == 0 && j == 0) ||
-                        (i == 0 && j == 2) ||
-                        (i == 2 && j == 0) ||
-                        (i == 2 && j == 2) ||
-                        (i == 1 && j == 1))
+                    (i == 0 && j == 2) ||
+                    (i == 2 && j == 0) ||
+                    (i == 2 && j == 2) ||
+                    (i == 1 && j == 1))
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
                 else
                     test.setSingleTile(new Tile(TileType.randomTileCAT()), i, j);
+                test.setFreeSpace(test.getFreeSpace() - 1);
             }
         }
         assertTrue(model.get(10).verify(test));
     }
 
     /**
-    N N N N N<br>
-    N N N N N<br>
-    N N N N N<br>
-    X C X C X<br>
-    X X C X X<br>
-    X C X C X<br>
+     * N N N N N<br>
+     * N N N N N<br>
+     * N N N N N<br>
+     * X C X C X<br>
+     * X X C X X<br>
+     * X C X C X<br>
      */
     @Test
     @DisplayName("Second test X")
@@ -74,15 +74,16 @@ public class CommonXTest {
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 if ((r == 5 && c == 1) ||
-                        (r == 5 && c == 3) ||
-                        (r == 4 && c == 2) ||
-                        (r == 3 && c == 3) ||
-                        (r == 3 && c == 1))
+                    (r == 5 && c == 3) ||
+                    (r == 4 && c == 2) ||
+                    (r == 3 && c == 3) ||
+                    (r == 3 && c == 1))
                     test.setSingleTile(new Tile(TileType.USED), r, c);
                 else if (r > 2)
                     test.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 else
                     test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+                test.setFreeSpace(test.getFreeSpace() - 1);
             }
         }
         assertTrue(model.get(10).verify(test));
@@ -95,10 +96,12 @@ public class CommonXTest {
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if ((i == 0 && j == 0) ||
-                        (i == 0 && j == 2) ||
-                        (i == 2 && j == 0) ||
-                        (i == 2 && j == 2))
+                    (i == 0 && j == 2) ||
+                    (i == 2 && j == 0) ||
+                    (i == 2 && j == 2)) {
                     test.setSingleTile(new Tile(TileType.CAT), i, j);
+                    test.setFreeSpace(test.getFreeSpace() - 1);
+                }
                 else
                     test.setSingleTile(new Tile(TileType.NOT_USED), i, j);
             }

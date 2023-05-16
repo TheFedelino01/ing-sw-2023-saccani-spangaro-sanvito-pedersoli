@@ -48,6 +48,9 @@ public class Shelf implements Serializable {
         return freeSpace;
     }
 
+    public Integer getOccupiedSpace(){
+        return (DefaultValue.NumOfRowsShelf*DefaultValue.NumOfColumnsShelf)-freeSpace;
+    }
 
     public Tile get(int r, int c) {
         return shelf[r][c];
@@ -133,6 +136,11 @@ public class Shelf implements Serializable {
             }
         }
         return true;
+    }
+
+    @Deprecated
+    public void setFreeSpace(int freeSpace){
+        this.freeSpace = freeSpace;
     }
 
 }

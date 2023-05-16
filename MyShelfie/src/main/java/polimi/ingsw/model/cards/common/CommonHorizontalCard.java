@@ -28,6 +28,8 @@ public class CommonHorizontalCard extends CommonCard {
         int sum = 0;
         switch (param) {
             case (0) -> {       //4 lines with up to 3 different types of tiles
+                if (toCheck.getOccupiedSpace() < 20)
+                    return false;
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     int ok = check(toCheck, i);
                     if (ok <= 3)
@@ -39,6 +41,8 @@ public class CommonHorizontalCard extends CommonCard {
                 return false;
             }
             case (1) -> {       //2 rows of 5 different types of tiles
+                if (toCheck.getOccupiedSpace() < 10)
+                    return false;
                 for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
                     int ok = check(toCheck, i);
                     if (ok == 5)
