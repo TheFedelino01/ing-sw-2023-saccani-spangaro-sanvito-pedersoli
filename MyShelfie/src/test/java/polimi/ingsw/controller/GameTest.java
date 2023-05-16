@@ -1,13 +1,14 @@
 package polimi.ingsw.controller;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import polimi.ingsw.model.DefaultValue;
+import polimi.ingsw.model.Player;
+import polimi.ingsw.model.Tile;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.exceptions.GameEndedException;
-import polimi.ingsw.model.Player;
 
 import java.util.Random;
 
@@ -53,9 +54,20 @@ public class GameTest {
             if (i == 5) {
                 i = 0;
             }
+            Tile tile = gameController.whoIsPlaying().getInHandTile().get(0);
             Player p = gameController.whoIsPlaying();
             int freeSpace = p.getShelf().getFreeSpace();
             gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
+            int pA = -1, pB = -1;
+            for (int j = 0; j < 5; j++) {
+                for (int k = 0; k < 5; k++) {
+                    if (p.getShelf().get(j  , k).isSameType(tile.getType())) {
+                        pA = j;
+                        pB = k;
+                        break;
+                    }
+                }
+            }
             //check if the tile is correctly added to the shelf
             assert (p.getShelf().getFreeSpace() == freeSpace - 1);
             i = i + 1;
@@ -102,6 +114,7 @@ public class GameTest {
             Player p = gameController.whoIsPlaying();
             int freeSpace = p.getShelf().getFreeSpace();
             gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
+
 
             a = a + 1;
             if (a == 3) {
