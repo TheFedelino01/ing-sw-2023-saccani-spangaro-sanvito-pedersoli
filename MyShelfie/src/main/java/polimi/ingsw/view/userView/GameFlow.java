@@ -228,8 +228,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                 //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
 
-            case GRABBED_TILE -> {
-                ui.show_grabbedTileMainMsg(event.getModel(), nickname);
+            case GRABBED_TILE,ASK_TO_SELECT_TILE_TO_PLACE -> {
+                if(!event.getType().equals(ASK_TO_SELECT_TILE_TO_PLACE))
+                    ui.show_grabbedTileMainMsg(event.getModel(), nickname);
 
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //It's my turn, so I'm the current playing
@@ -252,7 +253,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                 ui.addImportantEvent("Player " + event.getModel().getNicknameCurrentPlaying() + " has positioned a Tile on his shelf!");
                 if (event.getModel().getHandOfCurrentPlaying().size() > 0 && event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     //Ask to place other tiles
-                    events.add(event.getModel(), EventType.GRABBED_TILE);
+                    events.add(event.getModel(), EventType.ASK_TO_SELECT_TILE_TO_PLACE);
                 }
                 //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 

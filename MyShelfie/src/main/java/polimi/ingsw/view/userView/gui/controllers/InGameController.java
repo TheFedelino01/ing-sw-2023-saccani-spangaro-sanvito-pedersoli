@@ -1,6 +1,7 @@
 package polimi.ingsw.view.userView.gui.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -83,29 +84,31 @@ public class InGameController extends GenericController {
     private boolean needToDetectColSelection = false, needToDetectTileInHandGrabbing = false;
 
     public void actionClickOnTile(MouseEvent e) {
-        if (e.getButton() == MouseButton.PRIMARY) {
-            IntRecord rowCol = getRowColFrom(e, "pg");
-            Integer row = rowCol.row();
-            Integer col = rowCol.col();
+        if(!needToDetectColSelection && !needToDetectTileInHandGrabbing) {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                IntRecord rowCol = getRowColFrom(e, "pg");
+                Integer row = rowCol.row();
+                Integer col = rowCol.col();
 
-            if (!firstClick) {
-                //Second click so client selected first and last Tile in the playground
-                rowSecondTile = row;
-                colSecondTile = col;
-                System.out.println(rowFirstTile + ":" + colFirstTile + " - " + rowSecondTile + ":" + colSecondTile);
-                checkAlignment(rowFirstTile, colFirstTile, rowSecondTile, colSecondTile);
+                if (!firstClick) {
+                    //Second click so client selected first and last Tile in the playground
+                    rowSecondTile = row;
+                    colSecondTile = col;
+                    System.out.println(rowFirstTile + ":" + colFirstTile + " - " + rowSecondTile + ":" + colSecondTile);
+                    checkAlignment(rowFirstTile, colFirstTile, rowSecondTile, colSecondTile);
+                } else {
+                    rowFirstTile = row;
+                    colFirstTile = col;
+                }
+                firstClick = !firstClick;
             } else {
-                rowFirstTile = row;
-                colFirstTile = col;
+                this.rowFirstTile = null;
+                this.colFirstTile = null;
+                this.rowSecondTile = null;
+                this.colSecondTile = null;
+                firstClick = true;
+                makeTilesNotSelectedExpectTheFirstOne();
             }
-            firstClick = !firstClick;
-        } else {
-            this.rowFirstTile = null;
-            this.colFirstTile = null;
-            this.rowSecondTile = null;
-            this.colSecondTile = null;
-            firstClick = true;
-            makeTilesNotSelectedExpectTheFirstOne();
         }
 
     }
@@ -127,7 +130,7 @@ public class InGameController extends GenericController {
         return new IntRecord(row, col);
     }
 
-    public void actionMouseEnteredTile(MouseEvent e) throws IOException {
+    public void actionMouseEnteredTile(MouseEvent e) {
         if (rowFirstTile != null && colFirstTile != null && rowSecondTile == null && colSecondTile == null) {
             makeTilesNotSelectedExpectTheFirstOne();
             //I make visible the selected tiles until second click
@@ -160,10 +163,16 @@ public class InGameController extends GenericController {
     }
 
     public void actionTileShelfieClick(MouseEvent e) {
-        if (needToDetectColSelection) {
+        if (needToDetectColSelection && !needToDetectTileInHandGrabbing) {
+            deselectAllCols();
             Integer colToPlaceTiles = getRowColFrom(e, "youShelf").col();
             needToDetectColSelection = false;
+
             needToDetectTileInHandGrabbing = true;
+            changeCursorOnTilesPlayground(Cursor.DEFAULT);
+            changeCursorOnTilesMyShelf(Cursor.DEFAULT);
+            changeCursorOnInHandTiles(Cursor.HAND);
+
             getInputReaderGUI().addTxt(colToPlaceTiles.toString());
         }
     }
@@ -186,6 +195,33 @@ public class InGameController extends GenericController {
             actionSendMessage(null);
         }
     }
+
+    public void actionMouseEntered(MouseEvent e){
+        if(needToDetectColSelection) {
+            Pane tilePane;
+            deselectAllCols();
+            IntRecord rowCol = getRowColFrom(e, "youShelf");
+            for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+                tilePane = (Pane) mainAnchor.lookup("#youShelf"+r+rowCol.col());
+                tilePane.getStyleClass().add("selectedCols");
+            }
+        }
+    }
+    public void actionMouseExited(MouseEvent e){
+        deselectAllCols();
+    }
+    private void deselectAllCols(){
+        Pane tilePane;
+        for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
+            for(int c=0; c<DefaultValue.NumOfColumnsShelf;c++){
+                tilePane = (Pane) mainAnchor.lookup("#youShelf"+r+c);
+                if (tilePane.getStyleClass().contains("selectedCols")) {
+                    tilePane.getStyleClass().remove("selectedCols");
+                }
+            }
+        }
+    }
+
 
 
     private List<IntRecord> getPointsBetween(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
@@ -501,12 +537,57 @@ public class InGameController extends GenericController {
 
     public void changeTurn(GameModelImmutable model, String nickname) {
         needToDetectTileInHandGrabbing = false;
+
+        setMsgToShow("Next turn is up to: "+model.getNicknameCurrentPlaying(),true);
+        changeCursorOnTilesPlayground(Cursor.HAND);
+        changeCursorOnTilesMyShelf(Cursor.DEFAULT);
+        changeCursorOnInHandTiles(Cursor.DEFAULT);
     }
 
 
     public void showSelectionColShelfie() {
         //Now the client can select a col from his shelfie to position all tiles
         needToDetectColSelection = true;
+        changeCursorOnTilesPlayground(Cursor.DEFAULT);
+        changeCursorOnTilesMyShelf(Cursor.HAND);
+        changeCursorOnInHandTiles(Cursor.DEFAULT);
+    }
+
+    private void changeCursorOnTilesPlayground(Cursor cu){
+        Pane tilePane;
+        for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
+            for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
+                tilePane = (Pane) tilesPane.lookup("#pg" + r + c);
+
+                if (tilePane != null) {
+                        tilePane.setCursor(cu);
+                }
+
+            }
+        }
+    }
+    private void changeCursorOnTilesMyShelf(Cursor cu){
+        Pane paneTile;
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                paneTile = (Pane) mainAnchor.lookup("#youShelf" + r + c);
+                if(paneTile!=null){
+                    paneTile.setCursor(cu);
+                }
+            }
+        }
+    }
+    private void changeCursorOnInHandTiles(Cursor cu){
+        Pane paneTile;
+        paneTile = (Pane) mainAnchor.lookup("#pgGrab00");
+        paneTile.setCursor(cu);
+
+        paneTile = (Pane) mainAnchor.lookup("#pgGrab01");
+        paneTile.setCursor(cu);
+
+        paneTile = (Pane) mainAnchor.lookup("#pgGrab02");
+        paneTile.setCursor(cu);
+
     }
 
 
