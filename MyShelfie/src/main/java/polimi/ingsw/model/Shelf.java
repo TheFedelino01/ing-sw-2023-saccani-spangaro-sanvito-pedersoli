@@ -142,5 +142,23 @@ public class Shelf implements Serializable {
         this.freeSpace = freeSpace;
     }
 
+    public int getMaxFreeSpacesInACol() {
+        int max=0;
+        int tmp=0;
+        for(int c=0; c<DefaultValue.NumOfColumnsShelf;c++){
+            if(tmp>max){
+                max=tmp;
+            }
+            tmp=0;
+            for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
+                if(!get(r,c).getType().equals(TileType.NOT_USED)){
+                    break;
+                }else{
+                    tmp++;
+                }
+            }
+        }
+        return max;
+    }
 }
 

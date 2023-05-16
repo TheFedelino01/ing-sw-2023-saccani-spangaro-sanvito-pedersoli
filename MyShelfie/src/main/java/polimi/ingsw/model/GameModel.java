@@ -279,12 +279,15 @@ public class GameModel {
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
         List<Tile> ris;
         try {
-            ris = pg.grabTile(x, y, direction, num);
+            if(p.getMaxFreeSpacesInACol()>=num) {
+                ris = pg.grabTile(x, y, direction, num);
 
-            //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
-            p.setInHandTile(ris);
-            listenersHandler.notify_grabbedTile(this);
-
+                //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
+                p.setInHandTile(ris);
+                listenersHandler.notify_grabbedTile(this);
+            }else{
+                throw new TileGrabbedNotCorrectException();
+            }
         } catch (TileGrabbedNotCorrectException e) {
             //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
             listenersHandler.notify_grabbedTileNotCorrect(this);

@@ -117,6 +117,10 @@ public class Player implements Serializable {
         this.connected = connected;
     }
 
+    public int getMaxFreeSpacesInACol(){
+        return this.shelf.getMaxFreeSpacesInACol();
+    }
+
     public void addListener(GameListener obj) {
         listeners.add(obj);
     }
