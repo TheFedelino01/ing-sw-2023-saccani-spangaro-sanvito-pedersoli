@@ -28,8 +28,8 @@ public class PlaygroundTest2 {
     }
 
     @Test
-    @DisplayName("All tile have free side")
-    void testFreeSide() {
+    @DisplayName("All tile have free side1")
+    void testFreeSide1() {
         Playground p = new Playground(2);
         p.setEmptyPlayground();
 
@@ -43,4 +43,20 @@ public class PlaygroundTest2 {
         assert (p.checkBeforeGrab(1, 2, Direction.RIGHT, 2));
         assert (p.allTileHaveAllFreeSide());
     }
+    @Test
+    @DisplayName("All tile have free side2")
+    void testFreeSide2() {
+        Playground p = new Playground(2);
+        p.setEmptyPlayground();
+
+        //random tiles that aren't touching
+        p.setSingleTile(TileType.TROPHY, 3, 6);
+        p.setSingleTile(TileType.TROPHY, 5, 1);
+        p.setSingleTile(TileType.TROPHY, 7, 0);
+
+
+
+        assert (p.allTileHaveAllFreeSide());
+    }
+
 }
