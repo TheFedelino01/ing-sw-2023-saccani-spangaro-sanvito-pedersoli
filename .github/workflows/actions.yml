@@ -4,6 +4,7 @@ jobs:
   build:
     name: Build and Run Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
       issues: read
