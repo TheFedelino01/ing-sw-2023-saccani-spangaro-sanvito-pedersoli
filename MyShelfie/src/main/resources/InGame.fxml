@@ -669,18 +669,6 @@
       <TextField fx:id="messageText" layoutX="120.0" onKeyPressed="#actionKeyPressedOnTextMessage" prefHeight="26.0" prefWidth="240.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="640.0" />
       <Pane layoutX="10.0" layoutY="703.0" opacity="0.6" prefHeight="145.0" prefWidth="566.0" styleClass="backgroundWall" stylesheets="@style.css" AnchorPane.topAnchor="703.0" />
       <ListView fx:id="importantEventsList" prefHeight="136.0" prefWidth="556.0" styleClass="backgroundTransparent" stylesheets="@style.css" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="708.0" />
-      <Pane layoutX="495.0" layoutY="697.0" stylesheets="@style.css" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="100.0">
-         <children>
-            <Pane fx:id="cc0" layoutX="5.0" layoutY="5.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="110.0" prefWidth="190.0" style="-fx-background-color: white;" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="tileHover" />
-                  <String fx:value="roundBorder" />
-               </styleClass>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-         </children>
-      </Pane>
       <Pane fx:id="youPersonal" layoutX="330.0" layoutY="220.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="200.0" prefWidth="130.0" style="-fx-background-color: white;" stylesheets="@style.css" AnchorPane.leftAnchor="425.0" AnchorPane.topAnchor="460.0">
          <styleClass>
             <String fx:value="tileHover" />
@@ -692,6 +680,18 @@
       <Pane layoutX="795.0" layoutY="697.0" stylesheets="@style.css" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="220.0">
          <children>
             <Pane fx:id="cc1" layoutX="5.0" layoutY="5.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="110.0" prefWidth="190.0" style="-fx-background-color: white;" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="tileHover" />
+                  <String fx:value="roundBorder" />
+               </styleClass>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Pane>
+         </children>
+      </Pane>
+      <Pane layoutX="495.0" layoutY="697.0" stylesheets="@style.css" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Pane fx:id="cc0" layoutX="5.0" layoutY="5.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="110.0" prefWidth="190.0" style="-fx-background-color: white;" stylesheets="@style.css">
                <styleClass>
                   <String fx:value="tileHover" />
                   <String fx:value="roundBorder" />
