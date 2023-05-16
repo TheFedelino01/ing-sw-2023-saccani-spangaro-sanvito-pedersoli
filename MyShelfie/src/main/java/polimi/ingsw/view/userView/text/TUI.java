@@ -1,7 +1,7 @@
 package polimi.ingsw.view.userView.text;
 
 import org.fusesource.jansi.AnsiConsole;
-import polimi.ingsw.model.cards.common.CommonCard;
+import polimi.ingsw.model.cards.common.*;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.gameModelView.GameModelImmutable;

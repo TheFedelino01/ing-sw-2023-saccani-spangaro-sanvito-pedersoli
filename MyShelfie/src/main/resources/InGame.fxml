@@ -552,7 +552,7 @@
             <Image url="@img/img/misc/Sacchetto_Aperto.png" />
          </image>
       </ImageView>
-      <Label fx:id="pgTilesTotal" alignment="CENTER" layoutX="605.0" prefWidth="120.0" text="120" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="605.0">
+      <Label fx:id="pgTilesTotal" alignment="CENTER" layoutX="605.0" prefWidth="120.0" text="120" textFill="WHITE" AnchorPane.leftAnchor="605.0" AnchorPane.topAnchor="766.0">
          <font>
             <Font name="Arial Black" size="40.0" />
          </font>
@@ -569,123 +569,123 @@
       </Label>
       <Pane layoutX="59.0" layoutY="79.0">
          <children>
-            <Pane fx:id="youShelf50" layoutX="2.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf50" layoutX="2.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf40" layoutX="2.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf40" layoutX="2.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf30" layoutX="2.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf30" layoutX="2.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf20" layoutX="2.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf20" layoutX="2.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf10" layoutX="1.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf10" layoutX="1.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf00" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf00" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf51" layoutX="62.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf51" layoutX="62.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf41" layoutX="62.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf41" layoutX="62.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf31" layoutX="62.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf31" layoutX="62.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf21" layoutX="62.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf21" layoutX="62.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf11" layoutX="62.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf11" layoutX="62.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf01" layoutX="62.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf01" layoutX="62.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf52" layoutX="122.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf52" layoutX="122.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf42" layoutX="123.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf42" layoutX="123.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf32" layoutX="124.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf32" layoutX="124.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf22" layoutX="124.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf22" layoutX="124.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf12" layoutX="124.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf12" layoutX="124.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf02" layoutX="124.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf02" layoutX="124.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf53" layoutX="184.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf53" layoutX="184.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf43" layoutX="184.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf43" layoutX="184.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf33" layoutX="184.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf33" layoutX="184.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf23" layoutX="185.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf23" layoutX="185.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf13" layoutX="185.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf13" layoutX="185.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf03" layoutX="186.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf03" layoutX="186.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf54" layoutX="245.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf54" layoutX="245.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf44" layoutX="245.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf44" layoutX="245.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf34" layoutX="245.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf34" layoutX="245.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf24" layoutX="246.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf24" layoutX="246.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf04" layoutX="248.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf04" layoutX="248.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>
-            <Pane fx:id="youShelf14" layoutX="247.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+            <Pane fx:id="youShelf14" layoutX="247.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Pane>

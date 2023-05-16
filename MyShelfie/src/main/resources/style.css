@@ -640,3 +640,8 @@
     -fx-background-image: url("img/img/Publisher_material/arrow.png");
     -fx-background-size: cover;
 }
+
+.selectedCols{
+    -fx-border-color: #ffffff;
+    -fx-border-width: 4px;
+}
