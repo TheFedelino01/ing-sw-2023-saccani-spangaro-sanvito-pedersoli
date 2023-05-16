@@ -3,6 +3,7 @@ package polimi.ingsw.Controller;
 import polimi.ingsw.Listener.GameListener;
 import polimi.ingsw.Model.Cards.Common.CommonCard;
 import polimi.ingsw.Model.Cards.Common.CommonCardFactory;
+import polimi.ingsw.Model.Cards.Common.CommonMethods;
 import polimi.ingsw.Model.Cards.Goal.CardGoal;
 import polimi.ingsw.Model.Chat.Message;
 import polimi.ingsw.Model.*;
@@ -384,7 +385,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             for (TileType t : TileType.getUsableValues()) {
                 allTilesFound = false;
                 while (!allTilesFound) {
-                    toCheck = checkAdjacent(t, p.getShelf(), 0, 0) - 1;
+                    toCheck = CommonMethods.checkAdjacent(t, p.getShelf(), 0, 0);
                     if (toCheck == 3) {
                         p.addPoint(new Point(2), new GameModelImmutable(model));
                     } else if (toCheck == 4) {
@@ -399,144 +400,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                     allTilesFound = Arrays.stream(p.getShelf().getShelf())
                             .flatMap(Arrays::stream)
                             .noneMatch(x -> x.isSameType(t));
-                }
-            }
-        }
-    }
-
-    private int checkAdjacent(TileType typeToCheck, Shelf temp, int r, int c) {
-        int res = 0, col, row = 0;
-        boolean found = false;
-
-        if (temp.get(r, c).isSameType(typeToCheck)) {
-            temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-            res++;
-        } else {
-            while (row < DefaultValue.NumOfRowsShelf && !found) {
-                col = 0;
-                while (col < DefaultValue.NumOfColumnsShelf && !found) {
-                    if (temp.get(row, col).isSameType(typeToCheck)) {
-                        temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-                        res++;
-                        found = true;
-                        r = row;
-                        c = col;
-                    }
-                    col++;
-                }
-                row++;
-            }
-        }
-        switch (r) {
-            case (0) -> {
-                switch (c) {
-                    case (0) -> {
-                        if (temp.get(r, c + 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c + 1);
-                        }
-                        if (temp.get(r + 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r + 1, c);
-                        }
-                        return res;
-                    }
-                    case (DefaultValue.NumOfColumnsShelf - 1) -> {
-                        if (temp.get(r, c - 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c - 1);
-                        }
-                        if (temp.get(r + 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r + 1, 0);
-                        }
-                        return res;
-                    }
-                    default -> {
-                        if (temp.get(r, c - 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c - 1);
-                        }
-                        if (temp.get(r + 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r + 1, c);
-                        }
-                        if (temp.get(r, c + 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c + 1);
-                        }
-                        return res;
-                    }
-                }
-            }
-            case (DefaultValue.NumOfRowsShelf - 1) -> {
-                switch (c) {
-                    case (0) -> {
-                        if (temp.get(r, c + 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c + 1);
-                        }
-                        if (temp.get(r - 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r - 1, c);
-                        }
-                        return res;
-                    }
-                    case (DefaultValue.NumOfColumnsShelf - 1) -> {
-                        if (temp.get(r, c - 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c - 1);
-                        }
-                        if (temp.get(r - 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r - 1, c);
-                        }
-                        return res;
-                    }
-                    default -> {
-                        if (temp.get(r, c - 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c - 1);
-                        }
-                        if (temp.get(r - 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r - 1, c);
-                        }
-                        if (temp.get(r, c + 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c + 1);
-                        }
-                        return res;
-                    }
-                }
-            }
-            default -> {
-                switch (c) {
-                    case (0) -> {
-                        if (temp.get(r, c + 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c + 1);
-                        }
-                        if (temp.get(r - 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r - 1, c);
-                        }
-                        if (temp.get(r + 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r + 1, c);
-                        }
-                        return res;
-                    }
-                    case (DefaultValue.NumOfColumnsShelf - 1) -> {
-                        if (temp.get(r, c - 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c - 1);
-                        }
-                        if (temp.get(r - 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r - 1, c);
-                        }
-                        if (temp.get(r + 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r + 1, c);
-                        }
-                        return res;
-                    }
-                    default -> {
-                        if (temp.get(r, c - 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c - 1);
-                        }
-                        if (temp.get(r - 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r - 1, c);
-                        }
-                        if (temp.get(r, c + 1).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r, c + 1);
-                        }
-                        if (temp.get(r + 1, c).isSameType(typeToCheck)) {
-                            res += checkAdjacent(typeToCheck, temp, r + 1, c);
-                        }
-                        return res;
-                    }
                 }
             }
         }
