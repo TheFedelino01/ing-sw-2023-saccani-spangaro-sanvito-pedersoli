@@ -1,4 +1,4 @@
-package polimi.ingsw.Game;
+package polimi.ingsw.game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
