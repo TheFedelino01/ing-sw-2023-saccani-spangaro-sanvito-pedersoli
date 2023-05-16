@@ -148,15 +148,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                     selectionok = askSelectGame();
                 } while (!selectionok);
             }
-            case GAME_ID_NOT_EXISTS -> {
-                nickname = null;
-                Integer gameId = askGameId();
-                if (gameId != -1) {
-                    joinGame(nickname, gameId);
-                } else {
-                    events.add(null, APP_MENU);
-                }
-            }
+
             case JOIN_UNABLE_NICKNAME_ALREADY_IN -> {
                 nickname = null;
                 events.add(null, APP_MENU);
@@ -168,6 +160,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                 ui.addImportantEvent("WARNING> Game is Full!");
             }
             case GENERIC_ERROR_WHEN_ENTRYING_GAME -> {
+                nickname=null;
                 ui.show_returnToMenuMsg();
                 try {
                     this.inputParser.getDataToProcess().popData();
@@ -675,7 +668,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void gameIdNotExists(int gameid) throws RemoteException {
-        events.add(null, GAME_ID_NOT_EXISTS);
+        ui.show_noAvailableGamesToJoin("No currently game available with the following GameID: "+gameid);
+        events.add(null, GENERIC_ERROR_WHEN_ENTRYING_GAME);
     }
 
     @Override
