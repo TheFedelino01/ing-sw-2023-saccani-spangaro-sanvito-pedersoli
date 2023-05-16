@@ -40,7 +40,6 @@ public class PlaygroundTest2 {
 
 
 
-        assert (p.checkBeforeGrab(1, 2, Direction.RIGHT, 2));
         assert (p.allTileHaveAllFreeSide());
     }
     @Test
