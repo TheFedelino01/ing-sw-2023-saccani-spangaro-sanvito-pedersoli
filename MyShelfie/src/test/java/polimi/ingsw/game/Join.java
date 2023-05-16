@@ -139,29 +139,44 @@ public class Join {
     void joinFirst() throws RemoteException {
 
         runningGames.add((GameController) mainController.createGame(lis, p1.getNickname()));
+        assertEquals(1, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
         mainController.joinFirstAvailableGame(lis, p2.getNickname());
+        assertEquals(2, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
         mainController.joinFirstAvailableGame(lis, p3.getNickname());
+        assertEquals(3, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
         mainController.joinFirstAvailableGame(lis, p4.getNickname());
-        mainController.joinFirstAvailableGame(lis, p5.getNickname());
-        mainController.joinFirstAvailableGame(lis, p6.getNickname());
-
         assertEquals(4, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
-        //assertThrows(MaxPlayersInException.class,() -> mainController.joinFirstAvailableGame(lis, p5.getNickname()),"Game is full"); //?
-        //assertThrows(RemoteException.class,() -> mainController.joinFirstAvailableGame(lis, p6.getNickname()),"Game is full2"); //?
-
+        mainController.joinFirstAvailableGame(lis, p5.getNickname());
+        assertEquals(4, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
+        mainController.joinFirstAvailableGame(lis, p6.getNickname());
+        assertEquals(4, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
+        mainController.leaveGame(lis,p1.getNickname(),runningGames.get(0).getGameId());
+        mainController.leaveGame(lis,p2.getNickname(),runningGames.get(0).getGameId());
+        mainController.leaveGame(lis,p3.getNickname(),runningGames.get(0).getGameId());
+        mainController.leaveGame(lis,p4.getNickname(),runningGames.get(0).getGameId());
     }
 
     @Test
     @DisplayName("JoinById")
     void joinID() throws RemoteException {
         runningGames.add((GameController) mainController.createGame(lis, p1.getNickname()));
+        assertEquals(1, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
         mainController.joinGame(lis, p2.getNickname(), runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getGameId());
+        assertEquals(2, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
         mainController.joinGame(lis, p3.getNickname(), runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getGameId());
+        assertEquals(3, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
         mainController.joinGame(lis, p4.getNickname(), runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getGameId());
+        assertEquals(4, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
         mainController.joinGame(lis, p5.getNickname(), runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getGameId());
+        assertEquals(4, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
         mainController.joinGame(lis, p6.getNickname(), runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getGameId());
 
         assertEquals(4, runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getNumOfOnlinePlayers());
+        mainController.leaveGame(lis,p1.getNickname(),runningGames.get(0).getGameId());
+        mainController.leaveGame(lis,p2.getNickname(),runningGames.get(0).getGameId());
+        mainController.leaveGame(lis,p3.getNickname(),runningGames.get(0).getGameId());
+        mainController.leaveGame(lis,p4.getNickname(),runningGames.get(0).getGameId());
+
 
         //assertThrows(MaxPlayersInException.class,() -> mainController.joinGame(lis, p5.getNickname(),runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getGameId()),"Game is full"); //?
         //assertThrows(RemoteException.class,() -> mainController.joinGame(lis, p6.getNickname(),runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT))).toList().get(0).getGameId()),"Game is full2"); //?

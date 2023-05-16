@@ -395,19 +395,14 @@ public class Disconnection {
     Player p3 = new Player("3");
     Player p4 = new Player("4");
 
-    @BeforeEach
-    void setUp() {
-        gameController = new GameController();
-        mainController = MainController.getInstance();
-
-    }
 
     @Disabled
     @Test
     @DisplayName("Disconnection with 4 players")
 
     void joinFirst() throws RemoteException {
-
+        gameController = new GameController();
+        mainController = MainController.getInstance();
         gameController = (GameController) mainController.createGame(lis1, p1.getNickname());
         mainController.joinFirstAvailableGame(lis2, p2.getNickname());
         mainController.joinFirstAvailableGame(lis3, p3.getNickname());
@@ -425,6 +420,7 @@ public class Disconnection {
 
 
         mainController.reconnect(lis2, p2.getNickname(), gameController.getGameId());
+        //non si riconnette
 
 
     }
