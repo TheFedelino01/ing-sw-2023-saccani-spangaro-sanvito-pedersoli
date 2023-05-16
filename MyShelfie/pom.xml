@@ -99,7 +99,7 @@
                     <artifactId>javafx-maven-plugin</artifactId>
                     <version>0.0.8</version>
                     <configuration>
-                        <mainClass>polimi.ingsw.View.userView.gui.GUIApplication</mainClass>
+                        <mainClass>polimi.ingsw.view.userView.gui.GUIApplication</mainClass>
                     </configuration>
                 </plugin>
             <plugin>
@@ -141,7 +141,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>polimi.ingsw.Main.MainServer</mainClass>
+                                    <mainClass>polimi.ingsw.main.MainServer</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -158,7 +158,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>polimi.ingsw.Main.MainClient</mainClass>
+                                    <mainClass>polimi.ingsw.main.MainClient</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
