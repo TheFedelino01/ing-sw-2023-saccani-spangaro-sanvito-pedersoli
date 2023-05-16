@@ -77,10 +77,19 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.addPlayer(p);
     }
 
+    /**
+     * @return the list of the players
+     */
     public List<Player> getPlayers() {
         return model.getPlayers();
     }
 
+    /**
+     * Recover the player with the nickname @param to the game
+     * @param p Player that want to reconnect
+     * @throws PlayerAlreadyInException
+     * @throws MaxPlayersInException
+     */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
         model.reconnectPlayer(p);
     }
@@ -94,6 +103,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getNumOfPlayers();
     }
 
+    /**
+     *
+     * @return the number of players that are in the game
+     */
     public int getNumOfOnlinePlayers() {
         return model.getNumOfOnlinePlayers();
     }
@@ -247,11 +260,23 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getCurrentPlaying();
     }
 
+    /**
+     * Return the player who is currently playing the turn
+     * @param p the player that you want to know if is the current playing
+     * @return true if the player is the current playing, false else
+     */
     private boolean isPlayerTheCurrentPlaying(Player p) {
         return whoIsPlaying().equals(p);
     }
 
-
+    /**
+     * Given the coordinates of a tile, the direction and the number of tiles, the player can grab the tiles
+     * @param p the nickname of the player
+     * @param x the x coordinate of the tile
+     * @param y the y coordinate of the tile
+     * @param direction the direction of the tile
+     * @param num the number of tiles you want to get
+     */
     public synchronized void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) {
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
             model.grabTileFromPlayground(model.getPlayerEntity(p), x, y, direction, num);

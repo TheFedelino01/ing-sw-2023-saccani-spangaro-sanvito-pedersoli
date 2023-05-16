@@ -31,4 +31,5 @@ public class CommonSixGroupTest extends ShelfConverter {
         Shelf test = this.setShelf(matrix);
         assertFalse(card.verify(test));
     }
+
 }
