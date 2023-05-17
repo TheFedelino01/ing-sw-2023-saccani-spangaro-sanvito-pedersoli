@@ -1,6 +1,7 @@
 package polimi.ingsw.model.cards.common;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.enumeration.CardCommonType;
@@ -216,6 +217,136 @@ public class CommonFourGroupsTest extends ShelfConverter {
                 {"C", "F", "F", "F", "C"},
                 {"C", "", "F", "", "C"},
                 {"A", "A", "", "", "C"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Four Groups of 4 Tiles #13")
+    public void testFourGroups13() {
+        String[][] matrix = {
+                {"", "A", "F", "", ""},
+                {"C", "A", "A", "A", ""},
+                {"C", "", "F", "", "F"},
+                {"C", "F", "F", "F", "F"},
+                {"C", "", "F", "", "F"},
+                {"A", "A", "", "", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Four Groups of 4 Tiles #14")
+    public void testFourGroups14() {
+        String[][] matrix = {
+                {"C", "C", "C", "C", "C"},
+                {"C", "A", "A", "A", ""},
+                {"C", "", "F", "", "F"},
+                {"C", "F", "F", "F", "F"},
+                {"C", "", "F", "", "F"},
+                {"A", "A", "A", "A", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Four Groups of 4 Tiles #15")
+    public void testFourGroups15() {
+        String[][] matrix = {
+                {"A", "C", "C", "C", "C"},
+                {"A", "", "A", "A", ""},
+                {"A", "", "F", "", "F"},
+                {"A", "F", "F", "F", "F"},
+                {"", "", "F", "", "F"},
+                {"A", "A", "A", "A", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Four Groups of 4 Tiles #16")
+    public void testFourGroups16() {
+        String[][] matrix = {
+                {"A", "P", "P", "P", "P"},
+                {"A", "C", "A", "A", ""},
+                {"A", "C", "A", "A", "F"},
+                {"A", "C", "F", "F", "F"},
+                {"", "C", "F", "", "F"},
+                {"", "", "A", "A", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Four Groups of 4 Tiles #17")
+    public void testFourGroups17() {
+        String[][] matrix = {
+                {"C", "A", "A", "P", "P"},
+                {"C", "C", "C", "A", "A"},
+                {"A", "C", "A", "A", "F"},
+                {"A", "C", "F", "F", "F"},
+                {"", "C", "F", "", "F"},
+                {"", "", "A", "A", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Four Groups of 4 Tiles #18")
+    public void testFourGroups18() {
+        String[][] matrix = {
+                {"C", "C", "A", "P", "P"},
+                {"C", "C", "C", "A", "A"},
+                {"", "P", "A", "A", "F"},
+                {"", "P", "F", "F", "F"},
+                {"", "P", "F", "F", "F"},
+                {"", "P", "A", "A", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Four Groups of 4 Tiles #19")
+    public void testFourGroups19() {
+        String[][] matrix = {
+                {"C", "C", "", "P", "P"},
+                {"C", "C", "A", "A", "A"},
+                {"", "", "A", "P", "P"},
+                {"", "", "", "P", "P"},
+                {"", "", "", "F", "F"},
+                {"", "", "", "F", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertTrue(card.verify(test));
+    }
+    //Non dovrebbe essere vero?
+    @Disabled
+    @Test
+    @DisplayName("Four Groups of 4 Tiles #20")
+    public void testFourGroups20() {
+        String[][] matrix = {
+                {"", "T", "", "", "P"},
+                {"A", "T", "", "", "P"},
+                {"A", "T", "", "", "P"},
+                {"A", "T", "T", "P", "P"},
+                {"A", "", "T", "P", "P"},
+                {"T", "T", "T", "T", "P"}
         };
 
         Shelf test = setShelf(matrix);
