@@ -35,6 +35,7 @@ public class GameModel {
 
     private Integer indexWonPlayer = -1;
 
+
     private transient ListenersHandler listenersHandler;
 
 
@@ -118,16 +119,42 @@ public class GameModel {
         }
     }
 
-    public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
+    public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
         Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
         if (!pIn.isConnected()) {
             pIn.setConnected(true);
             listenersHandler.notify_playerReconnected(this, p.getNickname());
+
+            if (!isTheCurrentPlayerOnline()) {
+                nextTurn();
+            }
+
             //listenersHandler.notify_playerJoined(this);
         } else {
             System.out.println("ERROR: Trying to reconnect a player not offline!");
         }
+    }
+
+    public void setAsDisconnected(String nick) {
+        getPlayerEntity(nick).setConnected(false);
+        getPlayerEntity(nick).setNotReadyToStart();
+        listenersHandler.notify_playerDisconnected(this, nick);
+
+        if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
+            try {
+                nextTurn();
+            } catch (GameEndedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        if (this.status.equals(GameStatus.RUNNING) && getNumOfOnlinePlayers() == 1) {
+            listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
+        }
+
+
     }
 
 
@@ -139,7 +166,7 @@ public class GameModel {
     public boolean arePlayersReadyToStartAndEnough() {
         //Se tutti i giocatori sono pronti a giocare, inizia il game
         return players.stream().filter(Player::getReadyToStart)
-                       .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
+                .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
     }
 
 
@@ -236,10 +263,10 @@ public class GameModel {
     public void setStatus(GameStatus status) {
         //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
         if (status.equals(GameStatus.RUNNING) &&
-            ((players.size() < DefaultValue.minNumOfPlayer
-              || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
-              || !doAllPlayersHaveGoalCard())
-             || currentPlaying == -1)) {
+                ((players.size() < DefaultValue.minNumOfPlayer
+                        || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
+                        || !doAllPlayersHaveGoalCard())
+                        || currentPlaying == -1)) {
             throw new NotReadyToRunException();
         } else {
             this.status = status;
@@ -279,13 +306,13 @@ public class GameModel {
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
         List<Tile> ris;
         try {
-            if(p.getMaxFreeSpacesInACol()>=num) {
+            if (p.getMaxFreeSpacesInACol() >= num) {
                 ris = pg.grabTile(x, y, direction, num);
 
                 //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
                 p.setInHandTile(ris);
                 listenersHandler.notify_grabbedTile(this);
-            }else{
+            } else {
                 throw new TileGrabbedNotCorrectException();
             }
         } catch (TileGrabbedNotCorrectException e) {
@@ -297,7 +324,7 @@ public class GameModel {
 
     public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
         //Check if the player can position all the in hand tiles in this column (are there enough spaces?)
-        if(p.getNumofFreeSpacesInCol(column)>=p.getInHandTile().size()) {
+        if (p.getNumofFreeSpacesInCol(column) >= p.getInHandTile().size()) {
             //Player can place the tile
             Tile t = popInHandTilePlayer(p, type);
             if (t != null) {
@@ -310,8 +337,8 @@ public class GameModel {
             } else {
                 throw new PositioningATileNotGrabbedException();
             }
-        }else{
-            listenersHandler.notify_columnShelfTooSmall(this,column);
+        } else {
+            listenersHandler.notify_columnShelfTooSmall(this, column);
         }
 
     }
@@ -328,17 +355,34 @@ public class GameModel {
 
     public void nextTurn() throws GameEndedException {
         if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
-            if (players.get(currentPlaying).getInHandTile().size() == 0) {
-                currentPlaying = (currentPlaying + 1) % players.size();
-                if (currentPlaying.equals(firstFinishedPlayer)) {
-                    throw new GameEndedException();
+            if (players.get(currentPlaying).getInHandTile().size() != 0) {
+                if (!isTheCurrentPlayerOnline()) {
+                    //I remove the tiles that he has on hand
+                    players.get(currentPlaying).clearInHandTile();
                 } else {
-                    listenersHandler.notify_nextTurn(this);
+                    throw new NotEmptyHandException();
                 }
-            } else {
-                throw new NotEmptyHandException();
             }
-        } else if (status.equals(GameStatus.ENDED)){
+
+            if (getNumOfOnlinePlayers() != 1) {
+                //I skip the disconnected players and I let play only the connected ones
+                do {
+                    currentPlaying = (currentPlaying + 1) % players.size();
+                } while (!players.get(currentPlaying).isConnected());
+            } else {
+                //Only one player connected, I set the nextTurn to the next player of the one online
+                //when someone will reconnect, the nextTurn will be corrected
+                currentPlaying = (currentPlaying + 1) % players.size();
+            }
+
+
+            if (currentPlaying.equals(firstFinishedPlayer)) {
+                throw new GameEndedException();
+            } else {
+                listenersHandler.notify_nextTurn(this);
+            }
+
+        } else if (status.equals(GameStatus.ENDED)) {
             throw new GameEndedException();
         } else {
             throw new GameNotStartedException();
@@ -408,23 +452,9 @@ public class GameModel {
         return leaderBoard;
     }
 
-    public void setAsDisconnected(String nick) {
-        getPlayerEntity(nick).setConnected(false);
-        getPlayerEntity(nick).setNotReadyToStart();
-        listenersHandler.notify_playerDisconnected(this, nick);
 
-        //Check if there are at least 2 players to keep playing (if the game is running)
-        if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(x -> x.isConnected()).collect(Collectors.toList()).size() <= 1) {
-            //No enough players
-            this.setStatus(GameStatus.ENDED);
-        }
-
-    }
-
-
-    public void setAsConnected(String nick) {
-        getPlayerEntity(nick).setConnected(true);
-        listenersHandler.notify_playerReconnected(this, nick);
+    private boolean isTheCurrentPlayerOnline() {
+        return players.get(currentPlaying).isConnected();
     }
 
 

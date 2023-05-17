@@ -185,6 +185,16 @@ public class ListenersHandler {
             }
         }
     }
+    public synchronized void notify_onlyOnePlayerConnected(GameModel model, int secondsToWaitUntillGameEnded) {
+        for (GameListener l : listeners) {
+            try {
+                l.onlyOnePlayerConnected(new GameModelImmutable(model),secondsToWaitUntillGameEnded);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
     public synchronized void removeListener(GameListener lis) {
         listeners.remove(lis);

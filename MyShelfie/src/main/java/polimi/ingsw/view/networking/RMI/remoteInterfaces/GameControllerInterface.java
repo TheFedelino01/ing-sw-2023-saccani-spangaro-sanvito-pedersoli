@@ -18,7 +18,7 @@ public interface GameControllerInterface extends Remote {
 
     boolean isThisMyTurn(String nick) throws RemoteException;
 
-    void setConnectionStatus(String nick, GameListener lisOfClient, boolean connected) throws RemoteException;
+    void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException;
 
     void heartbeat(String nick, GameListener me) throws RemoteException;
 

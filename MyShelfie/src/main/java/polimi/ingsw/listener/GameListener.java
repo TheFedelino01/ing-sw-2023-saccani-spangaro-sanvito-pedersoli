@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 
 public interface GameListener extends Remote {
     void playerJoined(GameModelImmutable gamemodel) throws RemoteException;
+
     void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException;
 
     void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException;
@@ -44,8 +45,10 @@ public interface GameListener extends Remote {
 
     void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException;
 
-    void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException;
+    void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException;
 
     void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException;
+
+    void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException;
 
 }

@@ -79,6 +79,10 @@ public class Player implements Serializable {
         }
     }
 
+    public void clearInHandTile() {
+        inHandTile = new ArrayList<Tile>();
+    }
+
 
     public List<Point> getObtainedPoints() {
         return obtainedPoints;
@@ -117,10 +121,11 @@ public class Player implements Serializable {
         this.connected = connected;
     }
 
-    public int getMaxFreeSpacesInACol(){
+    public int getMaxFreeSpacesInACol() {
         return this.shelf.getMaxFreeSpacesInACol();
     }
-    public int getNumofFreeSpacesInCol(int col){
+
+    public int getNumofFreeSpacesInCol(int col) {
         return this.shelf.getNumofFreeSpacesInCol(col);
     }
 

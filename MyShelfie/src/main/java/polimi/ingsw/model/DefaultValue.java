@@ -3,7 +3,7 @@ package polimi.ingsw.model;
 import java.io.Serializable;
 
 public class DefaultValue implements Serializable {
-    public final static boolean DEBUG=false;
+    public final static boolean DEBUG = false;
 
     public final static int time_publisher_showing_seconds = 1;
 
@@ -37,6 +37,7 @@ public class DefaultValue implements Serializable {
     public final static int Default_port_Socket = 4320;
     public final static String Default_servername_RMI = "MyShelfie";
     public final static String Remote_ip = "127.0.0.1";
+    public final static int secondsToWaitReconnection = 30;
 
     public final static Long timeout_for_detecting_disconnection = 4000L;
 
@@ -84,7 +85,6 @@ public class DefaultValue implements Serializable {
     //GAME INFO
     public final static int row_gameID = 9;
     public final static int row_nextTurn = 10;
-
 
 
     public final static int num_of_attempt_to_connect_toServer_before_giveup = 5;

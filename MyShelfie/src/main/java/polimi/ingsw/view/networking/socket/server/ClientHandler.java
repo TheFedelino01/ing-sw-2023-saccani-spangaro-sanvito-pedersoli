@@ -56,7 +56,7 @@ public class ClientHandler extends Thread {
 
                 if (nick != null && gameController != null) {
                     try {
-                        gameController.setConnectionStatus(nick, gameListenersHandlerSocket, false);
+                        gameController.disconnectPlayer(nick, gameListenersHandlerSocket);
 
                         if(gameController.getNumOnlinePlayers()==0) {
                             MainController.getInstance().deleteGame(gameController.getGameId());

@@ -745,27 +745,29 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) {
-        ui.addImportantEvent("[EVENT]:  Player " + p.getNickname() + " obtained " + point.getPoint() + " points by achieving " + point.getReferredTo());
+        ui.addImportantEvent("Player " + p.getNickname() + " obtained " + point.getPoint() + " points by achieving " + point.getReferredTo());
         ui.show_addedPoint(p,point,gamemodel);
     }
 
     @Override
     public void playerDisconnected(GameModelImmutable gameModel, String nick) {
-        ui.addImportantEvent("[EVENT]:  Player " + nick + " has just disconnected");
+        ui.addImportantEvent("Player " + nick + " has just disconnected");
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         if (gameModel.getStatus().equals(GameStatus.WAIT)) {
                 ui.show_playerJoined(gameModel, nickname);
-        } else {
-            ui.addImportantEvent("[EVENT]: Player " + nick + " decided to leave the game!");
         }
     }
 
     @Override
     public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
-        ui.addImportantEvent("[EVENT]:  Cannot place Tiles in "+column+" column because there are no spaces available to place all");
+        ui.addImportantEvent("Cannot place Tiles in "+column+" column because there are no spaces available to place all");
     }
 
+    @Override
+    public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+        ui.addImportantEvent("Only one player is connected, waiting "+secondsToWaitUntilGameEnded+" seconds before calling Game Ended!");
+    }
 
 
 }

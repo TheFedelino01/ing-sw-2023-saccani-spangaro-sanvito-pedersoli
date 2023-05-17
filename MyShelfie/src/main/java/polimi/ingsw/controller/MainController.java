@@ -3,6 +3,7 @@ package polimi.ingsw.controller;
 import polimi.ingsw.listener.GameListener;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.GameStatus;
+import polimi.ingsw.model.exceptions.GameEndedException;
 import polimi.ingsw.model.exceptions.MaxPlayersInException;
 import polimi.ingsw.model.exceptions.PlayerAlreadyInException;
 import polimi.ingsw.model.Player;
@@ -129,6 +130,8 @@ public class MainController implements MainControllerInterface, Serializable {
             } catch (MaxPlayersInException e) {
                 ris.get(0).removeListener(lis, players.get(0));
                 lis.genericErrorWhenEnteringGame(e.getMessage());
+            } catch (GameEndedException e) {
+                throw new RuntimeException(e);
             }
         } else {
             //This is the only call not inside the model
@@ -139,13 +142,13 @@ public class MainController implements MainControllerInterface, Serializable {
 
     @Override
     public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
-        List<GameController> ris = runningGames.stream().filter(x->x.getGameId()==idGame).collect(Collectors.toList());
-        if(ris.size()==1){
-            ris.get(0).leave(lis,nick);
+        List<GameController> ris = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList());
+        if (ris.size() == 1) {
+            ris.get(0).leave(lis, nick);
             System.out.println("\t>Game " + ris.get(0).getGameId() + " player: \"" + nick + "\" decided to leave");
             printRunningGames();
 
-            if(ris.get(0).getNumOfOnlinePlayers()==0){
+            if (ris.get(0).getNumOfOnlinePlayers() == 0) {
                 deleteGame(idGame);
             }
         }

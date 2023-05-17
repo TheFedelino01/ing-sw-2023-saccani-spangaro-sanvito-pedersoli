@@ -207,4 +207,14 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    @Override
+    public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+        try {
+            out.reset();
+            out.writeObject(new msgOnlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

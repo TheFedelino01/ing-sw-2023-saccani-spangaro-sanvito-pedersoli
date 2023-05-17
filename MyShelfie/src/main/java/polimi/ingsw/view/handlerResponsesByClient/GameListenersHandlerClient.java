@@ -136,5 +136,10 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
         gui.columnShelfTooSmall(gameModel,column);
     }
 
+    @Override
+    public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+        gui.onlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded);
+    }
+
 
 }
