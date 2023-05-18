@@ -95,11 +95,9 @@ public class GameControllerTest {
 
 
         assertEquals(1, plist.get(currentPlayer).getInHandTile().size(), "Grabbed mismatch");
-        try {
-            gameController.positionTileOnShelf(plist.get(currentPlayer).getNickname(), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
-        } catch (GameEndedException e) {
-            throw new RuntimeException(e);
-        }
+
+        gameController.positionTileOnShelf(plist.get(currentPlayer).getNickname(), 0, plist.get(currentPlayer).getInHandTile().get(0).getType());
+
         assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned tile on shelf but player's hand not free");
 
 

@@ -276,7 +276,7 @@ public class GameModel {
                 listenersHandler.notify_GameStarted(this);
                 listenersHandler.notify_nextTurn(this);
             } else if (status == GameStatus.ENDED) {
-                findWinner(); //Trovo il vincitore
+                findWinner(); //Find winner
                 listenersHandler.notify_GameEnded(this);
             }
         }
@@ -377,6 +377,7 @@ public class GameModel {
 
 
             if (currentPlaying.equals(firstFinishedPlayer)) {
+                this.setStatus(GameStatus.ENDED);
                 throw new GameEndedException();
             } else {
                 listenersHandler.notify_nextTurn(this);
