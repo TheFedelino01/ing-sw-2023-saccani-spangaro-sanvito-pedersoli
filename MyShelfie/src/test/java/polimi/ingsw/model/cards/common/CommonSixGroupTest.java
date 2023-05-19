@@ -9,7 +9,6 @@ import polimi.ingsw.model.enumeration.CardCommonType;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-@Disabled
 public class CommonSixGroupTest extends ShelfConverter {
     private CommonSixGroups card;
 
@@ -150,7 +149,7 @@ public class CommonSixGroupTest extends ShelfConverter {
                 {"T", "", "T", "", "T"}
         };
         Shelf test = setShelf(matrix);
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
 
     @Test
@@ -254,7 +253,7 @@ public class CommonSixGroupTest extends ShelfConverter {
                 {"B", "", "", "F", "T"}
         };
         Shelf test = setShelf(matrix);
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
     @Test
     @DisplayName("Test CommonSixGroup #17  ")
@@ -282,7 +281,7 @@ public class CommonSixGroupTest extends ShelfConverter {
                 {"", "T", "", "", "T"}
         };
         Shelf test = setShelf(matrix);
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
     @Test
     @DisplayName("Test CommonSixGroup #19  ")

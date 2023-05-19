@@ -22,8 +22,8 @@ public class GameTest {
         gameController = new GameController();
     }
 
-    @Test
     @Disabled
+    @Test
     @DisplayName("Simulate a game with 2 players")
     public void testGame2Player() throws GameEndedException {
         int i = 0;
@@ -41,13 +41,13 @@ public class GameTest {
 
 
         //Check that the game status is running, otherwise fail the test
-        assert (gameController.getStatus() == GameStatus.RUNNING);
+        assert (gameController.getStatus().equals(GameStatus.RUNNING));
 
-        while (gameController.getStatus() == GameStatus.RUNNING) {
+        while (gameController.getStatus().equals(GameStatus.RUNNING)) {
             do {
                 Random random = new Random();
-                int c = random.nextInt(9);
-                int r = random.nextInt(9);
+                int c = random.nextInt(DefaultValue.PlaygroundSize);
+                int r = random.nextInt(DefaultValue.PlaygroundSize);
                 gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), c, r, Direction.DOWN, 1);
 
             } while (gameController.whoIsPlaying().getInHandTile().size() == 0);
@@ -56,11 +56,10 @@ public class GameTest {
             if (i == 5) {
                 i = 0;
             }
-            Tile tile = gameController.whoIsPlaying().getInHandTile().get(0);
             Player p = gameController.whoIsPlaying();
             int freeSpace = p.getShelf().getFreeSpace();
             gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
-            int pA = -1, pB = -1;
+            /*int pA = -1, pB = -1;
             for (int j = 0; j < 5; j++) {
                 for (int k = 0; k < 5; k++) {
                     if (p.getShelf().get(j  , k).isSameType(tile.getType())) {
@@ -69,7 +68,7 @@ public class GameTest {
                         break;
                     }
                 }
-            }
+            }*/
             //check if the tile is correctly added to the shelf
             assert (p.getShelf().getFreeSpace() == freeSpace - 1);
             i = i + 1;
