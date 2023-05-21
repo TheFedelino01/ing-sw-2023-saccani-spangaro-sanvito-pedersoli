@@ -146,6 +146,54 @@ public class CommonDiagonalTest {
 
         Assert.assertTrue(card.verify(test));
     }
+    @Test
+    @DisplayName("Stair #8")
+    public void testStairShelf8() {
+        String[][] matrix = {
+                {"F", "", "", "", ""},
+                {"P", "F", "", "", ""},
+                {"P", "P", "F", "", ""},
+                {"A", "C", "P", "F", ""},
+                {"C", "A", "F", "P", "C"},
+                {"A", "P", "F", "C", "P"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Stair #9")
+    public void testStairShelf9() {
+        String[][] matrix = {
+                {"C", "", "", "", ""},
+                {"C", "C", "", "", ""},
+                {"C", "C", "C", "", ""},
+                {"C", "C", "C", "C", ""},
+                {"C", "C", "C", "C", "C"},
+                {"C", "C", "C", "C", "C"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Stair #10")
+    public void testStairShelf10() {
+        String[][] matrix = {
+                {"", "", "", "", ""},
+                {"C", "", "", "", ""},
+                {"C", "C", "", "", ""},
+                {"C", "C", "C", "", ""},
+                {"C", "C", "C", "C", ""},
+                {"C", "C", "C", "C", "C"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
 
 
 }

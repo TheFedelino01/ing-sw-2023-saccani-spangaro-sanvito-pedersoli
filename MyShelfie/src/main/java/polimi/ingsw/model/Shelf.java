@@ -158,6 +158,9 @@ public class Shelf implements Serializable {
                 }
             }
         }
+        if(tmp>max){
+            max=tmp;
+        }
         return max;
     }
 
