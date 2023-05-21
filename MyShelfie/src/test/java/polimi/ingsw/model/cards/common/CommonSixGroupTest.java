@@ -312,5 +312,20 @@ public class CommonSixGroupTest extends ShelfConverter {
         Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
+
+    @Test
+    @DisplayName("Test CommonSixGroup #21  ")
+    public void testSixGroupWithDifferentType21() {
+        String[][] matrix = {
+                {"T", "T", "", "", ""},
+                {"T", "", "", "", ""},
+                {"", "F", "", "P", ""},
+                {"", "F", "", "P", ""},
+                {"B", "", "", "", "T"},
+                {"B", "", "", "F", "T"}
+        };
+        Shelf test = setShelf(matrix);
+        assertFalse(card.verify(test));
+    }
 }
 
