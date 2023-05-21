@@ -1,393 +1,334 @@
 package polimi.ingsw.model.cards.common;
 
+import junit.framework.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.model.DefaultValue;
-import polimi.ingsw.model.enumeration.CardCommonType;
-import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Shelf;
-import polimi.ingsw.model.Tile;
+import polimi.ingsw.model.enumeration.CardCommonType;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static polimi.ingsw.model.cards.common.ShelfConverter.setShelf;
 
 public class CommonGroupsTest {
+    private CommonVerticalCard card;
 
-    List<CommonCard> model = new ArrayList<>();
-
-    /**
-     * Legend:<br>
-     * N means that the tile has not been set<br>
-     * C means that the tile is a CAT one (and so on, so T for TROPHY, ecc)<br>
-     * R/X means that the tile is a random one
-     */
     @BeforeEach
     void setUp() {
-        for (CardCommonType t : CardCommonType.values())
-            model.add(CommonCardFactory.getCommonCard(t));
-    }
-
-    /**
-     * case 1<br>
-     * first common card<br>
-     * <p>
-     * C B C B X<br>
-     * C B C B X<br>
-     * X X X X X<br>
-     * C B C B X<br>
-     * C B C B X<br>
-     * X X X X X<br>
-     */
-    @Test
-    @DisplayName("Test six groups 1")
-    public void testSixGroups1() {
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if ((c == 0 && r < 2) || (c == 2 && r < 2) || (c == 0 && r > 2 && r < 5) || (c == 2 && r > 2 && r < 5)) {
-                    test.setSingleTile(new Tile(TileType.CAT), r, c);
-                } else if ((c == 1 && r < 2) || (c == 3 && r < 2) || (c == 1 && r > 2 && r < 5) || (c == 3 && r > 2 && r < 5)) {
-                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
-                } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
-                }
-                test.setFreeSpace(test.getFreeSpace() - 1);
-            }
-        }
-
-        //check this algorithm
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSixGroups))
-                .toList().get(0).verify(test));
-    }
-
-    /**
-     * case 1<br>
-     * first common card<br>
-     * <p>
-     * N N N N N<br>
-     * N B C B C<br>
-     * X B C B C<br>
-     * X X X X X<br>
-     * C B C B X<br>
-     * C B C B X<br>
-     */
-    @Test
-    @DisplayName("Test six groups 2")
-    public void testSixGroups2() {
-        Shelf test = new Shelf();
-
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if ((c == 0 && r > 3) || (c == 2 && r > 3) || (c == 2 && r > 0 && r < 3) || (c == 4 && r > 0 && r < 3)) {
-                    test.setSingleTile(new Tile(TileType.CAT), r, c);
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                } else if ((c == 1 && r > 3) || (c == 3 && r > 3) || (c == 1 && r > 0 && r < 3) || (c == 3 && r > 0 && r < 3)) {
-                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                } else if (r == 3) {
-                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                } else test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-            }
-        }
-
-        //check this algorithm
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSixGroups))
-                .toList().get(0).verify(test));
-    }
-
-    /**
-     * four groups of four tiles of the same type (will be testing two columns in this test case)<br>
-     * third common card<br>
-     * <p>
-     * C B C B X<br>
-     * C B C B X<br>
-     * C B C B X<br>
-     * C B C B X<br>
-     * X X X X X<br>
-     * X X X X X<br>
-     */
-    @Test
-    @DisplayName("Test four groups 1")
-    public void testFourGroups1() {
-
-
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if (c < 4 && c % 2 == 0 && r < 4) {
-                    test.setSingleTile(new Tile(TileType.CAT), r, c);
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                } else if (c < 4 && r < 4) {
-                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
-                }
-            }
-        }
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonFourGroups))
-                .toList().get(0).verify(test));
-    }
-
-    /**
-     * four groups of four tiles of the same type (will be testing two columns in this test case)<br>
-     * third common card<br>
-     * <p>
-     * N N N N N<br>
-     * N N N N N<br>
-     * C B C B N<br>
-     * C B C B N<br>
-     * C B C B T<br>
-     * C B C B T<br>
-     */
-    @Test
-    @DisplayName("Test four groups 2")
-    public void testFourGroups2() {
-
-
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if ((c == 0 || c == 2) && r > 1) {
-                    test.setSingleTile(new Tile(TileType.CAT), r, c);
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                } else if ((c == 1 || c == 3) && r > 1) {
-                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                } else if (c == DefaultValue.NumOfColumnsShelf - 1 && r > 4) {
-                    test.setSingleTile(new Tile(TileType.TROPHY), r, c);
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                } else test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-            }
-        }
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonFourGroups))
-                .toList().get(0).verify(test));
-    }
-
-
-
-    /**
-     * two separated groups of 2x2 tiles with the same type<br>
-     * fourth common card<br>
-     * <p>
-     * X C C X X<br>
-     * X C C X X<br>
-     * X X X X X<br>
-     * X X B B X<br>
-     * X X B B X<br>
-     */
-    @Test
-    @DisplayName("Test squares 2")
-    public void testSquares2() {
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if ((r == 0 && c == 1) || (r == 1 && c == 1) || (r == 0 && c == 2) || (r == 1 && c == 2)) {
-                    test.setSingleTile(new Tile(TileType.CAT), r, c);
-                } else if ((r == 3 && c == 2) || (r == 4 && c == 2) || (r == 3 && c == 3) || (r == 4 && c == 3)) {
-                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
-                } else {
-                    test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
-                }
-                test.setFreeSpace(test.getFreeSpace() - 1);
-            }
-        }
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
-                .toList().get(0).verify(test));
-    }
-
-    /**
-     * two separated groups of 2x2 tiles with the same type<br>
-     * fourth common card<br>
-     * <p>
-     * N C C X N<br>
-     * N C C X N<br>
-     * N X X X N<br>
-     * N X B B N<br>
-     * N X B B N<br>
-     */
-    @Test
-    @DisplayName("Test squares with empty columns")
-    public void testSquares3() {
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if (c == 0 || c == 4) {
-                    test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-                } else {
-                    if ((r == 0 && c == 1) || (r == 1 && c == 1) || (r == 0 && c == 2) || (r == 1 && c == 2)) {
-                        test.setSingleTile(new Tile(TileType.CAT), r, c);
-                    } else if ((r == 3 && c == 2) || (r == 4 && c == 2) || (r == 3 && c == 3) || (r == 4 && c == 3)) {
-                        test.setSingleTile(new Tile(TileType.BOOK), r, c);
-                    } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCATeBOOK()), r, c);
-                    }
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                }
-            }
-        }
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
-                .toList().get(0).verify(test));
-    }
-
-    /**
-     * two adjacent groups of 2x2 tiles with the same type<br>
-     * fourth common card<br>
-     * <p>
-     * X C C X X<br>
-     * X C C X X<br>
-     * X B B X X<br>
-     * X B B X X<br>
-     * X X X X X<br>
-     */
-    @Test
-    @DisplayName("Test squares 4")
-    public void testSquares4() {
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if ((r == 0 && c == 1) || (r == 1 && c == 1) || (r == 0 && c == 2) || (r == 1 && c == 2)) {
-                    test.setSingleTile(new Tile(TileType.CAT), r, c);
-                } else if ((r == 2 && c == 1) || (r == 3 && c == 1) || (r == 2 && c == 2) || (r == 3 && c == 2)) {
-                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
-                } else {
-                    test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-                }
-            }
-        }
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
-                .toList().get(0).verify(test));
-    }
-
-    /**
-     * 8 random occurrences of the same tile type<br>
-     * sixth common card<br>
-     * <p>
-     * C C C C C<br>
-     * C C C X X<br>
-     * X X X X X<br>
-     * X X X X X<br>
-     * X X X X X<br>
-     * X X X X X<br>
-     */
-    @Test
-    @DisplayName("Test eight tiles 1")
-    public void testEight1() {
-        int count = 0;
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if (count < 8)
-                    test.setSingleTile(new Tile(TileType.USED), r, c);
-                else
-                    test.setSingleTile(new Tile(TileType.randomTileCAT()), r, c);
-                test.setFreeSpace(test.getFreeSpace() - 1);
-                count++;
-            }
-        }
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonEight))
-                .toList().get(0).verify(test));
-    }
-
-    /**
-     * 8 random occurrences of the same tile type<br>
-     * sixth common card<br>
-     * <p>
-     * N N N N N<br>
-     * X X N N N<br>
-     * X X C C X<br>
-     * C X C C X<br>
-     * X C X X X<br>
-     * X X X C C<br>
-     */
-    @Test
-    @DisplayName("Test eight tiles 2")
-    public void testEight2() {
-
-
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if (r == 0) {
-                    test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-                } else {
-                    if ((r == 3 && c == 0) || (r == 4 && c == 1) || (r == 2 && c == 2) || (r == 3 && c == 2) || (r == 2 && c == 3)
-                        || (r == 3 && c == 3) || (r == 5 && c == 3) || (r == 5 && c == 4)) {
-                        test.setSingleTile(new Tile(TileType.CAT), r, c);
-                    } else {
-                        test.setSingleTile(new Tile(TileType.randomTileCAT()), r, c);
-                    }
-                    test.setFreeSpace(test.getFreeSpace() - 1);
-                }
-            }
-        }
-        assertTrue(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonEight))
-                .toList().get(0).verify(test));
+        card = (CommonVerticalCard) CommonCardFactory.getCommonCard(CardCommonType.CommonVertical1);
     }
 
     @Test
-    @DisplayName("Test expected to return false")
-    public void testFail() {
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                if (c == 0 && r == 2)
-                    test.setSingleTile(new Tile(TileType.CAT), r, c);
-                else if (c == 1 && r == 3)
-                    test.setSingleTile(new Tile(TileType.BOOK), r, c);
-                else
-                    test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-            }
-        }
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonFourGroups))
-                .toList().get(0).verify(test));
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSixGroups))
-                .toList().get(0).verify(test));
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
-                .toList().get(0).verify(test));
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonEight))
-                .toList().get(0).verify(test));
+    @DisplayName("Two column of 6 tiles #1")
+    public void testCommon1() {
+        String[][] matrix = {
+                {"C", "", "T", "", "F"},
+                {"C", "", "T", "", "F"},
+                {"C", "", "T", "", "F"},
+                {"C", "", "T", "", "F"},
+                {"C", "", "T", "", "F"},
+                {"C", "", "T", "", "F"}
+        };
 
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
     }
 
     @Test
-    @DisplayName("Test with empty shelf")
-    public void testEmptyShelf() {
-        Shelf test = new Shelf();
-        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                test.setSingleTile(new Tile(TileType.NOT_USED), r, c);
-            }
-        }
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonFourGroups))
-                .toList().get(0).verify(test));
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSixGroups))
-                .toList().get(0).verify(test));
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonSquares))
-                .toList().get(0).verify(test));
-        assertFalse(model.stream()
-                .filter(x -> x.getCommonType().equals(CardCommonType.CommonEight))
-                .toList().get(0).verify(test));
+    @DisplayName("Two column of 6 tiles #2")
+    public void testCommon2() {
+        String[][] matrix = {
+                {"F", "F", "F", "F", "F"},
+                {"T", "T", "T", "T", "T"},
+                {"C", "C", "C", "C", "C"},
+                {"C", "", "T", "", "F"},
+                {"C", "", "T", "", "F"},
+                {"C", "", "T", "", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #3")
+    public void testCommon3() {
+        String[][] matrix = {
+                {"F", "P", "F", "F", "F"},
+                {"T", "P", "T", "T", "T"},
+                {"C", "P", "C", "C", "C"},
+                {"C", "P", "T", "C", "F"},
+                {"C", "P", "T", "C", "F"},
+                {"C", "P", "T", "C", "F"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #4")
+    public void testCommon4() {
+        String[][] matrix = {
+                {"", "P", "", "", ""},
+                {"", "P", "", "", ""},
+                {"", "P", "", "", ""},
+                {"", "P", "", "", ""},
+                {"", "P", "", "", ""},
+                {"", "P", "", "", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #5")
+    public void testCommon5() {
+        String[][] matrix = {
+                {"", "P", "T", "", ""},
+                {"", "P", "T", "", ""},
+                {"", "P", "T", "", ""},
+                {"", "P", "T", "", ""},
+                {"", "P", "T", "", ""},
+                {"", "P", "T", "", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #6")
+    public void testCommon6() {
+        String[][] matrix = {
+                {"", "P", "T", "F", ""},
+                {"", "P", "T", "F", ""},
+                {"", "P", "T", "F", ""},
+                {"", "P", "T", "F", ""},
+                {"", "P", "T", "F", ""},
+                {"", "P", "T", "F", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #7")
+    public void testCommon7() {
+        String[][] matrix = {
+                {"", "P", "T", "F", ""},
+                {"", "C", "F", "P", ""},
+                {"", "C", "F", "P", ""},
+                {"", "P", "T", "F", ""},
+                {"", "P", "T", "F", ""},
+                {"", "P", "T", "F", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #8")
+    public void testCommon8() {
+        String[][] matrix = {
+                {"", "P", "T", "F", ""},
+                {"", "C", "F", "P", ""},
+                {"", "C", "F", "P", ""},
+                {"", "A", "P", "A", ""},
+                {"", "P", "T", "F", ""},
+                {"", "P", "T", "F", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #9")
+    public void testCommon9() {
+        String[][] matrix = {
+                {"", "P", "T", "F", ""},
+                {"", "C", "F", "P", ""},
+                {"", "C", "F", "P", ""},
+                {"", "A", "P", "A", ""},
+                {"", "P", "T", "F", ""},
+                {"", "A", "A", "A", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #10")
+    public void testCommon10() {
+        String[][] matrix = {
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"A", "A", "A", "A", "A"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Two column of 6 tiles #11")
+    public void testCommon11(){
+        String[][] matrix = {
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"T", "T", "T", "T", "T"},
+                {"", "", "", "", ""},
+                {"A", "A", "A", "A", "A"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Two column of 6 tiles #12")
+    public void testCommon12(){
+        String[][] matrix = {
+                {"", "", "", "", ""},
+                {"F", "F", "F", "F", ""},
+                {"", "", "", "", ""},
+                {"T", "T", "T", "T", "T"},
+                {"", "", "", "", ""},
+                {"A", "A", "A", "A", "A"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Two column of 6 tiles #13")
+    public void testCommon13(){
+        String[][] matrix = {
+                {"", "", "", "", ""},
+                {"F", "F", "F", "F", "F"},
+                {"", "", "", "", ""},
+                {"T", "T", "T", "T", "T"},
+                {"", "", "", "", ""},
+                {"A", "A", "A", "A", "A"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Two column of 6 tiles #14")
+    public void testCommon14(){
+        String[][] matrix = {
+                {"F", "", "F", "", "F"},
+                {"F", "F", "F", "F", "F"},
+                {"F", "", "F", "", "F"},
+                {"T", "T", "T", "T", "T"},
+                {"F", "", "F", "", "F"},
+                {"A", "A", "A", "A", "A"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Two column of 6 tiles #15")
+    public void testCommon15(){
+        String[][] matrix = {
+                {"A", "", "", "", ""},
+                {"P", "", "", "", ""},
+                {"T", "", "", "", ""},
+                {"F", "", "", "", ""},
+                {"C", "", "", "", ""},
+                {"B", "", "", "", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Two column of 6 tiles #16")
+    public void testCommon16(){
+        String[][] matrix = {
+                {"A", "A", "", "", ""},
+                {"P", "A", "", "", ""},
+                {"T", "A", "", "", ""},
+                {"F", "A", "", "", ""},
+                {"C", "A", "", "", ""},
+                {"B", "A", "", "", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Two column of 6 tiles #17")
+    public void testCommon17(){
+        String[][] matrix = {
+                {"A", "T", "", "", ""},
+                {"P", "P", "", "", ""},
+                {"T", "A", "", "", ""},
+                {"F", "C", "", "", ""},
+                {"C", "B", "", "", ""},
+                {"B", "F", "", "", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Two column of 6 tiles #17")
+    public void testCommon18(){
+        String[][] matrix = {
+                {"A", "T", "B", "", ""},
+                {"P", "P", "B", "", ""},
+                {"T", "A", "B", "", ""},
+                {"F", "C", "B", "", ""},
+                {"C", "B", "B", "", ""},
+                {"B", "F", "B", "", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Two column of 6 tiles #17")
+    public void testCommon19(){
+        String[][] matrix = {
+                {"A", "", "B", "A", ""},
+                {"P", "", "B", "P", ""},
+                {"T", "", "B", "T", ""},
+                {"F", "", "B", "C", ""},
+                {"C", "", "B", "F", ""},
+                {"B", "", "B", "B", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
     }
 }

@@ -12,12 +12,7 @@ import static polimi.ingsw.model.enumeration.CardCommonType.CommonVertex;
 public class CommonVertexesTest extends ShelfConverter{
 
     private CommonVertixesCard card;
-    /**
-     * Legend:<br>
-     * N means that the tile has not been set<br>
-     * C means that the tile is a CAT one (and so on, so T for TROPHY, ecc)<br>
-     * R/X means that the tile is a random one
-     */
+
     @BeforeEach
     void setUp() {
         card = (CommonVertixesCard)CommonCardFactory.getCommonCard(CommonVertex);
