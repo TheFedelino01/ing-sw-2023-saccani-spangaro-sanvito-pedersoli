@@ -30,7 +30,7 @@ public class CommonSquaresTest extends ShelfConverter{
         };
 
         Shelf test = setShelf(matrix);
-
+        card.toString(0);
         assertTrue(card.verify(test));
     }
     @Test

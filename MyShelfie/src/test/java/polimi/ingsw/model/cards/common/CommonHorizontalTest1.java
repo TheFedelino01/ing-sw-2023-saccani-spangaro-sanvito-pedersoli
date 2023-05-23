@@ -29,6 +29,7 @@ public class CommonHorizontalTest1 extends ShelfConverter {
                 {"", "", "", "", ""}
         };
         Shelf test = setShelf(matrix);
+        card.toString(0);
         assertFalse(card.verify(test));
     }
 

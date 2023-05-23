@@ -38,6 +38,7 @@ public class CommonXTest extends ShelfConverter{
                 {"","","","",""}
         };
         Shelf test = setShelf(matrix);
+        card.toString(0);
         assertFalse(card.verify(test));
     }
     @Test

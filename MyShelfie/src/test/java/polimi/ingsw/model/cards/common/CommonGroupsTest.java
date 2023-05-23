@@ -30,7 +30,7 @@ public class CommonGroupsTest {
         };
 
         Shelf test = setShelf(matrix);
-
+        card.toString(0);
         Assert.assertFalse(card.verify(test));
     }
 
