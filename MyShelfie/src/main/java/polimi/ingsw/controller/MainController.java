@@ -26,7 +26,7 @@ public class MainController implements MainControllerInterface, Serializable {
 
 
     private MainController() {
-        runningGames = new ArrayList<GameController>();
+        runningGames = new ArrayList<>();
     }
 
     public synchronized static MainController getInstance() {
