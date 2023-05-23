@@ -128,18 +128,18 @@ public class CommonDiagonalTest {
 
         Assert.assertTrue(card.verify(test));
     }
-    //Non dovrebbe passarlo?
-    @Disabled
+
+
     @Test
     @DisplayName("Stair #7")
     public void testStairShelf7() {
         String[][] matrix = {
-                {"F", "P", "", "", ""},
-                {"P", "F", "P", "", ""},
-                {"P", "F", "F", "A", ""},
-                {"A", "C", "F", "F", "A"},
-                {"C", "A", "F", "P", "F"},
-                {"A", "P", "F", "C", "C"}
+                {"F", "", "", "", ""},
+                {"P", "F", "", "", ""},
+                {"P", "F", "F", "", ""},
+                {"A", "F", "F", "F", ""},
+                {"C", "F", "F", "P", "F"},
+                {"A", "F", "F", "C", "C"}
         };
 
         Shelf test = setShelf(matrix);

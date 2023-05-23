@@ -292,6 +292,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
 
             Player currentPlaying = this.whoIsPlaying();//Because position can call nextTurn
+            int currentPlayingIndex = this.getIndexCurrentPlaying();
 
             try {
                 model.positionTileOnShelf(model.getPlayerEntity(p), column, type);
@@ -304,10 +305,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
             checkCommonCards(currentPlaying);
 
-            if (currentPlaying.getShelf().getFreeSpace() == 0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+            if (currentPlaying.getShelf().getFreeSpace() == 0 && (!model.getStatus().equals(GameStatus.LAST_CIRCLE) && !model.getStatus().equals(GameStatus.ENDED))) {
                 //This player has his shelf full, time to complete le last circle
                 model.setStatus(GameStatus.LAST_CIRCLE);
-                model.setFinishedPlayer(model.getCurrentPlaying());
+                model.setFinishedPlayer(currentPlayingIndex);
             }
         } else {
             throw new NotPlayerTurnException();

@@ -63,10 +63,9 @@ public class GameTest {
         matrix3D[34] = new IntRecord(8, 5);
     }
 
-    @Disabled
     @Test
     @DisplayName("Simulate a game with 2 players")
-    public void testGame2Player() throws GameEndedException {
+    public void testGame2Player() {
         int i = 0;
         int index = 0;
         Player p1 = new Player("1");
@@ -86,6 +85,7 @@ public class GameTest {
         assert (gameController.getStatus().equals(GameStatus.RUNNING));
 
         while (gameController.getStatus().equals(GameStatus.RUNNING) || gameController.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+
             do {
                 gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), matrix2D[index].row(), matrix2D[index].col(), Direction.DOWN, 1);
                 index++;
@@ -93,6 +93,7 @@ public class GameTest {
                     index = 0;
                 }
             } while (gameController.whoIsPlaying().getInHandTile().size() == 0);
+
             //check if the tile is correctly added to the player's hand
             assert (gameController.whoIsPlaying().getInHandTile().size() == 1);
             if (i == 5) {
@@ -101,16 +102,7 @@ public class GameTest {
             Player p = gameController.whoIsPlaying();
             int freeSpace = p.getShelf().getFreeSpace();
             gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
-            /*int pA = -1, pB = -1;
-            for (int j = 0; j < 5; j++) {
-                for (int k = 0; k < 5; k++) {
-                    if (p.getShelf().get(j  , k).isSameType(tile.getType())) {
-                        pA = j;
-                        pB = k;
-                        break;
-                    }
-                }
-            }*/
+
             //check if the tile is correctly added to the shelf
             assert (p.getShelf().getFreeSpace() == freeSpace - 1);
             i = i + 1;
@@ -122,9 +114,8 @@ public class GameTest {
     }
 
     @Test
-    @Disabled
     @DisplayName("Simulate a game with 3 players")
-    public void testGame3Player() throws GameEndedException {
+    public void testGame3Player() {
         int i = 0;
         int a = 0;
         int index = 0;

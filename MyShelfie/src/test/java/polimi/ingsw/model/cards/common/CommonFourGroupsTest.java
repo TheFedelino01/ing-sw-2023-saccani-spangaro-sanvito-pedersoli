@@ -335,8 +335,7 @@ public class CommonFourGroupsTest extends ShelfConverter {
 
         assertTrue(card.verify(test));
     }
-    //Non dovrebbe essere vero?
-    @Disabled
+
     @Test
     @DisplayName("Four Groups of 4 Tiles #20")
     public void testFourGroups20() {
@@ -344,7 +343,7 @@ public class CommonFourGroupsTest extends ShelfConverter {
                 {"", "T", "", "", "P"},
                 {"A", "T", "", "", "P"},
                 {"A", "T", "", "", "P"},
-                {"A", "T", "T", "P", "P"},
+                {"A", "T", "", "P", "P"},
                 {"A", "", "T", "P", "P"},
                 {"T", "T", "T", "T", "P"}
         };
