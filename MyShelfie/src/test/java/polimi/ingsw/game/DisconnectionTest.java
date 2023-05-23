@@ -11,6 +11,8 @@ import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.exceptions.GameEndedException;
+import polimi.ingsw.model.exceptions.MaxCommonCardsAddedException;
+import polimi.ingsw.model.exceptions.PositioningATileNotGrabbedException;
 import polimi.ingsw.model.gameModelView.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DisconnectionTest {
     GameController gameController;
@@ -547,7 +550,7 @@ public class DisconnectionTest {
     @Test
     @DisplayName("Disconnection with 4 players")
 
-    void joinFirst() throws RemoteException {
+    void joinFirst() throws RemoteException, GameEndedException {
         gameController = new GameController();
         mainController = MainController.getInstance();
         gameController = (GameController) mainController.createGame(lis1, p1.getNickname());
@@ -580,7 +583,14 @@ public class DisconnectionTest {
         gameController.disconnectPlayer(p2.getNickname(),lis2);
         gameController.disconnectPlayer(p3.getNickname(),lis3);
         assertEquals(1, gameController.getNumOfOnlinePlayers());
-
+        gameController.reconnectPlayer(p1);
+        gameController.reconnectPlayer(p2);
+        gameController.reconnectPlayer(p3);
+        assertEquals(4, gameController.getNumOfOnlinePlayers());
+        gameController.disconnectPlayer(p3.getNickname(),lis3);
+        assertEquals(3, gameController.getNumOfOnlinePlayers());
+        gameController.reconnectPlayer(p3);
+        assertEquals(4, gameController.getNumOfOnlinePlayers());
 
     }
 
