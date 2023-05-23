@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.GameStatus;
-import polimi.ingsw.model.exceptions.GameEndedException;
 import polimi.ingsw.view.userView.gui.IntRecord;
 
 public class GameTest {
@@ -15,6 +14,8 @@ public class GameTest {
     Direction[] directions = Direction.values();
     IntRecord[] matrix2D = new IntRecord[29];
     IntRecord[] matrix3D = new IntRecord[36];
+
+    IntRecord[] matrix2DWith2Tiles = new IntRecord[29];
 
     @BeforeEach
     void setUp() {
@@ -61,6 +62,8 @@ public class GameTest {
         matrix3D[32] = new IntRecord(6, 2);
         matrix3D[33] = new IntRecord(6, 6);
         matrix3D[34] = new IntRecord(8, 5);
+
+
     }
 
     @Test
@@ -142,7 +145,7 @@ public class GameTest {
         while (gameController.getStatus() == GameStatus.RUNNING || gameController.getStatus() == GameStatus.LAST_CIRCLE) {
             do {
 
-                    gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(),matrix3D[index].row(),matrix3D[index].col(), Direction.DOWN, 1);
+                gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), matrix3D[index].row(), matrix3D[index].col(), Direction.DOWN, 1);
                 index++;
                 if (index == 35) {
                     index = 0;
@@ -171,6 +174,116 @@ public class GameTest {
         assert (p1.getShelf().getFreeSpace() == 0);
         assert (p2.getShelf().getFreeSpace() == 0);
         assert (p3.getShelf().getFreeSpace() == 0);
+        assert (gameController.getStatus().equals(GameStatus.ENDED));
+    }
+
+    @Test
+    @DisplayName("Simulate a game with 2 players picking 2 tiles")
+    public void testGame2PlayerPicking2Tiles() {
+        Player startingP;
+        int i = 0;
+        int index = 0;
+        Player p1 = new Player("1");
+        Player p2 = new Player("2");
+        gameController.addPlayer(p1);
+        //Check if the player is correctly added to the game
+        assert (gameController.getPlayers().size() == 1);
+        gameController.playerIsReadyToStart(p1.getNickname());
+        //check if the player is ready
+        gameController.addPlayer(p2);
+        //Check if the player is correctly added to the game
+        assert (gameController.getPlayers().size() == 2);
+        gameController.playerIsReadyToStart(p2.getNickname());
+
+
+        //Check that the game status is running, otherwise fail the test
+        assert (gameController.getStatus().equals(GameStatus.RUNNING));
+        startingP = gameController.whoIsPlaying();
+        while (gameController.getStatus().equals(GameStatus.RUNNING) || gameController.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+
+            do {
+                gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), matrix2D[index].row(), matrix2D[index].col(), Direction.DOWN, 2);
+                if (gameController.whoIsPlaying().getInHandTile().size() == 0) {
+                    gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), matrix2D[index].row(), matrix2D[index].col(), Direction.DOWN, 1);
+                }
+                index++;
+                if (index == 28) {
+                    index = 0;
+                }
+            } while (gameController.whoIsPlaying().getInHandTile().size() == 0);
+
+            //check if the tile is correctly added to the player's hand
+            assert (gameController.whoIsPlaying().getInHandTile().size() == 2 || gameController.whoIsPlaying().getInHandTile().size() == 1);
+            if (i == 5) {
+                i = 0;
+            }
+            Player p = gameController.whoIsPlaying();
+            int freeSpace = p.getShelf().getFreeSpace();
+            gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
+
+            i = i + 1;
+        }
+        //Problema: un giocatore riempie la shelf e l'altro player rimane con un free space, e non esce mai dal last circle
+        assert (startingP.getShelf().getFreeSpace() == 0);
+        assert (gameController.getStatus().equals(GameStatus.ENDED));
+    }
+
+    //Not Working
+    @Disabled
+    @Test
+    @DisplayName("Simulate a game with 3 players picking 2 tiles")
+    public void testGame3PlayerPicking2Tiles() {
+        int i = 0;
+        int a = 0;
+        int index = 0;
+        Player p1 = new Player("1");
+        Player p2 = new Player("2");
+        Player p3 = new Player("3");
+        gameController.addPlayer(p1);
+        //Check if the player is correctly added to the game
+        assert (gameController.getPlayers().size() == 1);
+        gameController.addPlayer(p2);
+        //Check if the player is correctly added to the game
+        assert (gameController.getPlayers().size() == 2);
+        gameController.addPlayer(p3);
+        //Check if the player is correctly added to the game
+        assert (gameController.getPlayers().size() == 3);
+        gameController.playerIsReadyToStart(p1.getNickname());
+        gameController.playerIsReadyToStart(p2.getNickname());
+        gameController.playerIsReadyToStart(p3.getNickname());
+        //Check that the number of players is equal 3
+        assert (gameController.getPlayers().size() == 3);
+        //Check that the game status is running, otherwise fail the test
+        assert (gameController.getStatus() == GameStatus.RUNNING);
+        while (gameController.getStatus() == GameStatus.RUNNING || gameController.getStatus() == GameStatus.LAST_CIRCLE) {
+            do {
+
+                gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), matrix3D[index].row(), matrix3D[index].col(), Direction.DOWN, 2);
+                if (gameController.whoIsPlaying().getInHandTile().size() == 0) {
+                    gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), matrix3D[index].row(), matrix3D[index].col(), Direction.DOWN, 1);
+                }
+                index++;
+                if (index == 35) {
+                    index = 0;
+                }
+            } while (gameController.whoIsPlaying().getInHandTile().size() == 0);
+            //check if the tile is correctly added to the player's hand
+
+            if (i == 5) {
+                i = 0;
+            }
+            Player p = gameController.whoIsPlaying();
+            int freeSpace = p.getShelf().getFreeSpace();
+            gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
+
+
+            a = a + 1;
+            if (a == 3) {
+                i = i + 1;
+                a = 0;
+            }
+        }
+        //Problema: un giocatore riempie la shelf e l'altro player rimane con un free space, e non esce mai dal last circle
         assert (gameController.getStatus().equals(GameStatus.ENDED));
     }
 }

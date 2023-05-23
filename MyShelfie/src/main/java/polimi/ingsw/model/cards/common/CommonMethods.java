@@ -15,7 +15,7 @@ public abstract class CommonMethods extends CommonCard {
         super(type);
     }
 
-    public static Shelf getCopy(Shelf toCopy){
+    public static Shelf getCopy(Shelf toCopy) {
         Shelf temp = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
@@ -162,6 +162,25 @@ public abstract class CommonMethods extends CommonCard {
                 }
             }
         }
+    }
+
+
+    public static void deleteAdjacent(TileType typeToCheck, Shelf temp, int r, int c) {
+
+        if (r < 0 || r >= DefaultValue.NumOfRowsShelf || c >= DefaultValue.NumOfColumnsShelf ||
+                c < 0 || !temp.get(r, c).isSameType(typeToCheck) ||
+                temp.isEmpty() || typeToCheck.equals(TileType.NOT_USED))
+            return;
+        temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
+
+        //up
+        deleteAdjacent(typeToCheck, temp, r - 1, c);
+        //down
+        deleteAdjacent(typeToCheck, temp, r + 1, c);
+        //left
+        deleteAdjacent(typeToCheck, temp, r, c - 1);
+        //right
+        deleteAdjacent(typeToCheck, temp, r, c + 1);
     }
 
 }

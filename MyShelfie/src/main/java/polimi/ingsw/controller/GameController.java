@@ -288,6 +288,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
+    /**
+     * Position a tile on the shelf of the player
+     * @param p the nickname of the player
+     * @param column the column where you want to position the tile
+     * @param type the type of the tile
+     */
     public synchronized void positionTileOnShelf(String p, int column, TileType type) {
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
 
@@ -317,11 +323,23 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
+    /**
+     * Check if it's your turn
+     * @param nick the nickname of the player
+     * @return true if it's your turn, false else
+     * @throws RemoteException if there is a connection error (RMI)
+     */
     @Override
     public synchronized boolean isThisMyTurn(String nick) throws RemoteException {
         return model.getPlayers().get(model.getCurrentPlaying()).getNickname().equals(nick);
     }
 
+    /**
+     * Disconnect the player, if the game is in WAIT status, the player is removed from the game
+     * @param nick the nickname of the player
+     * @param lisOfClient the listener of the client
+     * @throws RemoteException if there is a connection error (RMI)
+     */
     @Override
     public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
 
@@ -348,6 +366,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }
 
+    /**
+     * Start a timer for waiting the reconnection of the player, if the player doesn't reconnect in time, the game is set to ended
+     */
     private void startReconnectionTimer() {
         reconnectionTh = new Thread(
                 () -> {

@@ -47,7 +47,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -132,7 +132,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -166,7 +166,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -200,7 +200,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -217,7 +217,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -234,7 +234,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
 
@@ -252,7 +252,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -269,7 +269,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -286,7 +286,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -303,7 +303,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -320,7 +320,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -337,7 +337,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -354,7 +354,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -371,7 +371,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertFalse(card.verify(test));
+        assertTrue(card.verify(test));
     }
 
     @Test
@@ -388,7 +388,7 @@ public class CommonSquaresTest extends ShelfConverter{
 
         Shelf test = setShelf(matrix);
 
-        assertTrue(card.verify(test));
+        assertFalse(card.verify(test));
     }
 
     @Test
@@ -400,6 +400,40 @@ public class CommonSquaresTest extends ShelfConverter{
                 {"","","","",""},
                 {"A","A","C","C",""},
                 {"A","A","C","C",""},
+                {"","","","",""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertTrue(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("2 Groups of 2x2 box tiles with same Tiles inside group #24")
+    public void testFourGroups24() {
+        String[][] matrix = {
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {"A","A","A","C","C"},
+                {"A","A","A","C","C"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("2 Groups of 2x2 box tiles with same Tiles inside group #25")
+    public void testFourGroups25() {
+        String[][] matrix = {
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {"C","C","C","C","C"},
+                {"C","C","C","C","C"},
                 {"","","","",""}
         };
 

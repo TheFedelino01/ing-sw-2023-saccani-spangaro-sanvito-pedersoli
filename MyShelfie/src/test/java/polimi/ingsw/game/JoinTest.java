@@ -21,7 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Join {
+public class JoinTest {
 
     List<GameController> runningGames;
     GameController gameController;

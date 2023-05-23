@@ -11,13 +11,110 @@ public class ShelfTest {
 
     @Test
     @DisplayName("Test Shelf constructor + get shelf + get free space")
-    void getShelf() {
-        Shelf shelf = new Shelf();
-        assertEquals(6, shelf.getShelf().length);
-        assertEquals(5, shelf.getShelf()[0].length);
+    void getShelf1() {
+        Tile[][] tiles = new Tile[9][9];
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++) {
+                tiles[i][j] = new Tile(TileType.CAT);
+            }
+        }
+        Shelf shelf = new Shelf(tiles, 30);
+        shelf.toString();
+        shelf.toString(0);
+        shelf.toStringGoalCard();
+        assertEquals(9, shelf.getShelf().length);
+        assertEquals(9, shelf.getShelf()[0].length);
         assertEquals(30, shelf.getFreeSpace());
-    }
 
+    }
+    @Test
+    @DisplayName("Test Shelf constructor + get shelf + get free space")
+    void getShelf2() {
+        Tile[][] tiles = new Tile[9][9];
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++) {
+                tiles[i][j] = new Tile(TileType.PLANT);
+            }
+        }
+        Shelf shelf = new Shelf(tiles, 30);
+        shelf.toString();
+        shelf.toString(0);
+        shelf.toStringGoalCard();
+        assertEquals(9, shelf.getShelf().length);
+        assertEquals(9, shelf.getShelf()[0].length);
+        assertEquals(30, shelf.getFreeSpace());
+
+    }
+    @Test
+    @DisplayName("Test Shelf constructor + get shelf + get free space")
+    void getShelf3() {
+        Tile[][] tiles = new Tile[9][9];
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++) {
+                tiles[i][j] = new Tile(TileType.ACTIVITY);
+            }
+        }
+        Shelf shelf = new Shelf(tiles, 30);
+        shelf.toString();
+        shelf.toString(0);
+        shelf.toStringGoalCard();
+        assertEquals(9, shelf.getShelf().length);
+        assertEquals(9, shelf.getShelf()[0].length);
+        assertEquals(30, shelf.getFreeSpace());
+
+    }
+    @Test
+    @DisplayName("Test Shelf constructor + get shelf + get free space")
+    void getShelf4() {
+        Tile[][] tiles = new Tile[9][9];
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++) {
+                tiles[i][j] = new Tile(TileType.FRAME);
+            }
+        }
+        Shelf shelf = new Shelf(tiles, 30);
+        shelf.toString();
+        shelf.toString(0);
+        shelf.toStringGoalCard();
+        assertEquals(9, shelf.getShelf().length);
+        assertEquals(9, shelf.getShelf()[0].length);
+        assertEquals(30, shelf.getFreeSpace());
+
+    }  @Test
+    @DisplayName("Test Shelf constructor + get shelf + get free space")
+    void getShelf5() {
+        Tile[][] tiles = new Tile[9][9];
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++) {
+                tiles[i][j] = new Tile(TileType.BOOK);
+            }
+        }
+        Shelf shelf = new Shelf(tiles, 30);
+        shelf.toString();
+        shelf.toString(0);
+        shelf.toStringGoalCard();
+        assertEquals(9, shelf.getShelf().length);
+        assertEquals(9, shelf.getShelf()[0].length);
+        assertEquals(30, shelf.getFreeSpace());
+
+    }  @Test
+    @DisplayName("Test Shelf constructor + get shelf + get free space")
+    void getShelf6() {
+        Tile[][] tiles = new Tile[9][9];
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++) {
+                tiles[i][j] = new Tile(TileType.TROPHY);
+            }
+        }
+        Shelf shelf = new Shelf(tiles, 30);
+        shelf.toString();
+        shelf.toString(0);
+        shelf.toStringGoalCard();
+        assertEquals(9, shelf.getShelf().length);
+        assertEquals(9, shelf.getShelf()[0].length);
+        assertEquals(30, shelf.getFreeSpace());
+
+    }
     @Test
     @DisplayName("Test set shelf")
     void setShelf() {
