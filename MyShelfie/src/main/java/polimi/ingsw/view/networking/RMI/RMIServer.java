@@ -15,12 +15,15 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
 
     private MainControllerInterface mainController;
 
+    //if the registry is not static, java will garbage collect it, and the client will crash
+    private static Registry registry;
+
     public static RMIServer bind() {
         RMIServer obj = null;
         try {
             obj = new RMIServer();
             // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
+            registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
             registry.rebind(DefaultValue.Default_servername_RMI, obj);
 
 
@@ -43,7 +46,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         //The GameController and the Player have just created so, I need to set them as an Exportable Object
 
         try {
-            UnicastRemoteObject.exportObject(ris, 0);
+            UnicastRemoteObject.exportObject(ris, DefaultValue.Default_port_RMI);
         }catch (RemoteException e){
             //Already exported, due to another RMI Client running on the same machine
         }
@@ -59,7 +62,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         if (ris != null) {
             //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
             try {
-                UnicastRemoteObject.exportObject(ris, 0);
+                UnicastRemoteObject.exportObject(ris, DefaultValue.Default_port_RMI);
             }catch (RemoteException e){
                 //Already exported, due to another RMI Client running on the same machine
             }
@@ -74,7 +77,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         GameControllerInterface ris = mainController.joinGame(lis, nick, idGame);
         if (ris != null) {
             try {
-                UnicastRemoteObject.exportObject(ris, 0);
+                UnicastRemoteObject.exportObject(ris, DefaultValue.Default_port_RMI);
             }catch (RemoteException e){
                 //Already exported, due to another RMI Client running on the same machine
             }
@@ -89,7 +92,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         GameControllerInterface ris = mainController.reconnect(lis, nick, idGame);
         if (ris != null) {
             try {
-                UnicastRemoteObject.exportObject(ris, 0);
+                UnicastRemoteObject.exportObject(ris, DefaultValue.Default_port_RMI);
             }catch (RemoteException e){
                 //Already exported, due to another RMI Client running on the same machine
             }
