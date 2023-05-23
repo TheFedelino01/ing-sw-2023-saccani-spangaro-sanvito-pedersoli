@@ -2,20 +2,11 @@ package polimi.ingsw.model.cards.common;
 
 import junit.framework.Assert;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.model.DefaultValue;
-import polimi.ingsw.model.enumeration.CardCommonType;
-import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Shelf;
-import polimi.ingsw.model.Tile;
+import polimi.ingsw.model.enumeration.CardCommonType;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static polimi.ingsw.model.cards.common.ShelfConverter.setShelf;
 
 public class CommonDiagonalTest {
@@ -43,6 +34,7 @@ public class CommonDiagonalTest {
 
         Assert.assertTrue(card.verify(test));
     }
+
     @Test
     @DisplayName("Stair #2")
     public void testStairShelf2() {
@@ -146,6 +138,7 @@ public class CommonDiagonalTest {
 
         Assert.assertTrue(card.verify(test));
     }
+
     @Test
     @DisplayName("Stair #8")
     public void testStairShelf8() {
@@ -162,6 +155,7 @@ public class CommonDiagonalTest {
 
         Assert.assertTrue(card.verify(test));
     }
+
     @Test
     @DisplayName("Stair #9")
     public void testStairShelf9() {
@@ -178,6 +172,7 @@ public class CommonDiagonalTest {
 
         Assert.assertTrue(card.verify(test));
     }
+
     @Test
     @DisplayName("Stair #10")
     public void testStairShelf10() {
@@ -195,5 +190,173 @@ public class CommonDiagonalTest {
         Assert.assertTrue(card.verify(test));
     }
 
+    @Test
+    @DisplayName("Stair #11")
+    public void testStairShelf11() {
+        String[][] matrix = {
+                {"", "", "", "", ""},
+                {"C", "", "", "", ""},
+                {"C", "C", "", "", ""},
+                {"C", "C", "C", "", ""},
+                {"C", "C", "T", "C", ""},
+                {"C", "C", "C", "C", "C"}
+        };
 
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #12")
+    public void testStairShelf12() {
+        String[][] matrix = {
+                {"T", "T", "T", "T", "T"},
+                {"T", "T", "T", "T", "T"},
+                {"", "T", "T", "T", "T"},
+                {"", "", "T", "T", "T"},
+                {"", "", "", "T", "T"},
+                {"", "", "", "", "T"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #13")
+    public void testStairShelf13() {
+        String[][] matrix = {
+                {"T", "T", "T", "T", "T"},
+                {"", "T", "T", "T", "T"},
+                {"", "", "T", "T", "T"},
+                {"", "", "", "T", "T"},
+                {"", "", "", "", "T"},
+                {"", "", "", "", ""}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #14")
+    public void testStairShelf14() {
+        String[][] matrix = {
+                {"T", "T", "T", "T", "T"},
+                {"", "T", "T", "T", "T"},
+                {"", "", "T", "T", "T"},
+                {"", "", "", "T", "T"},
+                {"", "", "", "", "T"},
+                {"", "", "", "", "T"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #15")
+    public void testStairShelf15() {
+        String[][] matrix = {
+                {"T", "T", "T", "T", "T"},
+                {"P", "T", "T", "T", "T"},
+                {"", "P", "T", "T", "T"},
+                {"", "", "P", "T", "T"},
+                {"", "", "", "P", "T"},
+                {"", "", "", "", "P"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertTrue(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #16")
+    public void testStairShelf16() {
+        String[][] matrix = {
+                {"T", "T", "T", "T", "T"},
+                {"P", "T", "T", "T", "T"},
+                {"F", "P", "T", "T", "T"},
+                {"", "F", "P", "T", "T"},
+                {"", "", "F", "P", "T"},
+                {"", "", "", "F", "P"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #17")
+    public void testStairShelf17() {
+        String[][] matrix = {
+                {"T", "T", "T", "", ""},
+                {"P", "T", "T", "T", ""},
+                {"F", "P", "T", "T", "T"},
+                {"", "F", "P", "T", "T"},
+                {"", "", "F", "P", "T"},
+                {"", "", "", "F", "P"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #18")
+    public void testStairShelf18() {
+        String[][] matrix = {
+                {"T", "T", "T", "", ""},
+                {"P", "T", "T", "T", ""},
+                {"F", "P", "T", "T", "T"},
+                {"F", "F", "P", "T", "T"},
+                {"F", "F", "F", "P", "T"},
+                {"F", "F", "F", "F", "P"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #19")
+    public void testStairShelf19() {
+        String[][] matrix = {
+                {"T", "T", "", "", ""},
+                {"P", "T", "", "", ""},
+                {"F", "P", "T", "", ""},
+                {"F", "F", "P", "T", ""},
+                {"F", "F", "F", "P", "T"},
+                {"F", "F", "F", "F", "P"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
+
+    @Test
+    @DisplayName("Stair #20")
+    public void testStairShelf20() {
+        String[][] matrix = {
+                {"T", "T", "", "", "P"},
+                {"P", "T", "", "", ""},
+                {"F", "P", "T", "", ""},
+                {"F", "F", "P", "T", ""},
+                {"F", "F", "F", "P", "T"},
+                {"F", "F", "F", "F", "P"}
+        };
+
+        Shelf test = setShelf(matrix);
+
+        Assert.assertFalse(card.verify(test));
+    }
 }
