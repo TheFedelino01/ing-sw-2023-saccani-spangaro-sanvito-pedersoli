@@ -85,9 +85,10 @@ public class MainClient {
 
     private static boolean isValidIP(String input) {
         List<String> parsed;
-        parsed = Arrays.stream(input.split(".")).toList();
-        if (parsed.size() != 4)
+        parsed = Arrays.stream(input.split("\\.")).toList();
+        if (parsed.size() != 4) {
             return false;
+        }
         for (String part : parsed) {
             try {
                 Integer.parseInt(part);
