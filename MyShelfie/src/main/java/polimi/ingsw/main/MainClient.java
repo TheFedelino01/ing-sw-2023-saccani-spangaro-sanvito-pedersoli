@@ -32,6 +32,8 @@ public class MainClient {
                 System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
             else
                 System.setProperty("java.rmi.server.hostname", input);
+
+            clearCMD();
             do {
                 System.out.println(ansi().cursor(1, 0).a("""
                         Select option:
