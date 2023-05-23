@@ -78,6 +78,7 @@ public class GUIApplication extends Application {
     }
 
     public void setActiveScene(SceneEnum scene) {
+        resizing=false;
         int index = getSceneIndex(scene);
         if (index != -1) {
 
@@ -116,25 +117,26 @@ public class GUIApplication extends Application {
         this.primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
             rescale();
         });
-
+        resizing=true;
     }
 
     private double widthOld, heightOld;
-
+    private boolean resizing=true;
     public void rescale() {
-        double widthWindow = primaryStage.getScene().getWidth();
-        double heightWindow = primaryStage.getScene().getHeight();
+        if(resizing) {
+            double widthWindow = primaryStage.getScene().getWidth();
+            double heightWindow = primaryStage.getScene().getHeight();
 
 
-        double w = widthWindow / widthOld;  // your window width
-        double h = heightWindow / heightOld;  // your window height
+            double w = widthWindow / widthOld;  // your window width
+            double h = heightWindow / heightOld;  // your window height
 
-        widthOld = widthWindow;
-        heightOld = heightWindow;
-        Scale scale = new Scale(w, h, 0, 0);
-        //primaryStage.getScene().getRoot().getTransforms().add(scale);
-        primaryStage.getScene().lookup("#content").getTransforms().add(scale);
-
+            widthOld = widthWindow;
+            heightOld = heightWindow;
+            Scale scale = new Scale(w, h, 0, 0);
+            //primaryStage.getScene().getRoot().getTransforms().add(scale);
+            primaryStage.getScene().lookup("#content").getTransforms().add(scale);
+        }
     }
 
     public void showPlayerToLobby(GameModelImmutable model) {

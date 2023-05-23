@@ -13,26 +13,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" style="-fx-background-color: #263340;" styleClass="backgroundWelcome" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.userView.gui.controllers.InGameController">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.userView.gui.controllers.InGameController">
     <children>
-      <Pane prefHeight="946.0" prefWidth="1615.0" styleClass="backgroundInGame" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="content" prefHeight="850.0" prefWidth="1500.0">
          <children>
-            <Label layoutX="21.0" layoutY="447.0" text="Chat">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="379.0" layoutY="343.0" prefHeight="38.0" prefWidth="179.0" text="Your Points:">
-               <font>
-                  <Font name="Arial Black" size="25.0" />
-               </font>
-            </Label>
-            <Label fx:id="youPoints" layoutX="556.0" layoutY="344.0" prefHeight="38.0" prefWidth="58.0" text="0">
-               <font>
-                  <Font name="Arial Black" size="25.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="26.0" fitWidth="25.0" layoutX="366.0" layoutY="641.0" onMouseClicked="#actionSendMessage" pickOnBounds="true" preserveRatio="true" styleClass="tileHover">
+            <ComboBox fx:id="comboBoxMessage" layoutX="20.0" layoutY="640.0" prefHeight="25.0" prefWidth="92.0" />
+            <ImageView fitHeight="26.0" fitWidth="25.0" layoutX="365.0" layoutY="640.0" onMouseClicked="#actionSendMessage" pickOnBounds="true" preserveRatio="true" styleClass="tileHover">
                <image>
                   <Image url="@img/img/Publisher_material/arrow.png" />
                </image>
@@ -40,740 +26,792 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ComboBox fx:id="comboBoxMessage" layoutX="21.0" layoutY="640.0" prefHeight="25.0" prefWidth="92.0" />
-         </children></Pane>
-      <ImageView fitHeight="40.0" fitWidth="1522.0" pickOnBounds="true">
-         <image>
-            <Image url="@img/img/misc/base_pagina2.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="610.0" fitWidth="613.0" onMouseEntered="#actionMouseEnteredPlayground" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="55.0">
-         <image>
-            <Image url="@img/img/boards/livingroom.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@img/img/Publisher_material/Icon_50x50px.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="61.0" fitWidth="130.0" preserveRatio="true" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="2.0">
-         <image>
-            <Image url="@img/img/Publisher_material/Title_2000x618px.png" />
-         </image>
-      </ImageView>
-      <Pane fx:id="tilesPane" layoutX="524.0" layoutY="130.0" onMouseEntered="#actionMouseEnteredPlayground" prefHeight="0.0" prefWidth="0.0" AnchorPane.leftAnchor="624.0" AnchorPane.topAnchor="85.0">
-         <children>
-            <Pane fx:id="pg03" layoutX="187.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
+            <Label layoutX="20.0" layoutY="445.0" text="Chat">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="370.0" layoutY="338.0" prefHeight="38.0" prefWidth="179.0" text="Your Points:">
+               <font>
+                  <Font name="Arial Black" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="youPoints" layoutX="545.0" layoutY="338.0" prefHeight="38.0" prefWidth="58.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="25.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="40.0" fitWidth="1505.0" pickOnBounds="true">
+               <image>
+                  <Image url="@img/img/misc/base_pagina2.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="610.0" fitWidth="613.0" layoutX="600.0" layoutY="55.0" onMouseEntered="#actionMouseEnteredPlayground" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
+               <image>
+                  <Image url="@img/img/boards/livingroom.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="40.0" fitWidth="40.0">
+               <image>
+                  <Image url="@img/img/Publisher_material/Icon_50x50px.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="61.0" fitWidth="130.0" layoutX="45.0" layoutY="2.0" preserveRatio="true">
+               <image>
+                  <Image url="@img/img/Publisher_material/Title_2000x618px.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="tilesPane" layoutX="624.0" layoutY="85.0" onMouseEntered="#actionMouseEnteredPlayground" prefHeight="0.0" prefWidth="0.0">
+               <children>
+                  <Pane fx:id="pg03" layoutX="187.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg40" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg13" layoutX="187.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg23" layoutX="187.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg33" layoutX="187.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg43" layoutX="187.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg53" layoutX="187.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg63" layoutX="187.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg73" layoutX="187.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg14" layoutX="250.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg24" layoutX="250.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg34" layoutX="250.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg44" layoutX="250.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg54" layoutX="250.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg64" layoutX="250.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg74" layoutX="250.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg15" layoutX="312.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg25" layoutX="312.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg26" layoutX="374.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg22" layoutX="125.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg32" layoutX="125.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg42" layoutX="125.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg52" layoutX="125.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg62" layoutX="125.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg31" layoutX="63.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg41" layoutX="63.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg51" layoutX="63.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg04" layoutX="250.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg50" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg35" layoutX="312.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg45" layoutX="312.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg55" layoutX="312.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg65" layoutX="312.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg75" layoutX="312.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg84" layoutX="250.0" layoutY="496.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg85" layoutX="312.0" layoutY="496.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg36" layoutX="374.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg46" layoutX="374.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg56" layoutX="374.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg66" layoutX="374.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg37" layoutX="436.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg47" layoutX="436.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg57" layoutX="436.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg38" layoutX="498.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="pg48" layoutX="498.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+               </children>
             </Pane>
-            <Pane fx:id="pg40" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg13" layoutX="187.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg23" layoutX="187.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg33" layoutX="187.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg43" layoutX="187.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg53" layoutX="187.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg63" layoutX="187.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg73" layoutX="187.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg14" layoutX="250.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg24" layoutX="250.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg34" layoutX="250.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg44" layoutX="250.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg54" layoutX="250.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg64" layoutX="250.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg74" layoutX="250.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg15" layoutX="312.0" layoutY="62.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg25" layoutX="312.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg26" layoutX="374.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg22" layoutX="125.0" layoutY="124.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg32" layoutX="125.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg42" layoutX="125.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg52" layoutX="125.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg62" layoutX="125.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg31" layoutX="63.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg41" layoutX="63.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg51" layoutX="63.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg04" layoutX="250.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg50" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg35" layoutX="312.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg45" layoutX="312.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg55" layoutX="312.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg65" layoutX="312.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg75" layoutX="312.0" layoutY="434.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg84" layoutX="250.0" layoutY="496.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg85" layoutX="312.0" layoutY="496.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg36" layoutX="374.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg46" layoutX="374.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg56" layoutX="374.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg66" layoutX="374.0" layoutY="372.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg37" layoutX="436.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg47" layoutX="436.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg57" layoutX="436.0" layoutY="310.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg38" layoutX="498.0" layoutY="186.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-            <Pane fx:id="pg48" layoutX="498.0" layoutY="248.0" onMouseClicked="#actionClickOnTile" onMouseEntered="#actionMouseEnteredTile" prefHeight="58.0" prefWidth="58.0" style="-fx-background-color: red;" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Pane>
-         </children>
-      </Pane>
-      <ImageView fitHeight="40.0" fitWidth="233.0" preserveRatio="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@img/img/Publisher_material/banner_1386x400px.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="470.0" layoutY="653.0" text="Common Cards" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="60.0">
-         <font>
-            <Font name="Arial Black" size="25.0" />
-         </font>
-      </Label>
-      <Label layoutX="10.0" layoutY="10.0" text="Game ID:" textFill="WHITE" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="7.0">
-         <font>
-            <Font name="Arial Black" size="20.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="460.0" fitWidth="390.0" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
-         <image>
-            <Image url="@img/img/boards/bookshelf.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="youNickname" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="365.0" prefHeight="53.0" prefWidth="308.0" stylesheets="@style.css" text="YouPlayer" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="390.0">
-         <font>
-            <Font name="Arial Black" size="35.0" />
-         </font>
-      </Label>
-      <Pane fx:id="workspace3" layoutX="1100.0" layoutY="590.0" prefHeight="267.0" prefWidth="340.0" AnchorPane.leftAnchor="1150.0" AnchorPane.topAnchor="590.0">
-         <children>
-            <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
+            <ImageView fitHeight="40.0" fitWidth="233.0" layoutX="1361.0" preserveRatio="true">
+               <image>
+                  <Image url="@img/img/Publisher_material/banner_1386x400px.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="380.0" layoutY="60.0" text="Common Cards">
+               <font>
+                  <Font name="Arial Black" size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="1149.5" layoutY="7.0" text="Game ID:" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="460.0" fitWidth="390.0" layoutX="10.0" layoutY="50.0" preserveRatio="true">
                <image>
                   <Image url="@img/img/boards/bookshelf.png" />
                </image>
             </ImageView>
-            <Label fx:id="playerLabel3" alignment="CENTER" contentDisplay="CENTER" layoutX="121.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" stylesheets="@style.css" text="Player3" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="youNickname" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="390.0" prefHeight="53.0" prefWidth="308.0" stylesheets="@style.css" text="YouPlayer" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Arial Black" size="30.0" />
+                  <Font name="Arial Black" size="35.0" />
                </font>
             </Label>
-            <Pane layoutX="131.0" layoutY="18.0">
+            <Pane fx:id="workspace3" layoutX="1150.0" layoutY="590.0" prefHeight="267.0" prefWidth="340.0">
                <children>
-                  <Pane fx:id="player3Shelf50" layoutX="1.0" layoutY="162.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf40" layoutX="1.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf30" layoutX="1.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf20" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf10" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf00" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf51" layoutX="38.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf41" layoutX="38.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf31" layoutX="38.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf21" layoutX="38.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf11" layoutX="38.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf01" layoutX="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf52" layoutX="76.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf42" layoutX="75.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf32" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf22" layoutX="76.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf12" layoutX="76.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf02" layoutX="76.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf53" layoutX="113.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf43" layoutX="113.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf33" layoutX="113.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf23" layoutX="113.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf13" layoutX="114.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf03" layoutX="114.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf54" layoutX="150.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf44" layoutX="151.0" layoutY="132.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf34" layoutX="151.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf24" layoutX="152.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf14" layoutX="152.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player3Shelf04" layoutX="152.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
+                     <image>
+                        <Image url="@img/img/boards/bookshelf.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="playerLabel3" alignment="CENTER" contentDisplay="CENTER" layoutX="121.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" stylesheets="@style.css" text="Player3" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Black" size="30.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutX="131.0" layoutY="18.0">
+                     <children>
+                        <Pane fx:id="player3Shelf50" layoutX="1.0" layoutY="162.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf40" layoutX="1.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf30" layoutX="1.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf20" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf10" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf00" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf51" layoutX="38.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf41" layoutX="38.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf31" layoutX="38.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf21" layoutX="38.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf11" layoutX="38.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf01" layoutX="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf52" layoutX="76.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf42" layoutX="75.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf32" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf22" layoutX="76.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf12" layoutX="76.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf02" layoutX="76.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf53" layoutX="113.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf43" layoutX="113.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf33" layoutX="113.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf23" layoutX="113.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf13" layoutX="114.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf03" layoutX="114.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf54" layoutX="150.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf44" layoutX="151.0" layoutY="132.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf34" layoutX="151.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf24" layoutX="152.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf14" layoutX="152.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player3Shelf04" layoutX="152.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                     </children>
+                  </Pane>
                </children>
             </Pane>
-         </children>
-      </Pane>
-      <Pane fx:id="workspace1" layoutX="1100.0" layoutY="50.0" prefHeight="267.0" prefWidth="340.0" AnchorPane.leftAnchor="1150.0" AnchorPane.topAnchor="45.0">
-         <children>
-            <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
+            <Pane fx:id="workspace1" layoutX="1150.0" layoutY="45.0" prefHeight="267.0" prefWidth="340.0">
+               <children>
+                  <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
+                     <image>
+                        <Image url="@img/img/boards/bookshelf.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="playerLabel1" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="202.0" prefHeight="44.0" prefWidth="194.0" stylesheets="@style.css" text="Player1" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Black" size="30.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutX="131.0" layoutY="14.0">
+                     <children>
+                        <Pane fx:id="player1Shelf50" layoutX="2.0" layoutY="166.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf40" layoutX="2.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf30" layoutX="2.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf20" layoutX="1.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf10" layoutX="1.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf00" layoutX="1.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf51" layoutX="39.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf41" layoutX="39.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf31" layoutX="39.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf21" layoutX="39.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf11" layoutX="39.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf01" layoutX="38.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf52" layoutX="76.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf42" layoutX="76.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf32" layoutX="76.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf22" layoutX="76.0" layoutY="71.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf12" layoutX="76.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf02" layoutX="76.0" layoutY="5.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf53" layoutX="113.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf43" layoutX="113.0" layoutY="134.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf33" layoutX="114.0" layoutY="102.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf23" layoutX="114.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf13" layoutX="114.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf03" layoutX="114.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf54" layoutX="151.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf44" layoutX="152.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf34" layoutX="152.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf24" layoutX="152.0" layoutY="71.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf14" layoutX="152.0" layoutY="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player1Shelf04" layoutX="152.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="workspace2" layoutX="1150.0" layoutY="320.0" prefHeight="267.0" prefWidth="340.0">
+               <children>
+                  <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
+                     <image>
+                        <Image url="@img/img/boards/bookshelf.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="playerLabel2" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" stylesheets="@style.css" text="Player2" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Black" size="30.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutX="131.0" layoutY="18.0">
+                     <children>
+                        <Pane fx:id="player2Shelf50" layoutX="1.0" layoutY="162.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf40" layoutX="1.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf30" layoutX="1.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf20" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf10" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf00" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf51" layoutX="38.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf41" layoutX="38.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf31" layoutX="38.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf21" layoutX="38.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf11" layoutX="38.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf01" layoutX="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf52" layoutX="76.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf42" layoutX="76.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf32" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf22" layoutX="76.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf12" layoutX="76.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf02" layoutX="76.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf53" layoutX="113.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf43" layoutX="113.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf33" layoutX="113.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf23" layoutX="113.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf13" layoutX="114.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf03" layoutX="114.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf54" layoutX="150.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf44" layoutX="151.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf34" layoutX="151.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf24" layoutX="151.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf14" layoutX="152.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                        <Pane fx:id="player2Shelf04" layoutX="152.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutX="640.0" layoutY="680.0" prefHeight="77.0" prefWidth="534.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="roundBorder" />
+                  <String fx:value="backgroundWall" />
+               </styleClass>
+            </Pane>
+            <ImageView fitHeight="59.0" fitWidth="40.0" layoutX="1455.0" layoutY="805.0" preserveRatio="true">
                <image>
-                  <Image url="@img/img/boards/bookshelf.png" />
+                  <Image url="@img/img/Publisher_material/Publisher.png" />
                </image>
             </ImageView>
-            <Label fx:id="playerLabel1" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="202.0" prefHeight="44.0" prefWidth="194.0" stylesheets="@style.css" text="Player1" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Arial Black" size="30.0" />
-               </font>
-            </Label>
-            <Pane layoutX="131.0" layoutY="14.0">
-               <children>
-                  <Pane fx:id="player1Shelf50" layoutX="2.0" layoutY="166.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf40" layoutX="2.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf30" layoutX="2.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf20" layoutX="1.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf10" layoutX="1.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf00" layoutX="1.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf51" layoutX="39.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf41" layoutX="39.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf31" layoutX="39.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf21" layoutX="39.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf11" layoutX="39.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf01" layoutX="38.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf52" layoutX="76.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf42" layoutX="76.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf32" layoutX="76.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf22" layoutX="76.0" layoutY="71.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf12" layoutX="76.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf02" layoutX="76.0" layoutY="5.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf53" layoutX="113.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf43" layoutX="113.0" layoutY="134.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf33" layoutX="114.0" layoutY="102.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf23" layoutX="114.0" layoutY="70.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf13" layoutX="114.0" layoutY="37.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf03" layoutX="114.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf54" layoutX="151.0" layoutY="167.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf44" layoutX="152.0" layoutY="135.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf34" layoutX="152.0" layoutY="103.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf24" layoutX="152.0" layoutY="71.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf14" layoutX="152.0" layoutY="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player1Shelf04" layoutX="152.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-               </children>
+            <Pane fx:id="pgGrab00" layoutX="765.0" layoutY="690.0" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Pane>
-         </children>
-      </Pane>
-      <Pane fx:id="workspace2" layoutX="1100.0" layoutY="320.0" prefHeight="267.0" prefWidth="340.0" AnchorPane.leftAnchor="1150.0" AnchorPane.topAnchor="320.0">
-         <children>
-            <ImageView fitHeight="460.0" fitWidth="240.0" layoutX="100.0" preserveRatio="true">
+            <Pane fx:id="pgGrab01" layoutX="875.0" layoutY="690.0" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Pane>
+            <Pane fx:id="pgGrab02" layoutX="985.0" layoutY="690.0" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Pane>
+            <ImageView fitHeight="162.0" fitWidth="166.0" layoutX="590.0" layoutY="688.0">
                <image>
-                  <Image url="@img/img/boards/bookshelf.png" />
+                  <Image url="@img/img/misc/Sacchetto_Aperto.png" />
                </image>
             </ImageView>
-            <Label fx:id="playerLabel2" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="198.0" prefHeight="53.0" prefWidth="194.0" stylesheets="@style.css" text="Player2" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="pgTilesTotal" alignment="CENTER" layoutX="605.0" layoutY="766.0" prefWidth="120.0" text="120" textFill="WHITE">
                <font>
-                  <Font name="Arial Black" size="30.0" />
+                  <Font name="Arial Black" size="40.0" />
                </font>
             </Label>
-            <Pane layoutX="131.0" layoutY="18.0">
+            <Label layoutX="430.0" layoutY="420.0" text="Personal">
+               <font>
+                  <Font name="Arial Black" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="lableGameId" layoutX="1259.0" layoutY="7.0" prefHeight="29.0" prefWidth="101.0" text="000000" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Pane layoutX="59.0" layoutY="79.0">
                <children>
-                  <Pane fx:id="player2Shelf50" layoutX="1.0" layoutY="162.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf40" layoutX="1.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf30" layoutX="1.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf20" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf10" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf00" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf51" layoutX="38.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf41" layoutX="38.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf31" layoutX="38.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf21" layoutX="38.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf11" layoutX="38.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf01" layoutX="38.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf52" layoutX="76.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf42" layoutX="76.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf32" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf22" layoutX="76.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf12" layoutX="76.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf02" layoutX="76.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf53" layoutX="113.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf43" layoutX="113.0" layoutY="130.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf33" layoutX="113.0" layoutY="98.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf23" layoutX="113.0" layoutY="66.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf13" layoutX="114.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf03" layoutX="114.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf54" layoutX="150.0" layoutY="163.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf44" layoutX="151.0" layoutY="131.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf34" layoutX="151.0" layoutY="99.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf24" layoutX="151.0" layoutY="67.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf14" layoutX="152.0" layoutY="33.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
-                  <Pane fx:id="player2Shelf04" layoutX="152.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
+                  <Pane fx:id="youShelf50" layoutX="2.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf40" layoutX="2.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf30" layoutX="2.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf20" layoutX="2.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf10" layoutX="1.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf00" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf51" layoutX="62.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf41" layoutX="62.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf31" layoutX="62.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf21" layoutX="62.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf11" layoutX="62.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf01" layoutX="62.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf52" layoutX="122.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf42" layoutX="123.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf32" layoutX="124.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf22" layoutX="124.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf12" layoutX="124.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf02" layoutX="124.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf53" layoutX="184.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf43" layoutX="184.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf33" layoutX="184.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf23" layoutX="185.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf13" layoutX="185.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf03" layoutX="186.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf54" layoutX="245.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf44" layoutX="245.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf34" layoutX="245.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf24" layoutX="246.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf04" layoutX="248.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="youShelf14" layoutX="247.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
                </children>
             </Pane>
-         </children>
-      </Pane>
-      <Pane layoutX="481.0" layoutY="700.0" prefHeight="77.0" prefWidth="534.0" stylesheets="@style.css" AnchorPane.leftAnchor="640.0" AnchorPane.topAnchor="680.0">
-         <styleClass>
-            <String fx:value="roundBorder" />
-            <String fx:value="backgroundWall" />
-         </styleClass>
-      </Pane>
-      <ImageView fitHeight="59.0" fitWidth="40.0" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
-         <image>
-            <Image url="@img/img/Publisher_material/Publisher.png" />
-         </image>
-      </ImageView>
-      <Pane fx:id="pgGrab00" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css" AnchorPane.leftAnchor="765.0" AnchorPane.topAnchor="690.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Pane>
-      <Pane fx:id="pgGrab01" layoutX="10.0" layoutY="10.0" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css" AnchorPane.leftAnchor="875.0" AnchorPane.topAnchor="690.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Pane>
-      <Pane fx:id="pgGrab02" layoutX="20.0" layoutY="20.0" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css" AnchorPane.leftAnchor="985.0" AnchorPane.topAnchor="690.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Pane>
-      <ImageView fitHeight="162.0" fitWidth="166.0" AnchorPane.leftAnchor="590.0" AnchorPane.topAnchor="688.0">
-         <image>
-            <Image url="@img/img/misc/Sacchetto_Aperto.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="pgTilesTotal" alignment="CENTER" layoutX="605.0" prefWidth="120.0" text="120" textFill="WHITE" AnchorPane.leftAnchor="605.0" AnchorPane.topAnchor="766.0">
-         <font>
-            <Font name="Arial Black" size="40.0" />
-         </font>
-      </Label>
-      <Label layoutX="480.0" layoutY="663.0" text="Personal" AnchorPane.leftAnchor="430.0" AnchorPane.topAnchor="420.0">
-         <font>
-            <Font name="Arial Black" size="25.0" />
-         </font>
-      </Label>
-      <Label fx:id="lableGameId" layoutX="20.0" layoutY="20.0" prefHeight="29.0" prefWidth="101.0" text="000000" textFill="WHITE" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="7.0">
-         <font>
-            <Font name="Arial Black" size="20.0" />
-         </font>
-      </Label>
-      <Pane layoutX="59.0" layoutY="79.0">
-         <children>
-            <Pane fx:id="youShelf50" layoutX="2.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf40" layoutX="2.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf30" layoutX="2.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf20" layoutX="2.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf10" layoutX="1.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf00" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf51" layoutX="62.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf41" layoutX="62.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf31" layoutX="62.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf21" layoutX="62.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf11" layoutX="62.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf01" layoutX="62.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf52" layoutX="122.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf42" layoutX="123.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf32" layoutX="124.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf22" layoutX="124.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf12" layoutX="124.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf02" layoutX="124.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf53" layoutX="184.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf43" layoutX="184.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf33" layoutX="184.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf23" layoutX="185.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf13" layoutX="185.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf03" layoutX="186.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf54" layoutX="245.0" layoutY="264.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf44" layoutX="245.0" layoutY="212.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf34" layoutX="245.0" layoutY="160.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf24" layoutX="246.0" layoutY="108.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf04" layoutX="248.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-            <Pane fx:id="youShelf14" layoutX="247.0" layoutY="54.0" onMouseClicked="#actionTileShelfieClick" onMouseEntered="#actionMouseEntered" onMouseExited="#actionMouseExited" prefHeight="45.0" prefWidth="45.0" stylesheets="@style.css">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-         </children>
-      </Pane>
-      <Label fx:id="labelMessage" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="29.0" prefWidth="610.0" textFill="WHITE" AnchorPane.leftAnchor="460.0" AnchorPane.topAnchor="7.0">
-         <font>
-            <Font name="Arial Black" size="20.0" />
-         </font>
-      </Label>
-      <Pane layoutY="610.0" opacity="0.6" prefHeight="162.0" prefWidth="374.0" styleClass="backgroundWall" stylesheets="@style.css" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="473.0" />
-      <ListView fx:id="chatList" prefHeight="151.0" prefWidth="361.0" styleClass="backgroundTransparent" stylesheets="@style.css" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="478.0" />
-      <TextField fx:id="messageText" layoutX="120.0" onKeyPressed="#actionKeyPressedOnTextMessage" prefHeight="26.0" prefWidth="240.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="640.0" />
-      <Pane layoutX="10.0" layoutY="703.0" opacity="0.6" prefHeight="145.0" prefWidth="566.0" styleClass="backgroundWall" stylesheets="@style.css" AnchorPane.topAnchor="703.0" />
-      <ListView fx:id="importantEventsList" prefHeight="136.0" prefWidth="556.0" styleClass="backgroundTransparent" stylesheets="@style.css" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="708.0" />
-      <Pane fx:id="youPersonal" layoutX="330.0" layoutY="220.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="200.0" prefWidth="130.0" style="-fx-background-color: white;" stylesheets="@style.css" AnchorPane.leftAnchor="425.0" AnchorPane.topAnchor="460.0">
-         <styleClass>
-            <String fx:value="tileHover" />
-            <String fx:value="roundBorder" />
-         </styleClass>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Pane>
-      <Pane layoutX="795.0" layoutY="697.0" stylesheets="@style.css" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="220.0">
-         <children>
-            <Pane fx:id="cc1" layoutX="5.0" layoutY="5.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="110.0" prefWidth="190.0" style="-fx-background-color: white;" stylesheets="@style.css">
+            <Label fx:id="labelMessage" alignment="CENTER" layoutX="460.0" layoutY="7.0" prefHeight="29.0" prefWidth="610.0" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Pane layoutX="20.0" layoutY="473.0" opacity="0.6" prefHeight="162.0" prefWidth="374.0" styleClass="backgroundWall" stylesheets="@style.css" />
+            <ListView fx:id="chatList" layoutX="27.0" layoutY="478.0" prefHeight="151.0" prefWidth="361.0" styleClass="backgroundTransparent" stylesheets="@style.css" />
+            <TextField fx:id="messageText" layoutX="120.0" layoutY="640.0" onKeyPressed="#actionKeyPressedOnTextMessage" prefHeight="26.0" prefWidth="240.0" />
+            <Pane layoutX="10.0" layoutY="703.0" opacity="0.6" prefHeight="145.0" prefWidth="566.0" styleClass="backgroundWall" stylesheets="@style.css" />
+            <ListView fx:id="importantEventsList" layoutX="15.0" layoutY="708.0" prefHeight="136.0" prefWidth="556.0" styleClass="backgroundTransparent" stylesheets="@style.css" />
+            <Pane fx:id="youPersonal" layoutX="425.0" layoutY="460.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="200.0" prefWidth="130.0" style="-fx-background-color: white;" stylesheets="@style.css">
                <styleClass>
                   <String fx:value="tileHover" />
                   <String fx:value="roundBorder" />
                </styleClass>
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-         </children>
-      </Pane>
-      <Pane layoutX="495.0" layoutY="697.0" stylesheets="@style.css" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="100.0">
-         <children>
-            <Pane fx:id="cc0" layoutX="5.0" layoutY="5.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="110.0" prefWidth="190.0" style="-fx-background-color: white;" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="tileHover" />
-                  <String fx:value="roundBorder" />
-               </styleClass>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Pane>
-         </children>
-      </Pane>
-      <Label layoutX="11.0" layoutY="675.0" text="Latest events" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="674.0">
-         <font>
-            <Font name="Arial Black" size="20.0" />
-         </font>
-      </Label>
-      <Pane fx:id="pointGroup1" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css" AnchorPane.leftAnchor="1300.0" AnchorPane.topAnchor="40.0">
-         <children>
-            <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
+               </cursor>
+            </Pane>
+            <Pane layoutX="380.0" layoutY="220.0" stylesheets="@style.css">
+               <children>
+                  <Pane fx:id="cc1" layoutX="5.0" layoutY="5.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="110.0" prefWidth="190.0" style="-fx-background-color: white;" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="tileHover" />
+                        <String fx:value="roundBorder" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutX="380.0" layoutY="100.0" stylesheets="@style.css">
+               <children>
+                  <Pane fx:id="cc0" layoutX="5.0" layoutY="5.0" onMouseClicked="#actionMouseEnteredCommonCard" onMouseExited="#actionMouseExitedCommonCard" prefHeight="110.0" prefWidth="190.0" style="-fx-background-color: white;" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="tileHover" />
+                        <String fx:value="roundBorder" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+               </children>
+            </Pane>
+            <Label layoutX="11.0" layoutY="674.0" text="Latest events">
                <font>
                   <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="player1Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Group fx:id="groupPointCC0" layoutX="500.0" layoutY="130.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="130.0">
-         <children>
-            <Pane fx:id="point2cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="point2" />
-                  <String fx:value="tileHover" />
-               </styleClass>
+            <Pane fx:id="pointGroup1" layoutX="1300.0" layoutY="40.0" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css">
+               <children>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player1Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
             </Pane>
-            <Pane fx:id="point4cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="point4" />
-                  <String fx:value="tileHover" />
-               </styleClass>
+            <Group fx:id="groupPointCC0" layoutX="500.0" layoutY="130.0">
+               <children>
+                  <Pane fx:id="point2cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="point2" />
+                        <String fx:value="tileHover" />
+                     </styleClass>
+                  </Pane>
+                  <Pane fx:id="point4cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="point4" />
+                        <String fx:value="tileHover" />
+                     </styleClass>
+                  </Pane>
+                  <Pane fx:id="point6cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="point6" />
+                        <String fx:value="tileHover" />
+                     </styleClass>
+                  </Pane>
+                  <Pane fx:id="point8cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="point8" />
+                        <String fx:value="tileHover" />
+                     </styleClass>
+                  </Pane>
+               </children>
+            </Group>
+            <Group fx:id="groupPointCC1" layoutX="500.0" layoutY="250.0">
+               <children>
+                  <Pane fx:id="point2cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="point2" />
+                        <String fx:value="tileHover" />
+                     </styleClass>
+                  </Pane>
+                  <Pane fx:id="point4cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="point4" />
+                        <String fx:value="tileHover" />
+                     </styleClass>
+                  </Pane>
+                  <Pane fx:id="point6cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="point6" />
+                        <String fx:value="tileHover" />
+                     </styleClass>
+                  </Pane>
+                  <Pane fx:id="point8cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="point8" />
+                        <String fx:value="tileHover" />
+                     </styleClass>
+                  </Pane>
+               </children>
+            </Group>
+            <Pane fx:id="pointGroup2" layoutX="1300.0" layoutY="310.0" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css">
+               <children>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player2Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
             </Pane>
-            <Pane fx:id="point6cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="point6" />
-                  <String fx:value="tileHover" />
-               </styleClass>
+            <Pane fx:id="pointGroup3" layoutX="1300.0" layoutY="580.0" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css">
+               <children>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player3Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
             </Pane>
-            <Pane fx:id="point8cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="point8" />
-                  <String fx:value="tileHover" />
-               </styleClass>
-            </Pane>
-         </children>
-      </Group>
-      <Group fx:id="groupPointCC1" layoutX="510.0" layoutY="140.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="250.0">
-         <children>
-            <Pane fx:id="point2cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="point2" />
-                  <String fx:value="tileHover" />
-               </styleClass>
-            </Pane>
-            <Pane fx:id="point4cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="point4" />
-                  <String fx:value="tileHover" />
-               </styleClass>
-            </Pane>
-            <Pane fx:id="point6cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="point6" />
-                  <String fx:value="tileHover" />
-               </styleClass>
-            </Pane>
-            <Pane fx:id="point8cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
-               <styleClass>
-                  <String fx:value="point8" />
-                  <String fx:value="tileHover" />
-               </styleClass>
-            </Pane>
-         </children>
-      </Group>
-      <Pane fx:id="pointGroup2" layoutX="10.0" layoutY="10.0" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css" AnchorPane.leftAnchor="1300.0" AnchorPane.topAnchor="310.0">
-         <children>
-            <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="player2Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane fx:id="pointGroup3" layoutX="20.0" layoutY="20.0" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css" AnchorPane.leftAnchor="1300.0" AnchorPane.topAnchor="580.0">
-         <children>
-            <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="player3Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
          </children>
       </Pane>
     </children>
+   <styleClass>
+      <String fx:value="backgroundInGame" />
+      <String fx:value="backgroundWelcome" />
+   </styleClass>
 </AnchorPane>
