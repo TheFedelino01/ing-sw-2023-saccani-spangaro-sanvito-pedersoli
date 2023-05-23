@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import polimi.ingsw.model.Point;
 import polimi.ingsw.model.gameModelView.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.view.userView.ConnectionSelection;
@@ -234,9 +235,9 @@ public class GUIApplication extends Application {
         controller.setImportantEvents(importantEvents);
     }
 
-    public void showPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname){
+    public void showPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname, Point p){
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setPointsUpdated(model, playerPointChanged, myNickname);
+        controller.setPointsUpdated(model, playerPointChanged, myNickname,p);
     }
     public void showLeaderBoard(GameModelImmutable model) {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();

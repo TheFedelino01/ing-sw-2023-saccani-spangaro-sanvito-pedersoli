@@ -105,6 +105,7 @@ public class GameTest {
             Player p = gameController.whoIsPlaying();
             int freeSpace = p.getShelf().getFreeSpace();
             gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
+            
 
             //check if the tile is correctly added to the shelf
             assert (p.getShelf().getFreeSpace() == freeSpace - 1);

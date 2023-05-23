@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -16,47 +17,17 @@
     <children>
       <Pane prefHeight="946.0" prefWidth="1615.0" styleClass="backgroundInGame" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="1009.0" layoutY="762.0" text="Points:">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="player1Points" layoutX="1089.0" layoutY="762.0" prefHeight="29.0" prefWidth="40.0" text="0">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="1009.0" layoutY="788.0" text="Points:">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="player2Points" layoutX="1089.0" layoutY="788.0" prefHeight="29.0" prefWidth="40.0" text="0">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="1009.0" layoutY="817.0" text="Points:">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="player3Points" layoutX="1089.0" layoutY="817.0" prefHeight="29.0" prefWidth="40.0" text="0">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
             <Label layoutX="21.0" layoutY="447.0" text="Chat">
                <font>
                   <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="777.0" layoutY="783.0" text="Total Point:">
+            <Label layoutX="379.0" layoutY="343.0" prefHeight="38.0" prefWidth="179.0" text="Your Points:">
                <font>
                   <Font name="Arial Black" size="25.0" />
                </font>
             </Label>
-            <Label fx:id="youPoints" layoutX="942.0" layoutY="783.0" prefHeight="38.0" prefWidth="58.0" text="0">
+            <Label fx:id="youPoints" layoutX="556.0" layoutY="344.0" prefHeight="38.0" prefWidth="58.0" text="0">
                <font>
                   <Font name="Arial Black" size="25.0" />
                </font>
@@ -706,5 +677,103 @@
             <Font name="Arial Black" size="20.0" />
          </font>
       </Label>
+      <Pane fx:id="pointGroup1" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css" AnchorPane.leftAnchor="1300.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="player1Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Group fx:id="groupPointCC0" layoutX="500.0" layoutY="130.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="130.0">
+         <children>
+            <Pane fx:id="point2cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="point2" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+            </Pane>
+            <Pane fx:id="point4cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="point4" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+            </Pane>
+            <Pane fx:id="point6cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="point6" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+            </Pane>
+            <Pane fx:id="point8cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="point8" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+            </Pane>
+         </children>
+      </Group>
+      <Group fx:id="groupPointCC1" layoutX="510.0" layoutY="140.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="250.0">
+         <children>
+            <Pane fx:id="point2cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="point2" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+            </Pane>
+            <Pane fx:id="point4cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="point4" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+            </Pane>
+            <Pane fx:id="point6cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="point6" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+            </Pane>
+            <Pane fx:id="point8cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="point8" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+            </Pane>
+         </children>
+      </Group>
+      <Pane fx:id="pointGroup2" layoutX="10.0" layoutY="10.0" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css" AnchorPane.leftAnchor="1300.0" AnchorPane.topAnchor="310.0">
+         <children>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="player2Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pointGroup3" layoutX="20.0" layoutY="20.0" prefHeight="29.0" prefWidth="140.0" style="-fx-background-color: white;" styleClass="roundBorder" stylesheets="@style.css" AnchorPane.leftAnchor="1300.0" AnchorPane.topAnchor="580.0">
+         <children>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="1.0" text="Points:">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="player3Points" alignment="CENTER" layoutX="90.0" layoutY="1.0" prefHeight="29.0" prefWidth="40.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
     </children>
 </AnchorPane>
