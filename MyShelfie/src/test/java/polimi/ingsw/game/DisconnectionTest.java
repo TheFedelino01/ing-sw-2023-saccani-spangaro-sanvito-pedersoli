@@ -574,6 +574,14 @@ public class DisconnectionTest {
         assertEquals(3, gameController.getNumOfOnlinePlayers());
         mainController.reconnect(lis2, p2.getNickname(), gameController.getGameId());
         assertEquals(4, gameController.getNumOfOnlinePlayers());
+
+        //timer disconnessione
+        gameController.disconnectPlayer(p1.getNickname(),lis1);
+        gameController.disconnectPlayer(p2.getNickname(),lis2);
+        gameController.disconnectPlayer(p3.getNickname(),lis3);
+        assertEquals(1, gameController.getNumOfOnlinePlayers());
+
+
     }
 
     @Test
@@ -624,7 +632,7 @@ public class DisconnectionTest {
 
         gameController = new GameController();
         mainController = MainController.getInstance();
-
+        int control=0;
         int i = 0;
         int index = 0;
         Player p1 = new Player("1");
@@ -674,6 +682,7 @@ public class DisconnectionTest {
         assert (p2.getShelf().getFreeSpace() == 0);
         assert (gameController.getStatus().equals(GameStatus.ENDED));
         mainController.reconnect(lis2,p2.getNickname(),gameController.getGameId());
-        assertEquals(1, gameController.getNumOfOnlinePlayers());
+        control = gameController.getNumOnlinePlayers();
+        assertEquals(1, control);
     }
 }
