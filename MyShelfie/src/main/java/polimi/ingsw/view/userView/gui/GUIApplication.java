@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import polimi.ingsw.model.Point;
@@ -18,6 +19,7 @@ import polimi.ingsw.view.userView.gui.controllers.*;
 import polimi.ingsw.view.userView.gui.scenes.SceneEnum;
 import polimi.ingsw.view.userView.utilities.inputReaderGUI;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,8 @@ public class GUIApplication extends Application {
         this.primaryStage.setTitle("My Shelfie");
 
         root = new StackPane();
+
+
     }
 
     private void loadScenes() {
@@ -102,6 +106,26 @@ public class GUIApplication extends Application {
             this.primaryStage.setScene(scenes.get(getSceneIndex(scene)).getScene());
             this.primaryStage.show();
         }
+
+        this.primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            rescale();
+        });
+
+        this.primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            //rescale();
+        });
+
+    }
+
+    public void rescale(){
+        double widthWindow = primaryStage.getScene().getWidth();
+        double heightWindow = primaryStage.getScene().getHeight();
+
+
+        double w = widthWindow/1280;  // your window width
+        double h = heightWindow/720;  // your window height
+        Scale scale = new Scale(w, h, 0, 0);
+        primaryStage.getScene().getRoot().getTransforms().add(scale);
     }
 
     public void showPlayerToLobby(GameModelImmutable model) {
