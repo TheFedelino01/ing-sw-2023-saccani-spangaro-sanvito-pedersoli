@@ -28,6 +28,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","","","",""}
         };
         Shelf test = this.setShelf(matrix);
+        card.toString(0);
         assertFalse(card.verify(test));
     }
     @Test

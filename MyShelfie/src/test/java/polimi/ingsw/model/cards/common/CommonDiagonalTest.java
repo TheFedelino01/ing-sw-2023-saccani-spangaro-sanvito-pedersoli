@@ -31,7 +31,7 @@ public class CommonDiagonalTest {
         };
 
         Shelf test = setShelf(matrix);
-
+        card.toString(0);
         Assert.assertTrue(card.verify(test));
     }
 
