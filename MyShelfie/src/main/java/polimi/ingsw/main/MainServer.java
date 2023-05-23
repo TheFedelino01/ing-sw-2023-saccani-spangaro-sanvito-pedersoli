@@ -10,7 +10,9 @@ public class MainServer {
 
     public static void main(String[] args) throws IOException {
 
-        RMIServer serverRMI = RMIServer.bind();
+        System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
+
+        RMIServer.bind();
 
         SocketWelcome serverSOCKET = new SocketWelcome();
         serverSOCKET.start(DefaultValue.Default_port_Socket);
