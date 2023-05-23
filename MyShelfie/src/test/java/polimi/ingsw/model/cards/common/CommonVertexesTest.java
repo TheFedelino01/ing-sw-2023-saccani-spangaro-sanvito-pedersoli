@@ -164,7 +164,7 @@ public class CommonVertexesTest extends ShelfConverter{
     }
 
     @Test
-    @DisplayName("Test vertexes #11")
+    @DisplayName("Test vertexes #10")
     public void testVertexes10() {
         String[][] matrix = {
                 {"C","A","A","A","C"},
@@ -177,5 +177,61 @@ public class CommonVertexesTest extends ShelfConverter{
         Shelf test = this.setShelf(matrix);
         assertFalse(card.verify(test));
     }
-
+    @Test
+    @DisplayName("Test vertexes #11")
+    public void testVertexes11() {
+        String[][] matrix = {
+                {"C","A","A","A","C"},
+                {"A","A","A","A","A"},
+                {"A","A","T","T","A"},
+                {"A","T","T","A","C"},
+                {"C","A","T","C","A"},
+                {"C","C","A","A","T"}
+        };
+        Shelf test = this.setShelf(matrix);
+        assertFalse(card.verify(test));
+    }
+    @Test
+    @DisplayName("Test vertexes #12")
+    public void testVertexes12() {
+        String[][] matrix = {
+                {"C","A","A","A","C"},
+                {"A","A","A","A","A"},
+                {"A","A","T","T","A"},
+                {"A","T","T","A","C"},
+                {"C","A","T","C","A"},
+                {"C","C","A","A","C"}
+        };
+        Shelf test = this.setShelf(matrix);
+        assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Test vertexes #13")
+    public void testVertexes13() {
+        String[][] matrix = {
+                {"C","A","A","A","C"},
+                {"A","A","A","A","A"},
+                {"A","A","","","A"},
+                {"A","T","","","C"},
+                {"C","A","T","C","A"},
+                {"C","C","A","A","C"}
+        };
+        Shelf test = this.setShelf(matrix);
+        assertTrue(card.verify(test));
+    }
+    @Test
+    @DisplayName("Test vertexes #14")
+    public void testVertexes14() {
+        String[][] matrix = {
+                {"C","","","","C"},
+                {"A","","A","A","A"},
+                {"A","A","","","A"},
+                {"A","T","","","C"},
+                {"C","A","T","C","A"},
+                {"C","C","A","A","C"}
+        };
+        Shelf test = this.setShelf(matrix);
+        assertTrue(card.verify(test));
+    }
 }
+
