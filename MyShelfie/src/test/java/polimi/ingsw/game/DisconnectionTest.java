@@ -1,6 +1,5 @@
 package polimi.ingsw.game;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Disconnection {
+public class DisconnectionTest {
     GameController gameController;
     MainController mainController;
 
@@ -436,7 +435,6 @@ public class Disconnection {
     Player p4 = new Player("4");
 
 
-    @Disabled
     @Test
     @DisplayName("Disconnection with 4 players")
 
@@ -453,15 +451,9 @@ public class Disconnection {
         gameController.playerIsReadyToStart(p4.getNickname());
 
         assert (gameController.getStatus() == GameStatus.RUNNING);
-
-        mainController.leaveGame(lis2,p2.getNickname(),gameController.getGameId());
-
+        gameController.disconnectPlayer(p2.getNickname(),lis2);
         assertEquals(3, gameController.getNumOfOnlinePlayers());
-
-
         mainController.reconnect(lis2, p2.getNickname(), gameController.getGameId());
-        //non si riconnette
-
-
+        assertEquals(4, gameController.getNumOfOnlinePlayers());
     }
 }

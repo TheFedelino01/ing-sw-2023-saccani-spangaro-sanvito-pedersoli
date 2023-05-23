@@ -1,7 +1,6 @@
 package polimi.ingsw.game;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.controller.GameController;
@@ -11,7 +10,6 @@ import polimi.ingsw.listener.ListenersHandler;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.enumeration.TileType;
-import polimi.ingsw.model.exceptions.MaxPlayersInException;
 import polimi.ingsw.model.gameModelView.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
@@ -24,7 +22,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MultipleGames {
+public class MultipleGamesTest {
     List<GameController> runningGames;
     MainController mainController;
     GameListener lis;
