@@ -1,9 +1,7 @@
 package polimi.ingsw.controller;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import junit.framework.Assert;
+import org.junit.jupiter.api.*;
 import polimi.ingsw.model.*;
 import polimi.ingsw.model.cards.common.CommonCard;
 import polimi.ingsw.model.cards.goal.CardGoal;
@@ -71,7 +69,6 @@ public class GameControllerTest {
 
     }
 
-    @Disabled
     @Test
     @DisplayName("Grab and Position a Tile in a running game")
     void grabAndPositionATile() {
@@ -109,7 +106,6 @@ public class GameControllerTest {
     }
 
 
-    @Disabled
     @Test
     @DisplayName("Check Common Cards and Point assignment")
     public void testCheckCommonCards() {
@@ -275,6 +271,24 @@ public class GameControllerTest {
         game.addPlayer(p);
         game.checkFinal();
         assertEquals(17, game.getPlayers().get(0).getTotalPoints(), "Wrong checking algorithm!");
+    }
+
+    @Test
+    @DisplayName("Test next Turn")
+    public void nextTurnTest(){
+        gameController.addPlayer(plist.get(0));
+        gameController.addPlayer(plist.get(1));
+        gameController.addPlayer(plist.get(2));
+        gameController.addPlayer(plist.get(3));
+        gameController.playerIsReadyToStart(plist.get(0).getNickname());
+        gameController.playerIsReadyToStart(plist.get(1).getNickname());
+        gameController.playerIsReadyToStart(plist.get(2).getNickname());
+        gameController.playerIsReadyToStart(plist.get(3).getNickname());
+
+        Player player = gameController.whoIsPlaying();
+        gameController.nextTurn();
+        Player player2 = gameController.whoIsPlaying();
+        Assertions.assertNotEquals(player, player2, "The next player is not correct");
     }
 
 
