@@ -134,7 +134,6 @@ public class PointTest {
         assertEquals(8, test3.getTotalPoints());
     }
 
-    @Disabled
     @Test
     @DisplayName("Test goal cards points assignment")
     void goalCardsPoints() throws MaxCommonCardsAddedException, CommonCardAlreadyInException {
@@ -191,6 +190,8 @@ public class PointTest {
     }
 
     @Disabled
+    @Test
+    @DisplayName("prova")
     private Shelf setUpShelf(CardGoalType type){
         switch (type) {
             case GOAL0 -> {
@@ -371,7 +372,7 @@ public class PointTest {
      * Method checks if the game controller assigns correctly the points to the
      * players, after the final checks were done
      */
-    @Disabled
+
     @Test
     @DisplayName("Test final checks points assignment")
     void finalChecks() throws MaxCommonCardsAddedException, CommonCardAlreadyInException {

@@ -52,10 +52,12 @@ class PlaygroundTest {
         if (p4.getNumOfTileinTheBag() != (totalTileInBag) - 29 - 8 - 8) {
             assertTrue(false, "Num of tile in bag wrong for 4 players");
         }
+
     }
 
     private void testTilePosition(int numPlayer) {
         Playground test = p2;
+        p2.toString();
         switch (numPlayer) {
             case 2 -> test = p2;
             case 3 -> test = p3;
