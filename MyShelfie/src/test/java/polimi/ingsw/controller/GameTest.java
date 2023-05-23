@@ -227,6 +227,7 @@ public class GameTest {
         assert (gameController.getStatus().equals(GameStatus.ENDED));
     }
 
+    //Not Working
     @Disabled
     @Test
     @DisplayName("Simulate a game with 3 players picking 2 tiles")
