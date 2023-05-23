@@ -13,9 +13,13 @@ public class ShelfTest {
     @DisplayName("Test Shelf constructor + get shelf + get free space")
     void getShelf() {
         Shelf shelf = new Shelf();
+        shelf.toString();
+        shelf.toString(0);
+        shelf.toStringGoalCard();
         assertEquals(6, shelf.getShelf().length);
         assertEquals(5, shelf.getShelf()[0].length);
         assertEquals(30, shelf.getFreeSpace());
+
     }
 
     @Test
