@@ -645,3 +645,30 @@
     -fx-border-color: #ffffff;
     -fx-border-width: 4px;
 }
+
+.point8{
+    -fx-background-image: url("img/img/scoring_tokens/scoring_8.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.point6{
+    -fx-background-image: url("img/img/scoring_tokens/scoring_6.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.point4{
+    -fx-background-image: url("img/img/scoring_tokens/scoring_4.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.point2{
+     -fx-background-image: url("img/img/scoring_tokens/scoring_2.jpg");
+     -fx-background-repeat: stretch;
+     -fx-background-size: cover;
+ }
+
+.pointEnd{
+    -fx-background-image: url("img/img/scoring_tokens/end_game.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}

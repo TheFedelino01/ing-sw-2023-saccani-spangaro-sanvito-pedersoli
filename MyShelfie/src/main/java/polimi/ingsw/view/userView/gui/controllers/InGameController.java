@@ -2,6 +2,7 @@ package polimi.ingsw.view.userView.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -11,14 +12,11 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import polimi.ingsw.model.*;
 import polimi.ingsw.model.chat.Message;
-import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.gameModelView.GameModelImmutable;
-import polimi.ingsw.model.Player;
-import polimi.ingsw.model.Shelf;
-import polimi.ingsw.model.Tile;
 import polimi.ingsw.view.userView.gui.IntRecord;
 
 import java.io.IOException;
@@ -65,19 +63,22 @@ public class InGameController extends GenericController {
     private Label playerLabel1;
     @FXML
     private Label player1Points;
-
+    @FXML
+    private Pane pointGroup1;
 
     @FXML
     private Label playerLabel2;
     @FXML
     private Label player2Points;
-
+    @FXML
+    private Pane pointGroup2;
 
     @FXML
     private Label playerLabel3;
     @FXML
     private Label player3Points;
-
+    @FXML
+    private Pane pointGroup3;
 
     private boolean firstClick = true;
     private Integer rowFirstTile, colFirstTile, rowSecondTile, colSecondTile;
@@ -215,12 +216,16 @@ public class InGameController extends GenericController {
     public void actionMouseEnteredCommonCard(MouseEvent e){
         final Node source = (Node) e.getSource();
         String id = source.getId();
+
         switch (id){
             case "cc0"->{
+                ((Group) mainAnchor.lookup("#groupPointCC0")).setVisible(false);
+                ((Group) mainAnchor.lookup("#groupPointCC1")).setVisible(false);
                 ((Pane)source).setMinWidth(490);
                 ((Pane)source).setMinHeight(310);
             }
             case "cc1"->{
+                ((Group) mainAnchor.lookup("#groupPointCC1")).setVisible(false);
                 ((Pane)source).setMinWidth(490);
                 ((Pane)source).setMinHeight(310);
             }
@@ -233,12 +238,17 @@ public class InGameController extends GenericController {
     public void actionMouseExitedCommonCard(MouseEvent e){
         final Node source = (Node) e.getSource();
         String id = source.getId();
+
+
         switch (id){
             case "cc0"->{
+                ((Group) mainAnchor.lookup("#groupPointCC0")).setVisible(true);
+                ((Group) mainAnchor.lookup("#groupPointCC1")).setVisible(true);
                 ((Pane)source).setMinWidth(190);
                 ((Pane)source).setMinHeight(110);
             }
             case "cc1"->{
+                ((Group) mainAnchor.lookup("#groupPointCC1")).setVisible(true);
                 ((Pane)source).setMinWidth(190);
                 ((Pane)source).setMinHeight(110);
             }
@@ -365,6 +375,20 @@ public class InGameController extends GenericController {
             if (model.getNicknameCurrentPlaying().equals(p.getNickname())) {
                 labelNick.setTextFill(Color.YELLOW);
             }
+        }
+
+        //Set not visible to the points of the no-playing player
+        Pane pointGroup=null;
+        for(int i=model.getPlayers().size();i<DefaultValue.MaxNumOfPlayer;i++){
+            switch (i) {
+                case 2 -> {
+                    pointGroup = pointGroup2;
+                }
+                case 3 -> {
+                    pointGroup = pointGroup3;
+                }
+            }
+            pointGroup.setVisible(false);
         }
 
         if (comboBoxMessage.getItems().size() == 0) {
@@ -654,7 +678,18 @@ public class InGameController extends GenericController {
         importantEventsList.scrollTo(importantEventsList.getItems().size());
     }
 
-    public void setPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname) {
+    public void setPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname, Point p) {
         setNicknamesAndPoints(model,myNickname);
+
+        if(p.getReferredTo().equals(model.getCommonCards().get(0).getCommonType())){
+            //Point referred to First Common Card
+            Pane paneTile = (Pane) mainAnchor.lookup("#point"+p.getPoint()+"cc0");
+            paneTile.setVisible(false);
+        }else{
+            Pane paneTile = (Pane) mainAnchor.lookup("#point"+p.getPoint()+"cc1");
+            paneTile.setVisible(false);
+        }
+
+
     }
 }
