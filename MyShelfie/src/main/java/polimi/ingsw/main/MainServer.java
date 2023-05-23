@@ -13,6 +13,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class MainServer {
 
+    private static RMIServer server;
     public static void main(String[] args) throws IOException {
 
         String input;
@@ -28,7 +29,7 @@ public class MainServer {
         else
             System.setProperty("java.rmi.server.hostname", input);
 
-        RMIServer.bind();
+        server = RMIServer.bind();
 
         SocketWelcome serverSOCKET = new SocketWelcome();
         serverSOCKET.start(DefaultValue.Default_port_Socket);
