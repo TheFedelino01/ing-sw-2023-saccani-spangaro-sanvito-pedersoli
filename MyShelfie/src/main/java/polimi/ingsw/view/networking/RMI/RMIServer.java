@@ -16,22 +16,23 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     private MainControllerInterface mainController;
 
     //if the registry is not static, java will garbage collect it, and the client will crash
-    private static Registry registry;
+    // basically a singleton on steroids
+    private static RMIServer serverObject;
 
     public static RMIServer bind() {
-        RMIServer obj = null;
+        serverObject = null;
         try {
-            obj = new RMIServer();
+            serverObject = new RMIServer();
             // Bind the remote object's stub in the registry
-            registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
-            registry.rebind(DefaultValue.Default_servername_RMI, obj);
+            Registry registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
+            registry.rebind(DefaultValue.Default_servername_RMI, serverObject);
 
 
             System.out.println("Server RMI ready");
         } catch (RemoteException e) {
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
         }
-        return obj;
+        return serverObject;
     }
 
 
