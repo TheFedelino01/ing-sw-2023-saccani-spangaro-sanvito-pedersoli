@@ -99,6 +99,7 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     public void createGame(String nick) {
         try {
+            registry = LocateRegistry.getRegistry(System.getProperty("java.rmi.server.hostname"), DefaultValue.Default_port_RMI);
             requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameController = requests.createGame(modelInvokedEvents, nick);
             nickname = nick;
@@ -110,6 +111,7 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     public void joinFirstAvailable(String nick) {
         try {
+            registry = LocateRegistry.getRegistry(System.getProperty("java.rmi.server.hostname"), DefaultValue.Default_port_RMI);
             requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameController = requests.joinFirstAvailableGame(modelInvokedEvents, nick);
             nickname = nick;
@@ -122,6 +124,7 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     public void joinGame(String nick, int idGame) {
         try {
+            registry = LocateRegistry.getRegistry(System.getProperty("java.rmi.server.hostname"), DefaultValue.Default_port_RMI);
             requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameController = requests.joinGame(modelInvokedEvents, nick, idGame);
 
@@ -135,6 +138,7 @@ public class RMIClient implements CommonClientActions, Runnable {
     @Override
     public void reconnect(String nick, int idGame) {
         try {
+            registry = LocateRegistry.getRegistry(System.getProperty("java.rmi.server.hostname"), DefaultValue.Default_port_RMI);
             requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameController = requests.reconnect(modelInvokedEvents, nick, idGame);
 
@@ -148,6 +152,7 @@ public class RMIClient implements CommonClientActions, Runnable {
     @Override
     public void leave(String nick, int idGame) throws IOException {
         try {
+            registry = LocateRegistry.getRegistry(System.getProperty("java.rmi.server.hostname"), DefaultValue.Default_port_RMI);
             requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
