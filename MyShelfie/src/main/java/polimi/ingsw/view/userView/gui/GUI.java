@@ -155,6 +155,10 @@ public class GUI extends UI {
 
     @Override
     protected void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname) {
+        if(!alreadyShowedLobby){
+            show_gameStarted(model);
+            alreadyShowedLobby=true;
+        }
         callPlatformRunLater(() -> this.guiApplication.changeTurn(model, nickname));
     }
 
