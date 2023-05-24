@@ -13,6 +13,7 @@ import polimi.ingsw.view.networking.RMI.remoteInterfaces.MainControllerInterface
 import polimi.ingsw.view.userView.Flow;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -24,7 +25,8 @@ public class RMIClient implements CommonClientActions, Runnable {
     private GameControllerInterface gameController = null;
     private static GameListener modelInvokedEvents;
     private String nickname;
-    private GameListenersHandlerClient gameListenersHandler;
+    private final GameListenersHandlerClient gameListenersHandler;
+    private Registry registry;
 
     public RMIClient(Flow gui) {
         super();
@@ -40,8 +42,7 @@ public class RMIClient implements CommonClientActions, Runnable {
 
         do {
             try {
-
-                Registry registry = LocateRegistry.getRegistry(System.getProperty("java.rmi.server.hostname"), DefaultValue.Default_port_RMI);
+                registry = LocateRegistry.getRegistry(System.getProperty("java.rmi.server.hostname"), DefaultValue.Default_port_RMI);
                 System.out.println(registry.lookup(DefaultValue.Default_servername_RMI));
                 requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
 
@@ -86,7 +87,7 @@ public class RMIClient implements CommonClientActions, Runnable {
     @Override
     public void run() {
         //For the heartbeat
-        while (true) {
+        while (!Thread.interrupted()) {
             heartbeat();//send heartbeat so the server knows I am still online
             try {
                 Thread.sleep(1000);
@@ -98,20 +99,22 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     public void createGame(String nick) {
         try {
+            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameController = requests.createGame(modelInvokedEvents, nick);
             nickname = nick;
 
-        } catch (RemoteException e) {
+        } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void joinFirstAvailable(String nick) {
         try {
+            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameController = requests.joinFirstAvailableGame(modelInvokedEvents, nick);
             nickname = nick;
 
-        } catch (RemoteException e) {
+        } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -119,11 +122,12 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     public void joinGame(String nick, int idGame) {
         try {
+            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameController = requests.joinGame(modelInvokedEvents, nick, idGame);
 
             nickname = nick;
 
-        } catch (RemoteException e) {
+        } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -131,17 +135,23 @@ public class RMIClient implements CommonClientActions, Runnable {
     @Override
     public void reconnect(String nick, int idGame) {
         try {
+            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             gameController = requests.reconnect(modelInvokedEvents, nick, idGame);
 
             nickname = nick;
 
-        } catch (RemoteException e) {
+        } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public void leave(String nick, int idGame) throws IOException {
+        try {
+            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
+        }
         requests.leaveGame(modelInvokedEvents,nick,idGame);
         gameController=null;
         nickname=null;
@@ -186,9 +196,7 @@ public class RMIClient implements CommonClientActions, Runnable {
     public void positionTileOnShelf(int column, TileType type) {
         try {
             gameController.positionTileOnShelf(nickname, column, type);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (GameEndedException e) {
+        } catch (RemoteException | GameEndedException e) {
             throw new RuntimeException(e);
         }
     }
