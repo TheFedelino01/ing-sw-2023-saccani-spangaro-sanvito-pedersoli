@@ -17,18 +17,15 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
 
     //if the registry is not static, java will garbage collect it, and the client will crash
     // basically a singleton on steroids
-    private static RMIServer serverObject;
-    private static Registry registry;
+    private static RMIServer serverObject = null;
+    private static Registry registry = null;
 
     public static RMIServer bind() {
-        serverObject = null;
         try {
             serverObject = new RMIServer();
             // Bind the remote object's stub in the registry
             registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
-            getRegistry().rebind(DefaultValue.Default_servername_RMI, getInstance());
-
-
+            getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
             System.out.println("Server RMI ready");
         } catch (RemoteException e) {
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
@@ -53,7 +50,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
 
 
     public RMIServer() throws RemoteException {
-        super();
+        super(DefaultValue.Default_port_RMI);
         mainController = MainController.getInstance();
     }
 
@@ -113,7 +110,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
             }catch (RemoteException e){
                 //Already exported, due to another RMI Client running on the same machine
             }
-            //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+            //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),DefaultValue.Default_port_RMI));
             //System.out.println("[RMI] "+nick+" joined to specific game with id: "+idGame);
         }
         return ris;

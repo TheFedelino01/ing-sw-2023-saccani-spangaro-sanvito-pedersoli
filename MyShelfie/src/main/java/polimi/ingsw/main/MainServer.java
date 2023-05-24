@@ -29,6 +29,7 @@ public class MainServer {
         else
             System.setProperty("java.rmi.server.hostname", input);
 
+        server = new RMIServer();
         server = RMIServer.bind();
 
         SocketWelcome serverSOCKET = new SocketWelcome();

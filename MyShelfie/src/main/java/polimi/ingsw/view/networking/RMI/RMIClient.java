@@ -20,9 +20,9 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient implements CommonClientActions, Runnable {
 
-    private MainControllerInterface requests;
+    private static MainControllerInterface requests;
     private GameControllerInterface gameController = null;
-    private GameListener modelInvokedEvents;
+    private static GameListener modelInvokedEvents;
     private String nickname;
     private GameListenersHandlerClient gameListenersHandler;
 
