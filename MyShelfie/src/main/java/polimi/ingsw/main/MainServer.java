@@ -28,7 +28,7 @@ public class MainServer {
         if (input.equals(""))
             System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
         else{
-            DefaultValue.socketIP = input;
+            DefaultValue.serverIp = input;
             System.setProperty("java.rmi.server.hostname", input);
         }
 

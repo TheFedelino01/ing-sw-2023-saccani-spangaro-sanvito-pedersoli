@@ -31,7 +31,7 @@ public class DefaultValue implements Serializable {
     public final static int Default_port_Socket = 4320;
     public final static String Default_servername_RMI = "MyShelfie";
 
-    public static String socketIP = "127.0.0.1";
+    public static String serverIp = "127.0.0.1";
     public final static String Remote_ip = "127.0.0.1";
     public final static int secondsToWaitReconnection = 30;
 

@@ -60,7 +60,6 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
 
         //before every call, need to recreate the stub, or java will just GC everything
-        getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
         GameControllerInterface ris = serverObject.mainController.createGame(lis, nick);
         //The GameController and the Player have just created so, I need to set them as an Exportable Object
 
@@ -77,7 +76,6 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     @Override
     public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
 
-        getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
         //Return the GameController already existed => not necessary to re-Export Object
         GameControllerInterface ris = serverObject.mainController.joinFirstAvailableGame(lis, nick);
         if (ris != null) {
@@ -95,7 +93,6 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     @Override
     public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
 
-        getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
         //Return the GameController already existed => not necessary to re-Export Object
         GameControllerInterface ris = serverObject.mainController.joinGame(lis, nick, idGame);
         if (ris != null) {
@@ -113,7 +110,6 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     @Override
     public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
 
-        getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
         GameControllerInterface ris = serverObject.mainController.reconnect(lis, nick, idGame);
         if (ris != null) {
             try {
@@ -130,7 +126,6 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
     @Override
     public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
 
-        getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
         serverObject.mainController.leaveGame(lis,nick,idGame);
 
         return null;
