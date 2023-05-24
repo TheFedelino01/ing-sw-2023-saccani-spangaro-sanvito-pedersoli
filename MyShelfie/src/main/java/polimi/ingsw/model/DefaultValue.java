@@ -8,16 +8,10 @@ public class DefaultValue implements Serializable {
     public final static int time_publisher_showing_seconds = 1;
 
     public final static int MaxNumOfPlayer = 4;
-    public final static int maxTilesInHand = 3;
     public final static int minNumOfPlayer = 2;
 
-    public final static int defButtonXSize = 200;
-    public final static int defButtonYSize = 50;
     public final static int NumOfCommonCards = 2;
 
-    public final static int startingButtons = 4;
-    public final static int displayTitleRow = 0;
-    public final static int displayTitleCol = 10;
     public final static String gameIdData = "GameId";
     public final static String gameIdTime = "Created";
     public final static int twelveHS = 43200;
@@ -36,6 +30,8 @@ public class DefaultValue implements Serializable {
     public final static int Default_port_RMI = 4321;
     public final static int Default_port_Socket = 4320;
     public final static String Default_servername_RMI = "MyShelfie";
+
+    public static String socketIP = "127.0.0.1";
     public final static String Remote_ip = "127.0.0.1";
     public final static int secondsToWaitReconnection = 30;
 

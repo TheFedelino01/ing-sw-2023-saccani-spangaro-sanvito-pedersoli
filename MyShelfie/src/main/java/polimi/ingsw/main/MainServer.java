@@ -14,19 +14,21 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class MainServer {
 
     private static RMIServer server;
+
     public static void main(String[] args) throws IOException {
 
         String input;
 
         do {
             System.out.println(ansi().cursor(1, 0).a("""
-                        Insert remote IP (leave empty for localhost)
-                        """));
+                    Insert remote IP (leave empty for localhost)
+                    """));
             input = new Scanner(System.in).nextLine();
         } while (!input.equals("") && !isValidIP(input));
-        if (input.equals(""))
+        if (input.equals("")) {
+            DefaultValue.socketIP = input;
             System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
-        else
+        } else
             System.setProperty("java.rmi.server.hostname", input);
 
         server = new RMIServer();
