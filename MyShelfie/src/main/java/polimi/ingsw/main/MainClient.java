@@ -50,7 +50,7 @@ public class MainClient {
                     selection = Integer.parseInt(input);
                 } catch (NumberFormatException e) {
                     selection = -1;
-                    System.out.println("Nam");
+                    System.out.println("Nan");
                 }
             } while (selection != 1 && selection != 2 && selection != 3 && selection != 4);
         } else {

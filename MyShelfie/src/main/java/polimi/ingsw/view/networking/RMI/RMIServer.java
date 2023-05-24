@@ -6,6 +6,8 @@ import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.MainControllerInterface;
 
+import java.rmi.AlreadyBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -24,11 +26,14 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         try {
             serverObject = new RMIServer();
             // Bind the remote object's stub in the registry
+            final Remote remote = UnicastRemoteObject.exportObject(serverObject, DefaultValue.Default_port_RMI);
             registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
-            getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
+            getRegistry().bind(DefaultValue.Default_servername_RMI, remote);
             System.out.println("Server RMI ready");
         } catch (RemoteException e) {
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
+        } catch (AlreadyBoundException e) {
+            throw new RuntimeException(e);
         }
         return getInstance();
     }
