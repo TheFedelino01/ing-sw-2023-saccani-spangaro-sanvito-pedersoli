@@ -25,16 +25,16 @@ public class Playground implements Serializable {
     }
 
     /**
-     * Watch out:  to write in the json file:
-     * the "-" is the row separator
-     * the "," is the column separator, so
-     * 0,0,0,0-1,1,1,1 is equal to the matrix
-     * 0 0 0 0
-     * 1 1 1 1
-     * Also, the number that identifies the long strings in the json
-     * is the player number that the matrix/string implements
-     * E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription
-     * of the playground default for 2 player based games, and so on
+     * Watch out:  to write in the json file:<br>
+     * the "-" is the row separator<br>
+     * the "," is the column separator, so<br>
+     * 0,0,0,0-1,1,1,1 is equal to the matrix<br>
+     * 0 0 0 0<br>
+     * 1 1 1 1<br>
+     * Also, the number that identifies the long strings in the json<br>
+     * is the player number that the matrix/string implements<br>
+     * E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription<br>
+     * of the playground default for 2 player based games, and so on<br>
      */
     public Playground(int numberOfPlayers) {
         bag = new ArrayList<>();
