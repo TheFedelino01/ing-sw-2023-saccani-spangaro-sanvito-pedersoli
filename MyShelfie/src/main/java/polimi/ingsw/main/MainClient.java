@@ -32,6 +32,16 @@ public class MainClient {
                 DefaultValue.serverIp = input;
 
             clearCMD();
+
+            do {
+                System.out.println(ansi().cursor(1, 0).a("""
+                        Insert your IP (leave empty for localhost)
+                        """));
+                input = new Scanner(System.in).nextLine();
+            } while (!input.equals("") && !isValidIP(input));
+            if (!input.equals(""))
+                System.setProperty("java.rmi.server.hostname", input);
+
             do {
                 System.out.println(ansi().cursor(1, 0).a("""
                         Select option:

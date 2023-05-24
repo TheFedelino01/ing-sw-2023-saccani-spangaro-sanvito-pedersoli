@@ -45,7 +45,7 @@ public class RMIClient implements CommonClientActions, Runnable {
                 registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
                 requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
 
-                modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler, DefaultValue.Default_port_RMI);
+                modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler, 0);
 
                 System.out.println("Client RMI ready");
                 retry = false;
