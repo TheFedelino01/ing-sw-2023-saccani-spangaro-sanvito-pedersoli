@@ -28,12 +28,10 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
             // Bind the remote object's stub in the registry
             final Remote remote = UnicastRemoteObject.exportObject(serverObject, DefaultValue.Default_port_RMI);
             registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
-            getRegistry().bind(DefaultValue.Default_servername_RMI, remote);
+            getRegistry().rebind(DefaultValue.Default_servername_RMI, remote);
             System.out.println("Server RMI ready");
         } catch (RemoteException e) {
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
-        } catch (AlreadyBoundException e) {
-            throw new RuntimeException(e);
         }
         return getInstance();
     }
