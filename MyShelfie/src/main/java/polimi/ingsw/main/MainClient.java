@@ -28,12 +28,12 @@ public class MainClient {
                         """));
                 input = new Scanner(System.in).nextLine();
             } while (!input.equals("") && !isValidIP(input));
-            if (input.equals("")){
-                DefaultValue.socketIP = input;
+            if (input.equals(""))
                 System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
-            }
-            else
+            else{
+                DefaultValue.socketIP = input;
                 System.setProperty("java.rmi.server.hostname", input);
+            }
 
             clearCMD();
             do {

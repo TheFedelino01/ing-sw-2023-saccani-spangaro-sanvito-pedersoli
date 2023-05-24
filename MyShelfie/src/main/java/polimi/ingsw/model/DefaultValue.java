@@ -88,5 +88,4 @@ public class DefaultValue implements Serializable {
 
     public final static int max_messagesShown = 5;
 
-
 }
