@@ -78,6 +78,22 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/main/*</exclude>
+                        <exclude>**/Card</exclude>
+                        <exclude>**/CommonCard</exclude>
+                        <exclude>**/CommonMethods</exclude>
+                        <exclude>**/userView/Flow</exclude>
+                        <exclude>**/userView/UI</exclude>
+                        <exclude>**/UI</exclude>
+                        <exclude>**/gui/*</exclude>
+                        <exclude>**/gui/controllers/*</exclude>
+                        <exclude>**/gui/scenes/*</exclude>
+                        <exclude>**/text/*</exclude>
+                        <exclude>**/utilities/*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
