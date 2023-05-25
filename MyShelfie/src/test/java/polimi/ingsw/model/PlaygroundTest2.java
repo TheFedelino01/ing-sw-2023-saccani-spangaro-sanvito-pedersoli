@@ -1,5 +1,6 @@
 package polimi.ingsw.model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,49 @@ public class PlaygroundTest2 {
 
         assert (p.allTileHaveAllFreeSide());
     }
+    @Test
+    @DisplayName("All tile have free side3")
+    void testFreeSide3() {
+        Playground p = new Playground(2);
+        p.setEmptyPlayground();
 
+        //random tiles that aren't touching
+        p.setSingleTile(TileType.TROPHY, 3, 6);
+        p.setSingleTile(TileType.TROPHY, 5, 1);
+        p.setSingleTile(TileType.TROPHY, 7, 8);
+
+
+
+        assert (p.allTileHaveAllFreeSide());
+    }
+    @Test
+    @DisplayName("All tile have free side4")
+    void testFreeSide4() {
+        Playground p = new Playground(2);
+        p.setEmptyPlayground();
+
+        //random tiles that aren't touching
+        p.setSingleTile(TileType.TROPHY, 3, 6);
+        p.setSingleTile(TileType.TROPHY, 5, 1);
+        p.setSingleTile(TileType.TROPHY, 8, 8);
+
+
+
+        assert (p.allTileHaveAllFreeSide());
+    }
+    @Test
+    @DisplayName("All tile have free side5")
+    void testFreeSide5() {
+        Playground p = new Playground(2);
+        p.setEmptyPlayground();
+
+        //random tiles that aren't touching
+        p.setSingleTile(TileType.TROPHY, 0, 8);
+        p.setSingleTile(TileType.TROPHY, 5, 1);
+        p.setSingleTile(TileType.TROPHY, 8, 8);
+
+
+
+        assert (p.allTileHaveAllFreeSide());
+    }
 }
