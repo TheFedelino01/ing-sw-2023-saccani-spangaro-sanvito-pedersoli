@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import polimi.ingsw.model.Point;
@@ -18,6 +19,7 @@ import polimi.ingsw.view.userView.gui.controllers.*;
 import polimi.ingsw.view.userView.gui.scenes.SceneEnum;
 import polimi.ingsw.view.userView.utilities.inputReaderGUI;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,8 @@ public class GUIApplication extends Application {
         this.primaryStage.setTitle("My Shelfie");
 
         root = new StackPane();
+
+
     }
 
     private void loadScenes() {
@@ -74,6 +78,7 @@ public class GUIApplication extends Application {
     }
 
     public void setActiveScene(SceneEnum scene) {
+        resizing=false;
         int index = getSceneIndex(scene);
         if (index != -1) {
 
@@ -101,6 +106,36 @@ public class GUIApplication extends Application {
 
             this.primaryStage.setScene(scenes.get(getSceneIndex(scene)).getScene());
             this.primaryStage.show();
+        }
+
+        widthOld=primaryStage.getScene().getWidth();
+        heightOld=primaryStage.getScene().getHeight();
+        this.primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            rescale();
+        });
+
+        this.primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            rescale();
+        });
+        resizing=true;
+    }
+
+    private double widthOld, heightOld;
+    private boolean resizing=true;
+    public void rescale() {
+        if(resizing) {
+            double widthWindow = primaryStage.getScene().getWidth();
+            double heightWindow = primaryStage.getScene().getHeight();
+
+
+            double w = widthWindow / widthOld;  // your window width
+            double h = heightWindow / heightOld;  // your window height
+
+            widthOld = widthWindow;
+            heightOld = heightWindow;
+            Scale scale = new Scale(w, h, 0, 0);
+            //primaryStage.getScene().getRoot().getTransforms().add(scale);
+            primaryStage.getScene().lookup("#content").getTransforms().add(scale);
         }
     }
 
@@ -193,38 +228,43 @@ public class GUIApplication extends Application {
 
     public void showInGameModel(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setNicknamesAndPoints(model,nickname);
+        controller.setNicknamesAndPoints(model, nickname);
         controller.setPlayground(model);
         controller.setCommonCards(model);
-        controller.setPersonalCard(model,nickname);
+        controller.setPersonalCard(model, nickname);
         controller.setVisibleShelves(model);
-        controller.setHandTiles(model,nickname);
+        controller.setHandTiles(model, nickname);
         controller.setAllShefies(model, nickname);
     }
 
 
-    public void showPlayerGrabbedTiles(GameModelImmutable model, String nickname){
+    public void showPlayerGrabbedTiles(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setPlayerGrabbedTiles(model, nickname);
     }
-    public void showPlayerPositionedTile(GameModelImmutable model, String nickname){
+
+    public void showPlayerPositionedTile(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setHandTiles(model,nickname);
+        controller.setHandTiles(model, nickname);
         controller.setAllShefies(model, nickname);
     }
-    public void showMessageInGame(String msg, Boolean success){
+
+    public void showMessageInGame(String msg, Boolean success) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setMsgToShow(msg,success);
+        controller.setMsgToShow(msg, success);
     }
+
     public void showSelectionColShelfie() {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.showSelectionColShelfie();
     }
+
     public void changeTurn(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setNicknamesAndPoints(model,nickname);
-        controller.changeTurn(model,nickname);
+        controller.setNicknamesAndPoints(model, nickname);
+        controller.changeTurn(model, nickname);
     }
+
     public void showMessages(GameModelImmutable model, String myNickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setMessage(model.getChat().getMsgs(), myNickname);
@@ -235,20 +275,22 @@ public class GUIApplication extends Application {
         controller.setImportantEvents(importantEvents);
     }
 
-    public void showPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname, Point p){
+    public void showPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname, Point p) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
-        controller.setPointsUpdated(model, playerPointChanged, myNickname,p);
+        controller.setPointsUpdated(model, playerPointChanged, myNickname, p);
     }
+
     public void showLeaderBoard(GameModelImmutable model) {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
         controller.show(model);
     }
+
     public void showBtnReturnToMenu() {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
         controller.showBtnReturnToMenu();
     }
 
-    public void showErrorGeneric(String msg){
+    public void showErrorGeneric(String msg) {
         GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneEnum.GENERIC_ERROR)).getGenericController();
         controller.setMsg(msg);
     }
@@ -283,7 +325,6 @@ public class GUIApplication extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 
 
 }

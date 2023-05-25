@@ -25,4 +25,5 @@ public class MenuController extends GenericController{
         getInputReaderGUI().addTxt("x");
         //System.out.println("x");
     }
+
 }

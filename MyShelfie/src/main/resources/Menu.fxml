@@ -8,42 +8,50 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #263340;" styleClass="backgroundWelcome" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.userView.gui.controllers.MenuController">
+
+<AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundWelcome" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.userView.gui.controllers.MenuController">
     <children>
-      <Pane prefHeight="740.0" prefWidth="1279.0" styleClass="backgroundmio" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="201.0" mnemonicParsing="false" onAction="#actionCreateANewGame" prefHeight="86.0" prefWidth="453.0" style="-fx-font-size: 22;" styleClass="record-sales" stylesheets="@style.css" text="Create a new game" AnchorPane.leftAnchor="-29.0">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Button>
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="307.0" mnemonicParsing="false" onAction="#actionJoinFirstAvailableGame" prefHeight="86.0" prefWidth="423.0" styleClass="record-sales2" stylesheets="@style.css" text="Join to a random game" AnchorPane.leftAnchor="-29.0">
-         <font>
-            <Font size="22.0" />
-         </font></Button>
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="413.0" mnemonicParsing="false" onAction="#actionJoinToASpecificGame" prefHeight="86.0" prefWidth="393.0" styleClass="record-sales3" stylesheets="@style.css" text="Join to specific Game" AnchorPane.leftAnchor="-29.0">
-         <font>
-            <Font size="22.0" />
-         </font></Button>
-        <Button alignment="CENTER_RIGHT" layoutX="-29.0" layoutY="519.0" mnemonicParsing="false" onAction="#actionReconnect" prefHeight="86.0" prefWidth="363.0" styleClass="record-sales4" stylesheets="@style.css" text="Reconnect">
-         <font>
-            <Font size="22.0" />
-         </font></Button>
-        <Button fx:id="exitButton" layoutX="26.0" layoutY="676.0" mnemonicParsing="false" prefWidth="83.0" styleClass="windows7" stylesheets="@style.css" text="Exit" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" />
-        <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="1008.0" layoutY="701.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit" textAlignment="CENTER" wrappingWidth="278.13671875" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="-6.13671875">
-            <font>
-                <Font name="Calisto MT" size="18.0" />
-            </font>
-        </Text>
-      <Pane layoutX="36.0" layoutY="33.0" opacity="0.8" prefHeight="137.0" prefWidth="1152.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="33.0" />
-      <ImageView fitHeight="477.0" fitWidth="844.0" layoutX="218.0" layoutY="-102.0" AnchorPane.topAnchor="-135.0">
-         <image>
-            <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="102.0" fitWidth="95.0" layoutX="1164.0" layoutY="612.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="13.0">
-         <image>
-            <Image url="@img/img/Publisher_material/Publisher.png" />
-         </image>
-      </ImageView>
+      <Pane prefHeight="740.0" prefWidth="1025.0" styleClass="backgroundmio" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane fx:id="content" layoutX="-9.0" layoutY="19.0" prefHeight="706.0" prefWidth="1294.0">
+         <children>
+              <Button alignment="CENTER_RIGHT" layoutX="4.0" layoutY="171.0" mnemonicParsing="false" onAction="#actionCreateANewGame" prefHeight="86.0" prefWidth="453.0" style="-fx-font-size: 22;" styleClass="record-sales" stylesheets="@style.css" text="Create a new game">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+              <Button alignment="CENTER_RIGHT" layoutX="4.0" layoutY="277.0" mnemonicParsing="false" onAction="#actionJoinFirstAvailableGame" prefHeight="86.0" prefWidth="423.0" styleClass="record-sales2" stylesheets="@style.css" text="Join to a random game">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+              <Button alignment="CENTER_RIGHT" layoutX="4.0" layoutY="383.0" mnemonicParsing="false" onAction="#actionJoinToASpecificGame" prefHeight="86.0" prefWidth="393.0" styleClass="record-sales3" stylesheets="@style.css" text="Join to specific Game">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+              <Button alignment="CENTER_RIGHT" layoutX="4.0" layoutY="489.0" mnemonicParsing="false" onAction="#actionReconnect" prefHeight="86.0" prefWidth="363.0" styleClass="record-sales4" stylesheets="@style.css" text="Reconnect">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+              <Button fx:id="exitButton" layoutX="46.0" layoutY="653.0" mnemonicParsing="false" prefWidth="83.0" styleClass="windows7" stylesheets="@style.css" text="Exit" />
+              <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="1040.63671875" layoutY="638.09765625" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit" textAlignment="CENTER" wrappingWidth="278.13671875">
+                  <font>
+                      <Font name="Calisto MT" size="18.0" />
+                  </font>
+              </Text>
+            <Pane layoutX="103.0" layoutY="3.0" opacity="0.8" prefHeight="137.0" prefWidth="1152.0" style="-fx-background-color: black;" />
+            <ImageView fitHeight="120.0" fitWidth="815.0" layoutX="268.0" layoutY="17.0">
+               <image>
+                  <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="102.0" fitWidth="95.0" layoutX="1205.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/img/Publisher_material/Publisher.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

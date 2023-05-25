@@ -7,18 +7,40 @@ import polimi.ingsw.view.userView.GameFlow;
 import polimi.ingsw.view.userView.gui.GUIApplication;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class MainClient {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         clearCMD();
-        Integer selection;
+        int selection;
 
         if (!DefaultValue.DEBUG) {
-            String input = null;
+            String input;
+
+            do {
+                System.out.println(ansi().cursor(1, 0).a("""
+                        Insert remote IP (leave empty for localhost)
+                        """));
+                input = new Scanner(System.in).nextLine();
+            } while (!input.equals("") && !isValidIP(input));
+            if (!input.equals(""))
+                DefaultValue.serverIp = input;
+
+            clearCMD();
+
+            do {
+                System.out.println(ansi().cursor(1, 0).a("""
+                        Insert your IP (leave empty for localhost)
+                        """));
+                input = new Scanner(System.in).nextLine();
+            } while (!input.equals("") && !isValidIP(input));
+            if (!input.equals(""))
+                System.setProperty("java.rmi.server.hostname", input);
 
             do {
                 System.out.println(ansi().cursor(1, 0).a("""
@@ -30,7 +52,12 @@ public class MainClient {
                         \t (4) GUI + RMI
                         """));
                 input = new Scanner(System.in).nextLine();
-                selection = Integer.parseInt(input);
+                try {
+                    selection = Integer.parseInt(input);
+                } catch (NumberFormatException e) {
+                    selection = -1;
+                    System.out.println("Nan");
+                }
             } while (selection != 1 && selection != 2 && selection != 3 && selection != 4);
         } else {
             selection = 2; //Default run configuration
@@ -58,7 +85,6 @@ public class MainClient {
 
     }
 
-
     private static void clearCMD() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -66,4 +92,21 @@ public class MainClient {
             System.out.print("\033\143");   //for Mac
         }
     }
+
+    private static boolean isValidIP(String input) {
+        List<String> parsed;
+        parsed = Arrays.stream(input.split("\\.")).toList();
+        if (parsed.size() != 4) {
+            return false;
+        }
+        for (String part : parsed) {
+            try {
+                Integer.parseInt(part);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

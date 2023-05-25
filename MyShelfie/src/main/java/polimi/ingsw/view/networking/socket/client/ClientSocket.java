@@ -35,7 +35,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     private MainControllerInterface controller;
 
     public ClientSocket(Flow gui) {
-        startConnection(DefaultValue.Remote_ip, DefaultValue.Default_port_Socket);
+        startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersHandlerClient(gui);
         this.start();
 

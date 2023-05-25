@@ -27,8 +27,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
-import static org.fusesource.jansi.Ansi.ansi;
-
 import static polimi.ingsw.view.userView.utilities.events.EventType.*;
 
 public class GameFlow extends Flow implements Runnable, CommonClientActions {
@@ -37,7 +35,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     private final EventList events = new EventList();
 
-    private CommonClientActions server;
+    private CommonClientActions clientActions;
     private final FileDisconnection fileDisconnection;
 
     private String lastPlayerReconnected;
@@ -52,8 +50,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     public GameFlow(ConnectionSelection connectionSelection){
         //Invoked for starting with TUI
         switch (connectionSelection) {
-            case SOCKET -> server = new ClientSocket(this);
-            case RMI -> server = new RMIClient(this);
+            case SOCKET -> clientActions = new ClientSocket(this);
+            case RMI -> clientActions = new RMIClient(this);
         }
         ui = new TUI();
 
@@ -70,8 +68,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     public GameFlow(GUIApplication guiApplication,ConnectionSelection connectionSelection){
         //Invoked for starting with GUI
         switch (connectionSelection) {
-            case SOCKET -> server = new ClientSocket(this);
-            case RMI -> server = new RMIClient(this);
+            case SOCKET -> clientActions = new ClientSocket(this);
+            case RMI -> clientActions = new RMIClient(this);
         }
         this.inputReader = new inputReaderGUI();
 
@@ -547,7 +545,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         ui.show_creatingNewGameMsg(nick);
 
         try {
-            server.createGame(nick);
+            clientActions.createGame(nick);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -558,7 +556,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     public void joinFirstAvailable(String nick) {
         ui.show_joiningFirstAvailableMsg(nick);
         try {
-            server.joinFirstAvailable(nick);
+            clientActions.joinFirstAvailable(nick);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -568,7 +566,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     public void joinGame(String nick, int idGame) {
         ui.show_joiningToGameIdMsg(idGame,nick);
         try {
-            server.joinGame(nick, idGame);
+            clientActions.joinGame(nick, idGame);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -579,7 +577,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
         ui.show_joiningToGameIdMsg(idGame,nick);
         try {
-            server.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
+            clientActions.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -587,13 +585,13 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void leave(String nick, int idGame) throws IOException {
-        server.leave(nick, idGame);
+        clientActions.leave(nick, idGame);
     }
 
 
     @Override
     public void setAsReady() throws IOException {
-        server.setAsReady();
+        clientActions.setAsReady();
     }
 
     @Override
@@ -604,22 +602,22 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
-        server.grabTileFromPlayground(x, y, direction, num);
+        clientActions.grabTileFromPlayground(x, y, direction, num);
     }
 
     @Override
     public void positionTileOnShelf(int column, TileType type) throws IOException {
-        server.positionTileOnShelf(column, type);
+        clientActions.positionTileOnShelf(column, type);
     }
 
     @Override
     public void heartbeat() {
-        server.heartbeat();
+        clientActions.heartbeat();
     }
 
     @Override
     public void sendMessage(Message msg) {
-        server.sendMessage(msg);
+        clientActions.sendMessage(msg);
     }
 
 
