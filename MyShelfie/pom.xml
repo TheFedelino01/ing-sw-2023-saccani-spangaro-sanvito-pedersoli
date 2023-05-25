@@ -81,17 +81,26 @@
                 <configuration>
                     <excludes>
                         <exclude>**/main/*</exclude>
-                        <exclude>**/Card</exclude>
+                        <exclude>**/cards/*</exclude>
                         <exclude>**/CommonCard</exclude>
                         <exclude>**/CommonMethods</exclude>
-                        <exclude>**/userView/Flow</exclude>
-                        <exclude>**/userView/UI</exclude>
-                        <exclude>**/UI</exclude>
+                        <exclude>**/userView/UI.*</exclude>
+                        <exclude>**/userView/Flow.*</exclude>
                         <exclude>**/gui/*</exclude>
                         <exclude>**/gui/controllers/*</exclude>
                         <exclude>**/gui/scenes/*</exclude>
                         <exclude>**/text/*</exclude>
                         <exclude>**/utilities/*</exclude>
+                        <exclude>**/utilities/events/EventType</exclude>
+                        <!-- uncomment to exclude network from coverage testing -->
+<!--                        <exclude>**/networking/*</exclude>-->
+<!--                        <exclude>**/networking/socket/*</exclude>-->
+<!--                        <exclude>**/networking/RMI/*</exclude>-->
+<!--                        <exclude>**/networking/socket/client/*</exclude>-->
+<!--                        <exclude>**/networking/socket/server/*</exclude>-->
+<!--                        <exclude>**/networking/socket/client/ServerToClientMessages/*</exclude>-->
+<!--                        <exclude>**/networking/socket/client/GameControllerMessages/*</exclude>-->
+<!--                        <exclude>**/networking/socket/client/MainControllerMessages/*</exclude>-->
                     </excludes>
                 </configuration>
                 <executions>
