@@ -11,7 +11,7 @@ Per vedere la code coverage del progetto: MyShelfie\target\site\jacoco\index.htm
   
   
 Per runnare e testare il gioco:  
-1. Intellij: menù maven -> MyShelfie -> Lifecycle -> Verify  
+1. Intellij: menù maven -> MyShelfie -> Lifecycle -> Package  
   
 2. Aprire CMD    
    Portarsi sulla directory del progetto:   

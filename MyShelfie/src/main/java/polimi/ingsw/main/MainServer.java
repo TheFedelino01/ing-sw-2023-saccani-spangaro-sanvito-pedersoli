@@ -20,6 +20,7 @@ public class MainServer {
         String input;
 
         do {
+            clearCMD();
             System.out.println(ansi().cursor(1, 0).a("""
                     Insert remote IP (leave empty for localhost)
                     """));
@@ -54,6 +55,15 @@ public class MainServer {
             }
         }
         return true;
+    }
+
+
+    private static void clearCMD() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (IOException | InterruptedException e) {
+            System.out.print("\033\143");   //for Mac
+        }
     }
 
 }
