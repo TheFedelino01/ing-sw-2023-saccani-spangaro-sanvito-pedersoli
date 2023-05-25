@@ -4,8 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.controller.GameController;
+import polimi.ingsw.listener.GameListener;
 import polimi.ingsw.model.cards.goal.CardGoal;
 import polimi.ingsw.model.enumeration.CardGoalType;
+import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.view.handlerResponsesByClient.GameListenersHandlerClient;
+import polimi.ingsw.view.userView.GameFlow;
+import polimi.ingsw.view.userView.gui.GUI;
+import polimi.ingsw.view.userView.text.TUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +74,14 @@ class PlayerTest {
         assertFalse(player.getReadyToStart());
         player.setReadyToStart();
         assertTrue(player.getReadyToStart());
+    }
+    @Test
+    @DisplayName("Test Player addedPointNotify")
+    void notifyTest(){
+        GameModelImmutable gameModelImmutable = new GameModelImmutable();
+        Player player = new Player("Test");
+        CardGoalType cardGoalType = CardGoalType.GOAL1;
+        player.addPoint(new Point(1,cardGoalType),gameModelImmutable);
     }
 
 }

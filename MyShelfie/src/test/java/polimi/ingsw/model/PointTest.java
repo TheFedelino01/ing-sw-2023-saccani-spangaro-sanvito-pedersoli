@@ -9,10 +9,7 @@ import polimi.ingsw.model.cards.common.CommonCard;
 import polimi.ingsw.model.cards.common.CommonStair;
 import polimi.ingsw.model.cards.common.CommonXCard;
 import polimi.ingsw.model.cards.goal.CardGoal;
-import polimi.ingsw.model.enumeration.CardCommonType;
-import polimi.ingsw.model.enumeration.CardGoalType;
-import polimi.ingsw.model.enumeration.GameStatus;
-import polimi.ingsw.model.enumeration.TileType;
+import polimi.ingsw.model.enumeration.*;
 import polimi.ingsw.model.exceptions.CommonCardAlreadyInException;
 import polimi.ingsw.model.exceptions.MaxCommonCardsAddedException;
 
@@ -20,6 +17,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PointTest {
     Player p1;
@@ -482,8 +480,56 @@ public class PointTest {
         //third player has a shelf that only grants him 17 points
         assertEquals(17, test3.getTotalPoints());
     }
+    @Test
+    @DisplayName("Test getPoint()")
+    void testGetPoint() {
+        int expectedPoint = 5;
+        CardCommonType referredTo = CardCommonType.CommonX;
 
+        Point point = new Point(expectedPoint, referredTo);
 
+        int actualPoint = point.getPoint();
+
+        assertEquals(expectedPoint, actualPoint, "Point value does not match");
+    }
+
+    @Test
+    @DisplayName("Test getReferredTo()")
+    void testGetReferredTo() {
+        CardCommonType expectedReferredTo = CardCommonType.CommonX;
+
+        Point point = new Point(8, expectedReferredTo);
+
+        CardType actualReferredTo = point.getReferredTo();
+
+        assertEquals(expectedReferredTo, actualReferredTo, "ReferredTo card type does not match");
+    }
+
+    @Test
+    @DisplayName("Test setPoint()")
+    void testSetPoint() {
+        Point point = new Point(5);
+        int expectedPoint = 8;
+
+        point.setPoint(expectedPoint);
+
+        int actualPoint = point.getPoint();
+
+        assertEquals(expectedPoint, actualPoint, "Point value does not match after setting");
+    }
+
+    @Test
+    @DisplayName("Test setReferredTo()")
+    void testSetReferredTo() {
+        Point point = new Point(5);
+        CardGoalType expectedReferredTo = CardGoalType.GOAL0;
+
+        point.setReferredTo(expectedReferredTo);
+
+        CardType actualReferredTo = point.getReferredTo();
+
+        assertEquals(expectedReferredTo, actualReferredTo, "ReferredTo card type does not match after setting");
+    }
 
 
 }
