@@ -642,6 +642,7 @@ public class DisconnectionTest {
 
         gameController = new GameController();
         mainController = MainController.getInstance();
+        Message message = new Message("Test", p1);
         int control=0;
         int i = 0;
         int index = 0;
@@ -655,11 +656,13 @@ public class DisconnectionTest {
         gameController.addPlayer(p2);
         //Check if the player is correctly added to the game
         assert (gameController.getPlayers().size() == 2);
+        gameController.getPlayer(p2.getNickname());
+        gameController.sentMessage(message);
         gameController.playerIsReadyToStart(p2.getNickname());
-
 
         //Check that the game status is running, otherwise fail the test
         assert (gameController.getStatus().equals(GameStatus.RUNNING));
+        gameController.isThisMyTurn(p1.getNickname());
 
         while (gameController.getStatus().equals(GameStatus.RUNNING) || gameController.getStatus().equals(GameStatus.LAST_CIRCLE)) {
 
