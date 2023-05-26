@@ -27,7 +27,6 @@ class GameFlowTest {
     private CommonClientActions clientActions;
     private UI ui;
     private GUIApplication guiApplication;
-
     @BeforeAll
     public static void setUp() throws IOException {
         System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
@@ -36,7 +35,6 @@ class GameFlowTest {
         serverSocket = new SocketWelcome();
         serverSocket.start(DefaultValue.Default_port_Socket);
     }
-
     @AfterAll
     public static void kill() {
         //unbinds the RMI server
@@ -46,7 +44,6 @@ class GameFlowTest {
         serverSocket.stopConnection();
         System.out.println("Server socket correctly closed");
     }
-
     @Test
     public void testConstructorWithConnectionSelection_Socket() {
         ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
@@ -59,7 +56,6 @@ class GameFlowTest {
         // run forever
         gameFlow.setEnded(true);
     }
-
     @Test
     public void testConstructorWithConnectionSelection_RMI() {
         ConnectionSelection connectionSelection = ConnectionSelection.RMI;
@@ -72,7 +68,6 @@ class GameFlowTest {
         // run forever
         gameFlow.setEnded(true);
     }
-
     @Test
     public void testConstructorWithGUIApplicationAndConnectionSelection_Socket() {
         GUIApplication guiApplication = new GUIApplication();
@@ -86,7 +81,6 @@ class GameFlowTest {
         // run forever
         gameFlow.setEnded(true);
     }
-
     @Test
     public void testConstructorWithGUIApplicationAndConnectionSelection_RMI() {
         GUIApplication guiApplication = new GUIApplication();

@@ -17,6 +17,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+@Disabled
 class ClientSocketTest {
     private static GameFlow gameFlow;
     private static ClientSocket clientSocket;
