@@ -16,6 +16,7 @@ public class SocketWelcome extends Thread {
             this.start();
             System.out.println("Server Socket ready");
         } catch (IOException e) {
+            e.printStackTrace();
             System.err.println("[ERROR] STARTING SOCKET SERVER: \n\tServer RMI exception: " + e);
         }
     }
@@ -38,10 +39,12 @@ public class SocketWelcome extends Thread {
         }
     }
 
+    @Deprecated
     public void stopConnection() {
-        for (ClientHandler c : handler) {
-            c.interruptThread();
-        }
+        if (handler != null)
+            for (ClientHandler c : handler) {
+                c.interruptThread();
+            }
         this.interrupt();
     }
 }

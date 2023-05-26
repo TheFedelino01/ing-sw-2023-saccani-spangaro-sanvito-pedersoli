@@ -6,6 +6,7 @@ import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.MainControllerInterface;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -127,6 +128,24 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         serverObject.mainController.leaveGame(lis,nick,idGame);
 
         return null;
+    }
+
+    //for testing
+    @Deprecated
+    public static RMIServer unbind(){
+        try {
+            getRegistry().unbind(DefaultValue.Default_servername_RMI);
+            UnicastRemoteObject.unexportObject(getRegistry(), true);
+            System.out.println("Server RMI correctly closed");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.err.println("[ERROR] CLOSING RMI SERVER: \n\tServer RMI exception: " + e);
+        } catch (NotBoundException e) {
+            System.err.println("[ERROR] CLOSING RMI SERVER: \n\tServer RMI exception: " + e);
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return getInstance();
     }
 
 

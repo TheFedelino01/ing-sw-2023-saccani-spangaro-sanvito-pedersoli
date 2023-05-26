@@ -35,7 +35,7 @@ public class ClientHandler extends Thread {
     public void run() {
         SocketClientGenericMessage temp;
 
-        while (true) {
+        while (!this.isInterrupted()) {
             try {
                 temp = (SocketClientGenericMessage) in.readObject();
 

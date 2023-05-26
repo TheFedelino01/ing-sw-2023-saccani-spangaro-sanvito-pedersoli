@@ -1,8 +1,6 @@
 package polimi.ingsw.view.userView;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.gameModelView.GameModelImmutable;
 import polimi.ingsw.view.networking.RMI.RMIServer;
@@ -17,20 +15,26 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class GameFlowTest {
 
     private static RMIServer server;
+    private static SocketWelcome serverSocket;
     private GameFlow gameFlow;
 
-    @BeforeEach
-    public void setUp() throws IOException {
-
+    @BeforeAll
+    public static void setUp() throws IOException {
         System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
-
         server = new RMIServer();
         server = RMIServer.bind();
+        serverSocket = new SocketWelcome();
+        serverSocket.start(DefaultValue.Default_port_Socket);
+    }
 
-        SocketWelcome serverSOCKET = new SocketWelcome();
-        serverSOCKET.start(DefaultValue.Default_port_Socket);
+    @AfterAll
+    public static void kill() {
+        //unbinds the RMI server
+        server = RMIServer.unbind();
 
-
+        //kills the serverSocket
+        serverSocket.stopConnection();
+        System.out.println("Server socket correctly closed");
     }
 
     @Test
@@ -40,6 +44,10 @@ class GameFlowTest {
 
         assertNotNull(gameFlow);
         // Assert any other conditions or behaviors you expect from the constructor
+
+        //until new test parts are added, need to kill the game, or it will
+        // run forever
+        gameFlow.setEnded(true);
     }
 
     @Test
@@ -49,6 +57,10 @@ class GameFlowTest {
 
         assertNotNull(gameFlow);
         // Assert any other conditions or behaviors you expect from the constructor
+
+        //until new test parts are added, need to kill the game, or it will
+        // run forever
+        gameFlow.setEnded(true);
     }
 
     @Test
@@ -59,6 +71,10 @@ class GameFlowTest {
 
         assertNotNull(gameFlow);
         // Assert any other conditions or behaviors you expect from the constructor
+
+        //until new test parts are added, need to kill the game, or it will
+        // run forever
+        gameFlow.setEnded(true);
     }
 
     @Test
@@ -69,6 +85,10 @@ class GameFlowTest {
 
         assertNotNull(gameFlow);
         // Assert any other conditions or behaviors you expect from the constructor
+
+        //until new test parts are added, need to kill the game, or it will
+        // run forever
+        gameFlow.setEnded(true);
     }
 
     @Test
@@ -77,7 +97,7 @@ class GameFlowTest {
         gameFlow = new GameFlow(connectionSelection);
         gameFlow.youleft();
         gameFlow.setEnded(true);
-        Assertions.assertEquals(gameFlow.isEnded(), true);
+        Assertions.assertTrue(gameFlow.isEnded());
         FileDisconnection fileDisconnection = gameFlow.getFileDisconnection();
         assertNotNull(fileDisconnection);
     }
