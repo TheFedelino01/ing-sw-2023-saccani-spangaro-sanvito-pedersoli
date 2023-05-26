@@ -1,11 +1,14 @@
 package polimi.ingsw.view.userView;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.DefaultValue;
+import polimi.ingsw.model.gameModelView.GameModelImmutable;
 import polimi.ingsw.view.networking.RMI.RMIServer;
 import polimi.ingsw.view.networking.socket.server.SocketWelcome;
 import polimi.ingsw.view.userView.gui.GUIApplication;
+import polimi.ingsw.view.userView.utilities.FileDisconnection;
 
 import java.io.IOException;
 
@@ -66,6 +69,17 @@ class GameFlowTest {
 
         assertNotNull(gameFlow);
         // Assert any other conditions or behaviors you expect from the constructor
+    }
+
+    @Test
+    public void testingRun() {
+        ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
+        gameFlow = new GameFlow(connectionSelection);
+        gameFlow.youleft();
+        gameFlow.setEnded(true);
+        Assertions.assertEquals(gameFlow.isEnded(), true);
+        FileDisconnection fileDisconnection = gameFlow.getFileDisconnection();
+        assertNotNull(fileDisconnection);
     }
 
 }
