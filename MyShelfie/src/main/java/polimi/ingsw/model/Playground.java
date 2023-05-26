@@ -308,7 +308,6 @@ public class Playground implements Serializable {
         int i = 0;
         while (i < num) {
             ris.add(new Tile(playground[r][c].getType()));
-            System.out.println(ris);
             playground[r][c].setType(TileType.FINISHED_USING);
             setFreeSides();
             i++;
