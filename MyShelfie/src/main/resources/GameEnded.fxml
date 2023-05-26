@@ -8,26 +8,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="584.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.userView.gui.controllers.GameEndedController">
    <children>
-      <Pane prefHeight="595.0" prefWidth="950.0" styleClass="backgroundInGame" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="758.0" fitWidth="760.0" layoutX="94.0" layoutY="-269.0" preserveRatio="true">
-               <image>
-                  <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="343.0" layoutY="199.0" text="GAME ENDED">
-               <font>
-                  <Font name="Arial Black" size="36.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <ImageView fitHeight="288.0" fitWidth="750.0" layoutY="259.0" opacity="0.5" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="270.0">
+      <Pane prefHeight="595.0" prefWidth="950.0" styleClass="backgroundInGame" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Label alignment="CENTER" text="GAME ENDED" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="200.0">
+         <font>
+            <Font name="Arial Black" size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="137.0" fitWidth="750.0" layoutY="259.0" opacity="0.5" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
          <image>
-            <Image url="@img/img/misc/base_pagina2.jpg" />
+            <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
          </image>
       </ImageView>
       <Label fx:id="player0" layoutX="10.0" layoutY="10.0" text="Player 1: 0 points" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="300.0">

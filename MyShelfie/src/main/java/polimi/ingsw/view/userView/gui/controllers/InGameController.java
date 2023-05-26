@@ -685,7 +685,7 @@ public class InGameController extends GenericController {
             //Point referred to First Common Card
             Pane paneTile = (Pane) mainAnchor.lookup("#point"+p.getPoint()+"cc0");
             paneTile.setVisible(false);
-        }else{
+        }else if(p.getReferredTo().equals(model.getCommonCards().get(1).getCommonType())){
             Pane paneTile = (Pane) mainAnchor.lookup("#point"+p.getPoint()+"cc1");
             paneTile.setVisible(false);
         }
