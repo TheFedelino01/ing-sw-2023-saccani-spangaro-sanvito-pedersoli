@@ -77,57 +77,6 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Simulate a game with 2 players")
-    public void testGame2Player() {
-        int i = 0;
-        int index = 0;
-        Player p1 = new Player("1");
-        Player p2 = new Player("2");
-        gameController.addPlayer(p1);
-        //Check if the player is correctly added to the game
-        assert (gameController.getPlayers().size() == 1);
-        gameController.playerIsReadyToStart(p1.getNickname());
-        //check if the player is ready
-        gameController.addPlayer(p2);
-        //Check if the player is correctly added to the game
-        assert (gameController.getPlayers().size() == 2);
-        gameController.playerIsReadyToStart(p2.getNickname());
-
-
-        //Check that the game status is running, otherwise fail the test
-        assert (gameController.getStatus().equals(GameStatus.RUNNING));
-
-        while (gameController.getStatus().equals(GameStatus.RUNNING) || gameController.getStatus().equals(GameStatus.LAST_CIRCLE)) {
-
-            do {
-                gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), matrix2D[index].row(), matrix2D[index].col(), Direction.DOWN, 1);
-                index++;
-                if (index == 28) {
-                    index = 0;
-                }
-            } while (gameController.whoIsPlaying().getInHandTile().size() == 0);
-
-            //check if the tile is correctly added to the player's hand
-            assert (gameController.whoIsPlaying().getInHandTile().size() == 1);
-            if (i == 5) {
-                i = 0;
-            }
-            Player p = gameController.whoIsPlaying();
-            int freeSpace = p.getShelf().getFreeSpace();
-            gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
-
-
-            //check if the tile is correctly added to the shelf
-            assert (p.getShelf().getFreeSpace() == freeSpace - 1);
-            i = i + 1;
-        }
-        //Problema: un giocatore riempie la shelf e l'altro player rimane con un free space, e non esce mai dal last circle
-        assert (p1.getShelf().getFreeSpace() == 0);
-        assert (p2.getShelf().getFreeSpace() == 0);
-        assert (gameController.getStatus().equals(GameStatus.ENDED));
-    }
-
-    @Test
     @DisplayName("test 3 player game, where the first player finishes")
     public void testFirstPlayerFinishes() {
         int placeCol1 = 0, placeCol2 = 0, placeCol3 = 0, move = 0;
@@ -376,6 +325,57 @@ public class GameTest {
         assertNotEquals(p2.getShelf().getFreeSpace(), 0);
         assertEquals(p3.getShelf().getFreeSpace(), 0);
         assertEquals(gameController.getStatus(), GameStatus.ENDED);
+    }
+
+    @Test
+    @DisplayName("Simulate a game with 2 players")
+    public void testGame2Player() {
+        int i = 0;
+        int index = 0;
+        Player p1 = new Player("1");
+        Player p2 = new Player("2");
+        gameController.addPlayer(p1);
+        //Check if the player is correctly added to the game
+        assert (gameController.getPlayers().size() == 1);
+        gameController.playerIsReadyToStart(p1.getNickname());
+        //check if the player is ready
+        gameController.addPlayer(p2);
+        //Check if the player is correctly added to the game
+        assert (gameController.getPlayers().size() == 2);
+        gameController.playerIsReadyToStart(p2.getNickname());
+
+
+        //Check that the game status is running, otherwise fail the test
+        assert (gameController.getStatus().equals(GameStatus.RUNNING));
+
+        while (gameController.getStatus().equals(GameStatus.RUNNING) || gameController.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+
+            do {
+                gameController.grabTileFromPlayground(gameController.whoIsPlaying().getNickname(), matrix2D[index].row(), matrix2D[index].col(), Direction.DOWN, 1);
+                index++;
+                if (index == 28) {
+                    index = 0;
+                }
+            } while (gameController.whoIsPlaying().getInHandTile().size() == 0);
+
+            //check if the tile is correctly added to the player's hand
+            assert (gameController.whoIsPlaying().getInHandTile().size() == 1);
+            if (i == 5) {
+                i = 0;
+            }
+            Player p = gameController.whoIsPlaying();
+            int freeSpace = p.getShelf().getFreeSpace();
+            gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(), i, gameController.whoIsPlaying().getInHandTile().get(0).getType());
+
+
+            //check if the tile is correctly added to the shelf
+            assert (p.getShelf().getFreeSpace() == freeSpace - 1);
+            i = i + 1;
+        }
+        //Problema: un giocatore riempie la shelf e l'altro player rimane con un free space, e non esce mai dal last circle
+        assert (p1.getShelf().getFreeSpace() == 0);
+        assert (p2.getShelf().getFreeSpace() == 0);
+        assert (gameController.getStatus().equals(GameStatus.ENDED));
     }
 
 
