@@ -549,4 +549,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void setModel(GameModel model) {
         this.model = model;
     }
+
+    @Deprecated
+    public Playground getPlayground() {
+        return model.getPg();
+    }
+
 }
