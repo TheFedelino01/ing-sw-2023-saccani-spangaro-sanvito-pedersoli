@@ -114,7 +114,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                                 throw new RuntimeException(e);
                             }
                         }
-                        case RUNNING -> {
+                        case RUNNING,LAST_CIRCLE -> {
                             try {
                                 statusRunning(event);
                             } catch (IOException | InterruptedException e) {
