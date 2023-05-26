@@ -311,7 +311,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
             checkCommonCards(currentPlaying);
 
-            if (currentPlaying.getShelf().getFreeSpace() == 0 && (!model.getStatus().equals(GameStatus.LAST_CIRCLE) && !model.getStatus().equals(GameStatus.ENDED))) {
+            if (currentPlaying.getShelf().getFreeSpace() == 29 && (!model.getStatus().equals(GameStatus.LAST_CIRCLE) && !model.getStatus().equals(GameStatus.ENDED))) {
                 //This player has his shelf full, time to complete le last circle
                 model.setStatus(GameStatus.LAST_CIRCLE);
                 model.setFinishedPlayer(currentPlayingIndex);
