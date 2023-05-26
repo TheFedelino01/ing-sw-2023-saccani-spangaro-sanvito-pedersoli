@@ -2,13 +2,18 @@ package polimi.ingsw.view.userView;
 
 import org.junit.jupiter.api.*;
 import polimi.ingsw.model.DefaultValue;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
 import polimi.ingsw.view.networking.RMI.RMIServer;
+import polimi.ingsw.view.networking.socket.client.ClientSocket;
 import polimi.ingsw.view.networking.socket.server.SocketWelcome;
+import polimi.ingsw.view.userView.gui.GUI;
 import polimi.ingsw.view.userView.gui.GUIApplication;
 import polimi.ingsw.view.userView.utilities.FileDisconnection;
+import polimi.ingsw.view.userView.utilities.InputParser;
+import polimi.ingsw.view.userView.utilities.InputReader;
+import polimi.ingsw.view.userView.utilities.inputReaderGUI;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -16,7 +21,12 @@ class GameFlowTest {
 
     private static RMIServer server;
     private static SocketWelcome serverSocket;
+    protected InputParser inputParser;
+    protected InputReader inputReader;
     private GameFlow gameFlow;
+    private CommonClientActions clientActions;
+    private UI ui;
+    private GUIApplication guiApplication;
 
     @BeforeAll
     public static void setUp() throws IOException {
@@ -100,6 +110,21 @@ class GameFlowTest {
         Assertions.assertTrue(gameFlow.isEnded());
         FileDisconnection fileDisconnection = gameFlow.getFileDisconnection();
         assertNotNull(fileDisconnection);
+    }
+
+    @Disabled
+    @Test
+    public void testRun() {
+        ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
+        GameFlow gf = new GameFlow(connectionSelection);
+        clientActions = new ClientSocket(gf);
+        this.inputReader = new inputReaderGUI();
+
+        ui = new GUI(guiApplication, (inputReaderGUI) inputReader);
+
+        this.inputParser = new InputParser(this.inputReader.getBuffer(), gf);
+        ((inputReaderGUI) inputReader).addTxt("/quit");
+        gf.run();
     }
 
 }
