@@ -16,7 +16,7 @@ public class Point implements Serializable {
 
     public Point(Integer point){
         this.point = point;
-        this.referredTo = null;
+        this.referredTo = CardGoalType.NOT_SET;
     }
 
     public Integer getPoint() {

@@ -35,6 +35,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         new Thread(this).start();
     }
 
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         while (!Thread.interrupted()) {
@@ -56,6 +57,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 }
             }
             try {
+
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -65,8 +67,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     /**
      * Add player @param p to the Game
-     *
-     * returns true if player is added and is now in game, false else
+     * <br>
      * @throws PlayerAlreadyInException when in the game there is already another Player with the same nickname
      * @throws MaxPlayersInException    when the game has already reached its full capability (#player=4)
      */
@@ -368,6 +369,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * Start a timer for waiting the reconnection of the player, if the player doesn't reconnect in time, the game is set to ended
      */
+    @SuppressWarnings("BusyWait")
     private void startReconnectionTimer() {
         reconnectionTh = new Thread(
                 () -> {
@@ -469,13 +471,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
-
-    //TODO: needs to check why it returns
-    // the correct occurrences + 1 each time, except when there's no occurrences
-    //
-    // EG: in the tests, I don't use the ACTIVITY tile,
-    // so when it checks for ACTIVITY, the algorithm returns 0, correct
-    // In every other case, EG the first 7 CAT tiles, it returns 8
     public void checkFinal() {
         boolean allTilesFound;
         int toCheck;
