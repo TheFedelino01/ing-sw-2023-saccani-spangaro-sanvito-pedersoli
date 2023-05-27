@@ -375,7 +375,6 @@ public class TUI extends UI {
 
     public void show_alwaysShowForAll(GameModelImmutable model) {
         this.clearScreen();
-        // TODO: MERGE THE alwaysShowForAll and AlwaysShow and correct the resizing
         //resize();
         show_titleMyShelfie();
         show_playground(model);

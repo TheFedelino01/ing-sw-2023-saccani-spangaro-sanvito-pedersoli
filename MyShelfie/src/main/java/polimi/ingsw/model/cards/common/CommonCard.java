@@ -1,5 +1,6 @@
 package polimi.ingsw.model.cards.common;
 
+import org.fusesource.jansi.Ansi;
 import polimi.ingsw.model.cards.Card;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.CardCommonType;
@@ -7,18 +8,19 @@ import polimi.ingsw.model.Point;
 import polimi.ingsw.model.Shelf;
 
 import java.util.ArrayDeque;
+import java.util.Objects;
 import java.util.Queue;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
 public abstract class CommonCard extends Card {
     private Queue<Point> points;
-    private CardCommonType commonType;
+    private final CardCommonType commonType;
 
     public CommonCard(CardCommonType type) {
         points = new ArrayDeque<>();
-        for(int i = 4; i > 0; i--){
-            points.add(new Point(4*2, type));
+        for (int i = 4; i > 0; i--) {
+            points.add(new Point(4 * 2, type));
         }
         commonType = type;
     }
@@ -32,11 +34,25 @@ public abstract class CommonCard extends Card {
     public abstract boolean verify(Shelf toCheck);
 
     public String toString(int i) {
+        int spacer = i;
+        if(i > 1)
+            spacer = i +1;
         StringBuilder ris = new StringBuilder();
+        ris.append(ansi().cursor(DefaultValue.row_commonCards - 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        ris.append(ansi().cursor(DefaultValue.row_commonCards + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                .a("|   " + Objects.requireNonNullElse(this.getPoints().peek(), new Point(0)).getPoint() + "   |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        ris.append(ansi().cursor(DefaultValue.row_commonCards + 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+
         switch (this.commonType) {
             case CommonHorizontal0 -> {
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i, DefaultValue.col_commonCards).a("First horizontal card!"));
                 ris.append(ansi().cursor(DefaultValue.row_commonCards + i + 1, DefaultValue.col_commonCards).a(" -> Four rows made by at most three different tile types (per row)"));
+
                 return ris.toString();
             }
             case CommonHorizontal1 -> {
@@ -277,10 +293,6 @@ public abstract class CommonCard extends Card {
 
     public CardCommonType getCommonType() {
         return commonType;
-    }
-
-    public void setCommonType(CardCommonType commonType) {
-        this.commonType = commonType;
     }
 
 

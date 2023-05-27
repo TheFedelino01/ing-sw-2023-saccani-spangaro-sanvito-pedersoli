@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class DefaultValue implements Serializable {
     public final static boolean DEBUG = false;
 
+    public final static int longest_commonCardMessage = 81;
     public final static int time_publisher_showing_seconds = 1;
 
     public final static int MaxNumOfPlayer = 4;
@@ -29,6 +30,7 @@ public class DefaultValue implements Serializable {
 
     public final static int Default_port_RMI = 4321;
     public final static int Default_port_Socket = 4320;
+
     public final static String Default_servername_RMI = "MyShelfie";
 
     public static String serverIp = "127.0.0.1";
