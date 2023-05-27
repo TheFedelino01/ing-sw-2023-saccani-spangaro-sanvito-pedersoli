@@ -23,7 +23,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     //private final GameModel model;
     private GameModel model; // testing
     private final Random random = new Random();
-    private transient Map<GameListener, Heartbeat> heartbeats;
+    private final transient Map<GameListener, Heartbeat> heartbeats;
     private Thread reconnectionTh;
 
     /**
@@ -37,7 +37,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.interrupted()) {
             //checks all the heartbeat to detect disconnection
             for (Map.Entry<GameListener, Heartbeat> entry : heartbeats.entrySet()) {
                 if (System.currentTimeMillis() - entry.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
@@ -66,7 +66,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * Add player @param p to the Game
      *
-     * @return true if player is added and is now in game, false else
+     * returns true if player is added and is now in game, false else
      * @throws PlayerAlreadyInException when in the game there is already another Player with the same nickname
      * @throws MaxPlayersInException    when the game has already reached its full capability (#player=4)
      */
@@ -85,8 +85,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Recover the player with the nickname @param to the game
      *
      * @param p Player that want to reconnect
-     * @throws PlayerAlreadyInException
-     * @throws MaxPlayersInException
+     * @throws PlayerAlreadyInException if a player tries to rejoin the same game
+     * @throws MaxPlayersInException    if there are already 4 players in game
      */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
         model.reconnectPlayer(p);
@@ -153,11 +153,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     private void extractCommonCards() {
         //Estraggo in modo random 'DefaultValue.NumOfCommonCards' carte comuni
-        CommonCardFactory cfactory = new CommonCardFactory();
         do {
             int extracted = random.nextInt(CardCommonType.values().length);
             try {
-                CommonCard ca = cfactory.getCommonCard(CardCommonType.values()[extracted]);
+                CommonCard ca = CommonCardFactory.getCommonCard(CardCommonType.values()[extracted]);
                 model.addCommonCard(ca);//Aggiungo la card al model
                 //Se la card che ho aggiunto va bene, gli imposto i punti
                 ca.setPoints(getListPointForCommonCard(ca));
@@ -311,7 +310,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
             checkCommonCards(currentPlaying);
 
-            if (currentPlaying.getShelf().getFreeSpace() == 29 && (!model.getStatus().equals(GameStatus.LAST_CIRCLE) && !model.getStatus().equals(GameStatus.ENDED))) {
+            if (currentPlaying.getShelf().getFreeSpace() == 0 && (!model.getStatus().equals(GameStatus.LAST_CIRCLE) && !model.getStatus().equals(GameStatus.ENDED))) {
                 //This player has his shelf full, time to complete le last circle
                 model.setStatus(GameStatus.LAST_CIRCLE);
                 model.setFinishedPlayer(currentPlayingIndex);
