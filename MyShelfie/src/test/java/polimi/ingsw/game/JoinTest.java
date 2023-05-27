@@ -139,6 +139,11 @@ public class JoinTest {
             public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
 
             }
+
+            @Override
+            public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
+
+            }
         };
         new ListenersHandler().addListener(lis);
     }

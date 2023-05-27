@@ -132,6 +132,15 @@ public class ListenersHandler {
             }
         }
     }
+    public void notify_LastCircle(GameModel model) {
+        for (GameListener l : listeners) {
+            try {
+                l.lastCircle(new GameModelImmutable(model));
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public synchronized void notify_grabbedTileNotCorrect(GameModel model) {
         for (GameListener l : listeners) {
@@ -199,4 +208,6 @@ public class ListenersHandler {
     public synchronized void removeListener(GameListener lis) {
         listeners.remove(lis);
     }
+
+
 }

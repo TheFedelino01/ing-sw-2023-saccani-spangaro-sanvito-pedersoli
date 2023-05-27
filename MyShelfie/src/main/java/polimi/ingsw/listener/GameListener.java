@@ -51,4 +51,6 @@ public interface GameListener extends Remote {
 
     void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException;
 
+    void lastCircle(GameModelImmutable gamemodel) throws RemoteException;
+
 }

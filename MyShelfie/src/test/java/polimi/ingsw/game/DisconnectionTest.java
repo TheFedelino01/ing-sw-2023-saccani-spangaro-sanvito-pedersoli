@@ -133,6 +133,11 @@ public class DisconnectionTest {
         public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
 
         }
+
+        @Override
+        public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
+
+        }
     };
     GameListener lis2= new GameListener() {
         @Override
@@ -232,6 +237,11 @@ public class DisconnectionTest {
 
         @Override
         public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+
+        }
+
+        @Override
+        public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
 
         }
     };
@@ -335,6 +345,11 @@ public class DisconnectionTest {
         public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
 
         }
+
+        @Override
+        public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
+
+        }
     };
     GameListener lis4= new GameListener() {
         @Override
@@ -436,6 +451,11 @@ public class DisconnectionTest {
         public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
 
         }
+
+        @Override
+        public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
+
+        }
     };
     GameListener lis5= new GameListener() {
         @Override
@@ -535,6 +555,11 @@ public class DisconnectionTest {
 
         @Override
         public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+
+        }
+
+        @Override
+        public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
 
         }
     };

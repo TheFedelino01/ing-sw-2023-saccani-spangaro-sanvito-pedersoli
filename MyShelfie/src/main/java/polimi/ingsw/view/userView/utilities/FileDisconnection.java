@@ -32,7 +32,7 @@ public class FileDisconnection {
         } catch (ParseException | FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return -1;
         }
         assert gameId != null;
         if (LocalDateTime.parse(time).isBefore(LocalDateTime.now().plusSeconds(DefaultValue.twelveHS)))

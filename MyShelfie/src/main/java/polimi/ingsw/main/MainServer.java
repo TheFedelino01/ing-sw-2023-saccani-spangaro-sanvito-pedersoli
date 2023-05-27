@@ -17,21 +17,9 @@ public class MainServer {
 
     public static void main(String[] args) throws IOException {
 
-        String input;
+        clearCMD();
 
-        do {
-            clearCMD();
-            System.out.println(ansi().cursor(1, 0).a("""
-                    Insert remote IP (leave empty for localhost)
-                    """));
-            input = new Scanner(System.in).nextLine();
-        } while (!input.equals("") && !isValidIP(input));
-        if (input.equals(""))
-            System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
-        else{
-            DefaultValue.serverIp = input;
-            System.setProperty("java.rmi.server.hostname", input);
-        }
+        System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
 
         server = new RMIServer();
         server = RMIServer.bind();

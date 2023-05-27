@@ -575,11 +575,15 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     @Override
     public void reconnect(String nick, int idGame) {
         //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
-        ui.show_joiningToGameIdMsg(idGame,nick);
-        try {
-            clientActions.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+        if(idGame!=-1) {
+            ui.show_joiningToGameIdMsg(idGame, nick);
+            try {
+                clientActions.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            ui.show_noAvailableGamesToJoin("No disconnection previously detected");
         }
     }
 
@@ -765,6 +769,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     @Override
     public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
         ui.addImportantEvent("Only one player is connected, waiting "+secondsToWaitUntilGameEnded+" seconds before calling Game Ended!");
+    }
+
+    @Override
+    public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
+        ui.addImportantEvent("Last circle begin!");
     }
 
 

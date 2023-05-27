@@ -141,5 +141,10 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
         gui.onlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded);
     }
 
+    @Override
+    public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
+        gui.lastCircle(gamemodel);
+    }
+
 
 }

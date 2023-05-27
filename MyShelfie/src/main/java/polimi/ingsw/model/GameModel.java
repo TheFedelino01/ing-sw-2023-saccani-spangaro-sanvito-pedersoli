@@ -271,13 +271,14 @@ public class GameModel {
         } else {
             this.status = status;
 
-
             if (status == GameStatus.RUNNING) {
                 listenersHandler.notify_GameStarted(this);
                 listenersHandler.notify_nextTurn(this);
             } else if (status == GameStatus.ENDED) {
                 findWinner(); //Find winner
                 listenersHandler.notify_GameEnded(this);
+            }else if (status == GameStatus.LAST_CIRCLE) {
+                listenersHandler.notify_LastCircle(this);
             }
         }
     }
