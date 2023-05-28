@@ -51,8 +51,6 @@ public class GUI extends UI {
         PauseTransition pause = new PauseTransition(Duration.seconds(DefaultValue.time_publisher_showing_seconds));
         pause.setOnFinished(event -> {
             alreadyShowedPublisher=true;
-            this.guiApplication.setInputReaderGUItoAllControllers(this.inputReaderGUI);//So the controllers can add text to the buffer for the gameflow
-            this.guiApplication.createNewWindowWithStyle();
 
             this.show_menuOptions();
         });
@@ -62,6 +60,8 @@ public class GUI extends UI {
     @Override
     protected void show_menuOptions() {
         if(alreadyShowedPublisher) {
+            callPlatformRunLater(()->this.guiApplication.setInputReaderGUItoAllControllers(this.inputReaderGUI));//So the controllers can add text to the buffer for the gameflow
+            callPlatformRunLater(()->this.guiApplication.createNewWindowWithStyle());
             callPlatformRunLater(()->this.guiApplication.setActiveScene(SceneEnum.MENU));
         }
     }
