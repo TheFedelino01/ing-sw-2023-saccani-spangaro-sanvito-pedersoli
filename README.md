@@ -6,7 +6,7 @@ Prova Finale Ingegneria del Software AA 2022-2023 (Cugola Gianpaolo)
   
   
   
-Per generare la Code Coverage del progetto, runnare i test tramite il menù Maven -> MyShelfie\Lifecycle\test  
+Per generare la Code Coverage del progetto, runnare i test tramite il menù Maven -> MyShelfie\Lifecycle\test (fare clean prima di ogni test per pulire la cache locale)  
 Per vedere la code coverage del progetto: MyShelfie\target\site\jacoco\index.html  
   
   
