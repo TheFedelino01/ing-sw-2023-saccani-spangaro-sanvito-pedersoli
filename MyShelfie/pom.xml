@@ -81,9 +81,6 @@
                 <configuration>
                     <excludes>
                         <exclude>**/main/*</exclude>
-                        <exclude>**/cards/*</exclude>
-                        <exclude>**/CommonCard</exclude>
-                        <exclude>**/CommonMethods</exclude>
                         <exclude>**/userView/UI.*</exclude>
                         <exclude>**/userView/Flow.*</exclude>
                         <exclude>**/gui/*</exclude>
