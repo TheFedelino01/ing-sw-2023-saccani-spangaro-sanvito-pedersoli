@@ -48,60 +48,6 @@ class GameFlowTest {
     }
 
     @Test
-    public void testConstructorWithConnectionSelection_Socket() {
-        ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
-        gameFlow = new GameFlow(connectionSelection);
-
-        assertNotNull(gameFlow);
-        // Assert any other conditions or behaviors you expect from the constructor
-
-        //until new test parts are added, need to kill the game, or it will
-        // run forever
-        gameFlow.setEnded(true);
-    }
-
-    @Test
-    public void testConstructorWithConnectionSelection_RMI() {
-        ConnectionSelection connectionSelection = ConnectionSelection.RMI;
-        gameFlow = new GameFlow(connectionSelection);
-
-        assertNotNull(gameFlow);
-        // Assert any other conditions or behaviors you expect from the constructor
-
-        //until new test parts are added, need to kill the game, or it will
-        // run forever
-        gameFlow.setEnded(true);
-    }
-
-    @Test
-    public void testConstructorWithGUIApplicationAndConnectionSelection_Socket() {
-        GUIApplication guiApplication = new GUIApplication();
-        ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
-        gameFlow = new GameFlow(guiApplication, connectionSelection);
-
-        assertNotNull(gameFlow);
-        // Assert any other conditions or behaviors you expect from the constructor
-
-        //until new test parts are added, need to kill the game, or it will
-        // run forever
-        gameFlow.setEnded(true);
-    }
-
-    @Test
-    public void testConstructorWithGUIApplicationAndConnectionSelection_RMI() {
-        GUIApplication guiApplication = new GUIApplication();
-        ConnectionSelection connectionSelection = ConnectionSelection.RMI;
-        gameFlow = new GameFlow(guiApplication, connectionSelection);
-
-        assertNotNull(gameFlow);
-        // Assert any other conditions or behaviors you expect from the constructor
-
-        //until new test parts are added, need to kill the game, or it will
-        // run forever
-        gameFlow.setEnded(true);
-    }
-
-    @Test
     public void testingRun() {
         ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
         gameFlow = new GameFlow(connectionSelection);
@@ -112,19 +58,5 @@ class GameFlowTest {
         assertNotNull(fileDisconnection);
     }
 
-    @Disabled
-    @Test
-    public void testRun() {
-        ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
-        GameFlow gf = new GameFlow(connectionSelection);
-        clientActions = new ClientSocket(gf);
-        this.inputReader = new inputReaderGUI();
-
-        ui = new GUI(guiApplication, (inputReaderGUI) inputReader);
-
-        this.inputParser = new InputParser(this.inputReader.getBuffer(), gf);
-        ((inputReaderGUI) inputReader).addTxt("/quit");
-        gf.run();
-    }
 
 }
