@@ -81,12 +81,18 @@
                 <configuration>
                     <excludes>
                         <exclude>**/main/*</exclude>
-                        <exclude>**/userView/gui/*</exclude>
-                        <exclude>**/userView/text/*</exclude>
-                        <exclude>**/userView/Flow</exclude>
-                        <exclude>**/userView/UISelection</exclude>
+                        <exclude>**/cards/*</exclude>
+                        <exclude>**/CommonCard</exclude>
+                        <exclude>**/CommonMethods</exclude>
+                        <exclude>**/userView/UI.*</exclude>
+                        <exclude>**/userView/Flow.*</exclude>
+                        <exclude>**/gui/*</exclude>
+                        <exclude>**/gui/controllers/*</exclude>
+                        <exclude>**/gui/scenes/*</exclude>
+                        <exclude>**/text/*</exclude>
+                        <exclude>**/utilities/*</exclude>
+                        <exclude>**/utilities/events/EventType</exclude>
 
-                        <exclude>**/networking/*</exclude>
                         <!-- uncomment to exclude network from coverage testing -->
 <!--                        <exclude>**/networking/*</exclude>-->
 <!--                        <exclude>**/networking/socket/*</exclude>-->
