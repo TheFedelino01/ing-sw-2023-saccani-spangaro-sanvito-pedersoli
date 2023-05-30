@@ -1,22 +1,19 @@
 package polimi.ingsw.model.cards.common;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.CardCommonType;
-import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Shelf;
-import polimi.ingsw.model.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
 
-public class CommonXTest extends ShelfConverter{
+public class CommonXTest {
 
     private CommonXCard card;
     List<CommonCard> model = new ArrayList<>();

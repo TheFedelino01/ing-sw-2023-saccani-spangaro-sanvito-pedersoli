@@ -1,5 +1,6 @@
 package polimi.ingsw.view.userView;
 
+import polimi.ingsw.model.GameModel;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
@@ -82,9 +83,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         new Thread(this).start();
     }
 
+    @Deprecated
     public BufferData getBuffer_ForTesting(){
         return this.inputReader.getBuffer();
     }
+    @Deprecated
     public boolean isEnded_ForTesting(){
         return this.ended;
     }

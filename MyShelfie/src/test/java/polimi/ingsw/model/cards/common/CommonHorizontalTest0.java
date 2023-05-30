@@ -8,8 +8,9 @@ import polimi.ingsw.model.enumeration.CardCommonType;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
 
-public class commonHorizontalTest0 extends ShelfConverter {
+public class CommonHorizontalTest0 {
     private CommonHorizontalCard card;
 
     @BeforeEach
@@ -91,7 +92,7 @@ public class commonHorizontalTest0 extends ShelfConverter {
         Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
-
+@Test
     @DisplayName("Test Horizontal of 5 Tiles #6")
     void testHorizontal6() {
         String[][] matrix = {
@@ -105,7 +106,7 @@ public class commonHorizontalTest0 extends ShelfConverter {
         Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
-
+    @Test
     @DisplayName("Test Horizontal of 5 Tiles #7")
     void testHorizontal7() {
         String[][] matrix = {
@@ -119,7 +120,7 @@ public class commonHorizontalTest0 extends ShelfConverter {
         Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
-
+    @Test
     @DisplayName("Test Horizontal of 5 Tiles #8")
     void testHorizontal8() {
         String[][] matrix = {
@@ -133,7 +134,6 @@ public class commonHorizontalTest0 extends ShelfConverter {
         Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
-
     @Test
     @DisplayName("Test Horizontal of 5 Tiles #9")
     void testHorizontal9() {

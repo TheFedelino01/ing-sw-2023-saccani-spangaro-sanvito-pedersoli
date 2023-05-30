@@ -8,8 +8,9 @@ import polimi.ingsw.model.enumeration.CardCommonType;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
 
-public class CommonHorizontalTest1 extends ShelfConverter {
+public class CommonHorizontalTest1 {
     private CommonHorizontalCard card;
 
     @BeforeEach

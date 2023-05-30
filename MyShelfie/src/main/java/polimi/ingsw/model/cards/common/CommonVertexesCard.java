@@ -5,9 +5,9 @@ import polimi.ingsw.model.enumeration.CardCommonType;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Shelf;
 
-public class CommonVertixesCard extends CommonCard {
+public class CommonVertexesCard extends CommonCard {
 
-    public CommonVertixesCard(CardCommonType type) {
+    public CommonVertexesCard(CardCommonType type) {
         super(type);
     }
 

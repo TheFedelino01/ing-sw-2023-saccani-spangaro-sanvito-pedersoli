@@ -11,8 +11,9 @@ import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
 
-public class CommonEightCardTest extends ShelfConverter {
+public class CommonEightCardTest {
 
     List<CommonCard> model = new ArrayList<>();
     private CommonEight card;

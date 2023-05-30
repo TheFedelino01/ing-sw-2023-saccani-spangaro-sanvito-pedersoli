@@ -1,7 +1,6 @@
 package polimi.ingsw.model.cards.common;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.Shelf;
@@ -9,7 +8,9 @@ import polimi.ingsw.model.enumeration.CardCommonType;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-public class CommonSixGroupTest extends ShelfConverter {
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
+
+public class CommonSixGroupTest {
     private CommonSixGroups card;
 
     @BeforeEach

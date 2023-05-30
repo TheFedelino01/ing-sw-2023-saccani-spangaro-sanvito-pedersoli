@@ -83,6 +83,7 @@
                         <exclude>**/main/*</exclude>
                         <exclude>**/userView/UI.*</exclude>
                         <exclude>**/userView/Flow.*</exclude>
+                        <exclude>**/userView/GameFlow.*</exclude>
                         <exclude>**/gui/*</exclude>
                         <exclude>**/gui/controllers/*</exclude>
                         <exclude>**/gui/scenes/*</exclude>

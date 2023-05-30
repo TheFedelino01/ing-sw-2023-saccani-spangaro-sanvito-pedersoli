@@ -159,7 +159,7 @@ public class GameModelTest {
 
         try {
             model.addCommonCard(new CommonXCard(CardCommonType.CommonStair));
-            model.addCommonCard(new CommonVertixesCard(CardCommonType.CommonX));
+            model.addCommonCard(new CommonVertexesCard(CardCommonType.CommonX));
         } catch (MaxCommonCardsAddedException | CommonCardAlreadyInException e) {
             throw new RuntimeException(e);
         }

@@ -422,25 +422,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     /**
-     * Check if the player has completed the shelf, otherwise the turn is passed to the next player
-     */
-    @Deprecated
-    public synchronized void nextTurn() {
-        if (whoIsPlaying().getShelf().getFreeSpace() == 0 && !model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
-            //Il gioco è finito perche ha completato tutta la sua shelf ed è stato il primo
-            model.setStatus(GameStatus.LAST_CIRCLE);
-            model.setFinishedPlayer(model.getCurrentPlaying());
-        }
-        try {
-            model.nextTurn();
-        } catch (GameEndedException e) {
-            checkGoalCards();
-            model.setStatus(GameStatus.ENDED);
-        }
-    }
-
-
-    /**
      * Controlla se il player p ha completato una carta comune
      *
      * @param p player

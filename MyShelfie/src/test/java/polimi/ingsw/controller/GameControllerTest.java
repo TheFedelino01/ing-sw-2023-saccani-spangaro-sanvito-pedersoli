@@ -150,40 +150,6 @@ public class GameControllerTest {
     }
 
 
-    @Test
-    @DisplayName("Next turn")
-    public void testNextTurn() {
-        gameController.addPlayer(plist.get(0));
-        gameController.addPlayer(plist.get(1));
-
-        assertFalse(gameController.playerIsReadyToStart(plist.get(0).getNickname()), "Game started but not everyone was ready");
-        assertTrue(gameController.playerIsReadyToStart(plist.get(1).getNickname()), "Game not started but everyone was ready to start");
-
-
-        int currentPlayer = gameController.getIndexCurrentPlaying();
-        if (currentPlayer == 0) {
-            assertEquals(currentPlayer, 0, "The current player is not correct");
-
-            gameController.nextTurn();
-            currentPlayer = gameController.getIndexCurrentPlaying();
-            assertEquals(currentPlayer, 1, "The current player is not correct");
-
-            gameController.nextTurn();
-            currentPlayer = gameController.getIndexCurrentPlaying();
-            assertEquals(currentPlayer, 0, "The current player is not correct");
-        } else {
-            assertEquals(currentPlayer, 1, "The current player is not correct");
-
-            gameController.nextTurn();
-            currentPlayer = gameController.getIndexCurrentPlaying();
-            assertEquals(currentPlayer, 0, "The current player is not correct");
-
-            gameController.nextTurn();
-            currentPlayer = gameController.getIndexCurrentPlaying();
-            assertEquals(currentPlayer, 1, "The current player is not correct");
-        }
-    }
-
 
     /**
      * Test whether the final game checks work or not
@@ -271,24 +237,6 @@ public class GameControllerTest {
         game.addPlayer(p);
         game.checkFinal();
         assertEquals(17, game.getPlayers().get(0).getTotalPoints(), "Wrong checking algorithm!");
-    }
-
-    @Test
-    @DisplayName("Test next Turn")
-    public void nextTurnTest(){
-        gameController.addPlayer(plist.get(0));
-        gameController.addPlayer(plist.get(1));
-        gameController.addPlayer(plist.get(2));
-        gameController.addPlayer(plist.get(3));
-        gameController.playerIsReadyToStart(plist.get(0).getNickname());
-        gameController.playerIsReadyToStart(plist.get(1).getNickname());
-        gameController.playerIsReadyToStart(plist.get(2).getNickname());
-        gameController.playerIsReadyToStart(plist.get(3).getNickname());
-
-        Player player = gameController.whoIsPlaying();
-        gameController.nextTurn();
-        Player player2 = gameController.whoIsPlaying();
-        Assertions.assertNotEquals(player, player2, "The next player is not correct");
     }
 
 

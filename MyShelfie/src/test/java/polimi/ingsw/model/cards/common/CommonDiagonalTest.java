@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.Shelf;
 import polimi.ingsw.model.enumeration.CardCommonType;
 
-import static polimi.ingsw.model.cards.common.ShelfConverter.setShelf;
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
 
 public class CommonDiagonalTest {
     private CommonStair card;

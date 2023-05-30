@@ -8,8 +8,9 @@ import polimi.ingsw.model.Shelf;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
 
-public class CommonSquaresTest extends ShelfConverter{
+public class CommonSquaresTest {
 
     private CommonSquares card;
     @BeforeEach

@@ -8,14 +8,15 @@ import polimi.ingsw.model.Shelf;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static polimi.ingsw.model.enumeration.CardCommonType.CommonVertex;
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
 
-public class CommonVertexesTest extends ShelfConverter{
+public class CommonVertexesTest {
 
-    private CommonVertixesCard card;
+    private CommonVertexesCard card;
 
     @BeforeEach
     void setUp() {
-        card = (CommonVertixesCard)CommonCardFactory.getCommonCard(CommonVertex);
+        card = (CommonVertexesCard)CommonCardFactory.getCommonCard(CommonVertex);
     }
 
 
@@ -30,7 +31,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"","","","",""},
                 {"","","","",""}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         card.toString(0);
         assertFalse(card.verify(test));
     }
@@ -46,7 +47,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"","","","",""},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -61,7 +62,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"","","","",""},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
 
@@ -76,7 +77,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"C","C","","","A"},
                 {"C","C","A","A","A"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
     @Test
@@ -90,7 +91,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"A","","","","T"},
                 {"A","A","A","T","A"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
     @Test
@@ -104,7 +105,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"A","","","","A"},
                 {"A","","","","A"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
     @Test
@@ -118,7 +119,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"A","A","A","A","A"},
                 {"A","A","A","A","A"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
     @Test
@@ -132,7 +133,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"A","A","A","A","A"},
                 {"A","A","A","A","A"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
     @Test
@@ -146,7 +147,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"A","A","A","A","A"},
                 {"A","A","A","A","T"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
     @Test
@@ -160,7 +161,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"A","A","T","A","A"},
                 {"T","A","A","A","T"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -175,7 +176,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"C","A","T","C","A"},
                 {"A","C","A","A","T"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
     @Test
@@ -189,7 +190,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"C","A","T","C","A"},
                 {"C","C","A","A","T"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
     @Test
@@ -203,7 +204,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"C","A","T","C","A"},
                 {"C","C","A","A","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
     @Test
@@ -217,7 +218,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"C","A","T","C","A"},
                 {"C","C","A","A","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
     @Test
@@ -231,7 +232,7 @@ public class CommonVertexesTest extends ShelfConverter{
                 {"C","A","T","C","A"},
                 {"C","C","A","A","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 }

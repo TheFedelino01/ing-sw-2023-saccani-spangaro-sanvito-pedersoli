@@ -8,8 +8,9 @@ import polimi.ingsw.model.Shelf;
 
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static polimi.ingsw.utility.CommonlyUsedMethods.setShelf;
 
-public class CommonSameDiagonalTest extends ShelfConverter{
+public class CommonSameDiagonalTest {
     private CommonSameDiagonal card;
     @BeforeEach
     void setUp() {
@@ -27,7 +28,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","","","",""},
                 {"","","","",""}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         card.toString(0);
         assertFalse(card.verify(test));
     }
@@ -42,7 +43,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","C","","",""},
                 {"C","","","",""}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
     @Test
@@ -56,7 +57,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","C","","C",""},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -71,7 +72,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","C","","C",""},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -86,7 +87,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"C","T","T","C","T"},
                 {"A","A","C","C","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
     @Test
@@ -100,7 +101,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","C","","C",""},
                 {"C","","","","T"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
     @Test
@@ -114,7 +115,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"T","","","C",""},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
     @Test
@@ -128,7 +129,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"T","","","C",""},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -143,7 +144,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","T","","C","T"},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
 
@@ -158,7 +159,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"A","T","","A","T"},
                 {"C","A","","","A"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -173,7 +174,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","T","","C","T"},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -188,7 +189,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","T","","C","T"},
                 {"C","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
 
@@ -203,7 +204,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","T","","C",""},
                 {"T","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
 
@@ -218,7 +219,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","A","","C",""},
                 {"A","","","","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
 
@@ -233,7 +234,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","A","C","C","C"},
                 {"A","","C","C","C"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -248,7 +249,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"","T","C","T","C"},
                 {"A","","C","C","T"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
 
@@ -263,7 +264,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"T","","","","A"},
                 {"","","","",""}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -278,7 +279,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"T","","","A","A"},
                 {"","","","","A"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertTrue(card.verify(test));
     }
 
@@ -293,7 +294,7 @@ public class CommonSameDiagonalTest extends ShelfConverter{
                 {"T","T","T","T","T"},
                 {"T","T","T","T","T"}
         };
-        Shelf test = this.setShelf(matrix);
+        Shelf test = setShelf(matrix);
         assertFalse(card.verify(test));
     }
 }

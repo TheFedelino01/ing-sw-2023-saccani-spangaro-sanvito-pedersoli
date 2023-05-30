@@ -9,7 +9,7 @@ public class CommonCardFactory {
             case CommonSixGroups -> new CommonSixGroups(CardCommonType.CommonSixGroups);
 
             //Same tiles in the shelf vertexes
-            case CommonVertex -> new CommonVertixesCard(CardCommonType.CommonVertex);
+            case CommonVertex -> new CommonVertexesCard(CardCommonType.CommonVertex);
 
             //Four groups of 4 tiles of the same type (tile type can change between groups)
             case CommonFourGroups -> new CommonFourGroups(CardCommonType.CommonFourGroups);

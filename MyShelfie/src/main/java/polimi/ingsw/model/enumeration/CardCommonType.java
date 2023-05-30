@@ -1,7 +1,6 @@
 package polimi.ingsw.model.enumeration;
 
 public enum CardCommonType implements CardType {
-    //TODO MODIFICARE LINK IMG!
     CommonSixGroups("cc4"),
     CommonVertex("cc8"),
     CommonFourGroups("cc3"),
@@ -15,7 +14,7 @@ public enum CardCommonType implements CardType {
     CommonX("cc10"),
     CommonStair("cc12");
 
-    private String backgroundClass="";
+    private final String backgroundClass;
     CardCommonType(String backgroundClass){
         this.backgroundClass=backgroundClass;
     }
