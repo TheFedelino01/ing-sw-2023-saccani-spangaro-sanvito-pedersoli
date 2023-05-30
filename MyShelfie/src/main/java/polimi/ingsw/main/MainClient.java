@@ -42,6 +42,7 @@ public class MainClient {
             if (!input.equals(""))
                 System.setProperty("java.rmi.server.hostname", input);
 
+
             clearCMD();
             do {
                 System.out.println(ansi().cursor(1, 0).a("""

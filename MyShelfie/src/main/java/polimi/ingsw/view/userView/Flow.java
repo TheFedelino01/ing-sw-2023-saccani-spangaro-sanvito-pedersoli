@@ -20,5 +20,8 @@ public abstract class Flow implements GameListener {
         }
     }
 
+    public abstract void noConnectionError();
+
+
 
 }

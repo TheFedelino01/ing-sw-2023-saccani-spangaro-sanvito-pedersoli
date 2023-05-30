@@ -531,7 +531,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     //-----------------------------------------
     //METODI CHE IL CLIENT PUÓ RICHIEDERE VERSO IL SERVER
-    private void noConnectionError(){
+    public void noConnectionError(){
         ui.show_noConnectionError();
     }
 
@@ -635,7 +635,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         try {
             clientActions.sendMessage(msg);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            noConnectionError();
         }
     }
 

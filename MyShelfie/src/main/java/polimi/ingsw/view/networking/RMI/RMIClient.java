@@ -11,6 +11,7 @@ import polimi.ingsw.view.userView.CommonClientActions;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.view.userView.Flow;
+import polimi.ingsw.view.userView.UI;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -18,6 +19,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RMIClient implements CommonClientActions, Runnable {
 
@@ -28,11 +31,15 @@ public class RMIClient implements CommonClientActions, Runnable {
     private final GameListenersHandlerClient gameListenersHandler;
     private Registry registry;
 
-    public RMIClient(Flow gui) {
+    private Flow flow;
+
+    public RMIClient(Flow flow) {
         super();
-        gameListenersHandler = new GameListenersHandlerClient(gui);
+        gameListenersHandler = new GameListenersHandlerClient(flow);
         connect();
         new Thread(this).start();
+
+        this.flow=flow;
     }
 
     public void connect() {
@@ -49,6 +56,7 @@ public class RMIClient implements CommonClientActions, Runnable {
 
                 System.out.println("Client RMI ready");
                 retry = false;
+
             } catch (Exception e) {
                 if (!retry) {
                     System.err.println("[ERROR] CONNECTING TO RMI SERVER: \n\tClient RMI exception: " + e + "\n");
@@ -88,9 +96,15 @@ public class RMIClient implements CommonClientActions, Runnable {
         //For the heartbeat
         while (!Thread.interrupted()) {
             try {
+                Timer timer = new Timer();
+                TimerTask task = new TaskOnNetworkDisconnection(flow);
+                timer.schedule( task, DefaultValue.timeoutRMI_millis );
+
                 heartbeat();//send heartbeat so the server knows I am still online
+
+                timer.cancel();
             } catch (RemoteException e) {
-                return;//todo check
+                return;
             }
             try {
                 Thread.sleep(1000);
