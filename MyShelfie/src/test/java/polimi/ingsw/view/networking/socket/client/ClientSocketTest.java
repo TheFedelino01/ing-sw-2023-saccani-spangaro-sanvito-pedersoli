@@ -23,21 +23,17 @@ class ClientSocketTest {
     private static ClientSocket clientSocket;
     private static SocketWelcome serverSocket;
 
-    @BeforeAll
-    static  void startServer() throws IOException {
+    @BeforeEach
+    void startServer() throws IOException {
         serverSocket = new SocketWelcome();
         serverSocket.start(DefaultValue.Default_port_Socket);
         gameFlow = new GameFlow(ConnectionSelection.SOCKET);
         clientSocket = new ClientSocket(gameFlow);
     }
 
-    @BeforeEach
-    void setup() throws IOException {
 
-    }
-
-    @AfterAll
-    static void tearDown() throws IOException {
+    @AfterEach
+    void tearDown() throws IOException {
         clientSocket.stopConnection();
         serverSocket.stopConnection();
     }
