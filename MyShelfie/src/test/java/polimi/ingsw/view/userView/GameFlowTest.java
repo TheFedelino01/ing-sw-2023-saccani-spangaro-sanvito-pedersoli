@@ -7,10 +7,7 @@ import polimi.ingsw.view.networking.socket.client.ClientSocket;
 import polimi.ingsw.view.networking.socket.server.SocketWelcome;
 import polimi.ingsw.view.userView.gui.GUI;
 import polimi.ingsw.view.userView.gui.GUIApplication;
-import polimi.ingsw.view.userView.utilities.FileDisconnection;
-import polimi.ingsw.view.userView.utilities.InputParser;
-import polimi.ingsw.view.userView.utilities.InputReader;
-import polimi.ingsw.view.userView.utilities.inputReaderGUI;
+import polimi.ingsw.view.userView.utilities.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,13 +59,21 @@ class GameFlowTest {
     public void testRun() {
         ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
         GameFlow gf = new GameFlow(connectionSelection);
-        clientActions = new ClientSocket(gf);
-        this.inputReader = new inputReaderGUI();
+        BufferData buffer = gf.getBuffer_ForTesting();
 
-        ui = new GUI(guiApplication, (inputReaderGUI) inputReader);
 
-        this.inputParser = new InputParser(this.inputReader.getBuffer(), gf);
-        ((inputReaderGUI) inputReader).addTxt("/quit");
+        buffer.addData("c");
+
+        buffer.addData("test");
+
+        while(gf.isEnded_ForTesting()){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
 }

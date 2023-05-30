@@ -82,6 +82,12 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         new Thread(this).start();
     }
 
+    public BufferData getBuffer_ForTesting(){
+        return this.inputReader.getBuffer();
+    }
+    public boolean isEnded_ForTesting(){
+        return this.ended;
+    }
 
 
     @Override
