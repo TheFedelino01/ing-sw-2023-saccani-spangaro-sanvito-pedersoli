@@ -87,7 +87,11 @@ public class RMIClient implements CommonClientActions, Runnable {
     public void run() {
         //For the heartbeat
         while (!Thread.interrupted()) {
-            heartbeat();//send heartbeat so the server knows I am still online
+            try {
+                heartbeat();//send heartbeat so the server knows I am still online
+            } catch (RemoteException e) {
+                return;//todo check
+            }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -96,129 +100,80 @@ public class RMIClient implements CommonClientActions, Runnable {
         }
     }
 
-    public void createGame(String nick) {
-        try {
-            registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-            gameController = requests.createGame(modelInvokedEvents, nick);
-            nickname = nick;
-
-        } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
-        }
+    public void createGame(String nick) throws RemoteException, NotBoundException {
+        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+        requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+        gameController = requests.createGame(modelInvokedEvents, nick);
+        nickname = nick;
     }
 
-    public void joinFirstAvailable(String nick) {
-        try {
-            registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-            gameController = requests.joinFirstAvailableGame(modelInvokedEvents, nick);
-            nickname = nick;
-
-        } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-
+    public void joinFirstAvailable(String nick) throws RemoteException, NotBoundException {
+        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+        requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+        gameController = requests.joinFirstAvailableGame(modelInvokedEvents, nick);
+        nickname = nick;
     }
 
-    public void joinGame(String nick, int idGame) {
-        try {
-            registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-            gameController = requests.joinGame(modelInvokedEvents, nick, idGame);
+    public void joinGame(String nick, int idGame) throws RemoteException, NotBoundException {
 
-            nickname = nick;
+        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+        requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+        gameController = requests.joinGame(modelInvokedEvents, nick, idGame);
 
-        } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
-        }
+        nickname = nick;
+
     }
 
     @Override
-    public void reconnect(String nick, int idGame) {
-        try {
-            registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-            gameController = requests.reconnect(modelInvokedEvents, nick, idGame);
+    public void reconnect(String nick, int idGame) throws RemoteException, NotBoundException {
+        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+        requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+        gameController = requests.reconnect(modelInvokedEvents, nick, idGame);
 
-            nickname = nick;
+        nickname = nick;
 
-        } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
-    public void leave(String nick, int idGame) throws IOException {
-        try {
-            registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-            requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-        } catch (NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-        requests.leaveGame(modelInvokedEvents,nick,idGame);
-        gameController=null;
-        nickname=null;
+    public void leave(String nick, int idGame) throws IOException, NotBoundException {
+
+        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+        requests = (MainControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+
+        requests.leaveGame(modelInvokedEvents, nick, idGame);
+        gameController = null;
+        nickname = null;
     }
 
 
     @Override
-    public void sendMessage(Message msg) {
-        try {
-            gameController.sentMessage(msg);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void setAsReady() {
-        try {
-            if (gameController != null) {
-                gameController.playerIsReadyToStart(nickname);
-            }
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean isMyTurn() {
-        try {
-            return gameController.isThisMyTurn(nickname);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void grabTileFromPlayground(int x, int y, Direction direction, int num) {
-        try {
-            gameController.grabTileFromPlayground(nickname, x, y, direction, num);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void positionTileOnShelf(int column, TileType type) {
-        try {
-            gameController.positionTileOnShelf(nickname, column, type);
-        } catch (RemoteException | GameEndedException e) {
-            throw new RuntimeException(e);
-        }
+    public void sendMessage(Message msg) throws RemoteException {
+        gameController.sentMessage(msg);
     }
 
     @Override
-    public void heartbeat() {
-        try {
-            if (gameController != null) {
-                gameController.heartbeat(nickname, modelInvokedEvents);
-            }
-        } catch (RemoteException e) {
-            System.err.println("[ERROR] Connection to server lost! " + e);
-            try {
-                System.in.read();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            System.exit(-1);
+    public void setAsReady() throws RemoteException {
+        if (gameController != null) {
+            gameController.playerIsReadyToStart(nickname);
+        }
+    }
+    @Override
+    public boolean isMyTurn() throws RemoteException {
+        return gameController.isThisMyTurn(nickname);
+    }
+    @Override
+    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws RemoteException {
+        gameController.grabTileFromPlayground(nickname, x, y, direction, num);
+    }
+    @Override
+    public void positionTileOnShelf(int column, TileType type) throws GameEndedException, RemoteException {
+        gameController.positionTileOnShelf(nickname, column, type);
+    }
+
+    @Override
+    public void heartbeat() throws RemoteException {
+        if (gameController != null) {
+            gameController.heartbeat(nickname, modelInvokedEvents);
         }
     }
 

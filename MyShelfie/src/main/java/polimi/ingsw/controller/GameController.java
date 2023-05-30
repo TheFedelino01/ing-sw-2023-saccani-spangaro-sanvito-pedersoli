@@ -19,9 +19,6 @@ import java.util.*;
 
 public class GameController implements GameControllerInterface, Serializable, Runnable {
 
-    // TODO: FIND A WAY SO THAT THE MODEL IS NOT FINAL IN THE LATEST RELEASE
-    //  BECAUSE IT CAN'T BE FINAL FOR TESTING
-    //private final GameModel model;
     private GameModel model; // testing
     private final Random random = new Random();
     private final transient Map<GameListener, Heartbeat> heartbeats;

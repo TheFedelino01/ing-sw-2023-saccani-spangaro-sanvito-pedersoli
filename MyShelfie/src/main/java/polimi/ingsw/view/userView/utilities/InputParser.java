@@ -49,13 +49,9 @@ public class InputParser extends Thread {
                 gameFlow.sendMessage(new Message(txt, p));
 
             } else if (txt.startsWith("/quit")) {
-                try {
-                    assert p != null;
-                    gameFlow.leave(p.getNickname(), gameId);
-                    gameFlow.youleft();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                assert p != null;
+                gameFlow.leave(p.getNickname(), gameId);
+                gameFlow.youleft();
 
             } else {
                 //I didn't pop a message

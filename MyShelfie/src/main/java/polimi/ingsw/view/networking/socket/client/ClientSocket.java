@@ -132,7 +132,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     }
 
     @Override
-    public void reconnect(String nick, int idGame) throws IOException, InterruptedException {
+    public void reconnect(String nick, int idGame) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageReconnect(nick, idGame));
     }

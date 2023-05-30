@@ -410,6 +410,14 @@ public class TUI extends UI {
     }
 
     @Override
+    protected void show_noConnectionError() {
+        this.clearScreen();
+        System.out.println(ansi().fg(WHITE).bg(RED).bold().a("CONNECTION TO SERVER LOST!")
+                .boldOff().fg(DEFAULT).bgDefault());
+        System.exit(-1);
+    }
+
+    @Override
     public void show_direction() {
         System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
     }

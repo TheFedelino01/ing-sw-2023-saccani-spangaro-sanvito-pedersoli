@@ -6,6 +6,7 @@ import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.enumeration.TileType;
+import polimi.ingsw.model.exceptions.GameEndedException;
 import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
@@ -22,6 +23,7 @@ import polimi.ingsw.view.userView.utilities.InputParser;
 import polimi.ingsw.view.userView.utilities.*;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -98,13 +100,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         EventElement event;
 
 
-
         try {
             ui.show_publisher();
             events.add(null, APP_MENU);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
@@ -291,11 +290,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                     throw new RuntimeException(e);
                 }
 
-                try {
-                    this.leave(nickname, event.getModel().getGameId());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                this.leave(nickname, event.getModel().getGameId());
                 this.youleft();
             }
         }
@@ -411,20 +406,16 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     public void askReadyToStart() {
         String ris;
-        try {
-            do {
-                //System.out.println(ansi().cursor(18, 0).fg(DEFAULT)); todo ?
-                //ris = scanner.nextLine();
-                try {
-                    ris=this.inputParser.getDataToProcess().popData();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            } while (!ris.equals("y"));
-            setAsReady();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        do {
+            //System.out.println(ansi().cursor(18, 0).fg(DEFAULT)); todo ?
+            //ris = scanner.nextLine();
+            try {
+                ris=this.inputParser.getDataToProcess().popData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } while (!ris.equals("y"));
+        setAsReady();
     }
 
 
@@ -489,11 +480,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
         //System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
 
-        try {
-            grabTileFromPlayground(row, column, d, numTiles);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        grabTileFromPlayground(row, column, d, numTiles);
     }
 
     private void askColumn(GameModelImmutable model) {
@@ -534,11 +521,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             }
         } while (indexHand == null);
 
-        try {
-            positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile_IC().get(indexHand).getType());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile_IC().get(indexHand).getType());
 
     }
 
@@ -548,6 +531,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     //-----------------------------------------
     //METODI CHE IL CLIENT PUÓ RICHIEDERE VERSO IL SERVER
+    private void noConnectionError(){
+        ui.show_noConnectionError();
+    }
 
     @Override
     public void createGame(String nick) {
@@ -555,8 +541,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
         try {
             clientActions.createGame(nick);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | InterruptedException | NotBoundException e) {
+            noConnectionError();
         }
     }
 
@@ -566,8 +552,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         ui.show_joiningFirstAvailableMsg(nick);
         try {
             clientActions.joinFirstAvailable(nick);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | InterruptedException | NotBoundException e) {
+            noConnectionError();
         }
     }
 
@@ -576,8 +562,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         ui.show_joiningToGameIdMsg(idGame,nick);
         try {
             clientActions.joinGame(nick, idGame);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | InterruptedException | NotBoundException e)  {
+            noConnectionError();
         }
     }
 
@@ -588,8 +574,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             ui.show_joiningToGameIdMsg(idGame, nick);
             try {
                 clientActions.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
+            } catch (IOException | InterruptedException | NotBoundException e)  {
+                noConnectionError();
             }
         }else{
             ui.show_noAvailableGamesToJoin("No disconnection previously detected");
@@ -597,14 +583,22 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void leave(String nick, int idGame) throws IOException {
-        clientActions.leave(nick, idGame);
+    public void leave(String nick, int idGame) {
+        try {
+            clientActions.leave(nick, idGame);
+        } catch (IOException | NotBoundException e)  {
+            noConnectionError();
+        }
     }
 
 
     @Override
-    public void setAsReady() throws IOException {
-        clientActions.setAsReady();
+    public void setAsReady() {
+        try {
+            clientActions.setAsReady();
+        } catch (IOException e) {
+            noConnectionError();
+        }
     }
 
     @Override
@@ -614,24 +608,38 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
-        clientActions.grabTileFromPlayground(x, y, direction, num);
+    public void grabTileFromPlayground(int x, int y, Direction direction, int num)  {
+        try {
+            clientActions.grabTileFromPlayground(x, y, direction, num);
+        } catch (IOException e) {
+            noConnectionError();
+        }
     }
 
     @Override
-    public void positionTileOnShelf(int column, TileType type) throws IOException {
-        clientActions.positionTileOnShelf(column, type);
+    public void positionTileOnShelf(int column, TileType type) {
+        try {
+            clientActions.positionTileOnShelf(column, type);
+        } catch (IOException | GameEndedException e)  {
+            noConnectionError();
+        }
     }
 
     @Override
     public void heartbeat() {
-        clientActions.heartbeat();
+
     }
 
     @Override
     public void sendMessage(Message msg) {
-        clientActions.sendMessage(msg);
+        try {
+            clientActions.sendMessage(msg);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
 
 
     //-----------------------------------------------------------------------

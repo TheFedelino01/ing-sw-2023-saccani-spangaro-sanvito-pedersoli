@@ -77,6 +77,6 @@ public abstract class UI {
 
     protected abstract void resetImportantEvents();
 
-
+    protected abstract void show_noConnectionError();
 
 }
