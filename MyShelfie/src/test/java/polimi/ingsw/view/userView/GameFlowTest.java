@@ -58,5 +58,17 @@ class GameFlowTest {
         assertNotNull(fileDisconnection);
     }
 
+    @Test
+    public void testRun() {
+        ConnectionSelection connectionSelection = ConnectionSelection.SOCKET;
+        GameFlow gf = new GameFlow(connectionSelection);
+        clientActions = new ClientSocket(gf);
+        this.inputReader = new inputReaderGUI();
+
+        ui = new GUI(guiApplication, (inputReaderGUI) inputReader);
+
+        this.inputParser = new InputParser(this.inputReader.getBuffer(), gf);
+        ((inputReaderGUI) inputReader).addTxt("/quit");
+    }
 
 }
