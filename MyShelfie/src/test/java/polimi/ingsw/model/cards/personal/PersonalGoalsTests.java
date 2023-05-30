@@ -241,4 +241,9 @@ public class PersonalGoalsTests {
     }
 
 
+    @Test
+    void goalTest(){
+        CardGoal goal = new CardGoal(exampleShelf(CardGoalType.GOAL1), CardGoalType.GOAL1);
+        assertEquals(goal.getGoalType(), CardGoalType.GOAL1);
+    }
 }

@@ -679,7 +679,7 @@ public class DisconnectionTest {
         //Check if the player is correctly added to the game
         assert (gameController.getPlayers().size() == 2);
         gameController.getPlayer(p2.getNickname());
-        gameController.sentMessage(message);
+
         gameController.playerIsReadyToStart(p2.getNickname());
 
         //Check that the game status is running, otherwise fail the test

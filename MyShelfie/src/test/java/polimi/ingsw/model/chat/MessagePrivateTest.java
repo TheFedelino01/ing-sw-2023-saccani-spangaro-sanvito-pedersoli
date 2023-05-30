@@ -6,6 +6,8 @@ import polimi.ingsw.model.Player;
 import polimi.ingsw.model.interfaces.PlayerIC;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -87,6 +89,31 @@ class MessagePrivateTest {
         assertNull(message.getText(), "Text should be null");
         assertNull(message.getSender(), "Sender should be null");
         assertNull(message.getTime(), "Time should be null");
+    }
+
+    @Test
+    @DisplayName("Test setMessage")
+    void testSetMessage(){
+        List<Message> messages = new ArrayList<>();
+        messages.add(new Message("Hello-------------------------------------------test1", new Player("Alice")));
+        messages.add(new Message("Hello-------------------------------------------test2", new Player("Alice")));
+        messages.add(new Message("Hello-------------------------------------------test3", new Player("Alice")));
+        messages.add(new Message("Hello-------------------------------------------test4", new Player("Alice")));
+        messages.add(new Message("Hello-------------------------------------------test5", new Player("Alice")));
+        messages.add(new Message("Hello-------------------------------------------test6", new Player("Alice")));
+        messages.add(new Message("Hello-------------------------------------------test7", new Player("Alice")));
+
+        Chat chat = new Chat(messages);
+        chat.addMsg(new Message("Hello-------------------------------------------test8", new Player("Alice")));
+        chat.addMsg(new Player("Alice"), "test");
+        Message m = new Message("Hello-------------------------------------------test9", new Player("Alice"));
+        m.setText("test");
+        m.setSender(new Player("AliceNewSender"));
+        m.setTime(LocalTime.now());
+        chat.addMsg(m);
+        m.toString(0,3,false);
+        chat.setMsgs(messages);
+        assertEquals(messages, chat.getMsgs(), "Messages should be equal");
     }
 
 }
