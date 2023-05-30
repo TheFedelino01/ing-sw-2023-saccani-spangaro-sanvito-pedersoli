@@ -93,9 +93,9 @@ public class Player implements Serializable, PlayerIC {
         return obtainedPoints;
     }
 
-    public void addPoint(Point obtainedPoints, GameModelImmutable model) {
+    public void addPoint(Point obtainedPoints, GameModel model) {
         this.obtainedPoints.add(obtainedPoints);
-        notify_addedPoint(obtainedPoints, model);
+        notify_addedPoint(obtainedPoints, new GameModelImmutable(model));
     }
 
     public int getTotalPoints() {

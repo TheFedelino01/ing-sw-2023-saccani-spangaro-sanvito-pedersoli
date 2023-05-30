@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.interfaces.PlayerIC;
@@ -23,14 +24,16 @@ public class GameEndedController extends GenericController{
 
     public void show(GameModelImmutable model) {
         player0.setVisible(false);
+        player0.setTextFill(Color.YELLOW);
+
         player1.setVisible(false);
         player2.setVisible(false);
         player3.setVisible(false);
-        btnMenu.setVisible(true);//default visible todo need to check if player is choosing to grab tiles etc
+        btnMenu.setVisible(true);
 
         int i=0;
         Label tmp = null;
-        for(PlayerIC p:model.getPlayers()){
+        for(PlayerIC p:model.getScoreboard()){
             switch (i){
                 case 0-> tmp=player0;
                 case 1-> tmp=player1;

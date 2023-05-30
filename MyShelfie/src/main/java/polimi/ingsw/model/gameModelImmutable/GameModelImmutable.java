@@ -70,6 +70,12 @@ public class GameModelImmutable implements Serializable {
         return players;
     }
 
+    public List<PlayerIC> getScoreboard(){
+        players.sort(Comparator.comparing(p -> p.getTotalPoints(),Comparator.reverseOrder()));
+        return players;
+    }
+
+
     public List<CommonCardIC> getCommonCards() {
         return commonCards;
     }

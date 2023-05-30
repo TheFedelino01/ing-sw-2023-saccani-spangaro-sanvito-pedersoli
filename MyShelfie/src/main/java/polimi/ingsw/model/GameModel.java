@@ -145,12 +145,12 @@ public class GameModel {
             try {
                 nextTurn();
             } catch (GameEndedException e) {
-                throw new RuntimeException(e);
+
             }
         }
 
 
-        if (this.status.equals(GameStatus.RUNNING) && getNumOfOnlinePlayers() == 1) {
+        if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
             listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
         }
 
@@ -378,7 +378,6 @@ public class GameModel {
 
 
             if (currentPlaying.equals(firstFinishedPlayer)) {
-                this.setStatus(GameStatus.ENDED);
                 throw new GameEndedException();
             } else {
                 listenersHandler.notify_nextTurn(this);

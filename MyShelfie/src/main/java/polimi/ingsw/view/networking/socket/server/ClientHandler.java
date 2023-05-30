@@ -53,19 +53,19 @@ public class ClientHandler extends Thread {
 
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("[SOCKET] Client disconnected!");
+                try {
+                    if (nick != null && gameController != null) {
 
-                if (nick != null && gameController != null) {
-                    try {
                         gameController.disconnectPlayer(nick, gameListenersHandlerSocket);
 
-                        if(gameController.getNumOnlinePlayers()==0) {
+                        if (gameController.getNumOnlinePlayers() == 0) {
                             MainController.getInstance().deleteGame(gameController.getGameId());
                         }
                         return; //This ClientHandler now dies
 
-                    } catch (RemoteException ex) {
-                        throw new RuntimeException(ex);
                     }
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
                 }
                 return;
 

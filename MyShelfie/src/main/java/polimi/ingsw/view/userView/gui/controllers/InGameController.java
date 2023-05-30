@@ -355,24 +355,28 @@ public class InGameController extends GenericController {
             switch (refToGui) {
                 case 0 -> {
                     labelNick = youNickname;
-                    labelPoints = youPoints;
+                    labelPoints = (Label) mainAnchor.lookup("#youPoints");
                 }
                 case 1 -> {
                     labelNick = playerLabel1;
-                    labelPoints = player1Points;
+                    labelPoints = (Label) mainAnchor.lookup("#player1Points");
                 }
                 case 2 -> {
                     labelNick = playerLabel2;
-                    labelPoints = player2Points;
+                    labelPoints = (Label) mainAnchor.lookup("#player2Points");
                 }
                 case 3 -> {
                     labelNick = playerLabel3;
-                    labelPoints = player3Points;
+                    labelPoints =(Label) mainAnchor.lookup("#player3Points");
                 }
             }
 
             labelNick.setText(p.getNickname());
+            labelNick.setVisible(true);
+
             labelPoints.setText(String.valueOf(p.getTotalPoints()));
+            labelPoints.setVisible(true);
+
             if (model.getNicknameCurrentPlaying().equals(p.getNickname())) {
                 labelNick.setTextFill(Color.YELLOW);
             }

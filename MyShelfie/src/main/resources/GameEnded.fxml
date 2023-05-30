@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -8,39 +9,47 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="584.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.userView.gui.controllers.GameEndedController">
+<AnchorPane prefHeight="584.0" prefWidth="950.0" styleClass="backgroundInfo" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.userView.gui.controllers.GameEndedController">
    <children>
-      <Pane prefHeight="595.0" prefWidth="950.0" styleClass="backgroundInGame" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Label alignment="CENTER" text="GAME ENDED" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="200.0">
-         <font>
-            <Font name="Arial Black" size="36.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="137.0" fitWidth="750.0" layoutY="259.0" opacity="0.5" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
-         <image>
-            <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="player0" layoutX="10.0" layoutY="10.0" text="Player 1: 0 points" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="300.0">
-         <font>
-            <Font name="Arial Black" size="32.0" />
-         </font>
-      </Label>
-      <Label fx:id="player1" layoutX="20.0" layoutY="20.0" text="Player 2: 0 points" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="360.0">
-         <font>
-            <Font name="Arial Black" size="32.0" />
-         </font>
-      </Label>
-      <Label fx:id="player2" layoutX="30.0" layoutY="30.0" text="Player 3: 0 points" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="420.0">
-         <font>
-            <Font name="Arial Black" size="32.0" />
-         </font>
-      </Label>
-      <Label fx:id="player3" layoutX="40.0" layoutY="40.0" text="Player 4: 0 points" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="480.0">
-         <font>
-            <Font name="Arial Black" size="32.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnMenu" mnemonicParsing="false" onAction="#actionReturnMenu" prefHeight="55.0" prefWidth="210.0" styleClass="record-sales5" stylesheets="@style.css" text="Return to Menu" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Pane fx:id="content" layoutX="-10.0" prefHeight="587.0" prefWidth="962.0">
+         <children>
+            <Pane layoutX="109.0" layoutY="164.0" opacity="0.9" prefHeight="342.0" prefWidth="762.0" style="-fx-background-color: black;" stylesheets="@style.css">
+               <padding>
+                  <Insets right="50.0" top="50.0" />
+               </padding>
+            </Pane>
+            <Label alignment="CENTER" layoutX="156.0" layoutY="178.0" prefHeight="47.0" prefWidth="659.0" text="GAME ENDED" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="36.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="137.0" fitWidth="672.0" layoutX="148.0" layoutY="22.0">
+               <image>
+                  <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="player0" alignment="CENTER" layoutX="108.0" layoutY="254.0" prefHeight="47.0" prefWidth="762.0" text="Player 1: 0 points" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="32.0" />
+               </font>
+            </Label>
+            <Label fx:id="player1" alignment="CENTER" layoutX="107.0" layoutY="314.0" prefHeight="47.0" prefWidth="762.0" text="Player 2: 0 points" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="32.0" />
+               </font>
+            </Label>
+            <Label fx:id="player2" alignment="CENTER" layoutX="109.0" layoutY="374.0" prefHeight="47.0" prefWidth="762.0" text="Player 3: 0 points" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="32.0" />
+               </font>
+            </Label>
+            <Label fx:id="player3" alignment="CENTER" layoutX="109.0" layoutY="434.0" prefHeight="47.0" prefWidth="762.0" text="Player 4: 0 points" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="32.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnMenu" layoutX="785.0" layoutY="518.0" mnemonicParsing="false" onAction="#actionReturnMenu" prefHeight="55.0" prefWidth="171.0" styleClass="record-sales5" stylesheets="@style.css" text="Menu" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

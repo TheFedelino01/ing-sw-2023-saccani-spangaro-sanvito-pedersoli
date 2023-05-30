@@ -299,6 +299,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @param type the type of the tile
      */
     public synchronized void positionTileOnShelf(String p, int column, TileType type) {
+        boolean ended=false;
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
 
             Player currentPlaying = this.whoIsPlaying();//Because position can call nextTurn
@@ -311,6 +312,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 //Time to check for personal goal and final
                 checkGoalCards();
                 checkFinal();
+                ended=true;
             }
 
             checkCommonCards(currentPlaying);
@@ -319,6 +321,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 //This player has his shelf full, time to complete le last circle
                 model.setStatus(GameStatus.LAST_CIRCLE);
                 model.setFinishedPlayer(currentPlayingIndex);
+            }
+            if(ended){
+                model.setStatus(GameStatus.ENDED);
             }
         } else {
             throw new NotPlayerTurnException();
@@ -353,13 +358,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         if (model.getStatus().equals(GameStatus.WAIT)) {
             //The game is in Wait (game not started yet), the player disconnected, so I remove him from the game)
             model.removePlayer(nick);
-        } else {
+        } else{
             //Tha game is running, so I set him as disconnected (He can reconnect soon)
             model.setAsDisconnected(nick);
         }
 
         //Check if there is only one player playing
-        if (model.getStatus().equals(GameStatus.RUNNING) && model.getNumOfOnlinePlayers() == 1) {
+        if ((model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) && model.getNumOfOnlinePlayers() == 1) {
             //Starting a th for waiting until reconnection at least of 1 client to keep playing
             if (reconnectionTh == null) {
                 startReconnectionTimer();
@@ -436,7 +441,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         for (CommonCard card : model.getCommonCards()) {
             if (card.verify(p.getShelf()) && p.getObtainedPoints().stream()
                     .noneMatch(x -> x.getReferredTo().equals(card.getCommonType()))) {
-                p.addPoint(card.getPoints().poll(), new GameModelImmutable(model));
+                p.addPoint(card.getPoints().poll(), model);
             }
         }
     }
@@ -454,7 +459,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             CardGoal g = model.getGoalCard(i);
             Point point = (Point) g.verify(p.getShelf());
             if (point != null) {
-                p.addPoint(point, new GameModelImmutable(model));
+                p.addPoint(point, model);
             }
         }
     }
@@ -468,13 +473,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 while (!allTilesFound) {
                     toCheck = CommonMethods.checkAdjacent(t, p.getShelf(), 0, 0);
                     if (toCheck == 3) {
-                        p.addPoint(new Point(2), new GameModelImmutable(model));
+                        p.addPoint(new Point(2), model);
                     } else if (toCheck == 4) {
-                        p.addPoint(new Point(3), new GameModelImmutable(model));
+                        p.addPoint(new Point(3), model);
                     } else if (toCheck == 5) {
-                        p.addPoint(new Point(5), new GameModelImmutable(model));
+                        p.addPoint(new Point(5), model);
                     } else if (toCheck > 5) {
-                        p.addPoint(new Point(8), new GameModelImmutable(model));
+                        p.addPoint(new Point(8), model);
                     }
 
                     //checks whether all the tiles with tileType t have been checked

@@ -73,10 +73,10 @@ class PlayerTest {
     @Test
     @DisplayName("Test Player addedPointNotify")
     void notifyTest(){
-        GameModelImmutable gameModelImmutable = new GameModelImmutable();
+        GameModel GameModel = new GameModel();
         Player player = new Player("Test");
         CardGoalType cardGoalType = CardGoalType.GOAL1;
-        player.addPoint(new Point(1,cardGoalType),gameModelImmutable);
+        player.addPoint(new Point(1,cardGoalType),GameModel);
     }
 
 }
