@@ -330,11 +330,9 @@ public class GameModel {
             Tile t = popInHandTilePlayer(p, type);
             if (t != null) {
                 p.getShelf().position(column, type);
+
                 listenersHandler.notify_positionedTile(this, type, column);
-                //if the hand is empty then call next turn
-                if (p.getInHandTile().size() == 0) {
-                    nextTurn();
-                }
+
             } else {
                 throw new PositioningATileNotGrabbedException();
             }
@@ -343,6 +341,8 @@ public class GameModel {
         }
 
     }
+
+
 
     private Tile popInHandTilePlayer(Player p, TileType tipo) {
         for (int i = 0; i < p.getInHandTile().size(); i++) {

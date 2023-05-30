@@ -308,6 +308,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             try {
                 model.positionTileOnShelf(model.getPlayerEntity(p), column, type);
 
+                checkCommonCards(currentPlaying);
+
+                //if the hand is empty then call next turn
+                if (currentPlaying.getInHandTile().size() == 0) {
+                    model.nextTurn();
+                }
+
             } catch (GameEndedException e) {
                 //Time to check for personal goal and final
                 checkGoalCards();
@@ -315,7 +322,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 ended=true;
             }
 
-            checkCommonCards(currentPlaying);
+
 
             if (currentPlaying.getShelf().getFreeSpace() == 0 && (!model.getStatus().equals(GameStatus.LAST_CIRCLE) && !model.getStatus().equals(GameStatus.ENDED))) {
                 //This player has his shelf full, time to complete le last circle
