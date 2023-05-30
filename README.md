@@ -1,6 +1,14 @@
 # IngSW2023
 Prova Finale Ingegneria del Software AA 2022-2023 (Cugola Gianpaolo)  
   
+Abbiamo implementato:  
+ -> Socket ed RMI  
+ -> GUI e TUI  
+ -> Chat  
+ -> Disconnessione lato client  
+ -> Partite multiple  
+ -> Regole complete  
+   
 Coverage del codige (badge autogenerati da ![qui](https://github.com/cicirello/jacoco-badge-generator)) 
   
 ![Coverage](.github/badges/jacoco.svg)  
