@@ -84,6 +84,9 @@ public class GUIApplication extends Application {
         if (index != -1) {
 
             switch (scene) {
+                case INGAME,GENERIC_ERROR -> {
+                    this.closePopUpStage();
+                }
                 case NICKNAME_POPUP -> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
@@ -96,9 +99,6 @@ public class GUIApplication extends Application {
                 case MENU -> {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);
-                }
-                case GENERIC_ERROR -> {
-                    this.closePopUpStage();
                 }
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);

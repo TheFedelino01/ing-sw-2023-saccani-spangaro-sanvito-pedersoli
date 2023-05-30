@@ -217,6 +217,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
                 columnChosen = -1;
 
+                if(event.getType().equals(PLAYER_RECONNECTED) && lastPlayerReconnected.equals(nickname)){
+                    this.inputParser.setPlayer(event.getModel().getPlayerEntity(nickname));
+                    this.inputParser.setIdGame(event.getModel().getGameId());
+                }
+
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
 
                     if (event.getType().equals(PLAYER_RECONNECTED)) {
@@ -524,7 +529,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile_IC().get(indexHand).getType());
 
     }
-
 
 
 

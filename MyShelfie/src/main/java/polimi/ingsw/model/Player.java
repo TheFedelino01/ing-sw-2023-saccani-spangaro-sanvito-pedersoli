@@ -114,8 +114,12 @@ public class Player implements Serializable, PlayerIC {
         readyToStart = false;
     }
 
-    public boolean equals(Player p) {
-        return this.nickname.equals(p.nickname);
+    @Override
+    public boolean equals(Object p) {
+        if(p instanceof Player) {
+            return this.nickname.equals(((Player)p).nickname);
+        }
+        return false;
     }
 
     public boolean isConnected() {

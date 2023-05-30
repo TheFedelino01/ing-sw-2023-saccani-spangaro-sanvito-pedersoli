@@ -26,7 +26,7 @@ public interface PlayerIC {
 
     public boolean getReadyToStart();
 
-    public boolean equals(Player p);
+    public boolean equals(Object p);
 
     public boolean isConnected();
 
