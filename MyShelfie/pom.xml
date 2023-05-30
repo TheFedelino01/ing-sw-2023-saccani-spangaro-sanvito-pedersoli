@@ -93,16 +93,17 @@
                         <exclude>**/cards/Card.*</exclude>
                         <exclude>**/cards/common/CommonCard.*</exclude>
                         <exclude>**/cards/common/CommonMethods.*</exclude>
-
+                        <exclude>**/userView/utilities/events/EventList.*</exclude>
+                        <exclude>**/userView/utilities/events/EventElement.*</exclude>
                         <!-- uncomment to exclude network from coverage testing -->
-<!--                        <exclude>**/networking/*</exclude>-->
-<!--                        <exclude>**/networking/socket/*</exclude>-->
-<!--                        <exclude>**/networking/RMI/*</exclude>-->
-<!--                        <exclude>**/networking/socket/client/*</exclude>-->
-<!--                        <exclude>**/networking/socket/server/*</exclude>-->
-<!--                        <exclude>**/networking/socket/client/ServerToClientMessages/*</exclude>-->
-<!--                        <exclude>**/networking/socket/client/GameControllerMessages/*</exclude>-->
-<!--                        <exclude>**/networking/socket/client/MainControllerMessages/*</exclude>-->
+                   <!--     <exclude>**/networking/*</exclude>
+                        <exclude>**/networking/socket/*</exclude>
+                        <exclude>**/networking/RMI/*</exclude>
+                        <exclude>**/networking/socket/client/*</exclude>
+                        <exclude>**/networking/socket/server/*</exclude>
+                        <exclude>**/networking/socket/client/ServerToClientMessages/*</exclude>
+                        <exclude>**/networking/socket/client/GameControllerMessages/*</exclude>
+                        <exclude>**/networking/socket/client/MainControllerMessages/*</exclude>-->
                     </excludes>
                 </configuration>
                 <executions>
@@ -121,14 +122,14 @@
                     </execution>
                 </executions>
             </plugin>
-                <plugin>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>javafx-maven-plugin</artifactId>
-                    <version>0.0.8</version>
-                    <configuration>
-                        <mainClass>polimi.ingsw.view.userView.gui.GUIApplication</mainClass>
-                    </configuration>
-                </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>polimi.ingsw.view.userView.gui.GUIApplication</mainClass>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
