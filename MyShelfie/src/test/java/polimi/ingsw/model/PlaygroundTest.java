@@ -125,4 +125,110 @@ class PlaygroundTest {
 
         System.out.println(ptest.getPlayground());
     }
+
+    @Test
+    @DisplayName("Refill playground")
+    void testRefill2() throws TileGrabbedNotCorrectException {
+        Playground ptest = new Playground(2);
+        Playground blank = new Playground(2);
+        ptest.setEmptyPlayground();
+
+        ptest.setSingleTile(TileType.TROPHY, 8, 2);
+        ptest.setSingleTile(TileType.TROPHY, 0, 8);
+
+        //random tiles that aren't touching
+        ptest.setSingleTile(TileType.TROPHY, 4, 4);
+        ptest.setSingleTile(TileType.TROPHY, 7, 0);
+        ptest.setSingleTile(TileType.TROPHY, 0, 4);
+
+        System.out.println(ptest.getPlayground());
+
+        assertNotEquals(ptest, blank, "Playground is not being refilled");
+        assertEquals(ptest.allTileHaveAllFreeSide(), true, "Playground is not being refilled");
+        System.out.println(ptest.getPlayground());
+    }
+    @Test
+    @DisplayName("Refill playgroun3")
+    void testRefill3() throws TileGrabbedNotCorrectException {
+        Playground ptest = new Playground(2);
+        Playground blank = new Playground(2);
+        ptest.setEmptyPlayground();
+
+        ptest.setSingleTile(TileType.TROPHY, 0, 0);
+        ptest.setSingleTile(TileType.TROPHY, 0, 7);
+
+        //random tiles that aren't touching
+        ptest.setSingleTile(TileType.TROPHY, 4, 4);
+        ptest.setSingleTile(TileType.TROPHY, 7, 0);
+        ptest.setSingleTile(TileType.TROPHY, 0, 4);
+
+        System.out.println(ptest.getPlayground());
+
+        assertNotEquals(ptest, blank, "Playground is not being refilled");
+        assertEquals(ptest.allTileHaveAllFreeSide(), true, "Playground is not being refilled");
+        System.out.println(ptest.getPlayground());
+    }
+    @Test
+    @DisplayName("Refill playground4")
+    void testRefill4() throws TileGrabbedNotCorrectException {
+        Playground ptest = new Playground(2);
+        Playground blank = new Playground(2);
+        ptest.setEmptyPlayground();
+
+        ptest.setSingleTile(TileType.TROPHY, 8, 2);
+        ptest.setSingleTile(TileType.TROPHY, 0, 8);
+
+        //random tiles that aren't touching
+        ptest.setSingleTile(TileType.TROPHY, 4, 4);
+        ptest.setSingleTile(TileType.TROPHY, 7, 0);
+        ptest.setSingleTile(TileType.TROPHY, 0, 0);
+
+        System.out.println(ptest.getPlayground());
+
+        assertNotEquals(ptest, blank, "Playground is not being refilled");
+        assertEquals(ptest.allTileHaveAllFreeSide(), true, "Playground is not being refilled");
+        System.out.println(ptest.getPlayground());
+    }
+    @Test
+    @DisplayName("Refill playground 5")
+    void testRefill5() throws TileGrabbedNotCorrectException {
+        Playground ptest = new Playground(2);
+        Playground blank = new Playground(2);
+        ptest.setEmptyPlayground();
+
+        ptest.setSingleTile(TileType.TROPHY, 7, 0);
+        ptest.setSingleTile(TileType.TROPHY, 0, 0);
+
+        //random tiles that aren't touching
+        ptest.setSingleTile(TileType.TROPHY, 8, 1);
+        ptest.setSingleTile(TileType.TROPHY, 0, 0);
+        ptest.setSingleTile(TileType.TROPHY, 3, 6);
+
+        System.out.println(ptest.getPlayground());
+
+        assertNotEquals(ptest, blank, "Playground is not being refilled");
+        assertEquals(ptest.allTileHaveAllFreeSide(), true, "Playground is not being refilled");
+        System.out.println(ptest.getPlayground());
+    }
+    @Test
+    @DisplayName("Refill playground 6")
+    void testRefill6() throws TileGrabbedNotCorrectException {
+        Playground ptest = new Playground(2);
+        Playground blank = new Playground(2);
+        ptest.setEmptyPlayground();
+
+        ptest.setSingleTile(TileType.TROPHY, 8, 8);
+        ptest.setSingleTile(TileType.TROPHY, 0, 1);
+
+        //random tiles that aren't touching
+        ptest.setSingleTile(TileType.TROPHY, 8, 1);
+        ptest.setSingleTile(TileType.TROPHY, 0, 0);
+        ptest.setSingleTile(TileType.TROPHY, 3, 6);
+
+        System.out.println(ptest.getPlayground());
+
+        assertNotEquals(ptest, blank, "Playground is not being refilled");
+        assertEquals(ptest.allTileHaveAllFreeSide(), false, "Playground is not being refilled");
+        System.out.println(ptest.getPlayground());
+    }
 }

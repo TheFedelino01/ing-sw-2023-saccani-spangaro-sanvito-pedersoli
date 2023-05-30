@@ -37,8 +37,8 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 0, 0);
         p.setSingleTile(TileType.TROPHY, 0, 4);
 
-
-        assert (p.allTileHaveAllFreeSide());
+        if (!p.allTileHaveAllFreeSide())
+            assert (p.allTileHaveAllFreeSide());
     }
 
     @Test
@@ -52,8 +52,8 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 5, 1);
         p.setSingleTile(TileType.TROPHY, 7, 0);
 
-
-        assert (p.allTileHaveAllFreeSide());
+        if (!p.allTileHaveAllFreeSide())
+            assert (p.allTileHaveAllFreeSide());
     }
 
     @Test
@@ -67,8 +67,8 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 5, 1);
         p.setSingleTile(TileType.TROPHY, 7, 3);
 
-
-        assert (p.allTileHaveAllFreeSide());
+        if (!p.allTileHaveAllFreeSide())
+            assert (p.allTileHaveAllFreeSide());
     }
 
     @Test
@@ -83,7 +83,8 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 8, 8);
 
 
-        assert (p.allTileHaveAllFreeSide());
+        if (!p.allTileHaveAllFreeSide())
+            assert (p.allTileHaveAllFreeSide());
     }
 
     @Test
@@ -98,7 +99,8 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 8, 8);
 
 
-        assert (p.allTileHaveAllFreeSide());
+        if (!p.allTileHaveAllFreeSide())
+            assert (p.allTileHaveAllFreeSide());
     }
 
     @Test
@@ -111,10 +113,10 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 8, 1);
         p.setSingleTile(TileType.TROPHY, 0, 0);
         p.setSingleTile(TileType.TROPHY, 3, 6);
-
-
-        assert (p.allTileHaveAllFreeSide());
+        if (!p.allTileHaveAllFreeSide())
+            assert (p.allTileHaveAllFreeSide());
     }
+
     @Test
     @DisplayName("All tile have free side7")
     void testFreeSide7() {
@@ -126,9 +128,10 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 0, 0);
         p.setSingleTile(TileType.TROPHY, 3, 6);
 
-
-        assert (!p.allTileHaveAllFreeSide());
+        if (p.allTileHaveAllFreeSide())
+            assert (!p.allTileHaveAllFreeSide());
     }
+
     @Test
     @DisplayName("All tile have free side8")
     void testFreeSide8() {
@@ -140,9 +143,10 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 7, 0);
         p.setSingleTile(TileType.TROPHY, 3, 6);
 
-
-        assert (!p.allTileHaveAllFreeSide());
+        if (p.allTileHaveAllFreeSide())
+            assert (!p.allTileHaveAllFreeSide());
     }
+
     @Test
     @DisplayName("All tile have free side9")
     void testFreeSide9() {
@@ -154,9 +158,10 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 8, 7);
         p.setSingleTile(TileType.TROPHY, 3, 6);
 
-
-        assert (!p.allTileHaveAllFreeSide());
+        if (p.allTileHaveAllFreeSide())
+            assert (!p.allTileHaveAllFreeSide());
     }
+
     @Test
     @DisplayName("All tile have free side10")
     void testFreeSide10() {
@@ -167,8 +172,7 @@ public class PlaygroundTest2 {
         p.setSingleTile(TileType.TROPHY, 3, 1);
         p.setSingleTile(TileType.TROPHY, 3, 5);
         p.setSingleTile(TileType.TROPHY, 3, 6);
-
-
-        assert (!p.allTileHaveAllFreeSide());
+        if (p.allTileHaveAllFreeSide())
+            assert (!p.allTileHaveAllFreeSide());
     }
 }
