@@ -435,36 +435,102 @@
 }
 
 
-.tileCat{
+.tileCat0{
     -fx-background-image: url("img/img/item_tiles/Gatti1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.tileBook{
+.tileCat1{
+    -fx-background-image: url("img/img/item_tiles/Gatti1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileCat2{
+    -fx-background-image: url("img/img/item_tiles/Gatti1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.tileBook0{
     -fx-background-image: url("img/img/item_tiles/Libri1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.tileActivity{
+.tileBook1{
+    -fx-background-image: url("img/img/item_tiles/Libri1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileBook2{
+    -fx-background-image: url("img/img/item_tiles/Libri1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.tileActivity0{
     -fx-background-image: url("img/img/item_tiles/Giochi1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.tileFrame{
+.tileActivity1{
+    -fx-background-image: url("img/img/item_tiles/Giochi1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileActivity2{
+    -fx-background-image: url("img/img/item_tiles/Giochi1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.tileFrame0{
     -fx-background-image: url("img/img/item_tiles/Cornici1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.tileTrophy{
+.tileFrame1{
+    -fx-background-image: url("img/img/item_tiles/Cornici1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileFrame2{
+    -fx-background-image: url("img/img/item_tiles/Cornici1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.tileTrophy0{
     -fx-background-image: url("img/img/item_tiles/Trofei1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.tilePlant{
+.tileTrophy1{
+    -fx-background-image: url("img/img/item_tiles/Trofei1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tileTrophy2{
+    -fx-background-image: url("img/img/item_tiles/Trofei1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.tilePlant0{
     -fx-background-image: url("img/img/item_tiles/Piante1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+.tilePlant1{
+    -fx-background-image: url("img/img/item_tiles/Piante1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.tilePlant2{
+    -fx-background-image: url("img/img/item_tiles/Piante1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
 
 .tileEmpty{
     -fx-opacity:0.8;

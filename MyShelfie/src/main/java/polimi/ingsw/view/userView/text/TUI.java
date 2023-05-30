@@ -414,6 +414,11 @@ public class TUI extends UI {
         this.clearScreen();
         System.out.println(ansi().fg(WHITE).bg(RED).bold().a("CONNECTION TO SERVER LOST!")
                 .boldOff().fg(DEFAULT).bgDefault());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         System.exit(-1);
     }
 

@@ -17,15 +17,17 @@ public enum TileType {
     USED("tileUsed");
 
 
-    TileType(String backgroundClass){
-        this.backgroundClass=backgroundClass;
+    TileType(String backgroundClass) {
+        this.backgroundClass = backgroundClass+(new Random().nextInt(3));
+
     }
 
     //for testing purposes
     private static final List<TileType> values = List.of(values());
     private static final Random rand = new Random();
 
-    private String backgroundClass="";
+    private String backgroundClass = "";
+
     public String getBackgroundClass() {
         return backgroundClass;
     }
@@ -48,8 +50,10 @@ public enum TileType {
         return values;
     }
 
-    public static List<TileType> getUsableValues() {return values.stream()
-            .filter(x -> (!(x.equals(TileType.USED)||x.equals(TileType.NOT_USED)||x.equals(TileType.FINISHED_USING)))).toList();}
+    public static List<TileType> getUsableValues() {
+        return values.stream()
+                .filter(x -> (!(x.equals(TileType.USED) || x.equals(TileType.NOT_USED) || x.equals(TileType.FINISHED_USING)))).toList();
+    }
 
 }
 
