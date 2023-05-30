@@ -10,7 +10,6 @@ import polimi.ingsw.model.*;
 import polimi.ingsw.model.enumeration.*;
 import polimi.ingsw.model.exceptions.*;
 import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
-import polimi.ingsw.model.interfaces.PointIC;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
 
 import java.io.Serializable;
@@ -38,20 +37,25 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void run() {
         while (!Thread.interrupted()) {
             //checks all the heartbeat to detect disconnection
-            for (Map.Entry<GameListener, Heartbeat> entry : heartbeats.entrySet()) {
-                if (System.currentTimeMillis() - entry.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
-                    try {
-                        this.disconnectPlayer(entry.getValue().getNick(), entry.getKey());
+            synchronized (heartbeats) {
+                Iterator<Map.Entry<GameListener, Heartbeat>> heartIter = heartbeats.entrySet().iterator();
 
-                        if (this.getNumOnlinePlayers() == 0) {
-                            MainController.getInstance().deleteGame(this.getGameId());
+                while (heartIter.hasNext()) {
+                    Map.Entry<GameListener,Heartbeat> el = (Map.Entry<GameListener, Heartbeat>) heartIter.next();
+                    if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
+                        try {
+                            this.disconnectPlayer(el.getValue().getNick(), el.getKey());
+
+                            if (this.getNumOnlinePlayers() == 0) {
+                                MainController.getInstance().deleteGame(this.getGameId());
+                            }
+
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
                         }
-
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("Disconnection detected by heartbeat");
+                        heartIter.remove();
                     }
-                    System.out.println("Disconnection detected by heartbeat");
-                    heartbeats.remove(entry.getKey());
                 }
             }
             try {
@@ -408,7 +412,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void heartbeat(String nick, GameListener me) throws RemoteException {
-        heartbeats.put(me, new Heartbeat(System.currentTimeMillis(), nick));
+        synchronized (heartbeats) {
+            heartbeats.put(me, new Heartbeat(System.currentTimeMillis(), nick));
+        }
         //System.out.println("heartbeat rec: "+heartbeats.get(me));
     }
 
