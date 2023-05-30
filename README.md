@@ -9,13 +9,13 @@ Abbiamo implementato:
  -> Partite multiple  
  -> Regole complete  
    
-Coverage del codige (badge autogenerati da ![qui](https://github.com/cicirello/jacoco-badge-generator)) 
+Coverage del codige (badge autogenerati da [qui](https://github.com/cicirello/jacoco-badge-generator)) 
   
 ![Coverage](.github/badges/jacoco.svg)  
 ![Branches](.github/badges/branches.svg)  
   
   
-La code coverage del progetto è autogenerata anch'essa, utilizzando ![JaCoCo](https://www.eclemma.org/jacoco/trunk/doc/maven.html)  
+La code coverage del progetto è autogenerata anch'essa, utilizzando [JaCoCo](https://www.eclemma.org/jacoco/)  
     
 Per runnare e testare il gioco:  
 1. Intellij: menù maven -> MyShelfie -> Lifecycle -> Clean  
@@ -30,7 +30,7 @@ Ripetere da (1) ogni volta che si modifica il codice per aggiornare i jar
 
 Per generare la Code Coverage del progetto:  
 1. Intellij: menù maven -> MyShelfie -> Lifecycle -> Clean  
-2. Intellij: menù maven -> MyShelfie -> Lifecycle -> Test 
+2. Intellij: menù maven -> MyShelfie -> Lifecycle -> Test  
 La code coverage viene generata nella cartella:  
  -> C:/[dir]/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/MyShelfie/target/site/jacoco/index.html
       
