@@ -89,7 +89,10 @@
                         <exclude>**/gui/scenes/*</exclude>
                         <exclude>**/text/*</exclude>
                         <exclude>**/utilities/*</exclude>
-                        <exclude>**/utilities/events/EventType</exclude>
+                        <exclude>**/utilities/events/EventType.*</exclude>
+                        <exclude>**/cards/Card.*</exclude>
+                        <exclude>**/cards/common/CommonCard.*</exclude>
+                        <exclude>**/cards/common/CommonMethods.*</exclude>
 
                         <!-- uncomment to exclude network from coverage testing -->
 <!--                        <exclude>**/networking/*</exclude>-->
