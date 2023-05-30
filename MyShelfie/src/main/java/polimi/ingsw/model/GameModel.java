@@ -444,6 +444,9 @@ public class GameModel {
     public void removeListener(GameListener lis) {
         listenersHandler.removeListener(lis);
     }
+    public List<GameListener> getListeners(){
+        return listenersHandler.getListeners();
+    }
 
     public Player getPlayerEntity(String playerNick) {
         return players.stream().filter(x -> x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);

@@ -17,6 +17,7 @@ public class CommonEight extends CommonMethods {
 
     @Override
     public boolean verify(Shelf toCheck) {
+
         Map<TileType, Integer> tileCheck = new HashMap<>();
 
         if (toCheck.getOccupiedSpace() < 8)

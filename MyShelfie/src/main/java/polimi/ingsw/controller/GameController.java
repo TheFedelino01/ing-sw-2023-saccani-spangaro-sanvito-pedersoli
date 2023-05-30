@@ -433,11 +433,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @apiNote Ho aggiunto il riferimento al Player p (Perchè ho pensato che il check non si vuole fare sempre su tutti i player)
      */
     private void checkCommonCards(Player p) {
-        for (CommonCard card : model.getCommonCards())
+        for (CommonCard card : model.getCommonCards()) {
             if (card.verify(p.getShelf()) && p.getObtainedPoints().stream()
                     .noneMatch(x -> x.getReferredTo().equals(card.getCommonType()))) {
                 p.addPoint(card.getPoints().poll(), new GameModelImmutable(model));
             }
+        }
     }
 
 
@@ -500,12 +501,26 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     public void addListener(GameListener l, Player p) {
         model.addListener(l);
-        p.addListener(l);
+        for(GameListener othersListener:model.getListeners()){
+            p.addListener(othersListener);
+        }
+        for(Player otherPlayer:model.getPlayers()){
+            if(!otherPlayer.equals(p)) {
+                otherPlayer.addListener(l);
+            }
+        }
     }
 
     public void removeListener(GameListener lis, Player p) {
         model.removeListener(lis);
-        p.removeListener(lis);
+        for(GameListener othersListener:model.getListeners()){
+            p.removeListener(othersListener);
+        }
+        for(Player otherPlayer:model.getPlayers()){
+            if(!otherPlayer.equals(p)) {
+                otherPlayer.removeListener(lis);
+            }
+        }
     }
 
     @Override

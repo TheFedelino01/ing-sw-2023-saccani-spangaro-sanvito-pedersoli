@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListenersHandler {
-    public List<GameListener> listeners;
+    private List<GameListener> listeners;
 
     public ListenersHandler() {
         listeners = new ArrayList<>();
@@ -20,6 +20,10 @@ public class ListenersHandler {
 
     public synchronized void addListener(GameListener obj) {
         listeners.add(obj);
+    }
+
+    public synchronized List<GameListener> getListeners() {
+        return listeners;
     }
 
     public synchronized void notify_playerJoined(GameModel model) {
@@ -132,6 +136,7 @@ public class ListenersHandler {
             }
         }
     }
+
     public void notify_LastCircle(GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -162,10 +167,10 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_playerDisconnected(GameModel gamemodel,String nick) {
+    public synchronized void notify_playerDisconnected(GameModel gamemodel, String nick) {
         for (GameListener l : listeners) {
             try {
-                l.playerDisconnected(new GameModelImmutable(gamemodel),nick);
+                l.playerDisconnected(new GameModelImmutable(gamemodel), nick);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -173,12 +178,10 @@ public class ListenersHandler {
     }
 
 
-
-
     public void notify_playerLeft(GameModel gameModel, String nick) {
         for (GameListener l : listeners) {
             try {
-                l.playerLeft(new GameModelImmutable(gameModel),nick);
+                l.playerLeft(new GameModelImmutable(gameModel), nick);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -188,16 +191,17 @@ public class ListenersHandler {
     public synchronized void notify_columnShelfTooSmall(GameModel model, int column) {
         for (GameListener l : listeners) {
             try {
-                l.columnShelfTooSmall(new GameModelImmutable(model),column);
+                l.columnShelfTooSmall(new GameModelImmutable(model), column);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
     }
+
     public synchronized void notify_onlyOnePlayerConnected(GameModel model, int secondsToWaitUntillGameEnded) {
         for (GameListener l : listeners) {
             try {
-                l.onlyOnePlayerConnected(new GameModelImmutable(model),secondsToWaitUntillGameEnded);
+                l.onlyOnePlayerConnected(new GameModelImmutable(model), secondsToWaitUntillGameEnded);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
