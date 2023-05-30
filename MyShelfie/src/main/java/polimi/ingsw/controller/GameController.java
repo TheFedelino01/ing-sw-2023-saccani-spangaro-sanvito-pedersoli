@@ -37,24 +37,26 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void run() {
         while (!Thread.interrupted()) {
             //checks all the heartbeat to detect disconnection
-            synchronized (heartbeats) {
-                Iterator<Map.Entry<GameListener, Heartbeat>> heartIter = heartbeats.entrySet().iterator();
+            if(model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+                synchronized (heartbeats) {
+                    Iterator<Map.Entry<GameListener, Heartbeat>> heartIter = heartbeats.entrySet().iterator();
 
-                while (heartIter.hasNext()) {
-                    Map.Entry<GameListener,Heartbeat> el = (Map.Entry<GameListener, Heartbeat>) heartIter.next();
-                    if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
-                        try {
-                            this.disconnectPlayer(el.getValue().getNick(), el.getKey());
+                    while (heartIter.hasNext()) {
+                        Map.Entry<GameListener, Heartbeat> el = (Map.Entry<GameListener, Heartbeat>) heartIter.next();
+                        if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
+                            try {
+                                this.disconnectPlayer(el.getValue().getNick(), el.getKey());
 
-                            if (this.getNumOnlinePlayers() == 0) {
-                                MainController.getInstance().deleteGame(this.getGameId());
+                                if (this.getNumOnlinePlayers() == 0) {
+                                    MainController.getInstance().deleteGame(this.getGameId());
+                                }
+
+                            } catch (RemoteException e) {
+                                throw new RuntimeException(e);
                             }
-
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
+                            System.out.println("Disconnection detected by heartbeat");
+                            heartIter.remove();
                         }
-                        System.out.println("Disconnection detected by heartbeat");
-                        heartIter.remove();
                     }
                 }
             }
