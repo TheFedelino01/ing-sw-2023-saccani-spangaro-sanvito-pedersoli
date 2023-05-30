@@ -8,4 +8,6 @@ public interface TileIC {
     public boolean hasFreeSide();
     public boolean isSameType(TileType type);
     public String toString();
+
+    public String getBackground();
 }

@@ -18,8 +18,7 @@ public enum TileType {
 
 
     TileType(String backgroundClass) {
-        this.backgroundClass = backgroundClass+(new Random().nextInt(3));
-
+        this.backgroundClass = backgroundClass;
     }
 
     //for testing purposes

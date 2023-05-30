@@ -440,7 +440,7 @@ public class InGameController extends GenericController {
 
                 if (tilePane != null) {
                     if (!t.getType().equals(TileType.NOT_USED) && !t.getType().equals(TileType.USED) && !t.getType().equals(TileType.FINISHED_USING)) {
-                        tilePane.getStyleClass().add(t.getType().getBackgroundClass());
+                        tilePane.getStyleClass().add(t.getBackground());
                         tilePane.getStyleClass().add("tileHover");
                         tilePane.setVisible(true);
                     } else {
@@ -457,8 +457,10 @@ public class InGameController extends GenericController {
     private void removeallBackgroundClass(Pane tilePane) {
         if (tilePane != null) {
             for (TileType t : TileType.values()) {
-                if (tilePane.getStyleClass().contains(t.getBackgroundClass())) {
-                    tilePane.getStyleClass().remove(t.getBackgroundClass());
+                for(int i=0; i<3;i++) {
+                    if (tilePane.getStyleClass().contains(t.getBackgroundClass()+i)) {
+                        tilePane.getStyleClass().remove(t.getBackgroundClass()+i);
+                    }
                 }
             }
         }
@@ -519,7 +521,7 @@ public class InGameController extends GenericController {
         for (TileIC t : model.getHandOfCurrentPlaying()) {
             pane = (Pane) mainAnchor.lookup("#pgGrab0" + i);
             pane.getStyleClass().remove(pane.getStyleClass().get(0));
-            pane.getStyleClass().add(t.getType().getBackgroundClass());
+            pane.getStyleClass().add(t.getBackground());
             pane.setOpacity(opacity);
             i++;
         }
@@ -580,7 +582,7 @@ public class InGameController extends GenericController {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 paneTile = (Pane) mainAnchor.lookup(prefixIdPane + r + c);
                 if (!(shelf.get(r, c).getType().equals(TileType.NOT_USED) || shelf.get(r, c).getType().equals(TileType.FINISHED_USING))) {
-                    paneTile.getStyleClass().add(shelf.get(r, c).getType().getBackgroundClass());
+                    paneTile.getStyleClass().add(shelf.get(r, c).getBackground());
                 }
 
             }
