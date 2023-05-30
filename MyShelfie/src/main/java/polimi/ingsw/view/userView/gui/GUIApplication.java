@@ -293,7 +293,12 @@ public class GUIApplication extends Application {
 
     public void showErrorGeneric(String msg) {
         GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneEnum.GENERIC_ERROR)).getGenericController();
-        controller.setMsg(msg);
+        controller.setMsg(msg,false);
+    }
+
+    public void showErrorGeneric(String msg, boolean needToExitApp) {
+        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneEnum.GENERIC_ERROR)).getGenericController();
+        controller.setMsg(msg,needToExitApp);
     }
 
 

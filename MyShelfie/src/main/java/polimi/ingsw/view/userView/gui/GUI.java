@@ -281,6 +281,6 @@ public class GUI extends UI {
     @Override
     protected void show_noConnectionError() {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneEnum.GENERIC_ERROR));
-        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Connection to server lost!"));
+        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Connection to server lost!",true));
     }
 }
