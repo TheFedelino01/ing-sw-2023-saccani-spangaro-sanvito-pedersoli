@@ -3,6 +3,7 @@ package polimi.ingsw.view.userView.utilities;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.chat.MessagePrivate;
 import polimi.ingsw.model.Player;
+import polimi.ingsw.model.interfaces.PlayerIC;
 import polimi.ingsw.view.userView.GameFlow;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class InputParser extends Thread {
     private BufferData bufferInput;
     private BufferData dataToProcess;
     private GameFlow gameFlow;
-    private Player p;
+    private PlayerIC p;
     private Integer gameId;
 
     public InputParser(BufferData bufferInput, GameFlow gameFlow) {
@@ -69,7 +70,7 @@ public class InputParser extends Thread {
     public void setIdGame(Integer gameId){
         this.gameId=gameId;
     }
-    public void setPlayer(Player p){
+    public void setPlayer(PlayerIC p){
         this.p=p;
     }
     public BufferData getDataToProcess() {

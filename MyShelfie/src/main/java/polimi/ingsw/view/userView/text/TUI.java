@@ -4,10 +4,13 @@ import org.fusesource.jansi.AnsiConsole;
 import polimi.ingsw.model.cards.common.*;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.DefaultValue;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
 import polimi.ingsw.model.Tile;
+import polimi.ingsw.model.interfaces.CommonCardIC;
+import polimi.ingsw.model.interfaces.PlayerIC;
+import polimi.ingsw.model.interfaces.TileIC;
 import polimi.ingsw.view.userView.UI;
 
 import java.io.IOException;
@@ -78,20 +81,20 @@ public class TUI extends UI {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_input - 2, 0).a(">This is your hand:").cursor(DefaultValue.row_input-1,0));
 
-        for (int i = 0; i < gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().size(); i++) {
-                switch (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType()) {
+        for (int i = 0; i < gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().size(); i++) {
+                switch (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType()) {
                     case CAT ->
-                            ris.append("[").append(i).append("]: ").append(ansi().bg(GREEN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(GREEN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
                     case TROPHY ->
-                            ris.append("[").append(i).append("]: ").append(ansi().bg(CYAN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(CYAN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
                     case PLANT ->
-                            ris.append("[").append(i).append("]: ").append(ansi().bg(MAGENTA).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(MAGENTA).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
                     case BOOK ->
-                            ris.append("[").append(i).append("]: ").append(ansi().bg(WHITE).fg(BLACK).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(WHITE).fg(BLACK).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
                     case ACTIVITY ->
-                            ris.append("[").append(i).append("]: ").append(ansi().bg(YELLOW).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(YELLOW).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
                     case FRAME ->
-                            ris.append("[").append(i).append("]: ").append(ansi().bg(BLUE).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                            ris.append("[").append(i).append("]: ").append(ansi().bg(BLUE).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
                 }
         }
         System.out.println(ris);
@@ -101,7 +104,7 @@ public class TUI extends UI {
     public void show_grabbedTile(String nickname, GameModelImmutable model) {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_input - 1, 0).a(nickname).a(": Player: ").a(model.getNicknameCurrentPlaying()).a(" has grabbed some tiles: | "));
-        for (Tile t : model.getHandOfCurrentPlaying()) {
+        for (TileIC t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
                 case CAT -> ris.append(ansi().bg(GREEN).a(t.toString()).bg(DEFAULT)).append(" | ");
                 case TROPHY -> ris.append(ansi().bg(CYAN).a(t.toString()).bg(DEFAULT)).append(" | ");
@@ -125,7 +128,7 @@ public class TUI extends UI {
 
         StringBuilder ris = new StringBuilder();
 
-        for (Player p : model.getPlayers()) {
+        for (PlayerIC p : model.getPlayers()) {
             ris.append(ansi().cursor(DefaultValue.row_playerName, i - 3).a(p.getNickname() + ": "));
             ris.append(ansi().cursor(DefaultValue.row_shelves, i - 3).a(p.getShelf().toString(i)).toString());
 
@@ -148,7 +151,7 @@ public class TUI extends UI {
         System.out.println(title);
 
         int i = 1;
-        for (CommonCard c : gameModel.getCommonCards()) {
+        for (CommonCardIC c : gameModel.getCommonCards()) {
             ris.append(c.toString(i));
             i += 3;
         }
@@ -164,7 +167,7 @@ public class TUI extends UI {
         System.out.println(title);
 
         int i = 1;
-        for (Player p : gameModel.getPlayers()) {
+        for (PlayerIC p : gameModel.getPlayers()) {
             ris.append(ansi().cursor(DefaultValue.row_points + i, DefaultValue.col_points).a(p.getNickname() + ": " + p.getTotalPoints() + " points"));
             i++;
         }
@@ -172,8 +175,8 @@ public class TUI extends UI {
     }
 
 
-    public void show_goalCards(Player toShow) {
-        System.out.println(toShow.getSecretGoal().getLayoutToMatch().toStringGoalCard());
+    public void show_goalCards(PlayerIC toShow) {
+        System.out.println(toShow.getSecretGoal_IC().getLayoutToMatch_IC().toStringGoalCard());
     }
 
     @Override
@@ -186,7 +189,7 @@ public class TUI extends UI {
         StringBuilder ris = new StringBuilder();
 
         int i = 0;
-        for (Player p : gameModel.getPlayers()) {
+        for (PlayerIC p : gameModel.getPlayers()) {
             if (p.getReadyToStart()) {
                 ris.append(ansi().cursor(12 + i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" is ready!\n");
             } else {
@@ -197,7 +200,7 @@ public class TUI extends UI {
         System.out.println(ris);
 
 
-        for (Player p : gameModel.getPlayers())
+        for (PlayerIC p : gameModel.getPlayers())
             if (!p.getReadyToStart() && p.getNickname().equals(nick))
                 System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
         System.out.flush();
@@ -559,10 +562,10 @@ public class TUI extends UI {
 
     public void show_alwaysShow(GameModelImmutable model, String nick) {
         show_alwaysShowForAll(model);
-        for (Player p : model.getPlayers()) {
+        for (PlayerIC p : model.getPlayers()) {
             if (p.getNickname().equals(nick))
                 show_goalCards(p);
-            if (p.getInHandTile().size() > 0)
+            if (p.getInHandTile_IC().size() > 0)
                 if (p.getNickname().equals(nick)) {
                     show_playerHand(model);
                 } else

@@ -9,7 +9,7 @@ import polimi.ingsw.listener.ListenersHandler;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.enumeration.TileType;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.listener.GameListener;
 import polimi.ingsw.model.Point;

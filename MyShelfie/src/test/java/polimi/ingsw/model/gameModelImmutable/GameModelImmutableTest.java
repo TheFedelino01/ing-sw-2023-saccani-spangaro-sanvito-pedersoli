@@ -1,25 +1,14 @@
-package polimi.ingsw.model.gameModelView;
+package polimi.ingsw.model.gameModelImmutable;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.*;
-import polimi.ingsw.model.cards.common.CommonCard;
-import polimi.ingsw.model.cards.common.CommonEight;
 import polimi.ingsw.model.cards.common.CommonXCard;
-import polimi.ingsw.model.chat.Chat;
 import polimi.ingsw.model.enumeration.CardCommonType;
-import polimi.ingsw.model.enumeration.GameStatus;
-import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.exceptions.CommonCardAlreadyInException;
 import polimi.ingsw.model.exceptions.MaxCommonCardsAddedException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameModelImmutableTest {
     @Test

@@ -7,6 +7,8 @@ import org.json.simple.parser.ParseException;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.exceptions.TileGrabbedNotCorrectException;
+import polimi.ingsw.model.interfaces.PlaygroundIC;
+import polimi.ingsw.model.interfaces.TileIC;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +16,7 @@ import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class Playground implements Serializable {
+public class Playground implements Serializable, PlaygroundIC {
     private final Tile[][] playground; //playground formed by tiles
     private final List<Tile> bag; //All tiles are contained in this array
     private List<List<Integer>> data;
@@ -75,6 +77,11 @@ public class Playground implements Serializable {
         return playground[r][c];
     }
 
+    @Override
+    public TileIC getTile_IC(int r, int c) {
+        return playground[r][c];
+    }
+
     public int getNumOfTileinTheBag() {
         return bag.size();
     }
@@ -126,7 +133,7 @@ public class Playground implements Serializable {
                                     if ((playground[r][c + 1].isSameType(TileType.NOT_USED)
                                             || playground[r][c - 1].isSameType(TileType.NOT_USED)
                                             || playground[r + 1][c].isSameType(TileType.NOT_USED)
-                                            || playground[r - 1][c].isSameType(TileType.NOT_USED))||
+                                            || playground[r - 1][c].isSameType(TileType.NOT_USED)) ||
                                             playground[r][c + 1].isSameType(TileType.FINISHED_USING)
                                             || playground[r][c - 1].isSameType(TileType.FINISHED_USING)
                                             || playground[r + 1][c].isSameType(TileType.FINISHED_USING)
@@ -180,7 +187,7 @@ public class Playground implements Serializable {
         return true;
     }
 
-    boolean allTileHaveAllFreeSide() {
+    public boolean allTileHaveAllFreeSide() {
         for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
             for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
                 if (!(playground[r][c].isSameType(TileType.NOT_USED) ||

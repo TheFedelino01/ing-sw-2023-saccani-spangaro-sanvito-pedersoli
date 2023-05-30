@@ -2,14 +2,18 @@ package polimi.ingsw.model;
 
 import polimi.ingsw.listener.GameListener;
 import polimi.ingsw.model.cards.goal.CardGoal;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+import polimi.ingsw.model.interfaces.CardGoalIC;
+import polimi.ingsw.model.interfaces.PlayerIC;
+import polimi.ingsw.model.interfaces.PointIC;
+import polimi.ingsw.model.interfaces.TileIC;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements Serializable {
+public class Player implements Serializable, PlayerIC {
     private String nickname;
     private Shelf shelf;
     private CardGoal secretGoal;
@@ -50,6 +54,7 @@ public class Player implements Serializable {
     public Shelf getShelf() {
         return shelf;
     }
+
 
     public void setShelfS(Shelf shelf) {
         this.shelf = shelf;
@@ -150,5 +155,20 @@ public class Player implements Serializable {
 
     public void removeListener(GameListener lis) {
         listeners.remove(lis);
+    }
+
+
+    public List<TileIC> getInHandTile_IC() {
+        return new ArrayList<TileIC>(inHandTile);
+    }
+
+    @Override
+    public List<PointIC> getObtainedPoints_IC() {
+        return new ArrayList<PointIC>(obtainedPoints);
+    }
+
+    @Override
+    public CardGoalIC getSecretGoal_IC() {
+        return secretGoal;
     }
 }

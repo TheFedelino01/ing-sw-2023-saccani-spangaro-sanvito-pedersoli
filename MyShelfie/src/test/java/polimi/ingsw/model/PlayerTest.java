@@ -4,17 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.controller.GameController;
-import polimi.ingsw.listener.GameListener;
 import polimi.ingsw.model.cards.goal.CardGoal;
 import polimi.ingsw.model.enumeration.CardGoalType;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
-import polimi.ingsw.view.handlerResponsesByClient.GameListenersHandlerClient;
-import polimi.ingsw.view.networking.socket.client.ClientSocket;
-import polimi.ingsw.view.userView.ConnectionSelection;
-import polimi.ingsw.view.userView.Flow;
-import polimi.ingsw.view.userView.GameFlow;
-import polimi.ingsw.view.userView.gui.GUI;
-import polimi.ingsw.view.userView.text.TUI;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 
 import java.util.ArrayList;
 import java.util.List;

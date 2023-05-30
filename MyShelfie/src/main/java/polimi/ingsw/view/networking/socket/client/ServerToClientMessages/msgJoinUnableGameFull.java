@@ -1,7 +1,7 @@
 package polimi.ingsw.view.networking.socket.client.ServerToClientMessages;
 
 import polimi.ingsw.listener.GameListener;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 
 import java.rmi.RemoteException;

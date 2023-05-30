@@ -1,7 +1,7 @@
 package polimi.ingsw.view.userView.utilities.events;
 
 import polimi.ingsw.model.enumeration.GameStatus;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

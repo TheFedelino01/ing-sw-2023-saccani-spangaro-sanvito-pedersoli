@@ -3,6 +3,7 @@ package polimi.ingsw.model.chat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.Player;
+import polimi.ingsw.model.interfaces.PlayerIC;
 
 import java.time.LocalTime;
 
@@ -42,7 +43,7 @@ class MessagePrivateTest {
 
         Message message = new Message(messageText, expectedSender);
 
-        Player actualSender = message.getSender();
+        PlayerIC actualSender = message.getSender();
 
         assertEquals(expectedSender, actualSender, "Sender does not match");
     }

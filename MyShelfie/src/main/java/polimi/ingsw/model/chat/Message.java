@@ -2,6 +2,7 @@ package polimi.ingsw.model.chat;
 
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.Player;
+import polimi.ingsw.model.interfaces.PlayerIC;
 
 import java.io.Serializable;
 import java.time.LocalTime;
@@ -10,10 +11,10 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class Message implements Serializable {
     private String text;
-    private Player sender;
+    private PlayerIC sender;
     private LocalTime time;
 
-    public Message(String text, Player sender) {
+    public Message(String text, PlayerIC sender) {
         this.time = java.time.LocalTime.now();
         this.text = text;
         this.sender = sender;
@@ -48,7 +49,7 @@ public class Message implements Serializable {
         this.text = text;
     }
 
-    public Player getSender() {
+    public PlayerIC getSender() {
         return sender;
     }
 

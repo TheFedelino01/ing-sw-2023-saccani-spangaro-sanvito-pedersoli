@@ -11,15 +11,15 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import polimi.ingsw.model.Point;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
+import polimi.ingsw.model.interfaces.PlayerIC;
 import polimi.ingsw.view.userView.ConnectionSelection;
 import polimi.ingsw.view.userView.GameFlow;
 import polimi.ingsw.view.userView.gui.controllers.*;
 import polimi.ingsw.view.userView.gui.scenes.SceneEnum;
 import polimi.ingsw.view.userView.utilities.inputReaderGUI;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +143,7 @@ public class GUIApplication extends Application {
     public void showPlayerToLobby(GameModelImmutable model) {
         hidePanesInLobby();
         int i = 0;
-        for (Player p : model.getPlayers()) {
+        for (PlayerIC p : model.getPlayers()) {
             addLobbyPanePlayer(p.getNickname(), i, p.getReadyToStart());
             i++;
         }

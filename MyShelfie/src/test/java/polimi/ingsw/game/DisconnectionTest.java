@@ -1,6 +1,5 @@
 package polimi.ingsw.game;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.controller.GameController;
@@ -11,9 +10,7 @@ import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.exceptions.GameEndedException;
-import polimi.ingsw.model.exceptions.MaxCommonCardsAddedException;
-import polimi.ingsw.model.exceptions.PositioningATileNotGrabbedException;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
 import polimi.ingsw.view.userView.gui.IntRecord;

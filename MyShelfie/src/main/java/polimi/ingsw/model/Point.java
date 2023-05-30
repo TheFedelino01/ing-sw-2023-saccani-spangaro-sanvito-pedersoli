@@ -2,10 +2,11 @@ package polimi.ingsw.model;
 
 import polimi.ingsw.model.enumeration.CardGoalType;
 import polimi.ingsw.model.enumeration.CardType;
+import polimi.ingsw.model.interfaces.PointIC;
 
 import java.io.Serializable;
 
-public class Point implements Serializable {
+public class Point implements Serializable, PointIC {
     private Integer point;
     private CardType referredTo;
 
@@ -14,7 +15,7 @@ public class Point implements Serializable {
         this.referredTo = referredTo;
     }
 
-    public Point(Integer point){
+    public Point(Integer point) {
         this.point = point;
         this.referredTo = CardGoalType.NOT_SET;
     }

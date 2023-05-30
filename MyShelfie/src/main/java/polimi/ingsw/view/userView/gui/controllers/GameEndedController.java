@@ -4,8 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
+import polimi.ingsw.model.interfaces.PlayerIC;
 
 public class GameEndedController extends GenericController{
     @FXML
@@ -29,7 +30,7 @@ public class GameEndedController extends GenericController{
 
         int i=0;
         Label tmp = null;
-        for(Player p:model.getPlayers()){
+        for(PlayerIC p:model.getPlayers()){
             switch (i){
                 case 0-> tmp=player0;
                 case 1-> tmp=player1;

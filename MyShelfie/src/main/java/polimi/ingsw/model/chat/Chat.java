@@ -2,6 +2,7 @@ package polimi.ingsw.model.chat;
 
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.Player;
+import polimi.ingsw.model.interfaces.ChatIC;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class Chat implements Serializable {
+public class Chat implements Serializable, ChatIC {
     private List<Message> msgs;
 
     public Chat() {

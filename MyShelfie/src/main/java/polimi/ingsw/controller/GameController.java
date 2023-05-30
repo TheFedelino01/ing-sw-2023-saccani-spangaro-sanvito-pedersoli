@@ -9,7 +9,8 @@ import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.*;
 import polimi.ingsw.model.enumeration.*;
 import polimi.ingsw.model.exceptions.*;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+import polimi.ingsw.model.interfaces.PointIC;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
 
 import java.io.Serializable;
@@ -464,7 +465,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         for (int i = 0; i < model.getNumOfPlayers(); i++) {
             Player p = model.getPlayers().get(i);
             CardGoal g = model.getGoalCard(i);
-            Point point = g.verify(p.getShelf());
+            Point point = (Point) g.verify(p.getShelf());
             if (point != null) {
                 p.addPoint(point, new GameModelImmutable(model));
             }

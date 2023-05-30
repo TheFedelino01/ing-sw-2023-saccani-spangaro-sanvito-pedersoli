@@ -5,7 +5,7 @@ import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.enumeration.TileType;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
 import polimi.ingsw.view.networking.RMI.RMIClient;
@@ -509,7 +509,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             if (ended) return;
 
             //Check by client side (// to server)
-            if(!(model.getPlayerEntity(this.nickname).getNumofFreeSpacesInCol(column)>=model.getPlayerEntity(this.nickname).getInHandTile().size())){
+            if(!(model.getPlayerEntity(this.nickname).getNumofFreeSpacesInCol(column)>=model.getPlayerEntity(this.nickname).getInHandTile_IC().size())){
                 ui.columnShelfTooSmall(model);
                 isColumnBigEnough=false;
             }
@@ -525,14 +525,14 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             indexHand = Objects.requireNonNullElse(askNum("\t> Choose Tile in hand (0,1,2):", model), -1);
             ui.show_playerHand(model);
             if (ended) return;
-            if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile().size()) {
+            if (indexHand < 0 || indexHand >= model.getPlayerEntity(nickname).getInHandTile_IC().size()) {
                 ui.show_wrongSelectionHandMsg();
                 indexHand = null;
             }
         } while (indexHand == null);
 
         try {
-            positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile().get(indexHand).getType());
+            positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile_IC().get(indexHand).getType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

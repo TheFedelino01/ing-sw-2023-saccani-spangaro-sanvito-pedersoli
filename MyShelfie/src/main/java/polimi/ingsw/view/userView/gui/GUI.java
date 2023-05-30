@@ -5,7 +5,7 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.DefaultValue;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
 import polimi.ingsw.view.userView.UI;

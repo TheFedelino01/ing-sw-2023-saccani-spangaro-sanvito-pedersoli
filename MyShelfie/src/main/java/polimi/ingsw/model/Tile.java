@@ -1,12 +1,13 @@
 package polimi.ingsw.model;
 
 import polimi.ingsw.model.enumeration.TileType;
+import polimi.ingsw.model.interfaces.TileIC;
 
 import java.io.Serializable;
 
 import static polimi.ingsw.model.enumeration.TileType.NOT_USED;
 
-public class Tile implements Serializable {
+public class Tile implements Serializable, TileIC {
     private TileType TYPE;
     private boolean freeSide;
     private String backgroundImg;

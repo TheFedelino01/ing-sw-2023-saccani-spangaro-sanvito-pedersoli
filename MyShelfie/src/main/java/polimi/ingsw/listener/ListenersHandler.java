@@ -3,7 +3,7 @@ package polimi.ingsw.listener;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.GameModel;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 
 import java.io.IOException;

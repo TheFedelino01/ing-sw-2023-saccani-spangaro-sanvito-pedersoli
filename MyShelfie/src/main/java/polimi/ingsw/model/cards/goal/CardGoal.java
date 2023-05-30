@@ -10,6 +10,9 @@ import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Point;
 import polimi.ingsw.model.Shelf;
 import polimi.ingsw.model.Tile;
+import polimi.ingsw.model.interfaces.CardGoalIC;
+import polimi.ingsw.model.interfaces.PointIC;
+import polimi.ingsw.model.interfaces.ShelfIC;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class CardGoal extends Card {
+public class CardGoal extends Card implements CardGoalIC {
     private Shelf layoutToMatch; //La tavola del giocatore deve matchare questo layout (per acquisire punti a seconda della Map legendPoint)
     private static Map<Integer, Point> legendPoint;
     private CardGoalType goalType;
@@ -94,7 +97,7 @@ public class CardGoal extends Card {
         }
     }
 
-    public Point verify(Shelf toCheck) {
+    public PointIC verify(Shelf toCheck) {
         int check = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
@@ -141,6 +144,12 @@ public class CardGoal extends Card {
 
     public String toString(int col) {
         return layoutToMatch.toString(col);
+    }
+
+
+    @Override
+    public ShelfIC getLayoutToMatch_IC() {
+        return layoutToMatch;
     }
 
 }

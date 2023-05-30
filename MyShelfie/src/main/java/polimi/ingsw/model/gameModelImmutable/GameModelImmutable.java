@@ -1,29 +1,30 @@
-package polimi.ingsw.model.gameModelView;
+package polimi.ingsw.model.gameModelImmutable;
 
 import polimi.ingsw.model.*;
 import polimi.ingsw.model.cards.common.CommonCard;
 import polimi.ingsw.model.chat.Chat;
 import polimi.ingsw.model.enumeration.GameStatus;
+import polimi.ingsw.model.interfaces.*;
 
 import java.io.Serializable;
 import java.util.*;
 
 public class GameModelImmutable implements Serializable {
-    private final List<Player> players;
-    private final List<CommonCard> commonCards;
+    private final List<PlayerIC> players;
+    private final List<CommonCardIC> commonCards;
     private final Integer gameId;
-    private final Playground pg;
+    private final PlaygroundIC pg;
 
     private final Integer currentPlaying;
 
-    private final Chat chat;
+    private final ChatIC chat;
 
     private final GameStatus status;
 
     private final Integer firstFinishedPlayer = -1;
 
     private final Integer indexWonPlayer = -1;
-    private Map<Integer, Integer>  leaderBoard;
+    private Map<Integer, Integer> leaderBoard;
 
 
     public GameModelImmutable() {
@@ -32,15 +33,15 @@ public class GameModelImmutable implements Serializable {
         gameId = -1;
 
         pg = new Playground();
-        leaderBoard= new HashMap<>();
+        leaderBoard = new HashMap<>();
         currentPlaying = -1;
         chat = new Chat();
         status = GameStatus.WAIT;
     }
 
     public GameModelImmutable(GameModel modelToCopy) {
-        players = modelToCopy.getPlayers();
-        commonCards = modelToCopy.getCommonCards();
+        players = new ArrayList<PlayerIC>(modelToCopy.getPlayers());
+        commonCards = new ArrayList<CommonCardIC>(modelToCopy.getCommonCards());
         gameId = modelToCopy.getGameId();
 
         pg = modelToCopy.getPg();
@@ -54,22 +55,22 @@ public class GameModelImmutable implements Serializable {
         return players.get(currentPlaying).getNickname();
     }
 
-    public List<Tile> getHandOfCurrentPlaying() {
-        return players.get(currentPlaying).getInHandTile();
+    public List<TileIC> getHandOfCurrentPlaying() {
+        return players.get(currentPlaying).getInHandTile_IC();
     }
 
-    public Player getWinner() {
+    public PlayerIC getWinner() {
         if (indexWonPlayer != -1) {
             return players.get(indexWonPlayer);
         }
         return null;
     }
 
-    public List<Player> getPlayers() {
+    public List<PlayerIC> getPlayers() {
         return players;
     }
 
-    public List<CommonCard> getCommonCards() {
+    public List<CommonCardIC> getCommonCards() {
         return commonCards;
     }
 
@@ -77,7 +78,7 @@ public class GameModelImmutable implements Serializable {
         return gameId;
     }
 
-    public Playground getPg() {
+    public PlaygroundIC getPg() {
         return pg;
     }
 
@@ -85,7 +86,7 @@ public class GameModelImmutable implements Serializable {
         return currentPlaying;
     }
 
-    public Chat getChat() {
+    public ChatIC getChat() {
         return chat;
     }
 
@@ -101,7 +102,7 @@ public class GameModelImmutable implements Serializable {
         return indexWonPlayer;
     }
 
-    public Player getPlayerEntity(String playerNick) {
+    public PlayerIC getPlayerEntity(String playerNick) {
         return players.stream().filter(x -> x.getNickname().equals(playerNick)).toList().get(0);
     }
 
@@ -116,22 +117,22 @@ public class GameModelImmutable implements Serializable {
     public String toStringListPlayers() {
         String ris = "";
         int i = 1;
-        for (Player p : players) {
+        for (PlayerIC p : players) {
             ris += "[#" + i + "]: " + p.getNickname() + "\n";
             i++;
         }
         return ris;
     }
 
-    public Player getLastPlayer() {
+    public PlayerIC getLastPlayer() {
         return players.get(players.size() - 1);
     }
 
-    public CommonCard getLastCommonCard() {
+    public CommonCardIC getLastCommonCard() {
         return commonCards.get(commonCards.size() - 1);
     }
 
-    public Player getEntityCurrentPlaying() {
+    public PlayerIC getEntityCurrentPlaying() {
         return players.get(currentPlaying);
     }
 }

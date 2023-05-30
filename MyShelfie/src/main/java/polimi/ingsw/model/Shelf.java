@@ -2,12 +2,14 @@ package polimi.ingsw.model;
 
 import org.fusesource.jansi.Ansi;
 import polimi.ingsw.model.enumeration.TileType;
+import polimi.ingsw.model.interfaces.ShelfIC;
+import polimi.ingsw.model.interfaces.TileIC;
 
 import java.io.Serializable;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class Shelf implements Serializable {
+public class Shelf implements Serializable, ShelfIC {
     private Tile[][] shelf;
     private Integer freeSpace; //6*5
 
@@ -44,13 +46,15 @@ public class Shelf implements Serializable {
         this.shelf[r][c] = t;
     }
 
+
     public Integer getFreeSpace() {
         return freeSpace;
     }
 
-    public Integer getOccupiedSpace(){
-        return (DefaultValue.NumOfRowsShelf*DefaultValue.NumOfColumnsShelf)-freeSpace;
+    public Integer getOccupiedSpace() {
+        return (DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf) - freeSpace;
     }
+
 
     public Tile get(int r, int c) {
         return shelf[r][c];
@@ -128,54 +132,66 @@ public class Shelf implements Serializable {
         return ris.toString();
     }
 
-    public boolean isEmpty(){
-        for(int r = 0; r<DefaultValue.NumOfRowsShelf; r++){
-            for(int c = 0; c<DefaultValue.NumOfColumnsShelf; c++){
-                if(!shelf[r][c].isSameType(TileType.NOT_USED))
+    public boolean isEmpty() {
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                if (!shelf[r][c].isSameType(TileType.NOT_USED))
                     return false;
             }
         }
         return true;
     }
 
-    public void setFreeSpace(int freeSpace){
+    public void setFreeSpace(int freeSpace) {
         this.freeSpace = freeSpace;
     }
 
     public int getMaxFreeSpacesInACol() {
-        int max=0;
-        int tmp=0;
-        for(int c=0; c<DefaultValue.NumOfColumnsShelf;c++){
-            if(tmp>max){
-                max=tmp;
+        int max = 0;
+        int tmp = 0;
+        for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+            if (tmp > max) {
+                max = tmp;
             }
-            tmp=0;
-            for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
-                if(!get(r,c).getType().equals(TileType.NOT_USED)){
+            tmp = 0;
+            for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+                if (!get(r, c).getType().equals(TileType.NOT_USED)) {
                     break;
-                }else{
+                } else {
                     tmp++;
                 }
             }
         }
-        if(tmp>max){
-            max=tmp;
+        if (tmp > max) {
+            max = tmp;
         }
         return max;
     }
 
     public int getNumofFreeSpacesInCol(int col) {
-        int tmp=0;
+        int tmp = 0;
 
-        for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
-            if(!get(r,col).getType().equals(TileType.NOT_USED)){
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            if (!get(r, col).getType().equals(TileType.NOT_USED)) {
                 return tmp;
-            }else{
+            } else {
                 tmp++;
             }
         }
 
         return tmp;
     }
+
+
+    @Override
+    public TileIC[][] getShelf_IC() {
+        return shelf;
+    }
+
+    @Override
+    public TileIC get_IC(int r, int c) {
+        return shelf[r][c];
+    }
+
 }
 

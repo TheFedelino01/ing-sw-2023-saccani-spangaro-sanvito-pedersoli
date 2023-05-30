@@ -16,10 +16,11 @@ import polimi.ingsw.model.*;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
-import polimi.ingsw.model.gameModelView.GameModelImmutable;
+import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+import polimi.ingsw.model.interfaces.PlayerIC;
+import polimi.ingsw.model.interfaces.TileIC;
 import polimi.ingsw.view.userView.gui.IntRecord;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -349,7 +350,7 @@ public class InGameController extends GenericController {
         Integer refToGui;
         Label labelNick = null, labelPoints = null;
 
-        for (Player p : model.getPlayers()) {
+        for (PlayerIC p : model.getPlayers()) {
             refToGui = getReferringPlayerIndex(model, nickname, p.getNickname());
             switch (refToGui) {
                 case 0 -> {
@@ -393,7 +394,7 @@ public class InGameController extends GenericController {
 
         if (comboBoxMessage.getItems().size() == 0) {
             comboBoxMessage.getItems().add("");
-            for (Player p : model.getPlayers()) {
+            for (PlayerIC p : model.getPlayers()) {
 
                 if (!p.getNickname().equals(nickname))
                     comboBoxMessage.getItems().add(p.getNickname());
@@ -427,11 +428,11 @@ public class InGameController extends GenericController {
 
 
     public void setPlayground(GameModelImmutable model) {
-        Tile t;
+        TileIC t;
         Pane tilePane;
         for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
             for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
-                t = model.getPg().getTile(r, c);
+                t = model.getPg().getTile_IC(r, c);
 
                 tilePane = (Pane) tilesPane.lookup("#pg" + r + c);
 
@@ -502,7 +503,7 @@ public class InGameController extends GenericController {
 
 
     public void setPersonalCard(GameModelImmutable model, String nickname) {
-        youPersonal.getStyleClass().add(model.getPlayerEntity(nickname).getSecretGoal().getGoalType().getBackgroundClass());
+        youPersonal.getStyleClass().add(model.getPlayerEntity(nickname).getSecretGoal_IC().getGoalType().getBackgroundClass());
     }
 
     public void setHandTiles(GameModelImmutable model, String nickname) {
@@ -515,7 +516,7 @@ public class InGameController extends GenericController {
         Pane pane;
         int i = 0;
         setEmptyHand();
-        for (Tile t : model.getHandOfCurrentPlaying()) {
+        for (TileIC t : model.getHandOfCurrentPlaying()) {
             pane = (Pane) mainAnchor.lookup("#pgGrab0" + i);
             pane.getStyleClass().remove(pane.getStyleClass().get(0));
             pane.getStyleClass().add(t.getType().getBackgroundClass());
@@ -549,7 +550,7 @@ public class InGameController extends GenericController {
         Integer refToGui;
         //setInvisibleAllShelfies();
 
-        for (Player p : model.getPlayers()) {
+        for (PlayerIC p : model.getPlayers()) {
             refToGui = getReferringPlayerIndex(model, nickname, p.getNickname());
 
             switch (refToGui) {
