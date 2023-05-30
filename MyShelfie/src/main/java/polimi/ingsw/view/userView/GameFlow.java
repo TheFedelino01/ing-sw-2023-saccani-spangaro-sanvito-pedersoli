@@ -782,5 +782,4 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         ui.addImportantEvent("Last circle begin!");
     }
 
-
 }
