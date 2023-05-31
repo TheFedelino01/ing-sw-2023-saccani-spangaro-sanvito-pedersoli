@@ -10,11 +10,20 @@ import java.util.Map;
 import java.util.Optional;
 
 public class CommonEight extends CommonMethods {
-
+    /**
+     * Constructor
+     *
+     * @param type
+     */
     public CommonEight(CardCommonType type) {
         super(type);
     }
 
+    /**
+     * Check if the player's shelf met the common eight goal
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
 

@@ -12,6 +12,11 @@ import java.util.Optional;
 public class CommonHorizontalCard extends CommonCard {
     private static int param;
 
+    /**
+     * Constructor
+     * @param type
+     * @param param
+     */
     public CommonHorizontalCard(CardCommonType type, int param) {
         super(type);
         CommonHorizontalCard.param = param;
@@ -60,6 +65,12 @@ public class CommonHorizontalCard extends CommonCard {
         }
     }
 
+    /**
+     * Checks the shelf
+     * @param toCheck
+     * @param i
+     * @return
+     */
     private int check(Shelf toCheck, int i) {
         Map<TileType, Integer> rowCheck = new HashMap<>();
         int ok = 0;

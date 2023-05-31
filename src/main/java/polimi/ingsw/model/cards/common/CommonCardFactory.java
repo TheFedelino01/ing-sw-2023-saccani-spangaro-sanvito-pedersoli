@@ -2,6 +2,10 @@ package polimi.ingsw.model.cards.common;
 
 import polimi.ingsw.model.enumeration.CardCommonType;
 
+/**
+ * Creates every common card<br>
+ * Follows the factory pattern
+ */
 public class CommonCardFactory {
     public static CommonCard getCommonCard(CardCommonType type) {
         return switch (type) {

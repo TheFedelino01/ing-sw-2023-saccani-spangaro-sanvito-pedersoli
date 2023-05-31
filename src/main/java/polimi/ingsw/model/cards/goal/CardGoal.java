@@ -26,12 +26,19 @@ public class CardGoal extends Card implements CardGoalIC {
     private final Map<Integer, Point> legendPoint;
     private CardGoalType goalType;
 
+    /**
+     * Constructor
+     */
     public CardGoal() {
         initialiseLayout(CardGoalType.NOT_SET);
         legendPoint = new HashMap<>();
         goalType = CardGoalType.NOT_SET;
     }
 
+    /**
+     * Constructor
+     * @param type
+     */
     public CardGoal(CardGoalType type) {
         initialiseLayout(type);
         legendPoint = new HashMap<>();
@@ -49,6 +56,11 @@ public class CardGoal extends Card implements CardGoalIC {
         goalType = type;
     }
 
+    /**
+     * Constructor
+     * @param layoutToMatch
+     * @param type
+     */
     public CardGoal(Shelf layoutToMatch, CardGoalType type) {
         legendPoint = new HashMap<>();
         this.layoutToMatch = layoutToMatch;
@@ -66,6 +78,10 @@ public class CardGoal extends Card implements CardGoalIC {
         this.goalType = type;
     }
 
+    /**
+     * Creates the layout by reading it from a json file
+     * @param type
+     */
     private void initialiseLayout(CardGoalType type) {
         String rowSplit = "-";
         String colSplit = ",";
@@ -97,6 +113,11 @@ public class CardGoal extends Card implements CardGoalIC {
         }
     }
 
+    /**
+     *
+     * @param toCheck player's shelf
+     * @return the point that is created after having checked the player's shelf
+     */
     public PointIC verify(Shelf toCheck) {
         int check = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
@@ -113,27 +134,51 @@ public class CardGoal extends Card implements CardGoalIC {
         return legendPoint.get(check);
     }
 
+    /**
+     *
+     * @return the layout to match
+     */
     public Shelf getLayoutToMatch() {
         return layoutToMatch;
     }
 
+    /**
+     * Sets the layout to match per card
+     * @param layoutToMatch chosen layout
+     */
     public void setLayoutToMatch(Shelf layoutToMatch) {
         this.layoutToMatch = layoutToMatch;
     }
 
+    /**
+     *
+     * @return the points assigned to this card
+     */
     public Map<Integer, Point> getLegendPoint() {
         return legendPoint;
     }
 
+    /**
+     *
+     * @return the card goal type
+     */
     public CardGoalType getGoalType() {
         return goalType;
     }
 
+    /**
+     * Sets the goal type
+     * @param goalType chosen
+     */
     public void setGoalType(CardGoalType goalType) {
         this.goalType = goalType;
     }
 
-
+    /**
+     *
+     * @param c chosen card
+     * @return true if the param is the same type as the instance
+     */
     @Override
     public boolean isSameType(Card c) {
         if (c instanceof CardGoal) {
@@ -142,11 +187,19 @@ public class CardGoal extends Card implements CardGoalIC {
         return false;
     }
 
+    /**
+     *
+     * @param col chosen column
+     * @return the column chosen in string format
+     */
     public String toString(int col) {
         return layoutToMatch.toString(col);
     }
 
-
+    /**
+     *
+     * @return the layout to match to get all the points
+     */
     @Override
     public ShelfIC getLayoutToMatch_IC() {
         return layoutToMatch;

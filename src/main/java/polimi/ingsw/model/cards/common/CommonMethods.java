@@ -7,14 +7,27 @@ import polimi.ingsw.model.Shelf;
 import polimi.ingsw.model.Tile;
 
 public abstract class CommonMethods extends CommonCard {
-
+    /**
+     *
+     * @param toCheck the player's shelf that needs checking
+     * @return
+     */
     @Override
     public abstract boolean verify(Shelf toCheck);
 
+    /**
+     * Constructor
+     * @param type
+     */
     public CommonMethods(CardCommonType type) {
         super(type);
     }
 
+    /**
+     *
+     * @param toCopy
+     * @return a copy to the param shelf
+     */
     public static Shelf getCopy(Shelf toCopy) {
         Shelf temp = new Shelf();
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
@@ -26,6 +39,14 @@ public abstract class CommonMethods extends CommonCard {
         return temp;
     }
 
+    /**
+     *
+     * @param typeToCheck
+     * @param temp
+     * @param r
+     * @param c
+     * @return the number of tiles that form a contiguous group
+     */
     public static int checkAdjacent(TileType typeToCheck, Shelf temp, int r, int c) {
         int res = 0, col, row = 0;
         boolean found = false;
@@ -164,7 +185,13 @@ public abstract class CommonMethods extends CommonCard {
         }
     }
 
-
+    /**
+     * Deletes all the adjacent tiles to one, of the same type
+     * @param typeToCheck
+     * @param temp
+     * @param r
+     * @param c
+     */
     public static void deleteAdjacent(TileType typeToCheck, Shelf temp, int r, int c) {
 
         if (r < 0 || r >= DefaultValue.NumOfRowsShelf || c >= DefaultValue.NumOfColumnsShelf ||

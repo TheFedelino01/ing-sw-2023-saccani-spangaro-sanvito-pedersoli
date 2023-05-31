@@ -12,6 +12,12 @@ import java.util.Optional;
 public class CommonVerticalCard extends CommonCard {
     private static int param;
 
+    /**
+     * Constructor
+     *
+     * @param type
+     * @param param
+     */
     public CommonVerticalCard(CardCommonType type, int param) {
         super(type);
         CommonVerticalCard.param = param;
@@ -60,6 +66,13 @@ public class CommonVerticalCard extends CommonCard {
         }
     }
 
+    /**
+     * Checks the lines in the card
+     *
+     * @param toCheck
+     * @param j
+     * @return
+     */
     private int checkLines(Shelf toCheck, int j) {
         Map<TileType, Integer> colCheck = new HashMap<>();
         int ok = 0;

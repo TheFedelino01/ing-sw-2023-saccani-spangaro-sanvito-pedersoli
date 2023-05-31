@@ -35,7 +35,9 @@ public class GameModelImmutable implements Serializable {
     private final Integer indexWonPlayer = -1;
     private final Map<Integer, Integer> leaderBoard;
 
-
+    /**
+     * Constructor
+     */
     public GameModelImmutable() {
         players = new ArrayList<>();
         commonCards = new ArrayList<>();
@@ -48,6 +50,10 @@ public class GameModelImmutable implements Serializable {
         status = GameStatus.WAIT;
     }
 
+    /**
+     * Constructor
+     * @param modelToCopy
+     */
     public GameModelImmutable(GameModel modelToCopy) {
         players = new ArrayList<>(modelToCopy.getPlayers());
         commonCards = new ArrayList<>(modelToCopy.getCommonCards());
@@ -60,14 +66,26 @@ public class GameModelImmutable implements Serializable {
         leaderBoard = modelToCopy.getLeaderBoard();
     }
 
+    /**
+     *
+     * @return the nickname of the current playing player
+     */
     public String getNicknameCurrentPlaying() {
         return players.get(currentPlaying).getNickname();
     }
 
+    /**
+     *
+     * @return the hand of the current playing player
+     */
     public List<TileIC> getHandOfCurrentPlaying() {
         return players.get(currentPlaying).getInHandTile_IC();
     }
 
+    /**
+     *
+     * @return the winner
+     */
     public PlayerIC getWinner() {
         if (indexWonPlayer != -1) {
             return players.get(indexWonPlayer);
@@ -75,60 +93,117 @@ public class GameModelImmutable implements Serializable {
         return null;
     }
 
+    /**
+     *
+     * @return the list of players in game
+     */
     public List<PlayerIC> getPlayers() {
         return players;
     }
 
+    /**
+     *
+     * @return the game's scoreboard
+     */
     public List<PlayerIC> getScoreboard(){
         players.sort(Comparator.comparing(PlayerIC::getTotalPoints,Comparator.reverseOrder()));
         return players;
     }
 
-
+    /**
+     *
+     * @return the list of the extracted common cards
+     */
     public List<CommonCardIC> getCommonCards() {
         return commonCards;
     }
 
+    /**
+     *
+     * @return the game id
+     */
     public Integer getGameId() {
         return gameId;
     }
 
+    /**
+     *
+     * @return the playground
+     */
     public PlaygroundIC getPg() {
         return pg;
     }
 
+    /**
+     *
+     * @return the index of the current playing player
+     */
     public Integer getCurrentPlaying() {
         return currentPlaying;
     }
 
+    /**
+     *
+     * @return the game's chat
+     */
     public ChatIC getChat() {
         return chat;
     }
 
+    /**
+     *
+     * @return the game's status
+     */
     public GameStatus getStatus() {
         return status;
     }
 
+    /**
+     *
+     * @return the first player to finish his shelf
+     */
     public Integer getFirstFinishedPlayer() {
         return -1;
     }
 
+    /**
+     *
+     * @return the index of the winning player
+     */
     public Integer getIndexWonPlayer() {
         return indexWonPlayer;
     }
 
+    /**
+     *
+     * @param playerNick looks for this player in the game
+     * @return the player object
+     */
     public PlayerIC getPlayerEntity(String playerNick) {
         return players.stream().filter(x -> x.getNickname().equals(playerNick)).toList().get(0);
     }
 
+    /**
+     *
+     * @return the game's leaderboard
+     */
     public Map<Integer, Integer> getLeaderBoard() {
         return leaderBoard;
     }
 
+    /**
+     *
+     * @param nickname player to check if in turn
+     * @return true if is the turn of the player's passed by parameter
+     */
     public boolean isMyTurn(String nickname) {
         return players.get(currentPlaying).getNickname().equals(nickname);
     }
 
+    /**
+     *
+     * @return the list of players in string format
+     */
     public String toStringListPlayers() {
         StringBuilder ris = new StringBuilder();
         int i = 1;
@@ -139,14 +214,26 @@ public class GameModelImmutable implements Serializable {
         return ris.toString();
     }
 
+    /**
+     *
+     * @return the last player in the list of players
+     */
     public PlayerIC getLastPlayer() {
         return players.get(players.size() - 1);
     }
 
+    /**
+     *
+     * @return the last common card
+     */
     public CommonCardIC getLastCommonCard() {
         return commonCards.get(commonCards.size() - 1);
     }
 
+    /**
+     *
+     * @return the playing player
+     */
     public PlayerIC getEntityCurrentPlaying() {
         return players.get(currentPlaying);
     }

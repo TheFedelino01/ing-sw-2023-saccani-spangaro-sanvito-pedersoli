@@ -6,10 +6,20 @@ import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Shelf;
 
 public class CommonStair extends CommonCard {
+    /**
+     * Constructor
+     *
+     * @param type
+     */
     public CommonStair(CardCommonType type) {
         super(type);
     }
 
+    /**
+     * Check if the player's shelf met the stair goal
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
         int sum = 0;

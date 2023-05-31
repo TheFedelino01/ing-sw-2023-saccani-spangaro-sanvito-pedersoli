@@ -7,11 +7,20 @@ import polimi.ingsw.model.enumeration.TileType;
 import java.util.Arrays;
 
 public class CommonFourGroups extends CommonMethods {
-
+    /**
+     * Constructor
+     *
+     * @param type
+     */
     public CommonFourGroups(CardCommonType type) {
         super(type);
     }
 
+    /**
+     * Check if the player's shelf met the four groups goal
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
         Shelf temp = CommonMethods.getCopy(toCheck);
@@ -19,7 +28,7 @@ public class CommonFourGroups extends CommonMethods {
 
         boolean allTilesFound;
         int occurrences;
-        if(toCheck.getOccupiedSpace() < 16)
+        if (toCheck.getOccupiedSpace() < 16)
             return false;
 
         for (TileType t : TileType.getUsableValues()) {

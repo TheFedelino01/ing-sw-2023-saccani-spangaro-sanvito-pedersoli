@@ -7,11 +7,20 @@ import polimi.ingsw.model.Shelf;
 import polimi.ingsw.model.Tile;
 
 public class CommonSixGroups extends CommonMethods {
-
+    /**
+     * Constructor
+     *
+     * @param type
+     */
     public CommonSixGroups(CardCommonType type) {
         super(type);
     }
 
+    /**
+     * Check if the player's shelf met the six groups goal
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
         Shelf temp = CommonMethods.getCopy(toCheck);
@@ -28,7 +37,8 @@ public class CommonSixGroups extends CommonMethods {
                                 temp.setSingleTile(new Tile(TileType.NOT_USED), r + 1, c);
                                 sum++;
                             }
-                        } if (c != DefaultValue.NumOfColumnsShelf - 1) {
+                        }
+                        if (c != DefaultValue.NumOfColumnsShelf - 1) {
                             //need to check if the tile is different from a non-used one, in case the
                             // row check passes and sets the tile to not used before
                             if (temp.get(r, c).isSameType(temp.get(r, c + 1).getType()) && !temp.get(r, c).isSameType(TileType.NOT_USED)) {

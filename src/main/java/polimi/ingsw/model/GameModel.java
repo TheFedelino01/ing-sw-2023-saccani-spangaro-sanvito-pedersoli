@@ -34,7 +34,9 @@ public class GameModel {
 
     private transient ListenersHandler listenersHandler;
 
-
+    /**
+     * Constructor
+     */
     public GameModel() {
         players = new ArrayList<>();
         commonCards = new ArrayList<>();
@@ -54,6 +56,13 @@ public class GameModel {
 
     }
 
+    /**
+     * Constructor
+     * @param players
+     * @param commonCards
+     * @param gameId
+     * @param pg
+     */
     public GameModel(List<Player> players, List<CommonCard> commonCards, Integer gameId, Playground pg) {
         this.players = players;
         this.commonCards = commonCards;
@@ -61,21 +70,31 @@ public class GameModel {
         this.pg = pg;
     }
 
+    /**
+     * @return the number of players
+     */
     public int getNumOfPlayers() {
         return players.size();
     }
 
+    /**
+     * @return the number of player's connecter
+     */
     public int getNumOfOnlinePlayers() {
         return players.stream().filter(Player::isConnected).toList().size();
     }
 
+    /**
+     * @return player's list
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
     /**
      * add a player to the game<br>
-     *<br>
+     * <br>
+     *
      * @param p player to add
      * @throws PlayerAlreadyInException if the player is already in the game
      * @throws MaxPlayersInException    if the game is full
@@ -99,6 +118,9 @@ public class GameModel {
 
     }
 
+    /**
+     * @param nick removes this player from the game
+     */
     public void removePlayer(String nick) {
         players.remove(players.stream().filter(x -> x.getNickname().equals(nick)).toList().get(0));
         listenersHandler.notify_playerLeft(this, nick);
@@ -109,6 +131,12 @@ public class GameModel {
         }
     }
 
+    /**
+     * @param p player is reconnected
+     * @throws PlayerAlreadyInException player is already in
+     * @throws MaxPlayersInException    there's already 4 players in game
+     * @throws GameEndedException       the game has ended
+     */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
         Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
@@ -120,12 +148,14 @@ public class GameModel {
                 nextTurn();
             }
 
-            //listenersHandler.notify_playerJoined(this);
         } else {
             System.out.println("ERROR: Trying to reconnect a player not offline!");
         }
     }
 
+    /**
+     * @param nick player to set as disconnected
+     */
     public void setAsDisconnected(String nick) {
         getPlayerEntity(nick).setConnected(false);
         getPlayerEntity(nick).setNotReadyToStart();
@@ -143,24 +173,35 @@ public class GameModel {
         }
     }
 
-
+    /**
+     * @param p is set as ready, then everyone is notified
+     */
     public void playerIsReadyToStart(Player p) {
         p.setReadyToStart();
         listenersHandler.notify_PlayerIsReadyToStart(this, p.getNickname());
     }
 
+    /**
+     * @return true if there are enough players to start, and if every one of them is ready
+     */
     public boolean arePlayersReadyToStartAndEnough() {
         //If every player is ready, the game starts
         return players.stream().filter(Player::getReadyToStart)
-                .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
+                       .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
     }
 
-
+    /**
+     * @return the number of common cards extracted
+     */
     public int getNumOfCommonCards() {
         return commonCards.size();
     }
 
-
+    /**
+     * @param c new common card to add
+     * @throws MaxCommonCardsAddedException if there's already 2 common cards in game
+     * @throws CommonCardAlreadyInException if c is already in the game
+     */
     public void addCommonCard(CommonCard c) throws MaxCommonCardsAddedException, CommonCardAlreadyInException {
         //Check if the card is already in the game
         // then if there are already enough cards
@@ -178,6 +219,11 @@ public class GameModel {
 
     }
 
+    /**
+     * @param indexPlayer player's index to set the goal
+     * @param c           new goal card
+     * @throws SecretGoalAlreadyGivenException thrown if said player already has a goal card assigned
+     */
     public void setGoalCard(int indexPlayer, CardGoal c) throws SecretGoalAlreadyGivenException {
         if (indexPlayer < players.size() && indexPlayer >= 0) {
             //I assign the goal card only if no one else has the same one
@@ -192,44 +238,82 @@ public class GameModel {
 
     }
 
+    /**
+     * @param i index of common card
+     * @return common card corresponding to said index
+     */
     public CommonCard getCommonCard(int i) {
         return commonCards.get(i);
     }
 
+    /**
+     * @param indexPlayer of the player to check
+     * @return the player's card goal
+     */
     public CardGoal getGoalCard(int indexPlayer) {
         return players.get(indexPlayer).getSecretGoal();
     }
 
-
+    /**
+     * @return the game id
+     */
     public Integer getGameId() {
         return gameId;
     }
 
+    /**
+     * Sets the game id
+     *
+     * @param gameId new game id
+     */
     public void setGameId(Integer gameId) {
         this.gameId = gameId;
     }
 
+    /**
+     * @return the playground
+     */
     public Playground getPg() {
         return pg;
     }
 
+    /**
+     * Sets the playground to the param
+     *
+     * @param pg
+     */
     public void setPg(Playground pg) {
         this.pg = pg;
     }
 
+    /**
+     * @return index of current player playing
+     */
     public Integer getCurrentPlaying() {
         return currentPlaying;
     }
 
+    /**
+     * Sets the current playing player to the param
+     *
+     * @param currentPlaying active playing player
+     */
     public void setCurrentPlaying(Integer currentPlaying) {
         this.currentPlaying = currentPlaying;
     }
 
+    /**
+     * @return the chat
+     */
     public Chat getChat() {
         return chat;
     }
 
-
+    /**
+     * Sends a message
+     *
+     * @param m message sent
+     */
     public void sentMessage(Message m) {
         if (players.stream().filter(x -> x.equals(m.getSender())).count() == 1) {
             chat.addMsg(m);
@@ -239,18 +323,27 @@ public class GameModel {
         }
 
     }
+
+    /**
+     * @return the game status
+     */
     public GameStatus getStatus() {
         return status;
     }
 
+    /**
+     * Sets the game status
+     *
+     * @param status
+     */
     public void setStatus(GameStatus status) {
         //If I want to set the gameStatus to "RUNNING", there needs to be at least
         // DefaultValue.minNumberOfPlayers -> (2) in lobby
         if (status.equals(GameStatus.RUNNING) &&
-                ((players.size() < DefaultValue.minNumOfPlayer
-                        || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
-                        || !doAllPlayersHaveGoalCard())
-                        || currentPlaying == -1)) {
+            ((players.size() < DefaultValue.minNumOfPlayer
+              || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
+              || !doAllPlayersHaveGoalCard())
+             || currentPlaying == -1)) {
             throw new NotReadyToRunException();
         } else {
             this.status = status;
@@ -261,12 +354,15 @@ public class GameModel {
             } else if (status == GameStatus.ENDED) {
                 findWinner(); //Find winner
                 listenersHandler.notify_GameEnded(this);
-            }else if (status == GameStatus.LAST_CIRCLE) {
+            } else if (status == GameStatus.LAST_CIRCLE) {
                 listenersHandler.notify_LastCircle(this);
             }
         }
     }
 
+    /**
+     * @return all the players' goal cards
+     */
     public Map<Player, CardGoal> getGoalCards() {
         Map<Player, CardGoal> ris = new HashMap<>();
 
@@ -276,10 +372,16 @@ public class GameModel {
         return ris;
     }
 
+    /**
+     * @return the common card extracted list
+     */
     public List<CommonCard> getCommonCards() {
         return commonCards;
     }
 
+    /**
+     * @return true if every player in the game has a personal goal assigned
+     */
     public boolean doAllPlayersHaveGoalCard() {
         for (Player p : players) {
             if (p.getSecretGoal().getGoalType().equals(CardGoalType.NOT_SET))
@@ -288,6 +390,15 @@ public class GameModel {
         return true;
     }
 
+    /**
+     * Grabs a tile from the playground
+     *
+     * @param p         players that picks up the tile
+     * @param x         row chosen by the player
+     * @param y         column chosen by the player
+     * @param direction direction chosen by the player
+     * @param num       of tiles to pick up
+     */
     public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
         List<Tile> ris;
         try {
@@ -307,6 +418,14 @@ public class GameModel {
 
     }
 
+    /**
+     * Places a tile on the player's shelf
+     *
+     * @param p      player placing the tile
+     * @param column in which to place the tile
+     * @param type   of the type to place
+     * @throws GameEndedException
+     */
     public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
         //Check if the player can position all the in hand tiles in this column (are there enough spaces?)
         if (p.getNumOfFreeSpacesInCol(column) >= p.getInHandTile().size()) {
@@ -327,17 +446,27 @@ public class GameModel {
     }
 
 
-
-    private Tile popInHandTilePlayer(Player p, TileType tipo) {
+    /**
+     * Removes a tile from the player's hand
+     *
+     * @param p
+     * @param type
+     * @return
+     */
+    private Tile popInHandTilePlayer(Player p, TileType type) {
         for (int i = 0; i < p.getInHandTile().size(); i++) {
-            if (p.getInHandTile().get(i).isSameType(tipo)) {
+            if (p.getInHandTile().get(i).isSameType(type)) {
                 return p.getInHandTile().remove(i);
             }
         }
         return null;//The player doesn't have this tile in hand
     }
 
-
+    /**
+     * Calls the next turn
+     *
+     * @throws GameEndedException
+     */
     public void nextTurn() throws GameEndedException {
         if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
             if (players.get(currentPlaying).getInHandTile().size() != 0) {
@@ -375,11 +504,17 @@ public class GameModel {
 
     }
 
+    /**
+     * @param indexPlayer sets the indexPlayer as the index of the first player to fill his shelf
+     */
     public void setFinishedPlayer(Integer indexPlayer) {
         firstFinishedPlayer = indexPlayer;
     }
 
-
+    /**
+     * @param p
+     * @return the player index in the list
+     */
     public int getPlayerIndex(Player p) {
         return players.indexOf(p);
     }
@@ -411,29 +546,45 @@ public class GameModel {
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
 
-
+    /**
+     * @param obj adds the listener to the list
+     */
     public void addListener(GameListener obj) {
         listenersHandler.addListener(obj);
     }
 
-
+    /**
+     * @param lis removes listener from list
+     */
     public void removeListener(GameListener lis) {
         listenersHandler.removeListener(lis);
     }
-    public List<GameListener> getListeners(){
+
+    /**
+     * @return the list of listeners
+     */
+    public List<GameListener> getListeners() {
         return listenersHandler.getListeners();
     }
 
+    /**
+     * @param playerNick
+     * @return player by nickname
+     */
     public Player getPlayerEntity(String playerNick) {
         return players.stream().filter(x -> x.getNickname().equals(playerNick)).toList().get(0);
     }
 
-
+    /**
+     * @return the game's leaderboard
+     */
     public Map<Integer, Integer> getLeaderBoard() {
         return leaderBoard;
     }
 
-
+    /**
+     * @return true if the player in turn is online
+     */
     private boolean isTheCurrentPlayerOnline() {
         return players.get(currentPlaying).isConnected();
     }

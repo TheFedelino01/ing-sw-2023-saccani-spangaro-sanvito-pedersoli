@@ -19,6 +19,11 @@ public abstract class CommonCard extends Card implements CommonCardIC {
     private Queue<Point> points;
     private final CardCommonType commonType;
 
+    /**
+     * Constructor
+     *
+     * @param type
+     */
     public CommonCard(CardCommonType type) {
         points = new ArrayDeque<>();
         for (int i = 4; i > 0; i--) {
@@ -27,13 +32,18 @@ public abstract class CommonCard extends Card implements CommonCardIC {
         commonType = type;
     }
 
+    /**
+     * Constructor
+     *
+     * @param points
+     * @param commonType
+     */
     public CommonCard(Queue<Point> points, CardCommonType commonType) {
         this.points = points;
         this.commonType = commonType;
     }
 
     /**
-     *
      * @param toCheck the player's shelf that needs checking
      * @return true if the player's shelf verifies the common card requirements, false if it doesn't
      */
@@ -41,8 +51,8 @@ public abstract class CommonCard extends Card implements CommonCardIC {
 
     public String toString(int i) {
         int spacer = i;
-        if(i > 1)
-            spacer = i +1;
+        if (i > 1)
+            spacer = i + 1;
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_commonCards - 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
                 .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
@@ -122,20 +132,33 @@ public abstract class CommonCard extends Card implements CommonCardIC {
         }
     }
 
-
+    /**
+     * @return the points assigned to a card
+     */
     public Queue<Point> getPoints() {
         return points;
     }
 
+    /**
+     * Sets the point in a card object
+     *
+     * @param points
+     */
     public void setPoints(Queue<Point> points) {
         this.points = points;
     }
 
+    /**
+     * @return the common type of card
+     */
     public CardCommonType getCommonType() {
         return commonType;
     }
 
-
+    /**
+     * @param c to check
+     * @return true if the card is of the same type of c
+     */
     @Override
     public boolean isSameType(Card c) {
         if (c instanceof CommonCard) {
@@ -144,11 +167,18 @@ public abstract class CommonCard extends Card implements CommonCardIC {
         return false;
     }
 
+    /**
+     * @param c card to check
+     * @return true if the card is equal to c
+     */
     public boolean equals(CommonCard c) {
         return this.points.containsAll(c.getPoints()) && this.commonType == c.commonType;
     }
 
-    public Queue<PointIC> getPoints_IC(){
+    /**
+     * @return the list of points referred to a card (immutable)
+     */
+    public Queue<PointIC> getPoints_IC() {
         return new ArrayDeque<>(points);
     }
 

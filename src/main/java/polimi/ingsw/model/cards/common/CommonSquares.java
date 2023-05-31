@@ -6,10 +6,20 @@ import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Shelf;
 
 public class CommonSquares extends CommonMethods {
+    /**
+     * Constructor
+     *
+     * @param type
+     */
     public CommonSquares(CardCommonType type) {
         super(type);
     }
 
+    /**
+     * Check if the player's shelf met the squares goal
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
         Shelf temp = CommonMethods.getCopy(toCheck);
@@ -21,9 +31,9 @@ public class CommonSquares extends CommonMethods {
         for (int r = 0; r < DefaultValue.NumOfRowsShelf - 1; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf - 1; c++) {
                 if (!temp.get(r, c).isSameType(TileType.NOT_USED) &&
-                        temp.get(r, c).isSameType(temp.get(r + 1, c).getType()) &&
-                        temp.get(r, c).isSameType(temp.get(r, c + 1).getType()) &&
-                        temp.get(r, c).isSameType(temp.get(r + 1, c + 1).getType())) {
+                    temp.get(r, c).isSameType(temp.get(r + 1, c).getType()) &&
+                    temp.get(r, c).isSameType(temp.get(r, c + 1).getType()) &&
+                    temp.get(r, c).isSameType(temp.get(r + 1, c + 1).getType())) {
 
                     if (CommonMethods.checkAdjacent(temp.get(r, c).getType(), temp, r, c) == 4)
                         sum++;

@@ -14,18 +14,33 @@ public class Message implements Serializable {
     private PlayerIC sender;
     private LocalTime time;
 
+    /**
+     * Constructor
+     * @param text
+     * @param sender
+     */
     public Message(String text, PlayerIC sender) {
         this.time = java.time.LocalTime.now();
         this.text = text;
         this.sender = sender;
     }
 
+    /**
+     * Constructor
+     */
     public Message() {
         this.time = null;
         this.text = null;
         this.sender = null;
     }
 
+    /**
+     * Returns the message in string format
+     * @param i
+     * @param len
+     * @param isPrivate
+     * @return
+     */
     public String toString(int i, int len, boolean isPrivate) {
         String padding = " ".repeat(Math.max(0, (len - text.length())));
         String priv = "[Private] ";
@@ -41,30 +56,58 @@ public class Message implements Serializable {
                     .a(this.getSender().getNickname()).a(": ").a(this.text).a(padding));
     }
 
+    /**
+     *
+     * @return the message's text content
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     * Set the text in the message to the param
+     * @param text text to set
+     */
     public void setText(String text) {
         this.text = text;
     }
 
+    /**
+     *
+     * @return the message's sender
+     */
     public PlayerIC getSender() {
         return sender;
     }
 
+    /**
+     * Sets the message's sender
+     * @param sender sender
+     */
     public void setSender(Player sender) {
         this.sender = sender;
     }
 
+    /**
+     *
+     * @return the message's time of sending
+     */
     public LocalTime getTime() {
         return time;
     }
 
+    /**
+     * Sets the message time to the parameter
+     * @param time param
+     */
     public void setTime(LocalTime time) {
         this.time = time;
     }
 
+    /**
+     *
+     * @return * (everyone is a receiver)
+     */
     public String whoIsReceiver() {
         return "*";
     }

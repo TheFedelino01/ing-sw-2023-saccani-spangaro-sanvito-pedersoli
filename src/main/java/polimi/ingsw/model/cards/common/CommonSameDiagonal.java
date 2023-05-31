@@ -6,10 +6,18 @@ import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Shelf;
 
 public class CommonSameDiagonal extends CommonCard {
+    /**
+     * Constructor
+     * @param type
+     */
     public CommonSameDiagonal(CardCommonType type) {
         super(type);
     }
-
+    /**
+     * Check if the player's shelf met the same diagonal goal
+     *
+     * @return true if the goal is satisfied, false else
+     */
     @Override
     public boolean verify(Shelf toCheck) {
         boolean check1, check2;
