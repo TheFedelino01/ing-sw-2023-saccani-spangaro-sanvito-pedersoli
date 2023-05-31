@@ -16,7 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//Gestisce tutte le partite in particolare la creazione, il join e il leave
+
+/**
+ * MainController Class <br>
+ * Is the Controller of the controllers, it manages all the available games that are running {@link GameController}<br>
+ * Allowing players to create, join, reconnect, leave and delete games
+ *<br>
+ * Therefore, the MainController is unique across the app and thus implements the Singleton Pattern
+ */
 public class MainController implements MainControllerInterface, Serializable {
 
     //Singleton

@@ -16,6 +16,15 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
+/**
+ * GameController Class <br>
+ * Controls a specific Game {@link GameModel} by allowing a player to perform all actions that can be executed in a game
+ * The class can add, remove, reconnect and disconnects players to the game and let players grab and position tiles
+ * from the playground to the shelf. <br>
+ * <br>
+ * It manages all the game from the beginning {@link GameStatus#WAIT} to the ending {@link GameStatus#ENDED}
+ * checking CommonCards, GoalCards and FinalChecks.
+ */
 public class GameController implements GameControllerInterface, Serializable, Runnable {
 
     /**
