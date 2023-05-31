@@ -24,7 +24,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     private Thread reconnectionTh;
 
     /**
-     * Init a Controller for one specific game that controls a GameModel
+     * Init a GameModel and starts thread for detecting disconnections by heartbeats
      */
     public GameController() {
         model = new GameModel();
@@ -32,6 +32,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         new Thread(this).start();
     }
 
+    /**
+     * It detects disconnections by heartbeats
+     * When it detects one, set player as disconnected and eventually delete the game
+     */
     @SuppressWarnings("BusyWait")
     @Override
     public void run() {
@@ -73,25 +77,26 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Add player @param p to the Game
      * <br>
      * @throws PlayerAlreadyInException when in the game there is already another Player with the same nickname
-     * @throws MaxPlayersInException    when the game has already reached its full capability (#player=4)
+     * @throws MaxPlayersInException    when the game has already reached its full capability (#player={@link DefaultValue#MaxNumOfPlayer})
      */
     public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
         model.addPlayer(p);
     }
 
     /**
-     * @return the list of the players
+     * @return the list of the players currently playing (online and offline)
      */
     public List<Player> getPlayers() {
         return model.getPlayers();
     }
 
     /**
-     * Recover the player with the nickname @param to the game
+     * Reconnect the player with the nickname @param to the game
      *
      * @param p Player that want to reconnect
      * @throws PlayerAlreadyInException if a player tries to rejoin the same game
      * @throws MaxPlayersInException    if there are already 4 players in game
+     * @throws GameEndedException the game is ended
      */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
         model.reconnectPlayer(p);
@@ -102,7 +107,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     /**
-     * Returns num of current players that are in the game
+     * Returns num of current players that are in the game (online and offline)
      *
      * @return num of current players
      */
@@ -111,7 +116,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     /**
-     * @return the number of players that are in the game
+     * @return the number of online players that are in the game
      */
     public int getNumOfOnlinePlayers() {
         return model.getNumOfOnlinePlayers();
@@ -184,7 +189,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @return the list of points to add to the @param card
      */
     private Queue<Point> getListPointForCommonCard(CommonCard card) {
-        //Creo i punti per la carta
+        //Creates the points for the card
         Queue<Point> ris = new ArrayDeque<>();
         for (int i = 0; i < DefaultValue.pointsValue.length; i++)
             ris.add(new Point(DefaultValue.pointsValue[i], card.getCommonType()));
@@ -198,7 +203,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * and associated specifically one to one player (no duplicates)
      */
     private void extractGoalCards() {
-        //Estraggo in modo random carte goal per ogni giocatore
+        //Extract pseudo-randomly the goal cards for the players
         int i = 0;
 
         do {
@@ -208,7 +213,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 model.setGoalCard(i, new CardGoal(CardGoalType.getValues().get(extracted)));
                 i++;
             } catch (SecretGoalAlreadyGivenException e) {
-                //carta goal giá assegnata, non incremento i e riestraggo
+                //goal card already given
             }
 
         } while (i < model.getNumOfPlayers());
@@ -221,7 +226,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     private void setPlaygroundLayout() {
         int numOfPlayers = model.getNumOfPlayers();
         model.setPg(new Playground(numOfPlayers));
-
     }
 
     /**
@@ -233,7 +237,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     /**
-     * Return the list of all the commond cards extracted
+     * Return the list of all the common cards extracted
      *
      * @return list of all the common cards of the game
      */
@@ -294,9 +298,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     /**
      * Position a tile on the shelf of the player
+     * if the player has positioned all of his tiles, {@link GameModel#nextTurn()}  will be called
+     * it detects {@link GameStatus#LAST_CIRCLE} and it calls {@link GameStatus#ENDED}
+     *
      * @param p the nickname of the player
      * @param column the column where you want to position the tile
      * @param type the type of the tile
+     * @throws NotPlayerTurnException when a player wants to position tiles and, it's not his turn
      */
     public synchronized void positionTileOnShelf(String p, int column, TileType type) {
         boolean ended=false;
@@ -341,6 +349,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     /**
      * Check if it's your turn
+     *
      * @param nick the nickname of the player
      * @return true if it's your turn, false else
      * @throws RemoteException if there is a connection error (RMI)
@@ -351,7 +360,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     /**
-     * Disconnect the player, if the game is in WAIT status, the player is removed from the game
+     * Disconnect the player, if the game is in {@link GameStatus#WAIT} status, the player is removed from the game
+     * If only one player is connected, a timer of {@link DefaultValue#secondsToWaitReconnection} will be started
+     *
      * @param nick the nickname of the player
      * @param lisOfClient the listener of the client
      * @throws RemoteException if there is a connection error (RMI)
@@ -383,7 +394,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     /**
-     * Start a timer for waiting the reconnection of the player, if the player doesn't reconnect in time, the game is set to ended
+     * Starts a timer for detecting the reconnection of a player, if no one reconnects in time, the game is over
      */
     @SuppressWarnings("BusyWait")
     private void startReconnectionTimer() {
@@ -416,6 +427,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         reconnectionTh.start();
     }
 
+    /**
+     * It stops the timer (if started) that checks for reconnections of players
+     */
     private void stopReconnectionTimer() {
         if (reconnectionTh != null) {
             reconnectionTh.interrupt();
@@ -424,6 +438,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         //else It means that a player reconnected but the timer was not started (ex 3 players and 1 disconnects)
     }
 
+    /**
+     * Add a hearthbeat to the list of heartbeats
+     *
+     * @param nick the player's nickname associated to the heartbeat
+     * @param me the player's GameListener associated to the heartbeat
+     * @throws RemoteException
+     */
     @Override
     public void heartbeat(String nick, GameListener me) throws RemoteException {
         synchronized (heartbeats) {
@@ -432,6 +453,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         //System.out.println("heartbeat rec: "+heartbeats.get(me));
     }
 
+    /**
+     * Add a message to the chat list
+     *
+     * @param msg to add
+     * @throws RemoteException
+     */
     @Override
     public void sentMessage(Message msg) throws RemoteException {
         model.sentMessage(msg);
@@ -439,10 +466,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     /**
-     * Controlla se il player p ha completato una carta comune
+     * Check if a player @param achieved a common card,
+     * called every time a player position a tile
      *
      * @param p player
-     * @apiNote Ho aggiunto il riferimento al Player p (Perchè ho pensato che il check non si vuole fare sempre su tutti i player)
      */
     private void checkCommonCards(Player p) {
         for (CommonCard card : model.getCommonCards()) {
@@ -455,9 +482,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     /**
-     * Controlla se il player p ha completato una carta goal
-     *
-     * @apiNote Ho aggiunto il riferimento al Player p e il metodo getPlayerIndex nella classe model
+     * Check if a player @param achieved his goal card,
+     * called only when game ends
      */
     private void checkGoalCards() {
         //get the index of the player
@@ -471,6 +497,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
+    /**
+     * Check final adjacent tiles for all the players,
+     * called only when game ends
+     */
     public void checkFinal() {
         boolean allTilesFound;
         int toCheck;
@@ -499,18 +529,40 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
+    /**
+     * Return the entity of the player associated with the nickname @param
+     *
+     * @param playerNick
+     * @return the player by nickname @param
+     */
     public Player getPlayer(String playerNick) {
         return model.getPlayerEntity(playerNick);
     }
 
+    /**
+     * Return the entity of the player who is playing (it's his turn)
+     *
+     * @return the player who is playing the turn
+     */
     public Player whoIsPlaying() {
         return model.getPlayers().get(model.getCurrentPlaying());
     }
 
+    /**
+     * Return the {@link GameStatus} of the model
+     *
+     * @return status
+     */
     public GameStatus getStatus() {
         return model.getStatus();
     }
 
+    /**
+     * Add listener @param l to model listeners and player listeners
+     *
+     * @param l GameListener to add
+     * @param p entity of the player
+     */
     public void addListener(GameListener l, Player p) {
         model.addListener(l);
         for(GameListener othersListener:model.getListeners()){
@@ -523,6 +575,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
+    /**
+     * Remove the listener @param lis to model listeners and player listeners
+     *
+     * @param lis GameListener to remove
+     * @param p entity of the player to remove
+     */
     public void removeListener(GameListener lis, Player p) {
         model.removeListener(lis);
         for(GameListener othersListener:model.getListeners()){
@@ -535,16 +593,30 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
+    /**
+     * @return the ID of the game
+     */
     @Override
     public int getGameId() {
         return model.getGameId();
     }
 
+    /**
+     * @return the number of online players
+     * @throws RemoteException
+     */
     @Override
     public int getNumOnlinePlayers() throws RemoteException {
         return model.getNumOfOnlinePlayers();
     }
 
+    /**
+     * It removes a player by nickname @param nick from the game including the associated listeners
+     *
+     * @param lis GameListener to remove
+     * @param nick of the player to remove
+     * @throws RemoteException
+     */
     @Override
     public void leave(GameListener lis, String nick) throws RemoteException {
         removeListener(lis, model.getPlayerEntity(nick));
@@ -553,11 +625,20 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     //TESTING METHODS
+    /**
+     * Can set a model
+     * @apiNote used for testing purposes only, not used (and should not be used) elsewhere
+     * @param model
+     */
     @Deprecated
     public void setModel(GameModel model) {
         this.model = model;
     }
 
+    /**
+     * Return the playground of the game
+     * @apiNote used for testing purposes only, not used (and should not be used) elsewhere
+     */
     @Deprecated
     public Playground getPlayground() {
         return model.getPg();
