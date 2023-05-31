@@ -20,15 +20,31 @@ import java.util.stream.Collectors;
 public class MainController implements MainControllerInterface, Serializable {
 
     //Singleton
+    /**
+     * Singleton Pattern, instance of the class
+     */
     private static MainController instance = null;
 
+    /**
+     * List of running games
+     * For implementing AF: "Multiple games"
+     */
     private List<GameController> runningGames;
 
 
+    /**
+     * Init an empty List of GameController
+     * For implementing AF: "Multiple games"
+     */
     private MainController() {
         runningGames = new ArrayList<>();
     }
 
+    /**
+     * Singleton Pattern
+     *
+     * @return the only one instance of the MainController class
+     */
     public synchronized static MainController getInstance() {
         if (instance == null) {
             instance = new MainController();
@@ -37,6 +53,14 @@ public class MainController implements MainControllerInterface, Serializable {
     }
 
 
+    /**
+     * Create a new game and join to it
+     *
+     * @param lis GameListener of the player who is creating the game
+     * @param nick Nickname of the player who is creating the game
+     * @return GameControllerInterface associated to the created game
+     * @throws RemoteException
+     */
     @Override
     public synchronized GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
         Player p = new Player(nick);
@@ -58,6 +82,14 @@ public class MainController implements MainControllerInterface, Serializable {
         return c;
     }
 
+    /**
+     * Join to the first available game
+     *
+     * @param lis GameListener of the player who is trying to join to a game
+     * @param nick Nickname of the player who is trying to join to a game
+     * @return GameControllerInterface associated to the game, null if no games are available
+     * @throws RemoteException
+     */
     @Override
     public synchronized GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
         List<GameController> ris = runningGames.stream().filter(x -> (x.getStatus().equals(GameStatus.WAIT) && x.getNumOfPlayers() < DefaultValue.MaxNumOfPlayer)).toList();
@@ -82,6 +114,15 @@ public class MainController implements MainControllerInterface, Serializable {
 
     }
 
+    /**
+     * Join to a specific game by @param idGame
+     *
+     * @param lis GameListener of the player who is trying to join to a specific game by id
+     * @param nick Nickname of the player who is trying to join to a specific game by id
+     * @param idGame the game ID to be connected
+     * @return GameControllerInterface associated to the game, null if the specific game not exists or is unable to let players in
+     * @throws RemoteException
+     */
     @Override
     public synchronized GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
         List<GameController> ris = runningGames.stream().filter(x -> (x.getGameId() == idGame)).toList();
@@ -106,6 +147,16 @@ public class MainController implements MainControllerInterface, Serializable {
 
     }
 
+
+    /**
+     * Reconnect a player to a game @param idGame
+     *
+     * @param lis GameListener of the player who is trying to rejoin to a game
+     * @param nick Nickname of the player who is trying to rejoin to a game
+     * @param idGame the game ID to be reconnected
+     * @return GameControllerInterface associated to the game, null if the game not exists or is unable to let players in
+     * @throws RemoteException
+     */
     @Override
     public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
         List<GameController> ris = runningGames.stream().filter(x -> (x.getGameId() == idGame)).toList();
@@ -140,6 +191,15 @@ public class MainController implements MainControllerInterface, Serializable {
         return null;
     }
 
+    /**
+     * Leave a player from a game
+     *
+     * @param lis GameListener of the player who wants to leave
+     * @param nick Nickname of the player who wants to leave
+     * @param idGame the game ID to leave
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
         List<GameController> ris = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList());
@@ -156,6 +216,11 @@ public class MainController implements MainControllerInterface, Serializable {
     }
 
 
+    /**
+     * Remove the @param idGame from the {@link MainController#runningGames}
+     *
+     * @param idGame Game ID to delete
+     */
     public void deleteGame(int idGame) {
         GameController gameToRemove = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList()).get(0);
         if (gameToRemove != null) {
@@ -167,6 +232,9 @@ public class MainController implements MainControllerInterface, Serializable {
 
     }
 
+    /**
+     * Print all games currently running
+     */
     private void printRunningGames() {
         System.out.print("\t\trunningGames: ");
         runningGames.stream().forEach(x -> System.out.print(x.getGameId() + " "));

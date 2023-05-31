@@ -18,9 +18,25 @@ import java.util.*;
 
 public class GameController implements GameControllerInterface, Serializable, Runnable {
 
-    private GameModel model; // testing
+    /**
+     * The {@link GameModel} to control
+     */
+    private GameModel model;
+
+    /**
+     * A random object for implementing pseudo-random choice
+     */
     private final Random random = new Random();
+
+    /**
+     * Map of heartbeats for detecting disconnections
+     * For implementing AF: "Clients disconnections"
+     */
     private final transient Map<GameListener, Heartbeat> heartbeats;
+    /**
+     * Timer started when only one player is playing
+     * it ends the game if no one reconnects within {@link DefaultValue#secondsToWaitReconnection} seconds
+     */
     private Thread reconnectionTh;
 
     /**
