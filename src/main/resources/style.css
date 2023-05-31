@@ -350,183 +350,183 @@
 
 
 .backgroundmio{
-    -fx-background-image: url("Display_1.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Display_1.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundJG{
-    -fx-background-image: url("Display_5.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Display_5.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .creatorLogo{
-    -fx-background-image: url("Publisher.png");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Publisher.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundTitle{
-    -fx-background-image: url("Title_2000x618px.png");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Title_2000x618px.png");
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
     -fx-background-size: 900 506;
 }
 
 .backgroundNickname{
-    -fx-background-image: url("Display_5.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Display_5.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundLobby{
-    -fx-background-image: url("Display_3.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Display_3.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundPublisher{
-    -fx-background-image: url("Box_280x280px.png");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Box_280x280px.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 
 .backgroundInfo{
-    -fx-background-image: url("Display_4.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Display_4.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundPlayer{
-    -fx-background-image: url("Display_5.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/Display_5.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundPL1{
-    -fx-background-image: url("p1.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/p1.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundPL2{
-    -fx-background-image: url("p2.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/p2.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundPL3{
-    -fx-background-image: url("p3.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/p3.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .backgroundPL4{
-    -fx-background-image: url("p4.jpg");
+    -fx-background-image: url("../resources/img/img/Publisher_material/p4.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .backgroundInGame{
-    -fx-background-image: url("sfondo_parquet.jpg");
+    -fx-background-image: url("../resources/img/img/misc/sfondo_parquet.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 
 .tileCat0{
-    -fx-background-image: url("Gatti1.1.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Gatti1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileCat1{
-    -fx-background-image: url("Gatti1.2.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Gatti1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileCat2{
-    -fx-background-image: url("Gatti1.3.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Gatti1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .tileBook0{
-    -fx-background-image: url("Libri1.1.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Libri1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileBook1{
-    -fx-background-image: url("Libri1.2.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Libri1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileBook2{
-    -fx-background-image: url("Libri1.3.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Libri1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .tileActivity0{
-    -fx-background-image: url("Giochi1.1.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Giochi1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileActivity1{
-    -fx-background-image: url("Giochi1.2.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Giochi1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileActivity2{
-    -fx-background-image: url("Giochi1.3.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Giochi1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .tileFrame0{
-    -fx-background-image: url("Cornici1.1.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Cornici1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileFrame1{
-    -fx-background-image: url("Cornici1.2.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Cornici1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileFrame2{
-    -fx-background-image: url("Cornici1.3.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Cornici1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .tileTrophy0{
-    -fx-background-image: url("Trofei1.1.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Trofei1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileTrophy1{
-    -fx-background-image: url("Trofei1.2.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Trofei1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tileTrophy2{
-    -fx-background-image: url("Trofei1.3.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Trofei1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 .tilePlant0{
-    -fx-background-image: url("Piante1.1.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Piante1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tilePlant1{
-    -fx-background-image: url("Piante1.2.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Piante1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .tilePlant2{
-    -fx-background-image: url("Piante1.3.png");
+    -fx-background-image: url("../resources/img/img/item_tiles/Piante1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
@@ -538,131 +538,131 @@
 }
 
 .cc1{
-    -fx-background-image: url("1.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/1.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .cc2{
-    -fx-background-image: url("2.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/2.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .cc3{
-    -fx-background-image: url("3.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/3.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .cc4{
-    -fx-background-image: url("4.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/4.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .cc5{
-    -fx-background-image: url("5.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/5.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .cc6{
-    -fx-background-image: url("6.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/6.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .cc7{
-    -fx-background-image: url("7.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/7.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .cc8{
-    -fx-background-image: url("8.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/8.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }.cc9{
-     -fx-background-image: url("9.jpg");
+     -fx-background-image: url("../resources/img/img/common_goal_cards/9.jpg");
      -fx-background-repeat: stretch;
      -fx-background-size: cover;
  }.cc10{
-      -fx-background-image: url("10.jpg");
+      -fx-background-image: url("../resources/img/img/common_goal_cards/10.jpg");
       -fx-background-repeat: stretch;
       -fx-background-size: cover;
   }.cc11{
-       -fx-background-image: url("11.jpg");
+       -fx-background-image: url("../resources/img/img/common_goal_cards/11.jpg");
        -fx-background-repeat: stretch;
        -fx-background-size: cover;
    }
 .cc12{
-    -fx-background-image: url("12.jpg");
+    -fx-background-image: url("../resources/img/img/common_goal_cards/12.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 
 
 .pcBack{
-    -fx-background-image: url("back.jpg");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/back.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pcEmpty{
-    -fx-background-image: url("front_EMPTY.jpg");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/front_EMPTY.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc1{
-    -fx-background-image: url("Personal_Goals.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc2{
-    -fx-background-image: url("Personal_Goals2.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc3{
-    -fx-background-image: url("Personal_Goals3.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc4{
-    -fx-background-image: url("Personal_Goals4.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals4.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc5{
-    -fx-background-image: url("Personal_Goals5.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals5.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc6{
-    -fx-background-image: url("Personal_Goals6.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals6.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc7{
-    -fx-background-image: url("Personal_Goals7.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals7.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc8{
-    -fx-background-image: url("Personal_Goals8.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals8.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc9{
-    -fx-background-image: url("Personal_Goals9.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals9.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc10{
-    -fx-background-image: url("Personal_Goals10.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals10.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc11{
-    -fx-background-image: url("Personal_Goals11.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals11.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .pc12{
-    -fx-background-image: url("Personal_Goals12.png");
+    -fx-background-image: url("../resources/img/img/personal_goal_cards/Personal_Goals12.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
@@ -684,7 +684,7 @@
 }
 
 .backgroundWall{
-    -fx-background-image: url("base_pagina2.jpg");
+    -fx-background-image: url("../resources/img/img/misc/base_pagina2.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
@@ -703,7 +703,7 @@
 }
 
 .backgroundArrow{
-    -fx-background-image: url("arrow.png");
+    -fx-background-image: url("../resources/img/img/Publisher_material/arrow.png");
     -fx-background-size: cover;
 }
 
@@ -713,28 +713,28 @@
 }
 
 .point8{
-    -fx-background-image: url("scoring_8.jpg");
+    -fx-background-image: url("../resources/img/img/scoring_tokens/scoring_8.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .point6{
-    -fx-background-image: url("scoring_6.jpg");
+    -fx-background-image: url("../resources/img/img/scoring_tokens/scoring_6.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .point4{
-    -fx-background-image: url("scoring_4.jpg");
+    -fx-background-image: url("../resources/img/img/scoring_tokens/scoring_4.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .point2{
-     -fx-background-image: url("scoring_2.jpg");
+     -fx-background-image: url("../resources/img/img/scoring_tokens/scoring_2.jpg");
      -fx-background-repeat: stretch;
      -fx-background-size: cover;
  }
 
 .pointEnd{
-    -fx-background-image: url("end_game.jpg");
+    -fx-background-image: url("../resources/img/img/scoring_tokens/end_game.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
