@@ -31,7 +31,6 @@ jobs:
         env:
           ACCESS_TOKEN: '${{ secrets.ACCESS_TOKEN }}'
       - name: Build with Maven
-        working-directory: ./MyShelfie
         run: mvn -B package
 
       - name: Generate Jacoco Badge
@@ -40,7 +39,7 @@ jobs:
         with:
           generate-branches-badge: true
           jacoco-csv-file: >
-            MyShelfie/target/site/jacoco/jacoco.csv
+            target/site/jacoco/jacoco.csv
 
       - name: Log coverage percentage
         run: |
@@ -64,4 +63,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
-          path: MyShelfie/target/site/jacoco/
+          path: target/site/jacoco/
