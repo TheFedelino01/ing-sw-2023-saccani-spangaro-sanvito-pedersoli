@@ -1,13 +1,11 @@
 package polimi.ingsw.view.userView.text;
 
 import org.fusesource.jansi.AnsiConsole;
-import polimi.ingsw.model.cards.common.*;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
-import polimi.ingsw.model.Tile;
 import polimi.ingsw.model.interfaces.CommonCardIC;
 import polimi.ingsw.model.interfaces.PlayerIC;
 import polimi.ingsw.model.interfaces.TileIC;
@@ -505,7 +503,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_choosenNickname(String nickname) {
+    public void show_chosenNickname(String nickname) {
         System.out.println(ansi().cursor(DefaultValue.row_gameID + 2, 0).a("> Your nickname is: " + nickname));
     }
 

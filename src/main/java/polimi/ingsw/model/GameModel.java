@@ -12,8 +12,6 @@ import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.exceptions.*;
 
-import java.io.ObjectStreamException;
-import java.io.Serial;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,8 +30,6 @@ public class GameModel {
     private GameStatus status;
 
     private Integer firstFinishedPlayer = -1;
-
-    private Integer indexWonPlayer = -1;
 
 
     private transient ListenersHandler listenersHandler;
@@ -65,12 +61,6 @@ public class GameModel {
         this.pg = pg;
     }
 
-    @Serial
-    private Object readResolve() throws ObjectStreamException {
-        listenersHandler = new ListenersHandler();
-        return this;
-    }
-
     public int getNumOfPlayers() {
         return players.size();
     }
@@ -84,15 +74,15 @@ public class GameModel {
     }
 
     /**
-     * add a player to the game
-     *
+     * add a player to the game<br>
+     *<br>
      * @param p player to add
      * @throws PlayerAlreadyInException if the player is already in the game
      * @throws MaxPlayersInException    if the game is full
      */
     public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
-        //Verifico per prima cosa che il player non è gia' presente
-        //poi se non vado in overflow
+        //First I check that the player is not already in the game
+        // then I check if the game is already full
         if (players.stream()
                 .noneMatch(x -> x.equals(p))) {
             if (players.size() + 1 <= DefaultValue.MaxNumOfPlayer) {
@@ -110,11 +100,11 @@ public class GameModel {
     }
 
     public void removePlayer(String nick) {
-        players.remove(players.stream().filter(x -> x.getNickname().equals(nick)).collect(Collectors.toList()).get(0));
+        players.remove(players.stream().filter(x -> x.getNickname().equals(nick)).toList().get(0));
         listenersHandler.notify_playerLeft(this, nick);
 
-        if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(x -> x.isConnected()).collect(Collectors.toList()).size() <= 1) {
-            //No enough players to keep playing
+        if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::isConnected).toList().size() <= 1) {
+            //Not enough players to keep playing
             this.setStatus(GameStatus.ENDED);
         }
     }
@@ -148,13 +138,9 @@ public class GameModel {
 
             }
         }
-
-
         if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
             listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
         }
-
-
     }
 
 
@@ -164,7 +150,7 @@ public class GameModel {
     }
 
     public boolean arePlayersReadyToStartAndEnough() {
-        //Se tutti i giocatori sono pronti a giocare, inizia il game
+        //If every player is ready, the game starts
         return players.stream().filter(Player::getReadyToStart)
                 .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
     }
@@ -176,8 +162,8 @@ public class GameModel {
 
 
     public void addCommonCard(CommonCard c) throws MaxCommonCardsAddedException, CommonCardAlreadyInException {
-        //Si verifica per prima cosa se la carta e' gia' presente
-        //se non e' gia' presente, verifico se si va in overflow
+        //Check if the card is already in the game
+        // then if there are already enough cards
 
         if (commonCards.stream().noneMatch(x -> x.isSameType(c))) {
             if (commonCards.size() + 1 <= DefaultValue.NumOfCommonCards) {
@@ -194,7 +180,7 @@ public class GameModel {
 
     public void setGoalCard(int indexPlayer, CardGoal c) throws SecretGoalAlreadyGivenException {
         if (indexPlayer < players.size() && indexPlayer >= 0) {
-            //Assegno la carta goal solo se non ce l'ha nessun altro player
+            //I assign the goal card only if no one else has the same one
             if (players.stream().noneMatch(x -> (x.getSecretGoal().isSameType(c)))) {
                 players.get(indexPlayer).setSecretGoal(c);
             } else {
@@ -244,7 +230,6 @@ public class GameModel {
     }
 
 
-    //Player p, String txt
     public void sentMessage(Message m) {
         if (players.stream().filter(x -> x.equals(m.getSender())).count() == 1) {
             chat.addMsg(m);
@@ -254,14 +239,13 @@ public class GameModel {
         }
 
     }
-
-
     public GameStatus getStatus() {
         return status;
     }
 
     public void setStatus(GameStatus status) {
-        //Se voglio settare a Running il game, ci devono essere almeno 'DefaultValue.minNumOfPlayer' players
+        //If I want to set the gameStatus to "RUNNING", there needs to be at least
+        // DefaultValue.minNumberOfPlayers -> (2) in lobby
         if (status.equals(GameStatus.RUNNING) &&
                 ((players.size() < DefaultValue.minNumOfPlayer
                         || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
@@ -325,7 +309,7 @@ public class GameModel {
 
     public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
         //Check if the player can position all the in hand tiles in this column (are there enough spaces?)
-        if (p.getNumofFreeSpacesInCol(column) >= p.getInHandTile().size()) {
+        if (p.getNumOfFreeSpacesInCol(column) >= p.getInHandTile().size()) {
             //Player can place the tile
             Tile t = popInHandTilePlayer(p, type);
             if (t != null) {
@@ -350,7 +334,7 @@ public class GameModel {
                 return p.getInHandTile().remove(i);
             }
         }
-        return null;//Il player non ha questa Tile tra quelle estratte
+        return null;//The player doesn't have this tile in hand
     }
 
 
@@ -401,13 +385,10 @@ public class GameModel {
     }
 
     /**
-     * Controllo chi tra i vari player ha piú punti
-     * Ritorna il Player con piú punti
+     * Finds the player with most points
      */
-
     private void findWinner() {
         int max = -1;
-        int winnerIndex = -1;
         int point;
         leaderBoard = new HashMap<>();
         Map<Integer, Integer> temp = new HashMap<>();
@@ -417,8 +398,6 @@ public class GameModel {
             if (point >= max) {
                 temp.put(i, point);
                 max = point;
-                winnerIndex = i;
-
             }
         }
 
@@ -430,8 +409,6 @@ public class GameModel {
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-        indexWonPlayer = winnerIndex;
-
     }
 
 
@@ -448,7 +425,7 @@ public class GameModel {
     }
 
     public Player getPlayerEntity(String playerNick) {
-        return players.stream().filter(x -> x.getNickname().equals(playerNick)).collect(Collectors.toList()).get(0);
+        return players.stream().filter(x -> x.getNickname().equals(playerNick)).toList().get(0);
     }
 
 

@@ -8,6 +8,10 @@ import polimi.ingsw.model.Point;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class is father to both the TUI and GUI implementation<br>
+ * it implements methods that everyone needs to have<br>
+ */
 public abstract class UI {
     protected List<String> importantEvents; //events that needs to be showed always in screen
 
@@ -26,7 +30,7 @@ public abstract class UI {
     protected abstract void show_joiningToGameIdMsg(int idGame,String nickname);
     protected abstract void show_inputGameIdMsg();
     protected abstract void show_insertNicknameMsg();
-    protected abstract void show_choosenNickname(String nickname);
+    protected abstract void show_chosenNickname(String nickname);
 
     protected abstract void show_gameStarted(GameModelImmutable model);
     protected abstract void show_noAvailableGamesToJoin(String msgToVisualize);

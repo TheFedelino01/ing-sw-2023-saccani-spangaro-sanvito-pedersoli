@@ -1,6 +1,5 @@
 package polimi.ingsw.view.userView;
 
-import polimi.ingsw.model.GameModel;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
@@ -32,6 +31,23 @@ import java.util.Objects;
 
 import static polimi.ingsw.view.userView.utilities.events.EventType.*;
 
+/**
+ * GameFlow class<br>
+ * As a workaround to the different GUI and TUI implementations, we created this class<br>
+ * The TUI obviously has a different pace in the game that the GUI, as the TUI is more linear<br>
+ *  -> Only one action can be performed at any point in time, <br>
+ *  where the GUi is more complex, a message can be sent while the tiles are being picked up, and so on<br>
+ *  We opted for this class hat sets the pace of the game to be the same for both TUI and GUI.<br>
+ *  we have two additional threads that help us do so: InputReader and InputParser.<br>
+ *  GameFlow is directly connected to InputParser, which creates InputReader.<br>
+ *  InputReader reads from the input (in TUI) or matches any action performed by the client as a TUI input (in GUI)<br>
+ *   For example, if the player was to click on a tile in the GUI's playground, it would register the click as three inputs in TUI (row, column and direction)<br>
+ *  Then adds the data read to a buffer queue.<br>
+ *  <br>
+ *  InputParser then pops entries from this queue and parses them, to understand what each means.<br>
+ *  If he understands that the player wanted to send a message, the message is created and sent,<br>
+ *  if not, the data is sent to the gameFlow, which will then perform an action accordingly (pick up tiles, place tiles, ecc)<br>
+ */
 public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     private String nickname;
@@ -43,10 +59,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     private String lastPlayerReconnected;
     private int columnChosen = -1;
-    private UI ui;
+    private final UI ui;
     protected InputParser inputParser;
     protected InputReader inputReader;
-    protected List<String> importantEvents; //events that needs to be showed always in screen
+    protected List<String> importantEvents; //events that needs to be always shown on screen
     private boolean ended = false;
 
 
@@ -85,29 +101,20 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         new Thread(this).start();
     }
 
-    @Deprecated
-    public BufferData getBuffer_ForTesting(){
-        return this.inputReader.getBuffer();
-    }
-    @Deprecated
-    public boolean isEnded_ForTesting(){
-        return this.ended;
-    }
-
-
+    /**
+     * The gameFlow works with a list of events<br>
+     * each event maps the status of the game, whether it's not started, running, in its last cycle or ended<br>
+     */
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         EventElement event;
-
-
         try {
             ui.show_publisher();
             events.add(null, APP_MENU);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-
         while (!Thread.interrupted()) {
             if (events.isJoined()) {
                 //Get one event
@@ -146,6 +153,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     * @param event from here we get the updated model and can understand why the player was not put in a game<br>
+     *              it says if he's just joined or if he's been kicked and why
+     */
     private void statusNotInAGame(EventElement event) {
         switch (event.getType()) {
             case APP_MENU -> {
@@ -178,6 +189,12 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     * The player is in this stage when he joins a lobby, but the game has not yet started<br>
+     * @param event from here we get the updated model and game status
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void statusWait(EventElement event) throws IOException, InterruptedException {
         String nickLastPlayer = event.getModel().getLastPlayer().getNickname();
         //If the event is that I joined then I wait until the user inputs 'y'
@@ -193,11 +210,17 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     }
 
+    /**
+     * The player is here for all the game's duration<br>
+     * Each eventType maps a different action that can happen in the game, while it's running<br>
+     * @param event from here we get the updated model and game status
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void statusRunning(EventElement event) throws IOException, InterruptedException {
         switch (event.getType()) {
             case GAMESTARTED -> {
                 ui.show_gameStarted(event.getModel());
-                //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
                 this.inputParser.setPlayer(event.getModel().getPlayerEntity(nickname));
                 this.inputParser.setIdGame(event.getModel().getGameId());
@@ -205,7 +228,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             }
             case COMMON_CARD_EXTRACTED -> {
                 ui.show_commonCards(event.getModel());
-                //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
             }
             case SENT_MESSAGE ->{
@@ -236,7 +258,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                         if (ended) return;
                     }
                 }
-                //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
 
             case GRABBED_TILE,ASK_TO_SELECT_TILE_TO_PLACE -> {
@@ -255,7 +276,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                 } else {
                     ui.show_grabbedTile(nickname, event.getModel());
                 }
-                //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
             }
             case POSITIONED_TILE -> {
@@ -266,7 +286,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                     //Ask to place other tiles
                     events.add(event.getModel(), EventType.ASK_TO_SELECT_TILE_TO_PLACE);
                 }
-                //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
 
             }
             case GRABBED_TILE_NOT_CORRECT -> {
@@ -277,13 +296,18 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                     askPickTiles(event.getModel());
                 }
 
-                //System.out.println(ansi().cursor(DefaultValue.row_input, 0).toString());
             }
 
         }
 
     }
 
+    /**
+     *  The player is here once the game has ended<br>
+     *  Here the leaderboard will be shown, and then he'll be prompted with the choice to close the application <br>
+     *  or return to the main menu, to play another game<br>
+     * @param event from here we get the updated model and game status
+     */
     private void statusEnded(EventElement event) {
         switch (event.getType()) {
             case GAMEENDED -> {
@@ -296,18 +320,16 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                 }
 
                 this.leave(nickname, event.getModel().getGameId());
-                this.youleft();
+                this.youLeft();
             }
         }
     }
 
 
-    public void youleft() {
+    public void youLeft() {
         ended = true;
         ui.resetImportantEvents();
         events.add(null, APP_MENU);
-        //inputReader.interrupt();//TODO NEED TO READ INPUT ALWAYS WITH THIS SO I DONT NEED TO STOP AND RESTART IT
-        //inputParser.interrupt();
 
         this.inputParser.setPlayer(null);
         this.inputParser.setIdGame(null);
@@ -321,11 +343,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         this.ended = ended;
     }
 
-    public FileDisconnection getFileDisconnection() {
-        return fileDisconnection;
-    }
-
-
 
     ///////////////////////////////
     //ASK
@@ -338,17 +355,15 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        ui.show_choosenNickname(nickname);
+        ui.show_chosenNickname(nickname);
     }
 
 
-    //return: false need to recall askSelectGame
     private boolean askSelectGame() {
         String optionChoose;
         ended = false;
         ui.show_menuOptions();
 
-        //optionChoose = scanner.nextLine();
         try {
             optionChoose=this.inputParser.getDataToProcess().popData();
         } catch (InterruptedException e) {
@@ -370,7 +385,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             }
             case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
             default -> {
-                //System.out.println("> Selection incorrect!");
                 return false;
             }
         }
@@ -384,7 +398,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         do {
             ui.show_inputGameIdMsg();
             try {
-                //temp = scanner.nextLine();
                 try {
                     temp=this.inputParser.getDataToProcess().popData();
                 } catch (InterruptedException e) {
@@ -399,21 +412,12 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             }
 
         } while (gameId == null);
-        /*
-        checks from all the gameId's in a model if one is equal to the one inserted
-        while (!events.getGames().stream()
-                .map(EventElement::getModel)
-                .map(GameModelImmutable::getGameId)
-                .toList()
-                .contains(Integer.parseInt(Objects.requireNonNull(gameId, "Null gameId detected"))));*/
         return gameId;
     }
 
     public void askReadyToStart() {
         String ris;
         do {
-            //System.out.println(ansi().cursor(18, 0).fg(DEFAULT)); todo ?
-            //ris = scanner.nextLine();
             try {
                 ris=this.inputParser.getDataToProcess().popData();
             } catch (InterruptedException e) {
@@ -448,19 +452,19 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     public void askPickTiles(GameModelImmutable gameModel) {
         ui.show_askPickTilesMainMsg();
-        Integer numTiles;
+        int numTiles;
         do {
             numTiles = Objects.requireNonNullElse(askNum("> How many tiles do you want to get? ", gameModel), DefaultValue.minNumOfGrabbableTiles - 1);
             if (ended) return;
         } while (!(numTiles >= DefaultValue.minNumOfGrabbableTiles && numTiles <= DefaultValue.maxNumOfGrabbableTiles));
 
-        Integer row;
+        int row;
         do {
             row = Objects.requireNonNullElse(askNum("> Which tiles do you want to get?\n\t> Choose row: ", gameModel), DefaultValue.PlaygroundSize + 11);
             if (ended) return;
         } while (row > DefaultValue.PlaygroundSize);
 
-        Integer column;
+        int column;
         do {
             column = Objects.requireNonNullElse(askNum("\t> Choose column: ", gameModel), DefaultValue.PlaygroundSize + 1);
             if (ended) return;
@@ -483,17 +487,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
                 d = Direction.getDirection(direction);
             } while (d == null);
         }
-        //System.out.println("> You have selected: " + numTiles + " tiles from column " + column + " and row " + row + " in direction " + direction);
 
         grabTileFromPlayground(row, column, d, numTiles);
     }
 
     private void askColumn(GameModelImmutable model) {
-        /* Gets the current playing player
-        Player currentPlaying = model.getPlayers().stream()
-                .filter(x -> x.getNickname().equals(model.getNicknameCurrentPlaying()))
-                .toList().get(0);
-         */
         Integer column;
         ui.show_askColumnMainMsg();
         boolean isColumnBigEnough;
@@ -504,7 +502,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             if (ended) return;
 
             //Check by client side (// to server)
-            if(!(model.getPlayerEntity(this.nickname).getNumofFreeSpacesInCol(column)>=model.getPlayerEntity(this.nickname).getInHandTile_IC().size())){
+            if(!(model.getPlayerEntity(this.nickname).getNumOfFreeSpacesInCol(column) >= model.getPlayerEntity(this.nickname).getInHandTile_IC().size())){
                 ui.columnShelfTooSmall(model);
                 isColumnBigEnough=false;
             }
@@ -607,7 +605,6 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     @Override
     public boolean isMyTurn() {
-        //todo invoke is my turn
         return false;
     }
 
@@ -647,7 +644,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
 
     //-----------------------------------------------------------------------
-    //RICEZIONE DEGLI EVENTI DAL SERVER
+    //Server Event Received
 
     @Override
     public void playerJoined(GameModelImmutable gameModel) {
@@ -685,7 +682,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) {
         //Show the message only if is for everyone or is for me (or I sent it)
-        if (msg.whoIsReceiver().equals("*") || msg.whoIsReceiver().toUpperCase().equals(nickname.toUpperCase()) || msg.getSender().getNickname().toUpperCase().equals(nickname.toUpperCase())) {
+        if (msg.whoIsReceiver().equals("*") || msg.whoIsReceiver().equalsIgnoreCase(nickname) || msg.getSender().getNickname().equalsIgnoreCase(nickname)) {
             ui.addMessage(msg,gameModel);
             events.add(gameModel, SENT_MESSAGE);
             //msg.setText("[PRIVATE]: " + msg.getText());
@@ -793,8 +790,20 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     @Override
-    public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
-        ui.addImportantEvent("Last circle begin!");
+    public void lastCircle(GameModelImmutable gameModel) throws RemoteException {
+        ui.addImportantEvent("Last cycle begins!");
+    }
+
+
+
+    //testing methods
+    @Deprecated
+    public BufferData getBuffer_ForTesting(){
+        return this.inputReader.getBuffer();
+    }
+    @Deprecated
+    public boolean isEnded_ForTesting(){
+        return this.ended;
     }
 
 }

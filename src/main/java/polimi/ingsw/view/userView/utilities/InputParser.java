@@ -2,16 +2,13 @@ package polimi.ingsw.view.userView.utilities;
 
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.chat.MessagePrivate;
-import polimi.ingsw.model.Player;
 import polimi.ingsw.model.interfaces.PlayerIC;
 import polimi.ingsw.view.userView.GameFlow;
 
-import java.io.IOException;
-
 public class InputParser extends Thread {
-    private BufferData bufferInput;
-    private BufferData dataToProcess;
-    private GameFlow gameFlow;
+    private final BufferData bufferInput;
+    private final BufferData dataToProcess;
+    private final GameFlow gameFlow;
     private PlayerIC p;
     private Integer gameId;
 
@@ -51,7 +48,7 @@ public class InputParser extends Thread {
             } else if (txt.startsWith("/quit")) {
                 assert p != null;
                 gameFlow.leave(p.getNickname(), gameId);
-                gameFlow.youleft();
+                gameFlow.youLeft();
 
             } else {
                 //I didn't pop a message

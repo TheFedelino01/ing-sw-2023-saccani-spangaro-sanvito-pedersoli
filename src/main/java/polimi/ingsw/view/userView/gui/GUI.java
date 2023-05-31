@@ -72,7 +72,7 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_choosenNickname(String nickname) {
+    public void show_chosenNickname(String nickname) {
 
     }
     private void show_popupInfoAndNickname(String nick,String text){

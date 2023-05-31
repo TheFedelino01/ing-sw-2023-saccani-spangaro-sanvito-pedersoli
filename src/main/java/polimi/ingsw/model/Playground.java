@@ -86,6 +86,10 @@ public class Playground implements Serializable, PlaygroundIC {
         return bag.size();
     }
 
+    /**
+     * Initialises the playground, reading the matrix that was initialised in the constructor<br>
+     * the "USED" tile will be further initialised as an actual tile, the "NOT_USED" won't<br>
+     */
     public void initialisePlayground() {
         for (int r = 0; r < Objects.requireNonNull(data).size(); r++) {
             for (int c = 0; c < data.get(r).size(); c++) {
@@ -98,7 +102,9 @@ public class Playground implements Serializable, PlaygroundIC {
         }
     }
 
-
+    /**
+     * Initialises the playground with actual tiles<br>
+     */
     public void setPlayground() {
         int random;
         for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
@@ -113,21 +119,23 @@ public class Playground implements Serializable, PlaygroundIC {
         setFreeSides();
     }
 
+    /**
+     * sets for each tile a flag that checks if that tile has a free side (can be<br>
+     * picked up  by the players)<br>
+     */
     private void setFreeSides() {
         for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
             for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
                 if (!(playground[r][c].isSameType(TileType.NOT_USED) || playground[r][c].isSameType(TileType.FINISHED_USING)))
                     switch (r) {
                         //first and last row, all have free sides
-                        case (0), (DefaultValue.PlaygroundSize - 1) -> {
-                            playground[r][c].setFreeSide(true);
-                        }
+                        case (0), (DefaultValue.PlaygroundSize - 1) -> playground[r][c].setFreeSide(true);
+
                         default -> {
                             //First and last column, all have free sides
                             switch (c) {
-                                case (0), (DefaultValue.PlaygroundSize - 1) -> {
-                                    playground[r][c].setFreeSide(true);
-                                }
+                                case (0), (DefaultValue.PlaygroundSize - 1) -> playground[r][c].setFreeSide(true);
+
                                 default -> {
                                     //if the tile is near a not-used or empty one, then it has a free side
                                     if ((playground[r][c + 1].isSameType(TileType.NOT_USED)
@@ -148,6 +156,9 @@ public class Playground implements Serializable, PlaygroundIC {
         }
     }
 
+    /**
+     * Initialises the bag full of tiles
+     */
     public void setBag() {
         for (int r = 0; r < DefaultValue.NumOfTilesPerType; r++) {
             for (int c = 0; c < DefaultValue.NumOfTileTypes; c++) {
@@ -158,6 +169,13 @@ public class Playground implements Serializable, PlaygroundIC {
         Collections.shuffle(bag);
     }
 
+    /**
+     * @param r         row of the tiles the player wants to pick up
+     * @param c         column of the tiles the player wants to pick up
+     * @param direction direction in which the player wants tto pick up tiles
+     * @param num       number of tiles the player wants to pick up
+     * @return true if the player can pick up the tiles, false if he can't
+     */
     public boolean checkBeforeGrab(int r, int c, Direction direction, int num) {
         int i = 0;
         while (i < num) {
@@ -187,6 +205,9 @@ public class Playground implements Serializable, PlaygroundIC {
         return true;
     }
 
+    /**
+     * @return true if every tile has 4 free sides, meaning the playground must be refilled
+     */
     public boolean allTileHaveAllFreeSide() {
         for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
             for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
@@ -304,6 +325,14 @@ public class Playground implements Serializable, PlaygroundIC {
         return true;
     }
 
+    /**
+     * @param r         row of the tiles the player wants to pick up
+     * @param c         column of the tiles the player wants to pick up
+     * @param direction direction in which the player wants tto pick up tiles
+     * @param num       number of tiles the player wants to pick up
+     * @return a list of grabbed tiles
+     * @throws TileGrabbedNotCorrectException if the player selected tiles he couldn't pick up
+     */
     public List<Tile> grabTile(int r, int c, Direction direction, int num) throws TileGrabbedNotCorrectException {
         List<Tile> ris = new ArrayList<>();
         //check if all the tile are not used or finished using
@@ -359,6 +388,9 @@ public class Playground implements Serializable, PlaygroundIC {
     }
 
 
+    /**
+     * Testing methods
+     */
     //for testing ONLY (Deprecated so that no one uses them)
     @Deprecated
     public void setEmptyPlayground() {

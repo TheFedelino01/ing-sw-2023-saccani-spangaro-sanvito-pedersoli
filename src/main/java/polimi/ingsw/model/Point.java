@@ -6,6 +6,11 @@ import polimi.ingsw.model.interfaces.PointIC;
 
 import java.io.Serializable;
 
+/**
+ * Point class
+ * Each card has a list of points that can only be assigned once to each player
+ * this class implements the Point object
+ */
 public class Point implements Serializable, PointIC {
     private Integer point;
     private CardType referredTo;

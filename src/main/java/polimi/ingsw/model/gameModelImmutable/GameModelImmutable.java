@@ -1,7 +1,6 @@
 package polimi.ingsw.model.gameModelImmutable;
 
 import polimi.ingsw.model.*;
-import polimi.ingsw.model.cards.common.CommonCard;
 import polimi.ingsw.model.chat.Chat;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.interfaces.*;
@@ -9,6 +8,18 @@ import polimi.ingsw.model.interfaces.*;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * A different implementation of the GameModel class, this is the one we send to the clients<br>
+ * As such, we need to make all the objects in this class immutable, so that the clients<br>
+ * cannot modify the course of the game.<br>
+ * <br>
+ * To do so, a strategy patter was implemented.<br>
+ * The pattern consists of implementing for each mutable object two different interfaces, <br>
+ * one for the server, one for the client.<br>
+ * The server one has no changes from the class it's implemented by<br>
+ * the client one, on the other hand, only has getter methods, named differently that the server one,<br>
+ * so that the client can only get the object, and doesn't know the names of the setter methods<br>
+ */
 public class GameModelImmutable implements Serializable {
     private final List<PlayerIC> players;
     private final List<CommonCardIC> commonCards;
@@ -21,10 +32,8 @@ public class GameModelImmutable implements Serializable {
 
     private final GameStatus status;
 
-    private final Integer firstFinishedPlayer = -1;
-
     private final Integer indexWonPlayer = -1;
-    private Map<Integer, Integer> leaderBoard;
+    private final Map<Integer, Integer> leaderBoard;
 
 
     public GameModelImmutable() {
@@ -40,8 +49,8 @@ public class GameModelImmutable implements Serializable {
     }
 
     public GameModelImmutable(GameModel modelToCopy) {
-        players = new ArrayList<PlayerIC>(modelToCopy.getPlayers());
-        commonCards = new ArrayList<CommonCardIC>(modelToCopy.getCommonCards());
+        players = new ArrayList<>(modelToCopy.getPlayers());
+        commonCards = new ArrayList<>(modelToCopy.getCommonCards());
         gameId = modelToCopy.getGameId();
 
         pg = modelToCopy.getPg();
@@ -71,7 +80,7 @@ public class GameModelImmutable implements Serializable {
     }
 
     public List<PlayerIC> getScoreboard(){
-        players.sort(Comparator.comparing(p -> p.getTotalPoints(),Comparator.reverseOrder()));
+        players.sort(Comparator.comparing(PlayerIC::getTotalPoints,Comparator.reverseOrder()));
         return players;
     }
 
@@ -101,7 +110,7 @@ public class GameModelImmutable implements Serializable {
     }
 
     public Integer getFirstFinishedPlayer() {
-        return firstFinishedPlayer;
+        return -1;
     }
 
     public Integer getIndexWonPlayer() {
@@ -121,13 +130,13 @@ public class GameModelImmutable implements Serializable {
     }
 
     public String toStringListPlayers() {
-        String ris = "";
+        StringBuilder ris = new StringBuilder();
         int i = 1;
         for (PlayerIC p : players) {
-            ris += "[#" + i + "]: " + p.getNickname() + "\n";
+            ris.append("[#").append(i).append("]: ").append(p.getNickname()).append("\n");
             i++;
         }
-        return ris;
+        return ris.toString();
     }
 
     public PlayerIC getLastPlayer() {

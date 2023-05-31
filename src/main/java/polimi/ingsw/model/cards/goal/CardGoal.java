@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CardGoal extends Card implements CardGoalIC {
-    private Shelf layoutToMatch; //La tavola del giocatore deve matchare questo layout (per acquisire punti a seconda della Map legendPoint)
-    private Map<Integer, Point> legendPoint;
+    private Shelf layoutToMatch; //The player's shelf must match this one to gain points
+    private final Map<Integer, Point> legendPoint;
     private CardGoalType goalType;
 
     public CardGoal() {

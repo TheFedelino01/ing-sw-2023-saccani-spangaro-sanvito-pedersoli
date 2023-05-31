@@ -13,6 +13,13 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Player's class<br>
+ * A player has a nickname, his shelf, a secretGoal, <br>
+ * the tiles he has in hand (inHandTile), the points he obtained<br>
+ * all the listeners needed for the network, a flag that indicates if he's ready to start<br>
+ * and a flag that indicates whether he's connected to the server or not<br>
+ */
 public class Player implements Serializable, PlayerIC {
     private String nickname;
     private Shelf shelf;
@@ -85,7 +92,7 @@ public class Player implements Serializable, PlayerIC {
     }
 
     public void clearInHandTile() {
-        inHandTile = new ArrayList<Tile>();
+        inHandTile = new ArrayList<>();
     }
 
 
@@ -134,7 +141,7 @@ public class Player implements Serializable, PlayerIC {
         return this.shelf.getMaxFreeSpacesInACol();
     }
 
-    public int getNumofFreeSpacesInCol(int col) {
+    public int getNumOfFreeSpacesInCol(int col) {
         return this.shelf.getNumofFreeSpacesInCol(col);
     }
 
@@ -161,16 +168,27 @@ public class Player implements Serializable, PlayerIC {
         listeners.remove(lis);
     }
 
-
+    /**
+     * @return a list of TileIC, an interface that we send to the clients<br>
+     * to make the model immutable<br>
+     */
     public List<TileIC> getInHandTile_IC() {
-        return new ArrayList<TileIC>(inHandTile);
+        return new ArrayList<>(inHandTile);
     }
 
+    /**
+     * @return a list of PointIC, an interface that we send to the clients<br>
+     * to make the model immutable<br>
+     */
     @Override
     public List<PointIC> getObtainedPoints_IC() {
-        return new ArrayList<PointIC>(obtainedPoints);
+        return new ArrayList<>(obtainedPoints);
     }
 
+    /**
+     * @return a CardGoalIC, an interface that we send to the clients<br>
+     * to make the model immutable<br>
+     */
     @Override
     public CardGoalIC getSecretGoal_IC() {
         return secretGoal;

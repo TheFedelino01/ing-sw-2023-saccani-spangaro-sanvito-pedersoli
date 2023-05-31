@@ -1,38 +1,32 @@
 package polimi.ingsw.model.interfaces;
 
-import polimi.ingsw.model.Player;
-import polimi.ingsw.model.Point;
 import polimi.ingsw.model.Shelf;
-import polimi.ingsw.model.Tile;
-import polimi.ingsw.model.cards.goal.CardGoal;
-import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface PlayerIC {
 
-    public String getNickname();
+    String getNickname();
 
-    public Shelf getShelf();
+    Shelf getShelf();
 
-    public CardGoalIC getSecretGoal_IC();
+    CardGoalIC getSecretGoal_IC();
 
-    public List<TileIC> getInHandTile_IC();
+    List<TileIC> getInHandTile_IC();
 
-    public List<PointIC> getObtainedPoints_IC();
+    List<PointIC> getObtainedPoints_IC();
 
-    public int getTotalPoints();
+    int getTotalPoints();
 
-    public boolean getReadyToStart();
+    boolean getReadyToStart();
 
-    public boolean equals(Object p);
+    boolean equals(Object p);
 
-    public boolean isConnected();
+    boolean isConnected();
 
-    public int getMaxFreeSpacesInACol();
+    int getMaxFreeSpacesInACol();
 
-    public int getNumofFreeSpacesInCol(int col);
+    int getNumOfFreeSpacesInCol(int col);
 
 
 }

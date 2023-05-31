@@ -72,7 +72,7 @@ class GameModelImmutableTest {
         Assertions.assertEquals(-1, gameModelImmutable.getIndexWonPlayer());
         Assertions.assertEquals(-1, gameModelImmutable.getFirstFinishedPlayer());
         gameModelImmutable.toStringListPlayers();
-        Assertions.assertEquals(true, gameModelImmutable.isMyTurn("pippo"));
+        Assertions.assertTrue(gameModelImmutable.isMyTurn("pippo"));
         gameModelImmutable.getWinner();
         Assertions.assertEquals(p1, gameModelImmutable.getEntityCurrentPlaying());
         Assertions.assertEquals(cc, gameModelImmutable.getLastCommonCard());

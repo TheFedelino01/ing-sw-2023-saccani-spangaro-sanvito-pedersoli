@@ -2,6 +2,9 @@ package polimi.ingsw.model;
 
 import java.io.Serializable;
 
+/**
+ * A class containing all the default values we need in the project<br>
+ */
 public class DefaultValue implements Serializable {
     public final static boolean DEBUG = false;
 

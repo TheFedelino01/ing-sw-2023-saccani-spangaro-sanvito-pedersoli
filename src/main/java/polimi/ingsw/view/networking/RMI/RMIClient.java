@@ -11,7 +11,6 @@ import polimi.ingsw.view.userView.CommonClientActions;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.view.userView.Flow;
-import polimi.ingsw.view.userView.UI;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -91,6 +90,7 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     }
 
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         //For the heartbeat
@@ -100,7 +100,8 @@ public class RMIClient implements CommonClientActions, Runnable {
                 TimerTask task = new TaskOnNetworkDisconnection(flow);
                 timer.schedule( task, DefaultValue.timeoutRMI_millis );
 
-                heartbeat();//send heartbeat so the server knows I am still online
+                //send heartbeat so the server knows I am still online
+                heartbeat();
 
                 timer.cancel();
             } catch (RemoteException e) {

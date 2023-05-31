@@ -17,15 +17,10 @@ public class Shelf implements Serializable, ShelfIC {
         shelf = new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];
         for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
             for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-                //if(r==0 && c==0){
-                    shelf[r][c] = new Tile();
-                //}else {
-                //    shelf[r][c] = new Tile(TileType.ACTIVITY);
-               // }
+                shelf[r][c] = new Tile();
             }
         }
         freeSpace = DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf;
-        //freeSpace=1;
     }
 
     public Shelf(Tile[][] shelf, Integer freeSpace) {
@@ -51,7 +46,6 @@ public class Shelf implements Serializable, ShelfIC {
         this.shelf[r][c] = t;
     }
 
-
     public Integer getFreeSpace() {
         return freeSpace;
     }
@@ -65,11 +59,11 @@ public class Shelf implements Serializable, ShelfIC {
         return shelf[r][c];
     }
 
-    public void position(int column, TileType tipo) {
+    public void position(int column, TileType type) {
         //push the tile in the column making it slide down until it finds a tile, or it reaches the bottom
         for (int i = DefaultValue.NumOfRowsShelf - 1; i >= 0; i--) {
             if (shelf[i][column].isSameType(TileType.NOT_USED)) {
-                shelf[i][column].setType(tipo);
+                shelf[i][column].setType(type);
                 freeSpace--;
                 break;
             }
@@ -151,6 +145,10 @@ public class Shelf implements Serializable, ShelfIC {
         this.freeSpace = freeSpace;
     }
 
+    /**
+     *
+     * @return the free space in a column
+     */
     public int getMaxFreeSpacesInACol() {
         int max = 0;
         int tmp = 0;
@@ -175,7 +173,6 @@ public class Shelf implements Serializable, ShelfIC {
 
     public int getNumofFreeSpacesInCol(int col) {
         int tmp = 0;
-
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             if (!get(r, col).getType().equals(TileType.NOT_USED)) {
                 return tmp;

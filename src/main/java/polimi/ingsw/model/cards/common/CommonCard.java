@@ -32,7 +32,11 @@ public abstract class CommonCard extends Card implements CommonCardIC {
         this.commonType = commonType;
     }
 
-
+    /**
+     *
+     * @param toCheck the player's shelf that needs checking
+     * @return true if the player's shelf verifies the common card requirements, false if it doesn't
+     */
     public abstract boolean verify(Shelf toCheck);
 
     public String toString(int i) {
@@ -145,7 +149,7 @@ public abstract class CommonCard extends Card implements CommonCardIC {
     }
 
     public Queue<PointIC> getPoints_IC(){
-        return new ArrayDeque<PointIC>(points);
+        return new ArrayDeque<>(points);
     }
 
 }

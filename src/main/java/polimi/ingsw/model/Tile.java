@@ -11,7 +11,7 @@ import static polimi.ingsw.model.enumeration.TileType.NOT_USED;
 public class Tile implements Serializable, TileIC {
     private TileType TYPE;
     private boolean freeSide;
-    private int offset;
+    private final int offset;
 
     public Tile() {
         TYPE = NOT_USED;
