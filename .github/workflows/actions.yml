@@ -20,7 +20,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        working-directory: ./MyShelfie
         run: mvn --batch-mode --update-snapshots verify
       - name: Publish Test Report
         uses: EnricoMi/publish-unit-test-result-action@v2
