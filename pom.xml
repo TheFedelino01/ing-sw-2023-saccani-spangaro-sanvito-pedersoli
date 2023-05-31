@@ -96,14 +96,14 @@
                         <exclude>**/userView/utilities/events/EventList.*</exclude>
                         <exclude>**/userView/utilities/events/EventElement.*</exclude>
                         <!-- uncomment to exclude network from coverage testing -->
-                   <!--     <exclude>**/networking/*</exclude>
-                        <exclude>**/networking/socket/*</exclude>
-                        <exclude>**/networking/RMI/*</exclude>
-                        <exclude>**/networking/socket/client/*</exclude>
-                        <exclude>**/networking/socket/server/*</exclude>
-                        <exclude>**/networking/socket/client/ServerToClientMessages/*</exclude>
-                        <exclude>**/networking/socket/client/GameControllerMessages/*</exclude>
-                        <exclude>**/networking/socket/client/MainControllerMessages/*</exclude>-->
+<!--                        <exclude>**/networking/*</exclude>-->
+<!--                        <exclude>**/networking/socket/*</exclude>-->
+<!--                        <exclude>**/networking/RMI/*</exclude>-->
+<!--                        <exclude>**/networking/socket/client/*</exclude>-->
+<!--                        <exclude>**/networking/socket/server/*</exclude>-->
+<!--                        <exclude>**/networking/socket/client/ServerToClientMessages/*</exclude>-->
+<!--                        <exclude>**/networking/socket/client/GameControllerMessages/*</exclude>-->
+<!--                        <exclude>**/networking/socket/client/MainControllerMessages/*</exclude>-->
                     </excludes>
                 </configuration>
                 <executions>
