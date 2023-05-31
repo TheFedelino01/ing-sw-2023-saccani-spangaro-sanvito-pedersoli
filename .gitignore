@@ -114,3 +114,5 @@ MyShelfie/a.json
 MyShelfie/b.json
 MyShelfie/V.json
 *.json
+!**/GoalCardsLayout.json
+!**/PlaygroundFourPlayer.json
