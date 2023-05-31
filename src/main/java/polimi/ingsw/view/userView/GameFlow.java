@@ -65,7 +65,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     protected List<String> importantEvents; //events that needs to be always shown on screen
     private boolean ended = false;
 
-
+    /**
+     *
+     * @param connectionSelection
+     */
     public GameFlow(ConnectionSelection connectionSelection){
         //Invoked for starting with TUI
         switch (connectionSelection) {
@@ -83,7 +86,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         new Thread(this).start();
     }
 
-
+    /**
+     *
+     * @param guiApplication
+     * @param connectionSelection
+     */
     public GameFlow(GUIApplication guiApplication,ConnectionSelection connectionSelection){
         //Invoked for starting with GUI
         switch (connectionSelection) {
@@ -325,7 +332,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
-
+    /**
+     *
+     */
     public void youLeft() {
         ended = true;
         ui.resetImportantEvents();
@@ -335,10 +344,18 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         this.inputParser.setIdGame(null);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isEnded() {
         return ended;
     }
 
+    /**
+     *
+     * @param ended
+     */
     public void setEnded(boolean ended) {
         this.ended = ended;
     }
@@ -347,6 +364,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     ///////////////////////////////
     //ASK
 
+    /**
+     *
+     */
     private void askNickname() {
         ui.show_insertNicknameMsg();
         //nickname = scanner.nextLine();
@@ -358,7 +378,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         ui.show_chosenNickname(nickname);
     }
 
-
+    /**
+     *
+     * @return
+     */
     private boolean askSelectGame() {
         String optionChoose;
         ended = false;
@@ -392,6 +415,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     private Integer askGameId() {
         String temp;
         Integer gameId = null;
@@ -415,6 +442,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         return gameId;
     }
 
+    /**
+     *
+     */
     public void askReadyToStart() {
         String ris;
         do {
@@ -427,7 +457,12 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         setAsReady();
     }
 
-
+    /**
+     *
+     * @param msg
+     * @param gameModel
+     * @return
+     */
     private Integer askNum(String msg, GameModelImmutable gameModel) {
         String temp;
         int numT = -1;
@@ -450,6 +485,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         return numT;
     }
 
+    /**
+     *
+     * @param gameModel
+     */
     public void askPickTiles(GameModelImmutable gameModel) {
         ui.show_askPickTilesMainMsg();
         int numTiles;
@@ -491,6 +530,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         grabTileFromPlayground(row, column, d, numTiles);
     }
 
+    /**
+     *
+     * @param model
+     */
     private void askColumn(GameModelImmutable model) {
         Integer column;
         ui.show_askColumnMainMsg();
@@ -510,6 +553,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         columnChosen = column;
     }
 
+    /**
+     *
+     * @param model
+     */
     public void askWhichTileToPlace(GameModelImmutable model) {
 
         ui.show_whichTileToPlaceMsg();
@@ -532,11 +579,19 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
 
     //-----------------------------------------
-    //METODI CHE IL CLIENT PUÓ RICHIEDERE VERSO IL SERVER
+    //Methods that the client can request to the server
+
+    /**
+     *
+     */
     public void noConnectionError(){
         ui.show_noConnectionError();
     }
 
+    /**
+     *
+     * @param nick
+     */
     @Override
     public void createGame(String nick) {
         ui.show_creatingNewGameMsg(nick);
@@ -548,7 +603,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
-
+    /**
+     *
+     * @param nick
+     */
     @Override
     public void joinFirstAvailable(String nick) {
         ui.show_joiningFirstAvailableMsg(nick);
@@ -559,6 +617,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     *
+     * @param nick
+     * @param idGame
+     */
     @Override
     public void joinGame(String nick, int idGame) {
         ui.show_joiningToGameIdMsg(idGame,nick);
@@ -569,6 +632,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     *
+     * @param nick
+     * @param idGame
+     */
     @Override
     public void reconnect(String nick, int idGame) {
         //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
@@ -584,6 +652,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     *
+     * @param nick
+     * @param idGame
+     */
     @Override
     public void leave(String nick, int idGame) {
         try {
@@ -593,7 +666,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
-
+    /** */
     @Override
     public void setAsReady() {
         try {
@@ -603,11 +676,20 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     * @return
+     */
     @Override
     public boolean isMyTurn() {
         return false;
     }
 
+    /**
+     * @param x
+     * @param y
+     * @param direction
+     * @param num
+     */
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num)  {
         try {
@@ -617,6 +699,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     * @param column
+     * @param type
+     */
     @Override
     public void positionTileOnShelf(int column, TileType type) {
         try {
@@ -626,11 +712,15 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /** */
     @Override
     public void heartbeat() {
 
     }
 
+    /**
+     * @param msg
+     */
     @Override
     public void sendMessage(Message msg) {
         try {
@@ -646,6 +736,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     //-----------------------------------------------------------------------
     //Server Event Received
 
+    /**
+     * @param gameModel
+     */
     @Override
     public void playerJoined(GameModelImmutable gameModel) {
         //shared.setLastModelReceived(gameModel);
@@ -656,6 +749,11 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     }
 
+    /**
+     * @param gamemodel
+     * @param nick
+     * @throws RemoteException
+     */
     @Override
     public void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException {
         if (gamemodel.getStatus().equals(GameStatus.WAIT)) {
@@ -666,11 +764,20 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     }
 
+    /**
+     * @param wantedToJoin
+     * @param gameModel
+     * @throws RemoteException
+     */
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gameModel) throws RemoteException {
         events.add(null, JOIN_UNABLE_GAME_FULL);
     }
 
+    /**
+     * @param gameModel
+     * @param nickPlayerReconnected
+     */
     @Override
     public void playerReconnected(GameModelImmutable gameModel, String nickPlayerReconnected) {
         lastPlayerReconnected = nickPlayerReconnected;
@@ -679,6 +786,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         //events.add(gameModel, EventType.PLAYER_JOINED);
     }
 
+    /**
+     * @param gameModel
+     * @param msg
+     */
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) {
         //Show the message only if is for everyone or is for me (or I sent it)
@@ -689,24 +800,44 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     * @param wantedToJoin
+     * @throws RemoteException
+     */
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
         //System.out.println("[EVENT]: "+ wantedToJoin.getNickname() + " has already in");
         events.add(null, JOIN_UNABLE_NICKNAME_ALREADY_IN);
     }
 
+    /**
+     *
+     * @param gameid
+     * @throws RemoteException
+     */
     @Override
     public void gameIdNotExists(int gameid) throws RemoteException {
         ui.show_noAvailableGamesToJoin("No currently game available with the following GameID: "+gameid);
         events.add(null, GENERIC_ERROR_WHEN_ENTRYING_GAME);
     }
 
+    /**
+     *
+     * @param why
+     * @throws RemoteException
+     */
     @Override
     public void genericErrorWhenEnteringGame(String why) throws RemoteException {
         ui.show_noAvailableGamesToJoin(why);
         events.add(null, GENERIC_ERROR_WHEN_ENTRYING_GAME);
     }
 
+    /**
+     *
+     * @param gameModel
+     * @param nick
+     * @throws IOException
+     */
     @Override
     public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException {
         ui.show_playerJoined(gameModel, nickname);
@@ -719,16 +850,29 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         events.add(gameModel, PLAYER_IS_READY_TO_START);
     }
 
+    /**
+     *
+     * @param gameModel
+     * @throws RemoteException
+     */
     @Override
     public void commonCardsExtracted(GameModelImmutable gameModel) throws RemoteException {
         events.add(gameModel, EventType.COMMON_CARD_EXTRACTED);
     }
 
+    /**
+     *
+     * @param gameModel
+     */
     @Override
     public void gameStarted(GameModelImmutable gameModel) {
         events.add(gameModel, EventType.GAMESTARTED);
     }
 
+    /**
+     *
+     * @param gameModel
+     */
     @Override
     public void gameEnded(GameModelImmutable gameModel) {
         ended = true;
@@ -738,23 +882,40 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
     }
 
+    /**
+     *
+     * @param gameModel
+     */
     @Override
     public void grabbedTile(GameModelImmutable gameModel) {
         events.add(gameModel, EventType.GRABBED_TILE);
     }
 
-
+    /**
+     *
+     * @param gameModel
+     */
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gameModel) {
         events.add(gameModel, EventType.GRABBED_TILE_NOT_CORRECT);
         ui.addImportantEvent("[EVENT]: A set of not grabbable tiles has been requested by Player: " + gameModel.getNicknameCurrentPlaying());
     }
 
+    /**
+     *
+     * @param gameModel
+     * @param type
+     * @param column
+     */
     @Override
     public void positionedTile(GameModelImmutable gameModel, TileType type, int column) {
         events.add(gameModel, EventType.POSITIONED_TILE);
     }
 
+    /**
+     *
+     * @param gameModel
+     */
     @Override
     public void nextTurn(GameModelImmutable gameModel) {
         events.add(gameModel, EventType.NEXT_TURN);
@@ -763,12 +924,23 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         this.inputParser.getDataToProcess().popAllData();
     }
 
+    /**
+     *
+     * @param p
+     * @param point
+     * @param gamemodel
+     */
     @Override
     public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) {
         ui.addImportantEvent("Player " + p.getNickname() + " obtained " + point.getPoint() + " points by achieving " + point.getReferredTo());
         ui.show_addedPoint(p,point,gamemodel);
     }
 
+    /**
+     *
+     * @param gameModel
+     * @param nick
+     */
     @Override
     public void playerDisconnected(GameModelImmutable gameModel, String nick) {
         ui.addImportantEvent("Player " + nick + " has just disconnected");
@@ -779,16 +951,31 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
+    /**
+     *
+     * @param gameModel
+     * @param column
+     * @throws RemoteException
+     */
     @Override
     public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
         ui.addImportantEvent("Cannot place Tiles in "+column+" column because there are no spaces available to place all");
     }
 
+    /**
+     * @param gameModel
+     * @param secondsToWaitUntilGameEnded
+     * @throws RemoteException
+     */
     @Override
     public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
         ui.addImportantEvent("Only one player is connected, waiting "+secondsToWaitUntilGameEnded+" seconds before calling Game Ended!");
     }
 
+    /**
+     * @param gameModel
+     * @throws RemoteException
+     */
     @Override
     public void lastCircle(GameModelImmutable gameModel) throws RemoteException {
         ui.addImportantEvent("Last cycle begins!");

@@ -240,8 +240,8 @@ public class GUI extends UI {
     }
 
     @Override
-    protected void show_addedPoint(Player p, Point point, GameModelImmutable gamemodel) {
-        callPlatformRunLater(() -> this.guiApplication.showPointsUpdated(gamemodel,p,this.nickname,point));
+    protected void show_addedPoint(Player p, Point point, GameModelImmutable gameModel) {
+        callPlatformRunLater(() -> this.guiApplication.showPointsUpdated(gameModel,p,this.nickname,point));
     }
 
     @Override
@@ -253,8 +253,8 @@ public class GUI extends UI {
     }
 
     @Override
-    public void addImportantEvent(String imp) {
-        importantEvents.add(imp);
+    public void addImportantEvent(String input) {
+        importantEvents.add(input);
         callPlatformRunLater(() -> this.guiApplication.showImportantEvents(this.importantEvents));
     }
 

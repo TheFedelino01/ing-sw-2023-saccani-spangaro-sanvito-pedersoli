@@ -3,11 +3,11 @@ package polimi.ingsw.model.interfaces;
 import polimi.ingsw.model.enumeration.TileType;
 
 public interface TileIC {
-    public TileType getType();
+    TileType getType();
 
-    public boolean hasFreeSide();
-    public boolean isSameType(TileType type);
-    public String toString();
+    boolean hasFreeSide();
+    boolean isSameType(TileType type);
+    String toString();
 
-    public String getBackground();
+    String getBackground();
 }

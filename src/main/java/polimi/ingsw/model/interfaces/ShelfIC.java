@@ -1,28 +1,22 @@
 package polimi.ingsw.model.interfaces;
 
-import org.fusesource.jansi.Ansi;
-import polimi.ingsw.model.DefaultValue;
-import polimi.ingsw.model.Tile;
-import polimi.ingsw.model.enumeration.TileType;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 public interface ShelfIC {
-    public TileIC[][] getShelf_IC();
+    TileIC[][] getShelf_IC();
 
-    public Integer getFreeSpace();
+    Integer getFreeSpace();
 
-    public Integer getOccupiedSpace();
+    Integer getOccupiedSpace();
 
-    public TileIC get_IC(int r, int c);
+    TileIC get_IC(int r, int c);
 
-    public String toString();
+    String toString();
 
-    public String toString(int col);
+    String toString(int col);
 
-    public String toStringGoalCard();
+    String toStringGoalCard();
 
-    public boolean isEmpty();
+    boolean isEmpty();
 
-    public int getNumofFreeSpacesInCol(int col);
+    int getNumofFreeSpacesInCol(int col);
 }

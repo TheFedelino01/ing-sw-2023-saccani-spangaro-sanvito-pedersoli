@@ -7,11 +7,18 @@ import java.util.Scanner;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class inputReaderTUI extends Thread implements InputReader {
-    private BufferData buffer = new BufferData();
+    private final BufferData buffer = new BufferData();
+
+    /**
+     * Init
+     */
     public inputReaderTUI(){
         this.start();
     }
 
+    /**
+     * Reads player's inputs
+     */
     @Override
     public void run(){
         Scanner sc = new Scanner(System.in);
@@ -24,6 +31,9 @@ public class inputReaderTUI extends Thread implements InputReader {
         }
     }
 
+    /**
+     * @return the buffer
+     */
     public BufferData getBuffer(){
         return buffer;
     }

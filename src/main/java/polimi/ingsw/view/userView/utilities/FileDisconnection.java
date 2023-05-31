@@ -13,10 +13,18 @@ import java.util.Objects;
 public class FileDisconnection {
     private String path;
 
+    /**
+     * Init class
+     */
     public FileDisconnection() {
         path = System.getProperty("user.dir");
     }
 
+    /**
+     * Returns the game id from the file
+     * @param nickname
+     * @return
+     */
     public int getLastGameId(String nickname) {
         //game data related to the player is stored in a json file named after the nickname the player had in that game
         String gameId = null;
@@ -41,6 +49,11 @@ public class FileDisconnection {
             return -1;
     }
 
+    /**
+     * Creates the file and writes the game id in it
+     * @param nickname
+     * @param gameId
+     */
     @SuppressWarnings("unchecked")
     public void setLastGameId(String nickname, int gameId) {
         JSONObject data = new JSONObject();

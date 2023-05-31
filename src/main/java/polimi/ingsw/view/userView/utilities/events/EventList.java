@@ -10,11 +10,18 @@ public class EventList {
     private Queue<EventElement> lists;
     private boolean joined = false;
 
-
+    /**
+     * Init
+     */
     public EventList() {
         lists = new ArrayDeque<>();
     }
 
+    /**
+     * Adds a new event to the list
+     * @param model
+     * @param type
+     */
     public synchronized void add(GameModelImmutable model, EventType type) {
         lists.add(new EventElement(model, type));
 
@@ -23,18 +30,28 @@ public class EventList {
 
         if(type.equals(EventType.APP_MENU))
             joined=false;
-        /*if(model!=null && model.getStatus().equals(GameStatus.ENDED))
-            joined=false;*/
     }
 
+    /**
+     *
+     * @return an element from the queue(FIFO)
+     */
     public synchronized EventElement pop() {
         return lists.poll();
     }
 
+    /**
+     *
+     * @return the list's size
+     */
     public synchronized int size() {
         return lists.size();
     }
 
+    /**
+     *
+     * @return true if the player has joined the game, false if not
+     */
     public synchronized boolean isJoined() {
         return joined;
     }

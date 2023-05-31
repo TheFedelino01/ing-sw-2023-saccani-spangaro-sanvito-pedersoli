@@ -238,7 +238,7 @@ public class GameModelTest {
             throw new RuntimeException(e);
         }
         for (CardGoalType c : CardGoalType.getValues()) {
-            model.getPlayers().get(0).setShelfS(new CardGoal(c).getLayoutToMatch());
+            model.getPlayers().get(0).setShelf(new CardGoal(c).getLayoutToMatch());
             model.getPlayers().get(0).setSecretGoal(new CardGoal(c));
             assertTrue(model.getPlayers().get(0).getSecretGoal().verify(model.getPlayers().get(0).getShelf()).getPoint() > 0);
         }
@@ -254,8 +254,8 @@ public class GameModelTest {
             throw new RuntimeException(e);
         }
         for (CardGoalType c : CardGoalType.getValuesBUT()) {
-            model.getPlayers().get(0).setShelfS(new CardGoal(c).getLayoutToMatch());
-            model.getPlayers().get(1).setShelfS(new CardGoal(c).getLayoutToMatch());
+            model.getPlayers().get(0).setShelf(new CardGoal(c).getLayoutToMatch());
+            model.getPlayers().get(1).setShelf(new CardGoal(c).getLayoutToMatch());
             model.getPlayers().get(1).setSecretGoal(new CardGoal(c));
             assertNotEquals(model.getPlayers().get(0).getSecretGoal().verify(model.getPlayers().get(0).getShelf()).getPoint(),
                     model.getPlayers().get(1).getSecretGoal().verify(model.getPlayers().get(1).getShelf()).getPoint());

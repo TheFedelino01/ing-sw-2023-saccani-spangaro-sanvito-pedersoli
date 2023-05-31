@@ -12,6 +12,12 @@ public class InputParser extends Thread {
     private PlayerIC p;
     private Integer gameId;
 
+    /**
+     * Init class
+     *
+     * @param bufferInput
+     * @param gameFlow
+     */
     public InputParser(BufferData bufferInput, GameFlow gameFlow) {
         this.bufferInput = bufferInput;
         dataToProcess = new BufferData();
@@ -21,6 +27,9 @@ public class InputParser extends Thread {
         this.start();
     }
 
+    /**
+     * Parses the data contained in the buffer
+     */
     public void run() {
         String txt;
         while (!this.isInterrupted()) {
@@ -34,13 +43,13 @@ public class InputParser extends Thread {
             }
 
             //I popped an input from the buffer
-            if (p!=null && txt.startsWith("/cs")) {
+            if (p != null && txt.startsWith("/cs")) {
                 txt = txt.charAt(3) == ' ' ? txt.substring(4) : txt.substring(3);
                 String receiver = txt.substring(0, txt.indexOf(" "));
                 String msg = txt.substring(receiver.length() + 1);
                 gameFlow.sendMessage(new MessagePrivate(msg, p, receiver));
 
-            } else if (p!=null && txt.startsWith("/c")) {
+            } else if (p != null && txt.startsWith("/c")) {
                 //I send a message
                 txt = txt.charAt(2) == ' ' ? txt.substring(3) : txt.substring(2);
                 gameFlow.sendMessage(new Message(txt, p));
@@ -59,17 +68,30 @@ public class InputParser extends Thread {
         }
     }
 
+    /**
+     * Sets the game id to the param passed
+     *
+     * @param gameId game id to set
+     */
+    public void setIdGame(Integer gameId) {
+        this.gameId = gameId;
+    }
 
-    public void setIdGame(Integer gameId){
-        this.gameId=gameId;
+    /**
+     * Sets the player
+     *
+     * @param p player to set
+     */
+    public void setPlayer(PlayerIC p) {
+        this.p = p;
     }
-    public void setPlayer(PlayerIC p){
-        this.p=p;
-    }
+
+    /**
+     * @return data to process
+     */
     public BufferData getDataToProcess() {
         return dataToProcess;
     }
-
 
 
 }

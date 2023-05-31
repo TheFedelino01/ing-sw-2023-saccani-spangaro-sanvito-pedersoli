@@ -21,6 +21,9 @@ public class Playground implements Serializable, PlaygroundIC {
     private final List<Tile> bag; //All tiles are contained in this array
     private List<List<Integer>> data;
 
+    /**
+     * Constructor
+     */
     public Playground() {
         bag = new ArrayList<>();
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
@@ -73,15 +76,30 @@ public class Playground implements Serializable, PlaygroundIC {
         setPlayground();
     }
 
+    /**
+     * @param r row
+     * @param c column
+     * @return the tile in said position
+     */
     public Tile getTile(int r, int c) {
         return playground[r][c];
     }
 
+    /**
+     * Different get, so that the objects are immutable client's side
+     *
+     * @param r row
+     * @param c column
+     * @return the tile in that position
+     */
     @Override
     public TileIC getTile_IC(int r, int c) {
         return playground[r][c];
     }
 
+    /**
+     * @return the number of tiles left in the bag
+     */
     public int getNumOfTileinTheBag() {
         return bag.size();
     }
@@ -360,6 +378,9 @@ public class Playground implements Serializable, PlaygroundIC {
         return ris;
     }
 
+    /**
+     * @return the playground, in string format
+     */
     public String toString() {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_playground, DefaultValue.col_playground).a("   0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |").toString());
@@ -401,12 +422,18 @@ public class Playground implements Serializable, PlaygroundIC {
         }
     }
 
+    /**
+     * Testing methods
+     */
     @Deprecated
     public void setSingleTile(TileType type, int r, int c) {
         playground[r][c] = new Tile(type);
         playground[r][c].setFreeSide(true);
     }
 
+    /**
+     * Testing methods
+     */
     @Deprecated
     public List<List<Tile>> getPlayground() {
         return Arrays.stream(this.playground).toList()

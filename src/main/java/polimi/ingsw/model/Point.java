@@ -15,28 +15,51 @@ public class Point implements Serializable, PointIC {
     private Integer point;
     private CardType referredTo;
 
+    /**
+     * Constructor
+     *
+     * @param point
+     * @param referredTo
+     */
     public Point(Integer point, CardType referredTo) {
         this.point = point;
         this.referredTo = referredTo;
     }
 
+    /**
+     * Constructor
+     *
+     * @param point
+     */
     public Point(Integer point) {
         this.point = point;
         this.referredTo = CardGoalType.NOT_SET;
     }
 
+    /**
+     * @return the point obj
+     */
     public Integer getPoint() {
         return point;
     }
 
+    /**
+     * @param point init point
+     */
     public void setPoint(Integer point) {
         this.point = point;
     }
 
+    /**
+     * @return the card type this point id referred to
+     */
     public CardType getReferredTo() {
         return referredTo;
     }
 
+    /**
+     * @param referredTo sets the point to a said card type
+     */
     public void setReferredTo(CardGoalType referredTo) {
         this.referredTo = referredTo;
     }

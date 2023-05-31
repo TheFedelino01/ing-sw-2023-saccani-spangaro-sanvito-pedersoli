@@ -6,10 +6,17 @@ import java.util.Queue;
 public class BufferData {
     private Queue<String> data;
 
+    /**
+     * init
+     */
     public BufferData(){
-        data = new ArrayDeque<String>();
+        data = new ArrayDeque<>();
     }
 
+    /**
+     * Adds one element to the queue
+     * @param txt element to add
+     */
     public void addData(String txt){
         synchronized (this) {
             data.add(txt);
@@ -17,6 +24,11 @@ public class BufferData {
         }
     }
 
+    /**
+     * Pops one element from the queue
+     * @return the popped element
+     * @throws InterruptedException
+     */
     public String popData() throws InterruptedException {
         synchronized (this){
             while(data.isEmpty()){this.wait();}
@@ -24,6 +36,9 @@ public class BufferData {
         }
     }
 
+    /**
+     *  Empties the queue
+     */
     public void popAllData(){
         synchronized (this) {
             while (!data.isEmpty()) {

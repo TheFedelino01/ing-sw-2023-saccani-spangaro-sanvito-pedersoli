@@ -13,6 +13,9 @@ public class Shelf implements Serializable, ShelfIC {
     private Tile[][] shelf;
     private Integer freeSpace; //6*5
 
+    /**
+     * Constructor
+     */
     public Shelf() {
         shelf = new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];
         for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
@@ -23,15 +26,27 @@ public class Shelf implements Serializable, ShelfIC {
         freeSpace = DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf;
     }
 
+    /**
+     * Constructor
+     *
+     * @param shelf
+     * @param freeSpace
+     */
     public Shelf(Tile[][] shelf, Integer freeSpace) {
         this.shelf = shelf;
         this.freeSpace = freeSpace;
     }
 
+    /**
+     * @return the shelf
+     */
     public Tile[][] getShelf() {
         return shelf;
     }
 
+    /**
+     * @param shelf initialise a new shelf to this param
+     */
     public void setShelf(Tile[][] shelf) {
         this.shelf = shelf;
         //Set every tile to not used
@@ -42,23 +57,44 @@ public class Shelf implements Serializable, ShelfIC {
         }
     }
 
+    /**
+     * @param t tile to set
+     * @param r row in which to set the tile
+     * @param c col in which to set the tile
+     */
     public void setSingleTile(Tile t, int r, int c) {
         this.shelf[r][c] = t;
     }
 
+    /**
+     * @return shelf's free space
+     */
     public Integer getFreeSpace() {
         return freeSpace;
     }
 
+    /**
+     * @return shelf's occupied space
+     */
     public Integer getOccupiedSpace() {
         return (DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf) - freeSpace;
     }
 
-
+    /**
+     * @param r row
+     * @param c col
+     * @return tile in said position
+     */
     public Tile get(int r, int c) {
         return shelf[r][c];
     }
 
+    /**
+     * places a tile in said column
+     *
+     * @param column in which to place the tile
+     * @param type   of tile to place
+     */
     public void position(int column, TileType type) {
         //push the tile in the column making it slide down until it finds a tile, or it reaches the bottom
         for (int i = DefaultValue.NumOfRowsShelf - 1; i >= 0; i--) {
@@ -70,6 +106,9 @@ public class Shelf implements Serializable, ShelfIC {
         }
     }
 
+    /**
+     * @return the shelf in string form
+     */
     public String toString() {
         int i = DefaultValue.row_shelves;
         StringBuilder ris = new StringBuilder();
@@ -81,6 +120,10 @@ public class Shelf implements Serializable, ShelfIC {
         return ris.toString();
     }
 
+    /**
+     * @param col
+     * @return The specified shelf column in string form
+     */
     public String toString(int col) {
         StringBuilder ris = new StringBuilder();
         int i = DefaultValue.row_shelves;
@@ -92,6 +135,9 @@ public class Shelf implements Serializable, ShelfIC {
         return ris.toString();
     }
 
+    /**
+     * @return the goal card in string form
+     */
     public String toStringGoalCard() {
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_goalCards, DefaultValue.col_goalCards - 1).bold().a("Personal goal:").boldOff().toString());
@@ -104,6 +150,12 @@ public class Shelf implements Serializable, ShelfIC {
         return ris.toString();
     }
 
+    /**
+     * Part of the toString method
+     *
+     * @param r
+     * @return
+     */
     private String createRow(int r) {
         StringBuilder ris = new StringBuilder();
         ris.append("[");
@@ -131,6 +183,9 @@ public class Shelf implements Serializable, ShelfIC {
         return ris.toString();
     }
 
+    /**
+     * @return true if a shelf is empty, false if not
+     */
     public boolean isEmpty() {
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
@@ -146,7 +201,6 @@ public class Shelf implements Serializable, ShelfIC {
     }
 
     /**
-     *
      * @return the free space in a column
      */
     public int getMaxFreeSpacesInACol() {
@@ -171,6 +225,10 @@ public class Shelf implements Serializable, ShelfIC {
         return max;
     }
 
+    /**
+     * @param col the column to check free space
+     * @return the number of free spaces in the specified column
+     */
     public int getNumofFreeSpacesInCol(int col) {
         int tmp = 0;
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
@@ -184,12 +242,23 @@ public class Shelf implements Serializable, ShelfIC {
         return tmp;
     }
 
-
+    /**
+     * Different return, made for making the shelf immutable client side
+     *
+     * @return
+     */
     @Override
     public TileIC[][] getShelf_IC() {
         return shelf;
     }
 
+    /**
+     * Different return, made for making the tile immutable client side
+     *
+     * @param r
+     * @param c
+     * @return
+     */
     @Override
     public TileIC get_IC(int r, int c) {
         return shelf[r][c];
