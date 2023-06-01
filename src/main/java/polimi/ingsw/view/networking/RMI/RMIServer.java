@@ -12,15 +12,31 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * RMIServer Class<br>
+ * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game
+ */
 public class RMIServer extends UnicastRemoteObject implements MainControllerInterface {
 
+    /**
+     * MainController of all the games
+     */
     private final MainControllerInterface mainController;
 
-    //if the registry is not static, java will garbage collect it, and the client will crash
-    // basically a singleton on steroids
+    /**
+     * RMIServer object
+     */
     private static RMIServer serverObject = null;
+
+    /**
+     * Registry associated with the RMI Server
+     */
     private static Registry registry = null;
 
+    /**
+     * Create a RMI Server
+     * @return the instance of the server
+     */
     public static RMIServer bind() {
         try {
             serverObject = new RMIServer();
@@ -35,6 +51,10 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         return getInstance();
     }
 
+
+    /**
+     * @return the istance of the RMI Server
+     */
     public synchronized static RMIServer getInstance() {
         if(serverObject == null) {
             try {
@@ -46,15 +66,31 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         return serverObject;
     }
 
+    /**
+     * @return the registry associated with the RMI Server
+     * @throws RemoteException
+     */
     public synchronized static Registry getRegistry() throws RemoteException {
         return registry;
     }
 
+    /**
+     * Constructor that creates a RMI Server
+     * @throws RemoteException
+     */
     public RMIServer() throws RemoteException {
         super(0);
         mainController = MainController.getInstance();
     }
 
+    /**
+     * A player requested, through the network, to create a new game
+     *
+     * @param lis GameListener of the player
+     * @param nick of the player
+     * @return GameControllerInterface of the new created game
+     * @throws RemoteException
+     */
     @Override
     public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
 
@@ -72,6 +108,14 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         return ris;
     }
 
+    /**
+     * A player requested, through the network, to join a random game
+     *
+     * @param lis GameListener of the player
+     * @param nick of the player
+     * @return GameControllerInterface of the first available game
+     * @throws RemoteException
+     */
     @Override
     public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
 
@@ -89,6 +133,14 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         return ris;
     }
 
+    /**
+     * A player requested, through the network, to join a specific game
+     *
+     * @param lis GameListener of the player
+     * @param nick of the player
+     * @return GameControllerInterface of the specific game
+     * @throws RemoteException
+     */
     @Override
     public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
 
@@ -106,6 +158,14 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         return ris;
     }
 
+    /**
+     * A player requested, through the network, to reconnect to a game
+     *
+     * @param lis GameListener of the player
+     * @param nick of the player
+     * @return GameControllerInterface of the game
+     * @throws RemoteException
+     */
     @Override
     public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
 
@@ -122,6 +182,16 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         return ris;
     }
 
+
+    /**
+     * A player requested, through the network, to leave a game
+     *
+     * @param lis GameListener of the player
+     * @param nick of the player
+     * @param idGame of the game to leave
+     * @return GameControllerInterface of the game
+     * @throws RemoteException
+     */
     @Override
     public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
 
@@ -130,7 +200,12 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         return null;
     }
 
-    //for testing
+    /**
+     * Close the RMI Server
+     * Used only for testing purposes
+     *
+     * @return RMI Server
+     */
     @Deprecated
     public static RMIServer unbind(){
         try {
