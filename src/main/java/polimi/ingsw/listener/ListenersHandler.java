@@ -11,17 +11,29 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The ListenersHandler class is responsible for managing a List of GameListener {@link GameListener} <br>
+ * and for notifying the view when a change occurs in the GameModel {@link GameModel}. <br>
+ * When notifying an event, we need to pass the GameModelImmutable {@link GameModelImmutable} to the view to have access to the updated GameModel.
+ */
 public class ListenersHandler {
     private List<GameListener> listeners;
 
+    /**
+     * The constructor creates a new ArrayList of GameListener {@link GameListener}
+     */
     public ListenersHandler() {
         listeners = new ArrayList<>();
     }
 
+    /**
+     * The addListener method adds a new GameListener {@link GameListener} to the List of GameListener {@link GameListener}
+     * @param obj is the GameListener {@link GameListener} to add
+     */
     public synchronized void addListener(GameListener obj) {
         listeners.add(obj);
     }
-
+    
     public synchronized List<GameListener> getListeners() {
         return listeners;
     }
