@@ -5,6 +5,9 @@ import polimi.ingsw.listener.GameListener;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * This interface contains the events regarding the list of games
+ */
 public interface MainControllerInterface extends Remote {
     GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException;
 
