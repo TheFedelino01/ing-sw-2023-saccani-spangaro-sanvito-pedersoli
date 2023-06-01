@@ -33,11 +33,19 @@ public class ListenersHandler {
     public synchronized void addListener(GameListener obj) {
         listeners.add(obj);
     }
-    
+
+    /**
+     * The getListeners method returns the List of GameListener {@link GameListener}
+     * @return the List of GameListener {@link GameListener}
+     */
     public synchronized List<GameListener> getListeners() {
         return listeners;
     }
 
+    /**
+     * The notify_playerJoined method notifies the view that a player has joined the game
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     */
     public synchronized void notify_playerJoined(GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -48,6 +56,11 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_playerReconnected method notifies the view that a player has reconnected to the game
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
+     */
     public synchronized void notify_playerReconnected(GameModel model, String nickPlayerReconnected) {
         for (GameListener l : listeners) {
             try {
@@ -59,6 +72,11 @@ public class ListenersHandler {
     }
 
 
+    /**
+     * The notify_JoinUnableGameFull method notifies that a player cannot join the game because the game is full
+     * @param playerWantedToJoin is the player that wanted to join the game
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     */
     public synchronized void notify_JoinUnableGameFull(Player playerWantedToJoin, GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -69,6 +87,10 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_JoinUnableNicknameAlreadyIn method notifies that a player cannot join the game because the nickname is already in use
+     * @param playerWantedToJoin is the player that wanted to join the game {@link Player}
+     */
     public synchronized void notify_JoinUnableNicknameAlreadyIn(Player playerWantedToJoin) {
         for (GameListener l : listeners) {
             try {
@@ -78,7 +100,7 @@ public class ListenersHandler {
             }
         }
     }
-
+    
     public synchronized void notify_PlayerIsReadyToStart(GameModel model, String nick) {
         for (GameListener l : listeners) {
             try {
