@@ -140,7 +140,12 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
-    
+    /**
+     * This method is used to write on the ObjectOutputStream the message that player is ready to start
+     * @param model is the game model {@link GameModelImmutable}
+     * @param nick is the nickname of the player
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void playerIsReadyToStart(GameModelImmutable model, String nick) throws RemoteException {
         //System.out.println(nick +" ready to start by socket");
