@@ -151,10 +151,27 @@ public interface GameListener extends Remote {
      */
     void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException;
 
+    /**
+     * This method is used to notify that the column is too small
+     * @param gameModel is the game model {@link GameModelImmutable}
+     * @param column is the column that is too small
+     * @throws RemoteException if the reference could not be accessed
+     */
     void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException;
 
+    /**
+     * This method is used to notify that only one player is connected
+     * @param gameModel is the game model {@link GameModelImmutable}
+     * @param secondsToWaitUntilGameEnded is the number of seconds to wait until the game ends
+     * @throws RemoteException if the reference could not be accessed
+     */
     void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException;
 
+    /**
+     * This method is used to notify that the last circle has started
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
+     */
     void lastCircle(GameModelImmutable gamemodel) throws RemoteException;
 
 }
