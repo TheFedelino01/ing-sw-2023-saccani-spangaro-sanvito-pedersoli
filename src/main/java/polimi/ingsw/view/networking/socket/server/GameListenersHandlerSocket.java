@@ -235,6 +235,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that a Tile has been grabbed but it is not correct
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException {
         try {
@@ -245,6 +250,13 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that a Tile has been positioned
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @param type is the type of the tile {@link TileType}
+     * @param column is the column where the tile has been positioned
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
         try {
@@ -255,6 +267,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    
     @Override
     public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
         try {
