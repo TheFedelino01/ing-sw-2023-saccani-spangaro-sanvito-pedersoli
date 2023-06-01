@@ -95,6 +95,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because the nickname is already in use
+     * @param wantedToJoin is the player that has tried to join the game {@link Player}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
         try {
@@ -105,6 +110,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream the message that the gameID is not valid
+     * @param gameid is the id of the game
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void gameIdNotExists(int gameid) throws RemoteException {
         try {
@@ -115,6 +125,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream a generic error when entering the game
+     * @param why is the reason why the error happened
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void genericErrorWhenEnteringGame(String why) throws RemoteException {
         try {
@@ -125,6 +140,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    
     @Override
     public void playerIsReadyToStart(GameModelImmutable model, String nick) throws RemoteException {
         //System.out.println(nick +" ready to start by socket");
