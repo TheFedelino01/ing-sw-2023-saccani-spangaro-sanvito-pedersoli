@@ -157,6 +157,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream the common cards are extracted
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException
+     */
     @Override
     public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(card.getCommonType() +" common card extracted by socket");
@@ -168,6 +173,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream the game started
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void gameStarted(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(gamemodel.getGameId() +" game started by socket");
@@ -179,6 +189,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that the game ended
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void gameEnded(GameModelImmutable gamemodel) throws RemoteException {
         try {
