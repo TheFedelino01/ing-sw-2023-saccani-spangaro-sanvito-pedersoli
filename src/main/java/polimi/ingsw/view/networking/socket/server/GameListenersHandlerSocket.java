@@ -13,14 +13,28 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
+/**
+ * This class is used to pass the GameListener to the client via socket
+ * {@link GameListener}
+ * It has a private ObjectOutputStream where it writes the data
+ **/
 public class GameListenersHandlerSocket implements GameListener, Serializable {
 
     private ObjectOutputStream out;
 
+    /**
+     * This constructor creates a GameListenersHandlerSocket
+     * @param o the ObjectOutputStream
+     */
     public GameListenersHandlerSocket(ObjectOutputStream o) {
         out = o;
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream the message that a player has joined the game
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(nickNewPlayer +" by socket");
@@ -32,6 +46,12 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream the message that a player has left the game
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @param nick is the nickname of the player
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void playerLeft(GameModelImmutable gamemodel,String nick) throws RemoteException {
         try {
@@ -42,6 +62,12 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream the message that a player has reconnected to the game
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @param nickPlayerReconnected is the nickname of the player
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
         //System.out.println(nickNewPlayer +" by socket");
@@ -53,7 +79,12 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
-
+    /**
+     * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because it is full
+     * @param p is the player that has tried to join the game {@link Player}
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException {
         try {
