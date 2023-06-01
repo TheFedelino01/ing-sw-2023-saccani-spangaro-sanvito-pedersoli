@@ -56,12 +56,22 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
 
     @Override
     public void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException {
-
+        try {
+            out.reset();
+            out.writeObject(new msgJoinUnableGameFull(p,gamemodel));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
-
+        try {
+            out.reset();
+            out.writeObject(new msgJoinUnableNicknameAlreadyIn(wantedToJoin));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
