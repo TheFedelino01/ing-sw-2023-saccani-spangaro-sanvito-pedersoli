@@ -9,17 +9,48 @@ import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
+/**
+ * ClientHandler Class<br>
+ * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game<br>
+ * by the Socket Network protocol
+ */
 public class ClientHandler extends Thread {
+    /**
+     * Socket associated with the Client
+     */
     private final Socket clientSocket;
+    /**
+     * ObjectInputStream in
+     */
     private ObjectInputStream in;
+    /**
+     * ObjectOutputStream out
+     */
     private ObjectOutputStream out;
 
+
+
+    /**
+     * GameController associated with the game
+     */
     private GameControllerInterface gameController;
 
+    /**
+     * The GameListener of the ClientSocket for notifications
+     */
     private GameListenersHandlerSocket gameListenersHandlerSocket;
 
+    /**
+     * Nickname of the SocketClient
+     */
     private String nick = null;
 
+    /**
+     * Handle all the network requests performed by a specific ClientSocket
+     *
+     * @param soc the socket to the client
+     * @throws IOException
+     */
     public ClientHandler(Socket soc) throws IOException {
         this.clientSocket = soc;
         this.in = new ObjectInputStream(soc.getInputStream());
@@ -27,10 +58,18 @@ public class ClientHandler extends Thread {
         gameListenersHandlerSocket = new GameListenersHandlerSocket(out);
     }
 
+    /**
+     * Stop the thread
+     */
     public void interruptThread() {
         this.interrupt();
     }
 
+    /**
+     * Receive all the actions sent by the player, execute them on the specific controller required
+     * It detects client network disconnections by catching Exceptions
+     * {@link MainController} or {@link GameControllerInterface}
+     */
     @Override
     public void run() {
         SocketClientGenericMessage temp;
