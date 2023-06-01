@@ -267,7 +267,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
-    
+    /**
+     * This method is used to write on the ObjectOutputStream that the next turn is started
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException
+     */
     @Override
     public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
         try {
@@ -278,6 +282,13 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that the player has added points
+     * @param p is the player that has added the points
+     * @param point is the number of points that have been added
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException
+     */
     @Override
     public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
         try {
@@ -288,6 +299,12 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that a player has disconnected
+     * @param gameModel is the game model {@link GameModelImmutable}
+     * @param nick is the nickname of the player that has disconnected
+     * @throws RemoteException 
+     */
     @Override
     public void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException {
         try {
