@@ -47,7 +47,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     /**
      * GameListener on which to perform all actions requested by the Socket Server
      */
-    private GameListener modelInvokedEvents;
+    private GameListenersHandlerClient modelInvokedEvents;
     /**
      * The nickname associated with the ClientSocket communication
      */
