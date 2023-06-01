@@ -82,23 +82,73 @@ public interface GameListener extends Remote {
      */
     void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException;
 
-    
+    /**
+     * This method is used to notify the client that the game has started
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
+     */
     void gameStarted(GameModelImmutable gamemodel) throws RemoteException;
 
+    /**
+     * This method is used to notify the client that the game has ended
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
+     */
     void gameEnded(GameModelImmutable gamemodel) throws RemoteException;
 
+    /**
+     * This method is used to notify that a message has been sent {@link Message}
+     * @param gameModel is the game model {@link GameModelImmutable}
+     * @param msg is the message that has been sent
+     * @throws RemoteException if the reference could not be accessed
+     */
     void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException;
 
+    /**
+     * This method is used to notify that a Tile has been grabbed
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
+     */
     void grabbedTile(GameModelImmutable gamemodel) throws RemoteException;
 
+    /**
+     * This method is used to notify that a Tile has been grabbed but it is not correct
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
+     */
     void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException;
 
+    /**
+     * This method is used to notify that a Tile has been positioned
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @param type is the type of the tile
+     * @param column is the column where the tile has been positioned
+     * @throws RemoteException if the reference could not be accessed
+     */
     void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException;
 
+    /**
+     * This method is used to notify that the next turn triggered
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
+     */
     void nextTurn(GameModelImmutable gamemodel) throws RemoteException;
 
+    /**
+     * This method is used to notify that points have been added
+     * @param p is the player that has added the points
+     * @param point is the number of points that have been added
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
+     */
     void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException;
 
+    /**
+     * This method is used to notify that a player has disconnected
+     * @param gameModel is the game model {@link GameModelImmutable}
+     * @param nick is the nickname of the player that has disconnected
+     * @throws RemoteException if the reference could not be accessed
+     */
     void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException;
 
     void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException;
