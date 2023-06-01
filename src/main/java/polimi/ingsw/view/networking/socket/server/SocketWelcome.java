@@ -5,10 +5,27 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 
+ /**
+ * SocketWelcome Class<br>
+ * Handle all the incoming network requests and start for each one a specific {@link ClientHandler} that handle the single Socket Connection<br>
+ * by the Socket Network protocol
+ */
 public class SocketWelcome extends Thread {
+    /**
+     * The Socket that represents the SocketWelcome
+     */
     private ServerSocket serverSocket;
+    /**
+     * List of {@link ClientHandler} created associated with connections
+     */
     private List<ClientHandler> handler;
 
+    /**
+     * Starts the SocketWelcome that is the first Socket that each Client connects on the first connection
+     *
+     * @param port of the Socket Server
+     * @throws IOException
+     */
     public void start(int port) throws IOException {
         try {
             serverSocket = new ServerSocket(port);
@@ -21,6 +38,9 @@ public class SocketWelcome extends Thread {
         }
     }
 
+    /**
+     * Accept connections and start {@link ClientHandler} handler for each one
+     */
     public void run() {
         try {
             while (!Thread.interrupted()) {
@@ -39,6 +59,9 @@ public class SocketWelcome extends Thread {
         }
     }
 
+    /**
+     * Stop the Socket Server connection
+     */
     @Deprecated
     public void stopConnection() {
         if (handler != null)
