@@ -160,7 +160,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     /**
      * This method is used to write on the ObjectOutputStream the common cards are extracted
      * @param gamemodel is the game model {@link GameModelImmutable}
-     * @throws RemoteException
+     * @throws RemoteException if the connection fails
      */
     @Override
     public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
