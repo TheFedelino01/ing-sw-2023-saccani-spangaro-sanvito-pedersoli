@@ -290,6 +290,11 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_onlyOnePlayerConnected method notifies that only one player is connected <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     * @param secondsToWaitUntillGameEnded is the number of seconds to wait untill the game ends
+     */
     public synchronized void notify_onlyOnePlayerConnected(GameModel model, int secondsToWaitUntillGameEnded) {
         for (GameListener l : listeners) {
             try {
@@ -301,6 +306,10 @@ public class ListenersHandler {
     }
 
 
+    /**
+     * The removeListener method removes a listener from the list of listeners <br>
+     * @param lis is the listener to remove
+     */
     public synchronized void removeListener(GameListener lis) {
         listeners.remove(lis);
     }
