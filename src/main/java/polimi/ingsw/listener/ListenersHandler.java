@@ -27,7 +27,7 @@ public class ListenersHandler {
     }
 
     /**
-     * The addListener method adds a new GameListener {@link GameListener} to the List of GameListener {@link GameListener}
+     * The addListener method adds a new GameListener {@link GameListener} to the List of GameListener {@link GameListener} <br>
      * @param obj is the GameListener {@link GameListener} to add
      */
     public synchronized void addListener(GameListener obj) {
@@ -35,7 +35,7 @@ public class ListenersHandler {
     }
 
     /**
-     * The getListeners method returns the List of GameListener {@link GameListener}
+     * The getListeners method returns the List of GameListener {@link GameListener} <br>
      * @return the List of GameListener {@link GameListener}
      */
     public synchronized List<GameListener> getListeners() {
@@ -43,7 +43,7 @@ public class ListenersHandler {
     }
 
     /**
-     * The notify_playerJoined method notifies the view that a player has joined the game
+     * The notify_playerJoined method notifies the view that a player has joined the game <br>
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public synchronized void notify_playerJoined(GameModel model) {
@@ -57,8 +57,8 @@ public class ListenersHandler {
     }
 
     /**
-     * The notify_playerReconnected method notifies the view that a player has reconnected to the game
-     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     * The notify_playerReconnected method notifies the view that a player has reconnected to the game <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
      * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
      */
     public synchronized void notify_playerReconnected(GameModel model, String nickPlayerReconnected) {
@@ -73,8 +73,8 @@ public class ListenersHandler {
 
 
     /**
-     * The notify_JoinUnableGameFull method notifies that a player cannot join the game because the game is full
-     * @param playerWantedToJoin is the player that wanted to join the game
+     * The notify_JoinUnableGameFull method notifies that a player cannot join the game because the game is full <br>
+     * @param playerWantedToJoin is the player that wanted to join the game <br>
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public synchronized void notify_JoinUnableGameFull(Player playerWantedToJoin, GameModel model) {
@@ -88,8 +88,8 @@ public class ListenersHandler {
     }
 
     /**
-     * The notify_JoinUnableNicknameAlreadyIn method notifies that a player cannot join the game because the nickname is already in use
-     * @param playerWantedToJoin is the player that wanted to join the game {@link Player}
+     * The notify_JoinUnableNicknameAlreadyIn method notifies that a player cannot join the game because the nickname is already in use <br>
+     * @param playerWantedToJoin is the player that wanted to join the game {@link Player} <br>
      */
     public synchronized void notify_JoinUnableNicknameAlreadyIn(Player playerWantedToJoin) {
         for (GameListener l : listeners) {
@@ -100,7 +100,12 @@ public class ListenersHandler {
             }
         }
     }
-    
+
+    /**
+     * The notify_PlayerIsReadyToStart method notifies that a player is ready to start the game <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     * @param nick is the nickname of the player that is ready to start the game
+     */
     public synchronized void notify_PlayerIsReadyToStart(GameModel model, String nick) {
         for (GameListener l : listeners) {
             try {
@@ -111,6 +116,10 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_GameStarted method notifies that the game has started <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     */
     public synchronized void notify_GameStarted(GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -121,6 +130,10 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_GameEnded method notifies that the game has ended <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     */
     public synchronized void notify_GameEnded(GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -131,6 +144,11 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_SentMessage method notifies that a message has been sent <br>
+     * @param gameModel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     * @param msg is the message that has been sent {@link Message}
+     */
     public synchronized void notify_SentMessage(GameModel gameModel, Message msg) {
         for (GameListener l : listeners) {
             try {
@@ -141,6 +159,10 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_grabbedTile method notifies that a tile has been grabbed <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     */
     public void notify_grabbedTile(GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -151,6 +173,12 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_positionedTile method notifies that a tile has been positioned <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     * @param type is the type of the tile that has been positioned {@link TileType} <br>
+     * @param collum is the collum where the tile has been positioned
+     */
     public synchronized void notify_positionedTile(GameModel model, TileType type, int collum) {
         for (GameListener l : listeners) {
             try {
@@ -161,6 +189,10 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_nextTurn method notifies that the next turn has started <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     */
     public synchronized void notify_nextTurn(GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -171,6 +203,10 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_lastCircle method notifies that the last circle has started <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     */
     public void notify_LastCircle(GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -181,6 +217,10 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_grabbedTileNotCorrect method notifies that a tile has been grabbed but it is not correct <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     */
     public synchronized void notify_grabbedTileNotCorrect(GameModel model) {
         for (GameListener l : listeners) {
             try {
@@ -191,6 +231,10 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_extractedCommonCard method notifies that a common card has been extracted <br>
+     * @param gamemodel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+     */
     public synchronized void notify_extractedCommonCard(GameModel gamemodel) {
         for (GameListener l : listeners) {
             try {
@@ -201,6 +245,11 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_playerDisconnected method notifies that a player has disconnected <br>
+     * @param gamemodel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     * @param nick is the nickname of the player that has disconnected
+     */
     public synchronized void notify_playerDisconnected(GameModel gamemodel, String nick) {
         for (GameListener l : listeners) {
             try {
@@ -211,7 +260,11 @@ public class ListenersHandler {
         }
     }
 
-
+    /**
+     * The notify_playerLeft method notifies that a player has left the game <br>
+     * @param gameModel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     * @param nick is the nickname of the player that has left the game
+     */
     public void notify_playerLeft(GameModel gameModel, String nick) {
         for (GameListener l : listeners) {
             try {
@@ -222,6 +275,11 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_columnShelfTooSmall method notifies that a column shelf is too small <br>
+     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     * @param column is the column that is too small
+     */
     public synchronized void notify_columnShelfTooSmall(GameModel model, int column) {
         for (GameListener l : listeners) {
             try {
