@@ -270,7 +270,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     /**
      * This method is used to write on the ObjectOutputStream that the next turn is started
      * @param gamemodel is the game model {@link GameModelImmutable}
-     * @throws RemoteException
+     * @throws RemoteException if the connection fails
      */
     @Override
     public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
@@ -287,7 +287,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
      * @param p is the player that has added the points
      * @param point is the number of points that have been added
      * @param gamemodel is the game model {@link GameModelImmutable}
-     * @throws RemoteException
+     * @throws RemoteException if the connection fails
      */
     @Override
     public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
@@ -303,7 +303,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
      * This method is used to write on the ObjectOutputStream that a player has disconnected
      * @param gameModel is the game model {@link GameModelImmutable}
      * @param nick is the nickname of the player that has disconnected
-     * @throws RemoteException 
+     * @throws RemoteException if the connection fails
      */
     @Override
     public void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException {
@@ -315,6 +315,12 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that a column is too small
+     * @param gameModel is the game model {@link GameModelImmutable}
+     * @param column is the column that is too small
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
         try {
@@ -325,6 +331,12 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that only one player is connected
+     * @param gameModel is the game model {@link GameModelImmutable}
+     * @param secondsToWaitUntilGameEnded is the number of seconds to wait until the game ends
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
         try {
@@ -335,6 +347,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that the last circle is started
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
         try {
