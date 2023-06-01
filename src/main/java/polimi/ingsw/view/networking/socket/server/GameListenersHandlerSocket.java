@@ -220,6 +220,11 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that a Tile has been grabbed
+     * @param gamemodel is the game model {@link GameModelImmutable}
+     * @throws RemoteException 
+     */
     @Override
     public void grabbedTile(GameModelImmutable gamemodel) throws RemoteException {
         try {
