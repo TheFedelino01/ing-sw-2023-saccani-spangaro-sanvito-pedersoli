@@ -13,7 +13,6 @@ import polimi.ingsw.view.userView.gui.IntRecord;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -127,12 +126,12 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
@@ -196,12 +195,12 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
@@ -274,17 +273,17 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p3)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol3).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol3).isSameType(TileType.NOT_USED))
                     placeCol3++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol3, gameController.whoIsPlaying().getInHandTile().get(0).getType());
@@ -359,17 +358,17 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p3)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol3).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol3).isSameType(TileType.NOT_USED))
                     placeCol3++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol3, gameController.whoIsPlaying().getInHandTile().get(0).getType());
@@ -444,17 +443,17 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p3)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol3).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol3).isSameType(TileType.NOT_USED))
                     placeCol3++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol3, gameController.whoIsPlaying().getInHandTile().get(0).getType());
@@ -538,23 +537,23 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p3)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol3).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol3).isSameType(TileType.NOT_USED))
                     placeCol3++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol3, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             }
             else if (gameController.whoIsPlaying().equals(p4)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol4).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol4).isSameType(TileType.NOT_USED))
                     placeCol4++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol4, gameController.whoIsPlaying().getInHandTile().get(0).getType());
@@ -637,23 +636,23 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p3)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol3).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol3).isSameType(TileType.NOT_USED))
                     placeCol3++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol3, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             }
             else if (gameController.whoIsPlaying().equals(p4)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol4).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol4).isSameType(TileType.NOT_USED))
                     placeCol4++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol4, gameController.whoIsPlaying().getInHandTile().get(0).getType());
@@ -736,23 +735,23 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p3)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol3).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol3).isSameType(TileType.NOT_USED))
                     placeCol3++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol3, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             }
             else if (gameController.whoIsPlaying().equals(p4)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol4).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol4).isSameType(TileType.NOT_USED))
                     placeCol4++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol4, gameController.whoIsPlaying().getInHandTile().get(0).getType());
@@ -835,23 +834,23 @@ public class GameTest extends CommonlyUsedMethods {
             Player p = gameController.whoIsPlaying();
             int oldFreeSpace = p.getShelf().getFreeSpace();
             if (gameController.whoIsPlaying().equals(p1)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol1).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol1).isSameType(TileType.NOT_USED))
                     placeCol1++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol1, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p2)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol2).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol2).isSameType(TileType.NOT_USED))
                     placeCol2++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol2, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             } else if (gameController.whoIsPlaying().equals(p3)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol3).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol3).isSameType(TileType.NOT_USED))
                     placeCol3++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol3, gameController.whoIsPlaying().getInHandTile().get(0).getType());
             }
             else if (gameController.whoIsPlaying().equals(p4)) {
-                if (!gameController.whoIsPlaying().getShelf().get(0, placeCol4).isSameType(TileType.NOT_USED))
+                if (!gameController.whoIsPlaying().getShelf().getSingleTile(0, placeCol4).isSameType(TileType.NOT_USED))
                     placeCol4++;
                 gameController.positionTileOnShelf(gameController.whoIsPlaying().getNickname(),
                         placeCol4, gameController.whoIsPlaying().getInHandTile().get(0).getType());

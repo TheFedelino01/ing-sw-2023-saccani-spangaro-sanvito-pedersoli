@@ -85,7 +85,7 @@ public class Shelf implements Serializable, ShelfIC {
      * @param c col
      * @return tile in said position
      */
-    public Tile get(int r, int c) {
+    public Tile getSingleTile(int r, int c) {
         return shelf[r][c];
     }
 
@@ -212,7 +212,7 @@ public class Shelf implements Serializable, ShelfIC {
             }
             tmp = 0;
             for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-                if (!get(r, c).getType().equals(TileType.NOT_USED)) {
+                if (!getSingleTile(r, c).getType().equals(TileType.NOT_USED)) {
                     break;
                 } else {
                     tmp++;
@@ -232,7 +232,7 @@ public class Shelf implements Serializable, ShelfIC {
     public int getNumofFreeSpacesInCol(int col) {
         int tmp = 0;
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-            if (!get(r, col).getType().equals(TileType.NOT_USED)) {
+            if (!getSingleTile(r, col).getType().equals(TileType.NOT_USED)) {
                 return tmp;
             } else {
                 tmp++;

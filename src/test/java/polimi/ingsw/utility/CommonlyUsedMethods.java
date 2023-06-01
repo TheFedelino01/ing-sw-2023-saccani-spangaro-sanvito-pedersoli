@@ -47,7 +47,7 @@ public abstract class CommonlyUsedMethods {
                 row = 0;
                 col++;
             }
-            while (s.get(row, col).equals(new Tile(TileType.NOT_USED))) {
+            while (s.getSingleTile(row, col).equals(new Tile(TileType.NOT_USED))) {
                 row++;
                 if (col >= DefaultValue.NumOfColumnsShelf)
                     return s;
@@ -235,7 +235,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.TROPHY), 5, 2);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL1" -> {
@@ -247,7 +247,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.FRAME), 5, 4);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL2" -> {
@@ -259,7 +259,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.BOOK), 5, 0);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL3" -> {
@@ -271,7 +271,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.CAT), 4, 2);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL4" -> {
@@ -283,7 +283,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.CAT), 5, 3);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL5" -> {
@@ -295,7 +295,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.PLANT), 5, 0);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL6" -> {
@@ -307,7 +307,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.BOOK), 5, 2);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL7" -> {
@@ -319,7 +319,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.ACTIVITY), 5, 3);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL8" -> {
@@ -331,7 +331,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.FRAME), 5, 0);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL9" -> {
@@ -343,7 +343,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.PLANT), 5, 3);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL10" -> {
@@ -355,7 +355,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.TROPHY), 5, 3);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
             case "GOAL11" -> {
@@ -367,7 +367,7 @@ public abstract class CommonlyUsedMethods {
                 ret.setSingleTile(new Tile(TileType.CAT), 5, 0);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
             }
 

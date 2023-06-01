@@ -30,14 +30,14 @@ public class CommonSquares extends CommonMethods {
 
         for (int r = 0; r < DefaultValue.NumOfRowsShelf - 1; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf - 1; c++) {
-                if (!temp.get(r, c).isSameType(TileType.NOT_USED) &&
-                    temp.get(r, c).isSameType(temp.get(r + 1, c).getType()) &&
-                    temp.get(r, c).isSameType(temp.get(r, c + 1).getType()) &&
-                    temp.get(r, c).isSameType(temp.get(r + 1, c + 1).getType())) {
+                if (!temp.getSingleTile(r, c).isSameType(TileType.NOT_USED) &&
+                    temp.getSingleTile(r, c).isSameType(temp.getSingleTile(r + 1, c).getType()) &&
+                    temp.getSingleTile(r, c).isSameType(temp.getSingleTile(r, c + 1).getType()) &&
+                    temp.getSingleTile(r, c).isSameType(temp.getSingleTile(r + 1, c + 1).getType())) {
 
-                    if (CommonMethods.checkAdjacent(temp.get(r, c).getType(), temp, r, c) == 4)
+                    if (CommonMethods.checkAdjacent(temp.getSingleTile(r, c).getType(), temp, r, c) == 4)
                         sum++;
-                    CommonMethods.deleteAdjacent(temp.get(r, c).getType(), temp, r, c);
+                    CommonMethods.deleteAdjacent(temp.getSingleTile(r, c).getType(), temp, r, c);
                 }
             }
 

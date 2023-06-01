@@ -53,9 +53,8 @@ public class Player implements Serializable, PlayerIC {
      * @param secretGoal
      * @param inHandTile
      * @param obtainedPoints
-     * @param columnChosen
      */
-    public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTile, List<Point> obtainedPoints, Integer columnChosen) {
+    public Player(String nickname, Shelf shelf, CardGoal secretGoal, List<Tile> inHandTile, List<Point> obtainedPoints) {
         this.nickname = nickname;
         this.shelf = shelf;
         this.secretGoal = secretGoal;

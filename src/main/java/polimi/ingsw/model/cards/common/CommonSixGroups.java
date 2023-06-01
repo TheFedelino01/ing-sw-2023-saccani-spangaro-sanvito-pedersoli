@@ -30,9 +30,9 @@ public class CommonSixGroups extends CommonMethods {
         while (sum < 6 && !temp.isEmpty()) {
             for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
                 for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
-                    if (!temp.get(r, c).isSameType(TileType.NOT_USED)) {
+                    if (!temp.getSingleTile(r, c).isSameType(TileType.NOT_USED)) {
                         if (r != DefaultValue.NumOfRowsShelf - 1) {
-                            if (temp.get(r, c).isSameType(temp.get(r + 1, c).getType())) {
+                            if (temp.getSingleTile(r, c).isSameType(temp.getSingleTile(r + 1, c).getType())) {
                                 temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
                                 temp.setSingleTile(new Tile(TileType.NOT_USED), r + 1, c);
                                 sum++;
@@ -41,7 +41,7 @@ public class CommonSixGroups extends CommonMethods {
                         if (c != DefaultValue.NumOfColumnsShelf - 1) {
                             //need to check if the tile is different from a non-used one, in case the
                             // row check passes and sets the tile to not used before
-                            if (temp.get(r, c).isSameType(temp.get(r, c + 1).getType()) && !temp.get(r, c).isSameType(TileType.NOT_USED)) {
+                            if (temp.getSingleTile(r, c).isSameType(temp.getSingleTile(r, c + 1).getType()) && !temp.getSingleTile(r, c).isSameType(TileType.NOT_USED)) {
                                 temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);
                                 temp.setSingleTile(new Tile(TileType.NOT_USED), r, c + 1);
                                 sum++;

@@ -27,13 +27,13 @@ public class CommonSameDiagonal extends CommonCard {
 
             //amazing for loop, checks for occurrences in diagonal going from top to bottom
             for (int r = i, c = 0; r < DefaultValue.NumOfRowsShelf - 2 + i && check1 && c < DefaultValue.NumOfColumnsShelf - 1; r++, c++) {
-                if ((!toCheck.get(r, c).isSameType(toCheck.get(r + 1, c + 1).getType()) || toCheck.get(r, c).isSameType(TileType.NOT_USED))) {
+                if ((!toCheck.getSingleTile(r, c).isSameType(toCheck.getSingleTile(r + 1, c + 1).getType()) || toCheck.getSingleTile(r, c).isSameType(TileType.NOT_USED))) {
                     check1 = false;
                 }
             }
 
             for (int r = DefaultValue.NumOfRowsShelf - 2 + i, c = 0; r > i && c < DefaultValue.NumOfColumnsShelf; r--, c++) {
-                if (!toCheck.get(r, c).isSameType(toCheck.get(r - 1, c + 1).getType()) || toCheck.get(r, c).isSameType(TileType.NOT_USED)) {
+                if (!toCheck.getSingleTile(r, c).isSameType(toCheck.getSingleTile(r - 1, c + 1).getType()) || toCheck.getSingleTile(r, c).isSameType(TileType.NOT_USED)) {
                     check2 = false;
                 }
             }

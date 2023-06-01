@@ -16,16 +16,15 @@ public enum TileType {
     FINISHED_USING("tileFinishedusing"),
     USED("tileUsed");
 
-
-    TileType(String backgroundClass) {
-        this.backgroundClass = backgroundClass;
-    }
-
     //for testing purposes
     private static final List<TileType> values = List.of(values());
     private static final Random rand = new Random();
 
-    private String backgroundClass = "";
+    private final String backgroundClass;
+
+    TileType(String backgroundClass) {
+        this.backgroundClass = backgroundClass;
+    }
 
     public String getBackgroundClass() {
         return backgroundClass;

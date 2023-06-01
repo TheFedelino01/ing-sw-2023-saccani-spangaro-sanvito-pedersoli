@@ -34,11 +34,11 @@ public class CommonEight extends CommonMethods {
 
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if (!toCheck.get(i, j).isSameType(TileType.NOT_USED)) {
-                    if (tileCheck.get(toCheck.get(i, j).getType()) == null) {
-                        tileCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+                if (!toCheck.getSingleTile(i, j).isSameType(TileType.NOT_USED)) {
+                    if (tileCheck.get(toCheck.getSingleTile(i, j).getType()) == null) {
+                        tileCheck.putIfAbsent(toCheck.getSingleTile(i, j).getType(), 1);
                     } else {
-                        tileCheck.put(toCheck.get(i, j).getType(), tileCheck.get(toCheck.get(i, j).getType()) + 1);
+                        tileCheck.put(toCheck.getSingleTile(i, j).getType(), tileCheck.get(toCheck.getSingleTile(i, j).getType()) + 1);
                     }
                 }
             }

@@ -585,8 +585,8 @@ public class InGameController extends GenericController {
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 paneTile = (Pane) mainAnchor.lookup(prefixIdPane + r + c);
-                if (!(shelf.get(r, c).getType().equals(TileType.NOT_USED) || shelf.get(r, c).getType().equals(TileType.FINISHED_USING))) {
-                    paneTile.getStyleClass().add(shelf.get(r, c).getBackground());
+                if (!(shelf.getSingleTile(r, c).getType().equals(TileType.NOT_USED) || shelf.getSingleTile(r, c).getType().equals(TileType.FINISHED_USING))) {
+                    paneTile.getStyleClass().add(shelf.getSingleTile(r, c).getBackground());
                 }
 
             }

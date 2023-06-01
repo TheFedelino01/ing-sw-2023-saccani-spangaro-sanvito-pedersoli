@@ -30,11 +30,11 @@ public class CommonXCard extends CommonCard {
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
                 if (i < DefaultValue.NumOfRowsShelf - 2 && j < DefaultValue.NumOfColumnsShelf - 2) {   //check cross
-                    if (!(toCheck.get(i, j).isSameType(TileType.NOT_USED)) &&
-                        toCheck.get(i, j).isSameType(toCheck.get(i + 2, j).getType()) &&
-                        toCheck.get(i, j).isSameType(toCheck.get(i, j + 2).getType()) &&
-                        toCheck.get(i, j).isSameType(toCheck.get(i + 1, j + 1).getType()) &&
-                        toCheck.get(i, j).isSameType(toCheck.get(i + 2, j + 2).getType())) {
+                    if (!(toCheck.getSingleTile(i, j).isSameType(TileType.NOT_USED)) &&
+                        toCheck.getSingleTile(i, j).isSameType(toCheck.getSingleTile(i + 2, j).getType()) &&
+                        toCheck.getSingleTile(i, j).isSameType(toCheck.getSingleTile(i, j + 2).getType()) &&
+                        toCheck.getSingleTile(i, j).isSameType(toCheck.getSingleTile(i + 1, j + 1).getType()) &&
+                        toCheck.getSingleTile(i, j).isSameType(toCheck.getSingleTile(i + 2, j + 2).getType())) {
                         return true;
                     }
                 }

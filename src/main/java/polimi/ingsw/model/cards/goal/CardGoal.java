@@ -122,7 +122,7 @@ public class CardGoal extends Card implements CardGoalIC {
         int check = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
             for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-                if ((!(layoutToMatch.get(i, j).isSameType(TileType.NOT_USED))) && (layoutToMatch.get(i, j).isSameType(toCheck.get(i, j).getType()))) {
+                if ((!(layoutToMatch.getSingleTile(i, j).isSameType(TileType.NOT_USED))) && (layoutToMatch.getSingleTile(i, j).isSameType(toCheck.getSingleTile(i, j).getType()))) {
                     check++;
                 }
             }

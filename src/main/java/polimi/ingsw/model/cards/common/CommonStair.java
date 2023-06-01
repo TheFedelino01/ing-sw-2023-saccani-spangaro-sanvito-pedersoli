@@ -27,7 +27,7 @@ public class CommonStair extends CommonCard {
         int checkSxToDx = 1, checkDxToSx = 1, checkSxToDx2 = 1, checkDxToSx2 = 1;
         for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
             for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-                if (toCheck.get(i, j).isSameType(TileType.NOT_USED))
+                if (toCheck.getSingleTile(i, j).isSameType(TileType.NOT_USED))
                     spaceCheck[j]++;
             }
         }

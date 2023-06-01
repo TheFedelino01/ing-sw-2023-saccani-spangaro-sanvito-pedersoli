@@ -78,8 +78,8 @@ public class CommonVerticalCard extends CommonCard {
         int ok = 0;
         int count = 0;
         for (int i = 0; i < DefaultValue.NumOfRowsShelf; i++) {
-            if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
-                colCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+            if (!toCheck.getSingleTile(i, j).isSameType(TileType.NOT_USED))
+                colCheck.putIfAbsent(toCheck.getSingleTile(i, j).getType(), 1);
             else
                 count++;
         }

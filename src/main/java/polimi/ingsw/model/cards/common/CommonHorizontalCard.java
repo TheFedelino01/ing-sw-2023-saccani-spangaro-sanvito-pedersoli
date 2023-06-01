@@ -76,8 +76,8 @@ public class CommonHorizontalCard extends CommonCard {
         int ok = 0;
         int count = 0;
         for (int j = 0; j < DefaultValue.NumOfColumnsShelf; j++) {
-            if (!toCheck.get(i, j).isSameType(TileType.NOT_USED))
-                rowCheck.putIfAbsent(toCheck.get(i, j).getType(), 1);
+            if (!toCheck.getSingleTile(i, j).isSameType(TileType.NOT_USED))
+                rowCheck.putIfAbsent(toCheck.getSingleTile(i, j).getType(), 1);
             else
                 count++;
         }

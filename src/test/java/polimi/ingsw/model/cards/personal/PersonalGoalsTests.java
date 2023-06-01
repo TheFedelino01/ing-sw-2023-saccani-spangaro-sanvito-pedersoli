@@ -76,7 +76,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.TROPHY), 5, 2);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -90,7 +90,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.FRAME), 5, 4);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -104,7 +104,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.BOOK), 5, 0);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -118,7 +118,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.CAT), 4, 2);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -132,7 +132,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.CAT), 5, 3);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -146,7 +146,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.PLANT), 5, 0);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -160,7 +160,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.BOOK), 5, 2);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -174,7 +174,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.ACTIVITY), 5, 3);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -188,7 +188,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.FRAME), 5, 0);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -202,7 +202,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.PLANT), 5, 3);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -216,7 +216,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.TROPHY), 5, 3);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }
@@ -230,7 +230,7 @@ public class PersonalGoalsTests {
                 ret.setSingleTile(new Tile(TileType.CAT), 5, 0);
                 for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++)
                     for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++)
-                        if (ret.get(r, c).isSameType(TileType.NOT_USED))
+                        if (ret.getSingleTile(r, c).isSameType(TileType.NOT_USED))
                             ret.setSingleTile(new Tile(TileType.randomTile()), r, c);
                 return ret;
             }

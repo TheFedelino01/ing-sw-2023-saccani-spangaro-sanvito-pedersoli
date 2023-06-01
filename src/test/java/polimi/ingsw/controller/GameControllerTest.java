@@ -1,12 +1,10 @@
 package polimi.ingsw.controller;
 
-import junit.framework.Assert;
 import org.junit.jupiter.api.*;
 import polimi.ingsw.model.*;
 import polimi.ingsw.model.cards.common.CommonCard;
 import polimi.ingsw.model.cards.goal.CardGoal;
 import polimi.ingsw.model.enumeration.*;
-import polimi.ingsw.model.exceptions.GameEndedException;
 import polimi.ingsw.model.exceptions.PlayerAlreadyInException;
 import polimi.ingsw.model.exceptions.PositioningATileNotGrabbedException;
 
@@ -98,7 +96,7 @@ public class GameControllerTest {
         assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned tile on shelf but player's hand not free");
 
 
-        if (!plist.get(currentPlayer).getShelf().get(DefaultValue.NumOfRowsShelf - 1, 0).isSameType(grabbed.getType())) {
+        if (!plist.get(currentPlayer).getShelf().getSingleTile(DefaultValue.NumOfRowsShelf - 1, 0).isSameType(grabbed.getType())) {
             assertEquals(0, plist.get(currentPlayer).getInHandTile().size(), "Positioned a wrong tile");
         }
 
