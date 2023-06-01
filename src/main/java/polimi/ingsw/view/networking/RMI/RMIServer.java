@@ -14,7 +14,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 /**
  * RMIServer Class<br>
- * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game
+ * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game<br>
+ * by the RMI Network protocol
  */
 public class RMIServer extends UnicastRemoteObject implements MainControllerInterface {
 
