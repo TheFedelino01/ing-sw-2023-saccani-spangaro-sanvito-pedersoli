@@ -204,6 +204,12 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that a message has been sent
+     * @param gameModel is the game model {@link GameModelImmutable}
+     * @param msg is the message sent {@link Message}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException {
         try {
