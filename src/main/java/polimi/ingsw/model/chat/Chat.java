@@ -17,7 +17,7 @@ public class Chat implements Serializable, ChatIC {
      * Constructor
      */
     public Chat() {
-        msgs = new ArrayList<Message>();
+        msgs = new ArrayList<>();
     }
 
     /**

@@ -1,6 +1,5 @@
 package polimi.ingsw.model.chat;
 
-import polimi.ingsw.model.Player;
 import polimi.ingsw.model.interfaces.PlayerIC;
 
 public class MessagePrivate extends Message{
