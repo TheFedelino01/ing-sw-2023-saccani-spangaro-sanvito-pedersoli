@@ -1,4 +1,4 @@
-package polimi.ingsw.view.handlerResponsesByClient;
+package polimi.ingsw.view.networking.socket.client;
 
 import polimi.ingsw.listener.GameListener;
 import polimi.ingsw.model.chat.Message;

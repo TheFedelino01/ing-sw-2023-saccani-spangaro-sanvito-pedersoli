@@ -6,7 +6,7 @@ import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.exceptions.GameEndedException;
-import polimi.ingsw.view.handlerResponsesByClient.GameListenersHandlerClient;
+import polimi.ingsw.view.networking.socket.client.GameListenersHandlerClient;
 import polimi.ingsw.view.userView.CommonClientActions;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.view.networking.RMI.remoteInterfaces.MainControllerInterface;

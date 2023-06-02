@@ -1,17 +1,12 @@
 package polimi.ingsw.view.networking.socket.client;
 
-import polimi.ingsw.listener.GameListener;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
-import polimi.ingsw.model.exceptions.GameEndedException;
 import polimi.ingsw.view.networking.socket.client.MainControllerMessages.*;
 import polimi.ingsw.view.networking.socket.client.GameControllerMessages.SocketClientMessageNewChatMessage;
 import polimi.ingsw.view.userView.CommonClientActions;
-import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
-import polimi.ingsw.view.networking.RMI.remoteInterfaces.MainControllerInterface;
-import polimi.ingsw.view.handlerResponsesByClient.GameListenersHandlerClient;
 import polimi.ingsw.view.networking.socket.client.GameControllerMessages.SocketClientMessageGrabTileFromPlayground;
 import polimi.ingsw.view.networking.socket.client.GameControllerMessages.SocketClientMessagePositionTileOnShelf;
 import polimi.ingsw.view.networking.socket.client.GameControllerMessages.SocketClientMessageSetReady;
