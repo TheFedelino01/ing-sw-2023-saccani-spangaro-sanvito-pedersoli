@@ -1,7 +1,7 @@
 # IngSW2023
 <h1 align="center">
   <br>
-  <a href="https://i.ibb.co/jgsfh7T/Title-2000x2000px.png"><img src="https://i.ibb.co/jgsfh7T/Title-2000x2000px.png" alt="MyShelfie" width="600"></a>
+  <a href="https://www.craniocreations.it/prodotto/my-shelfie"><img src="https://i.ibb.co/whDNK9g/banner.png" alt="MyShelfie" width="900"></a>
   <br>
   Project PoliMi for ing-sw
   <br>
@@ -61,7 +61,7 @@ Code Coverage will be generated in: <br>
 Open the file to see a more detailed view on the project's code coverage      
 
 
-<img src="https://i.ibb.co/GtVbt3y/menu.jpg" alt="logo">
+<img src="https://i.ibb.co/ch9ytVk/menu2.png" alt="logo" width="800" heigth="600" float="center">
 
 
 
