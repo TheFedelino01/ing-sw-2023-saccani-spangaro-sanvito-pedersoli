@@ -9,7 +9,7 @@ import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.GameStatus;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.utility.CommonlyUsedMethods;
-import polimi.ingsw.view.userView.gui.IntRecord;
+import polimi.ingsw.view.gui.IntRecord;
 
 import java.util.ArrayList;
 import java.util.List;

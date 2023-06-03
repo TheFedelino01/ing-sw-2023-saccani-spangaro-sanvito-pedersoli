@@ -13,7 +13,7 @@ import polimi.ingsw.model.exceptions.GameEndedException;
 import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
-import polimi.ingsw.view.userView.gui.IntRecord;
+import polimi.ingsw.view.gui.IntRecord;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

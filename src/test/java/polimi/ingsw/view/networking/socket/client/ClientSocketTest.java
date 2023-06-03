@@ -6,11 +6,10 @@ import polimi.ingsw.model.Player;
 import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
-import polimi.ingsw.view.networking.socket.server.SocketWelcome;
-import polimi.ingsw.view.userView.ConnectionSelection;
-import polimi.ingsw.view.userView.GameFlow;
-import polimi.ingsw.view.userView.utilities.BufferData;
-import polimi.ingsw.view.userView.utilities.InputParser;
+import polimi.ingsw.networking.socket.client.ClientSocket;
+import polimi.ingsw.networking.socket.server.SocketWelcome;
+import polimi.ingsw.view.flow.ConnectionSelection;
+import polimi.ingsw.view.flow.GameFlow;
 
 import java.io.IOException;
 

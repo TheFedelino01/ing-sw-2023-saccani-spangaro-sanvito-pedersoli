@@ -37,7 +37,7 @@ public class CardGoal extends Card implements CardGoalIC {
 
     /**
      * Constructor
-     * @param type
+     * @param type type of GoalCard
      */
     public CardGoal(CardGoalType type) {
         initialiseLayout(type);
@@ -58,8 +58,8 @@ public class CardGoal extends Card implements CardGoalIC {
 
     /**
      * Constructor
-     * @param layoutToMatch
-     * @param type
+     * @param layoutToMatch layout that the CardGoal need to match
+     * @param type type of goal
      */
     public CardGoal(Shelf layoutToMatch, CardGoalType type) {
         legendPoint = new HashMap<>();
@@ -80,7 +80,7 @@ public class CardGoal extends Card implements CardGoalIC {
 
     /**
      * Creates the layout by reading it from a json file
-     * @param type
+     * @param type type
      */
     private void initialiseLayout(CardGoalType type) {
         String rowSplit = "-";

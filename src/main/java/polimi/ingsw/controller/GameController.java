@@ -9,8 +9,7 @@ import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.*;
 import polimi.ingsw.model.enumeration.*;
 import polimi.ingsw.model.exceptions.*;
-import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
-import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
+import polimi.ingsw.networking.rmi.remoteInterfaces.GameControllerInterface;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -278,7 +277,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * Return the list of all the goal cards extracted associated with the players
      *
-     * @return Map of <Player,(Secret goal card)>
+     * @return Map of {Player,(Secret goal card)}
      */
     public Map<Player, CardGoal> getAllGoalCards() {
         return model.getGoalCards();
@@ -652,7 +651,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     //TESTING METHODS
     /**
      * Can set a model
-     * @apiNote used for testing purposes only, not used (and should not be used) elsewhere
+     * used for testing purposes only, not used (and should not be used) elsewhere
      * @param model
      */
     @Deprecated
@@ -662,7 +661,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     /**
      * Return the playground of the game
-     * @apiNote used for testing purposes only, not used (and should not be used) elsewhere
+     * used for testing purposes only, not used (and should not be used) elsewhere
      */
     @Deprecated
     public Playground getPlayground() {

@@ -5,7 +5,7 @@ import polimi.ingsw.model.Shelf;
 import polimi.ingsw.model.Tile;
 import polimi.ingsw.model.enumeration.CardType;
 import polimi.ingsw.model.enumeration.TileType;
-import polimi.ingsw.view.userView.gui.IntRecord;
+import polimi.ingsw.view.gui.IntRecord;
 
 import java.util.ArrayList;
 import java.util.List;

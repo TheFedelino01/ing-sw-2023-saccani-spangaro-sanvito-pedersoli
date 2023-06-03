@@ -2,9 +2,9 @@ package polimi.ingsw.main;
 
 import javafx.application.Application;
 import polimi.ingsw.model.DefaultValue;
-import polimi.ingsw.view.userView.ConnectionSelection;
-import polimi.ingsw.view.userView.GameFlow;
-import polimi.ingsw.view.userView.gui.GUIApplication;
+import polimi.ingsw.view.flow.ConnectionSelection;
+import polimi.ingsw.view.flow.GameFlow;
+import polimi.ingsw.view.gui.GUIApplication;
 
 import java.io.IOException;
 import java.util.Arrays;

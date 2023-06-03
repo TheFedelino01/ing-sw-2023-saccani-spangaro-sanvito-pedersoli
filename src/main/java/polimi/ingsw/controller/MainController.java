@@ -7,8 +7,8 @@ import polimi.ingsw.model.exceptions.GameEndedException;
 import polimi.ingsw.model.exceptions.MaxPlayersInException;
 import polimi.ingsw.model.exceptions.PlayerAlreadyInException;
 import polimi.ingsw.model.Player;
-import polimi.ingsw.view.networking.RMI.remoteInterfaces.GameControllerInterface;
-import polimi.ingsw.view.networking.RMI.remoteInterfaces.MainControllerInterface;
+import polimi.ingsw.networking.rmi.remoteInterfaces.GameControllerInterface;
+import polimi.ingsw.networking.rmi.remoteInterfaces.MainControllerInterface;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
