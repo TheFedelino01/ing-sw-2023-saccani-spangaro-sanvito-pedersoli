@@ -393,7 +393,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException if there is a connection error (RMI)
      */
     @Override
-    public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
+    public synchronized void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
 
         //Player has just disconnected, so I remove the notifications for him
         removeListener(lisOfClient, model.getPlayerEntity(nick));
@@ -471,7 +471,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public void heartbeat(String nick, GameListener me) throws RemoteException {
+    public synchronized void heartbeat(String nick, GameListener me) throws RemoteException {
         synchronized (heartbeats) {
             heartbeats.put(me, new Heartbeat(System.currentTimeMillis(), nick));
         }
@@ -485,7 +485,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public void sentMessage(Message msg) throws RemoteException {
+    public synchronized void sentMessage(Message msg) throws RemoteException {
         model.sentMessage(msg);
     }
 
@@ -622,7 +622,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @return the ID of the game
      */
     @Override
-    public int getGameId() {
+    public synchronized int getGameId() {
         return model.getGameId();
     }
 
@@ -631,7 +631,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public int getNumOnlinePlayers() throws RemoteException {
+    public synchronized int getNumOnlinePlayers() throws RemoteException {
         return model.getNumOfOnlinePlayers();
     }
 
@@ -643,7 +643,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public void leave(GameListener lis, String nick) throws RemoteException {
+    public synchronized void leave(GameListener lis, String nick) throws RemoteException {
         removeListener(lis, model.getPlayerEntity(nick));
         model.removePlayer(nick);
     }

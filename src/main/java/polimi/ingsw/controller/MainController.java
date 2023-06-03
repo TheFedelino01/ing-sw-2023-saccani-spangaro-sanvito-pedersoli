@@ -165,7 +165,7 @@ public class MainController implements MainControllerInterface, Serializable {
      * @throws RemoteException
      */
     @Override
-    public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
+    public synchronized GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
         List<GameController> ris = runningGames.stream().filter(x -> (x.getGameId() == idGame)).toList();
         List<Player> players = new ArrayList<>();
         if (ris.size() == 1) {
@@ -208,7 +208,7 @@ public class MainController implements MainControllerInterface, Serializable {
      * @throws RemoteException
      */
     @Override
-    public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
+    public synchronized GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
         List<GameController> ris = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList());
         if (ris.size() == 1) {
             ris.get(0).leave(lis, nick);
