@@ -7,7 +7,7 @@ import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.networking.socket.client.ClientSocket;
-import polimi.ingsw.networking.socket.server.SocketWelcome;
+import polimi.ingsw.networking.socket.server.Server;
 import polimi.ingsw.view.flow.ConnectionSelection;
 import polimi.ingsw.view.flow.GameFlow;
 
@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class ClientSocketTest {
     private static GameFlow gameFlow;
     private static ClientSocket clientSocket;
-    private static SocketWelcome serverSocket;
+    private static Server serverSocket;
 
     @BeforeEach
     void startServer() throws IOException {
-        serverSocket = new SocketWelcome();
+        serverSocket = new Server();
         serverSocket.start(DefaultValue.Default_port_Socket);
         gameFlow = new GameFlow(ConnectionSelection.SOCKET);
         clientSocket = new ClientSocket(gameFlow);

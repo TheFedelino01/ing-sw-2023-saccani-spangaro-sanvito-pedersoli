@@ -2,7 +2,7 @@ package polimi.ingsw.main;
 
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.networking.rmi.RMIServer;
-import polimi.ingsw.networking.socket.server.SocketWelcome;
+import polimi.ingsw.networking.socket.server.Server;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public class MainServer {
 
         RMIServer.bind();
 
-        SocketWelcome serverSOCKET = new SocketWelcome();
+        Server serverSOCKET = new Server();
         serverSOCKET.start(DefaultValue.Default_port_Socket);
 
     }

@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
  /**
- * SocketWelcome Class<br>
+ * Server Class<br>
  * Handle all the incoming network requests and start for each one a specific {@link ClientHandler} that handle the single Socket Connection<br>
  * by the Socket Network protocol
  */
-public class SocketWelcome extends Thread {
+public class Server extends Thread {
     /**
-     * The Socket that represents the SocketWelcome
+     * The Socket that represents the Server
      */
     private ServerSocket serverSocket;
     /**
@@ -21,7 +21,7 @@ public class SocketWelcome extends Thread {
     private List<ClientHandler> handler;
 
     /**
-     * Starts the SocketWelcome that is the first Socket that each Client connects on the first connection
+     * Starts the Server that is the first Socket that each Client connects on the first connection
      *
      * @param port of the Socket Server
      * @throws IOException

@@ -81,24 +81,30 @@
                 <configuration>
                     <excludes>
                         <exclude>**/main/*</exclude>
-                        <exclude>**/userView/UI.*</exclude>
-                        <exclude>**/userView/Flow.*</exclude>
-                        <exclude>**/userView/GameFlow.*</exclude>
+
+                        <exclude>**/flow/Flow.*</exclude>
+                        <exclude>**/flow/GameFlow.*</exclude>
+                        <exclude>**/flow/CommonClientActions.*</exclude>
+                        <exclude>**/flow/UI.*</exclude>
+
                         <exclude>**/gui/*</exclude>
                         <exclude>**/gui/controllers/*</exclude>
                         <exclude>**/gui/scenes/*</exclude>
-                        <exclude>**/text/*</exclude>
+
+                        <exclude>**/text/TUI.*</exclude>
+
                         <exclude>**/utilities/*</exclude>
                         <exclude>**/utilities/events/EventType.*</exclude>
+                        <exclude>**/utilities/events/EventList.*</exclude>
+                        <exclude>**/utilities/events/EventElement.*</exclude>
+
                         <exclude>**/cards/Card.*</exclude>
                         <exclude>**/cards/common/CommonCard.*</exclude>
                         <exclude>**/cards/common/CommonMethods.*</exclude>
-                        <exclude>**/userView/utilities/events/EventList.*</exclude>
-                        <exclude>**/userView/utilities/events/EventElement.*</exclude>
                         <!-- uncomment to exclude network from coverage testing -->
 <!--                        <exclude>**/networking/*</exclude>-->
 <!--                        <exclude>**/networking/socket/*</exclude>-->
-<!--                        <exclude>**/networking/RMI/*</exclude>-->
+<!--                        <exclude>**/networking/rmi/*</exclude>-->
 <!--                        <exclude>**/networking/socket/client/*</exclude>-->
 <!--                        <exclude>**/networking/socket/server/*</exclude>-->
 <!--                        <exclude>**/networking/socket/client/ServerToClientMessages/*</exclude>-->
