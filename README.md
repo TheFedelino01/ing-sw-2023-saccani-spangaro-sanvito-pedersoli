@@ -7,7 +7,7 @@
   <br>
 </h1>
 
-<h4 align="center">A distribuited version of the game MyShelfie  made by <a href="https:#" target="_blank">Saccani Federico</a>, <a href="https:#" target="_blank">Spangaro Francesco</a>, <a href="https:#" target="_blank">Pedersoli Luca</a> and <a href="https:#" target="_blank">Sanvito Luca</a>.</h4>
+<h4 align="center">A distribuited version of the game MyShelfie  made by <a href="https://github.com/TheFedelino01" target="_blank">Saccani Federico</a>, <a href="https://github.com/francescospangaro" target="_blank">Spangaro Francesco</a>, <a href="https://github.com/kessal001" target="_blank">Pedersoli Luca</a> and <a href="https://github.com/Luc076547" target="_blank">Sanvito Luca</a>.</h4>
 
 <div align="center">
   
