@@ -116,3 +116,5 @@ MyShelfie/V.json
 *.json
 !**/GoalCardsLayout.json
 !**/PlaygroundFourPlayer.json
+!**/softeng-gc04-1.0-SNAPSHOT-client.jar
+!**/softeng-gc04-1.0-SNAPSHOT-server.jar
