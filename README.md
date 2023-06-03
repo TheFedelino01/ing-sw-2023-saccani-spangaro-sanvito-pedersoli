@@ -42,6 +42,7 @@ We have `implemented`, in addiction to the `Game Specific` and `Game Agnostic` r
 | Complete rules  | :heavy_check_mark:    |
 
 # How to Use <img src="https://i.ibb.co/QHmskqv/run.png" align="right" alt="logo" width="130" height = "139" style = "border: none; float: right;">
+From Intellij:
 1. Intellij: maven `menù -> MyShelfie -> Lifecycle -> Clean` 
 2. Intellij: maven  `menù -> MyShelfie -> Lifecycle -> Package` 
 3. Open `CMD`, on project directory:   
@@ -51,7 +52,14 @@ We have `implemented`, in addiction to the `Game Specific` and `Game Agnostic` r
    -> `java -jar softeng-gc04-1.0-SNAPSHOT-server.jar` (to run the server)
    
 Repeat from (1) each time the code is modified  
-
+  
+From github:  
+1. Go to Documents/JARs and download both files  
+2. Open `CMD` and navigate to to C:/[dir]/[folder with the jar files]  
+3. From here, just type:  
+   -> `java -jar softeng-gc04-1.0-SNAPSHOT-client.jar` (to run the clients)<br>
+   -> `java -jar softeng-gc04-1.0-SNAPSHOT-server.jar` (to run the server)  
+  
 # How generate Code Coverage <img src="https://i.ibb.co/4PYzV7D/cov.png" align="right" alt="logo" width="130" height = "139" style = "border: none; float: right;">
 To generate the Code Coverage:  
 1. Intellij: maven `menù -> MyShelfie -> Lifecycle -> Clean` 
@@ -69,7 +77,7 @@ Open the file to see a more detailed view on the project's code coverage
 * Full screen mode responsive
   - Write distraction free.
 * Cross platform
-  - Windows, macOS and Linux ready.
+  - Windows and macOS ready.
 
 ## Download
 
@@ -80,10 +88,10 @@ You can [download](https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro
 
 This software uses the following open source packages:
 
-- [Lib1](https://lib1.org/)
-- [Lib2](https://lib2.org/)
-- [Lib3](https://lib3.org/)
-- [Lib4](https://lib4.org/)
-- [Lib5](https://lib5.org/)
-- [Lib6](https://lib6.org/)
+- [Lanterna](https://code.google.com/archive/p/lanterna/)
+- [Json-Simple](https://code.google.com/archive/p/json-simple/)
+- [OpenJfx](https://openjfx.io/)
+- [JUnit](https://junit.org/junit5/)
+- [Gson](https://github.com/google/gson)
+- [Jansi](https://fusesource.github.io/jansi/)
 
