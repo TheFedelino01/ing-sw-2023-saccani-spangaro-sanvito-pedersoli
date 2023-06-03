@@ -83,7 +83,7 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
     public void gameEnded(GameModelImmutable gamemodel) throws RemoteException {
         /*System.out.println(this.hashCode() + "> "+gamemodel.getGameId()+" ended! \n" +
                 "The winner is: "+gamemodel.getWinner().getNickname()+"\n" +
-                "Score board: todo [by Socket]");*/
+                "Score board: */
         flow.gameEnded(gamemodel);
     }
 

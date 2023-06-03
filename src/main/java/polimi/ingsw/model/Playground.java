@@ -22,26 +22,33 @@ public class Playground implements Serializable, PlaygroundIC {
     private List<List<Integer>> data;
 
     /**
-     * Constructor
+     * Init an empty playground
      */
     public Playground() {
         bag = new ArrayList<>();
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
     }
 
+
     /**
-     * Watch out:  to write in the json file:<br>
-     * the "-" is the row separator<br>
-     * the "," is the column separator, so<br>
-     * 0,0,0,0-1,1,1,1 is equal to the matrix<br>
-     * 0 0 0 0<br>
-     * 1 1 1 1<br>
-     * Also, the number that identifies the long strings in the json<br>
-     * is the player number that the matrix/string implements<br>
-     * E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription<br>
-     * of the playground default for 2 player based games, and so on<br>
+     * Init the playground based on the numer of player @param numberOfPlayers
+     *
+     * @param numberOfPlayers number of players playing with the playground
      */
     public Playground(int numberOfPlayers) {
+        /**
+         * Watch out:  to write in the json file:<br>
+         * the "-" is the row separator<br>
+         * the "," is the column separator, so<br>
+         * 0,0,0,0-1,1,1,1 is equal to the matrix<br>
+         * 0 0 0 0<br>
+         * 1 1 1 1<br>
+         * Also, the number that identifies the long strings in the json<br>
+         * is the player number that the matrix/string implements<br>
+         * E.G.: "2":"0,0,0,0-1,1,1,1" is the json transcription<br>
+         * of the playground default for 2 player based games, and so on<br>
+         */
+
         bag = new ArrayList<>();
         playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];
         String rowSplit = "-";

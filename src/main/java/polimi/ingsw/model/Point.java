@@ -16,7 +16,7 @@ public class Point implements Serializable, PointIC {
     private CardType referredTo;
 
     /**
-     * Constructor
+     * Constructor referred to a card @param referredTo
      *
      * @param point
      * @param referredTo
@@ -27,7 +27,7 @@ public class Point implements Serializable, PointIC {
     }
 
     /**
-     * Constructor
+     * Constructor default not referred to any card
      *
      * @param point
      */
