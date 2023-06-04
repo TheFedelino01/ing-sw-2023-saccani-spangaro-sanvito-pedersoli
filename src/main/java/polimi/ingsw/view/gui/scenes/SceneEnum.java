@@ -1,5 +1,8 @@
 package polimi.ingsw.view.gui.scenes;
 
+/**
+ * SceneEnum class. It is used to store the paths of the FXML files of the scenes.
+ */
 public enum SceneEnum {
     PUBLISHER("/Publisher.fxml"),
     MENU("/Menu.fxml"),
