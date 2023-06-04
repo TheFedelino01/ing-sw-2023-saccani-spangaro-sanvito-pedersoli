@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>console</headerType>
   <jar>C:\Users\feder\Desktop\Polimi GitHub\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\target\softeng-gc04-1.0-SNAPSHOT-client.jar</jar>
-  <outfile>C:\Users\feder\Desktop\Polimi GitHub\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\target\MyShelfieClient.exe</outfile>
+  <outfile>C:\Users\feder\Desktop\Polimi GitHub\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\deployable\MyShelfieClient.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>

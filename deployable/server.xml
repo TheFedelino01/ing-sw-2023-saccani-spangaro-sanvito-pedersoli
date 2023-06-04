@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>console</headerType>
   <jar>C:\Users\feder\Desktop\Polimi GitHub\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\target\softeng-gc04-1.0-SNAPSHOT-server.jar</jar>
-  <outfile>C:\Users\feder\Desktop\Polimi GitHub\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\target\MyShelfieServer.exe</outfile>
+  <outfile>C:\Users\feder\Desktop\Polimi GitHub\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\deployable\MyShelfieServer.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -11,7 +11,7 @@
   <downloadUrl></downloadUrl>
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
-  <restartOnCrash>false</restartOnCrash>
+  <restartOnCrash>true</restartOnCrash>
   <manifest></manifest>
   <icon>C:\Users\feder\Desktop\Polimi GitHub\ing-sw-2023-saccani-spangaro-sanvito-pedersoli\src\main\resources\img\img\Publisher_material\serverIcon.ico</icon>
   <jre>
