@@ -21,12 +21,11 @@ public abstract class Flow implements GameListener {
     /**
      * Saves latest game id
      * @param fileDisconnection file to write
-     * @param model
+     * @param nick
+     * @param gameId
      */
-    protected void saveGameId(FileDisconnection fileDisconnection, GameModelImmutable model) {
-        for (PlayerIC p : model.getPlayers()) {
-            fileDisconnection.setLastGameId(p.getNickname(), model.getGameId());
-        }
+    protected void saveGameId(FileDisconnection fileDisconnection, String nick, int gameId) {
+            fileDisconnection.setLastGameId(nick, gameId);
     }
 
     /**

@@ -805,19 +805,17 @@ public class TUI extends UI {
      */
     public void show_alwaysShow(GameModelImmutable model, String nick) {
         show_alwaysShowForAll(model);
-        for (PlayerIC p : model.getPlayers()) {
-            if (p.getNickname().equals(nick))
-                show_goalCards(p);
-            if (p.getInHandTile_IC().size() > 0)
-                if (p.getNickname().equals(nick)) {
-                    show_playerHand(model);
-                } else
-                    show_grabbedTile(model.getNicknameCurrentPlaying(), model);
-        }
+        show_goalCards(model.getPlayerEntity(nick));
+        if(model.getPlayerEntity(nick).getInHandTile_IC().size()>0)
+            show_playerHand(model);
+        else
+            show_grabbedTile(model.getNicknameCurrentPlaying(), model);
+        show_playerHand(model);
         show_commonCards(model);
         show_allShelves(model);
         show_gameId(model);
         show_nextTurn(model);
+        show_messages(model);
         show_welcome(nick);
 
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));

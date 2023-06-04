@@ -208,7 +208,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             case PLAYER_JOINED -> {
                 if (nickLastPlayer.equals(nickname)) {
                     ui.show_playerJoined(event.getModel(), nickname);
-                    saveGameId(fileDisconnection, event.getModel());
+                    saveGameId(fileDisconnection, nickname, event.getModel().getGameId());
                     askReadyToStart();
                 }
             }
