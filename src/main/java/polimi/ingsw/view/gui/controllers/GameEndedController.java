@@ -8,6 +8,9 @@ import javafx.scene.paint.Color;
 import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.interfaces.PlayerIC;
 
+/**
+ * This class is the controller for the game ended scene.
+ */
 public class GameEndedController extends GenericController{
     @FXML
     private Label player0;
@@ -21,6 +24,10 @@ public class GameEndedController extends GenericController{
     @FXML
     private Button btnMenu;
 
+    /**
+     * Show everything that is needed.
+     * @param model the model {@link GameModelImmutable}
+     */
     public void show(GameModelImmutable model) {
         player0.setVisible(false);
         player0.setTextFill(Color.YELLOW);
@@ -46,10 +53,17 @@ public class GameEndedController extends GenericController{
         }
     }
 
+    /**
+     * Show the button to return to the menu.
+     */
     public void showBtnReturnToMenu() {
         btnMenu.setVisible(true);//not necessary
     }
 
+    /**
+     * Method to control the action
+     * @param e ActionEvent
+     */
     public void actionReturnMenu(ActionEvent e){
         getInputReaderGUI().addTxt("a");
     }
