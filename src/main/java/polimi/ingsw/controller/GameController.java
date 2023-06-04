@@ -125,8 +125,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws GameEndedException       the game is ended
      */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
-        model.reconnectPlayer(p);
-        if (getNumOfOnlinePlayers() > 1) {
+        boolean outputres = model.reconnectPlayer(p);
+
+        if (outputres && getNumOfOnlinePlayers() > 1) {
             stopReconnectionTimer();
         }
         //else nobody was connected and now one player has reconnected before the timer expires
