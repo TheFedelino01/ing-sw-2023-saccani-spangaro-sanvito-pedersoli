@@ -35,6 +35,8 @@ public class GameModelImmutable implements Serializable {
     private final Integer indexWonPlayer = -1;
     private final Map<Integer, Integer> leaderBoard;
 
+    private Integer firstTurnIndex=-1;
+
     /**
      * Constructor
      */
@@ -64,6 +66,7 @@ public class GameModelImmutable implements Serializable {
         chat = modelToCopy.getChat();
         status = modelToCopy.getStatus();
         leaderBoard = modelToCopy.getLeaderBoard();
+        firstTurnIndex=modelToCopy.getFirstTurnIndex();
     }
 
     /**
@@ -236,5 +239,12 @@ public class GameModelImmutable implements Serializable {
      */
     public PlayerIC getEntityCurrentPlaying() {
         return players.get(currentPlaying);
+    }
+
+    /**
+     * @return the index of the first player turn
+     */
+    public int getFirstTurnIndex(){
+        return firstTurnIndex;
     }
 }

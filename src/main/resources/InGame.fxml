@@ -361,6 +361,7 @@
                         <Pane fx:id="player3Shelf04" layoutX="152.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
                      </children>
                   </Pane>
+                  <Pane fx:id="chair3" layoutX="75.0" layoutY="192.0" prefHeight="66.0" prefWidth="65.0" styleClass="chair" stylesheets="@style.css" />
                </children>
             </Pane>
             <Pane fx:id="workspace1" layoutX="1150.0" layoutY="45.0" prefHeight="267.0" prefWidth="340.0">
@@ -409,6 +410,7 @@
                         <Pane fx:id="player1Shelf04" layoutX="152.0" layoutY="4.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
                      </children>
                   </Pane>
+                  <Pane fx:id="chair1" layoutX="76.0" layoutY="191.0" prefHeight="66.0" prefWidth="65.0" styleClass="chair" stylesheets="@style.css" />
                </children>
             </Pane>
             <Pane fx:id="workspace2" layoutX="1150.0" layoutY="320.0" prefHeight="267.0" prefWidth="340.0">
@@ -457,6 +459,7 @@
                         <Pane fx:id="player2Shelf04" layoutX="152.0" prefHeight="27.0" prefWidth="27.0" stylesheets="@style.css" />
                      </children>
                   </Pane>
+                  <Pane fx:id="chair2" layoutX="75.0" layoutY="192.0" prefHeight="66.0" prefWidth="65.0" styleClass="chair" stylesheets="@style.css" />
                </children>
             </Pane>
             <Pane layoutX="640.0" layoutY="680.0" prefHeight="77.0" prefWidth="534.0" stylesheets="@style.css">
@@ -807,6 +810,7 @@
                   </Label>
                </children>
             </Pane>
+            <Pane fx:id="youChair" layoutX="348.0" layoutY="384.0" prefHeight="66.0" prefWidth="65.0" styleClass="chair" stylesheets="@style.css" />
          </children>
       </Pane>
     </children>

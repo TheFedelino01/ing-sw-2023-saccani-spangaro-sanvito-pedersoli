@@ -42,7 +42,8 @@ public class InGameController extends GenericController {
     private Label youPoints;
     @FXML
     private Pane youPersonal;
-
+    @FXML
+    private Pane youChair;
 
     @FXML
     private Label pgTilesTotal;
@@ -68,6 +69,8 @@ public class InGameController extends GenericController {
     private Label player1Points;
     @FXML
     private Pane pointGroup1;
+    @FXML
+    private Pane chair1;
 
     @FXML
     private Label playerLabel2;
@@ -75,6 +78,8 @@ public class InGameController extends GenericController {
     private Label player2Points;
     @FXML
     private Pane pointGroup2;
+    @FXML
+    private Pane chair2;
 
     @FXML
     private Label playerLabel3;
@@ -82,6 +87,8 @@ public class InGameController extends GenericController {
     private Label player3Points;
     @FXML
     private Pane pointGroup3;
+    @FXML
+    private Pane chair3;
 
     private boolean firstClick = true;
     private Integer rowFirstTile, colFirstTile, rowSecondTile, colSecondTile;
@@ -445,6 +452,7 @@ public class InGameController extends GenericController {
         playerLabel3.setTextFill(Color.WHITE);
         Integer refToGui;
         Label labelNick = null, labelPoints = null;
+        Pane chair=null;
 
         for (PlayerIC p : model.getPlayers()) {
             refToGui = getReferringPlayerIndex(model, nickname, p.getNickname());
@@ -452,19 +460,27 @@ public class InGameController extends GenericController {
                 case 0 -> {
                     labelNick = youNickname;
                     labelPoints = (Label) mainAnchor.lookup("#youPoints");
+                    chair=youChair;
                 }
                 case 1 -> {
                     labelNick = playerLabel1;
                     labelPoints = (Label) mainAnchor.lookup("#player1Points");
+                    chair=chair1;
                 }
                 case 2 -> {
                     labelNick = playerLabel2;
                     labelPoints = (Label) mainAnchor.lookup("#player2Points");
+                    chair=chair2;
                 }
                 case 3 -> {
                     labelNick = playerLabel3;
                     labelPoints = (Label) mainAnchor.lookup("#player3Points");
+                    chair=chair3;
                 }
+            }
+
+            if(model.getFirstTurnIndex()==model.getPlayers().indexOf(model.getPlayerEntity(p.getNickname()))){
+                chair.setVisible(true);
             }
 
             labelNick.setText(p.getNickname());
@@ -631,7 +647,12 @@ public class InGameController extends GenericController {
         for (int i = 1; i <= DefaultValue.MaxNumOfPlayer - 1; i++) {
             pane = (Pane) mainAnchor.lookup("#workspace" + (i));
             pane.setVisible(false);
+
+            pane = (Pane) mainAnchor.lookup("#chair" + (i));
+            pane.setVisible(false);
         }
+
+        youChair.setVisible(false);
     }
 
 

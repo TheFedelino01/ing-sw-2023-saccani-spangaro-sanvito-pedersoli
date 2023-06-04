@@ -621,7 +621,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @return the ID of the game
      */
     @Override
-    public synchronized int getGameId() {
+    public int getGameId() {
         return model.getGameId();
     }
 
@@ -630,7 +630,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public synchronized int getNumOnlinePlayers() throws RemoteException {
+    public int getNumOnlinePlayers() throws RemoteException {
         return model.getNumOfOnlinePlayers();
     }
 

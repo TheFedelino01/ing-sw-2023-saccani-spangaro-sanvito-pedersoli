@@ -738,3 +738,8 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+.chair{
+    -fx-background-image: url("img/img/misc/firstplayertoken.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
