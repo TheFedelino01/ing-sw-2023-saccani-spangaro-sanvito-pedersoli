@@ -1,5 +1,8 @@
 package polimi.ingsw.model.enumeration;
 
+/**
+ * This enum represents the common card types
+ */
 public enum CardCommonType implements CardType {
     CommonSixGroups("cc4"),
     CommonVertex("cc8"),
