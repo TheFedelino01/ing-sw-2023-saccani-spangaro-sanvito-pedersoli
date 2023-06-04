@@ -5,6 +5,9 @@ import polimi.ingsw.model.DefaultValue;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This enum represents the tile types
+ */
 public enum TileType {
     CAT("tileCat"),
     BOOK("tileBook"),
@@ -48,6 +51,10 @@ public enum TileType {
         return values;
     }
 
+    /**
+     * This method returns the TileType corresponding to the string passed as parameter
+     * @return the TileType corresponding to the string passed as parameter
+     */
     public static List<TileType> getUsableValues() {
         return values.stream()
                 .filter(x -> (!(x.equals(TileType.USED) || x.equals(TileType.NOT_USED) || x.equals(TileType.FINISHED_USING)))).toList();
