@@ -326,59 +326,105 @@ public class GUIApplication extends Application {
         controller.setAllShefies(model, nickname);
     }
 
-    
+    /**
+     * This method show a message in the game.
+     * @param msg the message
+     * @param success true if the message is a success message, false otherwise
+     */
     public void showMessageInGame(String msg, Boolean success) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setMsgToShow(msg, success);
     }
 
+    /**
+     * This method is used to show the selection col shelfie.
+     */
     public void showSelectionColShelfie() {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.showSelectionColShelfie();
     }
 
+    /**
+     * This method is used to change the turn.
+     * @param model the model {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void changeTurn(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setNicknamesAndPoints(model, nickname);
         controller.changeTurn(model, nickname);
     }
 
+    /**
+     * This method is used to show the message in the game.
+     * @param model the model {@link GameModelImmutable}
+     * @param myNickname the nickname of the player
+     */
     public void showMessages(GameModelImmutable model, String myNickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setMessage(model.getChat().getMsgs(), myNickname);
     }
 
+    /**
+     * This method is used to show all the important events.
+     * @param importantEvents the list of the important events
+     */
     public void showImportantEvents(List<String> importantEvents) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setImportantEvents(importantEvents);
     }
 
+    /**
+     * This method is used to show the points updated.
+     * @param model the model {@link GameModelImmutable}
+     * @param playerPointChanged the player that has changed the points
+     * @param myNickname the nickname of the player
+     * @param p the points
+     */
     public void showPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname, Point p) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setPointsUpdated(model, playerPointChanged, myNickname, p);
     }
 
+    /**
+     * This method show the leader board.
+     * @param model the model {@link GameModelImmutable}
+     */
     public void showLeaderBoard(GameModelImmutable model) {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
         controller.show(model);
     }
 
+    /**
+     * This method make visible the button return to menu.
+     */
     public void showBtnReturnToMenu() {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();
         controller.showBtnReturnToMenu();
     }
 
+    /**
+     * This method is used to show a generic error.
+     * @param msg the message
+     */
     public void showErrorGeneric(String msg) {
         GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneEnum.GENERIC_ERROR)).getGenericController();
         controller.setMsg(msg,false);
     }
 
+    /**
+     * This method is used to show a generic error.
+     * @param msg the message
+     * @param needToExitApp true if the app need to exit, false otherwise
+     */
     public void showErrorGeneric(String msg, boolean needToExitApp) {
         GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneEnum.GENERIC_ERROR)).getGenericController();
         controller.setMsg(msg,needToExitApp);
     }
 
-
+    /**
+     * This method is used to create a window with a specific style.
+     */
     public void createNewWindowWithStyle() {
         // Crea una nuova finestra con lo stile desiderato
         Stage newStage = new Stage();
@@ -403,6 +449,7 @@ public class GUIApplication extends Application {
             System.exit(1);
         });
     }
+
 
 
     public static void main(String[] args) {
