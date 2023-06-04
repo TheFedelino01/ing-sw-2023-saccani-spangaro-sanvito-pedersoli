@@ -608,9 +608,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public void removeListener(GameListener lis, Player p) {
         model.removeListener(lis);
-        for (GameListener othersListener : model.getListeners()) {
-            p.removeListener(othersListener);
-        }
+
+        p.getListeners().clear();
+
         for (Player otherPlayer : model.getPlayers()) {
             if (!otherPlayer.equals(p)) {
                 otherPlayer.removeListener(lis);
