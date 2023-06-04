@@ -494,6 +494,7 @@ public class GameModel {
                     throw new NotEmptyHandException();
                 }
             }
+            int oldCurrent=currentPlaying;
 
             if (getNumOfOnlinePlayers() != 1) {
                 //I skip the disconnected players and I let play only the connected ones
@@ -507,7 +508,7 @@ public class GameModel {
             }
 
 
-            if (firstFinishedPlayer!=-1 && currentPlaying.equals(firstTurnIndex)) {
+            if (firstFinishedPlayer!=-1 && oldCurrent==firstTurnIndex) {
                 throw new GameEndedException();
             } else {
                 listenersHandler.notify_nextTurn(this);

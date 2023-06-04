@@ -334,7 +334,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws NotPlayerTurnException when a player wants to position tiles and, it's not his turn
      */
     public synchronized void positionTileOnShelf(String p, int column, TileType type) {
-        boolean ended = false;
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
 
             Player currentPlaying = this.whoIsPlaying();//Because position can call nextTurn

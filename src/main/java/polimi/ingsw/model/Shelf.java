@@ -20,10 +20,16 @@ public class Shelf implements Serializable, ShelfIC {
         shelf = new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];
         for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
             for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-                shelf[r][c] = new Tile();
+                //shelf[r][c] = new Tile();
+                //if(r==0&& c==0){
+                    shelf[r][c] = new Tile();
+               // }else{
+                   // shelf[r][c] = new Tile(TileType.ACTIVITY);
+                //}
             }
         }
         freeSpace = DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf;
+        //freeSpace=1;
     }
 
     /**
