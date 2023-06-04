@@ -1,6 +1,7 @@
 package polimi.ingsw.model.cards.common;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import polimi.ingsw.model.enumeration.CardCommonType;
@@ -29,7 +30,8 @@ public class CommonSameDiagonalTest {
                 {"","","","",""}
         };
         Shelf test = setShelf(matrix);
-        card.toString(0);
+        card.toString(0, true);
+        card.toString(0, false);
         assertFalse(card.verify(test));
     }
     @Test
