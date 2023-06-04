@@ -18,14 +18,14 @@ public enum CardCommonType implements CardType {
     CommonStair("cc12");
 
     private final String backgroundClass;
-    CardCommonType(String backgroundClass){
-        this.backgroundClass=backgroundClass;
+
+    CardCommonType(String backgroundClass) {
+        this.backgroundClass = backgroundClass;
     }
 
-    public String getBackgroundClass(){
+    public String getBackgroundClass() {
         return backgroundClass;
     }
-
 
 
 }

@@ -4,6 +4,9 @@ package polimi.ingsw.model.enumeration;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Enumeration for the card goal type
+ */
 public enum CardGoalType implements CardType {
     GOAL0("pc1"),
     GOAL1("pc2"),
@@ -32,6 +35,11 @@ public enum CardGoalType implements CardType {
     }
 
 
+    /**
+     * This method returns the CardGoalType corresponding to the string passed as parameter
+     * @param type the string to convert
+     * @return the CardGoalType corresponding to the string passed as parameter
+     */
     public static String toString(CardGoalType type) {
         switch (type) {
             case GOAL0 -> {
