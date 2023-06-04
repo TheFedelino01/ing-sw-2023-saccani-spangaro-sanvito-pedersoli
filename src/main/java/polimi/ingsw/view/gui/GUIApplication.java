@@ -25,14 +25,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
+ * methods to change the scene and to get the controller of a specific scene.
+ *
+ */
 public class GUIApplication extends Application {
 
+    /**
+     * Attributes.
+     */
     private GameFlow gameFlow;
 
     private Stage primaryStage, popUpStage;
     private StackPane root;
     private ArrayList<SceneInfo> scenes;
 
+    /**
+     * Method to set the scene index
+     * @param primaryStage the primary stage {@link Stage}
+     */
     @Override
     public void start(Stage primaryStage) {
         gameFlow = new GameFlow(this, ConnectionSelection.valueOf(getParameters().getUnnamed().get(0)));
@@ -46,6 +58,9 @@ public class GUIApplication extends Application {
 
     }
 
+    /**
+     * This method use the FXMLLoader to load the scene and the controller of the scene.
+     */
     private void loadScenes() {
         //Loads all the scenes available to be showed during the game
         scenes = new ArrayList<>();
@@ -64,6 +79,10 @@ public class GUIApplication extends Application {
         }
     }
 
+    /**
+     * This method set the input reader GUI to all the controllers.
+     * @param inputReaderGUI the input reader GUI {@link inputReaderGUI}
+     */
     public void setInputReaderGUItoAllControllers(inputReaderGUI inputReaderGUI) {
         loadScenes();
         for (SceneInfo s : scenes) {
@@ -71,6 +90,11 @@ public class GUIApplication extends Application {
         }
     }
 
+    /**
+     * This method is use to get a controller of a specific scene.
+     * @param scene the scene {@link SceneEnum}
+     * @return the controller of the scene {@link GenericController}
+     */
     public GenericController getController(SceneEnum scene) {
         int index = getSceneIndex(scene);
         if (index != -1) {
@@ -79,6 +103,7 @@ public class GUIApplication extends Application {
         return null;
     }
 
+    
     public void setActiveScene(SceneEnum scene) {
         resizing=false;
         int index = getSceneIndex(scene);
