@@ -15,6 +15,8 @@ public class Point implements Serializable, PointIC {
     private Integer point;
     private CardType referredTo;
 
+    private boolean isFinishedPoint=false;
+
     /**
      * Constructor referred to a card @param referredTo
      *
@@ -34,6 +36,19 @@ public class Point implements Serializable, PointIC {
     public Point(Integer point) {
         this.point = point;
         this.referredTo = CardGoalType.NOT_SET;
+    }
+
+    /**
+     * Constructor for finished point
+     *
+     * @param isFinishedPoint boolean for finished
+     */
+    public Point(boolean isFinishedPoint){
+        this.isFinishedPoint=isFinishedPoint;
+        if(isFinishedPoint){
+            point=1;
+            referredTo=CardGoalType.NOT_SET;
+        }
     }
 
     /**
@@ -62,6 +77,13 @@ public class Point implements Serializable, PointIC {
      */
     public void setReferredTo(CardGoalType referredTo) {
         this.referredTo = referredTo;
+    }
+
+    /**
+     * @return isFinishedPoint
+     */
+    public boolean isFinishedPoint(){
+        return isFinishedPoint;
     }
 
 }

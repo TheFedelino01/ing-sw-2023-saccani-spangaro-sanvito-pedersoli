@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import polimi.ingsw.model.*;
 import polimi.ingsw.model.chat.Message;
+import polimi.ingsw.model.enumeration.CardGoalType;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
@@ -89,6 +90,9 @@ public class InGameController extends GenericController {
     private Pane pointGroup3;
     @FXML
     private Pane chair3;
+
+    @FXML
+    private Pane pointFinish;
 
     private boolean firstClick = true;
     private Integer rowFirstTile, colFirstTile, rowSecondTile, colSecondTile;
@@ -918,8 +922,9 @@ public class InGameController extends GenericController {
         } else if (p.getReferredTo().equals(model.getCommonCards().get(1).getCommonType())) {
             Pane paneTile = (Pane) mainAnchor.lookup("#point" + p.getPoint() + "cc1");
             paneTile.setVisible(false);
+        }else if(p.isFinishedPoint()){
+            this.pointFinish.setVisible(false);
         }
-
 
     }
 }

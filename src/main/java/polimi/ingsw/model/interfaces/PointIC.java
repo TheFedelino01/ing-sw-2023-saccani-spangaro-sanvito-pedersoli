@@ -18,4 +18,8 @@ public interface PointIC {
      */
     CardType getReferredTo();
 
+    /**
+     * @return true if it is for the last point
+     */
+    boolean isFinishedPoint();
 }

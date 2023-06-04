@@ -8,7 +8,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundWelcome" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.gui.controllers.MenuController">
     <children>
       <Pane prefHeight="740.0" prefWidth="1025.0" styleClass="backgroundmio" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -34,7 +33,6 @@
                   <Font size="22.0" />
                </font>
             </Button>
-              <Button fx:id="exitButton" layoutX="46.0" layoutY="653.0" mnemonicParsing="false" prefWidth="83.0" styleClass="windows7" stylesheets="@style.css" text="Exit" />
               <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="1040.63671875" layoutY="638.09765625" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit" textAlignment="CENTER" wrappingWidth="278.13671875">
                   <font>
                       <Font name="Calisto MT" size="18.0" />
@@ -44,11 +42,6 @@
             <ImageView fitHeight="120.0" fitWidth="815.0" layoutX="268.0" layoutY="17.0">
                <image>
                   <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="102.0" fitWidth="95.0" layoutX="1205.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@img/img/Publisher_material/Publisher.png" />
                </image>
             </ImageView>
          </children>

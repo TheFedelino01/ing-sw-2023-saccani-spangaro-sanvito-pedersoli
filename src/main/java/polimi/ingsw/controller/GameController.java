@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
+
 /**
  * GameController Class <br>
  * Controls a specific Game {@link GameModel} by allowing a player to perform all actions that can be executed in a game
@@ -349,6 +350,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                     //This player has his shelf full, time to complete le last circle
                     model.setStatus(GameStatus.LAST_CIRCLE);
                     model.setFinishedPlayer(currentPlayingIndex);
+                    currentPlaying.addPoint(new Point(true),model);
                 }
 
                 //if the hand is empty then call next turn
