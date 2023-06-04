@@ -24,6 +24,9 @@ import polimi.ingsw.view.gui.IntRecord;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * InGameController class.
+ */
 public class InGameController extends GenericController {
 
     @FXML
@@ -85,6 +88,10 @@ public class InGameController extends GenericController {
     private Integer rowFirstTile, colFirstTile, rowSecondTile, colSecondTile;
     private boolean needToDetectColSelection = false, needToDetectTileInHandGrabbing = false;
 
+    /**
+     * This method manages the click on a tile in the playground.
+     * @param e the mouse event
+     */
     public void actionClickOnTile(MouseEvent e) {
         if(!needToDetectColSelection && !needToDetectTileInHandGrabbing) {
             if (e.getButton() == MouseButton.PRIMARY) {
@@ -115,6 +122,10 @@ public class InGameController extends GenericController {
 
     }
 
+    /**
+     * This method manages the click on a tile in the hand.
+     * @param e the mouse event
+     */
     public void actionHandTileClick(MouseEvent e) {
         if (needToDetectTileInHandGrabbing) {
             Integer indexTileHandToPlace = getRowColFrom(e, "pgGrab").col();
@@ -122,6 +133,12 @@ public class InGameController extends GenericController {
         }
     }
 
+    /**
+     * This method returns the row and the column of the tile clicked.
+     * @param e the mouse event
+     * @param prefixToRemove the prefix to remove
+     * @return the row and the column of the tile clicked
+     */
     private IntRecord getRowColFrom(MouseEvent e, String prefixToRemove) {
         final Node source = (Node) e.getSource();
         String id = source.getId();
@@ -132,6 +149,10 @@ public class InGameController extends GenericController {
         return new IntRecord(row, col);
     }
 
+    /**
+     * This method manage the mouse hover on a tile
+     * @param e
+     */
     public void actionMouseEnteredTile(MouseEvent e) {
         if (rowFirstTile != null && colFirstTile != null && rowSecondTile == null && colSecondTile == null) {
             makeTilesNotSelectedExpectTheFirstOne();
@@ -149,10 +170,18 @@ public class InGameController extends GenericController {
         }
     }
 
+    /**
+     * This method manage the mouse hover on the playground
+     * @param e the mouse event
+     */
     public void actionMouseEnteredPlayground(MouseEvent e) {
         makeTilesNotSelectedExpectTheFirstOne();
     }
 
+
+    /**
+     * This method manage the selection of the tiles
+     */
     private void makeTilesNotSelectedExpectTheFirstOne() {
         String selector = ".selected";
         tilesPane.lookupAll(selector).forEach(element -> {
@@ -164,6 +193,10 @@ public class InGameController extends GenericController {
         }
     }
 
+    /**
+     * This method manage the click on the shelfie
+     * @param e the mouse event
+     */
     public void actionTileShelfieClick(MouseEvent e) {
         if (needToDetectColSelection && !needToDetectTileInHandGrabbing) {
             deselectAllCols();
@@ -179,6 +212,10 @@ public class InGameController extends GenericController {
         }
     }
 
+    /**
+     * This method manage the sending of the message
+     * @param e the mouse event
+     */
     public void actionSendMessage(MouseEvent e) {
         if (!messageText.getText().isEmpty()) {
             if (comboBoxMessage.getValue().toString().isEmpty()) {
@@ -192,12 +229,20 @@ public class InGameController extends GenericController {
         }
     }
 
+    /**
+     * This method manage the click on the button to send the message
+     * @param ke the key event
+     */
     public void actionKeyPressedOnTextMessage(KeyEvent ke) {
         if (ke.getCode().equals(KeyCode.ENTER)) {
             actionSendMessage(null);
         }
     }
 
+    /**
+     * This method manage the entering of the mouse on the shelf
+     * @param e the mouse event
+     */
     public void actionMouseEntered(MouseEvent e){
         if(needToDetectColSelection) {
             Pane tilePane;
@@ -209,11 +254,20 @@ public class InGameController extends GenericController {
             }
         }
     }
+
+    /**
+     * This method manage the exiting of the mouse from the shelf
+     * @param e the mouse event
+     */
     public void actionMouseExited(MouseEvent e){
         deselectAllCols();
     }
 
 
+    /**
+     * This method manage the mouse entering on the common card
+     * @param e the mouse event
+     */
     public void actionMouseEnteredCommonCard(MouseEvent e){
         final Node source = (Node) e.getSource();
         String id = source.getId();
