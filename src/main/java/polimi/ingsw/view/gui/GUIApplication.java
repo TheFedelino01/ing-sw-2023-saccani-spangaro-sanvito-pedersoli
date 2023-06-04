@@ -103,7 +103,10 @@ public class GUIApplication extends Application {
         return null;
     }
 
-    
+    /**
+     * This method is used to set the active scene.
+     * @param scene the scene {@link SceneEnum}
+     */
     public void setActiveScene(SceneEnum scene) {
         resizing=false;
         int index = getSceneIndex(scene);
@@ -149,6 +152,10 @@ public class GUIApplication extends Application {
 
     private double widthOld, heightOld;
     private boolean resizing=true;
+
+    /**
+     * This method is used to rescale the scene.
+     */
     public void rescale() {
         if(resizing) {
             double widthWindow = primaryStage.getScene().getWidth();
@@ -166,6 +173,10 @@ public class GUIApplication extends Application {
         }
     }
 
+    /**
+     * Show the player in the lobby
+     * @param model the model {@link GameModelImmutable}
+     */
     public void showPlayerToLobby(GameModelImmutable model) {
         hidePanesInLobby();
         int i = 0;
@@ -175,6 +186,12 @@ public class GUIApplication extends Application {
         }
     }
 
+    /**
+     * This method is used to show the player in the lobby.
+     * @param nick the nickname of the player
+     * @param indexPlayer the index of the player
+     * @param isReady if the player is ready
+     */
     private void addLobbyPanePlayer(String nick, int indexPlayer, boolean isReady) {
         SceneEnum se = null;
         switch (indexPlayer) {
@@ -211,6 +228,9 @@ public class GUIApplication extends Application {
 
     }
 
+    /**
+     * This method is used to hide the panes in the lobby.
+     */
     private void hidePanesInLobby() {
         for (int i = 0; i < 4; i++) {
             Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup("#pane" + i);
@@ -221,6 +241,10 @@ public class GUIApplication extends Application {
         }
     }
 
+    /**
+     * This method is used to open the popup.
+     * @param scene the scene {@link Scene}
+     */
     private void openPopup(Scene scene) {
         popUpStage = new Stage();
         popUpStage.setTitle("Info");
@@ -235,16 +259,27 @@ public class GUIApplication extends Application {
         popUpStage.setY(primaryStage.getY() + (primaryStage.getHeight() - scene.getHeight()) * 0.5);
     }
 
+    /**
+     * This method is used to close the popup.
+     */
     public void closePopUpStage() {
         if (popUpStage != null)
             popUpStage.hide();
     }
 
+    /**
+     * This method hide the btn "Ready to start".
+     */
     public void disableBtnReadyToStart() {
         //I set not visible the btn "Ready to start"
         ((LobbyController) scenes.get(getSceneIndex(SceneEnum.LOBBY)).getGenericController()).setVisibleBtnReady(false);
     }
 
+    /**
+     * This methos return the index of the scene.
+     * @param sceneName the scene name {@link SceneEnum}
+     * @return the index of the scene
+     */
     private int getSceneIndex(SceneEnum sceneName) {
         for (int i = 0; i < scenes.size(); i++) {
             if (scenes.get(i).getSceneEnum().equals(sceneName))
@@ -253,6 +288,11 @@ public class GUIApplication extends Application {
         return -1;
     }
 
+    /**
+     * This method is used to set the controller value equal to the model value.
+     * @param model the model {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void showInGameModel(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setNicknamesAndPoints(model, nickname);
@@ -265,17 +305,28 @@ public class GUIApplication extends Application {
     }
 
 
+    /**
+     * This method is used to show the player grabbed tiles.
+     * @param model the model {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void showPlayerGrabbedTiles(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setPlayerGrabbedTiles(model, nickname);
     }
 
+    /**
+     * This method is used to show the player positioned tiles.
+     * @param model the model {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void showPlayerPositionedTile(GameModelImmutable model, String nickname) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setHandTiles(model, nickname);
         controller.setAllShefies(model, nickname);
     }
 
+    
     public void showMessageInGame(String msg, Boolean success) {
         InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();
         controller.setMsgToShow(msg, success);
