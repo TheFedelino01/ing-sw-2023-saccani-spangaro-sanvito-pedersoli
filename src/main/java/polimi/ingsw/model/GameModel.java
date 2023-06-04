@@ -31,6 +31,7 @@ public class GameModel {
 
     private Integer firstFinishedPlayer = -1;
 
+    private Integer firstTurnIndex=-1;
 
     private transient ListenersHandler listenersHandler;
 
@@ -303,6 +304,22 @@ public class GameModel {
     }
 
     /**
+     * Set the index of the player playing the first turn
+     *
+     * @param index of the player
+     */
+    public void setFirstTurnIndex(int index){
+        this.firstTurnIndex=index;
+    }
+
+    /**
+     * @return the index of the first player playing
+     */
+    public Integer getFirstTurnIndex(){
+        return this.firstTurnIndex;
+    }
+
+    /**
      * @return the chat
      */
     public Chat getChat() {
@@ -490,7 +507,7 @@ public class GameModel {
             }
 
 
-            if (currentPlaying.equals(firstFinishedPlayer)) {
+            if (firstFinishedPlayer!=-1 && currentPlaying.equals(firstTurnIndex)) {
                 throw new GameEndedException();
             } else {
                 listenersHandler.notify_nextTurn(this);

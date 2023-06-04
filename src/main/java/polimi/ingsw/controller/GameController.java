@@ -65,7 +65,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void run() {
         while (!Thread.interrupted()) {
             //checks all the heartbeat to detect disconnection
-            if(model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+            if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
                 synchronized (heartbeats) {
                     Iterator<Map.Entry<GameListener, Heartbeat>> heartIter = heartbeats.entrySet().iterator();
 
@@ -100,6 +100,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * Add player @param p to the Game
      * <br>
+     *
      * @throws PlayerAlreadyInException when in the game there is already another Player with the same nickname
      * @throws MaxPlayersInException    when the game has already reached its full capability (#player={@link DefaultValue#MaxNumOfPlayer})
      */
@@ -120,11 +121,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @param p Player that want to reconnect
      * @throws PlayerAlreadyInException if a player tries to rejoin the same game
      * @throws MaxPlayersInException    if there are already 4 players in game
-     * @throws GameEndedException the game is ended
+     * @throws GameEndedException       the game is ended
      */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
         model.reconnectPlayer(p);
-        if(getNumOfOnlinePlayers()>1) {
+        if (getNumOfOnlinePlayers() > 1) {
             stopReconnectionTimer();
         }
         //else nobody was connected and now one player has reconnected before the timer expires
@@ -256,7 +257,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Extract pseudo-randomly the player who has the first move (first turn)
      */
     private void extractFirstTurn() {
-        model.setCurrentPlaying(random.nextInt(model.getNumOfPlayers()));
+        int ris = random.nextInt(model.getNumOfPlayers());
+        model.setFirstTurnIndex(ris);
+        model.setCurrentPlaying(ris);
     }
 
 
@@ -325,13 +328,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * if the player has positioned all of his tiles, {@link GameModel#nextTurn()}  will be called
      * it detects {@link GameStatus#LAST_CIRCLE} and it calls {@link GameStatus#ENDED}
      *
-     * @param p the nickname of the player
+     * @param p      the nickname of the player
      * @param column the column where you want to position the tile
-     * @param type the type of the tile
+     * @param type   the type of the tile
      * @throws NotPlayerTurnException when a player wants to position tiles and, it's not his turn
      */
     public synchronized void positionTileOnShelf(String p, int column, TileType type) {
-        boolean ended=false;
+        boolean ended = false;
         if (isPlayerTheCurrentPlaying(model.getPlayerEntity(p))) {
 
             Player currentPlaying = this.whoIsPlaying();//Because position can call nextTurn
@@ -342,6 +345,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
                 checkCommonCards(currentPlaying);
 
+
+                if (currentPlaying.getShelf().getFreeSpace() == 0 && (!model.getStatus().equals(GameStatus.LAST_CIRCLE) && !model.getStatus().equals(GameStatus.ENDED))) {
+                    //This player has his shelf full, time to complete le last circle
+                    model.setStatus(GameStatus.LAST_CIRCLE);
+                    model.setFinishedPlayer(currentPlayingIndex);
+                }
+
                 //if the hand is empty then call next turn
                 if (currentPlaying.getInHandTile().size() == 0) {
                     model.nextTurn();
@@ -351,19 +361,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 //Time to check for personal goal and final
                 checkGoalCards();
                 checkFinal();
-                ended=true;
-            }
-
-
-
-            if (currentPlaying.getShelf().getFreeSpace() == 0 && (!model.getStatus().equals(GameStatus.LAST_CIRCLE) && !model.getStatus().equals(GameStatus.ENDED))) {
-                //This player has his shelf full, time to complete le last circle
-                model.setStatus(GameStatus.LAST_CIRCLE);
-                model.setFinishedPlayer(currentPlayingIndex);
-            }
-            if(ended){
                 model.setStatus(GameStatus.ENDED);
             }
+
         } else {
             throw new NotPlayerTurnException();
         }
@@ -387,7 +387,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Disconnect the player, if the game is in {@link GameStatus#WAIT} status, the player is removed from the game
      * If only one player is connected, a timer of {@link DefaultValue#secondsToWaitReconnection} will be started
      *
-     * @param nick the nickname of the player
+     * @param nick        the nickname of the player
      * @param lisOfClient the listener of the client
      * @throws RemoteException if there is a connection error (RMI)
      */
@@ -400,7 +400,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         if (model.getStatus().equals(GameStatus.WAIT)) {
             //The game is in Wait (game not started yet), the player disconnected, so I remove him from the game)
             model.removePlayer(nick);
-        } else{
+        } else {
             //Tha game is running, so I set him as disconnected (He can reconnect soon)
             model.setAsDisconnected(nick);
         }
@@ -466,7 +466,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Add a hearthbeat to the list of heartbeats
      *
      * @param nick the player's nickname associated to the heartbeat
-     * @param me the player's GameListener associated to the heartbeat
+     * @param me   the player's GameListener associated to the heartbeat
      * @throws RemoteException
      */
     @Override
@@ -589,11 +589,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public void addListener(GameListener l, Player p) {
         model.addListener(l);
-        for(GameListener othersListener:model.getListeners()){
+        for (GameListener othersListener : model.getListeners()) {
             p.addListener(othersListener);
         }
-        for(Player otherPlayer:model.getPlayers()){
-            if(!otherPlayer.equals(p)) {
+        for (Player otherPlayer : model.getPlayers()) {
+            if (!otherPlayer.equals(p)) {
                 otherPlayer.addListener(l);
             }
         }
@@ -603,15 +603,15 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Remove the listener @param lis to model listeners and player listeners
      *
      * @param lis GameListener to remove
-     * @param p entity of the player to remove
+     * @param p   entity of the player to remove
      */
     public void removeListener(GameListener lis, Player p) {
         model.removeListener(lis);
-        for(GameListener othersListener:model.getListeners()){
+        for (GameListener othersListener : model.getListeners()) {
             p.removeListener(othersListener);
         }
-        for(Player otherPlayer:model.getPlayers()){
-            if(!otherPlayer.equals(p)) {
+        for (Player otherPlayer : model.getPlayers()) {
+            if (!otherPlayer.equals(p)) {
                 otherPlayer.removeListener(lis);
             }
         }
@@ -637,7 +637,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * It removes a player by nickname @param nick from the game including the associated listeners
      *
-     * @param lis GameListener to remove
+     * @param lis  GameListener to remove
      * @param nick of the player to remove
      * @throws RemoteException
      */
@@ -649,9 +649,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     //TESTING METHODS
+
     /**
      * Can set a model
      * used for testing purposes only, not used (and should not be used) elsewhere
+     *
      * @param model
      */
     @Deprecated
