@@ -58,7 +58,6 @@ public class InGameController extends GenericController {
     private ListView importantEventsList;
 
 
-
     @FXML
     private ComboBox comboBoxMessage;
 
@@ -90,10 +89,11 @@ public class InGameController extends GenericController {
 
     /**
      * This method manages the click on a tile in the playground.
+     *
      * @param e the mouse event
      */
     public void actionClickOnTile(MouseEvent e) {
-        if(!needToDetectColSelection && !needToDetectTileInHandGrabbing) {
+        if (!needToDetectColSelection && !needToDetectTileInHandGrabbing) {
             if (e.getButton() == MouseButton.PRIMARY) {
                 IntRecord rowCol = getRowColFrom(e, "pg");
                 Integer row = rowCol.row();
@@ -124,6 +124,7 @@ public class InGameController extends GenericController {
 
     /**
      * This method manages the click on a tile in the hand.
+     *
      * @param e the mouse event
      */
     public void actionHandTileClick(MouseEvent e) {
@@ -135,7 +136,8 @@ public class InGameController extends GenericController {
 
     /**
      * This method returns the row and the column of the tile clicked.
-     * @param e the mouse event
+     *
+     * @param e              the mouse event
      * @param prefixToRemove the prefix to remove
      * @return the row and the column of the tile clicked
      */
@@ -151,6 +153,7 @@ public class InGameController extends GenericController {
 
     /**
      * This method manage the mouse hover on a tile
+     *
      * @param e
      */
     public void actionMouseEnteredTile(MouseEvent e) {
@@ -172,6 +175,7 @@ public class InGameController extends GenericController {
 
     /**
      * This method manage the mouse hover on the playground
+     *
      * @param e the mouse event
      */
     public void actionMouseEnteredPlayground(MouseEvent e) {
@@ -195,6 +199,7 @@ public class InGameController extends GenericController {
 
     /**
      * This method manage the click on the shelfie
+     *
      * @param e the mouse event
      */
     public void actionTileShelfieClick(MouseEvent e) {
@@ -214,6 +219,7 @@ public class InGameController extends GenericController {
 
     /**
      * This method manage the sending of the message
+     *
      * @param e the mouse event
      */
     public void actionSendMessage(MouseEvent e) {
@@ -231,6 +237,7 @@ public class InGameController extends GenericController {
 
     /**
      * This method manage the click on the button to send the message
+     *
      * @param ke the key event
      */
     public void actionKeyPressedOnTextMessage(KeyEvent ke) {
@@ -241,15 +248,16 @@ public class InGameController extends GenericController {
 
     /**
      * This method manage the entering of the mouse on the shelf
+     *
      * @param e the mouse event
      */
-    public void actionMouseEntered(MouseEvent e){
-        if(needToDetectColSelection) {
+    public void actionMouseEntered(MouseEvent e) {
+        if (needToDetectColSelection) {
             Pane tilePane;
             deselectAllCols();
             IntRecord rowCol = getRowColFrom(e, "youShelf");
             for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
-                tilePane = (Pane) mainAnchor.lookup("#youShelf"+r+rowCol.col());
+                tilePane = (Pane) mainAnchor.lookup("#youShelf" + r + rowCol.col());
                 tilePane.getStyleClass().add("selectedCols");
             }
         }
@@ -257,68 +265,80 @@ public class InGameController extends GenericController {
 
     /**
      * This method manage the exiting of the mouse from the shelf
+     *
      * @param e the mouse event
      */
-    public void actionMouseExited(MouseEvent e){
+    public void actionMouseExited(MouseEvent e) {
         deselectAllCols();
     }
 
 
     /**
      * This method manage the mouse entering on the common card
+     *
      * @param e the mouse event
      */
-    public void actionMouseEnteredCommonCard(MouseEvent e){
+    public void actionMouseEnteredCommonCard(MouseEvent e) {
         final Node source = (Node) e.getSource();
         String id = source.getId();
 
-        switch (id){
-            case "cc0"->{
+        switch (id) {
+            case "cc0" -> {
                 ((Group) mainAnchor.lookup("#groupPointCC0")).setVisible(false);
                 ((Group) mainAnchor.lookup("#groupPointCC1")).setVisible(false);
-                ((Pane)source).setMinWidth(490);
-                ((Pane)source).setMinHeight(310);
+                ((Pane) source).setMinWidth(490);
+                ((Pane) source).setMinHeight(310);
             }
-            case "cc1"->{
+            case "cc1" -> {
                 ((Group) mainAnchor.lookup("#groupPointCC1")).setVisible(false);
-                ((Pane)source).setMinWidth(490);
-                ((Pane)source).setMinHeight(310);
+                ((Pane) source).setMinWidth(490);
+                ((Pane) source).setMinHeight(310);
             }
-            case "youPersonal"->{
-                ((Pane)source).setMinWidth(260);
-                ((Pane)source).setMinHeight(400);
+            case "youPersonal" -> {
+                ((Pane) source).setMinWidth(260);
+                ((Pane) source).setMinHeight(400);
             }
         }
     }
-    public void actionMouseExitedCommonCard(MouseEvent e){
+
+    /**
+     * This method manage the mouse exiting from the common card
+     *
+     * @param e the mouse event
+     */
+    public void actionMouseExitedCommonCard(MouseEvent e) {
         final Node source = (Node) e.getSource();
         String id = source.getId();
 
 
-        switch (id){
-            case "cc0"->{
+        switch (id) {
+            case "cc0" -> {
                 ((Group) mainAnchor.lookup("#groupPointCC0")).setVisible(true);
                 ((Group) mainAnchor.lookup("#groupPointCC1")).setVisible(true);
-                ((Pane)source).setMinWidth(190);
-                ((Pane)source).setMinHeight(110);
+                ((Pane) source).setMinWidth(190);
+                ((Pane) source).setMinHeight(110);
             }
-            case "cc1"->{
+            case "cc1" -> {
                 ((Group) mainAnchor.lookup("#groupPointCC1")).setVisible(true);
-                ((Pane)source).setMinWidth(190);
-                ((Pane)source).setMinHeight(110);
+                ((Pane) source).setMinWidth(190);
+                ((Pane) source).setMinHeight(110);
             }
-            case "youPersonal"->{
-                ((Pane)source).setMinWidth(130);
-                ((Pane)source).setMinHeight(200);
+            case "youPersonal" -> {
+                ((Pane) source).setMinWidth(130);
+                ((Pane) source).setMinHeight(200);
             }
         }
     }
 
-    private void deselectAllCols(){
+
+    /**
+     * This method deselect all the columns
+     */
+    private void deselectAllCols() {
         Pane tilePane;
-        for(int r=0; r<DefaultValue.NumOfRowsShelf;r++){
-            for(int c=0; c<DefaultValue.NumOfColumnsShelf;c++){
-                tilePane = (Pane) mainAnchor.lookup("#youShelf"+r+c);
+        for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
+            for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
+                tilePane = (Pane) mainAnchor.lookup("#youShelf" + r + c);
                 if (tilePane.getStyleClass().contains("selectedCols")) {
                     tilePane.getStyleClass().remove("selectedCols");
                 }
@@ -327,7 +347,15 @@ public class InGameController extends GenericController {
     }
 
 
-
+    /**
+     * This method get the point between two tiles
+     *
+     * @param rowFirstTile  the row of the first tile
+     * @param colFirstTile  the column of the first tile
+     * @param rowSecondTile the row of the second tile
+     * @param colSecondTile the column of the second tile
+     * @return
+     */
     private List<IntRecord> getPointsBetween(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
         List<IntRecord> points = new ArrayList<>();
 
@@ -352,6 +380,14 @@ public class InGameController extends GenericController {
     }
 
 
+    /**
+     * This method check if the two tiles are aligned
+     *
+     * @param rowFirstTile  the row of the first tile
+     * @param colFirstTile  the column of the first tile
+     * @param rowSecondTile the row of the second tile
+     * @param colSecondTile the column of the second tile
+     */
     private void checkAlignment(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
         Direction dir = null;
         Integer distance = null;
@@ -374,7 +410,7 @@ public class InGameController extends GenericController {
             } else {
                 dir = Direction.UP;
             }
-        }else{
+        } else {
             return;
         }
 
@@ -396,6 +432,12 @@ public class InGameController extends GenericController {
 
     }
 
+    /**
+     * Set the nickname and the points of the players
+     *
+     * @param model    the model of the game {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void setNicknamesAndPoints(GameModelImmutable model, String nickname) {
         youNickname.setTextFill(Color.WHITE);
         playerLabel1.setTextFill(Color.WHITE);
@@ -421,7 +463,7 @@ public class InGameController extends GenericController {
                 }
                 case 3 -> {
                     labelNick = playerLabel3;
-                    labelPoints =(Label) mainAnchor.lookup("#player3Points");
+                    labelPoints = (Label) mainAnchor.lookup("#player3Points");
                 }
             }
 
@@ -437,8 +479,8 @@ public class InGameController extends GenericController {
         }
 
         //Set not visible to the points of the no-playing player
-        Pane pointGroup=null;
-        for(int i=model.getPlayers().size();i<DefaultValue.MaxNumOfPlayer;i++){
+        Pane pointGroup = null;
+        for (int i = model.getPlayers().size(); i < DefaultValue.MaxNumOfPlayer; i++) {
             switch (i) {
                 case 2 -> {
                     pointGroup = pointGroup2;
@@ -462,6 +504,14 @@ public class InGameController extends GenericController {
 
     }
 
+    /**
+     * This method return the index of the player
+     *
+     * @param model            the model of the game {@link GameModelImmutable}
+     * @param personalNickname the nickname of the player
+     * @param nickToGetRef     the nickname of the player to get the index
+     * @return the index of the player in the GUI
+     */
     private Integer getReferringPlayerIndex(GameModelImmutable model, String personalNickname, String nickToGetRef) {
         if (personalNickname.equals(nickToGetRef))
             return 0;
@@ -485,6 +535,11 @@ public class InGameController extends GenericController {
     }
 
 
+    /**
+     * This method set the playground
+     *
+     * @param model the model of the game {@link GameModelImmutable}
+     */
     public void setPlayground(GameModelImmutable model) {
         TileIC t;
         Pane tilePane;
@@ -512,18 +567,28 @@ public class InGameController extends GenericController {
         pgTilesTotal.setText(String.valueOf(model.getPg().getNumOfTileinTheBag()));
     }
 
+    /**
+     * This method remove all the background class of the tile
+     *
+     * @param tilePane the tile pane {@link Pane}
+     */
     private void removeallBackgroundClass(Pane tilePane) {
         if (tilePane != null) {
             for (TileType t : TileType.values()) {
-                for(int i=0; i<3;i++) {
-                    if (tilePane.getStyleClass().contains(t.getBackgroundClass()+i)) {
-                        tilePane.getStyleClass().remove(t.getBackgroundClass()+i);
+                for (int i = 0; i < 3; i++) {
+                    if (tilePane.getStyleClass().contains(t.getBackgroundClass() + i)) {
+                        tilePane.getStyleClass().remove(t.getBackgroundClass() + i);
                     }
                 }
             }
         }
     }
 
+    /**
+     * This method set the personal card of the player
+     *
+     * @param model the model of the game {@link GameModelImmutable}
+     */
     public void setCommonCards(GameModelImmutable model) {
         Pane tilePane;
         tilePane = (Pane) mainAnchor.lookup("#cc0");
@@ -537,6 +602,11 @@ public class InGameController extends GenericController {
     }
 
 
+    /**
+     * This method set the shelves of the player visible
+     *
+     * @param model the model of the game {@link GameModelImmutable}
+     */
     public void setVisibleShelves(GameModelImmutable model) {
         Pane pane;
 
@@ -553,6 +623,9 @@ public class InGameController extends GenericController {
         lableGameId.setText(model.getGameId().toString());
     }
 
+    /**
+     * This method set the shelves of the player invisible
+     */
     private void setInvisibleAllShelves() {
         Pane pane;
         for (int i = 1; i <= DefaultValue.MaxNumOfPlayer - 1; i++) {
@@ -562,10 +635,22 @@ public class InGameController extends GenericController {
     }
 
 
+    /**
+     * This method set the personal card of the player
+     *
+     * @param model    the model of the game {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void setPersonalCard(GameModelImmutable model, String nickname) {
         youPersonal.getStyleClass().add(model.getPlayerEntity(nickname).getSecretGoal_IC().getGoalType().getBackgroundClass());
     }
 
+    /**
+     * This method set the tiles of the player in the hand
+     *
+     * @param model    the model of the game {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void setHandTiles(GameModelImmutable model, String nickname) {
         float opacity = 0.5f;
 
@@ -585,6 +670,12 @@ public class InGameController extends GenericController {
         }
     }
 
+    /**
+     * This method set the tiles of the player in the hand when the player has grabbed a tile
+     *
+     * @param model    the model of the game {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void setPlayerGrabbedTiles(GameModelImmutable model, String nickname) {
         setPlayground(model);
         this.rowFirstTile = null;
@@ -595,6 +686,9 @@ public class InGameController extends GenericController {
         setHandTiles(model, nickname);
     }
 
+    /**
+     * This method empty the hand of the player
+     */
     private void setEmptyHand() {
         for (int i = 0; i < DefaultValue.maxNumOfGrabbableTiles; i++) {
             Pane pane = (Pane) mainAnchor.lookup("#pgGrab0" + i);
@@ -605,6 +699,12 @@ public class InGameController extends GenericController {
         }
     }
 
+    /**
+     * This method set all the shelfies of the players
+     *
+     * @param model    the model of the game {@link GameModelImmutable}
+     * @param nickname the nickname of the player
+     */
     public void setAllShefies(GameModelImmutable model, String nickname) {
         String prefixIdPane = null;
         Integer refToGui;
@@ -634,6 +734,12 @@ public class InGameController extends GenericController {
     }
 
 
+    /**
+     * This method set the shelf of the player
+     *
+     * @param shelf        the shelf of the player {@link Shelf}
+     * @param prefixIdPane the prefix of the id of the pane
+     */
     private void setShelfie(Shelf shelf, String prefixIdPane) {
         Pane paneTile;
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
@@ -647,6 +753,11 @@ public class InGameController extends GenericController {
         }
     }
 
+    /**
+     * This method set the color of a message
+     * @param msg the message to show
+     * @param success if the message is a success or not
+     */
     public void setMsgToShow(String msg, Boolean success) {
         labelMessage.setText(msg);
         if (success == null) {
@@ -659,51 +770,72 @@ public class InGameController extends GenericController {
     }
 
 
-
+    /**
+     * This method manage the change of turn
+     * @param model
+     * @param nickname
+     */
     public void changeTurn(GameModelImmutable model, String nickname) {
         needToDetectTileInHandGrabbing = false;
 
-        setMsgToShow("Next turn is up to: "+model.getNicknameCurrentPlaying(),true);
+        setMsgToShow("Next turn is up to: " + model.getNicknameCurrentPlaying(), true);
         changeCursorOnTilesPlayground(Cursor.HAND);
         changeCursorOnTilesMyShelf(Cursor.DEFAULT);
         changeCursorOnInHandTiles(Cursor.DEFAULT);
     }
 
 
+    /**
+     * This method show the selected colunm of the shelfi
+     */
     public void showSelectionColShelfie() {
         //Now the client can select a col from his shelfie to position all tiles
         needToDetectColSelection = true;
-        needToDetectTileInHandGrabbing=false;
+        needToDetectTileInHandGrabbing = false;
         changeCursorOnTilesPlayground(Cursor.DEFAULT);
         changeCursorOnTilesMyShelf(Cursor.HAND);
         changeCursorOnInHandTiles(Cursor.DEFAULT);
     }
 
-    private void changeCursorOnTilesPlayground(Cursor cu){
+    /**
+     * Change the cursor on the tiles of the playground
+     * @param cu the cursor to set
+     */
+    private void changeCursorOnTilesPlayground(Cursor cu) {
         Pane tilePane;
         for (int r = 0; r < DefaultValue.PlaygroundSize; r++) {
             for (int c = 0; c < DefaultValue.PlaygroundSize; c++) {
                 tilePane = (Pane) tilesPane.lookup("#pg" + r + c);
 
                 if (tilePane != null) {
-                        tilePane.setCursor(cu);
+                    tilePane.setCursor(cu);
                 }
 
             }
         }
     }
-    private void changeCursorOnTilesMyShelf(Cursor cu){
+
+    /**
+     * Change the cursor on the tiles of the shelf
+     * @param cu the cursor to set
+     */
+    private void changeCursorOnTilesMyShelf(Cursor cu) {
         Pane paneTile;
         for (int r = 0; r < DefaultValue.NumOfRowsShelf; r++) {
             for (int c = 0; c < DefaultValue.NumOfColumnsShelf; c++) {
                 paneTile = (Pane) mainAnchor.lookup("#youShelf" + r + c);
-                if(paneTile!=null){
+                if (paneTile != null) {
                     paneTile.setCursor(cu);
                 }
             }
         }
     }
-    private void changeCursorOnInHandTiles(Cursor cu){
+
+    /**
+     * Change the cursor on the tiles in hand
+     * @param cu the cursor to set
+     */
+    private void changeCursorOnInHandTiles(Cursor cu) {
         Pane paneTile;
         paneTile = (Pane) mainAnchor.lookup("#pgGrab00");
         paneTile.setCursor(cu);
@@ -717,37 +849,53 @@ public class InGameController extends GenericController {
     }
 
 
+    /**
+     * This method set the message in the correct format
+     * @param msgs the list of messages
+     * @param myNickname the nickname of the player
+     */
     public void setMessage(List<Message> msgs, String myNickname) {
         chatList.getItems().clear();
         for (Message m : msgs) {
-            String r = "[" + m.getTime().getHour() + ":" + m.getTime().getMinute() + ":" + m.getTime().getSecond() + "] "+m.getSender().getNickname() +": "+  m.getText();
+            String r = "[" + m.getTime().getHour() + ":" + m.getTime().getMinute() + ":" + m.getTime().getSecond() + "] " + m.getSender().getNickname() + ": " + m.getText();
 
             if (m.whoIsReceiver().equals("*")) {
                 chatList.getItems().add(r);
             } else if (m.whoIsReceiver().toUpperCase().equals(myNickname.toUpperCase()) || m.getSender().getNickname().toUpperCase().equals(myNickname.toUpperCase())) {
                 //Message private
-                chatList.getItems().add("[Private] "+r);
+                chatList.getItems().add("[Private] " + r);
             }
         }
     }
 
+    /**
+     * This method set the important events
+     * @param importantEvents the list of important events
+     */
     public void setImportantEvents(List<String> importantEvents) {
         importantEventsList.getItems().clear();
-        for(String s:importantEvents){
+        for (String s : importantEvents) {
             importantEventsList.getItems().add(s);
         }
         importantEventsList.scrollTo(importantEventsList.getItems().size());
     }
 
+    /**
+     * This method set the updated points
+     * @param model the model of the game
+     * @param playerPointChanged the player that has changed his points
+     * @param myNickname the nickname of the player
+     * @param p the point to update
+     */
     public void setPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname, Point p) {
-        setNicknamesAndPoints(model,myNickname);
+        setNicknamesAndPoints(model, myNickname);
 
-        if(p.getReferredTo().equals(model.getCommonCards().get(0).getCommonType())){
+        if (p.getReferredTo().equals(model.getCommonCards().get(0).getCommonType())) {
             //Point referred to First Common Card
-            Pane paneTile = (Pane) mainAnchor.lookup("#point"+p.getPoint()+"cc0");
+            Pane paneTile = (Pane) mainAnchor.lookup("#point" + p.getPoint() + "cc0");
             paneTile.setVisible(false);
-        }else if(p.getReferredTo().equals(model.getCommonCards().get(1).getCommonType())){
-            Pane paneTile = (Pane) mainAnchor.lookup("#point"+p.getPoint()+"cc1");
+        } else if (p.getReferredTo().equals(model.getCommonCards().get(1).getCommonType())) {
+            Pane paneTile = (Pane) mainAnchor.lookup("#point" + p.getPoint() + "cc1");
             paneTile.setVisible(false);
         }
 
