@@ -65,16 +65,16 @@ public abstract class CommonCard extends Card implements CommonCardIC {
                 .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
 
         if (!lastCycle){
-            ris.append(ansi().cursor(DefaultValue.row_commonCards - 1 + DefaultValue.display_finalPoint,
-                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+            ris.append(ansi().cursor(DefaultValue.row_commonCards,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
                     .fg(Ansi.Color.YELLOW).bg(Ansi.Color.BLUE)
                     .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-            ris.append(ansi().cursor(DefaultValue.row_commonCards + DefaultValue.display_finalPoint,
-                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + 1,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
                     .fg(Ansi.Color.YELLOW).bg(Ansi.Color.BLUE)
                     .a("|   1   |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-            ris.append(ansi().cursor(DefaultValue.row_commonCards + 1 + DefaultValue.display_finalPoint,
-                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + 2,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
                     .fg(Ansi.Color.YELLOW).bg(Ansi.Color.BLUE)
                     .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
         }
