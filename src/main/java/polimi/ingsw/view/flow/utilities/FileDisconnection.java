@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class FileDisconnection {
-    private String path;
+    private final String path;
 
     /**
      * Init class
      */
     public FileDisconnection() {
-        path = System.getProperty("user.dir");
+        path = System.getProperty("user.home") + "/AppData/Roaming/.MyShelfie";
     }
 
     /**
@@ -59,6 +59,8 @@ public class FileDisconnection {
         JSONObject data = new JSONObject();
         data.put(DefaultValue.gameIdData, Integer.toString(gameId));
         data.put(DefaultValue.gameIdTime, LocalDateTime.now().toString());
+        //if the directory doesn't exist, create it
+        new File(path).mkdirs();
 
         File file = new File(path + "/" + nickname + ".json");
         try {
