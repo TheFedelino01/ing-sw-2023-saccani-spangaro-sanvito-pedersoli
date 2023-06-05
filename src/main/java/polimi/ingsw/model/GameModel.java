@@ -163,18 +163,21 @@ public class GameModel {
     public void setAsDisconnected(String nick) {
         getPlayerEntity(nick).setConnected(false);
         getPlayerEntity(nick).setNotReadyToStart();
-        listenersHandler.notify_playerDisconnected(this, nick);
+        if(getNumOfOnlinePlayers()!=0) {
+            listenersHandler.notify_playerDisconnected(this, nick);
 
-        if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
-            try {
-                nextTurn();
-            } catch (GameEndedException e) {
 
+            if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
+                try {
+                    nextTurn();
+                } catch (GameEndedException e) {
+
+                }
             }
-        }
-        if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
-            listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
-        }
+            if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
+                listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
+            }
+        }//else the game is empty
     }
 
     /**

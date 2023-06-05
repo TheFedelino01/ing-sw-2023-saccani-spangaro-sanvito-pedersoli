@@ -83,16 +83,21 @@ public class ClientHandler extends Thread {
                         gameController = temp.execute(gameListenersHandlerSocket, MainController.getInstance());
                         nick = gameController != null ? temp.getNick() : null;
 
-                    } else {
+                    } else if(!temp.isHeartbeat()) {
                         temp.execute(gameController);
+                    }else {
+                        //it's a heartbeat message I handle it as a "special message"
+                        if(gameController!=null) {
+                            gameController.heartbeat(temp.getNick(), gameListenersHandlerSocket);
+                        }
                     }
                 } catch (RemoteException | GameEndedException e) {
                     throw new RuntimeException(e);
                 }
 
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("[SOCKET] Client disconnected!");
-                try {
+                System.out.println("ClientSocket dies because cannot communicate no more with the client");
+               /* try {
                     if (nick != null && gameController != null) {
 
                         gameController.disconnectPlayer(nick, gameListenersHandlerSocket);
@@ -105,7 +110,7 @@ public class ClientHandler extends Thread {
                     }
                 } catch (RemoteException ex) {
                     throw new RuntimeException(ex);
-                }
+                }*/
                 return;
 
             }

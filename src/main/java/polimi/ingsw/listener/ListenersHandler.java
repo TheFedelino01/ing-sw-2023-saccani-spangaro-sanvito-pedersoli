@@ -9,6 +9,7 @@ import polimi.ingsw.model.Player;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -47,11 +48,14 @@ public class ListenersHandler {
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public synchronized void notify_playerJoined(GameModel model) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.playerJoined(new GameModelImmutable(model));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (RemoteException e) {
+                System.out.println("During notification of notify_playerJoined, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -62,11 +66,14 @@ public class ListenersHandler {
      * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
      */
     public synchronized void notify_playerReconnected(GameModel model, String nickPlayerReconnected) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.playerReconnected(new GameModelImmutable(model), nickPlayerReconnected);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (RemoteException e) {
+                System.out.println("During notification of notify_playerReconnected, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -78,11 +85,14 @@ public class ListenersHandler {
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public synchronized void notify_JoinUnableGameFull(Player playerWantedToJoin, GameModel model) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.joinUnableGameFull(playerWantedToJoin, new GameModelImmutable(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -92,11 +102,14 @@ public class ListenersHandler {
      * @param playerWantedToJoin is the player that wanted to join the game {@link Player} <br>
      */
     public synchronized void notify_JoinUnableNicknameAlreadyIn(Player playerWantedToJoin) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.joinUnableNicknameAlreadyIn(playerWantedToJoin);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_JoinUnableNicknameAlreadyIn, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -107,11 +120,14 @@ public class ListenersHandler {
      * @param nick is the nickname of the player that is ready to start the game
      */
     public synchronized void notify_PlayerIsReadyToStart(GameModel model, String nick) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.playerIsReadyToStart(new GameModelImmutable(model), nick);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_PlayerIsReadyToStart, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -121,11 +137,14 @@ public class ListenersHandler {
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
      */
     public synchronized void notify_GameStarted(GameModel model) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.gameStarted(new GameModelImmutable(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_GameStarted, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -135,11 +154,14 @@ public class ListenersHandler {
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public synchronized void notify_GameEnded(GameModel model) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.gameEnded(new GameModelImmutable(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_GameEnded, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -150,11 +172,14 @@ public class ListenersHandler {
      * @param msg is the message that has been sent {@link Message}
      */
     public synchronized void notify_SentMessage(GameModel gameModel, Message msg) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.sentMessage(new GameModelImmutable(gameModel), msg);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_SentMessage, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -164,11 +189,14 @@ public class ListenersHandler {
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public void notify_grabbedTile(GameModel model) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.grabbedTile(new GameModelImmutable(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_grabbedTile, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -180,11 +208,14 @@ public class ListenersHandler {
      * @param collum is the collum where the tile has been positioned
      */
     public synchronized void notify_positionedTile(GameModel model, TileType type, int collum) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.positionedTile(new GameModelImmutable(model), type, collum);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_positionedTile, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -194,11 +225,14 @@ public class ListenersHandler {
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public synchronized void notify_nextTurn(GameModel model) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.nextTurn(new GameModelImmutable(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_nextTurn, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -208,11 +242,14 @@ public class ListenersHandler {
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public void notify_LastCircle(GameModel model) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.lastCircle(new GameModelImmutable(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_LastCircle, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -222,11 +259,14 @@ public class ListenersHandler {
      * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public synchronized void notify_grabbedTileNotCorrect(GameModel model) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.grabbedTileNotCorrect(new GameModelImmutable(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_grabbedTileNotCorrect, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -236,11 +276,14 @@ public class ListenersHandler {
      * @param gamemodel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
      */
     public synchronized void notify_extractedCommonCard(GameModel gamemodel) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.commonCardsExtracted(new GameModelImmutable(gamemodel));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_extractedCommonCard, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -251,11 +294,14 @@ public class ListenersHandler {
      * @param nick is the nickname of the player that has disconnected
      */
     public synchronized void notify_playerDisconnected(GameModel gamemodel, String nick) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.playerDisconnected(new GameModelImmutable(gamemodel), nick);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_playerDisconnected, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -266,11 +312,14 @@ public class ListenersHandler {
      * @param nick is the nickname of the player that has left the game
      */
     public void notify_playerLeft(GameModel gameModel, String nick) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.playerLeft(new GameModelImmutable(gameModel), nick);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_playerLeft, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -281,11 +330,14 @@ public class ListenersHandler {
      * @param column is the column that is too small
      */
     public synchronized void notify_columnShelfTooSmall(GameModel model, int column) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.columnShelfTooSmall(new GameModelImmutable(model), column);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_columnShelfTooSmall, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -296,11 +348,14 @@ public class ListenersHandler {
      * @param secondsToWaitUntillGameEnded is the number of seconds to wait untill the game ends
      */
     public synchronized void notify_onlyOnePlayerConnected(GameModel model, int secondsToWaitUntillGameEnded) {
-        for (GameListener l : listeners) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
             try {
                 l.onlyOnePlayerConnected(new GameModelImmutable(model), secondsToWaitUntillGameEnded);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("During notification of notify_onlyOnePlayerConnected, a disconnection has been detected before heartbeat");
+                i.remove();
             }
         }
     }
@@ -313,6 +368,8 @@ public class ListenersHandler {
     public synchronized void removeListener(GameListener lis) {
         listeners.remove(lis);
     }
+
+
 
 
 }

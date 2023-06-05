@@ -16,6 +16,7 @@ public abstract class SocketClientGenericMessage implements Serializable {
 
     protected String nick;
     protected boolean isMessageForMainController;
+    protected boolean isHeartbeat=false;
 
     /**
      * Executes the corresponding action for the message.
@@ -57,4 +58,12 @@ public abstract class SocketClientGenericMessage implements Serializable {
     public String getNick() {
         return nick;
     }
+
+    /**
+     * @return if it's a heartbeat message
+     */
+    public boolean isHeartbeat(){
+        return isHeartbeat;
+    }
+
 }

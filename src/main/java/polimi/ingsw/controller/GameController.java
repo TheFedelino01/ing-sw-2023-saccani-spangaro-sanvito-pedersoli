@@ -66,7 +66,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void run() {
         while (!Thread.interrupted()) {
             //checks all the heartbeat to detect disconnection
-            if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+            if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED)) {
                 synchronized (heartbeats) {
                     Iterator<Map.Entry<GameListener, Heartbeat>> heartIter = heartbeats.entrySet().iterator();
 
@@ -75,15 +75,17 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                         if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                             try {
                                 this.disconnectPlayer(el.getValue().getNick(), el.getKey());
+                                System.out.println("Disconnection detected by heartbeat of player: "+el.getValue().getNick());
 
                                 if (this.getNumOnlinePlayers() == 0) {
+                                    stopReconnectionTimer();
                                     MainController.getInstance().deleteGame(this.getGameId());
                                 }
 
                             } catch (RemoteException e) {
                                 throw new RuntimeException(e);
                             }
-                            System.out.println("Disconnection detected by heartbeat");
+
                             heartIter.remove();
                         }
                     }
@@ -394,7 +396,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException if there is a connection error (RMI)
      */
     @Override
-    public synchronized void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
+    public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
 
         //Player has just disconnected, so I remove the notifications for him
         removeListener(lisOfClient, model.getPlayerEntity(nick));
