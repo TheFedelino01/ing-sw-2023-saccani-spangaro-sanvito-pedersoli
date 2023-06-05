@@ -11,6 +11,7 @@ import polimi.ingsw.model.interfaces.TileIC;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -234,12 +235,17 @@ public class Player implements Serializable, PlayerIC {
      * @param model where the player is playing
      */
     private void notify_addedPoint(Point point, GameModelImmutable model) {
-        for (GameListener l : listeners) {
-            try {
-                l.addedPoint(this, point, model);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+        Iterator<GameListener> iter = listeners.iterator();
+        while(iter.hasNext()) {
+            GameListener l = iter.next();
+            new Thread(() -> {
+                try {
+                    l.addedPoint(this, point, model);
+                } catch (RemoteException e) {
+                    iter.remove();
+                    throw new RuntimeException(e);
+                }
+            }).start();
         }
     }
 

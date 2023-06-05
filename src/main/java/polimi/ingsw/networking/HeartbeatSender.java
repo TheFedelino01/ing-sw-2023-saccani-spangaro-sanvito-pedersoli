@@ -27,14 +27,12 @@ public class HeartbeatSender extends Thread {
             Timer timer = new Timer();
             TimerTask task = new TaskOnNetworkDisconnection(flow);
             timer.schedule(task, DefaultValue.timeoutConnection_millis);
-
             //send heartbeat so the server knows I am still online
             try {
                 server.heartbeat();
             } catch (RemoteException e) {
                 System.out.println("Connection to server lost! Impossible to send heartbeat...");
             }
-
             timer.cancel();
 
             try {
