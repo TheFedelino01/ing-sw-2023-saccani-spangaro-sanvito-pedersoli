@@ -138,7 +138,7 @@ public class GameModel {
      * @throws MaxPlayersInException    there's already 4 players in game
      * @throws GameEndedException       the game has ended
      */
-    public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
+    public boolean reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
         Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
         if (!pIn.isConnected()) {
@@ -148,10 +148,13 @@ public class GameModel {
             if (!isTheCurrentPlayerOnline()) {
                 nextTurn();
             }
+            return true;
 
         } else {
             System.out.println("ERROR: Trying to reconnect a player not offline!");
+            return false;
         }
+
     }
 
     /**

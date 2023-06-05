@@ -504,7 +504,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
         int column;
         do {
-            column = Objects.requireNonNullElse(askNum("\t> Choose column: ", gameModel), DefaultValue.PlaygroundSize + 1);
+            column = Objects.requireNonNullElse(askNum("> Which tiles do you want to get?\n\t> Choose column: ", gameModel), DefaultValue.PlaygroundSize + 1);
             if (ended) return;
         } while (column > DefaultValue.PlaygroundSize);
 

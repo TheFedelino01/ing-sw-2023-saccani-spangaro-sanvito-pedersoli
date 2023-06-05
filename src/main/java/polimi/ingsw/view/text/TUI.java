@@ -189,11 +189,6 @@ public class TUI extends UI {
      */
     @Override
     public void show_commonCards(GameModelImmutable gameModel) {
-        this.clearScreen();
-        this.show_titleMyShelfie();
-        this.show_playground(gameModel);
-        this.show_gameId(gameModel);
-
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));
 
@@ -339,9 +334,10 @@ public class TUI extends UI {
 
         StringBuilder ris = new StringBuilder();
         int i = 0;
+        int longestImportantEvent = importantEvents.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
         ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events - 1).bold().a("Latest Events:").fg(DEFAULT).boldOff());
         for (String s : importantEvents) {
-            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).fg(DEFAULT));
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).a(" ".repeat(longestImportantEvent - s.length())).fg(DEFAULT));
             i++;
         }
         System.out.println(ris);
@@ -378,7 +374,7 @@ public class TUI extends UI {
      */
     public void show_messages(GameModelImmutable model) {
         String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat - 1).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
-                ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(model.getChat().toString(this.nickname)).fg(DEFAULT);
+                     ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(model.getChat().toString(this.nickname)).fg(DEFAULT);
         System.out.println(ris);
         if (model.getChat().getMsgs().size() > 0) {
             System.out.println(ansi().cursor(DefaultValue.row_input, 0));
@@ -414,7 +410,7 @@ public class TUI extends UI {
     @Override
     public void show_noAvailableGamesToJoin(String msgToVisualize) {
         String ris = ansi().fg(RED).cursor(11, 4).bold().a(msgToVisualize).fg(DEFAULT).boldOff() +
-                String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a(" Try later or create a new game!").fg(DEFAULT).boldOff());
+                     String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a(" Try later or create a new game!").fg(DEFAULT).boldOff());
         ansi().fg(DEFAULT);
 
 
@@ -480,6 +476,7 @@ public class TUI extends UI {
         this.clearScreen();
         //resize();
         show_titleMyShelfie();
+        show_gameId(model);
         show_playground(model);
         show_commonCards(model);
         show_messages(model);
@@ -545,6 +542,7 @@ public class TUI extends UI {
     @Override
     public void show_direction() {
         System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
+        System.out.println(ansi().cursorDownLine().a(""));
     }
 
     /**
@@ -806,16 +804,12 @@ public class TUI extends UI {
     public void show_alwaysShow(GameModelImmutable model, String nick) {
         show_alwaysShowForAll(model);
         show_goalCards(model.getPlayerEntity(nick));
-        if(model.getPlayerEntity(nick).getInHandTile_IC().size()>0)
+        if (model.getPlayerEntity(nick).getInHandTile_IC().size() > 0)
             show_playerHand(model);
-        else
+        else if (model.getPlayerEntity(model.getNicknameCurrentPlaying()).getInHandTile_IC().size() > 0)
             show_grabbedTile(model.getNicknameCurrentPlaying(), model);
-        show_playerHand(model);
-        show_commonCards(model);
         show_allShelves(model);
-        show_gameId(model);
         show_nextTurn(model);
-        show_messages(model);
         show_welcome(nick);
 
         System.out.println(ansi().cursor(DefaultValue.row_input, 0));

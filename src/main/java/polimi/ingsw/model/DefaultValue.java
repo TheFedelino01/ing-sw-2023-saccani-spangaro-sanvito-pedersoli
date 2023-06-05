@@ -20,7 +20,7 @@ public class DefaultValue implements Serializable {
     public final static String gameIdTime = "Created";
     public final static int twelveHS = 43200;
     public final static int displayShelfNextCol = 35;
-    public final static int display_finalPoint = 9;
+    public final static int display_finalPoint = 13;
 
     public final static int NumOfColumnsShelf = 5;
     public final static int NumOfRowsShelf = 6;

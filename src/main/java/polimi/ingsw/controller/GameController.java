@@ -125,8 +125,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws GameEndedException       the game is ended
      */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
-        model.reconnectPlayer(p);
-        if (getNumOfOnlinePlayers() > 1) {
+        boolean outputres = model.reconnectPlayer(p);
+
+        if (outputres && getNumOfOnlinePlayers() > 1) {
             stopReconnectionTimer();
         }
         //else nobody was connected and now one player has reconnected before the timer expires
@@ -608,9 +609,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public void removeListener(GameListener lis, Player p) {
         model.removeListener(lis);
-        for (GameListener othersListener : model.getListeners()) {
-            p.removeListener(othersListener);
-        }
+
+        p.getListeners().clear();
+
         for (Player otherPlayer : model.getPlayers()) {
             if (!otherPlayer.equals(p)) {
                 otherPlayer.removeListener(lis);
