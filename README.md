@@ -81,7 +81,7 @@ Open the file to see a more detailed view on the project's code coverage
 
 ## Download
 
-You can [download](https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/releases/) the latest installable version of MyShelfie for Windows, macOS and Linux.
+You can [download](https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/releases/) the latest installable version of MyShelfie for Windows and macOS.
 
 
 ## Credits
