@@ -45,7 +45,7 @@ public class GUI extends UI {
 
 
     /**
-     * The init method is use to initialize the GUI.
+     * The init method is used to initialize the GUI.
      */
     @Override
     public void init() {

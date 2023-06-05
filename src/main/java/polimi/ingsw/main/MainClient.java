@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -18,6 +20,9 @@ public class MainClient {
     public static void main(String[] args) {
         clearCMD();
         int selection;
+
+        //Disable javaFX logger
+        killLoggers();
 
         if (!DefaultValue.DEBUG) {
             String input;
@@ -109,6 +114,15 @@ public class MainClient {
             }
         }
         return true;
+    }
+
+    private static void killLoggers(){
+        com.sun.javafx.util.Logging.getJavaFXLogger().disableLogging();
+        com.sun.javafx.util.Logging.getCSSLogger().disableLogging();
+        com.sun.javafx.util.Logging.getAccessibilityLogger().disableLogging();
+        com.sun.javafx.util.Logging.getFocusLogger().disableLogging();
+        com.sun.javafx.util.Logging.getInputLogger().disableLogging();
+        com.sun.javafx.util.Logging.getLayoutLogger().disableLogging();
     }
 
 }
