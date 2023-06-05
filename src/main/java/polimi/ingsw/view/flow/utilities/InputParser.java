@@ -45,10 +45,11 @@ public class InputParser extends Thread {
             //I popped an input from the buffer
             if (p != null && txt.startsWith("/cs")) {
                 txt = txt.charAt(3) == ' ' ? txt.substring(4) : txt.substring(3);
-                String receiver = txt.substring(0, txt.indexOf(" "));
-                String msg = txt.substring(receiver.length() + 1);
-                gameFlow.sendMessage(new MessagePrivate(msg, p, receiver));
-
+                if(txt.contains(" ")){
+                    String receiver = txt.substring(0, txt.indexOf(" "));
+                    String msg = txt.substring(receiver.length() + 1);
+                    gameFlow.sendMessage(new MessagePrivate(msg, p, receiver));
+                }
             } else if (p != null && txt.startsWith("/c")) {
                 //I send a message
                 txt = txt.charAt(2) == ' ' ? txt.substring(3) : txt.substring(2);
