@@ -49,8 +49,14 @@ import static polimi.ingsw.view.flow.utilities.events.EventType.*;
  */
 public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
+    /**
+     * Nickname of the player {@link Player}
+     */
     private String nickname;
 
+    /**
+     * The list of events {@link EventList}
+     */
     private final EventList events = new EventList();
 
     private CommonClientActions clientActions;
