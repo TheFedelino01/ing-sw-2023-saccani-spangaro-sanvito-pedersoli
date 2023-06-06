@@ -6,6 +6,10 @@ import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * InputReaderTUI class
+ * InputReaderTUI is the class that reads the input and add it to the buffer
+ */
 public class inputReaderTUI extends Thread implements InputReader {
     private final BufferData buffer = new BufferData();
 
