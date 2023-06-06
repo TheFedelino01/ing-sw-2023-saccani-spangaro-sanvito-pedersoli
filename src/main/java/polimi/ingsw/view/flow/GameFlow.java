@@ -900,8 +900,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @throws RemoteException
+     * Common cards are extracted
+     * @param gameModel game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void commonCardsExtracted(GameModelImmutable gameModel) throws RemoteException {
@@ -909,7 +910,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
+     * The game started
+     * @param gameModel game model {@link GameModelImmutable}
      */
     @Override
     public void gameStarted(GameModelImmutable gameModel) {
@@ -917,7 +919,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
+     * The game ended
+     * @param gameModel game model {@link GameModelImmutable}
      */
     @Override
     public void gameEnded(GameModelImmutable gameModel) {
