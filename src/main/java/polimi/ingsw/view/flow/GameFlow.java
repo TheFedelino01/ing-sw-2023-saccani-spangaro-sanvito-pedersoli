@@ -849,8 +849,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param wantedToJoin
-     * @throws RemoteException
+     * A player wanted to join a game but the nickname is already in
+     * @param wantedToJoin player that wanted to join {@link Player}
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
@@ -859,8 +860,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameid
-     * @throws RemoteException
+     * A player wanted to join a game but the gameID is not valid
+     * @param gameid game id
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void gameIdNotExists(int gameid) throws RemoteException {
@@ -869,8 +871,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param why
-     * @throws RemoteException
+     * Generic error when entering a game
+     * @param why why the error occurred
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void genericErrorWhenEnteringGame(String why) throws RemoteException {
@@ -879,9 +882,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @param nick
-     * @throws IOException
+     * A player is ready to start
+     * @param gameModel game model {@link GameModelImmutable}
+     * @param nick nickname of the player
+     * @throws IOException if the reference could not be accessed
      */
     @Override
     public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException {
