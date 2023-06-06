@@ -7,7 +7,6 @@ import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.Player;
 import polimi.ingsw.model.Point;
 import polimi.ingsw.networking.socket.client.serverToClientMessages.*;
-import polimi.ingsw.networking.socket.client.*;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -21,7 +20,7 @@ import java.rmi.RemoteException;
  **/
 public class GameListenersHandlerSocket implements GameListener, Serializable {
 
-    private ObjectOutputStream out;
+    private final ObjectOutputStream out;
 
     /**
      * This constructor creates a GameListenersHandlerSocket
@@ -40,8 +39,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(nickNewPlayer +" by socket");
         try {
-            out.reset();
             out.writeObject(new msgPlayerJoined(gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -56,8 +55,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void playerLeft(GameModelImmutable gamemodel,String nick) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgPlayerLeft(gamemodel,nick));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -73,8 +72,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
         //System.out.println(nickNewPlayer +" by socket");
         try {
-            out.reset();
             out.writeObject(new msgPlayerReconnected(gamemodel, nickPlayerReconnected));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -89,8 +88,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgJoinUnableGameFull(p,gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -104,8 +103,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgJoinUnableNicknameAlreadyIn(wantedToJoin));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -119,8 +118,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void gameIdNotExists(int gameid) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgGameIdNotExists(gameid));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -134,8 +133,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void genericErrorWhenEnteringGame(String why) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgGenericErrorWhenEntryingGame(why));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -151,8 +150,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     public void playerIsReadyToStart(GameModelImmutable model, String nick) throws RemoteException {
         //System.out.println(nick +" ready to start by socket");
         try {
-            out.reset();
             out.writeObject(new msgPlayerIsReadyToStart(model, nick));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -167,8 +166,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(card.getCommonType() +" common card extracted by socket");
         try {
-            out.reset();
             out.writeObject(new msgCommonCardsExtracted(gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -183,8 +182,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     public void gameStarted(GameModelImmutable gamemodel) throws RemoteException {
         //System.out.println(gamemodel.getGameId() +" game started by socket");
         try {
-            out.reset();
             out.writeObject(new msgGameStarted(gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -198,8 +197,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void gameEnded(GameModelImmutable gamemodel) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgGameEnded(gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -214,8 +213,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgSentMessage(gameModel, msg));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -229,8 +228,9 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void grabbedTile(GameModelImmutable gamemodel) throws RemoteException {
         try {
-            out.reset(); //Else the object is not updated!!
+            //Else the object is not updated!!
             out.writeObject(new msgGrabbedTile(gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -244,8 +244,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgGrabbedTileNotCorrect(gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -261,8 +261,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgPositionedTile(gamemodel, type, column));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -276,8 +276,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgNextTurn(gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -293,8 +293,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgAddedPoint(p, point,gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -309,8 +309,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgPlayerDisconnected(gameModel,nick));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -325,8 +325,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgColumnShelfTooSmall(gameModel,column));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -341,8 +341,8 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgOnlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded));
+            finishSending();
         } catch (IOException e) {
 
         }
@@ -356,11 +356,20 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
     @Override
     public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
         try {
-            out.reset();
             out.writeObject(new msgLastCircle(gamemodel));
+            finishSending();
         } catch (IOException e) {
 
         }
+    }
+
+    /**
+     * Makes sure the message has been sent
+     * @throws IOException
+     */
+    private void finishSending() throws IOException {
+        out.flush();
+        out.reset();
     }
 
 }

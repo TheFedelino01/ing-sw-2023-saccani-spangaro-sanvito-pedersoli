@@ -39,13 +39,13 @@ public class ClientSocket extends Thread implements CommonClientActions {
     /**
      * GameListener on which to perform all actions requested by the Socket Server
      */
-    private GameListenersHandlerClient modelInvokedEvents;
+    private final GameListenersHandlerClient modelInvokedEvents;
     /**
      * The nickname associated with the ClientSocket communication
      */
     private String nickname;
 
-    private HeartbeatSender socketHeartbeat;
+    private final HeartbeatSender socketHeartbeat;
     private Flow flow;
 
     /**
@@ -72,7 +72,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
                 msg.execute(modelInvokedEvents);
 
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
-                System.err.println("[ERROR] Connection to server lost! " + e.toString());
+                System.err.println("[ERROR] Connection to server lost! " + e);
                 try {
                     System.in.read();
                 } catch (IOException ex) {
@@ -159,6 +159,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void createGame(String nick) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageCreateGame(nick));
+        finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
         }
@@ -174,6 +175,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void joinFirstAvailable(String nick) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageJoinFirst(nick));
+        finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
         }
@@ -190,6 +192,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void joinGame(String nick, int idGame) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageJoinGame(nick, idGame));
+        finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
         }
@@ -206,6 +209,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void reconnect(String nick, int idGame) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageReconnect(nick, idGame));
+        finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
         }
@@ -222,6 +226,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     @Override
     public void leave(String nick, int idGame) throws IOException {
         out.writeObject(new SocketClientMessageLeave(nick, idGame));
+        finishSending();
         nickname=null;
         if(socketHeartbeat.isAlive()) {
             socketHeartbeat.interrupt();
@@ -236,6 +241,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     @Override
     public void setAsReady() throws IOException {
         out.writeObject(new SocketClientMessageSetReady(nickname));
+        finishSending();
     }
 
 
@@ -257,6 +263,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
         out.writeObject(new SocketClientMessageGrabTileFromPlayground(nickname, x, y, direction, num));
+        finishSending();
     }
 
     /**
@@ -269,6 +276,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     @Override
     public void positionTileOnShelf(int column, TileType type) throws IOException {
         out.writeObject(new SocketClientMessagePositionTileOnShelf(nickname, column, type));
+        finishSending();
     }
 
     /**
@@ -280,6 +288,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void sendMessage(Message msg) {
         try {
             out.writeObject(new SocketClientMessageNewChatMessage(msg));
+            finishSending();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -294,9 +303,19 @@ public class ClientSocket extends Thread implements CommonClientActions {
         if (out != null) {
             try {
                 out.writeObject(new SocketClientMessageHeartBeat(nickname));
+                finishSending();
             } catch (IOException e) {
                 System.out.println("Connection lost to the server!! Impossible to send heartbeat...");
             }
         }
+    }
+
+    /**
+     * Makes sure the message has been sent
+     * @throws IOException
+     */
+    private void finishSending() throws IOException {
+        out.flush();
+        out.reset();
     }
 }
