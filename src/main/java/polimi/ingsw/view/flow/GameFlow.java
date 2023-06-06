@@ -613,7 +613,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * The client asks to the server to create a new game
+     * The client asks the server to create a new game
      * @param nick nickname of the player
      */
     @Override
@@ -628,7 +628,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * The client asks to the server to join the first available game
+     * The client asks the server to join the first available game
      * @param nick nickname of the player
      */
     @Override
@@ -642,7 +642,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * The client asks to the server to join a specific game
+     * The client asks the server to join a specific game
      * @param nick nickname of the player
      * @param idGame id of the game to join
      */
@@ -657,7 +657,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * The client asks to the server to reconnect to a specific game
+     * The client asks the server to reconnect to a specific game
      * @param nick nickname of the player
      * @param idGame id of the game to reconnect
      */
@@ -677,7 +677,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * The client asks to the server to leave the game
+     * The client asks the server to leave the game
      * @param nick nickname of the player
      * @param idGame id of the game to leave
      */
@@ -708,7 +708,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * The client asks to the server to grab a tile from the playground
+     * The client asks the server to grab a tile from the playground
      * @param x x coordinate of the tile
      * @param y y coordinate of the tile
      * @param direction direction of the tile {@link Direction}
