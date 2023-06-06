@@ -18,7 +18,13 @@ import static org.fusesource.jansi.Ansi.ansi;
  * When the shelf is full, the player can't collect any more tiles, so the game ends.
  */
 public class Shelf implements Serializable, ShelfIC {
+    /**
+     * The shelf is represented by a matrix of tiles.
+     */
     private Tile[][] shelf;
+    /**
+     * The free space is an integer that represents the free space of the shelf.
+     */
     private Integer freeSpace; //6*5
 
     /**
