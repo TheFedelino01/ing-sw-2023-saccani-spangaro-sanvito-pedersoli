@@ -59,20 +59,38 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
      */
     private final EventList events = new EventList();
 
+    /**
+     * The action that the client can perform {@link CommonClientActions}
+     */
     private CommonClientActions clientActions;
+    /**
+     * FileDisconnection {@link FileDisconnection} to handle the disconnection
+     */
     private final FileDisconnection fileDisconnection;
 
+    /**
+     * The last player that reconnected
+     */
     private String lastPlayerReconnected;
     private int columnChosen = -1;
     private final UI ui;
+    /**
+     * InputReader {@link InputReader} to read the input, and add it to the buffer.
+     * InputParser {@link InputParser} pops the input from the buffer and parses it
+     */
     protected InputParser inputParser;
     protected InputReader inputReader;
-    protected List<String> importantEvents; //events that needs to be always shown on screen
+    /**
+     * Events that always need to be shown on the screen
+     */
+    protected List<String> importantEvents;
     private boolean ended = false;
 
     /**
+     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI {@link UI}
+     * the FileDisconnection {@link FileDisconnection}, the InputReader {@link InputReader} and the InputParser {@link InputParser}
      *
-     * @param connectionSelection
+     * @param connectionSelection the connection type
      */
     public GameFlow(ConnectionSelection connectionSelection){
         //Invoked for starting with TUI
