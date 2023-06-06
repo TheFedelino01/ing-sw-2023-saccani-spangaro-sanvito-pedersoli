@@ -5,11 +5,30 @@ import polimi.ingsw.model.chat.MessagePrivate;
 import polimi.ingsw.model.interfaces.PlayerIC;
 import polimi.ingsw.view.flow.GameFlow;
 
+/**
+ * InputParser class
+ * This class parses the input from the queue
+ */
 public class InputParser extends Thread {
+    /**
+     * The buffer from which I pop the data
+     */
     private final BufferData bufferInput;
+    /**
+     * The data to process
+     */
     private final BufferData dataToProcess;
+    /**
+     * The game flow
+     */
     private final GameFlow gameFlow;
+    /**
+     * The player
+     */
     private PlayerIC p;
+    /**
+     * The game id
+     */
     private Integer gameId;
 
     /**
