@@ -602,19 +602,19 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
 
 
 
-    //-----------------------------------------
-    //Methods that the client can request to the server
+
+    /*============ Methods that the client can request to the server ============*/
 
     /**
-     *
+     * Throw a nonConnection error
      */
     public void noConnectionError(){
         ui.show_noConnectionError();
     }
 
     /**
-     *
-     * @param nick
+     * The client asks to the server to create a new game
+     * @param nick nickname of the player
      */
     @Override
     public void createGame(String nick) {
@@ -628,8 +628,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @param nick
+     * The client asks to the server to join the first available game
+     * @param nick nickname of the player
      */
     @Override
     public void joinFirstAvailable(String nick) {
@@ -642,9 +642,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @param nick
-     * @param idGame
+     * The client asks to the server to join a specific game
+     * @param nick nickname of the player
+     * @param idGame id of the game to join
      */
     @Override
     public void joinGame(String nick, int idGame) {
@@ -657,9 +657,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @param nick
-     * @param idGame
+     * The client asks to the server to reconnect to a specific game
+     * @param nick nickname of the player
+     * @param idGame id of the game to reconnect
      */
     @Override
     public void reconnect(String nick, int idGame) {
@@ -677,9 +677,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @param nick
-     * @param idGame
+     * The client asks to the server to leave the game
+     * @param nick nickname of the player
+     * @param idGame id of the game to leave
      */
     @Override
     public void leave(String nick, int idGame) {
@@ -690,7 +690,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
-    /** */
+    /**
+     * The client set himself as ready
+     */
     @Override
     public void setAsReady() {
         try {
@@ -700,19 +702,17 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         }
     }
 
-    /**
-     * @return
-     */
     @Override
     public boolean isMyTurn() {
         return false;
     }
 
     /**
-     * @param x
-     * @param y
-     * @param direction
-     * @param num
+     * The client asks to the server to grab a tile from the playground
+     * @param x x coordinate of the tile
+     * @param y y coordinate of the tile
+     * @param direction direction of the tile {@link Direction}
+     * @param num number of tiles to grab
      */
     @Override
     public void grabTileFromPlayground(int x, int y, Direction direction, int num)  {
@@ -724,8 +724,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param column
-     * @param type
+     * The client asks the server to position a tile on the shelf
+     * @param column column of the shelf
+     * @param type type of the tile {@link TileType}
      */
     @Override
     public void positionTileOnShelf(int column, TileType type) {
