@@ -87,7 +87,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     private boolean ended = false;
 
     /**
-     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI {@link UI}
+     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI {@link UI}(TUI)
      * the FileDisconnection {@link FileDisconnection}, the InputReader {@link InputReader} and the InputParser {@link InputParser}
      *
      * @param connectionSelection the connection type
@@ -110,9 +110,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @param guiApplication
-     * @param connectionSelection
+     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI {@link UI} (GUI)
+     * @param guiApplication the GUI application {@link GUIApplication}
+     * @param connectionSelection the connection type {@link ConnectionSelection}
      */
     public GameFlow(GUIApplication guiApplication, ConnectionSelection connectionSelection){
         //Invoked for starting with GUI
