@@ -8,9 +8,22 @@ import java.util.Random;
 
 import static polimi.ingsw.model.enumeration.TileType.NOT_USED;
 
+/**
+ * Tile class
+ * Tile is the class that represents the tiles of the game
+ */
 public class Tile implements Serializable, TileIC {
+    /**
+     * Every tile has a type and a free side flag
+     */
     private TileType TYPE;
+    /**
+     * The free side flag is true if the tile has at least a free side, and it's used to check if the tile can be picked
+     */
     private boolean freeSide;
+    /**
+     * The offset is used to randomize the tile's background
+     */
     private final int offset;
 
     /**
