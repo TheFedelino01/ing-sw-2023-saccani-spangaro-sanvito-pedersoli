@@ -932,7 +932,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
+     * A tile has been grabbed
+     * @param gameModel game model {@link GameModelImmutable}
      */
     @Override
     public void grabbedTile(GameModelImmutable gameModel) {
@@ -940,7 +941,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
+     * A tile has not been grabbed correctly
+     * @param gameModel game model {@link GameModelImmutable}
      */
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gameModel) {
@@ -949,9 +951,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @param type
-     * @param column
+     * A tile has been positioned
+     * @param gameModel game model {@link GameModelImmutable}
+     * @param type type of the tile {@link TileType}
+     * @param column column where the tile has been positioned
      */
     @Override
     public void positionedTile(GameModelImmutable gameModel, TileType type, int column) {
@@ -959,7 +962,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
+     * It adds the NextTurn event to the event list
+     * @param gameModel game model {@link GameModelImmutable}
      */
     @Override
     public void nextTurn(GameModelImmutable gameModel) {
@@ -970,9 +974,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param p
-     * @param point
-     * @param gamemodel
+     * Points have been added
+     * @param p player {@link Player}
+     * @param point point {@link Point}
+     * @param gamemodel game model {@link GameModelImmutable}
      */
     @Override
     public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) {
@@ -981,8 +986,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @param nick
+     * A player has been disconnected
+     * @param gameModel game model {@link GameModelImmutable}
+     * @param nick nickname of the player
      */
     @Override
     public void playerDisconnected(GameModelImmutable gameModel, String nick) {
@@ -995,9 +1001,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @param column
-     * @throws RemoteException
+     * A column shelf is too small to place all the tiles
+     * @param gameModel game model {@link GameModelImmutable}
+     * @param column  column where the tiles should be placed
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
