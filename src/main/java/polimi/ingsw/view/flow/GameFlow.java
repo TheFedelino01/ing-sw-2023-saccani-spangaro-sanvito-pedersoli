@@ -1012,9 +1012,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @param secondsToWaitUntilGameEnded
-     * @throws RemoteException
+     * Only one player is connected
+     * @param gameModel game model {@link GameModelImmutable}
+     * @param secondsToWaitUntilGameEnded seconds to wait until the game ends
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
@@ -1022,8 +1023,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @throws RemoteException
+     * Last circle begins
+     * @param gameModel game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void lastCircle(GameModelImmutable gameModel) throws RemoteException {
@@ -1031,7 +1033,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
 
-    //testing methods
+    /*==Testing purpose==*/
     @Deprecated
     public BufferData getBuffer_ForTesting() {
         return this.inputReader.getBuffer();
