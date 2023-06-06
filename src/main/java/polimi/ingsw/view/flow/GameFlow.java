@@ -184,6 +184,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
+     * This method is called when a player is not added to a game<br>
      * @param event from here we get the updated model and can understand why the player was not put in a game<br>
      *              it says if he's just joined or if he's been kicked and why
      */
@@ -222,8 +223,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     /**
      * The player is in this stage when he joins a lobby, but the game has not yet started<br>
      * @param event from here we get the updated model and game status
-     * @throws IOException
-     * @throws InterruptedException
+     * @throws IOException if there are problems with the input or output
+     * @throws InterruptedException if there are problems with the connection
      */
     private void statusWait(EventElement event) throws IOException, InterruptedException {
         String nickLastPlayer = event.getModel().getLastPlayer().getNickname();
@@ -244,8 +245,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
      * The player is here for all the game's duration<br>
      * Each eventType maps a different action that can happen in the game, while it's running<br>
      * @param event from here we get the updated model and game status
-     * @throws IOException
-     * @throws InterruptedException
+     * @throws IOException if there are problems with the input or output
+     * @throws InterruptedException if there are problems with the connection
      */
     private void statusRunning(EventElement event) throws IOException, InterruptedException {
         switch (event.getType()) {
@@ -368,27 +369,25 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @return
+     * @return true if the game has ended, false otherwise
      */
     public boolean isEnded() {
         return ended;
     }
 
     /**
-     *
-     * @param ended
+     * Sets the ended attribute
+     * @param ended true if the game has ended, false otherwise
      */
     public void setEnded(boolean ended) {
         this.ended = ended;
     }
 
 
-    ///////////////////////////////
-    //ASK
+    /*===============ASK METHODS===============*/
 
     /**
-     *
+     * Asks the nickname to the player<br>
      */
     private void askNickname() {
         ui.show_insertNicknameMsg();
@@ -402,8 +401,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @return
+     * Ask the player to select a game to join
+     * @return ture if the player has selected a game, false otherwise
      */
     private boolean askSelectGame() {
         String optionChoose;
@@ -439,8 +438,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @return
+     * Ask the player the game id to join
+     * @return the game id
      */
     private Integer askGameId() {
         String temp;
@@ -466,7 +465,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
+     * Ask the player if it's ready to start the game
      */
     public void askReadyToStart() {
         String ris;
@@ -480,11 +479,13 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         setAsReady();
     }
 
+
     /**
+     * Asks the player to choose number of tiles to pick up
      *
-     * @param msg
-     * @param gameModel
-     * @return
+     * @param msg       message to be shown
+     * @param gameModel model where the message needs to be shown
+     * @return number of tiles to pick up
      */
     private Integer askNum(String msg, GameModelImmutable gameModel) {
         String temp;
@@ -509,8 +510,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @param gameModel
+     * Asks about the tiles to pick up
+     * @param gameModel game model {@link GameModelImmutable}
      */
     public void askPickTiles(GameModelImmutable gameModel) {
         ui.show_askPickTilesMainMsg();
@@ -554,8 +555,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @param model
+     * Asks the player which column to place the tiles
+     * @param model game model {@link GameModelImmutable}
      */
     private void askColumn(GameModelImmutable model) {
         Integer column;
@@ -577,8 +578,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     *
-     * @param model
+     * Asks the player which tile to place
+     * @param model game model {@link GameModelImmutable}
      */
     public void askWhichTileToPlace(GameModelImmutable model) {
 
