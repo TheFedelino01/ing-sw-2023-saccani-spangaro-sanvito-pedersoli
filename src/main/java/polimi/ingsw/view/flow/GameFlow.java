@@ -780,7 +780,8 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     /*============ Server event received ============*/
 
     /**
-     * @param gameModel
+     * A player has joined the game
+     * @param gameModel game model {@link GameModelImmutable}
      */
     @Override
     public void playerJoined(GameModelImmutable gameModel) {
@@ -793,9 +794,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gamemodel
-     * @param nick
-     * @throws RemoteException
+     * A player has left the game
+     * @param gamemodel game model {@link GameModelImmutable}
+     * @param nick nickname of the player
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException {
@@ -808,9 +810,10 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param wantedToJoin
-     * @param gameModel
-     * @throws RemoteException
+     * A player wanted to join a game but the game is full
+     * @param wantedToJoin player that wanted to join
+     * @param gameModel game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gameModel) throws RemoteException {
@@ -818,8 +821,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @param nickPlayerReconnected
+     * A player reconnected to the game
+     * @param gameModel game model {@link GameModelImmutable}
+     * @param nickPlayerReconnected nickname of the player
      */
     @Override
     public void playerReconnected(GameModelImmutable gameModel, String nickPlayerReconnected) {
@@ -830,8 +834,9 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
     }
 
     /**
-     * @param gameModel
-     * @param msg
+     * A player has sent a message
+     * @param gameModel game model {@link GameModelImmutable}
+     * @param msg message sent {@link Message}
      */
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) {
