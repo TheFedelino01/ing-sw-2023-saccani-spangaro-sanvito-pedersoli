@@ -19,6 +19,10 @@ import java.util.*;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * This class is father to both the TUI  implementation<br>
+ * it manages all the event that can occur<br>
+ */
 public class TUI extends UI {
 
     private String nickname;
