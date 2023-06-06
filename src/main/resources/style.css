@@ -743,3 +743,8 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+.pointFinish{
+    -fx-background-image: url("img/img/scoring_tokens/end_game.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}

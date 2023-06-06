@@ -138,7 +138,7 @@ public class GameModel {
      * @throws MaxPlayersInException    there's already 4 players in game
      * @throws GameEndedException       the game has ended
      */
-    public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
+    public boolean reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
         Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
         if (!pIn.isConnected()) {
@@ -148,10 +148,13 @@ public class GameModel {
             if (!isTheCurrentPlayerOnline()) {
                 nextTurn();
             }
+            return true;
 
         } else {
             System.out.println("ERROR: Trying to reconnect a player not offline!");
+            return false;
         }
+
     }
 
     /**
@@ -160,18 +163,21 @@ public class GameModel {
     public void setAsDisconnected(String nick) {
         getPlayerEntity(nick).setConnected(false);
         getPlayerEntity(nick).setNotReadyToStart();
-        listenersHandler.notify_playerDisconnected(this, nick);
+        if(getNumOfOnlinePlayers()!=0) {
+            listenersHandler.notify_playerDisconnected(this, nick);
 
-        if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
-            try {
-                nextTurn();
-            } catch (GameEndedException e) {
 
+            if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
+                try {
+                    nextTurn();
+                } catch (GameEndedException e) {
+
+                }
             }
-        }
-        if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
-            listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
-        }
+            if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
+                listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
+            }
+        }//else the game is empty
     }
 
     /**

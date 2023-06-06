@@ -5,9 +5,13 @@ import polimi.ingsw.model.exceptions.GameEndedException;
 import polimi.ingsw.networking.rmi.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.networking.socket.client.SocketClientGenericMessage;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * ClientHandler Class<br>
@@ -45,6 +49,8 @@ public class ClientHandler extends Thread {
      */
     private String nick = null;
 
+    private final BlockingQueue<SocketClientGenericMessage> processingQueue = new LinkedBlockingQueue<>();
+
     /**
      * Handle all the network requests performed by a specific ClientSocket
      *
@@ -72,47 +78,55 @@ public class ClientHandler extends Thread {
      */
     @Override
     public void run() {
-        SocketClientGenericMessage temp;
+        var th = new Thread(this::runGameLogic);
+        th.start();
 
-        while (!this.isInterrupted()) {
-            try {
-                temp = (SocketClientGenericMessage) in.readObject();
-
+        try {
+            SocketClientGenericMessage temp;
+            while (!this.isInterrupted()) {
                 try {
-                    if (temp.isMessageForMainController()) {
-                        gameController = temp.execute(gameListenersHandlerSocket, MainController.getInstance());
-                        nick = gameController != null ? temp.getNick() : null;
+                    temp = (SocketClientGenericMessage) in.readObject();
 
-                    } else {
-                        temp.execute(gameController);
-                    }
-                } catch (RemoteException | GameEndedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println("[SOCKET] Client disconnected!");
-                try {
-                    if (nick != null && gameController != null) {
-
-                        gameController.disconnectPlayer(nick, gameListenersHandlerSocket);
-
-                        if (gameController.getNumOnlinePlayers() == 0) {
-                            MainController.getInstance().deleteGame(gameController.getGameId());
+                    try {
+                        //it's a heartbeat message I handle it as a "special message"
+                        if (temp.isHeartbeat() && !temp.isMessageForMainController()) {
+                            if (gameController != null) {
+                                gameController.heartbeat(temp.getNick(), gameListenersHandlerSocket);
+                            }
+                        } else {
+                            processingQueue.add(temp);
                         }
-                        return; //This ClientHandler now dies
-
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (RemoteException ex) {
-                    throw new RuntimeException(ex);
+
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println("ClientSocket dies because cannot communicate no more with the client");
+                    return;
                 }
-                return;
-
             }
-
-
+        } finally {
+            th.interrupt();
         }
     }
 
+    private void runGameLogic() {
+        SocketClientGenericMessage temp;
 
+        try {
+            while (!this.isInterrupted()) {
+                temp = processingQueue.take();
+
+                if (temp.isMessageForMainController()) {
+                    gameController = temp.execute(gameListenersHandlerSocket, MainController.getInstance());
+                    nick = gameController != null ? temp.getNick() : null;
+
+                } else if (!temp.isHeartbeat()) {
+                    temp.execute(gameController);
+                }
+            }
+        } catch (RemoteException | GameEndedException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException ignored) {}
+    }
 }

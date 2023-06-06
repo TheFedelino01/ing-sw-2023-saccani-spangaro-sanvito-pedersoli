@@ -30,6 +30,8 @@ public class CommonHorizontalTest1 {
                 {"", "", "", "", ""}
         };
         Shelf test = setShelf(matrix);
+        card.toString(0, true);
+        card.toString(0, false);
         assertFalse(card.verify(test));
     }
 

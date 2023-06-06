@@ -32,7 +32,8 @@ public class CommonVertexesTest {
                 {"","","","",""}
         };
         Shelf test = setShelf(matrix);
-        card.toString(0);
+        card.toString(0, true);
+        card.toString(0, false);
         assertFalse(card.verify(test));
     }
 

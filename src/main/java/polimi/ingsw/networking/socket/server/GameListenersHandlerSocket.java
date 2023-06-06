@@ -43,7 +43,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgPlayerJoined(gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -59,7 +59,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgPlayerLeft(gamemodel,nick));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -76,7 +76,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgPlayerReconnected(gamemodel, nickPlayerReconnected));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -92,7 +92,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgJoinUnableGameFull(p,gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -107,7 +107,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgJoinUnableNicknameAlreadyIn(wantedToJoin));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -122,7 +122,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgGameIdNotExists(gameid));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -137,7 +137,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgGenericErrorWhenEntryingGame(why));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -154,7 +154,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgPlayerIsReadyToStart(model, nick));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -170,7 +170,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgCommonCardsExtracted(gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -186,7 +186,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgGameStarted(gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -201,7 +201,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgGameEnded(gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -217,7 +217,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgSentMessage(gameModel, msg));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -232,7 +232,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset(); //Else the object is not updated!!
             out.writeObject(new msgGrabbedTile(gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -247,7 +247,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgGrabbedTileNotCorrect(gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -264,7 +264,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgPositionedTile(gamemodel, type, column));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -279,7 +279,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgNextTurn(gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -296,7 +296,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgAddedPoint(p, point,gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -312,7 +312,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgPlayerDisconnected(gameModel,nick));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -328,7 +328,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgColumnShelfTooSmall(gameModel,column));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -344,7 +344,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgOnlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
@@ -359,7 +359,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.reset();
             out.writeObject(new msgLastCircle(gamemodel));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
         }
     }
 

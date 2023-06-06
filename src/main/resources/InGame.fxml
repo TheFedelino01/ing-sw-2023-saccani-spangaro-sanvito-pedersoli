@@ -468,11 +468,6 @@
                   <String fx:value="backgroundWall" />
                </styleClass>
             </Pane>
-            <ImageView fitHeight="59.0" fitWidth="40.0" layoutX="1455.0" layoutY="805.0" preserveRatio="true">
-               <image>
-                  <Image url="@img/img/Publisher_material/Publisher.png" />
-               </image>
-            </ImageView>
             <Pane fx:id="pgGrab00" layoutX="765.0" layoutY="690.0" onMouseClicked="#actionHandTileClick" prefHeight="58.0" prefWidth="58.0" styleClass="tileEmpty" stylesheets="@style.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -728,25 +723,25 @@
             </Pane>
             <Group fx:id="groupPointCC0" layoutX="500.0" layoutY="130.0">
                <children>
-                  <Pane fx:id="point2cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                  <Pane fx:id="point2cc0" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
                      <styleClass>
                         <String fx:value="point2" />
                         <String fx:value="tileHover" />
                      </styleClass>
                   </Pane>
-                  <Pane fx:id="point4cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                  <Pane fx:id="point4cc0" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
                      <styleClass>
                         <String fx:value="point4" />
                         <String fx:value="tileHover" />
                      </styleClass>
                   </Pane>
-                  <Pane fx:id="point6cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                  <Pane fx:id="point6cc0" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
                      <styleClass>
                         <String fx:value="point6" />
                         <String fx:value="tileHover" />
                      </styleClass>
                   </Pane>
-                  <Pane fx:id="point8cc0" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                  <Pane fx:id="point8cc0" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
                      <styleClass>
                         <String fx:value="point8" />
                         <String fx:value="tileHover" />
@@ -756,25 +751,25 @@
             </Group>
             <Group fx:id="groupPointCC1" layoutX="500.0" layoutY="250.0">
                <children>
-                  <Pane fx:id="point2cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                  <Pane fx:id="point2cc1" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
                      <styleClass>
                         <String fx:value="point2" />
                         <String fx:value="tileHover" />
                      </styleClass>
                   </Pane>
-                  <Pane fx:id="point4cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                  <Pane fx:id="point4cc1" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
                      <styleClass>
                         <String fx:value="point4" />
                         <String fx:value="tileHover" />
                      </styleClass>
                   </Pane>
-                  <Pane fx:id="point6cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                  <Pane fx:id="point6cc1" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
                      <styleClass>
                         <String fx:value="point6" />
                         <String fx:value="tileHover" />
                      </styleClass>
                   </Pane>
-                  <Pane fx:id="point8cc1" prefHeight="58.0" prefWidth="58.0" stylesheets="@style.css">
+                  <Pane fx:id="point8cc1" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
                      <styleClass>
                         <String fx:value="point8" />
                         <String fx:value="tileHover" />
@@ -809,6 +804,12 @@
                      </font>
                   </Label>
                </children>
+            </Pane>
+            <Pane fx:id="pointFinish" layoutX="1097.0" layoutY="483.0" prefHeight="58.0" prefWidth="58.0" rotate="10.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="pointEnd" />
+                  <String fx:value="tileHover" />
+               </styleClass>
             </Pane>
             <Pane fx:id="youChair" layoutX="348.0" layoutY="384.0" prefHeight="66.0" prefWidth="65.0" styleClass="chair" stylesheets="@style.css" />
          </children>

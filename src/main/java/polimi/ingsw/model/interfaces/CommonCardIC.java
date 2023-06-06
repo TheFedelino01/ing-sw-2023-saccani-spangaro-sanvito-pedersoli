@@ -22,9 +22,10 @@ public interface CommonCardIC {
     /**
      * To string implementation
      * @param i spacer
+     * @param lastCycle checks whether to show the final point tile or not
      * @return string representation of the card
      */
-    String toString(int i);
+    String toString(int i, boolean lastCycle);
 
     /**
      * This method is used to get the points of the CardCommon

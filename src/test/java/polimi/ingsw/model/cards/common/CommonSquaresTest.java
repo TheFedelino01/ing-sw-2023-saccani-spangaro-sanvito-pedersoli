@@ -31,7 +31,8 @@ public class CommonSquaresTest {
         };
 
         Shelf test = setShelf(matrix);
-        card.toString(0);
+        card.toString(0, true);
+        card.toString(0, false);
         assertTrue(card.verify(test));
     }
     @Test

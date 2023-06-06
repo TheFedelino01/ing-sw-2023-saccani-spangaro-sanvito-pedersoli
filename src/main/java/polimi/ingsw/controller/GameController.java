@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
+
 /**
  * GameController Class <br>
  * Controls a specific Game {@link GameModel} by allowing a player to perform all actions that can be executed in a game
@@ -65,7 +66,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void run() {
         while (!Thread.interrupted()) {
             //checks all the heartbeat to detect disconnection
-            if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+            if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED)) {
                 synchronized (heartbeats) {
                     Iterator<Map.Entry<GameListener, Heartbeat>> heartIter = heartbeats.entrySet().iterator();
 
@@ -74,15 +75,17 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                         if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                             try {
                                 this.disconnectPlayer(el.getValue().getNick(), el.getKey());
+                                System.out.println("Disconnection detected by heartbeat of player: "+el.getValue().getNick());
 
                                 if (this.getNumOnlinePlayers() == 0) {
+                                    stopReconnectionTimer();
                                     MainController.getInstance().deleteGame(this.getGameId());
                                 }
 
                             } catch (RemoteException e) {
                                 throw new RuntimeException(e);
                             }
-                            System.out.println("Disconnection detected by heartbeat");
+
                             heartIter.remove();
                         }
                     }
@@ -124,8 +127,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws GameEndedException       the game is ended
      */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
-        model.reconnectPlayer(p);
-        if (getNumOfOnlinePlayers() > 1) {
+        boolean outputres = model.reconnectPlayer(p);
+
+        if (outputres && getNumOfOnlinePlayers() > 1) {
             stopReconnectionTimer();
         }
         //else nobody was connected and now one player has reconnected before the timer expires
@@ -349,6 +353,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                     //This player has his shelf full, time to complete le last circle
                     model.setStatus(GameStatus.LAST_CIRCLE);
                     model.setFinishedPlayer(currentPlayingIndex);
+                    currentPlaying.addPoint(new Point(true),model);
                 }
 
                 //if the hand is empty then call next turn
@@ -391,7 +396,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException if there is a connection error (RMI)
      */
     @Override
-    public synchronized void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
+    public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
 
         //Player has just disconnected, so I remove the notifications for him
         removeListener(lisOfClient, model.getPlayerEntity(nick));
@@ -606,9 +611,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public void removeListener(GameListener lis, Player p) {
         model.removeListener(lis);
-        for (GameListener othersListener : model.getListeners()) {
-            p.removeListener(othersListener);
-        }
+
+        p.getListeners().clear();
+
         for (Player otherPlayer : model.getPlayers()) {
             if (!otherPlayer.equals(p)) {
                 otherPlayer.removeListener(lis);

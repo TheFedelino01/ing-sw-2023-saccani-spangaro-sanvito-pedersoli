@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
@@ -148,6 +149,8 @@ public class GUIApplication extends Application {
             rescale();
         });
         resizing=true;
+
+        primaryStage.getIcons().add(new Image(GUIApplication.class.getClassLoader().getResourceAsStream("img/img/Publisher_material/Icon_50x50px.png")));
     }
 
     private double widthOld, heightOld;

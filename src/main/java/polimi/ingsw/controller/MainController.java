@@ -229,9 +229,10 @@ public class MainController implements MainControllerInterface, Serializable {
      * @param idGame Game ID to delete
      */
     public synchronized void deleteGame(int idGame) {
-        GameController gameToRemove = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList()).get(0);
-        if (gameToRemove != null) {
-            runningGames.remove(gameToRemove);
+        List<GameController> gameToRemove = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList());
+
+        if (gameToRemove != null && gameToRemove.size()>0) {
+            runningGames.remove(gameToRemove.get(0));
 
             System.out.println("\t>Game " + idGame + " removed from runningGames");
             printRunningGames();

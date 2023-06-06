@@ -49,7 +49,7 @@ public abstract class CommonCard extends Card implements CommonCardIC {
      */
     public abstract boolean verify(Shelf toCheck);
 
-    public String toString(int i) {
+    public String toString(int i, boolean lastCycle) {
         int spacer = i;
         if (i > 1)
             spacer = i + 1;
@@ -63,6 +63,21 @@ public abstract class CommonCard extends Card implements CommonCardIC {
         ris.append(ansi().cursor(DefaultValue.row_commonCards + 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
                 .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
                 .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+
+        if (!lastCycle){
+            ris.append(ansi().cursor(DefaultValue.row_commonCards,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
+                    .fg(Ansi.Color.YELLOW).bg(Ansi.Color.BLUE)
+                    .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + 1,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
+                    .fg(Ansi.Color.YELLOW).bg(Ansi.Color.BLUE)
+                    .a("|   1   |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + 2,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
+                    .fg(Ansi.Color.YELLOW).bg(Ansi.Color.BLUE)
+                    .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        }
 
         switch (this.commonType) {
             case CommonHorizontal0 -> {

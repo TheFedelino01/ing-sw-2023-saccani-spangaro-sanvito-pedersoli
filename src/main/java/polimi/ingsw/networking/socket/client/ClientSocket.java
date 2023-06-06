@@ -4,13 +4,10 @@ import polimi.ingsw.model.chat.Message;
 import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
-import polimi.ingsw.networking.socket.client.gameControllerMessages.SocketClientMessageGrabTileFromPlayground;
-import polimi.ingsw.networking.socket.client.gameControllerMessages.SocketClientMessageNewChatMessage;
-import polimi.ingsw.networking.socket.client.gameControllerMessages.SocketClientMessagePositionTileOnShelf;
-import polimi.ingsw.networking.socket.client.gameControllerMessages.SocketClientMessageSetReady;
+import polimi.ingsw.networking.HeartbeatSender;
+import polimi.ingsw.networking.socket.client.gameControllerMessages.*;
 import polimi.ingsw.networking.socket.client.mainControllerMessages.*;
 import polimi.ingsw.networking.socket.client.serverToClientMessages.SocketServerGenericMessage;
-import polimi.ingsw.networking.socket.client.*;
 import polimi.ingsw.view.flow.CommonClientActions;
 import polimi.ingsw.view.flow.Flow;
 
@@ -48,17 +45,20 @@ public class ClientSocket extends Thread implements CommonClientActions {
      */
     private String nickname;
 
+    private HeartbeatSender socketHeartbeat;
+    private Flow flow;
 
     /**
      * Create a Client Socket
      *
-     * @param gui to notify network errors
+     * @param flow to notify network errors
      */
-    public ClientSocket(Flow gui) {
+    public ClientSocket(Flow flow) {
+        this.flow=flow;
         startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
-        modelInvokedEvents = new GameListenersHandlerClient(gui);
+        modelInvokedEvents = new GameListenersHandlerClient(flow);
         this.start();
-
+        socketHeartbeat = new HeartbeatSender(flow,this);
     }
 
     /**
@@ -144,6 +144,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
         in.close();
         out.close();
         clientSoc.close();
+        if(socketHeartbeat.isAlive()) {
+            socketHeartbeat.interrupt();
+        }
     }
 
     /**
@@ -156,6 +159,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void createGame(String nick) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageCreateGame(nick));
+        if(!socketHeartbeat.isAlive()) {
+            socketHeartbeat.start();
+        }
     }
 
     /**
@@ -168,6 +174,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void joinFirstAvailable(String nick) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageJoinFirst(nick));
+        if(!socketHeartbeat.isAlive()) {
+            socketHeartbeat.start();
+        }
     }
 
     /**
@@ -181,6 +190,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void joinGame(String nick, int idGame) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageJoinGame(nick, idGame));
+        if(!socketHeartbeat.isAlive()) {
+            socketHeartbeat.start();
+        }
     }
 
     /**
@@ -194,6 +206,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void reconnect(String nick, int idGame) throws IOException {
         nickname = nick;
         out.writeObject(new SocketClientMessageReconnect(nick, idGame));
+        if(!socketHeartbeat.isAlive()) {
+            socketHeartbeat.start();
+        }
     }
 
 
@@ -208,6 +223,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void leave(String nick, int idGame) throws IOException {
         out.writeObject(new SocketClientMessageLeave(nick, idGame));
         nickname=null;
+        if(socketHeartbeat.isAlive()) {
+            socketHeartbeat.interrupt();
+        }
     }
 
 
@@ -273,6 +291,12 @@ public class ClientSocket extends Thread implements CommonClientActions {
      */
     @Override
     public void heartbeat() {
-        //not useful for socket
+        if (out != null) {
+            try {
+                out.writeObject(new SocketClientMessageHeartBeat(nickname));
+            } catch (IOException e) {
+                System.out.println("Connection lost to the server!! Impossible to send heartbeat...");
+            }
+        }
     }
 }

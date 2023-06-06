@@ -40,7 +40,6 @@ public class TUI extends UI {
     }
 
     /**
-     *
      * @param input the string of the important event to add
      */
     @Override
@@ -66,6 +65,7 @@ public class TUI extends UI {
 
     /**
      * Shows all players' nicknames
+     *
      * @param model
      */
     public void show_allPlayers(GameModelImmutable model) {
@@ -91,7 +91,6 @@ public class TUI extends UI {
     }
 
     /**
-     *
      * @param gameModel the model that has the player hand that needs to be shown
      */
     @Override
@@ -120,7 +119,6 @@ public class TUI extends UI {
     }
 
     /**
-     *
      * @param nickname the player that grabbed the tiles
      * @param model    the model in which the player grabbed the tiles
      */
@@ -143,6 +141,7 @@ public class TUI extends UI {
 
     /**
      * Shows the playground
+     *
      * @param model
      */
     public void show_playground(GameModelImmutable model) {
@@ -151,6 +150,7 @@ public class TUI extends UI {
 
     /**
      * Shows all players' shelves
+     *
      * @param model
      */
     public void show_allShelves(GameModelImmutable model) {
@@ -159,25 +159,36 @@ public class TUI extends UI {
         StringBuilder ris = new StringBuilder();
 
         for (PlayerIC p : model.getPlayers()) {
+            if (model.getFirstTurnIndex() == (model.getPlayers().indexOf(model.getPlayerEntity(p.getNickname())))) {
+                new PrintStream(System.out, true, System.console() != null
+                        ? System.console().charset()
+                        : Charset.defaultCharset()
+                ).println(ansi()
+                        .cursor(DefaultValue.row_shelves, i + DefaultValue.chair_index).fg(WHITE)
+                        .a(" .-===-.")
+                        .cursor(DefaultValue.row_shelves + 1, i + DefaultValue.chair_index).fg(WHITE)
+                        .a(" | . . |")
+                        .cursor(DefaultValue.row_shelves + 2, i + DefaultValue.chair_index).fg(WHITE)
+                        .a(" | .'. |")
+                        .cursor(DefaultValue.row_shelves + 3, i + DefaultValue.chair_index).fg(WHITE)
+                        .a("()_____()")
+                        .cursor(DefaultValue.row_shelves + 4, i + DefaultValue.chair_index).fg(WHITE)
+                        .a("||_____||")
+                        .cursor(DefaultValue.row_shelves + 5, i + DefaultValue.chair_index).fg(WHITE)
+                        .a(" W     W").reset());
+            }
             ris.append(ansi().cursor(DefaultValue.row_playerName, i - 3).a(p.getNickname() + ": "));
             ris.append(ansi().cursor(DefaultValue.row_shelves, i - 3).a(p.getShelf().toString(i)).toString());
-
             i += DefaultValue.displayShelfNextCol;
         }
         System.out.println(ris);
     }
 
     /**
-     *
      * @param gameModel the model that has the common cards to show
      */
     @Override
     public void show_commonCards(GameModelImmutable gameModel) {
-        this.clearScreen();
-        this.show_titleMyShelfie();
-        this.show_playground(gameModel);
-        this.show_gameId(gameModel);
-
         StringBuilder ris = new StringBuilder();
         ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));
 
@@ -186,7 +197,10 @@ public class TUI extends UI {
 
         int i = 1;
         for (CommonCardIC c : gameModel.getCommonCards()) {
-            ris.append(c.toString(i));
+            if (gameModel.getFirstFinishedPlayer() == -1)
+                ris.append(c.toString(i, false));
+            else
+                ris.append(c.toString(i, true));
             i += 3;
         }
         System.out.println(ris);
@@ -194,6 +208,7 @@ public class TUI extends UI {
 
     /**
      * Shows the player's points
+     *
      * @param gameModel
      */
     public void show_points(GameModelImmutable gameModel) {
@@ -213,6 +228,7 @@ public class TUI extends UI {
 
     /**
      * Shows the player's goal card
+     *
      * @param toShow
      */
     public void show_goalCards(PlayerIC toShow) {
@@ -220,7 +236,6 @@ public class TUI extends UI {
     }
 
     /**
-     *
      * @param gameModel model where events happen
      * @param nick      player's nickname
      */
@@ -253,7 +268,6 @@ public class TUI extends UI {
     }
 
     /**
-     *
      * @param gameModel     model where events happen
      * @param nicknameofyou player's nickname
      */
@@ -320,9 +334,10 @@ public class TUI extends UI {
 
         StringBuilder ris = new StringBuilder();
         int i = 0;
+        int longestImportantEvent = importantEvents.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
         ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events - 1).bold().a("Latest Events:").fg(DEFAULT).boldOff());
         for (String s : importantEvents) {
-            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).fg(DEFAULT));
+            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).a(" ".repeat(longestImportantEvent - s.length())).fg(DEFAULT));
             i++;
         }
         System.out.println(ris);
@@ -354,6 +369,7 @@ public class TUI extends UI {
 
     /**
      * Shows the chat messages
+     *
      * @param model
      */
     public void show_messages(GameModelImmutable model) {
@@ -366,7 +382,6 @@ public class TUI extends UI {
     }
 
     /**
-     *
      * @param model the model in which search for the longest message
      * @return the length of the longest message
      */
@@ -379,7 +394,6 @@ public class TUI extends UI {
     }
 
     /**
-     *
      * @param msg   the message to add
      * @param model the model to which add the message
      */
@@ -390,6 +404,7 @@ public class TUI extends UI {
 
     /**
      * Error message when there are no games to join
+     *
      * @param msgToVisualize message that needs visualisation
      */
     @Override
@@ -404,6 +419,7 @@ public class TUI extends UI {
 
     /**
      * Shows the last panel
+     *
      * @param model where the game is ended
      */
     @Override
@@ -453,12 +469,14 @@ public class TUI extends UI {
 
     /**
      * Stuff that always needs to be visible
+     *
      * @param model
      */
     public void show_alwaysShowForAll(GameModelImmutable model) {
         this.clearScreen();
         //resize();
         show_titleMyShelfie();
+        show_gameId(model);
         show_playground(model);
         show_commonCards(model);
         show_messages(model);
@@ -468,6 +486,7 @@ public class TUI extends UI {
 
     /**
      * Shows the game id
+     *
      * @param gameModel
      */
     public void show_gameId(GameModelImmutable gameModel) {
@@ -476,6 +495,7 @@ public class TUI extends UI {
 
     /**
      * Shows the next player
+     *
      * @param gameModel
      */
     public void show_nextTurn(GameModelImmutable gameModel) {
@@ -484,6 +504,7 @@ public class TUI extends UI {
 
     /**
      * Shows a welcome message
+     *
      * @param nick
      */
     public void show_welcome(String nick) {
@@ -521,6 +542,7 @@ public class TUI extends UI {
     @Override
     public void show_direction() {
         System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
+        System.out.println(ansi().cursorDownLine().a(""));
     }
 
     /**
@@ -533,6 +555,7 @@ public class TUI extends UI {
 
     /**
      * Shows the player's points
+     *
      * @param p         the player to whom the point was added
      * @param point     the point added to that player
      * @param gameModel the model in which the player and point exist
@@ -543,7 +566,6 @@ public class TUI extends UI {
     }
 
     /**
-     *
      * @param model the model to check
      */
     @Override
@@ -553,6 +575,7 @@ public class TUI extends UI {
 
     /**
      * clears console
+     *
      * @param msg
      * @param model
      */
@@ -562,6 +585,7 @@ public class TUI extends UI {
 
     /**
      * Shows the messages sent
+     *
      * @param model    the model where the message need to be shown
      * @param nickname the sender's nickname
      */
@@ -572,6 +596,7 @@ public class TUI extends UI {
 
     /**
      * Shows the player's hand
+     *
      * @param model    the model that called the event
      * @param nickname the player that grabbed the tiles
      */
@@ -778,17 +803,12 @@ public class TUI extends UI {
      */
     public void show_alwaysShow(GameModelImmutable model, String nick) {
         show_alwaysShowForAll(model);
-        for (PlayerIC p : model.getPlayers()) {
-            if (p.getNickname().equals(nick))
-                show_goalCards(p);
-            if (p.getInHandTile_IC().size() > 0)
-                if (p.getNickname().equals(nick)) {
-                    show_playerHand(model);
-                } else
-                    show_grabbedTile(model.getNicknameCurrentPlaying(), model);
-        }
+        show_goalCards(model.getPlayerEntity(nick));
+        if (model.getPlayerEntity(nick).getInHandTile_IC().size() > 0)
+            show_playerHand(model);
+        else if (model.getPlayerEntity(model.getNicknameCurrentPlaying()).getInHandTile_IC().size() > 0)
+            show_grabbedTile(model.getNicknameCurrentPlaying(), model);
         show_allShelves(model);
-        show_gameId(model);
         show_nextTurn(model);
         show_welcome(nick);
 

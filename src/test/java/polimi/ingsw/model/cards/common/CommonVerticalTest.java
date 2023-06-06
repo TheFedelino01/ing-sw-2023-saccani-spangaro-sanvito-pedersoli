@@ -30,7 +30,8 @@ public class CommonVerticalTest {
         };
 
         Shelf test = setShelf(matrix);
-        card.toString(0);
+        card.toString(0, true);
+        card.toString(0, false);
         Assert.assertTrue(card.verify(test));
     }
 

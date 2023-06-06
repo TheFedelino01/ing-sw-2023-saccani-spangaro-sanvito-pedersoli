@@ -23,7 +23,6 @@ public enum CardGoalType implements CardType {
 
     NOT_SET("pc0");
 
-
     private String backgroundClass;
 
     CardGoalType(String backgroundClass){

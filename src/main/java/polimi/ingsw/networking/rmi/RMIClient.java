@@ -6,6 +6,7 @@ import polimi.ingsw.model.DefaultValue;
 import polimi.ingsw.model.enumeration.Direction;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.exceptions.GameEndedException;
+import polimi.ingsw.networking.HeartbeatSender;
 import polimi.ingsw.networking.rmi.remoteInterfaces.GameControllerInterface;
 import polimi.ingsw.networking.rmi.remoteInterfaces.MainControllerInterface;
 import polimi.ingsw.networking.socket.client.GameListenersHandlerClient;
@@ -27,7 +28,7 @@ import java.util.TimerTask;
  * From the first connection, to the creation, joining, leaving, grabbing and positioning messages through the network<br>
  * by the RMI Network Protocol
  */
-public class RMIClient implements CommonClientActions, Runnable {
+public class RMIClient implements CommonClientActions {
 
     /**
      * The remote object returned by the registry that represents the main controller
@@ -59,6 +60,9 @@ public class RMIClient implements CommonClientActions, Runnable {
      */
     private Flow flow;
 
+    private HeartbeatSender rmiHeartbeat;
+
+
     /**
      * Create, start and connect a RMI Client to the server
      *
@@ -68,9 +72,12 @@ public class RMIClient implements CommonClientActions, Runnable {
         super();
         gameListenersHandler = new GameListenersHandlerClient(flow);
         connect();
-        new Thread(this).start();
+
 
         this.flow=flow;
+
+        rmiHeartbeat = new HeartbeatSender(flow,this);
+        rmiHeartbeat.start();
     }
 
     /**
@@ -127,9 +134,10 @@ public class RMIClient implements CommonClientActions, Runnable {
 
     /**
      * Send heartbeats to the RMI server
-     * If sending a message takes more than {@link DefaultValue#timeoutRMI_millis} millis, the client
+     * If sending a message takes more than {@link DefaultValue#timeoutConnection_millis} millis, the client
      * will be considered no longer connected to the server
      */
+    /*
     @SuppressWarnings("BusyWait")
     @Override
     public void run() {
@@ -138,7 +146,7 @@ public class RMIClient implements CommonClientActions, Runnable {
             try {
                 Timer timer = new Timer();
                 TimerTask task = new TaskOnNetworkDisconnection(flow);
-                timer.schedule( task, DefaultValue.timeoutRMI_millis );
+                timer.schedule( task, DefaultValue.timeoutConnection_millis);
 
                 //send heartbeat so the server knows I am still online
                 heartbeat();
@@ -148,12 +156,12 @@ public class RMIClient implements CommonClientActions, Runnable {
                 return;
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(DefaultValue.secondToWaitToSend_heartbeat);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-    }
+    }*/
 
     /**
      * Request the creation of a Game to the server
