@@ -1,5 +1,9 @@
 package polimi.ingsw.view.flow.utilities;
 
+/**
+ * InputReaderGUI class
+ * InputReaderGUI is the class that reads the input and add it to the buffer
+ */
 public class inputReaderGUI implements InputReader {
 
     private final BufferData buffer;
