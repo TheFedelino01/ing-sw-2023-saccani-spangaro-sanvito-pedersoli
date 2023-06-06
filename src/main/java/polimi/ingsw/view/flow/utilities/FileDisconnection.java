@@ -10,6 +10,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * FileDisconnection class
+ * FileDisconnection is the class that manages the disconnection of the player
+ * It reads and writes the game id from and to a file using json (JSONParser)
+ */
 public class FileDisconnection {
     private final String path;
 
