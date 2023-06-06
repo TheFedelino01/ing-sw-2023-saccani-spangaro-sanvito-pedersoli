@@ -15,24 +15,64 @@ import polimi.ingsw.model.exceptions.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * GameModel class<br>
+ * GameModel is the class that represents the game, it contains all the information about the game, and it's based on a MVC pattern
+ * It contains the list of players, the list of common cards, the playground, the chat and the game status
+ * It also contains the current player that is playing
+ * It also contains the listenersHandler that handles the listeners
+ */
 public class GameModel {
-    //maps the indexes of the players in the list with their position on the scoreBoard
-    //1,3 means the first player came in third place
+    /**
+     * maps the indexes of the players in the list with their position on the scoreBoard
+     * 1,3 means the first player came in third place
+     */
     private static Map<Integer, Integer> leaderBoard;
+    /**
+     * It contains the list of players
+     */
     private final List<Player> players;
+    /**
+     * It contains the list of common cards
+     */
     private final List<CommonCard> commonCards;
+    /**
+     * It contains the id of the game
+     */
     private Integer gameId;
+    /**
+     * It contains the playground
+     */
     private Playground pg;
+    /**
+     * It contains the index of the current player that is playing
+     */
     private Integer currentPlaying;
 
+    /**
+     * It contains the chat of the game
+     */
     private Chat chat;
 
+
+    /**
+     * It contains the status of the game {@link GameStatus}
+     */
     private GameStatus status;
 
+    /**
+     * it contains the index of the first player that finished the game
+     */
     private Integer firstFinishedPlayer = -1;
 
-    private Integer firstTurnIndex=-1;
+    /**
+     * it contains the index of the first player that finished the turn
+     */
+    private Integer firstTurnIndex = -1;
 
+    /**
+     * Listener handler that handles the listeners
+     */
     private transient ListenersHandler listenersHandler;
 
     /**
@@ -59,6 +99,7 @@ public class GameModel {
 
     /**
      * Constructor
+     *
      * @param players
      * @param commonCards
      * @param gameId
@@ -163,7 +204,7 @@ public class GameModel {
     public void setAsDisconnected(String nick) {
         getPlayerEntity(nick).setConnected(false);
         getPlayerEntity(nick).setNotReadyToStart();
-        if(getNumOfOnlinePlayers()!=0) {
+        if (getNumOfOnlinePlayers() != 0) {
             listenersHandler.notify_playerDisconnected(this, nick);
 
 
@@ -194,7 +235,7 @@ public class GameModel {
     public boolean arePlayersReadyToStartAndEnough() {
         //If every player is ready, the game starts
         return players.stream().filter(Player::getReadyToStart)
-                       .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
+                .count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
     }
 
     /**
@@ -314,14 +355,14 @@ public class GameModel {
      *
      * @param index of the player
      */
-    public void setFirstTurnIndex(int index){
-        this.firstTurnIndex=index;
+    public void setFirstTurnIndex(int index) {
+        this.firstTurnIndex = index;
     }
 
     /**
      * @return the index of the first player playing
      */
-    public Integer getFirstTurnIndex(){
+    public Integer getFirstTurnIndex() {
         return this.firstTurnIndex;
     }
 
@@ -363,10 +404,10 @@ public class GameModel {
         //If I want to set the gameStatus to "RUNNING", there needs to be at least
         // DefaultValue.minNumberOfPlayers -> (2) in lobby
         if (status.equals(GameStatus.RUNNING) &&
-            ((players.size() < DefaultValue.minNumOfPlayer
-              || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
-              || !doAllPlayersHaveGoalCard())
-             || currentPlaying == -1)) {
+                ((players.size() < DefaultValue.minNumOfPlayer
+                        || getNumOfCommonCards() != DefaultValue.NumOfCommonCards
+                        || !doAllPlayersHaveGoalCard())
+                        || currentPlaying == -1)) {
             throw new NotReadyToRunException();
         } else {
             this.status = status;
@@ -500,7 +541,7 @@ public class GameModel {
                     throw new NotEmptyHandException();
                 }
             }
-            int oldCurrent=currentPlaying;
+            int oldCurrent = currentPlaying;
 
             if (getNumOfOnlinePlayers() != 1) {
                 //I skip the disconnected players and I let play only the connected ones
@@ -514,7 +555,7 @@ public class GameModel {
             }
 
 
-            if (firstFinishedPlayer!=-1 && oldCurrent==firstTurnIndex) {
+            if (firstFinishedPlayer != -1 && oldCurrent == firstTurnIndex) {
                 throw new GameEndedException();
             } else {
                 listenersHandler.notify_nextTurn(this);
