@@ -16,8 +16,21 @@ import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+
+/**
+ * Playground class
+ * Playground is the class that represents the playground of the game and contains all the tiles
+ * We have a matrix of tiles and a bag of tiles.
+ * The bag is used to pick a tile randomly to fulfill the matrix
+ */
 public class Playground implements Serializable, PlaygroundIC {
-    private final Tile[][] playground; //playground formed by tiles
+    /**
+     * The playground is a matrix of tiles
+     */
+    private final Tile[][] playground;
+    /**
+     * The bag is a list of tiles; when the playground is initialized, the tiles are picked randomly from the bag
+     */
     private final List<Tile> bag; //All tiles are contained in this array
     private List<List<Integer>> data;
 
