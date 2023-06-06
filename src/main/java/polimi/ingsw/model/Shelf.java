@@ -9,6 +9,14 @@ import java.io.Serializable;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * Shelf class.
+ * This class represents the shelf of the player, It contains the tiles that the player has collected.
+ * We use a matrix of tiles to represent the shelf.
+ * The shelf is initialized with 6 rows and 5 columns. And an integer that represents the free space.
+ * The free space attribute is really important because it is used to check if the shelf is full or not.
+ * When the shelf is full, the player can't collect any more tiles, so the game ends.
+ */
 public class Shelf implements Serializable, ShelfIC {
     private Tile[][] shelf;
     private Integer freeSpace; //6*5
