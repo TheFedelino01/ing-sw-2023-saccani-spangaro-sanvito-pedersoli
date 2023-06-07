@@ -18,8 +18,12 @@ public class LobbyController extends GenericController{
     @FXML
     private Button btnReady;
 
+    @FXML
+    private Text gameidLabel;
+
     /**
      * Method to control the ready button.
+     *
      * @param e the action event
      * @throws IOException if there are connection problems
      */
@@ -29,6 +33,7 @@ public class LobbyController extends GenericController{
 
     /**
      * Method to set the nickname label
+     *
      * @param nickname the nickname
      */
     public void setUsernameLabel(String nickname){
@@ -36,10 +41,22 @@ public class LobbyController extends GenericController{
     }
 
     /**
+     * Method to set game id lable
+     *
+     * @param id the id to show
+     */
+    public void setGameid(int id) {
+        gameidLabel.setText("GameID: "+id);
+    }
+
+    /**
      * method to set the visibility of the ready button
+     *
      * @param visibility the visibility
      */
     public void setVisibleBtnReady(boolean visibility){
         btnReady.setVisible(visibility);
     }
+
+
 }

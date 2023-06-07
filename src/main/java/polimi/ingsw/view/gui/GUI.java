@@ -166,7 +166,7 @@ public class GUI extends UI {
             pause.setOnFinished(event -> {
                 callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
                 callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneEnum.LOBBY)).setUsernameLabel(nick));
-
+                callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneEnum.LOBBY)).setGameid(gameModel.getGameId()));
 
                 callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneEnum.LOBBY));
                 callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));

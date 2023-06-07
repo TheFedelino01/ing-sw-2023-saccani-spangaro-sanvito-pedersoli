@@ -30,14 +30,19 @@
                         <Font name="Arial Black" size="59.0" />
                      </font>
                   </Text>
+                  <Text fx:id="gameidLabel" fill="WHITE" layoutX="1039.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GameID: 000000" wrappingWidth="222.0">
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
-            <Text fill="WHITE" layoutX="40.0" layoutY="720.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname:" textAlignment="CENTER" wrappingWidth="179.66716154871494">
+            <Text fill="WHITE" layoutX="40.0" layoutY="710.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname:" textAlignment="CENTER" wrappingWidth="179.66716154871494">
                <font>
                   <Font name="Arial Black" size="30.0" />
                </font>
             </Text>
-            <Text fx:id="nicknameLable" fill="WHITE" layoutX="225.0" layoutY="720.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" wrappingWidth="179.66716154871494">
+            <Text fx:id="nicknameLable" fill="WHITE" layoutX="225.0" layoutY="710.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" wrappingWidth="179.66716154871494">
                <font>
                   <Font name="Arial Black" size="30.0" />
                </font>
