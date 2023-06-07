@@ -114,7 +114,7 @@ public class InGameController extends GenericController {
                     //Second click so client selected first and last Tile in the playground
                     rowSecondTile = row;
                     colSecondTile = col;
-                    System.out.println(rowFirstTile + ":" + colFirstTile + " - " + rowSecondTile + ":" + colSecondTile);
+                    System.out.println("Clicked: "+rowFirstTile + ":" + colFirstTile + " - " + rowSecondTile + ":" + colSecondTile);
                     checkAlignment(rowFirstTile, colFirstTile, rowSecondTile, colSecondTile);
                 } else {
                     rowFirstTile = row;
@@ -122,6 +122,7 @@ public class InGameController extends GenericController {
                 }
                 firstClick = !firstClick;
             } else {
+                System.out.println("Right click");
                 this.rowFirstTile = null;
                 this.colFirstTile = null;
                 this.rowSecondTile = null;
@@ -237,12 +238,16 @@ public class InGameController extends GenericController {
         if (!messageText.getText().isEmpty()) {
             if (comboBoxMessage.getValue().toString().isEmpty()) {
                 getInputReaderGUI().addTxt("/c " + messageText.getText());
+                System.out.println("Message sent");
             } else {
                 //Player wants to send a private message
                 getInputReaderGUI().addTxt("/cs " + comboBoxMessage.getValue().toString() + " " + messageText.getText());
                 comboBoxMessage.getSelectionModel().selectFirst();
+                System.out.println("Private Message sent");
             }
             messageText.setText("");
+
+
         }
     }
 

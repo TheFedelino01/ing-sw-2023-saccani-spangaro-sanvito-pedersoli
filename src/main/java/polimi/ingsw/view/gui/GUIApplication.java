@@ -109,6 +109,7 @@ public class GUIApplication extends Application {
      * @param scene the scene {@link SceneEnum}
      */
     public void setActiveScene(SceneEnum scene) {
+        this.primaryStage.setTitle("MyShelfie - "+scene.name());
         resizing=false;
         int index = getSceneIndex(scene);
         if (index != -1) {
