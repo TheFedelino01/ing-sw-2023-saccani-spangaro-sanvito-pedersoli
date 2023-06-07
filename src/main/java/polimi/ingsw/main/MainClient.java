@@ -33,6 +33,7 @@ public class MainClient {
                         """));
                 input = new Scanner(System.in).nextLine();
                 if(!input.equals("") && !isValidIP(input)){
+                    clearCMD();
                     System.out.println("Not valid");
                 }
             } while (!input.equals("") && !isValidIP(input));
@@ -46,6 +47,10 @@ public class MainClient {
                         Insert your IP (leave empty for localhost)
                         """));
                 input = new Scanner(System.in).nextLine();
+                if(!input.equals("") && !isValidIP(input)){
+                    clearCMD();
+                    System.out.println("Not valid");
+                }
             } while (!input.equals("") && !isValidIP(input));
             if (!input.equals(""))
                 System.setProperty("java.rmi.server.hostname", input);

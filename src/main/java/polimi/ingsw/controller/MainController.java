@@ -209,7 +209,7 @@ public class MainController implements MainControllerInterface, Serializable {
      */
     @Override
     public synchronized GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
-        List<GameController> ris = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList());
+        List<GameController> ris = runningGames.stream().filter(x -> x.getGameId() == idGame).toList();
         if (ris.size() == 1) {
             ris.get(0).leave(lis, nick);
             System.out.println("\t>Game " + ris.get(0).getGameId() + " player: \"" + nick + "\" decided to leave");
@@ -229,7 +229,7 @@ public class MainController implements MainControllerInterface, Serializable {
      * @param idGame Game ID to delete
      */
     public synchronized void deleteGame(int idGame) {
-        List<GameController> gameToRemove = runningGames.stream().filter(x -> x.getGameId() == idGame).collect(Collectors.toList());
+        List<GameController> gameToRemove = runningGames.stream().filter(x -> x.getGameId() == idGame).toList();
 
         if (gameToRemove != null && gameToRemove.size()>0) {
             runningGames.remove(gameToRemove.get(0));
@@ -246,7 +246,7 @@ public class MainController implements MainControllerInterface, Serializable {
     private void printRunningGames() {
         System.out.print("\t\trunningGames: ");
         runningGames.stream().forEach(x -> System.out.print(x.getGameId() + " "));
-        System.out.println("");
+        System.out.println();
     }
 
 
