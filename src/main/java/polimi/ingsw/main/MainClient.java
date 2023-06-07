@@ -32,6 +32,9 @@ public class MainClient {
                         Insert remote IP (leave empty for localhost)
                         """));
                 input = new Scanner(System.in).nextLine();
+                if(!input.equals("") && !isValidIP(input)){
+                    System.out.println("Not valid");
+                }
             } while (!input.equals("") && !isValidIP(input));
             if (!input.equals(""))
                 DefaultValue.serverIp = input;
@@ -78,6 +81,8 @@ public class MainClient {
         } else {
             conSel = ConnectionSelection.RMI;
         }
+
+        System.out.println("Starting the game!");
 
         //Starts the UI wanted
         if (selection == 1 || selection == 2) {
