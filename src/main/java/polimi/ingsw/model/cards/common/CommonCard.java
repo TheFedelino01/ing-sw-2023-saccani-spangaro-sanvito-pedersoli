@@ -65,6 +65,7 @@ public abstract class CommonCard extends Card implements CommonCardIC {
                 .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
 
         if (!lastCycle){
+            //if no one has finished his shelf, the final point is still in game
             ris.append(ansi().cursor(DefaultValue.row_commonCards,
                             DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
                     .fg(Ansi.Color.YELLOW).bg(Ansi.Color.BLUE)
@@ -77,6 +78,17 @@ public abstract class CommonCard extends Card implements CommonCardIC {
                             DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
                     .fg(Ansi.Color.YELLOW).bg(Ansi.Color.BLUE)
                     .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        }else{
+            //if someone has finished his shelf, the final point is not in game anymore
+            ris.append(ansi().cursor(DefaultValue.row_commonCards,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
+                    .a("         "));
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + 1,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
+                    .a("         "));
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + 2,
+                            DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage + DefaultValue.display_finalPoint)
+                    .a("         "));
         }
 
         switch (this.commonType) {
