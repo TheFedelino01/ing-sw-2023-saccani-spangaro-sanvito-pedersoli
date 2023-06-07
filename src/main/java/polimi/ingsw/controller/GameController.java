@@ -399,22 +399,25 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
 
         //Player has just disconnected, so I remove the notifications for him
-        removeListener(lisOfClient, model.getPlayerEntity(nick));
+        Player p = model.getPlayerEntity(nick);
+        if(p!=null) {
+            removeListener(lisOfClient, p);
 
-        if (model.getStatus().equals(GameStatus.WAIT)) {
-            //The game is in Wait (game not started yet), the player disconnected, so I remove him from the game)
-            model.removePlayer(nick);
-        } else {
-            //Tha game is running, so I set him as disconnected (He can reconnect soon)
-            model.setAsDisconnected(nick);
-        }
+            if (model.getStatus().equals(GameStatus.WAIT)) {
+                //The game is in Wait (game not started yet), the player disconnected, so I remove him from the game)
+                model.removePlayer(nick);
+            } else {
+                //Tha game is running, so I set him as disconnected (He can reconnect soon)
+                model.setAsDisconnected(nick);
+            }
 
-        //Check if there is only one player playing
-        if ((model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) && model.getNumOfOnlinePlayers() == 1) {
-            //Starting a th for waiting until reconnection at least of 1 client to keep playing
-            if (reconnectionTh == null) {
-                startReconnectionTimer();
-                System.out.println("Starting timer for reconnection waiting: " + DefaultValue.secondsToWaitReconnection + " seconds");
+            //Check if there is only one player playing
+            if ((model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) && model.getNumOfOnlinePlayers() == 1) {
+                //Starting a th for waiting until reconnection at least of 1 client to keep playing
+                if (reconnectionTh == null) {
+                    startReconnectionTimer();
+                    System.out.println("Starting timer for reconnection waiting: " + DefaultValue.secondsToWaitReconnection + " seconds");
+                }
             }
         }
 

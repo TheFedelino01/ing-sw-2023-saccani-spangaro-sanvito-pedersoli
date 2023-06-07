@@ -37,9 +37,7 @@ public class HeartbeatSender extends Thread {
 
             try {
                 Thread.sleep(DefaultValue.secondToWaitToSend_heartbeat);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            } catch (InterruptedException ignored) {}
         }
 
     }

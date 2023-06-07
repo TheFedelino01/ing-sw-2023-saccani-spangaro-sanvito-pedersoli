@@ -637,7 +637,11 @@ public class GameModel {
      * @return player by nickname
      */
     public Player getPlayerEntity(String playerNick) {
-        return players.stream().filter(x -> x.getNickname().equals(playerNick)).toList().get(0);
+        List<Player> ris = players.stream().filter(x -> x.getNickname().equals(playerNick)).toList();
+        if(ris.size()==1){
+            return ris.get(0);
+        }
+        return null;
     }
 
     /**
