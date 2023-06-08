@@ -682,12 +682,18 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
         if (idGame != -1) {
             ui.show_joiningToGameIdMsg(idGame, nick);
             try {
-                clientActions.reconnect(nickname, fileDisconnection.getLastGameId(nickname));
+                clientActions.reconnect(nickname, idGame);
             } catch (IOException | InterruptedException | NotBoundException e) {
                 noConnectionError();
             }
         } else {
             ui.show_noAvailableGamesToJoin("No disconnection previously detected");
+            try {
+                this.inputParser.getDataToProcess().popData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            events.add(null, APP_MENU);
         }
     }
 

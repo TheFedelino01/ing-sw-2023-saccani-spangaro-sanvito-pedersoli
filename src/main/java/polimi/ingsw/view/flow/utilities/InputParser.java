@@ -74,10 +74,11 @@ public class InputParser extends Thread {
                 txt = txt.charAt(2) == ' ' ? txt.substring(3) : txt.substring(2);
                 gameFlow.sendMessage(new Message(txt, p));
 
-            } else if (txt.startsWith("/quit")) {
+            } else if (txt.startsWith("/quit") || (txt.startsWith("/leave"))) {
                 assert p != null;
-                gameFlow.leave(p.getNickname(), gameId);
-                gameFlow.youLeft();
+                System.exit(1);
+                //gameFlow.leave(p.getNickname(), gameId);
+               // gameFlow.youLeft();
 
             } else {
                 //I didn't pop a message

@@ -43,7 +43,8 @@ public class FileDisconnection {
             gameId = (String) obj.get(DefaultValue.gameIdData);
             time = (String) obj.get(DefaultValue.gameIdTime);
         } catch (ParseException | FileNotFoundException ex) {
-            ex.printStackTrace();
+            System.out.println("No file found with nickname: "+nickname);
+            return -1;
         } catch (IOException e) {
             return -1;
         }
