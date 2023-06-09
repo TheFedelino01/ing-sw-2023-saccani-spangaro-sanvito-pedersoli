@@ -1,0 +1,356 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MainController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: MainController (polimi.ingsw.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MainController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81,7%
+  </span>
+  <span class="absValue">
+    (67/82)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.controller;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.enumeration.GameStatus;
+&nbsp;import polimi.ingsw.model.exceptions.GameEndedException;
+&nbsp;import polimi.ingsw.model.exceptions.MaxPlayersInException;
+&nbsp;import polimi.ingsw.model.exceptions.PlayerAlreadyInException;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.networking.rmi.remoteInterfaces.GameControllerInterface;
+&nbsp;import polimi.ingsw.networking.rmi.remoteInterfaces.MainControllerInterface;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * MainController Class &lt;br&gt;
+&nbsp; * Is the Controller of the controllers, it manages all the available games that are running {@link GameController}&lt;br&gt;
+&nbsp; * Allowing players to create, join, reconnect, leave and delete games
+&nbsp; *&lt;br&gt;
+&nbsp; * Therefore, the MainController is unique across the app and thus implements the Singleton Pattern
+&nbsp; */
+&nbsp;public class MainController implements MainControllerInterface, Serializable {
+&nbsp;
+&nbsp;    //Singleton
+&nbsp;    /**
+&nbsp;     * Singleton Pattern, instance of the class
+&nbsp;     */
+<b class="fc">&nbsp;    private static MainController instance = null;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of running games
+&nbsp;     * For implementing AF: &quot;Multiple games&quot;
+&nbsp;     */
+&nbsp;    private List&lt;GameController&gt; runningGames;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Init an empty List of GameController
+&nbsp;     * For implementing AF: &quot;Multiple games&quot;
+&nbsp;     */
+<b class="fc">&nbsp;    private MainController() {</b>
+<b class="fc">&nbsp;        runningGames = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Singleton Pattern
+&nbsp;     *
+&nbsp;     * @return the only one instance of the MainController class
+&nbsp;     */
+&nbsp;    public synchronized static MainController getInstance() {
+<b class="fc">&nbsp;        if (instance == null) {</b>
+<b class="fc">&nbsp;            instance = new MainController();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return instance;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a new game and join to it
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player who is creating the game
+&nbsp;     * @param nick Nickname of the player who is creating the game
+&nbsp;     * @return GameControllerInterface associated to the created game
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
+<b class="fc">&nbsp;        Player p = new Player(nick);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        GameController c = new GameController();</b>
+<b class="fc">&nbsp;        c.addListener(lis, p);</b>
+<b class="fc">&nbsp;        runningGames.add(c);</b>
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;\t&gt;Game &quot; + c.getGameId() + &quot; added to runningGames, created by player:\&quot;&quot; + nick + &quot;\&quot;&quot;);</b>
+<b class="fc">&nbsp;        printRunningGames();</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            c.addPlayer(p);</b>
+<b class="nc">&nbsp;        } catch (MaxPlayersInException | PlayerAlreadyInException e) {</b>
+<b class="nc">&nbsp;            lis.genericErrorWhenEnteringGame(e.getMessage());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return c;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Join to the first available game
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player who is trying to join to a game
+&nbsp;     * @param nick Nickname of the player who is trying to join to a game
+&nbsp;     * @return GameControllerInterface associated to the game, null if no games are available
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+<b class="fc">&nbsp;        List&lt;GameController&gt; ris = runningGames.stream().filter(x -&gt; (x.getStatus().equals(GameStatus.WAIT) &amp;&amp; x.getNumOfPlayers() &lt; DefaultValue.MaxNumOfPlayer)).toList();</b>
+<b class="fc">&nbsp;        Player p = new Player(nick);</b>
+<b class="fc">&nbsp;        if (ris.size() &gt; 0) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                ris.get(0).addListener(lis, p);</b>
+<b class="fc">&nbsp;                ris.get(0).addPlayer(p);</b>
+&nbsp;
+<b class="fc">&nbsp;                System.out.println(&quot;\t&gt;Game &quot; + ris.get(0).getGameId() + &quot; player:\&quot;&quot; + nick + &quot;\&quot; entered player&quot;);</b>
+<b class="fc">&nbsp;                printRunningGames();</b>
+<b class="fc">&nbsp;                return ris.get(0);</b>
+<b class="nc">&nbsp;            } catch (MaxPlayersInException | PlayerAlreadyInException e) {</b>
+<b class="nc">&nbsp;                ris.get(0).removeListener(lis, p);</b>
+<b class="nc">&nbsp;                lis.genericErrorWhenEnteringGame(e.getMessage());</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        } else {
+&nbsp;            //This is the only call not inside the model
+<b class="fc">&nbsp;            lis.genericErrorWhenEnteringGame(&quot;No games currently available to join...&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Join to a specific game by @param idGame
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player who is trying to join to a specific game by id
+&nbsp;     * @param nick Nickname of the player who is trying to join to a specific game by id
+&nbsp;     * @param idGame the game ID to be connected
+&nbsp;     * @return GameControllerInterface associated to the game, null if the specific game not exists or is unable to let players in
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+<b class="fc">&nbsp;        List&lt;GameController&gt; ris = runningGames.stream().filter(x -&gt; (x.getGameId() == idGame)).toList();</b>
+<b class="fc">&nbsp;        Player p = new Player(nick);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (ris.size() == 1) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                ris.get(0).addListener(lis, p);</b>
+<b class="fc">&nbsp;                ris.get(0).addPlayer(p);</b>
+<b class="fc">&nbsp;                System.out.println(&quot;\t&gt;Game &quot; + ris.get(0).getGameId() + &quot; player:\&quot;&quot; + nick + &quot;\&quot; entered player&quot;);</b>
+<b class="fc">&nbsp;                printRunningGames();</b>
+<b class="fc">&nbsp;                return ris.get(0);</b>
+<b class="fc">&nbsp;            } catch (MaxPlayersInException | PlayerAlreadyInException e) {</b>
+<b class="fc">&nbsp;                ris.get(0).removeListener(lis, p);</b>
+<b class="fc">&nbsp;                lis.genericErrorWhenEnteringGame(e.getMessage());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        } else {
+&nbsp;            //This is the only call not inside the model
+<b class="nc">&nbsp;            lis.gameIdNotExists(idGame);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reconnect a player to a game @param idGame
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player who is trying to rejoin to a game
+&nbsp;     * @param nick Nickname of the player who is trying to rejoin to a game
+&nbsp;     * @param idGame the game ID to be reconnected
+&nbsp;     * @return GameControllerInterface associated to the game, null if the game not exists or is unable to let players in
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
+<b class="fc">&nbsp;        List&lt;GameController&gt; ris = runningGames.stream().filter(x -&gt; (x.getGameId() == idGame)).toList();</b>
+<b class="fc">&nbsp;        List&lt;Player&gt; players = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        if (ris.size() == 1) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                players = ris.get(0).getPlayers()</b>
+<b class="fc">&nbsp;                        .stream()</b>
+<b class="fc">&nbsp;                        .filter(x -&gt; x.getNickname().equals(nick))</b>
+<b class="fc">&nbsp;                        .toList();</b>
+&nbsp;                //The game exists, check if nickname exists
+<b class="fc">&nbsp;                if (players.size() == 1) {</b>
+<b class="fc">&nbsp;                    ris.get(0).addListener(lis, players.get(0));</b>
+<b class="fc">&nbsp;                    ris.get(0).reconnectPlayer(players.get(0));</b>
+<b class="fc">&nbsp;                    return ris.get(0);</b>
+&nbsp;                } else {
+&nbsp;                    //Game exists but the nick no
+<b class="fc">&nbsp;                    lis.genericErrorWhenEnteringGame(&quot;The nickname used was not connected in a running game&quot;);</b>
+<b class="fc">&nbsp;                    return null;</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;            } catch (MaxPlayersInException e) {</b>
+<b class="nc">&nbsp;                ris.get(0).removeListener(lis, players.get(0));</b>
+<b class="nc">&nbsp;                lis.genericErrorWhenEnteringGame(e.getMessage());</b>
+<b class="nc">&nbsp;            } catch (GameEndedException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        } else {
+&nbsp;            //This is the only call not inside the model
+<b class="nc">&nbsp;            lis.gameIdNotExists(idGame);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Leave a player from a game
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player who wants to leave
+&nbsp;     * @param nick Nickname of the player who wants to leave
+&nbsp;     * @param idGame the game ID to leave
+&nbsp;     * @return
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
+<b class="fc">&nbsp;        List&lt;GameController&gt; ris = runningGames.stream().filter(x -&gt; x.getGameId() == idGame).toList();</b>
+<b class="fc">&nbsp;        if (ris.size() == 1) {</b>
+<b class="fc">&nbsp;            ris.get(0).leave(lis, nick);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;\t&gt;Game &quot; + ris.get(0).getGameId() + &quot; player: \&quot;&quot; + nick + &quot;\&quot; decided to leave&quot;);</b>
+<b class="fc">&nbsp;            printRunningGames();</b>
+&nbsp;
+<b class="fc">&nbsp;            if (ris.get(0).getNumOfOnlinePlayers() == 0) {</b>
+<b class="fc">&nbsp;                deleteGame(idGame);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Remove the @param idGame from the {@link MainController#runningGames}
+&nbsp;     *
+&nbsp;     * @param idGame Game ID to delete
+&nbsp;     */
+&nbsp;    public synchronized void deleteGame(int idGame) {
+<b class="fc">&nbsp;        List&lt;GameController&gt; gameToRemove = runningGames.stream().filter(x -&gt; x.getGameId() == idGame).toList();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (gameToRemove != null &amp;&amp; gameToRemove.size()&gt;0) {</b>
+<b class="fc">&nbsp;            runningGames.remove(gameToRemove.get(0));</b>
+&nbsp;
+<b class="fc">&nbsp;            System.out.println(&quot;\t&gt;Game &quot; + idGame + &quot; removed from runningGames&quot;);</b>
+<b class="fc">&nbsp;            printRunningGames();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print all games currently running
+&nbsp;     */
+&nbsp;    private void printRunningGames() {
+<b class="fc">&nbsp;        System.out.print(&quot;\t\trunningGames: &quot;);</b>
+<b class="fc">&nbsp;        runningGames.stream().forEach(x -&gt; System.out.print(x.getGameId() + &quot; &quot;));</b>
+<b class="fc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

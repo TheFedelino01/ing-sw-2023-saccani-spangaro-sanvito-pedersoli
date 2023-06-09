@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonClientActions</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.flow</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonClientActions (polimi.ingsw.view.flow)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CommonClientActions</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.flow;
+&nbsp;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.enumeration.Direction;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.exceptions.GameEndedException;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.rmi.NotBoundException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;public interface CommonClientActions {
+&nbsp;    /**
+&nbsp;     * Creates a new game
+&nbsp;     *
+&nbsp;     * @param nick
+&nbsp;     * @throws IOException
+&nbsp;     * @throws InterruptedException
+&nbsp;     * @throws NotBoundException
+&nbsp;     */
+&nbsp;    void createGame(String nick) throws IOException, InterruptedException, NotBoundException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Joins the first game found in the list of games
+&nbsp;     *
+&nbsp;     * @param nick
+&nbsp;     * @throws IOException
+&nbsp;     * @throws InterruptedException
+&nbsp;     * @throws NotBoundException
+&nbsp;     */
+&nbsp;    void joinFirstAvailable(String nick) throws IOException, InterruptedException, NotBoundException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the player to the game
+&nbsp;     *
+&nbsp;     * @param nick
+&nbsp;     * @param idGame
+&nbsp;     * @throws IOException
+&nbsp;     * @throws InterruptedException
+&nbsp;     * @throws NotBoundException
+&nbsp;     */
+&nbsp;    void joinGame(String nick, int idGame) throws IOException, InterruptedException, NotBoundException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reconnect the player to the game
+&nbsp;     *
+&nbsp;     * @param nick
+&nbsp;     * @param idGame
+&nbsp;     * @throws IOException
+&nbsp;     * @throws InterruptedException
+&nbsp;     * @throws NotBoundException
+&nbsp;     */
+&nbsp;    void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Leaves the game
+&nbsp;     *
+&nbsp;     * @param nick
+&nbsp;     * @param idGame
+&nbsp;     * @throws IOException
+&nbsp;     * @throws NotBoundException
+&nbsp;     */
+&nbsp;    void leave(String nick, int idGame) throws IOException, NotBoundException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the invoker as ready
+&nbsp;     *
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    void setAsReady() throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if it&#39;s the invoker&#39;s turn
+&nbsp;     *
+&nbsp;     * @return
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    boolean isMyTurn() throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Picks up a tile
+&nbsp;     *
+&nbsp;     * @param x
+&nbsp;     * @param y
+&nbsp;     * @param direction
+&nbsp;     * @param num
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Places a tile in the shelf
+&nbsp;     *
+&nbsp;     * @param column column where to place
+&nbsp;     * @param type   type to place
+&nbsp;     * @throws IOException
+&nbsp;     * @throws GameEndedException
+&nbsp;     */
+&nbsp;    void positionTileOnShelf(int column, TileType type) throws IOException, GameEndedException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message in chat
+&nbsp;     *
+&nbsp;     * @param msg message
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    void sendMessage(Message msg) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Pings the server
+&nbsp;     *
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    void heartbeat() throws RemoteException;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

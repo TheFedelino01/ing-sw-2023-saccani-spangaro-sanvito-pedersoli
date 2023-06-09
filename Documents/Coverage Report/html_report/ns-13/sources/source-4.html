@@ -1,0 +1,373 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > UI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.flow</a>
+</div>
+
+<h1>Coverage Summary for Class: UI (polimi.ingsw.view.flow)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.flow;
+&nbsp;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is father to both the TUI and GUI implementation&lt;br&gt;
+&nbsp; * it implements methods that everyone needs to have&lt;br&gt;
+&nbsp; */
+<b class="nc">&nbsp;public abstract class UI {</b>
+&nbsp;    protected List&lt;String&gt; importantEvents; //events that needs to be showed always in screen
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialises GUI or TUI
+&nbsp;     */
+&nbsp;    public abstract void init();
+&nbsp;
+&nbsp;    //----------------------
+&nbsp;    //SHOW
+&nbsp;    //----------------------
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Show&#39;s Cranio Creation&#39;s logo
+&nbsp;     *
+&nbsp;     * @throws IOException
+&nbsp;     * @throws InterruptedException
+&nbsp;     */
+&nbsp;    protected abstract void show_publisher() throws IOException, InterruptedException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows menu options
+&nbsp;     */
+&nbsp;    protected abstract void show_menuOptions();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the creating new game message
+&nbsp;     *
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    protected abstract void show_creatingNewGameMsg(String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the join first available game message
+&nbsp;     *
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    protected abstract void show_joiningFirstAvailableMsg(String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the join to specific game message
+&nbsp;     *
+&nbsp;     * @param idGame   id of the game the player is trying to join
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    protected abstract void show_joiningToGameIdMsg(int idGame, String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Message that asks to insert specific game id
+&nbsp;     */
+&nbsp;    protected abstract void show_inputGameIdMsg();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player for his nickname
+&nbsp;     */
+&nbsp;    protected abstract void show_insertNicknameMsg();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the player&#39;s chosen nickname
+&nbsp;     *
+&nbsp;     * @param nickname nickname just chosen by the player
+&nbsp;     */
+&nbsp;    protected abstract void show_chosenNickname(String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows game started message
+&nbsp;     *
+&nbsp;     * @param model model where the game has started
+&nbsp;     */
+&nbsp;    protected abstract void show_gameStarted(GameModelImmutable model);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows error message when there are no games available for joining
+&nbsp;     *
+&nbsp;     * @param msgToVisualize message that needs visualisation
+&nbsp;     */
+&nbsp;    protected abstract void show_noAvailableGamesToJoin(String msgToVisualize);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the game ended message
+&nbsp;     *
+&nbsp;     * @param model where the game is ended
+&nbsp;     */
+&nbsp;    protected abstract void show_gameEnded(GameModelImmutable model);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the players that have joined
+&nbsp;     *
+&nbsp;     * @param gameModel model where events happen
+&nbsp;     * @param nick      player&#39;s nickname
+&nbsp;     */
+&nbsp;    protected abstract void show_playerJoined(GameModelImmutable gameModel, String nick);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows that the playing player is ready to start
+&nbsp;     *
+&nbsp;     * @param gameModel     model where events happen
+&nbsp;     * @param nicknameofyou player&#39;s nickname
+&nbsp;     */
+&nbsp;    protected abstract void show_youReadyToStart(GameModelImmutable gameModel, String nicknameofyou);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Show the message for next turn or reconnected player
+&nbsp;     *
+&nbsp;     * @param model    model where events happen
+&nbsp;     * @param nickname nick of reconnected player (or of the player that is now in turn)
+&nbsp;     */
+&nbsp;    protected abstract void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Message that asks to pick up tiles
+&nbsp;     *
+&nbsp;     * @param msg       message to be shown
+&nbsp;     * @param gameModel model where the message needs to be shown
+&nbsp;     * @param nickname  nickname of the player that needs to have the message shown
+&nbsp;     */
+&nbsp;    protected abstract void show_askNum(String msg, GameModelImmutable gameModel, String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Message that shows the player&#39;s hand
+&nbsp;     *
+&nbsp;     * @param gameModel the model that has the player hand that needs to be shown
+&nbsp;     */
+&nbsp;    protected abstract void show_playerHand(GameModelImmutable gameModel);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows player&#39;s grabbed tiles
+&nbsp;     *
+&nbsp;     * @param nickname the player that grabbed the tiles
+&nbsp;     * @param model    the model in which the player grabbed the tiles
+&nbsp;     */
+&nbsp;    protected abstract void show_grabbedTile(String nickname, GameModelImmutable model);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows common cards extracted
+&nbsp;     *
+&nbsp;     * @param gameModel the model that has the common cards to show
+&nbsp;     */
+&nbsp;    protected abstract void show_commonCards(GameModelImmutable gameModel);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the message that has been sent
+&nbsp;     *
+&nbsp;     * @param model    the model where the message need to be shown
+&nbsp;     * @param nickname the sender&#39;s nickname
+&nbsp;     */
+&nbsp;    protected abstract void show_sentMessage(GameModelImmutable model, String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows player&#39;s grabbed tiles
+&nbsp;     *
+&nbsp;     * @param model    the model that called the event
+&nbsp;     * @param nickname the player that grabbed the tiles
+&nbsp;     */
+&nbsp;    protected abstract void show_grabbedTileMainMsg(GameModelImmutable model, String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Message that asks to pick a tile to place
+&nbsp;     */
+&nbsp;    public abstract void show_whichTileToPlaceMsg();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Error message on tile in hand selection
+&nbsp;     */
+&nbsp;    protected abstract void show_wrongSelectionHandMsg();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the updated player&#39;s shelf
+&nbsp;     *
+&nbsp;     * @param model    the model in which the player is found
+&nbsp;     * @param nickname the player who positioned the tile
+&nbsp;     */
+&nbsp;    protected abstract void show_positionedTile(GameModelImmutable model, String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows error message on wrong tile selection
+&nbsp;     *
+&nbsp;     * @param model    the model where to show the tiles grabbed weren&#39;t correct
+&nbsp;     * @param nickname the player who tried to grab the wrong tiles
+&nbsp;     */
+&nbsp;    protected abstract void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows generic error message
+&nbsp;     */
+&nbsp;    protected abstract void show_NaNMsg();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the message that asks to return to the main menu
+&nbsp;     */
+&nbsp;    protected abstract void show_returnToMenuMsg();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the message that asks for column to be chosen
+&nbsp;     */
+&nbsp;    protected abstract void show_askColumnMainMsg();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the message that asks for direction to be chosen
+&nbsp;     */
+&nbsp;    protected abstract void show_direction();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the message that asks for tiles to be picked
+&nbsp;     */
+&nbsp;    protected abstract void show_askPickTilesMainMsg();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the added point message
+&nbsp;     *
+&nbsp;     * @param p         the player to whom the point was added
+&nbsp;     * @param point     the point added to that player
+&nbsp;     * @param gameModel the model in which the player and point exist
+&nbsp;     */
+&nbsp;    protected abstract void show_addedPoint(Player p, Point point, GameModelImmutable gameModel);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows error message when chosen column has too little space
+&nbsp;     *
+&nbsp;     * @param model the model to check
+&nbsp;     */
+&nbsp;    protected abstract void columnShelfTooSmall(GameModelImmutable model);
+&nbsp;
+&nbsp;    //----------------------
+&nbsp;    //ACTIONS
+&nbsp;    //----------------------
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows message on important event added
+&nbsp;     * @param input the string of the important event to add
+&nbsp;     */
+&nbsp;    public abstract void addImportantEvent(String input);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param model the model in which search for the longest message
+&nbsp;     * @return the length of the longest message registered in chat
+&nbsp;     */
+&nbsp;    protected abstract int getLengthLongestMessage(GameModelImmutable model);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param msg   the message to add
+&nbsp;     * @param model the model to which add the message
+&nbsp;     */
+&nbsp;    protected abstract void addMessage(Message msg, GameModelImmutable model);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resets the important events
+&nbsp;     */
+&nbsp;    protected abstract void resetImportantEvents();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows an error when there&#39;s no connection
+&nbsp;     */
+&nbsp;    protected abstract void show_noConnectionError();
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

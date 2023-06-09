@@ -1,0 +1,199 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonVerticalCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.cards.common</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonVerticalCard (polimi.ingsw.model.cards.common)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonVerticalCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,9%
+  </span>
+  <span class="absValue">
+    (37/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.cards.common;
+&nbsp;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.enumeration.CardCommonType;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.Shelf;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;public class CommonVerticalCard extends CommonCard {
+&nbsp;    private static int param;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param type
+&nbsp;     * @param param
+&nbsp;     */
+&nbsp;    public CommonVerticalCard(CardCommonType type, int param) {
+<b class="fc">&nbsp;        super(type);</b>
+<b class="fc">&nbsp;        CommonVerticalCard.param = param;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if the player&#39;s shelf met the vertical goals
+&nbsp;     *
+&nbsp;     * @return true if the goal is satisfied, false else
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean verify(Shelf toCheck) {
+<b class="fc">&nbsp;        param = super.getCommonType().compareTo(CardCommonType.CommonVertical0) &gt; 0 ? 1 : 0;</b>
+<b class="fc">&nbsp;        int sum = 0;</b>
+<b class="fc">&nbsp;        switch (param) {</b>
+&nbsp;            case (0) -&gt; {       //3 columns each consisting of 6 tiles of at most 3 different types
+<b class="fc">&nbsp;                if (toCheck.getOccupiedSpace() &lt; 18)</b>
+<b class="fc">&nbsp;                    return false;</b>
+<b class="fc">&nbsp;                for (int j = 0; j &lt; DefaultValue.NumOfColumnsShelf; j++) {</b>
+<b class="fc">&nbsp;                    int ok = checkLines(toCheck, j);</b>
+<b class="fc">&nbsp;                    if (ok &lt;= 3)</b>
+<b class="fc">&nbsp;                        sum++;</b>
+<b class="fc">&nbsp;                    if (sum == 3) {</b>
+<b class="fc">&nbsp;                        return true;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;            case (1) -&gt; {       //2 columns each of 6 different types of tiles
+<b class="fc">&nbsp;                if (toCheck.getOccupiedSpace() &lt; 12)</b>
+<b class="fc">&nbsp;                    return false;</b>
+<b class="fc">&nbsp;                for (int j = 0; j &lt; DefaultValue.NumOfColumnsShelf; j++) {</b>
+<b class="fc">&nbsp;                    int ok = checkLines(toCheck, j);</b>
+<b class="fc">&nbsp;                    if (ok == 6)</b>
+<b class="fc">&nbsp;                        sum++;</b>
+<b class="fc">&nbsp;                    if (sum == 2) {</b>
+<b class="fc">&nbsp;                        return true;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;            default -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;Default error&quot;);</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks the lines in the card
+&nbsp;     *
+&nbsp;     * @param toCheck
+&nbsp;     * @param j
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    private int checkLines(Shelf toCheck, int j) {
+<b class="fc">&nbsp;        Map&lt;TileType, Integer&gt; colCheck = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        int ok = 0;</b>
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; DefaultValue.NumOfRowsShelf; i++) {</b>
+<b class="fc">&nbsp;            if (!toCheck.getSingleTile(i, j).isSameType(TileType.NOT_USED))</b>
+<b class="fc">&nbsp;                colCheck.putIfAbsent(toCheck.getSingleTile(i, j).getType(), 1);</b>
+&nbsp;            else
+<b class="fc">&nbsp;                count++;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (TileType t : TileType.values()) {</b>
+<b class="fc">&nbsp;            ok = ok + Optional.</b>
+<b class="fc">&nbsp;                    ofNullable(colCheck.get(t)).</b>
+<b class="fc">&nbsp;                    orElse(0);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (count &gt; 0)</b>
+<b class="fc">&nbsp;            ok = 4;</b>
+<b class="fc">&nbsp;        return ok;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

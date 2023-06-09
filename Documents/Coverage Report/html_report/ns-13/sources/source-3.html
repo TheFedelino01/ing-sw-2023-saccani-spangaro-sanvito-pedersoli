@@ -1,0 +1,1182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameFlow</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.flow</a>
+</div>
+
+<h1>Coverage Summary for Class: GameFlow (polimi.ingsw.view.flow)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameFlow</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/53)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/321)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameFlow$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/54)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/324)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.flow;
+&nbsp;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.enumeration.Direction;
+&nbsp;import polimi.ingsw.model.enumeration.GameStatus;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.exceptions.GameEndedException;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;import polimi.ingsw.networking.rmi.RMIClient;
+&nbsp;import polimi.ingsw.networking.socket.client.ClientSocket;
+&nbsp;import polimi.ingsw.view.flow.utilities.*;
+&nbsp;import polimi.ingsw.view.gui.GUI;
+&nbsp;import polimi.ingsw.view.gui.GUIApplication;
+&nbsp;import polimi.ingsw.view.text.TUI;
+&nbsp;import polimi.ingsw.view.flow.utilities.*;
+&nbsp;import polimi.ingsw.view.flow.utilities.events.EventElement;
+&nbsp;import polimi.ingsw.view.flow.utilities.events.EventList;
+&nbsp;import polimi.ingsw.view.flow.utilities.events.EventType;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.rmi.NotBoundException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.InputMismatchException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;import static polimi.ingsw.view.flow.utilities.events.EventType.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * GameFlow class&lt;br&gt;
+&nbsp; * As a workaround to the different GUI and TUI implementations, we created this class&lt;br&gt;
+&nbsp; * The TUI obviously has a different pace in the game that the GUI, as the TUI is more linear&lt;br&gt;
+&nbsp; * -&gt; Only one action can be performed at any point in time, &lt;br&gt;
+&nbsp; * where the GUi is more complex, a message can be sent while the tiles are being picked up, and so on&lt;br&gt;
+&nbsp; * We opted for this class hat sets the pace of the game to be the same for both TUI and GUI.&lt;br&gt;
+&nbsp; * we have two additional threads that help us do so: InputReader and InputParser.&lt;br&gt;
+&nbsp; * GameFlow is directly connected to InputParser, which creates InputReader.&lt;br&gt;
+&nbsp; * InputReader reads from the input (in TUI) or matches any action performed by the client as a TUI input (in GUI)&lt;br&gt;
+&nbsp; * For example, if the player was to click on a tile in the GUI&#39;s playground, it would register the click as three inputs in TUI (row, column and direction)&lt;br&gt;
+&nbsp; * Then adds the data read to a buffer queue.&lt;br&gt;
+&nbsp; * &lt;br&gt;
+&nbsp; * InputParser then pops entries from this queue and parses them, to understand what each means.&lt;br&gt;
+&nbsp; * If he understands that the player wanted to send a message, the message is created and sent,&lt;br&gt;
+&nbsp; * if not, the data is sent to the gameFlow, which will then perform an action accordingly (pick up tiles, place tiles, ecc)&lt;br&gt;
+&nbsp; */
+&nbsp;public class GameFlow extends Flow implements Runnable, CommonClientActions {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Nickname of the player {@link Player}
+&nbsp;     */
+&nbsp;    private String nickname;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The list of events {@link EventList}
+&nbsp;     */
+<b class="nc">&nbsp;    private final EventList events = new EventList();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The action that the client can perform {@link CommonClientActions}
+&nbsp;     */
+&nbsp;    private CommonClientActions clientActions;
+&nbsp;    /**
+&nbsp;     * FileDisconnection {@link FileDisconnection} to handle the disconnection
+&nbsp;     */
+&nbsp;    private final FileDisconnection fileDisconnection;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The last player that reconnected
+&nbsp;     */
+&nbsp;    private String lastPlayerReconnected;
+<b class="nc">&nbsp;    private int columnChosen = -1;</b>
+&nbsp;    private final UI ui;
+&nbsp;    /**
+&nbsp;     * InputReader {@link InputReader} to read the input, and add it to the buffer.
+&nbsp;     * InputParser {@link InputParser} pops the input from the buffer and parses it
+&nbsp;     */
+&nbsp;    protected InputParser inputParser;
+&nbsp;    protected InputReader inputReader;
+&nbsp;    /**
+&nbsp;     * Events that always need to be shown on the screen
+&nbsp;     */
+&nbsp;    protected List&lt;String&gt; importantEvents;
+<b class="nc">&nbsp;    private boolean ended = false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI {@link UI}(TUI)
+&nbsp;     * the FileDisconnection {@link FileDisconnection}, the InputReader {@link InputReader} and the InputParser {@link InputParser}
+&nbsp;     *
+&nbsp;     * @param connectionSelection the connection type
+&nbsp;     */
+<b class="nc">&nbsp;    public GameFlow(ConnectionSelection connectionSelection) {</b>
+&nbsp;        //Invoked for starting with TUI
+<b class="nc">&nbsp;        switch (connectionSelection) {</b>
+<b class="nc">&nbsp;            case SOCKET -&gt; clientActions = new ClientSocket(this);</b>
+<b class="nc">&nbsp;            case RMI -&gt; clientActions = new RMIClient(this);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ui = new TUI();</b>
+&nbsp;
+<b class="nc">&nbsp;        importantEvents = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        nickname = &quot;&quot;;</b>
+<b class="nc">&nbsp;        fileDisconnection = new FileDisconnection();</b>
+<b class="nc">&nbsp;        this.inputReader = new inputReaderTUI();</b>
+<b class="nc">&nbsp;        this.inputParser = new InputParser(this.inputReader.getBuffer(), this);</b>
+&nbsp;
+<b class="nc">&nbsp;        new Thread(this).start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI {@link UI} (GUI)
+&nbsp;     *
+&nbsp;     * @param guiApplication      the GUI application {@link GUIApplication}
+&nbsp;     * @param connectionSelection the connection type {@link ConnectionSelection}
+&nbsp;     */
+<b class="nc">&nbsp;    public GameFlow(GUIApplication guiApplication, ConnectionSelection connectionSelection) {</b>
+&nbsp;        //Invoked for starting with GUI
+<b class="nc">&nbsp;        switch (connectionSelection) {</b>
+<b class="nc">&nbsp;            case SOCKET -&gt; clientActions = new ClientSocket(this);</b>
+<b class="nc">&nbsp;            case RMI -&gt; clientActions = new RMIClient(this);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.inputReader = new inputReaderGUI();</b>
+&nbsp;
+<b class="nc">&nbsp;        ui = new GUI(guiApplication, (inputReaderGUI) inputReader);</b>
+<b class="nc">&nbsp;        importantEvents = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        nickname = &quot;&quot;;</b>
+<b class="nc">&nbsp;        fileDisconnection = new FileDisconnection();</b>
+&nbsp;
+<b class="nc">&nbsp;        this.inputParser = new InputParser(this.inputReader.getBuffer(), this);</b>
+<b class="nc">&nbsp;        new Thread(this).start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The gameFlow works with a list of events&lt;br&gt;
+&nbsp;     * each event maps the status of the game, whether it&#39;s not started, running, in its last cycle or ended&lt;br&gt;
+&nbsp;     */
+&nbsp;    @SuppressWarnings(&quot;BusyWait&quot;)
+&nbsp;    @Override
+&nbsp;    public void run() {
+&nbsp;        EventElement event;
+&nbsp;        try {
+<b class="nc">&nbsp;            ui.show_publisher();</b>
+<b class="nc">&nbsp;            events.add(null, APP_MENU);</b>
+<b class="nc">&nbsp;        } catch (IOException | InterruptedException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        while (!Thread.interrupted()) {</b>
+<b class="nc">&nbsp;            if (events.isJoined()) {</b>
+&nbsp;                //Get one event
+<b class="nc">&nbsp;                event = events.pop();</b>
+<b class="nc">&nbsp;                if (event != null) {</b>
+&nbsp;                    //if something happened
+<b class="nc">&nbsp;                    switch (event.getModel().getStatus()) {</b>
+&nbsp;                        case WAIT -&gt; {
+&nbsp;                            try {
+<b class="nc">&nbsp;                                statusWait(event);</b>
+<b class="nc">&nbsp;                            } catch (IOException | InterruptedException e) {</b>
+<b class="nc">&nbsp;                                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                            }</b>
+&nbsp;                        }
+&nbsp;                        case RUNNING, LAST_CIRCLE -&gt; {
+&nbsp;                            try {
+<b class="nc">&nbsp;                                statusRunning(event);</b>
+<b class="nc">&nbsp;                            } catch (IOException | InterruptedException e) {</b>
+<b class="nc">&nbsp;                                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                            }</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        case ENDED -&gt; statusEnded(event);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            } else {
+<b class="nc">&nbsp;                event = events.pop();</b>
+<b class="nc">&nbsp;                if (event != null) {</b>
+<b class="nc">&nbsp;                    statusNotInAGame(event);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            try {
+<b class="nc">&nbsp;                Thread.sleep(100);</b>
+<b class="nc">&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is called when a player is not added to a game&lt;br&gt;
+&nbsp;     *
+&nbsp;     * @param event from here we get the updated model and can understand why the player was not put in a game&lt;br&gt;
+&nbsp;     *              it says if he&#39;s just joined or if he&#39;s been kicked and why
+&nbsp;     */
+&nbsp;    private void statusNotInAGame(EventElement event) {
+<b class="nc">&nbsp;        switch (event.getType()) {</b>
+&nbsp;            case APP_MENU -&gt; {
+&nbsp;                boolean selectionok;
+&nbsp;                do {
+<b class="nc">&nbsp;                    selectionok = askSelectGame();</b>
+<b class="nc">&nbsp;                } while (!selectionok);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            case JOIN_UNABLE_NICKNAME_ALREADY_IN -&gt; {
+<b class="nc">&nbsp;                nickname = null;</b>
+<b class="nc">&nbsp;                events.add(null, APP_MENU);</b>
+<b class="nc">&nbsp;                ui.addImportantEvent(&quot;WARNING&gt; Nickname already used!&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case JOIN_UNABLE_GAME_FULL -&gt; {
+<b class="nc">&nbsp;                nickname = null;</b>
+<b class="nc">&nbsp;                events.add(null, APP_MENU);</b>
+<b class="nc">&nbsp;                ui.addImportantEvent(&quot;WARNING&gt; Game is Full!&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case GENERIC_ERROR_WHEN_ENTRYING_GAME -&gt; {
+<b class="nc">&nbsp;                nickname = null;</b>
+<b class="nc">&nbsp;                ui.show_returnToMenuMsg();</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                events.add(null, APP_MENU);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The player is in this stage when he joins a lobby, but the game has not yet started&lt;br&gt;
+&nbsp;     *
+&nbsp;     * @param event from here we get the updated model and game status
+&nbsp;     * @throws IOException          if there are problems with the input or output
+&nbsp;     * @throws InterruptedException if there are problems with the connection
+&nbsp;     */
+&nbsp;    private void statusWait(EventElement event) throws IOException, InterruptedException {
+<b class="nc">&nbsp;        String nickLastPlayer = event.getModel().getLastPlayer().getNickname();</b>
+&nbsp;        //If the event is that I joined then I wait until the user inputs &#39;y&#39;
+<b class="nc">&nbsp;        switch (event.getType()) {</b>
+&nbsp;            case PLAYER_JOINED -&gt; {
+<b class="nc">&nbsp;                if (nickLastPlayer.equals(nickname)) {</b>
+<b class="nc">&nbsp;                    ui.show_playerJoined(event.getModel(), nickname);</b>
+<b class="nc">&nbsp;                    saveGameId(fileDisconnection, nickname, event.getModel().getGameId());</b>
+<b class="nc">&nbsp;                    askReadyToStart();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The player is here for all the game&#39;s duration&lt;br&gt;
+&nbsp;     * Each eventType maps a different action that can happen in the game, while it&#39;s running&lt;br&gt;
+&nbsp;     *
+&nbsp;     * @param event from here we get the updated model and game status
+&nbsp;     * @throws IOException          if there are problems with the input or output
+&nbsp;     * @throws InterruptedException if there are problems with the connection
+&nbsp;     */
+&nbsp;    private void statusRunning(EventElement event) throws IOException, InterruptedException {
+<b class="nc">&nbsp;        switch (event.getType()) {</b>
+&nbsp;            case GAMESTARTED -&gt; {
+<b class="nc">&nbsp;                ui.show_gameStarted(event.getModel());</b>
+&nbsp;
+<b class="nc">&nbsp;                this.inputParser.setPlayer(event.getModel().getPlayerEntity(nickname));</b>
+<b class="nc">&nbsp;                this.inputParser.setIdGame(event.getModel().getGameId());</b>
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case COMMON_CARD_EXTRACTED -&gt; {
+<b class="nc">&nbsp;                ui.show_commonCards(event.getModel());</b>
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case SENT_MESSAGE -&gt; {
+<b class="nc">&nbsp;                ui.show_sentMessage(event.getModel(), nickname);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            case NEXT_TURN, PLAYER_RECONNECTED -&gt; {
+<b class="nc">&nbsp;                ui.show_nextTurnOrPlayerReconnected(event.getModel(), nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;                columnChosen = -1;</b>
+&nbsp;
+<b class="nc">&nbsp;                if (event.getType().equals(PLAYER_RECONNECTED) &amp;&amp; lastPlayerReconnected.equals(nickname)) {</b>
+<b class="nc">&nbsp;                    this.inputParser.setPlayer(event.getModel().getPlayerEntity(nickname));</b>
+<b class="nc">&nbsp;                    this.inputParser.setIdGame(event.getModel().getGameId());</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {</b>
+&nbsp;
+<b class="nc">&nbsp;                    if (event.getType().equals(PLAYER_RECONNECTED)) {</b>
+&nbsp;
+<b class="nc">&nbsp;                        if (nickname.equals(lastPlayerReconnected)) {</b>
+<b class="nc">&nbsp;                            askPickTiles(event.getModel());</b>
+<b class="nc">&nbsp;                            if (ended) return;</b>
+&nbsp;                        }
+&nbsp;                        //else the player who has just reconnected is not me, and so I do nothing
+&nbsp;                    } else {
+<b class="nc">&nbsp;                        askPickTiles(event.getModel());</b>
+<b class="nc">&nbsp;                        if (ended) return;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            case GRABBED_TILE, ASK_TO_SELECT_TILE_TO_PLACE -&gt; {
+<b class="nc">&nbsp;                if (!event.getType().equals(ASK_TO_SELECT_TILE_TO_PLACE))</b>
+<b class="nc">&nbsp;                    ui.show_grabbedTileMainMsg(event.getModel(), nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {</b>
+&nbsp;                    //It&#39;s my turn, so I&#39;m the current playing
+&nbsp;
+<b class="nc">&nbsp;                    if (columnChosen == -1) {</b>
+&nbsp;                        //If I haven&#39;t selected the column than I select the column in which I want to place all the tiles that I have grabbed (now in Hand)
+<b class="nc">&nbsp;                        askColumn(event.getModel());</b>
+<b class="nc">&nbsp;                        if (ended) return;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    askWhichTileToPlace(event.getModel());</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    ui.show_grabbedTile(nickname, event.getModel());</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case POSITIONED_TILE -&gt; {
+<b class="nc">&nbsp;                ui.show_positionedTile(event.getModel(), nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;                ui.addImportantEvent(&quot;Player &quot; + event.getModel().getNicknameCurrentPlaying() + &quot; has positioned a Tile on his shelf!&quot;);</b>
+<b class="nc">&nbsp;                if (event.getModel().getHandOfCurrentPlaying().size() &gt; 0 &amp;&amp; event.getModel().getNicknameCurrentPlaying().equals(nickname)) {</b>
+&nbsp;                    //Ask to place other tiles
+<b class="nc">&nbsp;                    events.add(event.getModel(), ASK_TO_SELECT_TILE_TO_PLACE);</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;            case GRABBED_TILE_NOT_CORRECT -&gt; {
+<b class="nc">&nbsp;                ui.show_grabbedTileNotCorrect(event.getModel(), nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {</b>
+<b class="nc">&nbsp;                    columnChosen = -1;</b>
+<b class="nc">&nbsp;                    askPickTiles(event.getModel());</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The player is here once the game has ended&lt;br&gt;
+&nbsp;     * Here the leaderboard will be shown, and then he&#39;ll be prompted with the choice to close the application &lt;br&gt;
+&nbsp;     * or return to the main menu, to play another game&lt;br&gt;
+&nbsp;     *
+&nbsp;     * @param event from here we get the updated model and game status
+&nbsp;     */
+&nbsp;    private void statusEnded(EventElement event) {
+<b class="nc">&nbsp;        switch (event.getType()) {</b>
+&nbsp;            case GAMEENDED -&gt; {
+<b class="nc">&nbsp;                ui.show_returnToMenuMsg();</b>
+&nbsp;                //new Scanner(System.in).nextLine();
+&nbsp;                try {
+<b class="nc">&nbsp;                    this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;
+<b class="nc">&nbsp;                this.leave(nickname, event.getModel().getGameId());</b>
+<b class="nc">&nbsp;                this.youLeft();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     */
+&nbsp;    public void youLeft() {
+<b class="nc">&nbsp;        ended = true;</b>
+<b class="nc">&nbsp;        ui.resetImportantEvents();</b>
+<b class="nc">&nbsp;        events.add(null, APP_MENU);</b>
+&nbsp;
+<b class="nc">&nbsp;        this.inputParser.setPlayer(null);</b>
+<b class="nc">&nbsp;        this.inputParser.setIdGame(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if the game has ended, false otherwise
+&nbsp;     */
+&nbsp;    public boolean isEnded() {
+<b class="nc">&nbsp;        return ended;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the ended attribute
+&nbsp;     *
+&nbsp;     * @param ended true if the game has ended, false otherwise
+&nbsp;     */
+&nbsp;    public void setEnded(boolean ended) {
+<b class="nc">&nbsp;        this.ended = ended;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /*===============ASK METHODS===============*/
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the nickname to the player&lt;br&gt;
+&nbsp;     */
+&nbsp;    private void askNickname() {
+<b class="nc">&nbsp;        ui.show_insertNicknameMsg();</b>
+&nbsp;        //nickname = scanner.nextLine();
+&nbsp;        try {
+<b class="nc">&nbsp;            nickname = this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        ui.show_chosenNickname(nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the player to select a game to join
+&nbsp;     *
+&nbsp;     * @return ture if the player has selected a game, false otherwise
+&nbsp;     */
+&nbsp;    private boolean askSelectGame() {
+&nbsp;        String optionChoose;
+<b class="nc">&nbsp;        ended = false;</b>
+<b class="nc">&nbsp;        ui.show_menuOptions();</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            optionChoose = this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if (optionChoose.equals(&quot;.&quot;))</b>
+<b class="nc">&nbsp;            System.exit(1);</b>
+<b class="nc">&nbsp;        askNickname();</b>
+&nbsp;
+<b class="nc">&nbsp;        switch (optionChoose) {</b>
+<b class="nc">&nbsp;            case &quot;c&quot; -&gt; createGame(nickname);</b>
+<b class="nc">&nbsp;            case &quot;j&quot; -&gt; joinFirstAvailable(nickname);</b>
+&nbsp;            case &quot;js&quot; -&gt; {
+<b class="nc">&nbsp;                Integer gameId = askGameId();</b>
+<b class="nc">&nbsp;                if (gameId == -1)</b>
+<b class="nc">&nbsp;                    return false;</b>
+&nbsp;                else
+<b class="nc">&nbsp;                    joinGame(nickname, gameId);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            case &quot;x&quot; -&gt; reconnect(nickname, fileDisconnection.getLastGameId(nickname));</b>
+&nbsp;            default -&gt; {
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the player the game id to join
+&nbsp;     *
+&nbsp;     * @return the game id
+&nbsp;     */
+&nbsp;    private Integer askGameId() {
+&nbsp;        String temp;
+<b class="nc">&nbsp;        Integer gameId = null;</b>
+&nbsp;        do {
+<b class="nc">&nbsp;            ui.show_inputGameIdMsg();</b>
+&nbsp;            try {
+&nbsp;                try {
+<b class="nc">&nbsp;                    temp = this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                if (temp.equals(&quot;.&quot;)) {</b>
+<b class="nc">&nbsp;                    return -1;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                gameId = Integer.parseInt(temp);</b>
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                ui.show_NaNMsg();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;        } while (gameId == null);</b>
+<b class="nc">&nbsp;        return gameId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the player if it&#39;s ready to start the game
+&nbsp;     */
+&nbsp;    public void askReadyToStart() {
+&nbsp;        String ris;
+&nbsp;        do {
+&nbsp;            try {
+<b class="nc">&nbsp;                ris = this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } while (!ris.equals(&quot;y&quot;));</b>
+<b class="nc">&nbsp;        setAsReady();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player to choose number of tiles to pick up
+&nbsp;     *
+&nbsp;     * @param msg       message to be shown
+&nbsp;     * @param gameModel model where the message needs to be shown
+&nbsp;     * @return number of tiles to pick up
+&nbsp;     */
+&nbsp;    private Integer askNum(String msg, GameModelImmutable gameModel) {
+&nbsp;        String temp;
+<b class="nc">&nbsp;        int numT = -1;</b>
+&nbsp;        do {
+&nbsp;            try {
+<b class="nc">&nbsp;                ui.show_askNum(msg, gameModel, nickname);</b>
+&nbsp;                //System.out.flush();
+&nbsp;
+&nbsp;                try {
+<b class="nc">&nbsp;                    temp = this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;                    if (ended) return null;</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                numT = Integer.parseInt(temp);</b>
+<b class="nc">&nbsp;            } catch (InputMismatchException | NumberFormatException e) {</b>
+<b class="nc">&nbsp;                ui.show_NaNMsg();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } while (numT &lt; 0);</b>
+<b class="nc">&nbsp;        return numT;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks about the tiles to pick up
+&nbsp;     *
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void askPickTiles(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        ui.show_askPickTilesMainMsg();</b>
+&nbsp;        int numTiles;
+&nbsp;        do {
+<b class="nc">&nbsp;            numTiles = Objects.requireNonNullElse(askNum(&quot;&gt; How many tiles do you want to get? &quot;, gameModel), DefaultValue.minNumOfGrabbableTiles - 1);</b>
+<b class="nc">&nbsp;            if (ended) return;</b>
+<b class="nc">&nbsp;        } while (!(numTiles &gt;= DefaultValue.minNumOfGrabbableTiles &amp;&amp; numTiles &lt;= DefaultValue.maxNumOfGrabbableTiles));</b>
+&nbsp;
+&nbsp;        int row;
+&nbsp;        do {
+<b class="nc">&nbsp;            row = Objects.requireNonNullElse(askNum(&quot;&gt; Which tiles do you want to get?\n\t&gt; Choose row: &quot;, gameModel), DefaultValue.PlaygroundSize + 11);</b>
+<b class="nc">&nbsp;            if (ended) return;</b>
+<b class="nc">&nbsp;        } while (row &gt; DefaultValue.PlaygroundSize);</b>
+&nbsp;
+&nbsp;        int column;
+&nbsp;        do {
+<b class="nc">&nbsp;            column = Objects.requireNonNullElse(askNum(&quot;&gt; Which tiles do you want to get?\n\t&gt; Choose column: &quot;, gameModel), DefaultValue.PlaygroundSize + 1);</b>
+<b class="nc">&nbsp;            if (ended) return;</b>
+<b class="nc">&nbsp;        } while (column &gt; DefaultValue.PlaygroundSize);</b>
+&nbsp;
+&nbsp;        //Ask the direction only if the player wants to grab more than 1 tile
+<b class="nc">&nbsp;        Direction d = Direction.RIGHT;</b>
+<b class="nc">&nbsp;        if (numTiles &gt; 1) {</b>
+&nbsp;            String direction;
+&nbsp;            do {
+<b class="nc">&nbsp;                ui.show_direction();</b>
+&nbsp;
+&nbsp;                try {
+<b class="nc">&nbsp;                    direction = this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;                    if (ended) return;</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;
+<b class="nc">&nbsp;                d = Direction.getDirection(direction);</b>
+<b class="nc">&nbsp;            } while (d == null);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        grabTileFromPlayground(row, column, d, numTiles);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player which column to place the tiles
+&nbsp;     *
+&nbsp;     * @param model game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    private void askColumn(GameModelImmutable model) {
+&nbsp;        Integer column;
+<b class="nc">&nbsp;        ui.show_askColumnMainMsg();</b>
+&nbsp;        boolean isColumnBigEnough;
+&nbsp;        do {
+<b class="nc">&nbsp;            isColumnBigEnough = true;</b>
+<b class="nc">&nbsp;            column = askNum(&quot;&gt; Choose column to place all the tiles:&quot;, model);</b>
+<b class="nc">&nbsp;            ui.show_playerHand(model);</b>
+<b class="nc">&nbsp;            if (ended) return;</b>
+&nbsp;
+&nbsp;            //Check by client side (// to server)
+<b class="nc">&nbsp;            if (!(model.getPlayerEntity(this.nickname).getNumOfFreeSpacesInCol(column) &gt;= model.getPlayerEntity(this.nickname).getInHandTile_IC().size())) {</b>
+<b class="nc">&nbsp;                ui.columnShelfTooSmall(model);</b>
+<b class="nc">&nbsp;                isColumnBigEnough = false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } while (column == null || column &gt;= DefaultValue.NumOfColumnsShelf || column &lt; 0 || !isColumnBigEnough);</b>
+<b class="nc">&nbsp;        columnChosen = column;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player which tile to place
+&nbsp;     *
+&nbsp;     * @param model game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void askWhichTileToPlace(GameModelImmutable model) {
+&nbsp;
+<b class="nc">&nbsp;        ui.show_whichTileToPlaceMsg();</b>
+&nbsp;        Integer indexHand;
+&nbsp;        do {
+<b class="nc">&nbsp;            indexHand = Objects.requireNonNullElse(askNum(&quot;\t&gt; Choose Tile in hand (0,1,2):&quot;, model), -1);</b>
+<b class="nc">&nbsp;            ui.show_playerHand(model);</b>
+<b class="nc">&nbsp;            if (ended) return;</b>
+<b class="nc">&nbsp;            if (indexHand &lt; 0 || indexHand &gt;= model.getPlayerEntity(nickname).getInHandTile_IC().size()) {</b>
+<b class="nc">&nbsp;                ui.show_wrongSelectionHandMsg();</b>
+<b class="nc">&nbsp;                indexHand = null;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } while (indexHand == null);</b>
+&nbsp;
+<b class="nc">&nbsp;        positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile_IC().get(indexHand).getType());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /*============ Methods that the client can request to the server ============*/
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Throw a nonConnection error
+&nbsp;     */
+&nbsp;    public void noConnectionError() {
+<b class="nc">&nbsp;        ui.show_noConnectionError();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client asks the server to create a new game
+&nbsp;     *
+&nbsp;     * @param nick nickname of the player
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void createGame(String nick) {
+<b class="nc">&nbsp;        ui.show_creatingNewGameMsg(nick);</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            clientActions.createGame(nick);</b>
+<b class="nc">&nbsp;        } catch (IOException | InterruptedException | NotBoundException e) {</b>
+<b class="nc">&nbsp;            noConnectionError();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client asks the server to join the first available game
+&nbsp;     *
+&nbsp;     * @param nick nickname of the player
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void joinFirstAvailable(String nick) {
+<b class="nc">&nbsp;        ui.show_joiningFirstAvailableMsg(nick);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            clientActions.joinFirstAvailable(nick);</b>
+<b class="nc">&nbsp;        } catch (IOException | InterruptedException | NotBoundException e) {</b>
+<b class="nc">&nbsp;            noConnectionError();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client asks the server to join a specific game
+&nbsp;     *
+&nbsp;     * @param nick   nickname of the player
+&nbsp;     * @param idGame id of the game to join
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void joinGame(String nick, int idGame) {
+<b class="nc">&nbsp;        ui.show_joiningToGameIdMsg(idGame, nick);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            clientActions.joinGame(nick, idGame);</b>
+<b class="nc">&nbsp;        } catch (IOException | InterruptedException | NotBoundException e) {</b>
+<b class="nc">&nbsp;            noConnectionError();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client asks the server to reconnect to a specific game
+&nbsp;     *
+&nbsp;     * @param nick   nickname of the player
+&nbsp;     * @param idGame id of the game to reconnect
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void reconnect(String nick, int idGame) {
+&nbsp;        //System.out.println(&quot;&gt; You have selected to join to Game with id: &#39;&quot; + idGame + &quot;&#39;, trying to reconnect&quot;);
+<b class="nc">&nbsp;        if (idGame != -1) {</b>
+<b class="nc">&nbsp;            ui.show_joiningToGameIdMsg(idGame, nick);</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                clientActions.reconnect(nickname, idGame);</b>
+<b class="nc">&nbsp;            } catch (IOException | InterruptedException | NotBoundException e) {</b>
+<b class="nc">&nbsp;                noConnectionError();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ui.show_noAvailableGamesToJoin(&quot;No disconnection previously detected&quot;);</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                this.inputParser.getDataToProcess().popData();</b>
+<b class="nc">&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            events.add(null, APP_MENU);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client asks the server to leave the game
+&nbsp;     *
+&nbsp;     * @param nick   nickname of the player
+&nbsp;     * @param idGame id of the game to leave
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void leave(String nick, int idGame) {
+&nbsp;        try {
+<b class="nc">&nbsp;            clientActions.leave(nick, idGame);</b>
+<b class="nc">&nbsp;        } catch (IOException | NotBoundException e) {</b>
+<b class="nc">&nbsp;            noConnectionError();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client set himself as ready
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setAsReady() {
+&nbsp;        try {
+<b class="nc">&nbsp;            clientActions.setAsReady();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            noConnectionError();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean isMyTurn() {
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client asks the server to grab a tile from the playground
+&nbsp;     *
+&nbsp;     * @param x         x coordinate of the tile
+&nbsp;     * @param y         y coordinate of the tile
+&nbsp;     * @param direction direction of the tile {@link Direction}
+&nbsp;     * @param num       number of tiles to grab
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void grabTileFromPlayground(int x, int y, Direction direction, int num) {
+&nbsp;        try {
+<b class="nc">&nbsp;            clientActions.grabTileFromPlayground(x, y, direction, num);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            noConnectionError();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client asks the server to position a tile on the shelf
+&nbsp;     *
+&nbsp;     * @param column column of the shelf
+&nbsp;     * @param type   type of the tile {@link TileType}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void positionTileOnShelf(int column, TileType type) {
+&nbsp;        try {
+<b class="nc">&nbsp;            clientActions.positionTileOnShelf(column, type);</b>
+<b class="nc">&nbsp;        } catch (IOException | GameEndedException e) {</b>
+<b class="nc">&nbsp;            noConnectionError();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void heartbeat() {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The client asks the server to send a message
+&nbsp;     *
+&nbsp;     * @param msg message to send {@link Message}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendMessage(Message msg) {
+&nbsp;        try {
+<b class="nc">&nbsp;            clientActions.sendMessage(msg);</b>
+<b class="nc">&nbsp;        } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;            noConnectionError();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /*============ Server event received ============*/
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player has joined the game
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerJoined(GameModelImmutable gameModel) {
+&nbsp;        //shared.setLastModelReceived(gameModel);
+<b class="nc">&nbsp;        events.add(gameModel, EventType.PLAYER_JOINED);</b>
+&nbsp;
+&nbsp;        //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
+<b class="nc">&nbsp;        ui.show_playerJoined(gameModel, nickname);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player has left the game
+&nbsp;     * @param gamemodel game model {@link GameModelImmutable}
+&nbsp;     * @param nick nickname of the player
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException {
+<b class="nc">&nbsp;        if (gamemodel.getStatus().equals(GameStatus.WAIT)) {</b>
+<b class="nc">&nbsp;            ui.show_playerJoined(gamemodel, nickname);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ui.addImportantEvent(&quot;[EVENT]: Player &quot; + nick + &quot; decided to leave the game!&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player wanted to join a game but the game is full
+&nbsp;     * @param wantedToJoin player that wanted to join
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gameModel) throws RemoteException {
+<b class="nc">&nbsp;        events.add(null, JOIN_UNABLE_GAME_FULL);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player reconnected to the game
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @param nickPlayerReconnected nickname of the player
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerReconnected(GameModelImmutable gameModel, String nickPlayerReconnected) {
+<b class="nc">&nbsp;        lastPlayerReconnected = nickPlayerReconnected;</b>
+<b class="nc">&nbsp;        events.add(gameModel, PLAYER_RECONNECTED);</b>
+<b class="nc">&nbsp;        ui.addImportantEvent(&quot;[EVENT]: Player reconnected!&quot;);</b>
+&nbsp;        //events.add(gameModel, EventType.PLAYER_JOINED);
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player has sent a message
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @param msg message sent {@link Message}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sentMessage(GameModelImmutable gameModel, Message msg) {
+&nbsp;        //Show the message only if is for everyone or is for me (or I sent it)
+<b class="nc">&nbsp;        if (msg.whoIsReceiver().equals(&quot;*&quot;) || msg.whoIsReceiver().equalsIgnoreCase(nickname) || msg.getSender().getNickname().equalsIgnoreCase(nickname)) {</b>
+<b class="nc">&nbsp;            ui.addMessage(msg, gameModel);</b>
+<b class="nc">&nbsp;            events.add(gameModel, SENT_MESSAGE);</b>
+&nbsp;            //msg.setText(&quot;[PRIVATE]: &quot; + msg.getText());
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player wanted to join a game but the nickname is already in
+&nbsp;     * @param wantedToJoin player that wanted to join {@link Player}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+&nbsp;        //System.out.println(&quot;[EVENT]: &quot;+ wantedToJoin.getNickname() + &quot; has already in&quot;);
+<b class="nc">&nbsp;        events.add(null, JOIN_UNABLE_NICKNAME_ALREADY_IN);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player wanted to join a game but the gameID is not valid
+&nbsp;     * @param gameid game id
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void gameIdNotExists(int gameid) throws RemoteException {
+<b class="nc">&nbsp;        ui.show_noAvailableGamesToJoin(&quot;No currently game available with the following GameID: &quot; + gameid);</b>
+<b class="nc">&nbsp;        events.add(null, GENERIC_ERROR_WHEN_ENTRYING_GAME);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generic error when entering a game
+&nbsp;     * @param why why the error occurred
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
+<b class="nc">&nbsp;        ui.show_noAvailableGamesToJoin(why);</b>
+<b class="nc">&nbsp;        events.add(null, GENERIC_ERROR_WHEN_ENTRYING_GAME);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player is ready to start
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @param nick nickname of the player
+&nbsp;     * @throws IOException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerIsReadyToStart(GameModelImmutable gameModel, String nick) throws IOException {
+<b class="nc">&nbsp;        ui.show_playerJoined(gameModel, nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nick.equals(nickname)) {</b>
+<b class="nc">&nbsp;            ui.show_youReadyToStart(gameModel, nickname);</b>
+&nbsp;        }
+&nbsp;        // if(nick.equals(nickname))
+&nbsp;        //    toldIAmReady=true;
+<b class="nc">&nbsp;        events.add(gameModel, PLAYER_IS_READY_TO_START);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Common cards are extracted
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void commonCardsExtracted(GameModelImmutable gameModel) throws RemoteException {
+<b class="nc">&nbsp;        events.add(gameModel, EventType.COMMON_CARD_EXTRACTED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The game started
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void gameStarted(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        events.add(gameModel, EventType.GAMESTARTED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The game ended
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void gameEnded(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        ended = true;</b>
+<b class="nc">&nbsp;        events.add(gameModel, EventType.GAMEENDED);</b>
+<b class="nc">&nbsp;        ui.show_gameEnded(gameModel);</b>
+<b class="nc">&nbsp;        resetGameId(fileDisconnection, gameModel);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A tile has been grabbed
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void grabbedTile(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        events.add(gameModel, EventType.GRABBED_TILE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A tile has not been grabbed correctly
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void grabbedTileNotCorrect(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        events.add(gameModel, EventType.GRABBED_TILE_NOT_CORRECT);</b>
+<b class="nc">&nbsp;        ui.addImportantEvent(&quot;[EVENT]: A set of not grabbable tiles has been requested by Player: &quot; + gameModel.getNicknameCurrentPlaying());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A tile has been positioned
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @param type type of the tile {@link TileType}
+&nbsp;     * @param column column where the tile has been positioned
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void positionedTile(GameModelImmutable gameModel, TileType type, int column) {
+<b class="nc">&nbsp;        events.add(gameModel, EventType.POSITIONED_TILE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * It adds the NextTurn event to the event list
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void nextTurn(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        events.add(gameModel, EventType.NEXT_TURN);</b>
+&nbsp;
+&nbsp;        //I remove all the input that the user sends when It is not his turn
+<b class="nc">&nbsp;        this.inputParser.getDataToProcess().popAllData();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Points have been added
+&nbsp;     * @param p player {@link Player}
+&nbsp;     * @param point point {@link Point}
+&nbsp;     * @param gamemodel game model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) {
+<b class="nc">&nbsp;        ui.addImportantEvent(&quot;Player &quot; + p.getNickname() + &quot; obtained &quot; + point.getPoint() + &quot; points by achieving &quot; + point.getReferredTo());</b>
+<b class="nc">&nbsp;        ui.show_addedPoint(p, point, gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player has been disconnected
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @param nick nickname of the player
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerDisconnected(GameModelImmutable gameModel, String nick) {
+<b class="nc">&nbsp;        ui.addImportantEvent(&quot;Player &quot; + nick + &quot; has just disconnected&quot;);</b>
+&nbsp;
+&nbsp;        //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
+<b class="nc">&nbsp;        if (gameModel.getStatus().equals(GameStatus.WAIT)) {</b>
+<b class="nc">&nbsp;            ui.show_playerJoined(gameModel, nickname);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A column shelf is too small to place all the tiles
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @param column  column where the tiles should be placed
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+<b class="nc">&nbsp;        ui.addImportantEvent(&quot;Cannot place Tiles in &quot; + column + &quot; column because there are no spaces available to place all&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Only one player is connected
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @param secondsToWaitUntilGameEnded seconds to wait until the game ends
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+<b class="nc">&nbsp;        ui.addImportantEvent(&quot;Only one player is connected, waiting &quot; + secondsToWaitUntilGameEnded + &quot; seconds before calling Game Ended!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Last circle begins
+&nbsp;     * @param gameModel game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void lastCircle(GameModelImmutable gameModel) throws RemoteException {
+<b class="nc">&nbsp;        ui.addImportantEvent(&quot;Last cycle begins!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /*==Testing purpose==*/
+&nbsp;    @Deprecated
+&nbsp;    public BufferData getBuffer_ForTesting() {
+<b class="nc">&nbsp;        return this.inputReader.getBuffer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Deprecated
+&nbsp;    public boolean isEnded_ForTesting() {
+<b class="nc">&nbsp;        return this.ended;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,593 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GUIApplication</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: GUIApplication (polimi.ingsw.view.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GUIApplication</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/152)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GUIApplication$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/33)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/153)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.gui;
+&nbsp;
+&nbsp;import javafx.application.Application;
+&nbsp;import javafx.fxml.FXMLLoader;
+&nbsp;import javafx.geometry.Pos;
+&nbsp;import javafx.scene.Parent;
+&nbsp;import javafx.scene.Scene;
+&nbsp;import javafx.scene.image.Image;
+&nbsp;import javafx.scene.layout.Pane;
+&nbsp;import javafx.scene.layout.StackPane;
+&nbsp;import javafx.scene.transform.Scale;
+&nbsp;import javafx.stage.Stage;
+&nbsp;import javafx.stage.StageStyle;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.interfaces.PlayerIC;
+&nbsp;import polimi.ingsw.view.gui.controllers.*;
+&nbsp;import polimi.ingsw.view.gui.scenes.SceneEnum;
+&nbsp;import polimi.ingsw.view.flow.ConnectionSelection;
+&nbsp;import polimi.ingsw.view.flow.GameFlow;
+&nbsp;import polimi.ingsw.view.gui.controllers.*;
+&nbsp;import polimi.ingsw.view.flow.utilities.inputReaderGUI;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
+&nbsp; * methods to change the scene and to get the controller of a specific scene.
+&nbsp; *
+&nbsp; */
+<b class="nc">&nbsp;public class GUIApplication extends Application {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Attributes.
+&nbsp;     */
+&nbsp;    private GameFlow gameFlow;
+&nbsp;
+&nbsp;    private Stage primaryStage, popUpStage;
+&nbsp;    private StackPane root;
+&nbsp;    private ArrayList&lt;SceneInfo&gt; scenes;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to set the scene index
+&nbsp;     * @param primaryStage the primary stage {@link Stage}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void start(Stage primaryStage) {
+<b class="nc">&nbsp;        gameFlow = new GameFlow(this, ConnectionSelection.valueOf(getParameters().getUnnamed().get(0)));</b>
+<b class="nc">&nbsp;        loadScenes();</b>
+&nbsp;
+<b class="nc">&nbsp;        this.primaryStage = primaryStage;</b>
+<b class="nc">&nbsp;        this.primaryStage.setTitle(&quot;My Shelfie&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        root = new StackPane();</b>
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method use the FXMLLoader to load the scene and the controller of the scene.
+&nbsp;     */
+&nbsp;    private void loadScenes() {
+&nbsp;        //Loads all the scenes available to be showed during the game
+<b class="nc">&nbsp;        scenes = new ArrayList&lt;&gt;();</b>
+&nbsp;        FXMLLoader loader;
+&nbsp;        Parent root;
+&nbsp;        GenericController gc;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; SceneEnum.values().length; i++) {</b>
+<b class="nc">&nbsp;            loader = new FXMLLoader(getClass().getResource(SceneEnum.values()[i].value()));</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                root = loader.load();</b>
+<b class="nc">&nbsp;                gc = loader.getController();</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            scenes.add(new SceneInfo(new Scene(root), SceneEnum.values()[i], gc));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the input reader GUI to all the controllers.
+&nbsp;     * @param inputReaderGUI the input reader GUI {@link inputReaderGUI}
+&nbsp;     */
+&nbsp;    public void setInputReaderGUItoAllControllers(inputReaderGUI inputReaderGUI) {
+<b class="nc">&nbsp;        loadScenes();</b>
+<b class="nc">&nbsp;        for (SceneInfo s : scenes) {</b>
+<b class="nc">&nbsp;            s.setInputReaderGUI(inputReaderGUI);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is use to get a controller of a specific scene.
+&nbsp;     * @param scene the scene {@link SceneEnum}
+&nbsp;     * @return the controller of the scene {@link GenericController}
+&nbsp;     */
+&nbsp;    public GenericController getController(SceneEnum scene) {
+<b class="nc">&nbsp;        int index = getSceneIndex(scene);</b>
+<b class="nc">&nbsp;        if (index != -1) {</b>
+<b class="nc">&nbsp;            return scenes.get(getSceneIndex(scene)).getGenericController();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to set the active scene.
+&nbsp;     * @param scene the scene {@link SceneEnum}
+&nbsp;     */
+&nbsp;    public void setActiveScene(SceneEnum scene) {
+<b class="nc">&nbsp;        this.primaryStage.setTitle(&quot;MyShelfie - &quot;+scene.name());</b>
+<b class="nc">&nbsp;        resizing=false;</b>
+<b class="nc">&nbsp;        int index = getSceneIndex(scene);</b>
+<b class="nc">&nbsp;        if (index != -1) {</b>
+&nbsp;
+<b class="nc">&nbsp;            switch (scene) {</b>
+&nbsp;                case INGAME,GENERIC_ERROR -&gt; {
+<b class="nc">&nbsp;                    this.closePopUpStage();</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case NICKNAME_POPUP -&gt; {
+<b class="nc">&nbsp;                    openPopup(scenes.get(getSceneIndex(scene)).getScene());</b>
+&nbsp;                    return;
+&nbsp;                }
+&nbsp;                case PUBLISHER -&gt; {
+<b class="nc">&nbsp;                    this.primaryStage.initStyle(StageStyle.UNDECORATED);</b>
+<b class="nc">&nbsp;                    this.primaryStage.setAlwaysOnTop(true);</b>
+<b class="nc">&nbsp;                    this.primaryStage.centerOnScreen();</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case MENU -&gt; {
+<b class="nc">&nbsp;                    this.primaryStage.centerOnScreen();</b>
+<b class="nc">&nbsp;                    this.primaryStage.setAlwaysOnTop(false);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                default -&gt; {
+<b class="nc">&nbsp;                    this.primaryStage.setAlwaysOnTop(false);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            this.primaryStage.setScene(scenes.get(getSceneIndex(scene)).getScene());</b>
+<b class="nc">&nbsp;            this.primaryStage.show();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        widthOld=primaryStage.getScene().getWidth();</b>
+<b class="nc">&nbsp;        heightOld=primaryStage.getScene().getHeight();</b>
+<b class="nc">&nbsp;        this.primaryStage.widthProperty().addListener((obs, oldVal, newVal) -&gt; {</b>
+<b class="nc">&nbsp;            rescale();</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        this.primaryStage.heightProperty().addListener((obs, oldVal, newVal) -&gt; {</b>
+<b class="nc">&nbsp;            rescale();</b>
+&nbsp;        });
+<b class="nc">&nbsp;        resizing=true;</b>
+&nbsp;
+<b class="nc">&nbsp;        primaryStage.getIcons().add(new Image(GUIApplication.class.getClassLoader().getResourceAsStream(&quot;img/img/Publisher_material/Icon_50x50px.png&quot;)));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private double widthOld, heightOld;
+<b class="nc">&nbsp;    private boolean resizing=true;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to rescale the scene.
+&nbsp;     */
+&nbsp;    public void rescale() {
+<b class="nc">&nbsp;        if(resizing) {</b>
+<b class="nc">&nbsp;            double widthWindow = primaryStage.getScene().getWidth();</b>
+<b class="nc">&nbsp;            double heightWindow = primaryStage.getScene().getHeight();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            double w = widthWindow / widthOld;  // your window width</b>
+<b class="nc">&nbsp;            double h = heightWindow / heightOld;  // your window height</b>
+&nbsp;
+<b class="nc">&nbsp;            widthOld = widthWindow;</b>
+<b class="nc">&nbsp;            heightOld = heightWindow;</b>
+<b class="nc">&nbsp;            Scale scale = new Scale(w, h, 0, 0);</b>
+&nbsp;            //primaryStage.getScene().getRoot().getTransforms().add(scale);
+<b class="nc">&nbsp;            primaryStage.getScene().lookup(&quot;#content&quot;).getTransforms().add(scale);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Show the player in the lobby
+&nbsp;     * @param model the model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void showPlayerToLobby(GameModelImmutable model) {
+<b class="nc">&nbsp;        hidePanesInLobby();</b>
+<b class="nc">&nbsp;        int i = 0;</b>
+<b class="nc">&nbsp;        for (PlayerIC p : model.getPlayers()) {</b>
+<b class="nc">&nbsp;            addLobbyPanePlayer(p.getNickname(), i, p.getReadyToStart());</b>
+<b class="nc">&nbsp;            i++;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show the player in the lobby.
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @param indexPlayer the index of the player
+&nbsp;     * @param isReady if the player is ready
+&nbsp;     */
+&nbsp;    private void addLobbyPanePlayer(String nick, int indexPlayer, boolean isReady) {
+<b class="nc">&nbsp;        SceneEnum se = null;</b>
+<b class="nc">&nbsp;        switch (indexPlayer) {</b>
+<b class="nc">&nbsp;            case 0 -&gt; se = SceneEnum.PLAYER_LOBBY_CARD0;</b>
+<b class="nc">&nbsp;            case 1 -&gt; se = SceneEnum.PLAYER_LOBBY_CARD1;</b>
+<b class="nc">&nbsp;            case 2 -&gt; se = SceneEnum.PLAYER_LOBBY_CARD2;</b>
+<b class="nc">&nbsp;            case 3 -&gt; se = SceneEnum.PLAYER_LOBBY_CARD3;</b>
+&nbsp;        }
+&nbsp;        Pane paneToLoad;
+<b class="nc">&nbsp;        SceneInfo sceneToLoad = scenes.get(getSceneIndex(se));</b>
+<b class="nc">&nbsp;        paneToLoad = (Pane) sceneToLoad.getScene().getRoot();</b>
+&nbsp;
+<b class="nc">&nbsp;        ((PlayerLobbyCardController) sceneToLoad.getGenericController()).setNickname(nick);</b>
+&nbsp;
+<b class="nc">&nbsp;        Pane paneReady = (Pane) this.primaryStage.getScene().getRoot().lookup(&quot;#ready&quot; + indexPlayer);</b>
+<b class="nc">&nbsp;        paneReady.setVisible(isReady);</b>
+&nbsp;
+<b class="nc">&nbsp;        Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup(&quot;#pane&quot; + indexPlayer);</b>
+<b class="nc">&nbsp;        panePlayerLobby.setVisible(true);</b>
+&nbsp;
+<b class="nc">&nbsp;        panePlayerLobby.getChildren().clear();</b>
+<b class="nc">&nbsp;        paneToLoad.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);</b>
+&nbsp;
+<b class="nc">&nbsp;        StackPane stackPane = new StackPane();</b>
+<b class="nc">&nbsp;        stackPane.getChildren().add(paneToLoad);</b>
+<b class="nc">&nbsp;        StackPane.setAlignment(paneToLoad, Pos.CENTER);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        paneToLoad.prefWidthProperty().bind(panePlayerLobby.widthProperty());</b>
+<b class="nc">&nbsp;        paneToLoad.prefHeightProperty().bind(panePlayerLobby.heightProperty());</b>
+&nbsp;
+<b class="nc">&nbsp;        panePlayerLobby.getChildren().add(stackPane);</b>
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to hide the panes in the lobby.
+&nbsp;     */
+&nbsp;    private void hidePanesInLobby() {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc">&nbsp;            Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup(&quot;#pane&quot; + i);</b>
+<b class="nc">&nbsp;            panePlayerLobby.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;            Pane paneReady = (Pane) this.primaryStage.getScene().getRoot().lookup(&quot;#ready&quot; + i);</b>
+<b class="nc">&nbsp;            paneReady.setVisible(false);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to open the popup.
+&nbsp;     * @param scene the scene {@link Scene}
+&nbsp;     */
+&nbsp;    private void openPopup(Scene scene) {
+<b class="nc">&nbsp;        popUpStage = new Stage();</b>
+<b class="nc">&nbsp;        popUpStage.setTitle(&quot;Info&quot;);</b>
+<b class="nc">&nbsp;        popUpStage.setResizable(false);</b>
+<b class="nc">&nbsp;        popUpStage.setScene(scene);</b>
+&nbsp;
+<b class="nc">&nbsp;        popUpStage.initStyle(StageStyle.UNDECORATED);</b>
+<b class="nc">&nbsp;        popUpStage.setOnCloseRequest(we -&gt; System.exit(0));</b>
+<b class="nc">&nbsp;        popUpStage.show();</b>
+&nbsp;
+<b class="nc">&nbsp;        popUpStage.setX(primaryStage.getX() + (primaryStage.getWidth() - scene.getWidth()) * 0.5);</b>
+<b class="nc">&nbsp;        popUpStage.setY(primaryStage.getY() + (primaryStage.getHeight() - scene.getHeight()) * 0.5);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to close the popup.
+&nbsp;     */
+&nbsp;    public void closePopUpStage() {
+<b class="nc">&nbsp;        if (popUpStage != null)</b>
+<b class="nc">&nbsp;            popUpStage.hide();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method hide the btn &quot;Ready to start&quot;.
+&nbsp;     */
+&nbsp;    public void disableBtnReadyToStart() {
+&nbsp;        //I set not visible the btn &quot;Ready to start&quot;
+<b class="nc">&nbsp;        ((LobbyController) scenes.get(getSceneIndex(SceneEnum.LOBBY)).getGenericController()).setVisibleBtnReady(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This methos return the index of the scene.
+&nbsp;     * @param sceneName the scene name {@link SceneEnum}
+&nbsp;     * @return the index of the scene
+&nbsp;     */
+&nbsp;    private int getSceneIndex(SceneEnum sceneName) {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; scenes.size(); i++) {</b>
+<b class="nc">&nbsp;            if (scenes.get(i).getSceneEnum().equals(sceneName))</b>
+<b class="nc">&nbsp;                return i;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to set the controller value equal to the model value.
+&nbsp;     * @param model the model {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void showInGameModel(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setNicknamesAndPoints(model, nickname);</b>
+<b class="nc">&nbsp;        controller.setPlayground(model);</b>
+<b class="nc">&nbsp;        controller.setCommonCards(model);</b>
+<b class="nc">&nbsp;        controller.setPersonalCard(model, nickname);</b>
+<b class="nc">&nbsp;        controller.setVisibleShelves(model);</b>
+<b class="nc">&nbsp;        controller.setHandTiles(model, nickname);</b>
+<b class="nc">&nbsp;        controller.setAllShefies(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show the player grabbed tiles.
+&nbsp;     * @param model the model {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void showPlayerGrabbedTiles(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setPlayerGrabbedTiles(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show the player positioned tiles.
+&nbsp;     * @param model the model {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void showPlayerPositionedTile(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setHandTiles(model, nickname);</b>
+<b class="nc">&nbsp;        controller.setAllShefies(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message in the game.
+&nbsp;     * @param msg the message
+&nbsp;     * @param success true if the message is a success message, false otherwise
+&nbsp;     */
+&nbsp;    public void showMessageInGame(String msg, Boolean success) {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setMsgToShow(msg, success);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show the selection col shelfie.
+&nbsp;     */
+&nbsp;    public void showSelectionColShelfie() {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.showSelectionColShelfie();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to change the turn.
+&nbsp;     * @param model the model {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void changeTurn(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setNicknamesAndPoints(model, nickname);</b>
+<b class="nc">&nbsp;        controller.changeTurn(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show the message in the game.
+&nbsp;     * @param model the model {@link GameModelImmutable}
+&nbsp;     * @param myNickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void showMessages(GameModelImmutable model, String myNickname) {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setMessage(model.getChat().getMsgs(), myNickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show all the important events.
+&nbsp;     * @param importantEvents the list of the important events
+&nbsp;     */
+&nbsp;    public void showImportantEvents(List&lt;String&gt; importantEvents) {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setImportantEvents(importantEvents);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show the points updated.
+&nbsp;     * @param model the model {@link GameModelImmutable}
+&nbsp;     * @param playerPointChanged the player that has changed the points
+&nbsp;     * @param myNickname the nickname of the player
+&nbsp;     * @param p the points
+&nbsp;     */
+&nbsp;    public void showPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname, Point p) {
+<b class="nc">&nbsp;        InGameController controller = (InGameController) scenes.get(getSceneIndex(SceneEnum.INGAME)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setPointsUpdated(model, playerPointChanged, myNickname, p);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the leader board.
+&nbsp;     * @param model the model {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void showLeaderBoard(GameModelImmutable model) {
+<b class="nc">&nbsp;        GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.show(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method make visible the button return to menu.
+&nbsp;     */
+&nbsp;    public void showBtnReturnToMenu() {
+<b class="nc">&nbsp;        GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneEnum.GAME_ENDED)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.showBtnReturnToMenu();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show a generic error.
+&nbsp;     * @param msg the message
+&nbsp;     */
+&nbsp;    public void showErrorGeneric(String msg) {
+<b class="nc">&nbsp;        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneEnum.GENERIC_ERROR)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setMsg(msg,false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to show a generic error.
+&nbsp;     * @param msg the message
+&nbsp;     * @param needToExitApp true if the app need to exit, false otherwise
+&nbsp;     */
+&nbsp;    public void showErrorGeneric(String msg, boolean needToExitApp) {
+<b class="nc">&nbsp;        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneEnum.GENERIC_ERROR)).getGenericController();</b>
+<b class="nc">&nbsp;        controller.setMsg(msg,needToExitApp);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to create a window with a specific style.
+&nbsp;     */
+&nbsp;    public void createNewWindowWithStyle() {
+&nbsp;        // Crea una nuova finestra con lo stile desiderato
+<b class="nc">&nbsp;        Stage newStage = new Stage();</b>
+&nbsp;
+&nbsp;        // Copia la scena dalla finestra precedente
+<b class="nc">&nbsp;        newStage.setScene(this.primaryStage.getScene());</b>
+&nbsp;
+&nbsp;        // Mostra la nuova finestra
+<b class="nc">&nbsp;        newStage.show();</b>
+&nbsp;
+&nbsp;        // Chiudi la finestra precedente
+<b class="nc">&nbsp;        this.primaryStage.close();</b>
+&nbsp;
+&nbsp;        // Imposta la nuova finestra come primaryStage
+<b class="nc">&nbsp;        this.primaryStage = newStage;</b>
+<b class="nc">&nbsp;        this.primaryStage.centerOnScreen();</b>
+<b class="nc">&nbsp;        this.primaryStage.setAlwaysOnTop(true);</b>
+&nbsp;
+<b class="nc">&nbsp;        this.primaryStage.setOnCloseRequest(event -&gt; {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Closing all&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            System.exit(1);</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+<b class="nc">&nbsp;        launch(args);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

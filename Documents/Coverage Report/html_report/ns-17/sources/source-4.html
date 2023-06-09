@@ -1,0 +1,1034 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > InGameController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.gui.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: InGameController (polimi.ingsw.view.gui.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InGameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/329)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.gui.controllers;
+&nbsp;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.scene.Cursor;
+&nbsp;import javafx.scene.Group;
+&nbsp;import javafx.scene.Node;
+&nbsp;import javafx.scene.control.ComboBox;
+&nbsp;import javafx.scene.control.Label;
+&nbsp;import javafx.scene.control.ListView;
+&nbsp;import javafx.scene.control.TextField;
+&nbsp;import javafx.scene.input.*;
+&nbsp;import javafx.scene.layout.AnchorPane;
+&nbsp;import javafx.scene.layout.Pane;
+&nbsp;import javafx.scene.paint.Color;
+&nbsp;import polimi.ingsw.model.*;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.enumeration.CardGoalType;
+&nbsp;import polimi.ingsw.model.enumeration.Direction;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.interfaces.PlayerIC;
+&nbsp;import polimi.ingsw.model.interfaces.TileIC;
+&nbsp;import polimi.ingsw.view.gui.IntRecord;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * InGameController class.
+&nbsp; */
+<b class="nc">&nbsp;public class InGameController extends GenericController {</b>
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Pane tilesPane;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private AnchorPane mainAnchor;
+&nbsp;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Label youNickname;
+&nbsp;    @FXML
+&nbsp;    private Label youPoints;
+&nbsp;    @FXML
+&nbsp;    private Pane youPersonal;
+&nbsp;    @FXML
+&nbsp;    private Pane youChair;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Label pgTilesTotal;
+&nbsp;    @FXML
+&nbsp;    private Label lableGameId;
+&nbsp;    @FXML
+&nbsp;    private Label labelMessage;
+&nbsp;    @FXML
+&nbsp;    private TextField messageText;
+&nbsp;    @FXML
+&nbsp;    private ListView chatList;
+&nbsp;    @FXML
+&nbsp;    private ListView importantEventsList;
+&nbsp;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private ComboBox comboBoxMessage;
+&nbsp;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Label playerLabel1;
+&nbsp;    @FXML
+&nbsp;    private Label player1Points;
+&nbsp;    @FXML
+&nbsp;    private Pane pointGroup1;
+&nbsp;    @FXML
+&nbsp;    private Pane chair1;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Label playerLabel2;
+&nbsp;    @FXML
+&nbsp;    private Label player2Points;
+&nbsp;    @FXML
+&nbsp;    private Pane pointGroup2;
+&nbsp;    @FXML
+&nbsp;    private Pane chair2;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Label playerLabel3;
+&nbsp;    @FXML
+&nbsp;    private Label player3Points;
+&nbsp;    @FXML
+&nbsp;    private Pane pointGroup3;
+&nbsp;    @FXML
+&nbsp;    private Pane chair3;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Pane pointFinish;
+&nbsp;
+<b class="nc">&nbsp;    private boolean firstClick = true;</b>
+&nbsp;    private Integer rowFirstTile, colFirstTile, rowSecondTile, colSecondTile;
+<b class="nc">&nbsp;    private boolean needToDetectColSelection = false, needToDetectTileInHandGrabbing = false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manages the click on a tile in the playground.
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionClickOnTile(MouseEvent e) {
+<b class="nc">&nbsp;        if (!needToDetectColSelection &amp;&amp; !needToDetectTileInHandGrabbing) {</b>
+<b class="nc">&nbsp;            if (e.getButton() == MouseButton.PRIMARY) {</b>
+<b class="nc">&nbsp;                IntRecord rowCol = getRowColFrom(e, &quot;pg&quot;);</b>
+<b class="nc">&nbsp;                Integer row = rowCol.row();</b>
+<b class="nc">&nbsp;                Integer col = rowCol.col();</b>
+&nbsp;
+<b class="nc">&nbsp;                if (!firstClick) {</b>
+&nbsp;                    //Second click so client selected first and last Tile in the playground
+<b class="nc">&nbsp;                    rowSecondTile = row;</b>
+<b class="nc">&nbsp;                    colSecondTile = col;</b>
+<b class="nc">&nbsp;                    checkAlignment(rowFirstTile, colFirstTile, rowSecondTile, colSecondTile);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    rowFirstTile = row;</b>
+<b class="nc">&nbsp;                    colFirstTile = col;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                firstClick = !firstClick;</b>
+<b class="nc">&nbsp;            } else {</b>
+<b class="nc">&nbsp;                this.rowFirstTile = null;</b>
+<b class="nc">&nbsp;                this.colFirstTile = null;</b>
+<b class="nc">&nbsp;                this.rowSecondTile = null;</b>
+<b class="nc">&nbsp;                this.colSecondTile = null;</b>
+<b class="nc">&nbsp;                firstClick = true;</b>
+<b class="nc">&nbsp;                makeTilesNotSelectedExpectTheFirstOne();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manages the click on a tile in the hand.
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionHandTileClick(MouseEvent e) {
+<b class="nc">&nbsp;        if (needToDetectTileInHandGrabbing) {</b>
+<b class="nc">&nbsp;            Integer indexTileHandToPlace = getRowColFrom(e, &quot;pgGrab&quot;).col();</b>
+<b class="nc">&nbsp;            getInputReaderGUI().addTxt(indexTileHandToPlace.toString());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method returns the row and the column of the tile clicked.
+&nbsp;     *
+&nbsp;     * @param e              the mouse event
+&nbsp;     * @param prefixToRemove the prefix to remove
+&nbsp;     * @return the row and the column of the tile clicked
+&nbsp;     */
+&nbsp;    private IntRecord getRowColFrom(MouseEvent e, String prefixToRemove) {
+<b class="nc">&nbsp;        final Node source = (Node) e.getSource();</b>
+<b class="nc">&nbsp;        String id = source.getId();</b>
+<b class="nc">&nbsp;        String rowCol = id.replaceAll(prefixToRemove, &quot;&quot;);</b>
+<b class="nc">&nbsp;        int row = Integer.parseInt(String.valueOf(rowCol.charAt(0)));</b>
+<b class="nc">&nbsp;        int col = Integer.parseInt(String.valueOf(rowCol.charAt(1)));</b>
+&nbsp;
+<b class="nc">&nbsp;        return new IntRecord(row, col);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the mouse hover on a tile
+&nbsp;     *
+&nbsp;     * @param e
+&nbsp;     */
+&nbsp;    public void actionMouseEnteredTile(MouseEvent e) {
+<b class="nc">&nbsp;        if (rowFirstTile != null &amp;&amp; colFirstTile != null &amp;&amp; rowSecondTile == null &amp;&amp; colSecondTile == null) {</b>
+<b class="nc">&nbsp;            makeTilesNotSelectedExpectTheFirstOne();</b>
+&nbsp;            //I make visible the selected tiles until second click
+&nbsp;            Pane tilePane;
+<b class="nc">&nbsp;            IntRecord destinPoint = getRowColFrom(e, &quot;pg&quot;);</b>
+<b class="nc">&nbsp;            List&lt;IntRecord&gt; points = getPointsBetween(rowFirstTile, colFirstTile, destinPoint.row(), destinPoint.col());</b>
+<b class="nc">&nbsp;            for (IntRecord p : points) {</b>
+<b class="nc">&nbsp;                tilePane = (Pane) tilesPane.lookup(&quot;#pg&quot; + p.row() + p.col());</b>
+<b class="nc">&nbsp;                if (!tilePane.getStyleClass().contains(&quot;selected&quot;)) {</b>
+<b class="nc">&nbsp;                    tilePane.getStyleClass().add(&quot;selected&quot;);</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the mouse hover on the playground
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionMouseEnteredPlayground(MouseEvent e) {
+<b class="nc">&nbsp;        makeTilesNotSelectedExpectTheFirstOne();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the selection of the tiles
+&nbsp;     */
+&nbsp;    private void makeTilesNotSelectedExpectTheFirstOne() {
+<b class="nc">&nbsp;        String selector = &quot;.selected&quot;;</b>
+<b class="nc">&nbsp;        tilesPane.lookupAll(selector).forEach(element -&gt; {</b>
+<b class="nc">&nbsp;            element.getStyleClass().remove(&quot;selected&quot;);</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        if (rowFirstTile != null &amp;&amp; colFirstTile != null) {</b>
+<b class="nc">&nbsp;            ((Pane) tilesPane.lookup(&quot;#pg&quot; + rowFirstTile + colFirstTile)).getStyleClass().add(&quot;selected&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the click on the shelfie
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionTileShelfieClick(MouseEvent e) {
+<b class="nc">&nbsp;        if (needToDetectColSelection &amp;&amp; !needToDetectTileInHandGrabbing) {</b>
+<b class="nc">&nbsp;            deselectAllCols();</b>
+<b class="nc">&nbsp;            int colToPlaceTiles = getRowColFrom(e, &quot;youShelf&quot;).col();</b>
+<b class="nc">&nbsp;            needToDetectColSelection = false;</b>
+&nbsp;
+<b class="nc">&nbsp;            needToDetectTileInHandGrabbing = true;</b>
+<b class="nc">&nbsp;            changeCursorOnTilesPlayground(Cursor.DEFAULT);</b>
+<b class="nc">&nbsp;            changeCursorOnTilesMyShelf(Cursor.DEFAULT);</b>
+<b class="nc">&nbsp;            changeCursorOnInHandTiles(Cursor.HAND);</b>
+&nbsp;
+<b class="nc">&nbsp;            getInputReaderGUI().addTxt(Integer.toString(colToPlaceTiles));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the sending of the message
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionSendMessage(MouseEvent e) {
+<b class="nc">&nbsp;        if (!messageText.getText().isEmpty()) {</b>
+<b class="nc">&nbsp;            if (comboBoxMessage.getValue().toString().isEmpty()) {</b>
+<b class="nc">&nbsp;                getInputReaderGUI().addTxt(&quot;/c &quot; + messageText.getText());</b>
+&nbsp;            } else {
+&nbsp;                //Player wants to send a private message
+<b class="nc">&nbsp;                getInputReaderGUI().addTxt(&quot;/cs &quot; + comboBoxMessage.getValue().toString() + &quot; &quot; + messageText.getText());</b>
+<b class="nc">&nbsp;                comboBoxMessage.getSelectionModel().selectFirst();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            messageText.setText(&quot;&quot;);</b>
+&nbsp;
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the click on the button to send the message
+&nbsp;     *
+&nbsp;     * @param ke the key event
+&nbsp;     */
+&nbsp;    public void actionKeyPressedOnTextMessage(KeyEvent ke) {
+<b class="nc">&nbsp;        if (ke.getCode().equals(KeyCode.ENTER)) {</b>
+<b class="nc">&nbsp;            actionSendMessage(null);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the entering of the mouse on the shelf
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionMouseEntered(MouseEvent e) {
+<b class="nc">&nbsp;        if (needToDetectColSelection) {</b>
+&nbsp;            Pane tilePane;
+<b class="nc">&nbsp;            deselectAllCols();</b>
+<b class="nc">&nbsp;            IntRecord rowCol = getRowColFrom(e, &quot;youShelf&quot;);</b>
+<b class="nc">&nbsp;            for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="nc">&nbsp;                tilePane = (Pane) mainAnchor.lookup(&quot;#youShelf&quot; + r + rowCol.col());</b>
+<b class="nc">&nbsp;                tilePane.getStyleClass().add(&quot;selectedCols&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the exiting of the mouse from the shelf
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionMouseExited(MouseEvent e) {
+<b class="nc">&nbsp;        deselectAllCols();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the mouse entering on the common card
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionMouseEnteredCommonCard(MouseEvent e) {
+<b class="nc">&nbsp;        final Node source = (Node) e.getSource();</b>
+<b class="nc">&nbsp;        String id = source.getId();</b>
+&nbsp;
+<b class="nc">&nbsp;        switch (id) {</b>
+&nbsp;            case &quot;cc0&quot; -&gt; {
+<b class="nc">&nbsp;                ((Group) mainAnchor.lookup(&quot;#groupPointCC0&quot;)).setVisible(false);</b>
+<b class="nc">&nbsp;                ((Group) mainAnchor.lookup(&quot;#groupPointCC1&quot;)).setVisible(false);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinWidth(490);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinHeight(310);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;cc1&quot; -&gt; {
+<b class="nc">&nbsp;                ((Group) mainAnchor.lookup(&quot;#groupPointCC1&quot;)).setVisible(false);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinWidth(490);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinHeight(310);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;youPersonal&quot; -&gt; {
+<b class="nc">&nbsp;                ((Pane) source).setMinWidth(260);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinHeight(400);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the mouse exiting from the common card
+&nbsp;     *
+&nbsp;     * @param e the mouse event
+&nbsp;     */
+&nbsp;    public void actionMouseExitedCommonCard(MouseEvent e) {
+<b class="nc">&nbsp;        final Node source = (Node) e.getSource();</b>
+<b class="nc">&nbsp;        String id = source.getId();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        switch (id) {</b>
+&nbsp;            case &quot;cc0&quot; -&gt; {
+<b class="nc">&nbsp;                ((Group) mainAnchor.lookup(&quot;#groupPointCC0&quot;)).setVisible(true);</b>
+<b class="nc">&nbsp;                ((Group) mainAnchor.lookup(&quot;#groupPointCC1&quot;)).setVisible(true);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinWidth(190);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinHeight(110);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;cc1&quot; -&gt; {
+<b class="nc">&nbsp;                ((Group) mainAnchor.lookup(&quot;#groupPointCC1&quot;)).setVisible(true);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinWidth(190);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinHeight(110);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;youPersonal&quot; -&gt; {
+<b class="nc">&nbsp;                ((Pane) source).setMinWidth(130);</b>
+<b class="nc">&nbsp;                ((Pane) source).setMinHeight(200);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method deselect all the columns
+&nbsp;     */
+&nbsp;    private void deselectAllCols() {
+&nbsp;        Pane tilePane;
+<b class="nc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="nc">&nbsp;            for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="nc">&nbsp;                tilePane = (Pane) mainAnchor.lookup(&quot;#youShelf&quot; + r + c);</b>
+<b class="nc">&nbsp;                if (tilePane.getStyleClass().contains(&quot;selectedCols&quot;)) {</b>
+<b class="nc">&nbsp;                    tilePane.getStyleClass().remove(&quot;selectedCols&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method get the point between two tiles
+&nbsp;     *
+&nbsp;     * @param rowFirstTile  the row of the first tile
+&nbsp;     * @param colFirstTile  the column of the first tile
+&nbsp;     * @param rowSecondTile the row of the second tile
+&nbsp;     * @param colSecondTile the column of the second tile
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    private List&lt;IntRecord&gt; getPointsBetween(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
+<b class="nc">&nbsp;        List&lt;IntRecord&gt; points = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (rowFirstTile == rowSecondTile || colFirstTile == colSecondTile) {</b>
+<b class="nc">&nbsp;            int minRow = Math.min(rowFirstTile, rowSecondTile);</b>
+<b class="nc">&nbsp;            int maxRow = Math.max(rowFirstTile, rowSecondTile);</b>
+<b class="nc">&nbsp;            int minCol = Math.min(colFirstTile, colSecondTile);</b>
+<b class="nc">&nbsp;            int maxCol = Math.max(colFirstTile, colSecondTile);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (rowFirstTile == rowSecondTile) {</b>
+<b class="nc">&nbsp;                for (int col = minCol; col &lt;= maxCol; col++) {</b>
+<b class="nc">&nbsp;                    points.add(new IntRecord(rowFirstTile, col));</b>
+&nbsp;                }
+&nbsp;            } else {
+<b class="nc">&nbsp;                for (int row = minRow; row &lt;= maxRow; row++) {</b>
+<b class="nc">&nbsp;                    points.add(new IntRecord(row, colFirstTile));</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return points;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method check if the two tiles are aligned
+&nbsp;     *
+&nbsp;     * @param rowFirstTile  the row of the first tile
+&nbsp;     * @param colFirstTile  the column of the first tile
+&nbsp;     * @param rowSecondTile the row of the second tile
+&nbsp;     * @param colSecondTile the column of the second tile
+&nbsp;     */
+&nbsp;    private void checkAlignment(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
+<b class="nc">&nbsp;        Direction dir = null;</b>
+<b class="nc">&nbsp;        Integer distance = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (rowFirstTile == rowSecondTile &amp;&amp; Math.abs(colFirstTile - colSecondTile) &lt;= 3) {</b>
+<b class="nc">&nbsp;            distance = Math.abs(colFirstTile - colSecondTile) + 1;</b>
+&nbsp;
+<b class="nc">&nbsp;            if (distance != 1) {</b>
+<b class="nc">&nbsp;                if (colFirstTile &lt; colSecondTile) {</b>
+<b class="nc">&nbsp;                    dir = Direction.RIGHT;</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    dir = Direction.LEFT;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        } else if (colFirstTile == colSecondTile &amp;&amp; Math.abs(rowFirstTile - rowSecondTile) &lt;= 3) {</b>
+<b class="nc">&nbsp;            distance = Math.abs(rowFirstTile - rowSecondTile) + 1;</b>
+&nbsp;
+<b class="nc">&nbsp;            if (rowFirstTile &lt; rowSecondTile) {</b>
+<b class="nc">&nbsp;                dir = Direction.DOWN;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                dir = Direction.UP;</b>
+&nbsp;            }
+&nbsp;        } else {
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        getInputReaderGUI().addTxt(String.valueOf(distance));</b>
+&nbsp;
+<b class="nc">&nbsp;        getInputReaderGUI().addTxt(String.valueOf(rowFirstTile));</b>
+<b class="nc">&nbsp;        getInputReaderGUI().addTxt(String.valueOf(colFirstTile));</b>
+&nbsp;
+<b class="nc">&nbsp;        if (distance != 1) {</b>
+<b class="nc">&nbsp;            getInputReaderGUI().addTxt(dir.toString());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.rowFirstTile = null;</b>
+<b class="nc">&nbsp;        this.colFirstTile = null;</b>
+<b class="nc">&nbsp;        this.rowSecondTile = null;</b>
+<b class="nc">&nbsp;        this.colSecondTile = null;</b>
+<b class="nc">&nbsp;        makeTilesNotSelectedExpectTheFirstOne();</b>
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the nickname and the points of the players
+&nbsp;     *
+&nbsp;     * @param model    the model of the game {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void setNicknamesAndPoints(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        youNickname.setTextFill(Color.WHITE);</b>
+<b class="nc">&nbsp;        playerLabel1.setTextFill(Color.WHITE);</b>
+<b class="nc">&nbsp;        playerLabel2.setTextFill(Color.WHITE);</b>
+<b class="nc">&nbsp;        playerLabel3.setTextFill(Color.WHITE);</b>
+&nbsp;        Integer refToGui;
+<b class="nc">&nbsp;        Label labelNick = null, labelPoints = null;</b>
+<b class="nc">&nbsp;        Pane chair=null;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (PlayerIC p : model.getPlayers()) {</b>
+<b class="nc">&nbsp;            refToGui = getReferringPlayerIndex(model, nickname, p.getNickname());</b>
+<b class="nc">&nbsp;            switch (refToGui) {</b>
+&nbsp;                case 0 -&gt; {
+<b class="nc">&nbsp;                    labelNick = youNickname;</b>
+<b class="nc">&nbsp;                    labelPoints = (Label) mainAnchor.lookup(&quot;#youPoints&quot;);</b>
+<b class="nc">&nbsp;                    chair=youChair;</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case 1 -&gt; {
+<b class="nc">&nbsp;                    labelNick = playerLabel1;</b>
+<b class="nc">&nbsp;                    labelPoints = (Label) mainAnchor.lookup(&quot;#player1Points&quot;);</b>
+<b class="nc">&nbsp;                    chair=chair1;</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case 2 -&gt; {
+<b class="nc">&nbsp;                    labelNick = playerLabel2;</b>
+<b class="nc">&nbsp;                    labelPoints = (Label) mainAnchor.lookup(&quot;#player2Points&quot;);</b>
+<b class="nc">&nbsp;                    chair=chair2;</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case 3 -&gt; {
+<b class="nc">&nbsp;                    labelNick = playerLabel3;</b>
+<b class="nc">&nbsp;                    labelPoints = (Label) mainAnchor.lookup(&quot;#player3Points&quot;);</b>
+<b class="nc">&nbsp;                    chair=chair3;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if(model.getFirstTurnIndex()==model.getPlayers().indexOf(model.getPlayerEntity(p.getNickname()))){</b>
+<b class="nc">&nbsp;                chair.setVisible(true);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            labelNick.setText(p.getNickname());</b>
+<b class="nc">&nbsp;            labelNick.setVisible(true);</b>
+&nbsp;
+<b class="nc">&nbsp;            labelPoints.setText(String.valueOf(p.getTotalPoints()));</b>
+<b class="nc">&nbsp;            labelPoints.setVisible(true);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (model.getNicknameCurrentPlaying().equals(p.getNickname())) {</b>
+<b class="nc">&nbsp;                labelNick.setTextFill(Color.YELLOW);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        //Set not visible to the points of the no-playing player
+<b class="nc">&nbsp;        Pane pointGroup = null;</b>
+<b class="nc">&nbsp;        for (int i = model.getPlayers().size(); i &lt; DefaultValue.MaxNumOfPlayer; i++) {</b>
+<b class="nc">&nbsp;            switch (i) {</b>
+&nbsp;                case 2 -&gt; {
+<b class="nc">&nbsp;                    pointGroup = pointGroup2;</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case 3 -&gt; {
+<b class="nc">&nbsp;                    pointGroup = pointGroup3;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            pointGroup.setVisible(false);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (comboBoxMessage.getItems().size() == 0) {</b>
+<b class="nc">&nbsp;            comboBoxMessage.getItems().add(&quot;&quot;);</b>
+<b class="nc">&nbsp;            for (PlayerIC p : model.getPlayers()) {</b>
+&nbsp;
+<b class="nc">&nbsp;                if (!p.getNickname().equals(nickname))</b>
+<b class="nc">&nbsp;                    comboBoxMessage.getItems().add(p.getNickname());</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            comboBoxMessage.getSelectionModel().selectFirst();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the index of the player
+&nbsp;     *
+&nbsp;     * @param model            the model of the game {@link GameModelImmutable}
+&nbsp;     * @param personalNickname the nickname of the player
+&nbsp;     * @param nickToGetRef     the nickname of the player to get the index
+&nbsp;     * @return the index of the player in the GUI
+&nbsp;     */
+&nbsp;    private Integer getReferringPlayerIndex(GameModelImmutable model, String personalNickname, String nickToGetRef) {
+<b class="nc">&nbsp;        if (personalNickname.equals(nickToGetRef))</b>
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        int offset = 1;</b>
+<b class="nc">&nbsp;        int playerNum = model.getPlayers().size();</b>
+&nbsp;        String otherNick;
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; playerNum; i++) {</b>
+<b class="nc">&nbsp;            otherNick = model.getPlayers().get(i).getNickname();</b>
+&nbsp;
+<b class="nc">&nbsp;            if (!otherNick.equals(personalNickname)) {</b>
+<b class="nc">&nbsp;                if (otherNick.equals(nickToGetRef)) {</b>
+<b class="nc">&nbsp;                    return offset;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                offset++;</b>
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the playground
+&nbsp;     *
+&nbsp;     * @param model the model of the game {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void setPlayground(GameModelImmutable model) {
+&nbsp;        TileIC t;
+&nbsp;        Pane tilePane;
+<b class="nc">&nbsp;        for (int r = 0; r &lt; DefaultValue.PlaygroundSize; r++) {</b>
+<b class="nc">&nbsp;            for (int c = 0; c &lt; DefaultValue.PlaygroundSize; c++) {</b>
+<b class="nc">&nbsp;                t = model.getPg().getTile_IC(r, c);</b>
+&nbsp;
+<b class="nc">&nbsp;                tilePane = (Pane) tilesPane.lookup(&quot;#pg&quot; + r + c);</b>
+&nbsp;
+<b class="nc">&nbsp;                removeallBackgroundClass(tilePane);</b>
+&nbsp;
+<b class="nc">&nbsp;                if (tilePane != null) {</b>
+<b class="nc">&nbsp;                    if (!t.getType().equals(TileType.NOT_USED) &amp;&amp; !t.getType().equals(TileType.USED) &amp;&amp; !t.getType().equals(TileType.FINISHED_USING)) {</b>
+<b class="nc">&nbsp;                        tilePane.getStyleClass().add(t.getBackground());</b>
+<b class="nc">&nbsp;                        tilePane.getStyleClass().add(&quot;tileHover&quot;);</b>
+<b class="nc">&nbsp;                        tilePane.setVisible(true);</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                        tilePane.setVisible(false);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        pgTilesTotal.setText(String.valueOf(model.getPg().getNumOfTileinTheBag()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method remove all the background class of the tile
+&nbsp;     *
+&nbsp;     * @param tilePane the tile pane {@link Pane}
+&nbsp;     */
+&nbsp;    private void removeallBackgroundClass(Pane tilePane) {
+<b class="nc">&nbsp;        if (tilePane != null) {</b>
+<b class="nc">&nbsp;            for (TileType t : TileType.values()) {</b>
+<b class="nc">&nbsp;                for (int i = 0; i &lt; 3; i++) {</b>
+<b class="nc">&nbsp;                    if (tilePane.getStyleClass().contains(t.getBackgroundClass() + i)) {</b>
+<b class="nc">&nbsp;                        tilePane.getStyleClass().remove(t.getBackgroundClass() + i);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the personal card of the player
+&nbsp;     *
+&nbsp;     * @param model the model of the game {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void setCommonCards(GameModelImmutable model) {
+&nbsp;        Pane tilePane;
+<b class="nc">&nbsp;        tilePane = (Pane) mainAnchor.lookup(&quot;#cc0&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        tilePane.getStyleClass().add(model.getCommonCards().get(0).getCommonType().getBackgroundClass());</b>
+<b class="nc">&nbsp;        tilePane.setVisible(true);</b>
+&nbsp;
+<b class="nc">&nbsp;        tilePane = (Pane) mainAnchor.lookup(&quot;#cc1&quot;);</b>
+<b class="nc">&nbsp;        tilePane.getStyleClass().add(model.getCommonCards().get(1).getCommonType().getBackgroundClass());</b>
+<b class="nc">&nbsp;        tilePane.setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the shelves of the player visible
+&nbsp;     *
+&nbsp;     * @param model the model of the game {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void setVisibleShelves(GameModelImmutable model) {
+&nbsp;        Pane pane;
+&nbsp;
+<b class="nc">&nbsp;        setInvisibleAllShelves();</b>
+&nbsp;
+<b class="nc">&nbsp;        int playerNum = model.getPlayers().size();</b>
+<b class="nc">&nbsp;        for (int i = 1; i &lt; playerNum; i++) {</b>
+<b class="nc">&nbsp;            pane = (Pane) mainAnchor.lookup(&quot;#workspace&quot; + (i));</b>
+<b class="nc">&nbsp;            pane.setVisible(true);</b>
+&nbsp;
+&nbsp;            //showPersonalCard(i+1,model.getPlayers().get(i).getSecretGoal().getGoalType().getBackgroundClass());
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        lableGameId.setText(model.getGameId().toString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the shelves of the player invisible
+&nbsp;     */
+&nbsp;    private void setInvisibleAllShelves() {
+&nbsp;        Pane pane;
+<b class="nc">&nbsp;        for (int i = 1; i &lt;= DefaultValue.MaxNumOfPlayer - 1; i++) {</b>
+<b class="nc">&nbsp;            pane = (Pane) mainAnchor.lookup(&quot;#workspace&quot; + (i));</b>
+<b class="nc">&nbsp;            pane.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;            pane = (Pane) mainAnchor.lookup(&quot;#chair&quot; + (i));</b>
+<b class="nc">&nbsp;            pane.setVisible(false);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        youChair.setVisible(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the personal card of the player
+&nbsp;     *
+&nbsp;     * @param model    the model of the game {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void setPersonalCard(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        youPersonal.getStyleClass().add(model.getPlayerEntity(nickname).getSecretGoal_IC().getGoalType().getBackgroundClass());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the tiles of the player in the hand
+&nbsp;     *
+&nbsp;     * @param model    the model of the game {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void setHandTiles(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        float opacity = 0.5f;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (model.getNicknameCurrentPlaying().equals(nickname)) {</b>
+<b class="nc">&nbsp;            opacity = 1;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        Pane pane;
+<b class="nc">&nbsp;        int i = 0;</b>
+<b class="nc">&nbsp;        setEmptyHand();</b>
+<b class="nc">&nbsp;        for (TileIC t : model.getHandOfCurrentPlaying()) {</b>
+<b class="nc">&nbsp;            pane = (Pane) mainAnchor.lookup(&quot;#pgGrab0&quot; + i);</b>
+<b class="nc">&nbsp;            pane.getStyleClass().remove(pane.getStyleClass().get(0));</b>
+<b class="nc">&nbsp;            pane.getStyleClass().add(t.getBackground());</b>
+<b class="nc">&nbsp;            pane.setOpacity(opacity);</b>
+<b class="nc">&nbsp;            i++;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the tiles of the player in the hand when the player has grabbed a tile
+&nbsp;     *
+&nbsp;     * @param model    the model of the game {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void setPlayerGrabbedTiles(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        setPlayground(model);</b>
+<b class="nc">&nbsp;        this.rowFirstTile = null;</b>
+<b class="nc">&nbsp;        this.colFirstTile = null;</b>
+<b class="nc">&nbsp;        this.rowSecondTile = null;</b>
+<b class="nc">&nbsp;        this.colSecondTile = null;</b>
+<b class="nc">&nbsp;        makeTilesNotSelectedExpectTheFirstOne();</b>
+<b class="nc">&nbsp;        setHandTiles(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method empty the hand of the player
+&nbsp;     */
+&nbsp;    private void setEmptyHand() {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; DefaultValue.maxNumOfGrabbableTiles; i++) {</b>
+<b class="nc">&nbsp;            Pane pane = (Pane) mainAnchor.lookup(&quot;#pgGrab0&quot; + i);</b>
+<b class="nc">&nbsp;            pane.getStyleClass().remove(pane.getStyleClass().get(0));</b>
+<b class="nc">&nbsp;            pane.getStyleClass().add(&quot;tileEmpty&quot;);</b>
+<b class="nc">&nbsp;            pane.setOpacity(0.9);</b>
+<b class="nc">&nbsp;            pane.setVisible(true);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set all the shelfies of the players
+&nbsp;     *
+&nbsp;     * @param model    the model of the game {@link GameModelImmutable}
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void setAllShefies(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        String prefixIdPane = null;</b>
+&nbsp;        Integer refToGui;
+&nbsp;        //setInvisibleAllShelfies();
+&nbsp;
+<b class="nc">&nbsp;        for (PlayerIC p : model.getPlayers()) {</b>
+<b class="nc">&nbsp;            refToGui = getReferringPlayerIndex(model, nickname, p.getNickname());</b>
+&nbsp;
+<b class="nc">&nbsp;            switch (refToGui) {</b>
+&nbsp;                case 0 -&gt; {
+<b class="nc">&nbsp;                    prefixIdPane = &quot;#youShelf&quot;;</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case 1 -&gt; {
+<b class="nc">&nbsp;                    prefixIdPane = &quot;#player1Shelf&quot;;</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case 2 -&gt; {
+<b class="nc">&nbsp;                    prefixIdPane = &quot;#player2Shelf&quot;;</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case 3 -&gt; {
+<b class="nc">&nbsp;                    prefixIdPane = &quot;#player3Shelf&quot;;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            setShelfie(p.getShelf(), prefixIdPane);</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the shelf of the player
+&nbsp;     *
+&nbsp;     * @param shelf        the shelf of the player {@link Shelf}
+&nbsp;     * @param prefixIdPane the prefix of the id of the pane
+&nbsp;     */
+&nbsp;    private void setShelfie(Shelf shelf, String prefixIdPane) {
+&nbsp;        Pane paneTile;
+<b class="nc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="nc">&nbsp;            for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="nc">&nbsp;                paneTile = (Pane) mainAnchor.lookup(prefixIdPane + r + c);</b>
+<b class="nc">&nbsp;                if (!(shelf.getSingleTile(r, c).getType().equals(TileType.NOT_USED) || shelf.getSingleTile(r, c).getType().equals(TileType.FINISHED_USING))) {</b>
+<b class="nc">&nbsp;                    paneTile.getStyleClass().add(shelf.getSingleTile(r, c).getBackground());</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the color of a message
+&nbsp;     * @param msg the message to show
+&nbsp;     * @param success if the message is a success or not
+&nbsp;     */
+&nbsp;    public void setMsgToShow(String msg, Boolean success) {
+<b class="nc">&nbsp;        labelMessage.setText(msg);</b>
+<b class="nc">&nbsp;        if (success == null) {</b>
+<b class="nc">&nbsp;            labelMessage.setTextFill(Color.WHITE);</b>
+<b class="nc">&nbsp;        } else if (success) {</b>
+<b class="nc">&nbsp;            labelMessage.setTextFill(Color.GREEN);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            labelMessage.setTextFill(Color.RED);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method manage the change of turn
+&nbsp;     * @param model
+&nbsp;     * @param nickname
+&nbsp;     */
+&nbsp;    public void changeTurn(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        needToDetectTileInHandGrabbing = false;</b>
+&nbsp;
+<b class="nc">&nbsp;        setMsgToShow(&quot;Next turn is up to: &quot; + model.getNicknameCurrentPlaying(), true);</b>
+<b class="nc">&nbsp;        changeCursorOnTilesPlayground(Cursor.HAND);</b>
+<b class="nc">&nbsp;        changeCursorOnTilesMyShelf(Cursor.DEFAULT);</b>
+<b class="nc">&nbsp;        changeCursorOnInHandTiles(Cursor.DEFAULT);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the selected colunm of the shelfi
+&nbsp;     */
+&nbsp;    public void showSelectionColShelfie() {
+&nbsp;        //Now the client can select a col from his shelfie to position all tiles
+<b class="nc">&nbsp;        needToDetectColSelection = true;</b>
+<b class="nc">&nbsp;        needToDetectTileInHandGrabbing = false;</b>
+<b class="nc">&nbsp;        changeCursorOnTilesPlayground(Cursor.DEFAULT);</b>
+<b class="nc">&nbsp;        changeCursorOnTilesMyShelf(Cursor.HAND);</b>
+<b class="nc">&nbsp;        changeCursorOnInHandTiles(Cursor.DEFAULT);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Change the cursor on the tiles of the playground
+&nbsp;     * @param cu the cursor to set
+&nbsp;     */
+&nbsp;    private void changeCursorOnTilesPlayground(Cursor cu) {
+&nbsp;        Pane tilePane;
+<b class="nc">&nbsp;        for (int r = 0; r &lt; DefaultValue.PlaygroundSize; r++) {</b>
+<b class="nc">&nbsp;            for (int c = 0; c &lt; DefaultValue.PlaygroundSize; c++) {</b>
+<b class="nc">&nbsp;                tilePane = (Pane) tilesPane.lookup(&quot;#pg&quot; + r + c);</b>
+&nbsp;
+<b class="nc">&nbsp;                if (tilePane != null) {</b>
+<b class="nc">&nbsp;                    tilePane.setCursor(cu);</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Change the cursor on the tiles of the shelf
+&nbsp;     * @param cu the cursor to set
+&nbsp;     */
+&nbsp;    private void changeCursorOnTilesMyShelf(Cursor cu) {
+&nbsp;        Pane paneTile;
+<b class="nc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="nc">&nbsp;            for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="nc">&nbsp;                paneTile = (Pane) mainAnchor.lookup(&quot;#youShelf&quot; + r + c);</b>
+<b class="nc">&nbsp;                if (paneTile != null) {</b>
+<b class="nc">&nbsp;                    paneTile.setCursor(cu);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Change the cursor on the tiles in hand
+&nbsp;     * @param cu the cursor to set
+&nbsp;     */
+&nbsp;    private void changeCursorOnInHandTiles(Cursor cu) {
+&nbsp;        Pane paneTile;
+<b class="nc">&nbsp;        paneTile = (Pane) mainAnchor.lookup(&quot;#pgGrab00&quot;);</b>
+<b class="nc">&nbsp;        paneTile.setCursor(cu);</b>
+&nbsp;
+<b class="nc">&nbsp;        paneTile = (Pane) mainAnchor.lookup(&quot;#pgGrab01&quot;);</b>
+<b class="nc">&nbsp;        paneTile.setCursor(cu);</b>
+&nbsp;
+<b class="nc">&nbsp;        paneTile = (Pane) mainAnchor.lookup(&quot;#pgGrab02&quot;);</b>
+<b class="nc">&nbsp;        paneTile.setCursor(cu);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the message in the correct format
+&nbsp;     * @param msgs the list of messages
+&nbsp;     * @param myNickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void setMessage(List&lt;Message&gt; msgs, String myNickname) {
+<b class="nc">&nbsp;        chatList.getItems().clear();</b>
+<b class="nc">&nbsp;        for (Message m : msgs) {</b>
+<b class="nc">&nbsp;            String r = &quot;[&quot; + m.getTime().getHour() + &quot;:&quot; + m.getTime().getMinute() + &quot;:&quot; + m.getTime().getSecond() + &quot;] &quot; + m.getSender().getNickname() + &quot;: &quot; + m.getText();</b>
+&nbsp;
+<b class="nc">&nbsp;            if (m.whoIsReceiver().equals(&quot;*&quot;)) {</b>
+<b class="nc">&nbsp;                chatList.getItems().add(r);</b>
+<b class="nc">&nbsp;            } else if (m.whoIsReceiver().toUpperCase().equals(myNickname.toUpperCase()) || m.getSender().getNickname().toUpperCase().equals(myNickname.toUpperCase())) {</b>
+&nbsp;                //Message private
+<b class="nc">&nbsp;                chatList.getItems().add(&quot;[Private] &quot; + r);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the important events
+&nbsp;     * @param importantEvents the list of important events
+&nbsp;     */
+&nbsp;    public void setImportantEvents(List&lt;String&gt; importantEvents) {
+<b class="nc">&nbsp;        importantEventsList.getItems().clear();</b>
+<b class="nc">&nbsp;        for (String s : importantEvents) {</b>
+<b class="nc">&nbsp;            importantEventsList.getItems().add(s);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        importantEventsList.scrollTo(importantEventsList.getItems().size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the updated points
+&nbsp;     * @param model the model of the game
+&nbsp;     * @param playerPointChanged the player that has changed his points
+&nbsp;     * @param myNickname the nickname of the player
+&nbsp;     * @param p the point to update
+&nbsp;     */
+&nbsp;    public void setPointsUpdated(GameModelImmutable model, Player playerPointChanged, String myNickname, Point p) {
+<b class="nc">&nbsp;        setNicknamesAndPoints(model, myNickname);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (p.getReferredTo().equals(model.getCommonCards().get(0).getCommonType())) {</b>
+&nbsp;            //Point referred to First Common Card
+<b class="nc">&nbsp;            Pane paneTile = (Pane) mainAnchor.lookup(&quot;#point&quot; + p.getPoint() + &quot;cc0&quot;);</b>
+<b class="nc">&nbsp;            paneTile.setVisible(false);</b>
+<b class="nc">&nbsp;        } else if (p.getReferredTo().equals(model.getCommonCards().get(1).getCommonType())) {</b>
+<b class="nc">&nbsp;            Pane paneTile = (Pane) mainAnchor.lookup(&quot;#point&quot; + p.getPoint() + &quot;cc1&quot;);</b>
+<b class="nc">&nbsp;            paneTile.setVisible(false);</b>
+<b class="nc">&nbsp;        }else if(p.isFinishedPoint()){</b>
+<b class="nc">&nbsp;            this.pointFinish.setVisible(false);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

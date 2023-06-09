@@ -1,0 +1,952 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TUI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.text</a>
+</div>
+
+<h1>Coverage Summary for Class: TUI (polimi.ingsw.view.text)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/54)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/245)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/55)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/246)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.text;
+&nbsp;
+&nbsp;import org.fusesource.jansi.AnsiConsole;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;import polimi.ingsw.model.interfaces.CommonCardIC;
+&nbsp;import polimi.ingsw.model.interfaces.PlayerIC;
+&nbsp;import polimi.ingsw.model.interfaces.TileIC;
+&nbsp;import polimi.ingsw.view.flow.UI;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.PrintStream;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static org.fusesource.jansi.Ansi.Color.*;
+&nbsp;import static org.fusesource.jansi.Ansi.ansi;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is father to both the TUI  implementation&lt;br&gt;
+&nbsp; * it manages all the event that can occur&lt;br&gt;
+&nbsp; */
+&nbsp;public class TUI extends UI {
+&nbsp;
+&nbsp;    private String nickname;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor
+&nbsp;     */
+<b class="nc">&nbsp;    public TUI() {</b>
+<b class="nc">&nbsp;        init();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * init
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void init() {
+<b class="nc">&nbsp;        AnsiConsole.systemInstall();</b>
+<b class="nc">&nbsp;        importantEvents = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param input the string of the important event to add
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addImportantEvent(String input) {
+&nbsp;        //Want to show only the first maxnum_of_last_event_tobe_showed important event happened
+<b class="nc">&nbsp;        if (importantEvents.size() + 1 &gt;= DefaultValue.maxnum_of_last_event_tobe_showed) {</b>
+<b class="nc">&nbsp;            importantEvents.remove(0);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        importantEvents.add(input);</b>
+<b class="nc">&nbsp;        show_important_events();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resizes the console
+&nbsp;     */
+&nbsp;    public void resize() {
+&nbsp;        try {
+<b class="nc">&nbsp;            new ProcessBuilder(&quot;cmd&quot;, &quot;/c&quot;, &quot;mode con:cols=160 lines=50&quot;).inheritIO().start().waitFor();</b>
+<b class="nc">&nbsp;        } catch (IOException | InterruptedException e) {</b>
+&nbsp;            //couldn&#39;t resize the terminal window
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows all players&#39; nicknames
+&nbsp;     *
+&nbsp;     * @param model
+&nbsp;     */
+&nbsp;    public void show_allPlayers(GameModelImmutable model) {
+<b class="nc">&nbsp;        System.out.println(&quot;Current Players: \n&quot; + model.toStringListPlayers());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the game title
+&nbsp;     */
+&nbsp;    public void show_titleMyShelfie() {
+<b class="nc">&nbsp;        new PrintStream(System.out, true, System.console() != null</b>
+<b class="nc">&nbsp;                ? System.console().charset()</b>
+<b class="nc">&nbsp;                : Charset.defaultCharset()</b>
+<b class="nc">&nbsp;        ).println(ansi().fg(YELLOW).a(&quot;&quot;&quot;</b>
+&nbsp;
+&nbsp;                ????????????????????        ???????????????????????????????????????????????????
+&nbsp;                ????????????????????        ???????????????????????????????????????????????????
+&nbsp;                ????????????????????        ???????????????????????????????????????????????????
+&nbsp;                ????????????????????        ???????????????????????????????????????????????????
+&nbsp;                ????????????????????        ???????????????????????????????????????????????????
+&nbsp;                ????????????????????        ???????????????????????????????????????????????????
+<b class="nc">&nbsp;                &quot;&quot;&quot;).reset());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param gameModel the model that has the player hand that needs to be shown
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_playerHand(GameModelImmutable gameModel) {
+&nbsp;
+<b class="nc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="nc">&nbsp;        ris.append(ansi().cursor(DefaultValue.row_input - 2, 0).a(&quot;&gt;This is your hand:&quot;).cursor(DefaultValue.row_input - 1, 0));</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().size(); i++) {</b>
+<b class="nc">&nbsp;            switch (gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType()) {</b>
+&nbsp;                case CAT -&gt;
+<b class="nc">&nbsp;                        ris.append(&quot;[&quot;).append(i).append(&quot;]: &quot;).append(ansi().bg(GREEN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(&quot; | &quot;);</b>
+&nbsp;                case TROPHY -&gt;
+<b class="nc">&nbsp;                        ris.append(&quot;[&quot;).append(i).append(&quot;]: &quot;).append(ansi().bg(CYAN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(&quot; | &quot;);</b>
+&nbsp;                case PLANT -&gt;
+<b class="nc">&nbsp;                        ris.append(&quot;[&quot;).append(i).append(&quot;]: &quot;).append(ansi().bg(MAGENTA).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(&quot; | &quot;);</b>
+&nbsp;                case BOOK -&gt;
+<b class="nc">&nbsp;                        ris.append(&quot;[&quot;).append(i).append(&quot;]: &quot;).append(ansi().bg(WHITE).fg(BLACK).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(&quot; | &quot;);</b>
+&nbsp;                case ACTIVITY -&gt;
+<b class="nc">&nbsp;                        ris.append(&quot;[&quot;).append(i).append(&quot;]: &quot;).append(ansi().bg(YELLOW).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(&quot; | &quot;);</b>
+&nbsp;                case FRAME -&gt;
+<b class="nc">&nbsp;                        ris.append(&quot;[&quot;).append(i).append(&quot;]: &quot;).append(ansi().bg(BLUE).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(&quot; | &quot;);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param nickname the player that grabbed the tiles
+&nbsp;     * @param model    the model in which the player grabbed the tiles
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_grabbedTile(String nickname, GameModelImmutable model) {
+<b class="nc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="nc">&nbsp;        ris.append(ansi().cursor(DefaultValue.row_input - 1, 0).a(nickname).a(&quot;: Player: &quot;).a(model.getNicknameCurrentPlaying()).a(&quot; has grabbed some tiles: | &quot;));</b>
+<b class="nc">&nbsp;        for (TileIC t : model.getHandOfCurrentPlaying()) {</b>
+<b class="nc">&nbsp;            switch (t.getType()) {</b>
+<b class="nc">&nbsp;                case CAT -&gt; ris.append(ansi().bg(GREEN).a(t.toString()).bg(DEFAULT)).append(&quot; | &quot;);</b>
+<b class="nc">&nbsp;                case TROPHY -&gt; ris.append(ansi().bg(CYAN).a(t.toString()).bg(DEFAULT)).append(&quot; | &quot;);</b>
+<b class="nc">&nbsp;                case PLANT -&gt; ris.append(ansi().bg(MAGENTA).a(t.toString()).bg(DEFAULT)).append(&quot; | &quot;);</b>
+<b class="nc">&nbsp;                case BOOK -&gt; ris.append(ansi().bg(WHITE).a(t.toString()).bg(DEFAULT)).append(&quot; | &quot;);</b>
+<b class="nc">&nbsp;                case ACTIVITY -&gt; ris.append(ansi().bg(YELLOW).a(t.toString()).bg(DEFAULT)).append(&quot; | &quot;);</b>
+<b class="nc">&nbsp;                case FRAME -&gt; ris.append(ansi().bg(BLUE).a(t.toString()).bg(DEFAULT)).append(&quot; | &quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the playground
+&nbsp;     *
+&nbsp;     * @param model
+&nbsp;     */
+&nbsp;    public void show_playground(GameModelImmutable model) {
+<b class="nc">&nbsp;        System.out.println(model.getPg().toString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows all players&#39; shelves
+&nbsp;     *
+&nbsp;     * @param model
+&nbsp;     */
+&nbsp;    public void show_allShelves(GameModelImmutable model) {
+<b class="nc">&nbsp;        int i = DefaultValue.col_shelves;</b>
+&nbsp;
+<b class="nc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (PlayerIC p : model.getPlayers()) {</b>
+<b class="nc">&nbsp;            if (model.getFirstTurnIndex() == (model.getPlayers().indexOf(model.getPlayerEntity(p.getNickname())))) {</b>
+<b class="nc">&nbsp;                new PrintStream(System.out, true, System.console() != null</b>
+<b class="nc">&nbsp;                        ? System.console().charset()</b>
+<b class="nc">&nbsp;                        : Charset.defaultCharset()</b>
+<b class="nc">&nbsp;                ).println(ansi()</b>
+<b class="nc">&nbsp;                        .cursor(DefaultValue.row_shelves, i + DefaultValue.chair_index).fg(WHITE)</b>
+<b class="nc">&nbsp;                        .a(&quot; .-===-.&quot;)</b>
+<b class="nc">&nbsp;                        .cursor(DefaultValue.row_shelves + 1, i + DefaultValue.chair_index).fg(WHITE)</b>
+<b class="nc">&nbsp;                        .a(&quot; | . . |&quot;)</b>
+<b class="nc">&nbsp;                        .cursor(DefaultValue.row_shelves + 2, i + DefaultValue.chair_index).fg(WHITE)</b>
+<b class="nc">&nbsp;                        .a(&quot; | .&#39;. |&quot;)</b>
+<b class="nc">&nbsp;                        .cursor(DefaultValue.row_shelves + 3, i + DefaultValue.chair_index).fg(WHITE)</b>
+<b class="nc">&nbsp;                        .a(&quot;()_____()&quot;)</b>
+<b class="nc">&nbsp;                        .cursor(DefaultValue.row_shelves + 4, i + DefaultValue.chair_index).fg(WHITE)</b>
+<b class="nc">&nbsp;                        .a(&quot;||_____||&quot;)</b>
+<b class="nc">&nbsp;                        .cursor(DefaultValue.row_shelves + 5, i + DefaultValue.chair_index).fg(WHITE)</b>
+<b class="nc">&nbsp;                        .a(&quot; W     W&quot;).reset());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            ris.append(ansi().cursor(DefaultValue.row_playerName, i - 3).a(p.getNickname() + &quot;: &quot;));</b>
+<b class="nc">&nbsp;            ris.append(ansi().cursor(DefaultValue.row_shelves, i - 3).a(p.getShelf().toString(i)).toString());</b>
+<b class="nc">&nbsp;            i += DefaultValue.displayShelfNextCol;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param gameModel the model that has the common cards to show
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_commonCards(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="nc">&nbsp;        ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));</b>
+&nbsp;
+<b class="nc">&nbsp;        String title = String.valueOf(ansi().fg(WHITE).cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards - 1).bold().a(&quot;Common Cards: &quot;).fg(DEFAULT).boldOff());</b>
+<b class="nc">&nbsp;        System.out.println(title);</b>
+&nbsp;
+<b class="nc">&nbsp;        int i = 1;</b>
+<b class="nc">&nbsp;        for (CommonCardIC c : gameModel.getCommonCards()) {</b>
+<b class="nc">&nbsp;            if (gameModel.getFirstFinishedPlayer() == -1)</b>
+<b class="nc">&nbsp;                ris.append(c.toString(i, false));</b>
+&nbsp;            else
+<b class="nc">&nbsp;                ris.append(c.toString(i, true));</b>
+<b class="nc">&nbsp;            i += 3;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the player&#39;s points
+&nbsp;     *
+&nbsp;     * @param gameModel
+&nbsp;     */
+&nbsp;    public void show_points(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="nc">&nbsp;        ris.append(ansi().cursor(DefaultValue.row_points, DefaultValue.col_points));</b>
+&nbsp;
+<b class="nc">&nbsp;        String title = String.valueOf(ansi().fg(RED).cursor(DefaultValue.row_points, DefaultValue.col_points - 1).bold().a(&quot;Points: &quot;).fg(DEFAULT).boldOff());</b>
+<b class="nc">&nbsp;        System.out.println(title);</b>
+&nbsp;
+<b class="nc">&nbsp;        int i = 1;</b>
+<b class="nc">&nbsp;        for (PlayerIC p : gameModel.getPlayers()) {</b>
+<b class="nc">&nbsp;            ris.append(ansi().cursor(DefaultValue.row_points + i, DefaultValue.col_points).a(p.getNickname() + &quot;: &quot; + p.getTotalPoints() + &quot; points&quot;));</b>
+<b class="nc">&nbsp;            i++;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the player&#39;s goal card
+&nbsp;     *
+&nbsp;     * @param toShow
+&nbsp;     */
+&nbsp;    public void show_goalCards(PlayerIC toShow) {
+<b class="nc">&nbsp;        System.out.println(toShow.getSecretGoal_IC().getLayoutToMatch_IC().toStringGoalCard());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param gameModel model where events happen
+&nbsp;     * @param nick      player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_playerJoined(GameModelImmutable gameModel, String nick) {
+<b class="nc">&nbsp;        clearScreen();</b>
+<b class="nc">&nbsp;        show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(10, 0).a(&quot;GameID: [&quot; + gameModel.getGameId().toString() + &quot;]\n&quot;).fg(DEFAULT));</b>
+<b class="nc">&nbsp;        System.out.flush();</b>
+&nbsp;        //StringBuilder players = new StringBuilder();
+<b class="nc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+&nbsp;
+<b class="nc">&nbsp;        int i = 0;</b>
+<b class="nc">&nbsp;        for (PlayerIC p : gameModel.getPlayers()) {</b>
+<b class="nc">&nbsp;            if (p.getReadyToStart()) {</b>
+<b class="nc">&nbsp;                ris.append(ansi().cursor(12 + i, 0)).append(&quot;[EVENT]: &quot;).append(p.getNickname()).append(&quot; is ready!\n&quot;);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                ris.append(ansi().cursor(12 + i, 0)).append(&quot;[EVENT]: &quot;).append(p.getNickname()).append(&quot; has joined!\n&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            i++;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        for (PlayerIC p : gameModel.getPlayers())</b>
+<b class="nc">&nbsp;            if (!p.getReadyToStart() &amp;&amp; p.getNickname().equals(nick))</b>
+<b class="nc">&nbsp;                System.out.println(ansi().cursor(17, 0).fg(WHITE).a(&quot;&gt; When you are ready to start, enter (y): \n&quot;));</b>
+<b class="nc">&nbsp;        System.out.flush();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param gameModel     model where events happen
+&nbsp;     * @param nicknameofyou player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_youReadyToStart(GameModelImmutable gameModel, String nicknameofyou) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the publisher&#39;s name
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_publisher() {
+<b class="nc">&nbsp;        this.resize();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        clearScreen();</b>
+<b class="nc">&nbsp;        new PrintStream(System.out, true, System.console() != null</b>
+<b class="nc">&nbsp;                ? System.console().charset()</b>
+<b class="nc">&nbsp;                : Charset.defaultCharset()</b>
+<b class="nc">&nbsp;        ).println(ansi().cursor(1, 1).fg(YELLOW).a(&quot;&quot;&quot;</b>
+&nbsp;                                                                                                           \s
+&nbsp;                                                                                                           \s
+&nbsp;                  ,----..                                                                                  \s
+&nbsp;                 /   /   \\                                   ,--,                                          \s
+&nbsp;                |   :     :  __  ,-.                 ,---, ,--.&#39;|    ,---.                                 \s
+&nbsp;                .   |  ;. /,&#39; ,&#39;/ /|             ,-+-. /  ||  |,    &#39;   ,&#39;\\                                \s
+&nbsp;                .   ; /--` &#39;  | |&#39; | ,--.--.    ,--.&#39;|&#39;   |`--&#39;_   /   /   |                               \s
+&nbsp;                ;   | ;    |  |   ,&#39;/       \\  |   |  ,&quot;&#39; |,&#39; ,&#39;| .   ; ,. :                               \s
+&nbsp;                |   : |    &#39;  :  / .--.  .-. | |   | /  | |&#39;  | | &#39;   | |: :                               \s
+&nbsp;                .   | &#39;___ |  | &#39;   \\__\\/: . . |   | |  | ||  | : &#39;   | .; :                               \s
+&nbsp;                &#39;   ; : .&#39;|;  : |   ,&quot; .--.; | |   | |  |/ &#39;  : |_|   :    |                               \s
+&nbsp;                &#39;   | &#39;/  :|  , ;  /  /  ,.  | |   | |--&#39;  |  | &#39;.&#39;\\   \\  /                                \s
+&nbsp;                |   :    /  ---&#39;  ;  :   .&#39;   \\|   |/      ;  :    ;`----&#39;                                 \s
+&nbsp;                 \\   \\ .&#39;         |  ,     .-./&#39;---&#39;       |  ,   /                                        \s
+&nbsp;                  `---`            `--`---&#39;                 ---`-&#39;                                         \s
+&nbsp;                  ,----..                                   ___                                            \s
+&nbsp;                 /   /   \\                                ,--.&#39;|_    ,--,                                  \s
+&nbsp;                |   :     :  __  ,-.                      |  | :,&#39; ,--.&#39;|    ,---.        ,---,            \s
+&nbsp;                .   |  ;. /,&#39; ,&#39;/ /|                      :  : &#39; : |  |,    &#39;   ,&#39;\\   ,-+-. /  | .--.--.   \s
+&nbsp;                .   ; /--` &#39;  | |&#39; | ,---.     ,--.--.  .;__,&#39;  /  `--&#39;_   /   /   | ,--.&#39;|&#39;   |/  /    &#39;  \s
+&nbsp;                ;   | ;    |  |   ,&#39;/     \\   /       \\ |  |   |   ,&#39; ,&#39;| .   ; ,. :|   |  ,&quot;&#39; |  :  /`./  \s
+&nbsp;                |   : |    &#39;  :  / /    /  | .--.  .-. |:__,&#39;| :   &#39;  | | &#39;   | |: :|   | /  | |  :  ;_    \s
+&nbsp;                .   | &#39;___ |  | &#39; .    &#39; / |  \\__\\/: . .  &#39;  : |__ |  | : &#39;   | .; :|   | |  | |\\  \\    `. \s
+&nbsp;                &#39;   ; : .&#39;|;  : | &#39;   ;   /|  ,&quot; .--.; |  |  | &#39;.&#39;|&#39;  : |_|   :    ||   | |  |/  `----.   \\\s
+&nbsp;                &#39;   | &#39;/  :|  , ; &#39;   |  / | /  /  ,.  |  ;  :    ;|  | &#39;.&#39;\\   \\  / |   | |--&#39;  /  /`--&#39;  /\s
+&nbsp;                |   :    /  ---&#39;  |   :    |;  :   .&#39;   \\ |  ,   / ;  :    ;`----&#39;  |   |/     &#39;--&#39;.     / \s
+&nbsp;                 \\   \\ .&#39;          \\   \\  / |  ,     .-./  ---`-&#39;  |  ,   /         &#39;---&#39;        `--&#39;---&#39;  \s
+&nbsp;                  `---`             `----&#39;   `--`---&#39;               ---`-&#39;                                 \s
+<b class="nc">&nbsp;                &quot;&quot;&quot;).reset());</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            Thread.sleep(DefaultValue.time_publisher_showing_seconds * 1000);</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        this.show_titleMyShelfie();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the important events
+&nbsp;     */
+&nbsp;    public void show_important_events() {
+&nbsp;
+<b class="nc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="nc">&nbsp;        int i = 0;</b>
+<b class="nc">&nbsp;        int longestImportantEvent = importantEvents.stream().map(String::length).reduce(0, (a, b) -&gt; a &gt; b ? a : b);</b>
+<b class="nc">&nbsp;        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events - 1).bold().a(&quot;Latest Events:&quot;).fg(DEFAULT).boldOff());</b>
+<b class="nc">&nbsp;        for (String s : importantEvents) {</b>
+<b class="nc">&nbsp;            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).a(&quot; &quot;.repeat(longestImportantEvent - s.length())).fg(DEFAULT));</b>
+<b class="nc">&nbsp;            i++;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(DefaultValue.row_input, 0));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Clears the console
+&nbsp;     */
+&nbsp;    public void clearScreen() {
+&nbsp;        try {
+<b class="nc">&nbsp;            new ProcessBuilder(&quot;cmd&quot;, &quot;/c&quot;, &quot;cls&quot;).inheritIO().start().waitFor();</b>
+&nbsp;            //if not on a Windows machine
+<b class="nc">&nbsp;        } catch (IOException | InterruptedException e) {</b>
+&nbsp;            //for mac
+<b class="nc">&nbsp;            System.out.print(&quot;\033\143&quot;);</b>
+&nbsp;
+&nbsp;            /*This might work too, but exec is deprecated
+&nbsp;            try {
+&nbsp;                Runtime.getRuntime().exec(&quot;clear&quot;);
+&nbsp;            } catch (IOException ex) {
+&nbsp;                throw new RuntimeException(ex);
+&nbsp;            }
+&nbsp;
+&nbsp;             */
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the chat messages
+&nbsp;     *
+&nbsp;     * @param model
+&nbsp;     */
+&nbsp;    public void show_messages(GameModelImmutable model) {
+<b class="nc">&nbsp;        String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat - 1).bold().a(&quot;Latest Messages:&quot;).fg(DEFAULT).boldOff()) +</b>
+<b class="nc">&nbsp;                     ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(model.getChat().toString(this.nickname)).fg(DEFAULT);</b>
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+<b class="nc">&nbsp;        if (model.getChat().getMsgs().size() &gt; 0) {</b>
+<b class="nc">&nbsp;            System.out.println(ansi().cursor(DefaultValue.row_input, 0));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param model the model in which search for the longest message
+&nbsp;     * @return the length of the longest message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int getLengthLongestMessage(GameModelImmutable model) {
+<b class="nc">&nbsp;        return model.getChat().getMsgs().stream()</b>
+<b class="nc">&nbsp;                .map(Message::getText)</b>
+<b class="nc">&nbsp;                .reduce((a, b) -&gt; a.length() &gt; b.length() ? a : b)</b>
+<b class="nc">&nbsp;                .toString().length();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param msg   the message to add
+&nbsp;     * @param model the model to which add the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addMessage(Message msg, GameModelImmutable model) {
+<b class="nc">&nbsp;        show_messages(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Error message when there are no games to join
+&nbsp;     *
+&nbsp;     * @param msgToVisualize message that needs visualisation
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_noAvailableGamesToJoin(String msgToVisualize) {
+<b class="nc">&nbsp;        String ris = ansi().fg(RED).cursor(11, 4).bold().a(msgToVisualize).fg(DEFAULT).boldOff() +</b>
+<b class="nc">&nbsp;                     String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a(&quot; Try later or create a new game!&quot;).fg(DEFAULT).boldOff());</b>
+<b class="nc">&nbsp;        ansi().fg(DEFAULT);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the last panel
+&nbsp;     *
+&nbsp;     * @param model where the game is ended
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_gameEnded(GameModelImmutable model) {
+<b class="nc">&nbsp;        clearScreen();</b>
+<b class="nc">&nbsp;        resize();</b>
+<b class="nc">&nbsp;        show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        new PrintStream(System.out, true, System.console() != null</b>
+<b class="nc">&nbsp;                ? System.console().charset()</b>
+<b class="nc">&nbsp;                : Charset.defaultCharset()</b>
+<b class="nc">&nbsp;        ).println(ansi().cursor(DefaultValue.row_nextTurn, 0).fg(GREEN).a(&quot;&quot;&quot;</b>
+&nbsp;
+&nbsp;                ????????????????????????????????????        ?????????????????????????????????????????
+&nbsp;                ????????????????????????????????????        ?????????????????????????????????????????
+&nbsp;                ????????????????????????????????????        ?????????????????????????????????????????
+&nbsp;                ????????????????????????????????????        ?????????????????????????????????????????
+&nbsp;                ????????????????????????????????????        ?????????????????????????????????????????
+&nbsp;                ????????????????????????????????????        ?????????????????????????????????????????
+&nbsp;                                
+<b class="nc">&nbsp;                &quot;&quot;&quot;).fg(DEFAULT).reset());</b>
+&nbsp;
+<b class="nc">&nbsp;        new PrintStream(System.out, true, System.console() != null</b>
+<b class="nc">&nbsp;                ? System.console().charset()</b>
+<b class="nc">&nbsp;                : Charset.defaultCharset()</b>
+<b class="nc">&nbsp;        ).println(ansi().cursor(DefaultValue.row_nextTurn + 10, 0).bg(CYAN).a(&quot;&quot;&quot;</b>
+&nbsp;
+&nbsp;                ?     ????  ????  ????  ????  ????    ????  ?????  ????  ????  ????
+&nbsp;                ?     ????  ????  ?  ?  ????  ????    ????  ?   ?  ????  ????  ?  ?
+&nbsp;                ????  ????  ?  ?  ????  ????  ?  ?    ????  ?????  ?  ?  ?  ?  ???
+&nbsp;                        
+<b class="nc">&nbsp;                &quot;&quot;&quot;).bg(DEFAULT).reset());</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        int i = 1;</b>
+<b class="nc">&nbsp;        int classif = 1;</b>
+<b class="nc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;Integer, Integer&gt; entry : model.getLeaderBoard().entrySet()) {</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+<b class="nc">&nbsp;            ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_leaderboard + i, DefaultValue.col_leaderboard).a(&quot;#&quot; + classif + &quot; &quot; + model.getPlayers().get(entry.getKey()).getNickname() + &quot;: &quot; + entry.getValue() + &quot; points&quot;).fg(DEFAULT));</b>
+<b class="nc">&nbsp;            i += 2;</b>
+<b class="nc">&nbsp;            classif++;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(ris);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Stuff that always needs to be visible
+&nbsp;     *
+&nbsp;     * @param model
+&nbsp;     */
+&nbsp;    public void show_alwaysShowForAll(GameModelImmutable model) {
+<b class="nc">&nbsp;        this.clearScreen();</b>
+&nbsp;        //resize();
+<b class="nc">&nbsp;        show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        show_gameId(model);</b>
+<b class="nc">&nbsp;        show_playground(model);</b>
+<b class="nc">&nbsp;        show_commonCards(model);</b>
+<b class="nc">&nbsp;        show_messages(model);</b>
+<b class="nc">&nbsp;        show_points(model);</b>
+<b class="nc">&nbsp;        show_important_events();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the game id
+&nbsp;     *
+&nbsp;     * @param gameModel
+&nbsp;     */
+&nbsp;    public void show_gameId(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a(&quot;Game with id: [&quot; + gameModel.getGameId() + &quot;]&quot;).boldOff());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the next player
+&nbsp;     *
+&nbsp;     * @param gameModel
+&nbsp;     */
+&nbsp;    public void show_nextTurn(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a(&quot;Next turn! It&#39;s up to: &quot; + gameModel.getNicknameCurrentPlaying()).boldOff());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows a welcome message
+&nbsp;     *
+&nbsp;     * @param nick
+&nbsp;     */
+&nbsp;    public void show_welcome(String nick) {
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(DefaultValue.row_nextTurn + 1, 0).bold().a(&quot;Welcome &quot; + nick).boldOff());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Clears important events&#39; list
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void resetImportantEvents() {
+<b class="nc">&nbsp;        this.importantEvents = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        this.nickname = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows error if there&#39;s no connection
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_noConnectionError() {
+<b class="nc">&nbsp;        this.clearScreen();</b>
+<b class="nc">&nbsp;        System.out.println(ansi().fg(WHITE).bg(RED).bold().a(&quot;CONNECTION TO SERVER LOST!&quot;)</b>
+<b class="nc">&nbsp;                .boldOff().fg(DEFAULT).bgDefault());</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            Thread.sleep(3000);</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.exit(-1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player to pick a direction
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_direction() {
+<b class="nc">&nbsp;        System.out.println(&quot;\t&gt; Choose direction (r=right,l=left,u=up,d=down): &quot;);</b>
+<b class="nc">&nbsp;        System.out.println(ansi().cursorDownLine().a(&quot;&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player to pick up tiles
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_askPickTilesMainMsg() {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the player&#39;s points
+&nbsp;     *
+&nbsp;     * @param p         the player to whom the point was added
+&nbsp;     * @param point     the point added to that player
+&nbsp;     * @param gameModel the model in which the player and point exist
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_addedPoint(Player p, Point point, GameModelImmutable gameModel) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param model the model to check
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void columnShelfTooSmall(GameModelImmutable model) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * clears console
+&nbsp;     *
+&nbsp;     * @param msg
+&nbsp;     * @param model
+&nbsp;     */
+&nbsp;    public void removeInput(String msg, GameModelImmutable model) {
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(&quot; &quot;.repeat(getLengthLongestMessage(model))));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the messages sent
+&nbsp;     *
+&nbsp;     * @param model    the model where the message need to be shown
+&nbsp;     * @param nickname the sender&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_sentMessage(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        this.show_alwaysShow(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the player&#39;s hand
+&nbsp;     *
+&nbsp;     * @param model    the model that called the event
+&nbsp;     * @param nickname the player that grabbed the tiles
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_grabbedTileMainMsg(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        this.show_alwaysShow(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the updated shelves
+&nbsp;     *
+&nbsp;     * @param model    the model in which the player is found
+&nbsp;     * @param nickname the player who positioned the tile
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_positionedTile(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        this.show_alwaysShow(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Error message on wrong tile selection on pick up
+&nbsp;     *
+&nbsp;     * @param model    the model where to show the tiles grabbed weren&#39;t correct
+&nbsp;     * @param nickname the player who tried to grab the wrong tiles
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        this.show_alwaysShow(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player to choose number of tiles to pick up
+&nbsp;     *
+&nbsp;     * @param msg       message to be shown
+&nbsp;     * @param gameModel model where the message needs to be shown
+&nbsp;     * @param nickname  nickname of the player that needs to have the message shown
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_askNum(String msg, GameModelImmutable gameModel, String nickname) {
+<b class="nc">&nbsp;        this.show_alwaysShow(gameModel, nickname);</b>
+<b class="nc">&nbsp;        this.removeInput(msg, gameModel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows messages on game start
+&nbsp;     *
+&nbsp;     * @param model model where the game has started
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_gameStarted(GameModelImmutable model) {
+<b class="nc">&nbsp;        this.clearScreen();</b>
+<b class="nc">&nbsp;        this.show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        this.show_allPlayers(model);</b>
+<b class="nc">&nbsp;        this.show_alwaysShowForAll(model);</b>
+<b class="nc">&nbsp;        this.show_gameId(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows a message for the next turn or when a player reconnects
+&nbsp;     *
+&nbsp;     * @param model    model where events happen
+&nbsp;     * @param nickname nick of reconnected player (or of the player that is now in turn)
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        this.show_alwaysShow(model, nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Tells the player to return to the main menu
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_returnToMenuMsg() {
+<b class="nc">&nbsp;        System.out.println(&quot;\nPress any key to return to the menu&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player to choose a column
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_askColumnMainMsg() {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks the player to insert his nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_insertNicknameMsg() {
+<b class="nc">&nbsp;        this.clearScreen();</b>
+<b class="nc">&nbsp;        this.show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a(&quot;&gt; Insert your nickname: &quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows chosen nickname
+&nbsp;     *
+&nbsp;     * @param nickname nickname just chosen by the player
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_chosenNickname(String nickname) {
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(DefaultValue.row_gameID + 2, 0).a(&quot;&gt; Your nickname is: &quot; + nickname));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows initial menu
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_menuOptions() {
+<b class="nc">&nbsp;        this.clearScreen();</b>
+<b class="nc">&nbsp;        this.show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(9, 0).a(&quot;&quot;&quot;</b>
+&nbsp;                &gt; Select one option:
+&nbsp;                \t(c) Create a new Game
+&nbsp;                \t(j) Join to a random Game
+&nbsp;                \t(js) Join a specific Game by idGame
+&nbsp;                \t(x) Reconnect
+&nbsp;                \t(.) to leave
+&nbsp;                \t
+&nbsp;                \t -&gt; Useful commands that can be used at any point in the game:
+&nbsp;                \t\t  type &quot;/c [msg]&quot; to send a public message!
+&nbsp;                \t\t  type &quot;/cs [playerName] [msg]&quot; to send a private message!
+&nbsp;                \t\t  type &quot;/quit&quot; and you can leave the game!
+<b class="nc">&nbsp;                \t&quot;&quot;&quot;).fg(DEFAULT));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks for the game id
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_inputGameIdMsg() {
+<b class="nc">&nbsp;        System.out.println(&quot;&gt; Input the GameId (&#39;.&#39; to leave): &quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Generic error message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_NaNMsg() {
+<b class="nc">&nbsp;        System.out.println(&quot;&gt; NaN&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Asks which tile to place
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_whichTileToPlaceMsg() {
+<b class="nc">&nbsp;        System.out.println(&quot;&gt; Select which tile do you want to place:&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Error when trying to place a wrong in hand tile
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_wrongSelectionHandMsg() {
+<b class="nc">&nbsp;        System.out.println(&quot;\tWrong Tile selection offset&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creating game message
+&nbsp;     *
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_creatingNewGameMsg(String nickname) {
+<b class="nc">&nbsp;        this.clearScreen();</b>
+<b class="nc">&nbsp;        this.show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;&gt; Creating a new game...&quot;);</b>
+<b class="nc">&nbsp;        this.nickname = nickname;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Join first available game message
+&nbsp;     *
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_joiningFirstAvailableMsg(String nickname) {
+<b class="nc">&nbsp;        this.clearScreen();</b>
+<b class="nc">&nbsp;        this.show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;&gt; Connecting to the first available game...&quot;);</b>
+<b class="nc">&nbsp;        this.nickname = nickname;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the game id of the game that it&#39;s been joined
+&nbsp;     *
+&nbsp;     * @param idGame   id of the game the player is trying to join
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_joiningToGameIdMsg(int idGame, String nickname) {
+<b class="nc">&nbsp;        this.clearScreen();</b>
+<b class="nc">&nbsp;        this.show_titleMyShelfie();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;&gt; You have selected to join to Game with id: &#39;&quot; + idGame + &quot;&#39;, trying to connect&quot;);</b>
+<b class="nc">&nbsp;        this.nickname = nickname;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Messages that always need to be on screen
+&nbsp;     *
+&nbsp;     * @param model
+&nbsp;     * @param nick
+&nbsp;     */
+&nbsp;    public void show_alwaysShow(GameModelImmutable model, String nick) {
+<b class="nc">&nbsp;        show_alwaysShowForAll(model);</b>
+<b class="nc">&nbsp;        show_goalCards(model.getPlayerEntity(nick));</b>
+<b class="nc">&nbsp;        if (model.getPlayerEntity(nick).getInHandTile_IC().size() &gt; 0)</b>
+<b class="nc">&nbsp;            show_playerHand(model);</b>
+<b class="nc">&nbsp;        else if (model.getPlayerEntity(model.getNicknameCurrentPlaying()).getInHandTile_IC().size() &gt; 0)</b>
+<b class="nc">&nbsp;            show_grabbedTile(model.getNicknameCurrentPlaying(), model);</b>
+<b class="nc">&nbsp;        show_allShelves(model);</b>
+<b class="nc">&nbsp;        show_nextTurn(model);</b>
+<b class="nc">&nbsp;        show_welcome(nick);</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(ansi().cursor(DefaultValue.row_input, 0));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SocketClientMessagePositionTileOnShelf</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.socket.client.gameControllerMessages</a>
+</div>
+
+<h1>Coverage Summary for Class: SocketClientMessagePositionTileOnShelf (polimi.ingsw.networking.socket.client.gameControllerMessages)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SocketClientMessagePositionTileOnShelf</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.socket.client.gameControllerMessages;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.exceptions.GameEndedException;
+&nbsp;import polimi.ingsw.networking.socket.client.SocketClientGenericMessage;
+&nbsp;import polimi.ingsw.networking.rmi.remoteInterfaces.GameControllerInterface;
+&nbsp;import polimi.ingsw.networking.rmi.remoteInterfaces.MainControllerInterface;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * SocketClientMessagePositionTileOnShelf class.
+&nbsp; * Extends SocketClientGenericMessage and is used to send a message to the server
+&nbsp; * indicating the positioning of a tile on the player&#39;s shelf.
+&nbsp; */
+&nbsp;public class SocketClientMessagePositionTileOnShelf extends SocketClientGenericMessage {
+&nbsp;    private int column;
+&nbsp;    private TileType type;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor of the class.
+&nbsp;     * @param nick the player&#39;s nickname
+&nbsp;     * @param column the column index on the shelf where the tile should be positioned
+&nbsp;     * @param type the type of tile to be positioned on the shelf
+&nbsp;     */
+<b class="nc">&nbsp;    public SocketClientMessagePositionTileOnShelf(String nick, int column, TileType type) {</b>
+<b class="nc">&nbsp;        this.column = column;</b>
+<b class="nc">&nbsp;        this.type = type;</b>
+<b class="nc">&nbsp;        this.nick = nick;</b>
+<b class="nc">&nbsp;        this.isMessageForMainController = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to execute the corresponding action for the message.
+&nbsp;     * @param lis the game listener
+&nbsp;     * @param mainController the main controller of the application
+&nbsp;     * @return the game controller interface
+&nbsp;     * @throws RemoteException if there is an error in remote communication
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public GameControllerInterface execute(GameListener lis, MainControllerInterface mainController) throws RemoteException {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to execute the corresponding action for the message.
+&nbsp;     * @param gameController the game controller interface
+&nbsp;     * @throws RemoteException if there is an error in remote communication
+&nbsp;     * @throws GameEndedException if the game has ended
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException {
+<b class="nc">&nbsp;        gameController.positionTileOnShelf(nick, column, type);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,316 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonMethods</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.cards.common</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonMethods (polimi.ingsw.model.cards.common)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonMethods</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,3%
+  </span>
+  <span class="absValue">
+    (84/92)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.cards.common;
+&nbsp;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.enumeration.CardCommonType;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.Shelf;
+&nbsp;import polimi.ingsw.model.Tile;
+&nbsp;
+&nbsp;public abstract class CommonMethods extends CommonCard {
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param toCheck the player&#39;s shelf that needs checking
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public abstract boolean verify(Shelf toCheck);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param type
+&nbsp;     */
+&nbsp;    public CommonMethods(CardCommonType type) {
+<b class="fc">&nbsp;        super(type);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param toCopy
+&nbsp;     * @return a copy to the param shelf
+&nbsp;     */
+&nbsp;    protected static Shelf getCopy(Shelf toCopy) {
+<b class="fc">&nbsp;        Shelf temp = new Shelf();</b>
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="fc">&nbsp;                temp.setSingleTile(new Tile(toCopy.getSingleTile(r, c).getType()), r, c);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        temp.setFreeSpace(toCopy.getFreeSpace());</b>
+<b class="fc">&nbsp;        return temp;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param typeToCheck
+&nbsp;     * @param temp
+&nbsp;     * @param r
+&nbsp;     * @param c
+&nbsp;     * @return the number of tiles that form a contiguous group
+&nbsp;     */
+&nbsp;    public static int checkAdjacent(TileType typeToCheck, Shelf temp, int r, int c) {
+<b class="fc">&nbsp;        int res = 0, col, row = 0;</b>
+<b class="fc">&nbsp;        boolean found = false;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (temp.getSingleTile(r, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;            temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);</b>
+<b class="fc">&nbsp;            res++;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            while (row &lt; DefaultValue.NumOfRowsShelf &amp;&amp; !found) {</b>
+<b class="fc">&nbsp;                col = 0;</b>
+<b class="fc">&nbsp;                while (col &lt; DefaultValue.NumOfColumnsShelf &amp;&amp; !found) {</b>
+<b class="fc">&nbsp;                    if (temp.getSingleTile(row, col).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                        temp.setSingleTile(new Tile(TileType.NOT_USED), row, col);</b>
+<b class="fc">&nbsp;                        res++;</b>
+<b class="fc">&nbsp;                        found = true;</b>
+<b class="fc">&nbsp;                        r = row;</b>
+<b class="fc">&nbsp;                        c = col;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    col++;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                row++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        switch (r) {</b>
+&nbsp;            case (0) -&gt; {
+<b class="fc">&nbsp;                switch (c) {</b>
+&nbsp;                    case (0) -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c + 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c + 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r + 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r + 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                    case (DefaultValue.NumOfColumnsShelf - 1) -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c - 1).isSameType(typeToCheck)) {</b>
+<b class="nc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c - 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r + 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r + 1, 0);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                    default -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c - 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c - 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r + 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r + 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c + 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c + 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;            case (DefaultValue.NumOfRowsShelf - 1) -&gt; {
+<b class="fc">&nbsp;                switch (c) {</b>
+&nbsp;                    case (0) -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c + 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c + 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r - 1, c).isSameType(typeToCheck)) {</b>
+<b class="nc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r - 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                    case (DefaultValue.NumOfColumnsShelf - 1) -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c - 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c - 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r - 1, c).isSameType(typeToCheck)) {</b>
+<b class="nc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r - 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                    default -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c - 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c - 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r - 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r - 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c + 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c + 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;            default -&gt; {
+<b class="fc">&nbsp;                switch (c) {</b>
+&nbsp;                    case (0) -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c + 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c + 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r - 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r - 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r + 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r + 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                    case (DefaultValue.NumOfColumnsShelf - 1) -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c - 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c - 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r - 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r - 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r + 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r + 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                    default -&gt; {
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c - 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c - 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r - 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r - 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r, c + 1).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r, c + 1);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (temp.getSingleTile(r + 1, c).isSameType(typeToCheck)) {</b>
+<b class="fc">&nbsp;                            res += checkAdjacent(typeToCheck, temp, r + 1, c);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        return res;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deletes all the adjacent tiles to one, of the same type
+&nbsp;     * @param typeToCheck
+&nbsp;     * @param temp
+&nbsp;     * @param r
+&nbsp;     * @param c
+&nbsp;     */
+&nbsp;    protected static void deleteAdjacent(TileType typeToCheck, Shelf temp, int r, int c) {
+&nbsp;
+<b class="fc">&nbsp;        if (r &lt; 0 || r &gt;= DefaultValue.NumOfRowsShelf || c &gt;= DefaultValue.NumOfColumnsShelf ||</b>
+<b class="fc">&nbsp;                c &lt; 0 || !temp.getSingleTile(r, c).isSameType(typeToCheck) ||</b>
+<b class="fc">&nbsp;            temp.isEmpty() || typeToCheck.equals(TileType.NOT_USED))</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);</b>
+&nbsp;
+&nbsp;        //up
+<b class="nc">&nbsp;        deleteAdjacent(typeToCheck, temp, r - 1, c);</b>
+&nbsp;        //down
+<b class="nc">&nbsp;        deleteAdjacent(typeToCheck, temp, r + 1, c);</b>
+&nbsp;        //left
+<b class="nc">&nbsp;        deleteAdjacent(typeToCheck, temp, r, c - 1);</b>
+&nbsp;        //right
+<b class="nc">&nbsp;        deleteAdjacent(typeToCheck, temp, r, c + 1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

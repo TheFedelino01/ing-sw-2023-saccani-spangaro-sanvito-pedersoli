@@ -1,0 +1,478 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ListenersHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.listener</a>
+</div>
+
+<h1>Coverage Summary for Class: ListenersHandler (polimi.ingsw.listener)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ListenersHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (22/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    48,5%
+  </span>
+  <span class="absValue">
+    (81/167)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.listener;
+&nbsp;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.GameModel;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * The ListenersHandler class is responsible for managing a List of GameListener {@link GameListener} &lt;br&gt;
+&nbsp; * and for notifying the view when a change occurs in the GameModel {@link GameModel}. &lt;br&gt;
+&nbsp; * When notifying an event, we need to pass the GameModelImmutable {@link GameModelImmutable} to the view to have access to the updated GameModel.
+&nbsp; */
+&nbsp;public class ListenersHandler {
+&nbsp;    private List&lt;GameListener&gt; listeners;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The constructor creates a new ArrayList of GameListener {@link GameListener}
+&nbsp;     */
+<b class="fc">&nbsp;    public ListenersHandler() {</b>
+<b class="fc">&nbsp;        listeners = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The addListener method adds a new GameListener {@link GameListener} to the List of GameListener {@link GameListener} &lt;br&gt;
+&nbsp;     * @param obj is the GameListener {@link GameListener} to add
+&nbsp;     */
+&nbsp;    public synchronized void addListener(GameListener obj) {
+<b class="fc">&nbsp;        listeners.add(obj);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The getListeners method returns the List of GameListener {@link GameListener} &lt;br&gt;
+&nbsp;     * @return the List of GameListener {@link GameListener}
+&nbsp;     */
+&nbsp;    public synchronized List&lt;GameListener&gt; getListeners() {
+<b class="fc">&nbsp;        return listeners;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_playerJoined method notifies the view that a player has joined the game &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public synchronized void notify_playerJoined(GameModel model) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.playerJoined(new GameModelImmutable(model));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_playerJoined, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_playerReconnected method notifies the view that a player has reconnected to the game &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
+&nbsp;     */
+&nbsp;    public synchronized void notify_playerReconnected(GameModel model, String nickPlayerReconnected) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.playerReconnected(new GameModelImmutable(model), nickPlayerReconnected);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_playerReconnected, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_JoinUnableGameFull method notifies that a player cannot join the game because the game is full &lt;br&gt;
+&nbsp;     * @param playerWantedToJoin is the player that wanted to join the game &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public synchronized void notify_JoinUnableGameFull(Player playerWantedToJoin, GameModel model) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.joinUnableGameFull(playerWantedToJoin, new GameModelImmutable(model));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_JoinUnableNicknameAlreadyIn method notifies that a player cannot join the game because the nickname is already in use &lt;br&gt;
+&nbsp;     * @param playerWantedToJoin is the player that wanted to join the game {@link Player} &lt;br&gt;
+&nbsp;     */
+&nbsp;    public synchronized void notify_JoinUnableNicknameAlreadyIn(Player playerWantedToJoin) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="nc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                l.joinUnableNicknameAlreadyIn(playerWantedToJoin);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_JoinUnableNicknameAlreadyIn, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_PlayerIsReadyToStart method notifies that a player is ready to start the game &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     * @param nick is the nickname of the player that is ready to start the game
+&nbsp;     */
+&nbsp;    public synchronized void notify_PlayerIsReadyToStart(GameModel model, String nick) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.playerIsReadyToStart(new GameModelImmutable(model), nick);</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_PlayerIsReadyToStart, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_GameStarted method notifies that the game has started &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     */
+&nbsp;    public synchronized void notify_GameStarted(GameModel model) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.gameStarted(new GameModelImmutable(model));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_GameStarted, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_GameEnded method notifies that the game has ended &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public synchronized void notify_GameEnded(GameModel model) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="nc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                l.gameEnded(new GameModelImmutable(model));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_GameEnded, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_SentMessage method notifies that a message has been sent &lt;br&gt;
+&nbsp;     * @param gameModel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     * @param msg is the message that has been sent {@link Message}
+&nbsp;     */
+&nbsp;    public synchronized void notify_SentMessage(GameModel gameModel, Message msg) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="nc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                l.sentMessage(new GameModelImmutable(gameModel), msg);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_SentMessage, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_grabbedTile method notifies that a tile has been grabbed &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void notify_grabbedTile(GameModel model) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="nc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                l.grabbedTile(new GameModelImmutable(model));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_grabbedTile, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_positionedTile method notifies that a tile has been positioned &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     * @param type is the type of the tile that has been positioned {@link TileType} &lt;br&gt;
+&nbsp;     * @param collum is the collum where the tile has been positioned
+&nbsp;     */
+&nbsp;    public synchronized void notify_positionedTile(GameModel model, TileType type, int collum) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="nc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                l.positionedTile(new GameModelImmutable(model), type, collum);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_positionedTile, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_nextTurn method notifies that the next turn has started &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public synchronized void notify_nextTurn(GameModel model) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.nextTurn(new GameModelImmutable(model));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_nextTurn, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_lastCircle method notifies that the last circle has started &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public void notify_LastCircle(GameModel model) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="nc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                l.lastCircle(new GameModelImmutable(model));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_LastCircle, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_grabbedTileNotCorrect method notifies that a tile has been grabbed but it is not correct &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public synchronized void notify_grabbedTileNotCorrect(GameModel model) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="nc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                l.grabbedTileNotCorrect(new GameModelImmutable(model));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_grabbedTileNotCorrect, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_extractedCommonCard method notifies that a common card has been extracted &lt;br&gt;
+&nbsp;     * @param gamemodel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable}
+&nbsp;     */
+&nbsp;    public synchronized void notify_extractedCommonCard(GameModel gamemodel) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.commonCardsExtracted(new GameModelImmutable(gamemodel));</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_extractedCommonCard, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_playerDisconnected method notifies that a player has disconnected &lt;br&gt;
+&nbsp;     * @param gamemodel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     * @param nick is the nickname of the player that has disconnected
+&nbsp;     */
+&nbsp;    public synchronized void notify_playerDisconnected(GameModel gamemodel, String nick) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.playerDisconnected(new GameModelImmutable(gamemodel), nick);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_playerDisconnected, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_playerLeft method notifies that a player has left the game &lt;br&gt;
+&nbsp;     * @param gameModel is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     * @param nick is the nickname of the player that has left the game
+&nbsp;     */
+&nbsp;    public void notify_playerLeft(GameModel gameModel, String nick) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.playerLeft(new GameModelImmutable(gameModel), nick);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_playerLeft, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_columnShelfTooSmall method notifies that a column shelf is too small &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     * @param column is the column that is too small
+&nbsp;     */
+&nbsp;    public synchronized void notify_columnShelfTooSmall(GameModel model, int column) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="nc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                l.columnShelfTooSmall(new GameModelImmutable(model), column);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_columnShelfTooSmall, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The notify_onlyOnePlayerConnected method notifies that only one player is connected &lt;br&gt;
+&nbsp;     * @param model is the GameModel {@link GameModel} to pass as a new GameModelImmutable {@link GameModelImmutable} &lt;br&gt;
+&nbsp;     * @param secondsToWaitUntillGameEnded is the number of seconds to wait untill the game ends
+&nbsp;     */
+&nbsp;    public synchronized void notify_onlyOnePlayerConnected(GameModel model, int secondsToWaitUntillGameEnded) {
+<b class="fc">&nbsp;        Iterator&lt;GameListener&gt; i = listeners.iterator();</b>
+<b class="fc">&nbsp;        while (i.hasNext()) {</b>
+<b class="fc">&nbsp;            GameListener l = i.next();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                l.onlyOnePlayerConnected(new GameModelImmutable(model), secondsToWaitUntillGameEnded);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;During notification of notify_onlyOnePlayerConnected, a disconnection has been detected before heartbeat&quot;);</b>
+<b class="nc">&nbsp;                i.remove();</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The removeListener method removes a listener from the list of listeners &lt;br&gt;
+&nbsp;     * @param lis is the listener to remove
+&nbsp;     */
+&nbsp;    public synchronized void removeListener(GameListener lis) {
+<b class="fc">&nbsp;        listeners.remove(lis);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

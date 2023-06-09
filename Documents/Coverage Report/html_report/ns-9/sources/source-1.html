@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CardCommonType</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.enumeration</a>
+</div>
+
+<h1>Coverage Summary for Class: CardCommonType (polimi.ingsw.model.enumeration)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CardCommonType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.enumeration;
+&nbsp;
+&nbsp;/**
+&nbsp; * This enum represents the common card types
+&nbsp; */
+<b class="fc">&nbsp;public enum CardCommonType implements CardType {</b>
+<b class="fc">&nbsp;    CommonSixGroups(&quot;cc4&quot;),</b>
+<b class="fc">&nbsp;    CommonVertex(&quot;cc8&quot;),</b>
+<b class="fc">&nbsp;    CommonFourGroups(&quot;cc3&quot;),</b>
+<b class="fc">&nbsp;    CommonSquares(&quot;cc1&quot;),</b>
+<b class="fc">&nbsp;    CommonVertical0(&quot;cc5&quot;),</b>
+<b class="fc">&nbsp;    CommonEight(&quot;cc9&quot;),</b>
+<b class="fc">&nbsp;    CommonSameDiagonal(&quot;cc11&quot;),</b>
+<b class="fc">&nbsp;    CommonHorizontal0(&quot;cc7&quot;),</b>
+<b class="fc">&nbsp;    CommonVertical1(&quot;cc2&quot;),</b>
+<b class="fc">&nbsp;    CommonHorizontal1(&quot;cc6&quot;),</b>
+<b class="fc">&nbsp;    CommonX(&quot;cc10&quot;),</b>
+<b class="fc">&nbsp;    CommonStair(&quot;cc12&quot;);</b>
+&nbsp;
+&nbsp;    private final String backgroundClass;
+&nbsp;
+<b class="fc">&nbsp;    CardCommonType(String backgroundClass) {</b>
+<b class="fc">&nbsp;        this.backgroundClass = backgroundClass;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getBackgroundClass() {
+<b class="nc">&nbsp;        return backgroundClass;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

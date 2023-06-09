@@ -1,0 +1,543 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GUI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: GUI (polimi.ingsw.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/82)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.gui;
+&nbsp;
+&nbsp;import javafx.animation.PauseTransition;
+&nbsp;import javafx.application.Platform;
+&nbsp;import javafx.util.Duration;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;import polimi.ingsw.view.gui.controllers.LobbyController;
+&nbsp;import polimi.ingsw.view.gui.controllers.NicknamePopupController;
+&nbsp;import polimi.ingsw.view.gui.scenes.SceneEnum;
+&nbsp;import polimi.ingsw.view.flow.UI;
+&nbsp;import polimi.ingsw.view.flow.utilities.inputReaderGUI;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * GUI class.
+&nbsp; * This class is the GUI implementation of the UI abstract class and it manages all the GUI-related operations.
+&nbsp; */
+&nbsp;public class GUI extends UI {
+&nbsp;
+&nbsp;
+&nbsp;    private GUIApplication guiApplication;
+&nbsp;    private inputReaderGUI inputReaderGUI;
+<b class="nc">&nbsp;    private boolean alreadyShowedPublisher = false;</b>
+<b class="nc">&nbsp;    private boolean alreadyShowedLobby = false;</b>
+&nbsp;
+&nbsp;    private String nickname;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor of the class.
+&nbsp;     *
+&nbsp;     * @param guiApplication the GUI application
+&nbsp;     * @param inputReaderGUI the input reader
+&nbsp;     */
+<b class="nc">&nbsp;    public GUI(GUIApplication guiApplication, inputReaderGUI inputReaderGUI) {</b>
+<b class="nc">&nbsp;        this.guiApplication = guiApplication;</b>
+<b class="nc">&nbsp;        this.inputReaderGUI = inputReaderGUI;</b>
+<b class="nc">&nbsp;        nickname = null;</b>
+<b class="nc">&nbsp;        init();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The init method is used to initialize the GUI.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void init() {
+<b class="nc">&nbsp;        importantEvents = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void callPlatformRunLater(Runnable r) {
+&nbsp;        //Need to use this method to call any methods inside the GuiApplication
+&nbsp;        //Doing so, the method requested will be executed on the JavaFX Thread (else exception)
+<b class="nc">&nbsp;        Platform.runLater(r);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The show method is used to show the GUI, and set the active scene to the publisher.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_publisher() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.PUBLISHER));</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        PauseTransition pause = new PauseTransition(Duration.seconds(DefaultValue.time_publisher_showing_seconds));</b>
+<b class="nc">&nbsp;        pause.setOnFinished(event -&gt; {</b>
+<b class="nc">&nbsp;            alreadyShowedPublisher = true;</b>
+&nbsp;
+<b class="nc">&nbsp;            this.show_menuOptions();</b>
+&nbsp;        });
+<b class="nc">&nbsp;        pause.play();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The show method is used to show the GUI, and set the active scene to the menu.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_menuOptions() {
+<b class="nc">&nbsp;        if (alreadyShowedPublisher) {</b>
+<b class="nc">&nbsp;            callPlatformRunLater(() -&gt; this.guiApplication.setInputReaderGUItoAllControllers(this.inputReaderGUI));//So the controllers can add text to the buffer for the gameflow</b>
+<b class="nc">&nbsp;            callPlatformRunLater(() -&gt; this.guiApplication.createNewWindowWithStyle());</b>
+<b class="nc">&nbsp;            callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.MENU));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The show method is used to show the GUI, and set the active scene to the nickname.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_insertNicknameMsg() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.NICKNAME));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void show_chosenNickname(String nickname) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the info about the chosen nickname.
+&nbsp;     *
+&nbsp;     * @param nick the nickname
+&nbsp;     * @param text the info
+&nbsp;     */
+&nbsp;    private void show_popupInfoAndNickname(String nick, String text) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; ((NicknamePopupController) this.guiApplication.getController(SceneEnum.NICKNAME_POPUP)).showNicknameAndText(nick, text));</b>
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.NICKNAME_POPUP));</b>
+<b class="nc">&nbsp;        nickname = nick;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a popup with the chosen text
+&nbsp;     *
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_creatingNewGameMsg(String nickname) {
+<b class="nc">&nbsp;        show_popupInfoAndNickname(nickname, &quot;Creating a new Game...&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a popup with the chosen text
+&nbsp;     *
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_joiningFirstAvailableMsg(String nickname) {
+<b class="nc">&nbsp;        show_popupInfoAndNickname(nickname, &quot;Joining to a Game...&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a popup with the chosen text
+&nbsp;     *
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_joiningToGameIdMsg(int idGame, String nickname) {
+<b class="nc">&nbsp;        show_popupInfoAndNickname(nickname, &quot;Joining to specific...&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the game id
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_inputGameIdMsg() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.JOIN_SPECIFIC));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show all the player who are in the lobby
+&nbsp;     *
+&nbsp;     * @param gameModel model where events happen
+&nbsp;     * @param nick      player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_playerJoined(GameModelImmutable gameModel, String nick) {
+<b class="nc">&nbsp;        if (!alreadyShowedLobby) {</b>
+<b class="nc">&nbsp;            PauseTransition pause = new PauseTransition(Duration.seconds(1));</b>
+<b class="nc">&nbsp;            pause.setOnFinished(event -&gt; {</b>
+<b class="nc">&nbsp;                callPlatformRunLater(() -&gt; this.guiApplication.closePopUpStage());</b>
+<b class="nc">&nbsp;                callPlatformRunLater(() -&gt; ((LobbyController) this.guiApplication.getController(SceneEnum.LOBBY)).setUsernameLabel(nick));</b>
+<b class="nc">&nbsp;                callPlatformRunLater(() -&gt; ((LobbyController) this.guiApplication.getController(SceneEnum.LOBBY)).setGameid(gameModel.getGameId()));</b>
+&nbsp;
+<b class="nc">&nbsp;                callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.LOBBY));</b>
+<b class="nc">&nbsp;                callPlatformRunLater(() -&gt; this.guiApplication.showPlayerToLobby(gameModel));</b>
+<b class="nc">&nbsp;                alreadyShowedLobby = true;</b>
+&nbsp;            });
+<b class="nc">&nbsp;            pause.play();</b>
+&nbsp;
+<b class="nc">&nbsp;        } else {</b>
+&nbsp;            //The player is in lobby and another player has joined
+<b class="nc">&nbsp;            callPlatformRunLater(() -&gt; this.guiApplication.showPlayerToLobby(gameModel));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * this method show that the player is ready to start
+&nbsp;     *
+&nbsp;     * @param gameModel     model where events happen
+&nbsp;     * @param nicknameofyou player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_youReadyToStart(GameModelImmutable gameModel, String nicknameofyou) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.disableBtnReadyToStart());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show that the game has started
+&nbsp;     *
+&nbsp;     * @param model model where the game has started
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_gameStarted(GameModelImmutable model) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.INGAME));</b>
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showInGameModel(model, nickname));//Add all info of the model to the scene</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show that there are no available games to join
+&nbsp;     *
+&nbsp;     * @param msgToVisualize message that needs visualisation
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_noAvailableGamesToJoin(String msgToVisualize) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.GENERIC_ERROR));</b>
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showErrorGeneric(msgToVisualize));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show that the game has ended
+&nbsp;     *
+&nbsp;     * @param model model where the game has ended
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_gameEnded(GameModelImmutable model) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.GAME_ENDED));</b>
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showLeaderBoard(model));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show that the player has reconnected to the game or that the turn has changed
+&nbsp;     *
+&nbsp;     * @param model    model where events happen
+&nbsp;     * @param nickname player&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_nextTurnOrPlayerReconnected(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        if (!alreadyShowedLobby) {</b>
+<b class="nc">&nbsp;            show_gameStarted(model);</b>
+<b class="nc">&nbsp;            alreadyShowedLobby = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.changeTurn(model, nickname));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void show_askNum(String msg, GameModelImmutable gameModel, String nickname) {
+&nbsp;        //callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(msg,null));
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the player hand
+&nbsp;     *
+&nbsp;     * @param gameModel the model that has the player hand that needs to be shown
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_playerHand(GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;Player hand updated!&quot;, null));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the grabbed tiles
+&nbsp;     *
+&nbsp;     * @param nickname the player that grabbed the tiles
+&nbsp;     * @param model    the model in which the player grabbed the tiles
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_grabbedTile(String nickname, GameModelImmutable model) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;Player &quot; + nickname + &quot; has grabbed some tiles&quot;, null));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void show_commonCards(GameModelImmutable gameModel) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the sent message
+&nbsp;     *
+&nbsp;     * @param model    the model where the message need to be shown
+&nbsp;     * @param nickname the sender&#39;s nickname
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_sentMessage(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessages(model, this.nickname));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the player&#39;s tile
+&nbsp;     *
+&nbsp;     * @param model    the model that called the event
+&nbsp;     * @param nickname the player that grabbed the tiles
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_grabbedTileMainMsg(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showPlayerGrabbedTiles(model, nickname));</b>
+<b class="nc">&nbsp;        if (model.getNicknameCurrentPlaying().equals(this.nickname)) {</b>
+<b class="nc">&nbsp;            callPlatformRunLater(() -&gt; this.guiApplication.showSelectionColShelfie());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message about placing a tile
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_whichTileToPlaceMsg() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;Select one of your Tile to place it into the shelfie&quot;, null));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message about a wrong selection of a tile in the hand
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_wrongSelectionHandMsg() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;Wrong selection of tile in hand!&quot;, false));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show the positioned tiles
+&nbsp;     *
+&nbsp;     * @param model    the model in which the player is found
+&nbsp;     * @param nickname the player who positioned the tile
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_positionedTile(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showPlayerPositionedTile(model, nickname));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message about a wrong grab of tiles
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;Tiles grabbed not valid!&quot;, false));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_NaNMsg() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;NaN&quot;, false));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method make a button visible to return to the menu
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void show_returnToMenuMsg() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showBtnReturnToMenu());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message about the column selection
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_askColumnMainMsg() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;Select one column to place all the tiles&quot;, null));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void show_direction() {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message about the grab of tiles
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_askPickTilesMainMsg() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;Grab some tiles from the playground&quot;, true));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method update and show the point
+&nbsp;     *
+&nbsp;     * @param p     the player that has the points
+&nbsp;     * @param point the points that need to be shown
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_addedPoint(Player p, Point point, GameModelImmutable gameModel) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showPointsUpdated(gameModel, p, this.nickname, point));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message about the selection of the column
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void columnShelfTooSmall(GameModelImmutable model) {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showMessageInGame(&quot;The selected column is too small to hold all tiles&quot;, false));</b>
+<b class="nc">&nbsp;        if (model.getNicknameCurrentPlaying().equals(this.nickname)) {</b>
+<b class="nc">&nbsp;            callPlatformRunLater(() -&gt; this.guiApplication.showSelectionColShelfie());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method add an important event to the list of important events, and show it
+&nbsp;     * @param input the string of the important event to add
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addImportantEvent(String input) {
+<b class="nc">&nbsp;        importantEvents.add(input);</b>
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showImportantEvents(this.importantEvents));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected int getLengthLongestMessage(GameModelImmutable model) {
+<b class="nc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method send a message
+&nbsp;     * @param msg   the message to add
+&nbsp;     * @param model the model to which add the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void addMessage(Message msg, GameModelImmutable model) {
+<b class="nc">&nbsp;        show_sentMessage(model, model.getChat().getLastMessage().getSender().getNickname());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method reset the important events
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void resetImportantEvents() {
+<b class="nc">&nbsp;        this.importantEvents = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        this.nickname = null;</b>
+<b class="nc">&nbsp;        alreadyShowedPublisher = true;</b>
+<b class="nc">&nbsp;        alreadyShowedLobby = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method show a message about a no connection error
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void show_noConnectionError() {
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.setActiveScene(SceneEnum.GENERIC_ERROR));</b>
+<b class="nc">&nbsp;        callPlatformRunLater(() -&gt; this.guiApplication.showErrorGeneric(&quot;Connection to server lost!&quot;, true));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

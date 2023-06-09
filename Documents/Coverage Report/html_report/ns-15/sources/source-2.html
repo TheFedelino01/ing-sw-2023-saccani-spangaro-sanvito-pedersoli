@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EventList</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.flow.utilities.events</a>
+</div>
+
+<h1>Coverage Summary for Class: EventList (polimi.ingsw.view.flow.utilities.events)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EventList</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.flow.utilities.events;
+&nbsp;
+&nbsp;import polimi.ingsw.model.enumeration.GameStatus;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;
+&nbsp;import java.util.ArrayDeque;
+&nbsp;import java.util.Queue;
+&nbsp;
+&nbsp;public class EventList {
+&nbsp;    private Queue&lt;EventElement&gt; lists;
+<b class="nc">&nbsp;    private boolean joined = false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Init
+&nbsp;     */
+<b class="nc">&nbsp;    public EventList() {</b>
+<b class="nc">&nbsp;        lists = new ArrayDeque&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a new event to the list
+&nbsp;     * @param model
+&nbsp;     * @param type
+&nbsp;     */
+&nbsp;    public synchronized void add(GameModelImmutable model, EventType type) {
+<b class="nc">&nbsp;        lists.add(new EventElement(model, type));</b>
+&nbsp;
+<b class="nc">&nbsp;        if (type.equals(EventType.PLAYER_JOINED) || (model != null &amp;&amp; (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) ))</b>
+<b class="nc">&nbsp;            joined = true;</b>
+&nbsp;
+<b class="nc">&nbsp;        if(type.equals(EventType.APP_MENU))</b>
+<b class="nc">&nbsp;            joined=false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return an element from the queue(FIFO)
+&nbsp;     */
+&nbsp;    public synchronized EventElement pop() {
+<b class="nc">&nbsp;        return lists.poll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return the list&#39;s size
+&nbsp;     */
+&nbsp;    public synchronized int size() {
+<b class="nc">&nbsp;        return lists.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return true if the player has joined the game, false if not
+&nbsp;     */
+&nbsp;    public synchronized boolean isJoined() {
+<b class="nc">&nbsp;        return joined;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

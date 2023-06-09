@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Flow</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.flow</a>
+</div>
+
+<h1>Coverage Summary for Class: Flow (polimi.ingsw.view.flow)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Flow</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.flow;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.interfaces.PlayerIC;
+&nbsp;import polimi.ingsw.view.flow.utilities.FileDisconnection;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;public abstract class Flow implements GameListener {</b>
+&nbsp;    /**
+&nbsp;     * Resets the game id
+&nbsp;     * @param fileDisconnection file to reset
+&nbsp;     * @param model
+&nbsp;     */
+&nbsp;    protected void resetGameId(FileDisconnection fileDisconnection, GameModelImmutable model) {
+<b class="nc">&nbsp;        for (PlayerIC p : model.getPlayers()) {</b>
+<b class="nc">&nbsp;            fileDisconnection.setLastGameId(p.getNickname(), -1);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Saves latest game id
+&nbsp;     * @param fileDisconnection file to write
+&nbsp;     * @param nick
+&nbsp;     * @param gameId
+&nbsp;     */
+&nbsp;    protected void saveGameId(FileDisconnection fileDisconnection, String nick, int gameId) {
+<b class="nc">&nbsp;            fileDisconnection.setLastGameId(nick, gameId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows no connection error
+&nbsp;     */
+&nbsp;    public abstract void noConnectionError();
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

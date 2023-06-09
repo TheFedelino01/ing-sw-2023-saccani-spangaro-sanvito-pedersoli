@@ -1,0 +1,417 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Shelf</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Shelf (polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Shelf</td>
+<td class="coverageStat">
+  <span class="percent">
+    89,5%
+  </span>
+  <span class="absValue">
+    (17/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,6%
+  </span>
+  <span class="absValue">
+    (84/87)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Shelf$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (18/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,6%
+  </span>
+  <span class="absValue">
+    (85/88)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model;
+&nbsp;
+&nbsp;import org.fusesource.jansi.Ansi;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.interfaces.ShelfIC;
+&nbsp;import polimi.ingsw.model.interfaces.TileIC;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;import static org.fusesource.jansi.Ansi.ansi;
+&nbsp;
+&nbsp;/**
+&nbsp; * Shelf class.
+&nbsp; * This class represents the shelf of the player, It contains the tiles that the player has collected.
+&nbsp; * We use a matrix of tiles to represent the shelf.
+&nbsp; * The shelf is initialized with 6 rows and 5 columns. And an integer that represents the free space.
+&nbsp; * The free space attribute is really important because it is used to check if the shelf is full or not.
+&nbsp; * When the shelf is full, the player can&#39;t collect any more tiles, so the game ends.
+&nbsp; */
+&nbsp;public class Shelf implements Serializable, ShelfIC {
+&nbsp;    /**
+&nbsp;     * The shelf is represented by a matrix of tiles.
+&nbsp;     */
+&nbsp;    private Tile[][] shelf;
+&nbsp;    /**
+&nbsp;     * The free space is an integer that represents the free space of the shelf.
+&nbsp;     */
+&nbsp;    private Integer freeSpace; //6*5
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     */
+<b class="fc">&nbsp;    public Shelf() {</b>
+<b class="fc">&nbsp;        shelf = new Tile[DefaultValue.NumOfRowsShelf][DefaultValue.NumOfColumnsShelf];</b>
+<b class="fc">&nbsp;        for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="fc">&nbsp;            for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+&nbsp;                //shelf[r][c] = new Tile();
+&nbsp;                //if((r==0&amp;&amp; c==0) || (r==1 &amp;&amp; c==0)){
+<b class="fc">&nbsp;                    shelf[r][c] = new Tile();</b>
+&nbsp;               // }else{
+&nbsp;                //    shelf[r][c] = new Tile(TileType.ACTIVITY);
+&nbsp;               // }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        freeSpace = DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf;</b>
+&nbsp;        //freeSpace=2;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param shelf
+&nbsp;     * @param freeSpace
+&nbsp;     */
+<b class="fc">&nbsp;    public Shelf(Tile[][] shelf, Integer freeSpace) {</b>
+<b class="fc">&nbsp;        this.shelf = shelf;</b>
+<b class="fc">&nbsp;        this.freeSpace = freeSpace;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the shelf
+&nbsp;     */
+&nbsp;    public Tile[][] getShelf() {
+<b class="fc">&nbsp;        return shelf;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param shelf initialise a new shelf to this param
+&nbsp;     */
+&nbsp;    public void setShelf(Tile[][] shelf) {
+<b class="fc">&nbsp;        this.shelf = shelf;</b>
+&nbsp;        //Set every tile to not used
+<b class="fc">&nbsp;        for (int i = 0; i &lt; DefaultValue.NumOfRowsShelf; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; DefaultValue.NumOfColumnsShelf; j++) {</b>
+<b class="fc">&nbsp;                this.shelf[i][j] = new Tile(TileType.NOT_USED);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param t tile to set
+&nbsp;     * @param r row in which to set the tile
+&nbsp;     * @param c col in which to set the tile
+&nbsp;     */
+&nbsp;    public void setSingleTile(Tile t, int r, int c) {
+<b class="fc">&nbsp;        this.shelf[r][c] = t;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return shelf&#39;s free space
+&nbsp;     */
+&nbsp;    public Integer getFreeSpace() {
+<b class="fc">&nbsp;        return freeSpace;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return shelf&#39;s occupied space
+&nbsp;     */
+&nbsp;    public Integer getOccupiedSpace() {
+<b class="fc">&nbsp;        return (DefaultValue.NumOfRowsShelf * DefaultValue.NumOfColumnsShelf) - freeSpace;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param r row
+&nbsp;     * @param c col
+&nbsp;     * @return tile in said position
+&nbsp;     */
+&nbsp;    public Tile getSingleTile(int r, int c) {
+<b class="fc">&nbsp;        return shelf[r][c];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * places a tile in said column
+&nbsp;     *
+&nbsp;     * @param column in which to place the tile
+&nbsp;     * @param type   of tile to place
+&nbsp;     */
+&nbsp;    public void position(int column, TileType type) {
+&nbsp;        //push the tile in the column making it slide down until it finds a tile, or it reaches the bottom
+<b class="fc">&nbsp;        for (int i = DefaultValue.NumOfRowsShelf - 1; i &gt;= 0; i--) {</b>
+<b class="fc">&nbsp;            if (shelf[i][column].isSameType(TileType.NOT_USED)) {</b>
+<b class="fc">&nbsp;                shelf[i][column].setType(type);</b>
+<b class="fc">&nbsp;                freeSpace--;</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the shelf in string form
+&nbsp;     */
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        int i = DefaultValue.row_shelves;</b>
+<b class="fc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="fc">&nbsp;            ris.append(ansi().cursor(i, DefaultValue.col_shelves).toString());</b>
+<b class="fc">&nbsp;            ris.append(createRow(r));</b>
+<b class="fc">&nbsp;            i++;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return ris.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param col
+&nbsp;     * @return The specified shelf column in string form
+&nbsp;     */
+&nbsp;    public String toString(int col) {
+<b class="fc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="fc">&nbsp;        int i = DefaultValue.row_shelves;</b>
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="fc">&nbsp;            ris.append(ansi().cursor(i, col).toString());</b>
+<b class="fc">&nbsp;            i++;</b>
+<b class="fc">&nbsp;            ris.append(createRow(r));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return ris.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the goal card in string form
+&nbsp;     */
+&nbsp;    public String toStringGoalCard() {
+<b class="fc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="fc">&nbsp;        ris.append(ansi().cursor(DefaultValue.row_goalCards, DefaultValue.col_goalCards - 1).bold().a(&quot;Personal goal:&quot;).boldOff().toString());</b>
+<b class="fc">&nbsp;        int row = 1;</b>
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="fc">&nbsp;            ris.append(ansi().cursor(DefaultValue.row_goalCards + row, DefaultValue.col_goalCards).toString());</b>
+<b class="fc">&nbsp;            row++;</b>
+<b class="fc">&nbsp;            ris.append(createRow(r));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return ris.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Part of the toString method
+&nbsp;     *
+&nbsp;     * @param r
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    private String createRow(int r) {
+<b class="fc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="fc">&nbsp;        ris.append(&quot;[&quot;);</b>
+<b class="fc">&nbsp;        for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="fc">&nbsp;            switch (shelf[r][c].getType()) {</b>
+&nbsp;                case CAT -&gt;
+<b class="fc">&nbsp;                        ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(shelf[r][c].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());</b>
+&nbsp;                case PLANT -&gt;
+<b class="fc">&nbsp;                        ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(shelf[r][c].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());</b>
+&nbsp;                case ACTIVITY -&gt;
+<b class="fc">&nbsp;                        ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(shelf[r][c].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());</b>
+&nbsp;                case FRAME -&gt;
+<b class="fc">&nbsp;                        ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(shelf[r][c].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());</b>
+&nbsp;                case BOOK -&gt;
+<b class="fc">&nbsp;                        ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(&quot; &quot;).a(shelf[r][c].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());</b>
+&nbsp;                case TROPHY -&gt;
+<b class="fc">&nbsp;                        ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(shelf[r][c].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());</b>
+&nbsp;                default -&gt;
+<b class="nc">&nbsp;                        ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(&quot; &quot;).a(&quot;N&quot;).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString());</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (c != DefaultValue.NumOfColumnsShelf - 1)</b>
+<b class="fc">&nbsp;                ris.append(&quot;,&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ris.append(&quot;]&quot;);</b>
+<b class="fc">&nbsp;        return ris.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if a shelf is empty, false if not
+&nbsp;     */
+&nbsp;    public boolean isEmpty() {
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="fc">&nbsp;                if (!shelf[r][c].isSameType(TileType.NOT_USED))</b>
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFreeSpace(int freeSpace) {
+<b class="fc">&nbsp;        this.freeSpace = freeSpace;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the free space in a column
+&nbsp;     */
+&nbsp;    public int getMaxFreeSpacesInACol() {
+<b class="fc">&nbsp;        int max = 0;</b>
+<b class="fc">&nbsp;        int tmp = 0;</b>
+<b class="fc">&nbsp;        for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="fc">&nbsp;            if (tmp &gt; max) {</b>
+<b class="fc">&nbsp;                max = tmp;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            tmp = 0;</b>
+<b class="fc">&nbsp;            for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="fc">&nbsp;                if (!getSingleTile(r, c).getType().equals(TileType.NOT_USED)) {</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    tmp++;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if (tmp &gt; max) {</b>
+<b class="fc">&nbsp;            max = tmp;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return max;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param col the column to check free space
+&nbsp;     * @return the number of free spaces in the specified column
+&nbsp;     */
+&nbsp;    public int getNumofFreeSpacesInCol(int col) {
+<b class="fc">&nbsp;        int tmp = 0;</b>
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="fc">&nbsp;            if (!getSingleTile(r, col).getType().equals(TileType.NOT_USED)) {</b>
+<b class="fc">&nbsp;                return tmp;</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                tmp++;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return tmp;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Different return, made for making the shelf immutable client side
+&nbsp;     *
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public TileIC[][] getShelf_IC() {
+<b class="nc">&nbsp;        return shelf;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Different return, made for making the tile immutable client side
+&nbsp;     *
+&nbsp;     * @param r
+&nbsp;     * @param c
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public TileIC get_IC(int r, int c) {
+<b class="nc">&nbsp;        return shelf[r][c];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

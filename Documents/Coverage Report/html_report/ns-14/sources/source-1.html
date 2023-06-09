@@ -1,0 +1,156 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BufferData</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.flow.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: BufferData (polimi.ingsw.view.flow.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BufferData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.flow.utilities;
+&nbsp;
+&nbsp;import java.util.ArrayDeque;
+&nbsp;import java.util.Queue;
+&nbsp;
+&nbsp;public class BufferData {
+&nbsp;    private Queue&lt;String&gt; data;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * init
+&nbsp;     */
+<b class="nc">&nbsp;    public BufferData(){</b>
+<b class="nc">&nbsp;        data = new ArrayDeque&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds one element to the queue
+&nbsp;     * @param txt element to add
+&nbsp;     */
+&nbsp;    public void addData(String txt){
+<b class="nc">&nbsp;        synchronized (this) {</b>
+<b class="nc">&nbsp;            data.add(txt);</b>
+<b class="nc">&nbsp;            this.notifyAll();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Pops one element from the queue
+&nbsp;     * @return the popped element
+&nbsp;     * @throws InterruptedException
+&nbsp;     */
+&nbsp;    public String popData() throws InterruptedException {
+<b class="nc">&nbsp;        synchronized (this){</b>
+<b class="nc">&nbsp;            while(data.isEmpty()){this.wait();}</b>
+<b class="nc">&nbsp;            return data.poll();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  Empties the queue
+&nbsp;     */
+&nbsp;    public void popAllData(){
+<b class="nc">&nbsp;        synchronized (this) {</b>
+<b class="nc">&nbsp;            while (!data.isEmpty()) {</b>
+<b class="nc">&nbsp;                data.poll();</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

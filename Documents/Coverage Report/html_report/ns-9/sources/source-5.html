@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TileType</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.enumeration</a>
+</div>
+
+<h1>Coverage Summary for Class: TileType (polimi.ingsw.model.enumeration)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TileType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (6/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (18/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.enumeration;
+&nbsp;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;/**
+&nbsp; * This enum represents the tile types
+&nbsp; */
+<b class="fc">&nbsp;public enum TileType {</b>
+<b class="fc">&nbsp;    CAT(&quot;tileCat&quot;),</b>
+<b class="fc">&nbsp;    BOOK(&quot;tileBook&quot;),</b>
+<b class="fc">&nbsp;    ACTIVITY(&quot;tileActivity&quot;),</b>
+<b class="fc">&nbsp;    FRAME(&quot;tileFrame&quot;),</b>
+<b class="fc">&nbsp;    TROPHY(&quot;tileTrophy&quot;),</b>
+<b class="fc">&nbsp;    PLANT(&quot;tilePlant&quot;),</b>
+<b class="fc">&nbsp;    NOT_USED(&quot;tileNotused&quot;),</b>
+<b class="fc">&nbsp;    FINISHED_USING(&quot;tileFinishedusing&quot;),</b>
+<b class="fc">&nbsp;    USED(&quot;tileUsed&quot;);</b>
+&nbsp;
+&nbsp;    //for testing purposes
+<b class="fc">&nbsp;    private static final List&lt;TileType&gt; values = List.of(values());</b>
+<b class="fc">&nbsp;    private static final Random rand = new Random();</b>
+&nbsp;
+&nbsp;    private final String backgroundClass;
+&nbsp;
+<b class="fc">&nbsp;    TileType(String backgroundClass) {</b>
+<b class="fc">&nbsp;        this.backgroundClass = backgroundClass;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getBackgroundClass() {
+<b class="nc">&nbsp;        return backgroundClass;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static TileType randomTile() {
+<b class="fc">&nbsp;        return values.get(rand.nextInt(DefaultValue.NumOfTileTypes));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //done like this so that the CAT tile is never chosen
+&nbsp;    //also, so that the NOT_USED and FINISHED_USING are never chosen
+&nbsp;    public static TileType randomTileCAT() {
+<b class="nc">&nbsp;        return values.get(rand.nextInt(DefaultValue.NumOfTileTypes - 1) + 1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static TileType randomTileCATeBOOK() {
+<b class="nc">&nbsp;        return values.get(rand.nextInt(DefaultValue.NumOfTileTypes - 2) + 2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static List&lt;TileType&gt; getValues() {
+<b class="fc">&nbsp;        return values;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method returns the TileType corresponding to the string passed as parameter
+&nbsp;     * @return the TileType corresponding to the string passed as parameter
+&nbsp;     */
+&nbsp;    public static List&lt;TileType&gt; getUsableValues() {
+<b class="fc">&nbsp;        return values.stream()</b>
+<b class="fc">&nbsp;                .filter(x -&gt; (!(x.equals(TileType.USED) || x.equals(TileType.NOT_USED) || x.equals(TileType.FINISHED_USING)))).toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,221 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > InputParser</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.flow.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: InputParser (polimi.ingsw.view.flow.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InputParser</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.flow.utilities;
+&nbsp;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.chat.MessagePrivate;
+&nbsp;import polimi.ingsw.model.interfaces.PlayerIC;
+&nbsp;import polimi.ingsw.view.flow.GameFlow;
+&nbsp;
+&nbsp;/**
+&nbsp; * InputParser class
+&nbsp; * This class parses the input from the queue
+&nbsp; */
+<b class="nc">&nbsp;public class InputParser extends Thread {</b>
+&nbsp;    /**
+&nbsp;     * The buffer from which I pop the data
+&nbsp;     */
+&nbsp;    private final BufferData bufferInput;
+&nbsp;    /**
+&nbsp;     * The data to process
+&nbsp;     */
+&nbsp;    private final BufferData dataToProcess;
+&nbsp;    /**
+&nbsp;     * The game flow
+&nbsp;     */
+&nbsp;    private final GameFlow gameFlow;
+&nbsp;    /**
+&nbsp;     * The player
+&nbsp;     */
+&nbsp;    private PlayerIC p;
+&nbsp;    /**
+&nbsp;     * The game id
+&nbsp;     */
+&nbsp;    private Integer gameId;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Init class
+&nbsp;     *
+&nbsp;     * @param bufferInput
+&nbsp;     * @param gameFlow
+&nbsp;     */
+<b class="nc">&nbsp;    public InputParser(BufferData bufferInput, GameFlow gameFlow) {</b>
+<b class="nc">&nbsp;        this.bufferInput = bufferInput;</b>
+<b class="nc">&nbsp;        dataToProcess = new BufferData();</b>
+<b class="nc">&nbsp;        this.gameFlow = gameFlow;</b>
+<b class="nc">&nbsp;        this.p = null;</b>
+<b class="nc">&nbsp;        this.gameId = null;</b>
+<b class="nc">&nbsp;        this.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses the data contained in the buffer
+&nbsp;     */
+&nbsp;    public void run() {
+&nbsp;        String txt;
+<b class="nc">&nbsp;        while (!this.isInterrupted()) {</b>
+&nbsp;
+&nbsp;            //I keep popping data from the buffer sync
+&nbsp;            //(so I wait myself if no data is available on the buffer)
+&nbsp;            try {
+<b class="nc">&nbsp;                txt = bufferInput.popData();</b>
+<b class="nc">&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            //I popped an input from the buffer
+<b class="nc">&nbsp;            if (p != null &amp;&amp; txt.startsWith(&quot;/cs&quot;)) {</b>
+<b class="nc">&nbsp;                txt = txt.charAt(3) == &#39; &#39; ? txt.substring(4) : txt.substring(3);</b>
+<b class="nc">&nbsp;                if(txt.contains(&quot; &quot;)){</b>
+<b class="nc">&nbsp;                    String receiver = txt.substring(0, txt.indexOf(&quot; &quot;));</b>
+<b class="nc">&nbsp;                    String msg = txt.substring(receiver.length() + 1);</b>
+<b class="nc">&nbsp;                    gameFlow.sendMessage(new MessagePrivate(msg, p, receiver));</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            } else if (p != null &amp;&amp; txt.startsWith(&quot;/c&quot;)) {</b>
+&nbsp;                //I send a message
+<b class="nc">&nbsp;                txt = txt.charAt(2) == &#39; &#39; ? txt.substring(3) : txt.substring(2);</b>
+<b class="nc">&nbsp;                gameFlow.sendMessage(new Message(txt, p));</b>
+&nbsp;
+<b class="nc">&nbsp;            } else if (txt.startsWith(&quot;/quit&quot;) || (txt.startsWith(&quot;/leave&quot;))) {</b>
+<b class="nc">&nbsp;                assert p != null;</b>
+<b class="nc">&nbsp;                System.exit(1);</b>
+&nbsp;                //gameFlow.leave(p.getNickname(), gameId);
+&nbsp;               // gameFlow.youLeft();
+&nbsp;
+&nbsp;            } else {
+&nbsp;                //I didn&#39;t pop a message
+&nbsp;
+&nbsp;                //I add the data to the buffer processed via GameFlow
+<b class="nc">&nbsp;                dataToProcess.addData(txt);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the game id to the param passed
+&nbsp;     *
+&nbsp;     * @param gameId game id to set
+&nbsp;     */
+&nbsp;    public void setIdGame(Integer gameId) {
+<b class="nc">&nbsp;        this.gameId = gameId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the player
+&nbsp;     *
+&nbsp;     * @param p player to set
+&nbsp;     */
+&nbsp;    public void setPlayer(PlayerIC p) {
+<b class="nc">&nbsp;        this.p = p;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return data to process
+&nbsp;     */
+&nbsp;    public BufferData getDataToProcess() {
+<b class="nc">&nbsp;        return dataToProcess;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

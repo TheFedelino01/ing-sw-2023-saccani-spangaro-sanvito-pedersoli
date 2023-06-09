@@ -1,0 +1,122 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonCardIC</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.interfaces</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonCardIC (polimi.ingsw.model.interfaces)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CommonCardIC</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.interfaces;
+&nbsp;
+&nbsp;import polimi.ingsw.model.Shelf;
+&nbsp;import polimi.ingsw.model.cards.Card;
+&nbsp;import polimi.ingsw.model.cards.common.CommonCard;
+&nbsp;import polimi.ingsw.model.enumeration.CardCommonType;
+&nbsp;
+&nbsp;import java.util.Queue;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface is implemented by CardCommon
+&nbsp; */
+&nbsp;public interface CommonCardIC {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to verify if the player&#39;s shelf matches the layoutToMatch
+&nbsp;     * @param toCheck player&#39;s shelf
+&nbsp;     * @return true if the player&#39;s shelf matches the layoutToMatch
+&nbsp;     */
+&nbsp;    boolean verify(Shelf toCheck);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * To string implementation
+&nbsp;     * @param i spacer
+&nbsp;     * @param lastCycle checks whether to show the final point tile or not
+&nbsp;     * @return string representation of the card
+&nbsp;     */
+&nbsp;    String toString(int i, boolean lastCycle);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the points of the CardCommon
+&nbsp;     * @return the points of the CardCommon
+&nbsp;     */
+&nbsp;    Queue&lt;PointIC&gt; getPoints_IC();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the type of the CardCommon
+&nbsp;     * @return the type of the CardCommon
+&nbsp;     */
+&nbsp;    CardCommonType getCommonType();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method check if the type of the card is the same
+&nbsp;     * @param c card to check
+&nbsp;     * @return true if the type is the same
+&nbsp;     */
+&nbsp;    boolean isSameType(Card c);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method check if the card is the same
+&nbsp;     * @param c card to check
+&nbsp;     * @return true if the card is the same
+&nbsp;     */
+&nbsp;    boolean equals(CommonCard c);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

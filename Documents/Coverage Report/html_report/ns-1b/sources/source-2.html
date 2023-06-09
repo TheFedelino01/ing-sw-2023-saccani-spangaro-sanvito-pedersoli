@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameControllerInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.rmi.remoteInterfaces</a>
+</div>
+
+<h1>Coverage Summary for Class: GameControllerInterface (polimi.ingsw.networking.rmi.remoteInterfaces)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">GameControllerInterface</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.rmi.remoteInterfaces;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.model.enumeration.Direction;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.exceptions.GameEndedException;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;
+&nbsp;import java.rmi.Remote;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface contains all the action a player can do in a single game */
+&nbsp;public interface GameControllerInterface extends Remote {
+&nbsp;    /**
+&nbsp;     * This method is used to check if the player is ready to start
+&nbsp;     * @param p the nickname of the player
+&nbsp;     * @return true if the player is ready to start
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    boolean playerIsReadyToStart(String p) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method grabs a tile from the playground
+&nbsp;     * @param p the nickname of the player
+&nbsp;     * @param x the x coordinate of the tile
+&nbsp;     * @param y the y coordinate of the tile
+&nbsp;     * @param direction the direction of the tile {@link Direction}
+&nbsp;     * @param num the number of the tile
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    void grabTileFromPlayground(String p, int x, int y, Direction direction, int num) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method position a grabbed tile on the shelf
+&nbsp;     * @param p the nickname of the player
+&nbsp;     * @param column the column of the shelf
+&nbsp;     * @param type the type of the tile {@link TileType}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     * @throws GameEndedException if the game is ended
+&nbsp;     */
+&nbsp;    void positionTileOnShelf(String p, int column, TileType type) throws RemoteException, GameEndedException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method checks if it&#39;s the turn of the player
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @return true if it&#39;s the turn of the player
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    boolean isThisMyTurn(String nick) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method disconnect a player and remove him from the GameListener list{@link GameListener}
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @param lisOfClient the GameListener of the player {@link GameListener}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to check if the client is connected, every x seconds the server send a ping to the client
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @param me the GameListener of the player {@link GameListener}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    void heartbeat(String nick, GameListener me) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method sends a message
+&nbsp;     * @param msg the message to send {@link Message}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    void sentMessage(Message msg) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the id of the game
+&nbsp;     * @return the id of the game
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    int getGameId() throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the number of the online players
+&nbsp;     * @return the number of the online players
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    int getNumOnlinePlayers() throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method remove a player from the GameListener list {@link GameListener} and from the game
+&nbsp;     * @param lis the GameListener of the player {@link GameListener}
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    void leave(GameListener lis, String nick) throws RemoteException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,253 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameListenersHandlerClient</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.socket.client</a>
+</div>
+
+<h1>Coverage Summary for Class: GameListenersHandlerClient (polimi.ingsw.networking.socket.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameListenersHandlerClient</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.socket.client;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;import polimi.ingsw.view.flow.Flow;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;public class GameListenersHandlerClient implements GameListener, Serializable {
+&nbsp;
+&nbsp;
+&nbsp;    private Flow flow;
+&nbsp;
+<b class="nc">&nbsp;    public GameListenersHandlerClient(Flow gui) {</b>
+<b class="nc">&nbsp;        this.flow = gui;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        // System.out.println(this.hashCode()+&quot;&gt; &quot;+nickNewPlayer+&quot; has just joined! [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.playerJoined(gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void playerLeft(GameModelImmutable gamemodel,String nick) throws RemoteException {
+<b class="nc">&nbsp;        flow.playerLeft(gamemodel,nick);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; &quot; + wantedToJoin+&quot; tried to entry but the game is full! [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.joinUnableGameFull(wantedToJoin, gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
+<b class="nc">&nbsp;        flow.playerReconnected(gamemodel, nickPlayerReconnected);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+&nbsp;        // System.out.println(this.hashCode() + &quot;&gt; &quot; + wantedToJoin.getNickname() + &quot; has already in [by Socket]&quot;);
+<b class="nc">&nbsp;        System.out.println(&quot;Error&quot;);</b>
+<b class="nc">&nbsp;        flow.joinUnableNicknameAlreadyIn(wantedToJoin);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void gameIdNotExists(int gameid) throws RemoteException {
+<b class="nc">&nbsp;        flow.gameIdNotExists(gameid);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
+<b class="nc">&nbsp;        flow.genericErrorWhenEnteringGame(why);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; &quot; + nick + &quot; ready to start! [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.playerIsReadyToStart(gamemodel, nick);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; &quot; + card.getCommonType() + &quot; card common extracted! [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.commonCardsExtracted(gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void gameStarted(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; Game Started with id: &quot;+gamemodel.getGameId()+ &quot;, First turn is played by: &quot;+gamemodel.getNicknameCurrentPlaying()+&quot; [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.gameStarted(gamemodel);</b>
+&nbsp;        //setModel(gamemodel);
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void gameEnded(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        /*System.out.println(this.hashCode() + &quot;&gt; &quot;+gamemodel.getGameId()+&quot; ended! \n&quot; +
+&nbsp;                &quot;The winner is: &quot;+gamemodel.getWinner().getNickname()+&quot;\n&quot; +
+&nbsp;                &quot;Score board: */
+<b class="nc">&nbsp;        flow.gameEnded(gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; new Message: \&quot;&quot;+msg.toString()+&quot;\&quot; [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.sentMessage(gameModel, msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void grabbedTile(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; Player: &quot;+gamemodel.getNicknameCurrentPlaying()+&quot; has grabbed some tiles: &quot;+gamemodel.getHandOfCurrentPlaying().toString()+&quot; [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.grabbedTile(gamemodel);</b>
+&nbsp;        //setModel(gamemodel);
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        // System.out.println(this.hashCode() + &quot;&gt; a set of non grabbable tiles have been required [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.grabbedTileNotCorrect(gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; Player: &quot;+gamemodel.getNicknameCurrentPlaying()+&quot; has positioned [&quot;+type+&quot;] Tile in column &quot;+column+&quot; on his shelf! [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.positionedTile(gamemodel, type, column);</b>
+&nbsp;        //setModel(gamemodel);
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; Next turn! It&#39;s up to: &quot;+gamemodel.getNicknameCurrentPlaying()+&quot; [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.nextTurn(gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(this.hashCode() + &quot;&gt; Player &quot;+p.getNickname()+&quot; obtained &quot;+point.getPoint()+&quot; points by achieving &quot;+point.getReferredTo()+&quot; [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.addedPoint(p, point,gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException {
+&nbsp;        // System.out.println(this.hashCode() + &quot;&gt; Player &quot;+nick+&quot; just disconnected [by Socket]&quot;);
+<b class="nc">&nbsp;        flow.playerDisconnected(gameModel,nick);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+<b class="nc">&nbsp;        flow.columnShelfTooSmall(gameModel,column);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+<b class="nc">&nbsp;        flow.onlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
+<b class="nc">&nbsp;        flow.lastCircle(gamemodel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CardGoalIC</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.interfaces</a>
+</div>
+
+<h1>Coverage Summary for Class: CardGoalIC (polimi.ingsw.model.interfaces)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CardGoalIC</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.interfaces;
+&nbsp;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;import polimi.ingsw.model.Shelf;
+&nbsp;import polimi.ingsw.model.cards.Card;
+&nbsp;import polimi.ingsw.model.enumeration.CardGoalType;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface is implemented by CardGoal
+&nbsp; */
+&nbsp;public interface CardGoalIC {
+&nbsp;    /**
+&nbsp;     * This method is used to check if the player&#39;s shelf matches the layoutToMatch
+&nbsp;     * @param toCheck player&#39;s shelf
+&nbsp;     * @return the points gained
+&nbsp;     */
+&nbsp;    PointIC verify(Shelf toCheck);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the layout that the CardGoal need to match
+&nbsp;     */
+&nbsp;    ShelfIC getLayoutToMatch_IC();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the legend of the CardGoal
+&nbsp;     * @return a map that contains the points gained for each number of match
+&nbsp;     */
+&nbsp;    Map&lt;Integer, Point&gt; getLegendPoint();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the type of the CardGoal
+&nbsp;     * @return the type of the CardGoal
+&nbsp;     */
+&nbsp;    CardGoalType getGoalType();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to set the type of the CardGoal
+&nbsp;     * @param c type of the CardGoal
+&nbsp;     * @return true if the type is the same
+&nbsp;     */
+&nbsp;    boolean isSameType(Card c);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the string representation of the CardGoal
+&nbsp;     * @param col number of the column
+&nbsp;     * @return the string representation of the CardGoal
+&nbsp;     */
+&nbsp;    String toString(int col);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

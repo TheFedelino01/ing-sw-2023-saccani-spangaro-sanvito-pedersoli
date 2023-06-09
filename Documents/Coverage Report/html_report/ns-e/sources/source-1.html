@@ -1,0 +1,424 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientSocket</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.socket.client</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientSocket (polimi.ingsw.networking.socket.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientSocket</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/96)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.socket.client;
+&nbsp;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.enumeration.Direction;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.networking.HeartbeatSender;
+&nbsp;import polimi.ingsw.networking.socket.client.gameControllerMessages.*;
+&nbsp;import polimi.ingsw.networking.socket.client.mainControllerMessages.*;
+&nbsp;import polimi.ingsw.networking.socket.client.serverToClientMessages.SocketServerGenericMessage;
+&nbsp;import polimi.ingsw.view.flow.CommonClientActions;
+&nbsp;import polimi.ingsw.view.flow.Flow;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.net.Socket;
+&nbsp;
+&nbsp;/**
+&nbsp; * ClientSocket Class&lt;br&gt;
+&nbsp; * Handle all the network communications between ClientSocket and ClientHandler&lt;br&gt;
+&nbsp; * From the first connection, to the creation, joining, leaving, grabbing and positioning messages through the network&lt;br&gt;
+&nbsp; * by the Socket Network Protocol
+&nbsp; */
+&nbsp;public class ClientSocket extends Thread implements CommonClientActions {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Socket that represents the Client
+&nbsp;     */
+&nbsp;    private Socket clientSoc;
+&nbsp;    /**
+&nbsp;     * ObjectOutputStream out
+&nbsp;     */
+&nbsp;    private ObjectOutputStream out;
+&nbsp;    /**
+&nbsp;     * ObjectInputStream in
+&nbsp;     */
+&nbsp;    private ObjectInputStream in;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * GameListener on which to perform all actions requested by the Socket Server
+&nbsp;     */
+&nbsp;    private final GameListenersHandlerClient modelInvokedEvents;
+&nbsp;    /**
+&nbsp;     * The nickname associated with the ClientSocket communication
+&nbsp;     */
+&nbsp;    private String nickname;
+&nbsp;
+&nbsp;    private final HeartbeatSender socketHeartbeat;
+&nbsp;    private Flow flow;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a Client Socket
+&nbsp;     *
+&nbsp;     * @param flow to notify network errors
+&nbsp;     */
+<b class="nc">&nbsp;    public ClientSocket(Flow flow) {</b>
+<b class="nc">&nbsp;        this.flow=flow;</b>
+<b class="nc">&nbsp;        startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);</b>
+<b class="nc">&nbsp;        modelInvokedEvents = new GameListenersHandlerClient(flow);</b>
+<b class="nc">&nbsp;        this.start();</b>
+<b class="nc">&nbsp;        socketHeartbeat = new HeartbeatSender(flow,this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reads all the incoming network traffic and execute the requested action
+&nbsp;     */
+&nbsp;    public void run() {
+&nbsp;        while (true) {
+&nbsp;            try {
+&nbsp;                //System.out.println(&quot;Client &quot;+nickname+&quot; received: &quot;+in.readObject().toString());
+<b class="nc">&nbsp;                SocketServerGenericMessage msg = (SocketServerGenericMessage) in.readObject();</b>
+<b class="nc">&nbsp;                msg.execute(modelInvokedEvents);</b>
+&nbsp;
+<b class="nc">&nbsp;            } catch (IOException | ClassNotFoundException | InterruptedException e) {</b>
+<b class="nc">&nbsp;                System.err.println(&quot;[ERROR] Connection to server lost! &quot; + e);</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    System.in.read();</b>
+<b class="nc">&nbsp;                } catch (IOException ex) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                System.exit(-1);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Start the Connection to the Socket Server
+&nbsp;     *
+&nbsp;     * @param ip of the Socket server to connect
+&nbsp;     * @param port of the Socket server to connect
+&nbsp;     */
+&nbsp;    private void startConnection(String ip, int port) {
+<b class="nc">&nbsp;        boolean retry = false;</b>
+<b class="nc">&nbsp;        int attempt = 1;</b>
+&nbsp;        int i;
+&nbsp;
+&nbsp;        do {
+&nbsp;            try {
+<b class="nc">&nbsp;                clientSoc = new Socket(ip, port);</b>
+<b class="nc">&nbsp;                out = new ObjectOutputStream(clientSoc.getOutputStream());</b>
+<b class="nc">&nbsp;                in = new ObjectInputStream(clientSoc.getInputStream());</b>
+<b class="nc">&nbsp;                retry = false;</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                if (!retry) {</b>
+<b class="nc">&nbsp;                    System.err.println(&quot;[ERROR] CONNECTING TO SOCKET SERVER: \n\tClient RMI exception: &quot; + e + &quot;\n&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                System.out.print(&quot;[#&quot; + attempt + &quot;]Waiting to reconnect to Socket Server on port: &#39;&quot; + port + &quot;&#39; with ip: &#39;&quot; + ip + &quot;&#39;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;                i = 0;</b>
+<b class="nc">&nbsp;                while (i &lt; DefaultValue.seconds_between_reconnection) {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        Thread.sleep(1000);</b>
+<b class="nc">&nbsp;                    } catch (InterruptedException ex) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;.&quot;);</b>
+<b class="nc">&nbsp;                    i++;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                System.out.print(&quot;\n&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;                if (attempt &gt;= DefaultValue.num_of_attempt_to_connect_toServer_before_giveup) {</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;Give up!&quot;);</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        System.in.read();</b>
+<b class="nc">&nbsp;                    } catch (IOException ex) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                    System.exit(-1);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                retry = true;</b>
+<b class="nc">&nbsp;                attempt++;</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } while (retry);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Close the connection
+&nbsp;     *
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    public void stopConnection() throws IOException {
+<b class="nc">&nbsp;        in.close();</b>
+<b class="nc">&nbsp;        out.close();</b>
+<b class="nc">&nbsp;        clientSoc.close();</b>
+<b class="nc">&nbsp;        if(socketHeartbeat.isAlive()) {</b>
+<b class="nc">&nbsp;            socketHeartbeat.interrupt();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the Socket Server to create a new game
+&nbsp;     *
+&nbsp;     * @param nick of the player
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void createGame(String nick) throws IOException {
+<b class="nc">&nbsp;        nickname = nick;</b>
+<b class="nc">&nbsp;        out.writeObject(new SocketClientMessageCreateGame(nick));</b>
+<b class="nc">&nbsp;        finishSending();</b>
+<b class="nc">&nbsp;        if(!socketHeartbeat.isAlive()) {</b>
+<b class="nc">&nbsp;            socketHeartbeat.start();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the Socket Server to join to first available game
+&nbsp;     *
+&nbsp;     * @param nick of the player
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void joinFirstAvailable(String nick) throws IOException {
+<b class="nc">&nbsp;        nickname = nick;</b>
+<b class="nc">&nbsp;        out.writeObject(new SocketClientMessageJoinFirst(nick));</b>
+<b class="nc">&nbsp;        finishSending();</b>
+<b class="nc">&nbsp;        if(!socketHeartbeat.isAlive()) {</b>
+<b class="nc">&nbsp;            socketHeartbeat.start();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the Socket Server to join a specific game
+&nbsp;     *
+&nbsp;     * @param nick of the player
+&nbsp;     * @param idGame of the game to join
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void joinGame(String nick, int idGame) throws IOException {
+<b class="nc">&nbsp;        nickname = nick;</b>
+<b class="nc">&nbsp;        out.writeObject(new SocketClientMessageJoinGame(nick, idGame));</b>
+<b class="nc">&nbsp;        finishSending();</b>
+<b class="nc">&nbsp;        if(!socketHeartbeat.isAlive()) {</b>
+<b class="nc">&nbsp;            socketHeartbeat.start();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the Socket Server to reconnect to a specific game
+&nbsp;     *
+&nbsp;     * @param nick of the player
+&nbsp;     * @param idGame of the game to reconnect
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void reconnect(String nick, int idGame) throws IOException {
+<b class="nc">&nbsp;        nickname = nick;</b>
+<b class="nc">&nbsp;        out.writeObject(new SocketClientMessageReconnect(nick, idGame));</b>
+<b class="nc">&nbsp;        finishSending();</b>
+<b class="nc">&nbsp;        if(!socketHeartbeat.isAlive()) {</b>
+<b class="nc">&nbsp;            socketHeartbeat.start();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the Socket Server to leave a specific game
+&nbsp;     *
+&nbsp;     * @param nick of the player
+&nbsp;     * @param idGame of the game to leave
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void leave(String nick, int idGame) throws IOException {
+<b class="nc">&nbsp;        out.writeObject(new SocketClientMessageLeave(nick, idGame));</b>
+<b class="nc">&nbsp;        finishSending();</b>
+<b class="nc">&nbsp;        nickname=null;</b>
+<b class="nc">&nbsp;        if(socketHeartbeat.isAlive()) {</b>
+<b class="nc">&nbsp;            socketHeartbeat.interrupt();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the Socket Server to set the player as ready
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setAsReady() throws IOException {
+<b class="nc">&nbsp;        out.writeObject(new SocketClientMessageSetReady(nickname));</b>
+<b class="nc">&nbsp;        finishSending();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Deprecated
+&nbsp;    @Override
+&nbsp;    public boolean isMyTurn() {
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the Socket Server to grab tiles from playground
+&nbsp;     *
+&nbsp;     * @param x coordinate x of the playground of the first tiles to grab
+&nbsp;     * @param y coordinate y of the playground of the first tiles to grab
+&nbsp;     * @param direction direction to grab the tiles
+&nbsp;     * @param num of tiles to grab
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void grabTileFromPlayground(int x, int y, Direction direction, int num) throws IOException {
+<b class="nc">&nbsp;        out.writeObject(new SocketClientMessageGrabTileFromPlayground(nickname, x, y, direction, num));</b>
+<b class="nc">&nbsp;        finishSending();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the Socket Server to position a grabbed tile on the shelf
+&nbsp;     *
+&nbsp;     * @param column column where to place the tile
+&nbsp;     * @param type   type to place
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void positionTileOnShelf(int column, TileType type) throws IOException {
+<b class="nc">&nbsp;        out.writeObject(new SocketClientMessagePositionTileOnShelf(nickname, column, type));</b>
+<b class="nc">&nbsp;        finishSending();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Send a message to the Socket Server
+&nbsp;     *
+&nbsp;     * @param msg message to send
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendMessage(Message msg) {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new SocketClientMessageNewChatMessage(msg));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Send a heartbeat to the Socket Server
+&nbsp;     * Now it is not used because the Socket Connection automatically detects disconnections by itself
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void heartbeat() {
+<b class="nc">&nbsp;        if (out != null) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                out.writeObject(new SocketClientMessageHeartBeat(nickname));</b>
+<b class="nc">&nbsp;                finishSending();</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Connection lost to the server!! Impossible to send heartbeat...&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Makes sure the message has been sent
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    private void finishSending() throws IOException {
+<b class="nc">&nbsp;        out.flush();</b>
+<b class="nc">&nbsp;        out.reset();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

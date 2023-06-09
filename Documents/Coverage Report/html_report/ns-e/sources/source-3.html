@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SocketClientGenericMessage</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.socket.client</a>
+</div>
+
+<h1>Coverage Summary for Class: SocketClientGenericMessage (polimi.ingsw.networking.socket.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SocketClientGenericMessage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.socket.client;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.model.exceptions.GameEndedException;
+&nbsp;import polimi.ingsw.networking.rmi.remoteInterfaces.GameControllerInterface;
+&nbsp;import polimi.ingsw.networking.rmi.remoteInterfaces.MainControllerInterface;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * SocketClientGenericMessage class.
+&nbsp; * An abstract class that represents a generic message to be sent from the client to the server.
+&nbsp; */
+<b class="nc">&nbsp;public abstract class SocketClientGenericMessage implements Serializable {</b>
+&nbsp;
+&nbsp;    protected String nick;
+&nbsp;    protected boolean isMessageForMainController;
+<b class="nc">&nbsp;    protected boolean isHeartbeat=false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Executes the corresponding action for the message.
+&nbsp;     * @param lis the game listener
+&nbsp;     * @param mainController the main controller interface
+&nbsp;     * @return the game controller interface
+&nbsp;     * @throws RemoteException if there is a remote exception
+&nbsp;     */
+&nbsp;    public abstract GameControllerInterface execute(GameListener lis, MainControllerInterface mainController) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Executes the corresponding action for the message.
+&nbsp;     * @param gameController the game controller interface
+&nbsp;     * @throws RemoteException if there is a remote exception
+&nbsp;     * @throws GameEndedException if the game has ended
+&nbsp;     */
+&nbsp;    public abstract void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the message is intended for the main controller.
+&nbsp;     * @return true if the message is intended for the main controller, false otherwise
+&nbsp;     */
+&nbsp;    public boolean isMessageForMainController() {
+<b class="nc">&nbsp;        return isMessageForMainController;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets whether the message is intended for the main controller.
+&nbsp;     * @param messageForMainController true if the message is intended for the main controller, false otherwise
+&nbsp;     */
+&nbsp;    public void setMessageForMainController(boolean messageForMainController) {
+<b class="nc">&nbsp;        isMessageForMainController = messageForMainController;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the nickname associated with the message.
+&nbsp;     * @return the nickname
+&nbsp;     */
+&nbsp;    public String getNick() {
+<b class="nc">&nbsp;        return nick;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return if it&#39;s a heartbeat message
+&nbsp;     */
+&nbsp;    public boolean isHeartbeat(){
+<b class="nc">&nbsp;        return isHeartbeat;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Tile</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Tile (polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Tile</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,7%
+  </span>
+  <span class="absValue">
+    (18/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model;
+&nbsp;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.interfaces.TileIC;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;import static polimi.ingsw.model.enumeration.TileType.NOT_USED;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tile class
+&nbsp; * Tile is the class that represents the tiles of the game
+&nbsp; */
+&nbsp;public class Tile implements Serializable, TileIC {
+&nbsp;    /**
+&nbsp;     * Every tile has a type and a free side flag
+&nbsp;     */
+&nbsp;    private TileType TYPE;
+&nbsp;    /**
+&nbsp;     * The free side flag is true if the tile has at least a free side, and it&#39;s used to check if the tile can be picked
+&nbsp;     */
+&nbsp;    private boolean freeSide;
+&nbsp;    /**
+&nbsp;     * The offset is used to randomize the tile&#39;s background
+&nbsp;     */
+&nbsp;    private final int offset;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     */
+<b class="fc">&nbsp;    public Tile() {</b>
+<b class="fc">&nbsp;        TYPE = NOT_USED;</b>
+<b class="fc">&nbsp;        freeSide = false;</b>
+<b class="fc">&nbsp;        offset = new Random().nextInt(3);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param type
+&nbsp;     */
+<b class="fc">&nbsp;    public Tile(TileType type) {</b>
+<b class="fc">&nbsp;        this.TYPE = type;</b>
+<b class="fc">&nbsp;        freeSide = false;</b>
+<b class="fc">&nbsp;        offset = new Random().nextInt(3);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param TYPE
+&nbsp;     * @param freeSide
+&nbsp;     */
+<b class="fc">&nbsp;    public Tile(TileType TYPE, boolean freeSide) {</b>
+<b class="fc">&nbsp;        this.TYPE = TYPE;</b>
+<b class="fc">&nbsp;        this.freeSide = freeSide;</b>
+<b class="fc">&nbsp;        offset = new Random().nextInt(3);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the tile&#39;s type
+&nbsp;     */
+&nbsp;    public TileType getType() {
+<b class="fc">&nbsp;        return TYPE;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the tile&#39;s type
+&nbsp;     *
+&nbsp;     * @param TYPE
+&nbsp;     */
+&nbsp;    public void setType(TileType TYPE) {
+<b class="fc">&nbsp;        this.TYPE = TYPE;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the tile&#39;s free side flag
+&nbsp;     */
+&nbsp;    public boolean hasFreeSide() {
+<b class="fc">&nbsp;        return freeSide;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the tile&#39;s free side
+&nbsp;     *
+&nbsp;     * @param freeSide
+&nbsp;     */
+&nbsp;    public void setFreeSide(boolean freeSide) {
+<b class="fc">&nbsp;        this.freeSide = freeSide;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the types are the same
+&nbsp;     *
+&nbsp;     * @param type
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public boolean isSameType(TileType type) {
+<b class="fc">&nbsp;        return this.TYPE == type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the tile&#39;s background
+&nbsp;     */
+&nbsp;    public String getBackground() {
+<b class="nc">&nbsp;        return TYPE.getBackgroundClass() + offset;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the tile to string format
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return TYPE.toString();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

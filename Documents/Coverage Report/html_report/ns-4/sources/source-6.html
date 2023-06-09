@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Point</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Point (polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Point</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,1%
+  </span>
+  <span class="absValue">
+    (16/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model;
+&nbsp;
+&nbsp;import polimi.ingsw.model.enumeration.CardGoalType;
+&nbsp;import polimi.ingsw.model.enumeration.CardType;
+&nbsp;import polimi.ingsw.model.interfaces.PointIC;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * Point class
+&nbsp; * Each card has a list of points that can only be assigned once to each player
+&nbsp; * this class implements the Point object
+&nbsp; */
+&nbsp;public class Point implements Serializable, PointIC {
+&nbsp;    private Integer point;
+&nbsp;    private CardType referredTo;
+&nbsp;
+<b class="fc">&nbsp;    private boolean isFinishedPoint=false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor referred to a card @param referredTo
+&nbsp;     *
+&nbsp;     * @param point
+&nbsp;     * @param referredTo
+&nbsp;     */
+<b class="fc">&nbsp;    public Point(Integer point, CardType referredTo) {</b>
+<b class="fc">&nbsp;        this.point = point;</b>
+<b class="fc">&nbsp;        this.referredTo = referredTo;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor default not referred to any card
+&nbsp;     *
+&nbsp;     * @param point
+&nbsp;     */
+<b class="fc">&nbsp;    public Point(Integer point) {</b>
+<b class="fc">&nbsp;        this.point = point;</b>
+<b class="fc">&nbsp;        this.referredTo = CardGoalType.NOT_SET;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor for finished point
+&nbsp;     *
+&nbsp;     * @param isFinishedPoint boolean for finished
+&nbsp;     */
+<b class="fc">&nbsp;    public Point(boolean isFinishedPoint){</b>
+<b class="fc">&nbsp;        this.isFinishedPoint=isFinishedPoint;</b>
+<b class="fc">&nbsp;        if(isFinishedPoint){</b>
+<b class="fc">&nbsp;            point=1;</b>
+<b class="fc">&nbsp;            referredTo=CardGoalType.NOT_SET;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the point obj
+&nbsp;     */
+&nbsp;    public Integer getPoint() {
+<b class="fc">&nbsp;        return point;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param point init point
+&nbsp;     */
+&nbsp;    public void setPoint(Integer point) {
+<b class="fc">&nbsp;        this.point = point;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the card type this point id referred to
+&nbsp;     */
+&nbsp;    public CardType getReferredTo() {
+<b class="fc">&nbsp;        return referredTo;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param referredTo sets the point to a said card type
+&nbsp;     */
+&nbsp;    public void setReferredTo(CardGoalType referredTo) {
+<b class="fc">&nbsp;        this.referredTo = referredTo;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return isFinishedPoint
+&nbsp;     */
+&nbsp;    public boolean isFinishedPoint(){
+<b class="nc">&nbsp;        return isFinishedPoint;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

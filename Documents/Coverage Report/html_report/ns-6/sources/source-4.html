@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonFourGroups</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.cards.common</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonFourGroups (polimi.ingsw.model.cards.common)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonFourGroups</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.cards.common;
+&nbsp;
+&nbsp;import polimi.ingsw.model.*;
+&nbsp;import polimi.ingsw.model.enumeration.CardCommonType;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;public class CommonFourGroups extends CommonMethods {
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param type
+&nbsp;     */
+&nbsp;    public CommonFourGroups(CardCommonType type) {
+<b class="fc">&nbsp;        super(type);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if the player&#39;s shelf met the four groups goal
+&nbsp;     *
+&nbsp;     * @return true if the goal is satisfied, false else
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean verify(Shelf toCheck) {
+<b class="fc">&nbsp;        Shelf temp = CommonMethods.getCopy(toCheck);</b>
+<b class="fc">&nbsp;        int sum = 0;</b>
+&nbsp;
+&nbsp;        boolean allTilesFound;
+&nbsp;        int occurrences;
+<b class="fc">&nbsp;        if (toCheck.getOccupiedSpace() &lt; 16)</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (TileType t : TileType.getUsableValues()) {</b>
+<b class="fc">&nbsp;            allTilesFound = false;</b>
+<b class="fc">&nbsp;            while ((!allTilesFound) &amp;&amp; (sum &lt; 4)) {</b>
+<b class="fc">&nbsp;                occurrences = CommonMethods.checkAdjacent(t, temp, 0, 0);</b>
+<b class="fc">&nbsp;                if (occurrences &gt; 3) {</b>
+<b class="fc">&nbsp;                    sum++;</b>
+&nbsp;                }
+&nbsp;                //checks whether all the tiles with tileType t have been checked
+<b class="fc">&nbsp;                allTilesFound = Arrays.stream(temp.getShelf())</b>
+<b class="fc">&nbsp;                        .flatMap(Arrays::stream)</b>
+<b class="fc">&nbsp;                        .noneMatch(x -&gt; x.isSameType(t));</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return sum &gt;= 4;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

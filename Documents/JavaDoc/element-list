@@ -13,6 +13,7 @@ polimi.ingsw.model.enumeration
 polimi.ingsw.model.exceptions
 polimi.ingsw.model.gameModelImmutable
 polimi.ingsw.model.interfaces
+polimi.ingsw.networking
 polimi.ingsw.networking.rmi
 polimi.ingsw.networking.rmi.remoteInterfaces
 polimi.ingsw.networking.socket.client

@@ -1,0 +1,132 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ShelfIC</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.interfaces</a>
+</div>
+
+<h1>Coverage Summary for Class: ShelfIC (polimi.ingsw.model.interfaces)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ShelfIC</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.interfaces;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface is implemented by Shelf
+&nbsp; */
+&nbsp;public interface ShelfIC {
+&nbsp;    /**
+&nbsp;     * This method return the shelf in a matrix form
+&nbsp;     * @return the shelf in a matrix form {@link TileIC}
+&nbsp;     */
+&nbsp;    TileIC[][] getShelf_IC();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the number of free spaces in the shelf
+&nbsp;     * @return the number of free spaces in the shelf
+&nbsp;     */
+&nbsp;    Integer getFreeSpace();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the number of occupied spaces in the shelf
+&nbsp;     * @return the number of occupied spaces in the shelf
+&nbsp;     */
+&nbsp;    Integer getOccupiedSpace();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the single tile in the shelf
+&nbsp;     * @param r row
+&nbsp;     * @param c column
+&nbsp;     * @return the single tile in the shelf {@link TileIC}
+&nbsp;     */
+&nbsp;    TileIC get_IC(int r, int c);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * To string method
+&nbsp;     * @return the string representation of the shelf
+&nbsp;     */
+&nbsp;    String toString();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the string representation of a single column of the shelf
+&nbsp;     * @param col number of the column
+&nbsp;     * @return the string representation of the shelf
+&nbsp;     */
+&nbsp;    String toString(int col);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the string representation of the goal card
+&nbsp;     * @return the string representation of the goal card
+&nbsp;     */
+&nbsp;    String toStringGoalCard();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to check if the shelf is empty
+&nbsp;     * @return true if the shelf is empty
+&nbsp;     */
+&nbsp;    boolean isEmpty();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the number of free spaces in a column
+&nbsp;     * @param col number of the column
+&nbsp;     * @return the number of free spaces in a column
+&nbsp;     */
+&nbsp;    int getNumofFreeSpacesInCol(int col);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

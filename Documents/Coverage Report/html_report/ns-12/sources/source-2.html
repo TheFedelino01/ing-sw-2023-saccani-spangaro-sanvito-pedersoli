@@ -1,0 +1,478 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameListenersHandlerSocket</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.socket.server</a>
+</div>
+
+<h1>Coverage Summary for Class: GameListenersHandlerSocket (polimi.ingsw.networking.socket.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameListenersHandlerSocket</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/88)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.socket.server;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;import polimi.ingsw.networking.socket.client.serverToClientMessages.*;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is used to pass the GameListener to the client via socket
+&nbsp; * {@link GameListener}
+&nbsp; * It has a private ObjectOutputStream where it writes the data
+&nbsp; **/
+&nbsp;public class GameListenersHandlerSocket implements GameListener, Serializable {
+&nbsp;
+&nbsp;    private final ObjectOutputStream out;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This constructor creates a GameListenersHandlerSocket
+&nbsp;     * @param o the ObjectOutputStream
+&nbsp;     */
+<b class="nc">&nbsp;    public GameListenersHandlerSocket(ObjectOutputStream o) {</b>
+<b class="nc">&nbsp;        out = o;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the message that a player has joined the game
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(nickNewPlayer +&quot; by socket&quot;);
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgPlayerJoined(gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the message that a player has left the game
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @param nick is the nickname of the player
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerLeft(GameModelImmutable gamemodel,String nick) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgPlayerLeft(gamemodel,nick));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the message that a player has reconnected to the game
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @param nickPlayerReconnected is the nickname of the player
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
+&nbsp;        //System.out.println(nickNewPlayer +&quot; by socket&quot;);
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgPlayerReconnected(gamemodel, nickPlayerReconnected));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because it is full
+&nbsp;     * @param p is the player that has tried to join the game {@link Player}
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgJoinUnableGameFull(p,gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because the nickname is already in use
+&nbsp;     * @param wantedToJoin is the player that has tried to join the game {@link Player}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgJoinUnableNicknameAlreadyIn(wantedToJoin));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the message that the gameID is not valid
+&nbsp;     * @param gameid is the id of the game
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void gameIdNotExists(int gameid) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgGameIdNotExists(gameid));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream a generic error when entering the game
+&nbsp;     * @param why is the reason why the error happened
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgGenericErrorWhenEntryingGame(why));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the message that player is ready to start
+&nbsp;     * @param model is the game model {@link GameModelImmutable}
+&nbsp;     * @param nick is the nickname of the player
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerIsReadyToStart(GameModelImmutable model, String nick) throws RemoteException {
+&nbsp;        //System.out.println(nick +&quot; ready to start by socket&quot;);
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgPlayerIsReadyToStart(model, nick));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the common cards are extracted
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(card.getCommonType() +&quot; common card extracted by socket&quot;);
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgCommonCardsExtracted(gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream the game started
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void gameStarted(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        //System.out.println(gamemodel.getGameId() +&quot; game started by socket&quot;);
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgGameStarted(gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that the game ended
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void gameEnded(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgGameEnded(gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that a message has been sent
+&nbsp;     * @param gameModel is the game model {@link GameModelImmutable}
+&nbsp;     * @param msg is the message sent {@link Message}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgSentMessage(gameModel, msg));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that a Tile has been grabbed
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void grabbedTile(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        try {
+&nbsp;            //Else the object is not updated!!
+<b class="nc">&nbsp;            out.writeObject(new msgGrabbedTile(gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that a Tile has been grabbed but it is not correct
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgGrabbedTileNotCorrect(gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that a Tile has been positioned
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @param type is the type of the tile {@link TileType}
+&nbsp;     * @param column is the column where the tile has been positioned
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgPositionedTile(gamemodel, type, column));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that the next turn is started
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgNextTurn(gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that the player has added points
+&nbsp;     * @param p is the player that has added the points
+&nbsp;     * @param point is the number of points that have been added
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgAddedPoint(p, point,gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that a player has disconnected
+&nbsp;     * @param gameModel is the game model {@link GameModelImmutable}
+&nbsp;     * @param nick is the nickname of the player that has disconnected
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgPlayerDisconnected(gameModel,nick));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that a column is too small
+&nbsp;     * @param gameModel is the game model {@link GameModelImmutable}
+&nbsp;     * @param column is the column that is too small
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgColumnShelfTooSmall(gameModel,column));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that only one player is connected
+&nbsp;     * @param gameModel is the game model {@link GameModelImmutable}
+&nbsp;     * @param secondsToWaitUntilGameEnded is the number of seconds to wait until the game ends
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgOnlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to write on the ObjectOutputStream that the last circle is started
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void lastCircle(GameModelImmutable gamemodel) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeObject(new msgLastCircle(gamemodel));</b>
+<b class="nc">&nbsp;            finishSending();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Makes sure the message has been sent
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    private void finishSending() throws IOException {
+<b class="nc">&nbsp;        out.flush();</b>
+<b class="nc">&nbsp;        out.reset();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

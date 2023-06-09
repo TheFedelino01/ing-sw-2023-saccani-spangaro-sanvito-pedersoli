@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonSixGroups</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.cards.common</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonSixGroups (polimi.ingsw.model.cards.common)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonSixGroups</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (21/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.cards.common;
+&nbsp;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.enumeration.CardCommonType;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.Shelf;
+&nbsp;import polimi.ingsw.model.Tile;
+&nbsp;
+&nbsp;public class CommonSixGroups extends CommonMethods {
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param type
+&nbsp;     */
+&nbsp;    public CommonSixGroups(CardCommonType type) {
+<b class="fc">&nbsp;        super(type);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if the player&#39;s shelf met the six groups goal
+&nbsp;     *
+&nbsp;     * @return true if the goal is satisfied, false else
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean verify(Shelf toCheck) {
+<b class="fc">&nbsp;        Shelf temp = CommonMethods.getCopy(toCheck);</b>
+<b class="fc">&nbsp;        int sum = 0;</b>
+<b class="fc">&nbsp;        if (temp.getOccupiedSpace() &lt; 12)</b>
+<b class="fc">&nbsp;            return false;</b>
+<b class="fc">&nbsp;        while (sum &lt; 6 &amp;&amp; !temp.isEmpty()) {</b>
+<b class="fc">&nbsp;            for (int r = 0; r &lt; DefaultValue.NumOfRowsShelf; r++) {</b>
+<b class="fc">&nbsp;                for (int c = 0; c &lt; DefaultValue.NumOfColumnsShelf; c++) {</b>
+<b class="fc">&nbsp;                    if (!temp.getSingleTile(r, c).isSameType(TileType.NOT_USED)) {</b>
+<b class="fc">&nbsp;                        if (r != DefaultValue.NumOfRowsShelf - 1) {</b>
+<b class="fc">&nbsp;                            if (temp.getSingleTile(r, c).isSameType(temp.getSingleTile(r + 1, c).getType())) {</b>
+<b class="fc">&nbsp;                                temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);</b>
+<b class="fc">&nbsp;                                temp.setSingleTile(new Tile(TileType.NOT_USED), r + 1, c);</b>
+<b class="fc">&nbsp;                                sum++;</b>
+&nbsp;                            }
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (c != DefaultValue.NumOfColumnsShelf - 1) {</b>
+&nbsp;                            //need to check if the tile is different from a non-used one, in case the
+&nbsp;                            // row check passes and sets the tile to not used before
+<b class="fc">&nbsp;                            if (temp.getSingleTile(r, c).isSameType(temp.getSingleTile(r, c + 1).getType()) &amp;&amp; !temp.getSingleTile(r, c).isSameType(TileType.NOT_USED)) {</b>
+<b class="fc">&nbsp;                                temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);</b>
+<b class="fc">&nbsp;                                temp.setSingleTile(new Tile(TileType.NOT_USED), r, c + 1);</b>
+<b class="fc">&nbsp;                                sum++;</b>
+&nbsp;                            }
+&nbsp;                        }
+<b class="fc">&nbsp;                        temp.setSingleTile(new Tile(TileType.NOT_USED), r, c);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return sum &gt;= 6;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

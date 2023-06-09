@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > LobbyController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.gui.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: LobbyController (polimi.ingsw.view.gui.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LobbyController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.gui.controllers;
+&nbsp;
+&nbsp;
+&nbsp;import javafx.event.ActionEvent;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.scene.control.Button;
+&nbsp;import javafx.scene.text.Text;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;/**
+&nbsp; * LobbyController class.
+&nbsp; */
+<b class="nc">&nbsp;public class LobbyController extends GenericController{</b>
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Text nicknameLable;
+&nbsp;    @FXML
+&nbsp;    private Button btnReady;
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private Text gameidLabel;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to control the ready button.
+&nbsp;     *
+&nbsp;     * @param e the action event
+&nbsp;     * @throws IOException if there are connection problems
+&nbsp;     */
+&nbsp;    public void actionIamReady(ActionEvent e) throws IOException {
+<b class="nc">&nbsp;        getInputReaderGUI().addTxt(&quot;y&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to set the nickname label
+&nbsp;     *
+&nbsp;     * @param nickname the nickname
+&nbsp;     */
+&nbsp;    public void setUsernameLabel(String nickname){
+<b class="nc">&nbsp;        nicknameLable.setText(nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to set game id lable
+&nbsp;     *
+&nbsp;     * @param id the id to show
+&nbsp;     */
+&nbsp;    public void setGameid(int id) {
+<b class="nc">&nbsp;        gameidLabel.setText(&quot;GameID: &quot;+id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method to set the visibility of the ready button
+&nbsp;     *
+&nbsp;     * @param visibility the visibility
+&nbsp;     */
+&nbsp;    public void setVisibleBtnReady(boolean visibility){
+<b class="nc">&nbsp;        btnReady.setVisible(visibility);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

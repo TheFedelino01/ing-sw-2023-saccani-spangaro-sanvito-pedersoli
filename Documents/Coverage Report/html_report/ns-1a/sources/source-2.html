@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PlayerIC</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.interfaces</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayerIC (polimi.ingsw.model.interfaces)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">PlayerIC</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.interfaces;
+&nbsp;
+&nbsp;import polimi.ingsw.model.Shelf;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface is implemented by Player
+&nbsp; */
+&nbsp;public interface PlayerIC {
+&nbsp;    /**
+&nbsp;     * This method is used to get the nickname of the player
+&nbsp;     * @return the nickname of the player
+&nbsp;     */
+&nbsp;    String getNickname();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the shelf of the player
+&nbsp;     * @return the shelf of the player
+&nbsp;     */
+&nbsp;    Shelf getShelf();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the private objective card of the player
+&nbsp;     * @return the private objective card of the player {@link CardGoalIC}
+&nbsp;     */
+&nbsp;    CardGoalIC getSecretGoal_IC();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get tile in hand of the player
+&nbsp;     * @return the list of tile in hand of the player {@link TileIC}
+&nbsp;     */
+&nbsp;    List&lt;TileIC&gt; getInHandTile_IC();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the obtained points of the player
+&nbsp;     * @return the list of obtained points of the player {@link PointIC}
+&nbsp;     */
+&nbsp;    List&lt;PointIC&gt; getObtainedPoints_IC();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the obtained points of the player
+&nbsp;     * @return the sum of the obtained points of the player
+&nbsp;     */
+&nbsp;    int getTotalPoints();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method check if the player is ready to start
+&nbsp;     * @return true if the player is ready to start
+&nbsp;     */
+&nbsp;    boolean getReadyToStart();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method check if an object p is equals to the player
+&nbsp;     * @param p object to check
+&nbsp;     * @return true if the object p is equals to the player
+&nbsp;     */
+&nbsp;    boolean equals(Object p);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method check if the player is connected
+&nbsp;     * @return true if the player is connected
+&nbsp;     */
+&nbsp;    boolean isConnected();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the number of max free spaces in a column
+&nbsp;     * @return the number of free spaces in a column
+&nbsp;     */
+&nbsp;    int getMaxFreeSpacesInACol();
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the number of free spaces in a column
+&nbsp;     * @param col column to check
+&nbsp;     * @return the number of free spaces in a column
+&nbsp;     */
+&nbsp;    int getNumOfFreeSpacesInCol(int col);
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

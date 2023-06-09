@@ -1,0 +1,311 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CardGoal</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.cards.goal</a>
+</div>
+
+<h1>Coverage Summary for Class: CardGoal (polimi.ingsw.model.cards.goal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CardGoal</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    64,3%
+  </span>
+  <span class="absValue">
+    (9/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84,7%
+  </span>
+  <span class="absValue">
+    (61/72)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.cards.goal;
+&nbsp;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.JSONParser;
+&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;import polimi.ingsw.model.cards.Card;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.enumeration.CardGoalType;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;import polimi.ingsw.model.Shelf;
+&nbsp;import polimi.ingsw.model.Tile;
+&nbsp;import polimi.ingsw.model.interfaces.CardGoalIC;
+&nbsp;import polimi.ingsw.model.interfaces.PointIC;
+&nbsp;import polimi.ingsw.model.interfaces.ShelfIC;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Objects;
+&nbsp;
+<b class="fc">&nbsp;public class CardGoal extends Card implements CardGoalIC {</b>
+&nbsp;    private Shelf layoutToMatch; //The player&#39;s shelf must match this one to gain points
+&nbsp;    private final Map&lt;Integer, Point&gt; legendPoint;
+&nbsp;    private CardGoalType goalType;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     */
+<b class="fc">&nbsp;    public CardGoal() {</b>
+<b class="fc">&nbsp;        initialiseLayout(CardGoalType.NOT_SET);</b>
+<b class="fc">&nbsp;        legendPoint = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        goalType = CardGoalType.NOT_SET;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param type type of GoalCard
+&nbsp;     */
+<b class="fc">&nbsp;    public CardGoal(CardGoalType type) {</b>
+<b class="fc">&nbsp;        initialiseLayout(type);</b>
+<b class="fc">&nbsp;        legendPoint = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 7; i++) {</b>
+<b class="fc">&nbsp;            switch (i) {</b>
+<b class="fc">&nbsp;                case (0) -&gt; legendPoint.put(i, new Point(0, type));</b>
+<b class="fc">&nbsp;                case (1) -&gt; legendPoint.put(i, new Point(1, type));</b>
+<b class="fc">&nbsp;                case (2) -&gt; legendPoint.put(i, new Point(2, type));</b>
+<b class="fc">&nbsp;                case (3) -&gt; legendPoint.put(i, new Point(4, type));</b>
+<b class="fc">&nbsp;                case (4) -&gt; legendPoint.put(i, new Point(6, type));</b>
+<b class="fc">&nbsp;                case (5) -&gt; legendPoint.put(i, new Point(9, type));</b>
+<b class="fc">&nbsp;                case (6) -&gt; legendPoint.put(i, new Point(12, type));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        goalType = type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param layoutToMatch layout that the CardGoal need to match
+&nbsp;     * @param type type of goal
+&nbsp;     */
+<b class="fc">&nbsp;    public CardGoal(Shelf layoutToMatch, CardGoalType type) {</b>
+<b class="fc">&nbsp;        legendPoint = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.layoutToMatch = layoutToMatch;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 7; i++) {</b>
+<b class="fc">&nbsp;            switch (i) {</b>
+<b class="fc">&nbsp;                case (0) -&gt; legendPoint.put(i, new Point(0, type));</b>
+<b class="fc">&nbsp;                case (1) -&gt; legendPoint.put(i, new Point(1, type));</b>
+<b class="fc">&nbsp;                case (2) -&gt; legendPoint.put(i, new Point(2, type));</b>
+<b class="fc">&nbsp;                case (3) -&gt; legendPoint.put(i, new Point(4, type));</b>
+<b class="fc">&nbsp;                case (4) -&gt; legendPoint.put(i, new Point(6, type));</b>
+<b class="fc">&nbsp;                case (5) -&gt; legendPoint.put(i, new Point(9, type));</b>
+<b class="fc">&nbsp;                case (6) -&gt; legendPoint.put(i, new Point(12, type));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        this.goalType = type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates the layout by reading it from a json file
+&nbsp;     * @param type type
+&nbsp;     */
+&nbsp;    private void initialiseLayout(CardGoalType type) {
+<b class="fc">&nbsp;        String rowSplit = &quot;-&quot;;</b>
+<b class="fc">&nbsp;        String colSplit = &quot;,&quot;;</b>
+<b class="fc">&nbsp;        String s = null;</b>
+<b class="fc">&nbsp;        JSONParser parser = new JSONParser();</b>
+<b class="fc">&nbsp;        try (InputStream is = CardGoal.class.getClassLoader().getResourceAsStream(&quot;polimi/ingsw/Json/GoalCardsLayout.json&quot;);</b>
+<b class="fc">&nbsp;             Reader reader = new InputStreamReader(Objects.requireNonNull(is, &quot;Couldn&#39;t find json file&quot;), StandardCharsets.UTF_8)) {</b>
+<b class="fc">&nbsp;            JSONObject obj = (JSONObject) parser.parse(reader);</b>
+<b class="fc">&nbsp;            s = (String) obj.get(CardGoalType.toString(type));</b>
+<b class="fc">&nbsp;        } catch (ParseException | FileNotFoundException ex) {</b>
+<b class="nc">&nbsp;            ex.printStackTrace();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        assert s != null;</b>
+&nbsp;
+&nbsp;        //get the matrix&#39;s dimensions
+<b class="fc">&nbsp;        int sizeRow = Arrays.asList(s.split(rowSplit)).size();</b>
+<b class="fc">&nbsp;        int sizeCol = Arrays.asList(s.split(rowSplit)).get(0).split(colSplit).length;</b>
+<b class="fc">&nbsp;        layoutToMatch = new Shelf();</b>
+&nbsp;
+&nbsp;        //this method is for splitting the string returned from the json file in a matrix
+<b class="fc">&nbsp;        for (int i = 0; i &lt; sizeRow; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; sizeCol; j++) {</b>
+<b class="fc">&nbsp;                layoutToMatch.setSingleTile(new Tile(TileType.getValues().get(</b>
+<b class="fc">&nbsp;                        Integer.parseInt(s.split(rowSplit)[i]</b>
+<b class="fc">&nbsp;                                .split(colSplit)[j]))), i, j);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param toCheck player&#39;s shelf
+&nbsp;     * @return the point that is created after having checked the player&#39;s shelf
+&nbsp;     */
+&nbsp;    public PointIC verify(Shelf toCheck) {
+<b class="fc">&nbsp;        int check = 0;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; DefaultValue.NumOfRowsShelf; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; DefaultValue.NumOfColumnsShelf; j++) {</b>
+<b class="fc">&nbsp;                if ((!(layoutToMatch.getSingleTile(i, j).isSameType(TileType.NOT_USED))) &amp;&amp; (layoutToMatch.getSingleTile(i, j).isSameType(toCheck.getSingleTile(i, j).getType()))) {</b>
+<b class="fc">&nbsp;                    check++;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if (check &gt; 6) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Check error in goalCheck!&quot;); //error</b>
+<b class="nc">&nbsp;            return legendPoint.get(0);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return legendPoint.get(check);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return the layout to match
+&nbsp;     */
+&nbsp;    public Shelf getLayoutToMatch() {
+<b class="fc">&nbsp;        return layoutToMatch;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the layout to match per card
+&nbsp;     * @param layoutToMatch chosen layout
+&nbsp;     */
+&nbsp;    public void setLayoutToMatch(Shelf layoutToMatch) {
+<b class="nc">&nbsp;        this.layoutToMatch = layoutToMatch;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return the points assigned to this card
+&nbsp;     */
+&nbsp;    public Map&lt;Integer, Point&gt; getLegendPoint() {
+<b class="nc">&nbsp;        return legendPoint;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return the card goal type
+&nbsp;     */
+&nbsp;    public CardGoalType getGoalType() {
+<b class="fc">&nbsp;        return goalType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the goal type
+&nbsp;     * @param goalType chosen
+&nbsp;     */
+&nbsp;    public void setGoalType(CardGoalType goalType) {
+<b class="nc">&nbsp;        this.goalType = goalType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param c chosen card
+&nbsp;     * @return true if the param is the same type as the instance
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isSameType(Card c) {
+<b class="fc">&nbsp;        if (c instanceof CardGoal) {</b>
+<b class="fc">&nbsp;            return this.goalType.equals(((CardGoal) c).goalType);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param col chosen column
+&nbsp;     * @return the column chosen in string format
+&nbsp;     */
+&nbsp;    public String toString(int col) {
+<b class="nc">&nbsp;        return layoutToMatch.toString(col);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return the layout to match to get all the points
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public ShelfIC getLayoutToMatch_IC() {
+<b class="nc">&nbsp;        return layoutToMatch;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

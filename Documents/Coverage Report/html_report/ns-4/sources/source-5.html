@@ -1,0 +1,594 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Playground</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Playground (polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Playground</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,1%
+  </span>
+  <span class="absValue">
+    (16/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87%
+  </span>
+  <span class="absValue">
+    (167/192)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Playground$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    94,4%
+  </span>
+  <span class="absValue">
+    (17/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,1%
+  </span>
+  <span class="absValue">
+    (169/194)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model;
+&nbsp;
+&nbsp;import org.fusesource.jansi.Ansi;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.JSONParser;
+&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;import polimi.ingsw.model.enumeration.Direction;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.exceptions.TileGrabbedNotCorrectException;
+&nbsp;import polimi.ingsw.model.interfaces.PlaygroundIC;
+&nbsp;import polimi.ingsw.model.interfaces.TileIC;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static org.fusesource.jansi.Ansi.ansi;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Playground class
+&nbsp; * Playground is the class that represents the playground of the game and contains all the tiles
+&nbsp; * We have a matrix of tiles and a bag of tiles.
+&nbsp; * The bag is used to pick a tile randomly to fulfill the matrix
+&nbsp; */
+<b class="fc">&nbsp;public class Playground implements Serializable, PlaygroundIC {</b>
+&nbsp;    /**
+&nbsp;     * The playground is a matrix of tiles
+&nbsp;     */
+&nbsp;    private final Tile[][] playground;
+&nbsp;    /**
+&nbsp;     * The bag is a list of tiles; when the playground is initialized, the tiles are picked randomly from the bag
+&nbsp;     */
+&nbsp;    private final List&lt;Tile&gt; bag; //All tiles are contained in this array
+&nbsp;    private List&lt;List&lt;Integer&gt;&gt; data;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Init an empty playground
+&nbsp;     */
+<b class="fc">&nbsp;    public Playground() {</b>
+<b class="fc">&nbsp;        bag = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Init the playground based on the numer of player @param numberOfPlayers
+&nbsp;     *
+&nbsp;     * @param numberOfPlayers number of players playing with the playground
+&nbsp;     */
+<b class="fc">&nbsp;    public Playground(int numberOfPlayers) {</b>
+&nbsp;        /**
+&nbsp;         * Watch out:  to write in the json file:&lt;br&gt;
+&nbsp;         * the &quot;-&quot; is the row separator&lt;br&gt;
+&nbsp;         * the &quot;,&quot; is the column separator, so&lt;br&gt;
+&nbsp;         * 0,0,0,0-1,1,1,1 is equal to the matrix&lt;br&gt;
+&nbsp;         * 0 0 0 0&lt;br&gt;
+&nbsp;         * 1 1 1 1&lt;br&gt;
+&nbsp;         * Also, the number that identifies the long strings in the json&lt;br&gt;
+&nbsp;         * is the player number that the matrix/string implements&lt;br&gt;
+&nbsp;         * E.G.: &quot;2&quot;:&quot;0,0,0,0-1,1,1,1&quot; is the json transcription&lt;br&gt;
+&nbsp;         * of the playground default for 2 player based games, and so on&lt;br&gt;
+&nbsp;         */
+&nbsp;
+<b class="fc">&nbsp;        bag = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        playground = new Tile[DefaultValue.PlaygroundSize][DefaultValue.PlaygroundSize];</b>
+<b class="fc">&nbsp;        String rowSplit = &quot;-&quot;;</b>
+<b class="fc">&nbsp;        String colSplit = &quot;,&quot;;</b>
+<b class="fc">&nbsp;        String s = null;</b>
+<b class="fc">&nbsp;        JSONParser parser = new JSONParser();</b>
+<b class="fc">&nbsp;        try (InputStream is = Playground.class.getClassLoader().getResourceAsStream(&quot;polimi/ingsw/Json/PlaygroundFourPlayer.json&quot;);</b>
+<b class="fc">&nbsp;             Reader reader = new InputStreamReader(Objects.requireNonNull(is, &quot;Couldn&#39;t find json file&quot;), StandardCharsets.UTF_8)) {</b>
+<b class="fc">&nbsp;            JSONObject obj = (JSONObject) parser.parse(reader);</b>
+<b class="fc">&nbsp;            s = (String) obj.get(Integer.toString(numberOfPlayers));</b>
+<b class="fc">&nbsp;        } catch (ParseException | FileNotFoundException ex) {</b>
+<b class="nc">&nbsp;            ex.printStackTrace();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        assert s != null;</b>
+<b class="fc">&nbsp;        int size = Arrays.asList(s.split(rowSplit)).size();</b>
+<b class="fc">&nbsp;        data = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;        //this method is for splitting the string returned from the json file in a matrix
+<b class="fc">&nbsp;        for (int i = 0; i &lt; size; i++) {</b>
+<b class="fc">&nbsp;            data.add(new ArrayList&lt;&gt;(size));</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; size; j++) {</b>
+<b class="fc">&nbsp;                data.get(i).add(j, Integer</b>
+<b class="fc">&nbsp;                        .parseInt(s.split(rowSplit)[i]</b>
+<b class="fc">&nbsp;                                .split(colSplit)[j]));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        initialisePlayground();</b>
+<b class="fc">&nbsp;        setBag();</b>
+<b class="fc">&nbsp;        setPlayground();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param r row
+&nbsp;     * @param c column
+&nbsp;     * @return the tile in said position
+&nbsp;     */
+&nbsp;    public Tile getTile(int r, int c) {
+<b class="fc">&nbsp;        return playground[r][c];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Different get, so that the objects are immutable client&#39;s side
+&nbsp;     *
+&nbsp;     * @param r row
+&nbsp;     * @param c column
+&nbsp;     * @return the tile in that position
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public TileIC getTile_IC(int r, int c) {
+<b class="nc">&nbsp;        return playground[r][c];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the number of tiles left in the bag
+&nbsp;     */
+&nbsp;    public int getNumOfTileinTheBag() {
+<b class="fc">&nbsp;        return bag.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialises the playground, reading the matrix that was initialised in the constructor&lt;br&gt;
+&nbsp;     * the &quot;USED&quot; tile will be further initialised as an actual tile, the &quot;NOT_USED&quot; won&#39;t&lt;br&gt;
+&nbsp;     */
+&nbsp;    public void initialisePlayground() {
+<b class="fc">&nbsp;        for (int r = 0; r &lt; Objects.requireNonNull(data).size(); r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; data.get(r).size(); c++) {</b>
+<b class="fc">&nbsp;                if (data.get(r).get(c) == 1) {</b>
+<b class="fc">&nbsp;                    playground[r][c] = new Tile(TileType.USED);</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    playground[r][c] = new Tile(TileType.NOT_USED);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialises the playground with actual tiles&lt;br&gt;
+&nbsp;     */
+&nbsp;    public void setPlayground() {
+&nbsp;        int random;
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.PlaygroundSize; r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; DefaultValue.PlaygroundSize; c++) {</b>
+<b class="fc">&nbsp;                if (playground[r][c].isSameType(TileType.USED) || playground[r][c].isSameType(TileType.FINISHED_USING)) {</b>
+<b class="fc">&nbsp;                    random = (int) (Math.random() * bag.size());</b>
+<b class="fc">&nbsp;                    playground[r][c] = new Tile(bag.get(random).getType());</b>
+<b class="fc">&nbsp;                    bag.remove(random);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        setFreeSides();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets for each tile a flag that checks if that tile has a free side (can be&lt;br&gt;
+&nbsp;     * picked up  by the players)&lt;br&gt;
+&nbsp;     */
+&nbsp;    private void setFreeSides() {
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.PlaygroundSize; r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; DefaultValue.PlaygroundSize; c++) {</b>
+<b class="fc">&nbsp;                if (!(playground[r][c].isSameType(TileType.NOT_USED) || playground[r][c].isSameType(TileType.FINISHED_USING)))</b>
+<b class="fc">&nbsp;                    switch (r) {</b>
+&nbsp;                        //first and last row, all have free sides
+<b class="fc">&nbsp;                        case (0), (DefaultValue.PlaygroundSize - 1) -&gt; playground[r][c].setFreeSide(true);</b>
+&nbsp;
+&nbsp;                        default -&gt; {
+&nbsp;                            //First and last column, all have free sides
+<b class="fc">&nbsp;                            switch (c) {</b>
+<b class="fc">&nbsp;                                case (0), (DefaultValue.PlaygroundSize - 1) -&gt; playground[r][c].setFreeSide(true);</b>
+&nbsp;
+&nbsp;                                default -&gt; {
+&nbsp;                                    //if the tile is near a not-used or empty one, then it has a free side
+<b class="fc">&nbsp;                                    if ((playground[r][c + 1].isSameType(TileType.NOT_USED)</b>
+<b class="fc">&nbsp;                                         || playground[r][c - 1].isSameType(TileType.NOT_USED)</b>
+<b class="fc">&nbsp;                                         || playground[r + 1][c].isSameType(TileType.NOT_USED)</b>
+<b class="fc">&nbsp;                                         || playground[r - 1][c].isSameType(TileType.NOT_USED)) ||</b>
+<b class="fc">&nbsp;                                        playground[r][c + 1].isSameType(TileType.FINISHED_USING)</b>
+<b class="fc">&nbsp;                                        || playground[r][c - 1].isSameType(TileType.FINISHED_USING)</b>
+<b class="fc">&nbsp;                                        || playground[r + 1][c].isSameType(TileType.FINISHED_USING)</b>
+<b class="fc">&nbsp;                                        || playground[r - 1][c].isSameType(TileType.FINISHED_USING)) {</b>
+<b class="fc">&nbsp;                                        playground[r][c].setFreeSide(true);</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialises the bag full of tiles
+&nbsp;     */
+&nbsp;    public void setBag() {
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.NumOfTilesPerType; r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; DefaultValue.NumOfTileTypes; c++) {</b>
+<b class="fc">&nbsp;                bag.add(new Tile(TileType.values()[c], false));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Collections.shuffle(bag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param r         row of the tiles the player wants to pick up
+&nbsp;     * @param c         column of the tiles the player wants to pick up
+&nbsp;     * @param direction direction in which the player wants tto pick up tiles
+&nbsp;     * @param num       number of tiles the player wants to pick up
+&nbsp;     * @return true if the player can pick up the tiles, false if he can&#39;t
+&nbsp;     */
+&nbsp;    public boolean checkBeforeGrab(int r, int c, Direction direction, int num) {
+<b class="fc">&nbsp;        int i = 0;</b>
+<b class="fc">&nbsp;        while (i &lt; num) {</b>
+<b class="fc">&nbsp;            if (r &gt;= DefaultValue.PlaygroundSize || c &gt;= DefaultValue.PlaygroundSize) {</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (playground[r][c] == null) {</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (!playground[r][c].hasFreeSide()) {</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (playground[r][c].isSameType(TileType.NOT_USED)) {</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (playground[r][c].isSameType(TileType.FINISHED_USING)) {</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            i++;</b>
+<b class="fc">&nbsp;            switch (direction) {</b>
+<b class="nc">&nbsp;                case UP -&gt; r--;</b>
+<b class="fc">&nbsp;                case DOWN -&gt; r++;</b>
+<b class="nc">&nbsp;                case LEFT -&gt; c--;</b>
+<b class="fc">&nbsp;                case RIGHT -&gt; c++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if every tile has 4 free sides, meaning the playground must be refilled
+&nbsp;     */
+&nbsp;    public boolean allTileHaveAllFreeSide() {
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.PlaygroundSize; r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; DefaultValue.PlaygroundSize; c++) {</b>
+<b class="fc">&nbsp;                if (!(playground[r][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                      playground[r][c].isSameType(TileType.FINISHED_USING)))</b>
+<b class="fc">&nbsp;                    switch (r) {</b>
+&nbsp;                        case (0) -&gt; {
+<b class="fc">&nbsp;                            switch (c) {</b>
+&nbsp;                                //checks [0][0] top row, top col, a vertex
+&nbsp;                                case (0) -&gt; {
+<b class="fc">&nbsp;                                    if (!((playground[r][c + 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c + 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r + 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r + 1][c].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="fc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                                //checks [0][last] top row, bottom col, a vertex
+&nbsp;                                case (DefaultValue.PlaygroundSize - 1) -&gt; {
+<b class="fc">&nbsp;                                    if (!((playground[r][c - 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c - 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r + 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r + 1][c].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="nc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                                //checks [0][rand] top row (no vertexes)
+&nbsp;                                default -&gt; {
+<b class="fc">&nbsp;                                    if (!((playground[r][c + 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c + 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r + 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r + 1][c].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r][c - 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c - 1].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="fc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;                        case (DefaultValue.PlaygroundSize - 1) -&gt; {
+<b class="fc">&nbsp;                            switch (c) {</b>
+&nbsp;                                //checks [last][0] bottom row, first col, a vertex
+&nbsp;                                case (0) -&gt; {
+<b class="nc">&nbsp;                                    if (!((playground[r][c + 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="nc">&nbsp;                                           playground[c][r + 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="nc">&nbsp;                                          (playground[r - 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="nc">&nbsp;                                           playground[r - 1][c].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="nc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                                //checks [last][last] last row, last col, a vertex
+&nbsp;                                case (DefaultValue.PlaygroundSize - 1) -&gt; {
+<b class="fc">&nbsp;                                    if (!((playground[r][c - 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c - 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r - 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r - 1][c].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="nc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                                //checks [last][rand] last row (no vertexes)
+&nbsp;                                default -&gt; {
+<b class="fc">&nbsp;                                    if (!((playground[r][c - 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c - 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r][c + 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c + 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r - 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r - 1][c].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="fc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;                        default -&gt; {
+<b class="fc">&nbsp;                            switch (c) {</b>
+&nbsp;                                //checks [rand][0] first column (no vertexes)
+&nbsp;                                case (0) -&gt; {
+<b class="fc">&nbsp;                                    if (!((playground[r][c + 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c + 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r + 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r + 1][c].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r - 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r - 1][c].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="fc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                                //checks [rand][last] last column (no vertexes)
+&nbsp;                                case (DefaultValue.PlaygroundSize - 1) -&gt; {
+<b class="nc">&nbsp;                                    if (!((playground[r][c - 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="nc">&nbsp;                                           playground[r][c - 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="nc">&nbsp;                                          (playground[r - 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="nc">&nbsp;                                           playground[r - 1][c].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="nc">&nbsp;                                          (playground[r + 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="nc">&nbsp;                                           playground[r + 1][c].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="nc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                                //checks [rand][rand] middle of playground
+&nbsp;                                default -&gt; {
+<b class="fc">&nbsp;                                    if (!((playground[r][c + 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c + 1].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r - 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r - 1][c].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r + 1][c].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r + 1][c].isSameType(TileType.FINISHED_USING)) &amp;&amp;</b>
+<b class="fc">&nbsp;                                          (playground[r][c - 1].isSameType(TileType.NOT_USED) ||</b>
+<b class="fc">&nbsp;                                           playground[r][c - 1].isSameType(TileType.FINISHED_USING)))) {</b>
+<b class="fc">&nbsp;                                        return false;</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param r         row of the tiles the player wants to pick up
+&nbsp;     * @param c         column of the tiles the player wants to pick up
+&nbsp;     * @param direction direction in which the player wants tto pick up tiles
+&nbsp;     * @param num       number of tiles the player wants to pick up
+&nbsp;     * @return a list of grabbed tiles
+&nbsp;     * @throws TileGrabbedNotCorrectException if the player selected tiles he couldn&#39;t pick up
+&nbsp;     */
+&nbsp;    public List&lt;Tile&gt; grabTile(int r, int c, Direction direction, int num) throws TileGrabbedNotCorrectException {
+<b class="fc">&nbsp;        List&lt;Tile&gt; ris = new ArrayList&lt;&gt;();</b>
+&nbsp;        //check if all the tile are not used or finished using
+&nbsp;
+<b class="fc">&nbsp;        if (!checkBeforeGrab(r, c, direction, num)) {</b>
+<b class="fc">&nbsp;            throw new TileGrabbedNotCorrectException();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int i = 0;</b>
+<b class="fc">&nbsp;        while (i &lt; num) {</b>
+<b class="fc">&nbsp;            ris.add(new Tile(playground[r][c].getType()));</b>
+<b class="fc">&nbsp;            playground[r][c].setType(TileType.FINISHED_USING);</b>
+<b class="fc">&nbsp;            setFreeSides();</b>
+<b class="fc">&nbsp;            i++;</b>
+<b class="fc">&nbsp;            switch (direction) {</b>
+<b class="nc">&nbsp;                case UP -&gt; r--;</b>
+<b class="fc">&nbsp;                case DOWN -&gt; r++;</b>
+<b class="nc">&nbsp;                case LEFT -&gt; c--;</b>
+<b class="fc">&nbsp;                case RIGHT -&gt; c++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if (allTileHaveAllFreeSide()) {</b>
+<b class="fc">&nbsp;            setPlayground();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return ris;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the playground, in string format
+&nbsp;     */
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        StringBuilder ris = new StringBuilder();</b>
+<b class="fc">&nbsp;        ris.append(ansi().cursor(DefaultValue.row_playground, DefaultValue.col_playground).a(&quot;   0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |&quot;).toString());</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; DefaultValue.PlaygroundSize; i++) {</b>
+<b class="fc">&nbsp;            ris.append(ansi().cursor(DefaultValue.row_playground + i + 1, DefaultValue.col_playground).a(i)).append(&quot;:&quot;);</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; DefaultValue.PlaygroundSize; j++) {</b>
+<b class="fc">&nbsp;                switch (playground[i][j].getType()) {</b>
+&nbsp;                    case CAT -&gt;
+<b class="fc">&nbsp;                            ris.append(ansi().bg(Ansi.Color.GREEN).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(playground[i][j].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append(&quot;|&quot;);</b>
+&nbsp;                    case BOOK -&gt;
+<b class="fc">&nbsp;                            ris.append(ansi().bg(Ansi.Color.WHITE).fg(Ansi.Color.BLACK).a(&quot; &quot;).a(playground[i][j].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append(&quot;|&quot;);</b>
+&nbsp;                    case TROPHY -&gt;
+<b class="fc">&nbsp;                            ris.append(ansi().bg(Ansi.Color.CYAN).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(playground[i][j].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append(&quot;|&quot;);</b>
+&nbsp;                    case FRAME -&gt;
+<b class="fc">&nbsp;                            ris.append(ansi().bg(Ansi.Color.BLUE).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(playground[i][j].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append(&quot;|&quot;);</b>
+&nbsp;                    case ACTIVITY -&gt;
+<b class="fc">&nbsp;                            ris.append(ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(playground[i][j].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append(&quot;|&quot;);</b>
+&nbsp;                    case PLANT -&gt;
+<b class="fc">&nbsp;                            ris.append(ansi().bg(Ansi.Color.MAGENTA).fg(Ansi.Color.WHITE).a(&quot; &quot;).a(playground[i][j].toString().substring(0, 1)).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append(&quot;|&quot;);</b>
+&nbsp;                    default -&gt;
+<b class="fc">&nbsp;                            ris.append(ansi().bg(Ansi.Color.BLACK).fg(Ansi.Color.BLACK).a(&quot; &quot;).a(&quot;N&quot;).a(&quot; &quot;).fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT).toString()).append(&quot;|&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return ris.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Testing methods
+&nbsp;     */
+&nbsp;    //for testing ONLY (Deprecated so that no one uses them)
+&nbsp;    @Deprecated
+&nbsp;    public void setEmptyPlayground() {
+<b class="fc">&nbsp;        for (int r = 0; r &lt; DefaultValue.PlaygroundSize; r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; DefaultValue.PlaygroundSize; c++) {</b>
+<b class="fc">&nbsp;                playground[r][c] = new Tile(TileType.FINISHED_USING);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Testing methods
+&nbsp;     */
+&nbsp;    @Deprecated
+&nbsp;    public void setSingleTile(TileType type, int r, int c) {
+<b class="fc">&nbsp;        playground[r][c] = new Tile(type);</b>
+<b class="fc">&nbsp;        playground[r][c].setFreeSide(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Testing methods
+&nbsp;     */
+&nbsp;    @Deprecated
+&nbsp;    public List&lt;List&lt;Tile&gt;&gt; getPlayground() {
+<b class="fc">&nbsp;        return Arrays.stream(this.playground).toList()</b>
+<b class="fc">&nbsp;                .stream()</b>
+<b class="fc">&nbsp;                .map(x -&gt; Arrays.stream(x).toList())</b>
+<b class="fc">&nbsp;                .toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

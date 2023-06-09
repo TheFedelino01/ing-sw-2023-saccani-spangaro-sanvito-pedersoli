@@ -1,0 +1,765 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: GameModel (polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,1%
+  </span>
+  <span class="absValue">
+    (41/45)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,7%
+  </span>
+  <span class="absValue">
+    (150/171)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.listener.ListenersHandler;
+&nbsp;import polimi.ingsw.model.cards.common.CommonCard;
+&nbsp;import polimi.ingsw.model.cards.goal.CardGoal;
+&nbsp;import polimi.ingsw.model.chat.Chat;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.enumeration.CardGoalType;
+&nbsp;import polimi.ingsw.model.enumeration.Direction;
+&nbsp;import polimi.ingsw.model.enumeration.GameStatus;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.exceptions.*;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * GameModel class&lt;br&gt;
+&nbsp; * GameModel is the class that represents the game, it contains all the information about the game, and it&#39;s based on a MVC pattern
+&nbsp; * It contains the list of players, the list of common cards, the playground, the chat and the game status
+&nbsp; * It also contains the current player that is playing
+&nbsp; * It also contains the listenersHandler that handles the listeners
+&nbsp; */
+&nbsp;public class GameModel {
+&nbsp;    /**
+&nbsp;     * maps the indexes of the players in the list with their position on the scoreBoard
+&nbsp;     * 1,3 means the first player came in third place
+&nbsp;     */
+&nbsp;    private static Map&lt;Integer, Integer&gt; leaderBoard;
+&nbsp;    /**
+&nbsp;     * It contains the list of players
+&nbsp;     */
+&nbsp;    private final List&lt;Player&gt; players;
+&nbsp;    /**
+&nbsp;     * It contains the list of common cards
+&nbsp;     */
+&nbsp;    private final List&lt;CommonCard&gt; commonCards;
+&nbsp;    /**
+&nbsp;     * It contains the id of the game
+&nbsp;     */
+&nbsp;    private Integer gameId;
+&nbsp;    /**
+&nbsp;     * It contains the playground
+&nbsp;     */
+&nbsp;    private Playground pg;
+&nbsp;    /**
+&nbsp;     * It contains the index of the current player that is playing
+&nbsp;     */
+&nbsp;    private Integer currentPlaying;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * It contains the chat of the game
+&nbsp;     */
+&nbsp;    private Chat chat;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * It contains the status of the game {@link GameStatus}
+&nbsp;     */
+&nbsp;    private GameStatus status;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * it contains the index of the first player that finished the game
+&nbsp;     */
+<b class="fc">&nbsp;    private Integer firstFinishedPlayer = -1;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * it contains the index of the first player that finished the turn
+&nbsp;     */
+<b class="fc">&nbsp;    private Integer firstTurnIndex = -1;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Listener handler that handles the listeners
+&nbsp;     */
+&nbsp;    private transient ListenersHandler listenersHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     */
+<b class="fc">&nbsp;    public GameModel() {</b>
+<b class="fc">&nbsp;        players = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        commonCards = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        Random random = new Random();</b>
+<b class="fc">&nbsp;        gameId = random.nextInt(10000000);</b>
+&nbsp;
+<b class="fc">&nbsp;        pg = new Playground();</b>
+<b class="fc">&nbsp;        currentPlaying = -1;</b>
+<b class="fc">&nbsp;        chat = new Chat();</b>
+<b class="fc">&nbsp;        status = GameStatus.WAIT;</b>
+&nbsp;
+<b class="fc">&nbsp;        chat = new Chat();</b>
+&nbsp;
+<b class="fc">&nbsp;        listenersHandler = new ListenersHandler();</b>
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param players
+&nbsp;     * @param commonCards
+&nbsp;     * @param gameId
+&nbsp;     * @param pg
+&nbsp;     */
+<b class="nc">&nbsp;    public GameModel(List&lt;Player&gt; players, List&lt;CommonCard&gt; commonCards, Integer gameId, Playground pg) {</b>
+<b class="nc">&nbsp;        this.players = players;</b>
+<b class="nc">&nbsp;        this.commonCards = commonCards;</b>
+<b class="nc">&nbsp;        this.gameId = gameId;</b>
+<b class="nc">&nbsp;        this.pg = pg;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the number of players
+&nbsp;     */
+&nbsp;    public int getNumOfPlayers() {
+<b class="fc">&nbsp;        return players.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the number of player&#39;s connecter
+&nbsp;     */
+&nbsp;    public int getNumOfOnlinePlayers() {
+<b class="fc">&nbsp;        return players.stream().filter(Player::isConnected).toList().size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return player&#39;s list
+&nbsp;     */
+&nbsp;    public List&lt;Player&gt; getPlayers() {
+<b class="fc">&nbsp;        return players;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * add a player to the game&lt;br&gt;
+&nbsp;     * &lt;br&gt;
+&nbsp;     *
+&nbsp;     * @param p player to add
+&nbsp;     * @throws PlayerAlreadyInException if the player is already in the game
+&nbsp;     * @throws MaxPlayersInException    if the game is full
+&nbsp;     */
+&nbsp;    public void addPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException {
+&nbsp;        //First I check that the player is not already in the game
+&nbsp;        // then I check if the game is already full
+<b class="fc">&nbsp;        if (players.stream()</b>
+<b class="fc">&nbsp;                .noneMatch(x -&gt; x.equals(p))) {</b>
+<b class="fc">&nbsp;            if (players.size() + 1 &lt;= DefaultValue.MaxNumOfPlayer) {</b>
+<b class="fc">&nbsp;                players.add(p);</b>
+<b class="fc">&nbsp;                listenersHandler.notify_playerJoined(this);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                listenersHandler.notify_JoinUnableGameFull(p, this);</b>
+<b class="fc">&nbsp;                throw new MaxPlayersInException();</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="fc">&nbsp;            listenersHandler.notify_JoinUnableNicknameAlreadyIn(p);</b>
+<b class="fc">&nbsp;            throw new PlayerAlreadyInException();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param nick removes this player from the game
+&nbsp;     */
+&nbsp;    public void removePlayer(String nick) {
+<b class="fc">&nbsp;        players.remove(players.stream().filter(x -&gt; x.getNickname().equals(nick)).toList().get(0));</b>
+<b class="fc">&nbsp;        listenersHandler.notify_playerLeft(this, nick);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (this.status.equals(GameStatus.RUNNING) &amp;&amp; players.stream().filter(Player::isConnected).toList().size() &lt;= 1) {</b>
+&nbsp;            //Not enough players to keep playing
+<b class="nc">&nbsp;            this.setStatus(GameStatus.ENDED);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param p player is reconnected
+&nbsp;     * @throws PlayerAlreadyInException player is already in
+&nbsp;     * @throws MaxPlayersInException    there&#39;s already 4 players in game
+&nbsp;     * @throws GameEndedException       the game has ended
+&nbsp;     */
+&nbsp;    public boolean reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
+<b class="fc">&nbsp;        Player pIn = players.stream().filter(x -&gt; x.equals(p)).toList().get(0);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (!pIn.isConnected()) {</b>
+<b class="fc">&nbsp;            pIn.setConnected(true);</b>
+<b class="fc">&nbsp;            listenersHandler.notify_playerReconnected(this, p.getNickname());</b>
+&nbsp;
+<b class="fc">&nbsp;            if (!isTheCurrentPlayerOnline()) {</b>
+<b class="fc">&nbsp;                nextTurn();</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.println(&quot;ERROR: Trying to reconnect a player not offline!&quot;);</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param nick player to set as disconnected
+&nbsp;     */
+&nbsp;    public void setAsDisconnected(String nick) {
+<b class="fc">&nbsp;        getPlayerEntity(nick).setConnected(false);</b>
+<b class="fc">&nbsp;        getPlayerEntity(nick).setNotReadyToStart();</b>
+<b class="fc">&nbsp;        if (getNumOfOnlinePlayers() != 0) {</b>
+<b class="fc">&nbsp;            listenersHandler.notify_playerDisconnected(this, nick);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;            if (getNumOfOnlinePlayers() != 1 &amp;&amp; !isTheCurrentPlayerOnline()) {</b>
+&nbsp;                try {
+<b class="fc">&nbsp;                    nextTurn();</b>
+<b class="nc">&nbsp;                } catch (GameEndedException e) {</b>
+&nbsp;
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) &amp;&amp; getNumOfOnlinePlayers() == 1) {</b>
+<b class="fc">&nbsp;                listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);</b>
+&nbsp;            }
+&nbsp;        }//else the game is empty
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param p is set as ready, then everyone is notified
+&nbsp;     */
+&nbsp;    public void playerIsReadyToStart(Player p) {
+<b class="fc">&nbsp;        p.setReadyToStart();</b>
+<b class="fc">&nbsp;        listenersHandler.notify_PlayerIsReadyToStart(this, p.getNickname());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if there are enough players to start, and if every one of them is ready
+&nbsp;     */
+&nbsp;    public boolean arePlayersReadyToStartAndEnough() {
+&nbsp;        //If every player is ready, the game starts
+<b class="fc">&nbsp;        return players.stream().filter(Player::getReadyToStart)</b>
+<b class="fc">&nbsp;                .count() == players.size() &amp;&amp; players.size() &gt;= DefaultValue.minNumOfPlayer;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the number of common cards extracted
+&nbsp;     */
+&nbsp;    public int getNumOfCommonCards() {
+<b class="fc">&nbsp;        return commonCards.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param c new common card to add
+&nbsp;     * @throws MaxCommonCardsAddedException if there&#39;s already 2 common cards in game
+&nbsp;     * @throws CommonCardAlreadyInException if c is already in the game
+&nbsp;     */
+&nbsp;    public void addCommonCard(CommonCard c) throws MaxCommonCardsAddedException, CommonCardAlreadyInException {
+&nbsp;        //Check if the card is already in the game
+&nbsp;        // then if there are already enough cards
+&nbsp;
+<b class="fc">&nbsp;        if (commonCards.stream().noneMatch(x -&gt; x.isSameType(c))) {</b>
+<b class="fc">&nbsp;            if (commonCards.size() + 1 &lt;= DefaultValue.NumOfCommonCards) {</b>
+<b class="fc">&nbsp;                commonCards.add(c);</b>
+<b class="fc">&nbsp;                listenersHandler.notify_extractedCommonCard(this);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                throw new MaxCommonCardsAddedException();</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new CommonCardAlreadyInException();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param indexPlayer player&#39;s index to set the goal
+&nbsp;     * @param c           new goal card
+&nbsp;     * @throws SecretGoalAlreadyGivenException thrown if said player already has a goal card assigned
+&nbsp;     */
+&nbsp;    public void setGoalCard(int indexPlayer, CardGoal c) throws SecretGoalAlreadyGivenException {
+<b class="fc">&nbsp;        if (indexPlayer &lt; players.size() &amp;&amp; indexPlayer &gt;= 0) {</b>
+&nbsp;            //I assign the goal card only if no one else has the same one
+<b class="fc">&nbsp;            if (players.stream().noneMatch(x -&gt; (x.getSecretGoal().isSameType(c)))) {</b>
+<b class="fc">&nbsp;                players.get(indexPlayer).setSecretGoal(c);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                throw new SecretGoalAlreadyGivenException();</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new IndexPlayerOutOfBoundException();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param i index of common card
+&nbsp;     * @return common card corresponding to said index
+&nbsp;     */
+&nbsp;    public CommonCard getCommonCard(int i) {
+<b class="fc">&nbsp;        return commonCards.get(i);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param indexPlayer of the player to check
+&nbsp;     * @return the player&#39;s card goal
+&nbsp;     */
+&nbsp;    public CardGoal getGoalCard(int indexPlayer) {
+<b class="fc">&nbsp;        return players.get(indexPlayer).getSecretGoal();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the game id
+&nbsp;     */
+&nbsp;    public Integer getGameId() {
+<b class="fc">&nbsp;        return gameId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the game id
+&nbsp;     *
+&nbsp;     * @param gameId new game id
+&nbsp;     */
+&nbsp;    public void setGameId(Integer gameId) {
+<b class="nc">&nbsp;        this.gameId = gameId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the playground
+&nbsp;     */
+&nbsp;    public Playground getPg() {
+<b class="fc">&nbsp;        return pg;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the playground to the param
+&nbsp;     *
+&nbsp;     * @param pg
+&nbsp;     */
+&nbsp;    public void setPg(Playground pg) {
+<b class="fc">&nbsp;        this.pg = pg;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return index of current player playing
+&nbsp;     */
+&nbsp;    public Integer getCurrentPlaying() {
+<b class="fc">&nbsp;        return currentPlaying;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the current playing player to the param
+&nbsp;     *
+&nbsp;     * @param currentPlaying active playing player
+&nbsp;     */
+&nbsp;    public void setCurrentPlaying(Integer currentPlaying) {
+<b class="fc">&nbsp;        this.currentPlaying = currentPlaying;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the index of the player playing the first turn
+&nbsp;     *
+&nbsp;     * @param index of the player
+&nbsp;     */
+&nbsp;    public void setFirstTurnIndex(int index) {
+<b class="fc">&nbsp;        this.firstTurnIndex = index;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the index of the first player playing
+&nbsp;     */
+&nbsp;    public Integer getFirstTurnIndex() {
+<b class="fc">&nbsp;        return this.firstTurnIndex;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the chat
+&nbsp;     */
+&nbsp;    public Chat getChat() {
+<b class="fc">&nbsp;        return chat;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends a message
+&nbsp;     *
+&nbsp;     * @param m message sent
+&nbsp;     */
+&nbsp;    public void sentMessage(Message m) {
+<b class="fc">&nbsp;        if (players.stream().filter(x -&gt; x.equals(m.getSender())).count() == 1) {</b>
+<b class="fc">&nbsp;            chat.addMsg(m);</b>
+<b class="fc">&nbsp;            listenersHandler.notify_SentMessage(this, chat.getLastMessage());</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new ActionPerformedByAPlayerNotPlayingException();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the game status
+&nbsp;     */
+&nbsp;    public GameStatus getStatus() {
+<b class="fc">&nbsp;        return status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the game status
+&nbsp;     *
+&nbsp;     * @param status
+&nbsp;     */
+&nbsp;    public void setStatus(GameStatus status) {
+&nbsp;        //If I want to set the gameStatus to &quot;RUNNING&quot;, there needs to be at least
+&nbsp;        // DefaultValue.minNumberOfPlayers -&gt; (2) in lobby
+<b class="fc">&nbsp;        if (status.equals(GameStatus.RUNNING) &amp;&amp;</b>
+<b class="fc">&nbsp;                ((players.size() &lt; DefaultValue.minNumOfPlayer</b>
+<b class="fc">&nbsp;                        || getNumOfCommonCards() != DefaultValue.NumOfCommonCards</b>
+<b class="fc">&nbsp;                        || !doAllPlayersHaveGoalCard())</b>
+<b class="fc">&nbsp;                        || currentPlaying == -1)) {</b>
+<b class="fc">&nbsp;            throw new NotReadyToRunException();</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            this.status = status;</b>
+&nbsp;
+<b class="fc">&nbsp;            if (status == GameStatus.RUNNING) {</b>
+<b class="fc">&nbsp;                listenersHandler.notify_GameStarted(this);</b>
+<b class="fc">&nbsp;                listenersHandler.notify_nextTurn(this);</b>
+<b class="fc">&nbsp;            } else if (status == GameStatus.ENDED) {</b>
+<b class="fc">&nbsp;                findWinner(); //Find winner</b>
+<b class="fc">&nbsp;                listenersHandler.notify_GameEnded(this);</b>
+<b class="fc">&nbsp;            } else if (status == GameStatus.LAST_CIRCLE) {</b>
+<b class="fc">&nbsp;                listenersHandler.notify_LastCircle(this);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return all the players&#39; goal cards
+&nbsp;     */
+&nbsp;    public Map&lt;Player, CardGoal&gt; getGoalCards() {
+<b class="fc">&nbsp;        Map&lt;Player, CardGoal&gt; ris = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Player p : players) {</b>
+<b class="nc">&nbsp;            ris.put(p, p.getSecretGoal());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return ris;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the common card extracted list
+&nbsp;     */
+&nbsp;    public List&lt;CommonCard&gt; getCommonCards() {
+<b class="fc">&nbsp;        return commonCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if every player in the game has a personal goal assigned
+&nbsp;     */
+&nbsp;    public boolean doAllPlayersHaveGoalCard() {
+<b class="fc">&nbsp;        for (Player p : players) {</b>
+<b class="fc">&nbsp;            if (p.getSecretGoal().getGoalType().equals(CardGoalType.NOT_SET))</b>
+<b class="nc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Grabs a tile from the playground
+&nbsp;     *
+&nbsp;     * @param p         players that picks up the tile
+&nbsp;     * @param x         row chosen by the player
+&nbsp;     * @param y         column chosen by the player
+&nbsp;     * @param direction direction chosen by the player
+&nbsp;     * @param num       of tiles to pick up
+&nbsp;     */
+&nbsp;    public void grabTileFromPlayground(Player p, int x, int y, Direction direction, int num) {
+&nbsp;        List&lt;Tile&gt; ris;
+&nbsp;        try {
+<b class="fc">&nbsp;            if (p.getMaxFreeSpacesInACol() &gt;= num) {</b>
+<b class="fc">&nbsp;                ris = pg.grabTile(x, y, direction, num);</b>
+&nbsp;
+&nbsp;                //if the player grabbed a valid set of tile (only if all of them had at least 1 side free)
+<b class="fc">&nbsp;                p.setInHandTile(ris);</b>
+<b class="fc">&nbsp;                listenersHandler.notify_grabbedTile(this);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                throw new TileGrabbedNotCorrectException();</b>
+&nbsp;            }
+<b class="fc">&nbsp;        } catch (TileGrabbedNotCorrectException e) {</b>
+&nbsp;            //Player grabbed a set of not valid tile (there was at least 1 tile with no free side)
+<b class="fc">&nbsp;            listenersHandler.notify_grabbedTileNotCorrect(this);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Places a tile on the player&#39;s shelf
+&nbsp;     *
+&nbsp;     * @param p      player placing the tile
+&nbsp;     * @param column in which to place the tile
+&nbsp;     * @param type   of the type to place
+&nbsp;     * @throws GameEndedException
+&nbsp;     */
+&nbsp;    public void positionTileOnShelf(Player p, int column, TileType type) throws GameEndedException {
+&nbsp;        //Check if the player can position all the in hand tiles in this column (are there enough spaces?)
+<b class="fc">&nbsp;        if (p.getNumOfFreeSpacesInCol(column) &gt;= p.getInHandTile().size()) {</b>
+&nbsp;            //Player can place the tile
+<b class="fc">&nbsp;            Tile t = popInHandTilePlayer(p, type);</b>
+<b class="fc">&nbsp;            if (t != null) {</b>
+<b class="fc">&nbsp;                p.getShelf().position(column, type);</b>
+&nbsp;
+<b class="fc">&nbsp;                listenersHandler.notify_positionedTile(this, type, column);</b>
+&nbsp;
+&nbsp;            } else {
+<b class="fc">&nbsp;                throw new PositioningATileNotGrabbedException();</b>
+&nbsp;            }
+<b class="fc">&nbsp;        } else {</b>
+<b class="fc">&nbsp;            listenersHandler.notify_columnShelfTooSmall(this, column);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes a tile from the player&#39;s hand
+&nbsp;     *
+&nbsp;     * @param p
+&nbsp;     * @param type
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    private Tile popInHandTilePlayer(Player p, TileType type) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; p.getInHandTile().size(); i++) {</b>
+<b class="fc">&nbsp;            if (p.getInHandTile().get(i).isSameType(type)) {</b>
+<b class="fc">&nbsp;                return p.getInHandTile().remove(i);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return null;//The player doesn&#39;t have this tile in hand</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calls the next turn
+&nbsp;     *
+&nbsp;     * @throws GameEndedException
+&nbsp;     */
+&nbsp;    public void nextTurn() throws GameEndedException {
+<b class="fc">&nbsp;        if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {</b>
+<b class="fc">&nbsp;            if (players.get(currentPlaying).getInHandTile().size() != 0) {</b>
+<b class="nc">&nbsp;                if (!isTheCurrentPlayerOnline()) {</b>
+&nbsp;                    //I remove the tiles that he has on hand
+<b class="nc">&nbsp;                    players.get(currentPlaying).clearInHandTile();</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    throw new NotEmptyHandException();</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            int oldCurrent = currentPlaying;</b>
+&nbsp;
+<b class="fc">&nbsp;            if (getNumOfOnlinePlayers() != 1) {</b>
+&nbsp;                //I skip the disconnected players and I let play only the connected ones
+&nbsp;                do {
+<b class="fc">&nbsp;                    currentPlaying = (currentPlaying + 1) % players.size();</b>
+<b class="fc">&nbsp;                } while (!players.get(currentPlaying).isConnected());</b>
+&nbsp;            } else {
+&nbsp;                //Only one player connected, I set the nextTurn to the next player of the one online
+&nbsp;                //when someone will reconnect, the nextTurn will be corrected
+<b class="nc">&nbsp;                currentPlaying = (currentPlaying + 1) % players.size();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;            if (firstFinishedPlayer != -1 &amp;&amp; oldCurrent == firstTurnIndex) {</b>
+<b class="fc">&nbsp;                throw new GameEndedException();</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                listenersHandler.notify_nextTurn(this);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;        } else if (status.equals(GameStatus.ENDED)) {</b>
+<b class="nc">&nbsp;            throw new GameEndedException();</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new GameNotStartedException();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param indexPlayer sets the indexPlayer as the index of the first player to fill his shelf
+&nbsp;     */
+&nbsp;    public void setFinishedPlayer(Integer indexPlayer) {
+<b class="fc">&nbsp;        firstFinishedPlayer = indexPlayer;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param p
+&nbsp;     * @return the player index in the list
+&nbsp;     */
+&nbsp;    public int getPlayerIndex(Player p) {
+<b class="nc">&nbsp;        return players.indexOf(p);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Finds the player with most points
+&nbsp;     */
+&nbsp;    private void findWinner() {
+<b class="fc">&nbsp;        int max = -1;</b>
+&nbsp;        int point;
+<b class="fc">&nbsp;        leaderBoard = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; temp = new HashMap&lt;&gt;();</b>
+&nbsp;        //Cycle between every player point and return the one with more point
+<b class="fc">&nbsp;        for (int i = 0; i &lt; getNumOfPlayers(); i++) {</b>
+<b class="fc">&nbsp;            point = getPlayers().get(i).getTotalPoints();</b>
+<b class="fc">&nbsp;            if (point &gt;= max) {</b>
+<b class="fc">&nbsp;                temp.put(i, point);</b>
+<b class="fc">&nbsp;                max = point;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        //sorts temp and puts it into the leaderboard in order
+<b class="fc">&nbsp;        leaderBoard = temp.entrySet()</b>
+<b class="fc">&nbsp;                .stream()</b>
+<b class="fc">&nbsp;                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))</b>
+<b class="fc">&nbsp;                .collect(Collectors.toMap(</b>
+&nbsp;                        Map.Entry::getKey,
+&nbsp;                        Map.Entry::getValue,
+<b class="nc">&nbsp;                        (oldValue, newValue) -&gt; oldValue, LinkedHashMap::new));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param obj adds the listener to the list
+&nbsp;     */
+&nbsp;    public void addListener(GameListener obj) {
+<b class="fc">&nbsp;        listenersHandler.addListener(obj);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param lis removes listener from list
+&nbsp;     */
+&nbsp;    public void removeListener(GameListener lis) {
+<b class="fc">&nbsp;        listenersHandler.removeListener(lis);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of listeners
+&nbsp;     */
+&nbsp;    public List&lt;GameListener&gt; getListeners() {
+<b class="fc">&nbsp;        return listenersHandler.getListeners();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param playerNick
+&nbsp;     * @return player by nickname
+&nbsp;     */
+&nbsp;    public Player getPlayerEntity(String playerNick) {
+<b class="fc">&nbsp;        List&lt;Player&gt; ris = players.stream().filter(x -&gt; x.getNickname().equals(playerNick)).toList();</b>
+<b class="fc">&nbsp;        if(ris.size()&gt;0){</b>
+<b class="fc">&nbsp;            return ris.get(0);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the game&#39;s leaderboard
+&nbsp;     */
+&nbsp;    public Map&lt;Integer, Integer&gt; getLeaderBoard() {
+<b class="fc">&nbsp;        return leaderBoard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if the player in turn is online
+&nbsp;     */
+&nbsp;    private boolean isTheCurrentPlayerOnline() {
+<b class="fc">&nbsp;        return players.get(currentPlaying).isConnected();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

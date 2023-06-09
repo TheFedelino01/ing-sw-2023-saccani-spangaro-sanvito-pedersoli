@@ -1,0 +1,176 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Server</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.socket.server</a>
+</div>
+
+<h1>Coverage Summary for Class: Server (polimi.ingsw.networking.socket.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.socket.server;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp; /**
+&nbsp; * Server Class&lt;br&gt;
+&nbsp; * Handle all the incoming network requests and start for each one a specific {@link ClientHandler} that handle the single Socket Connection&lt;br&gt;
+&nbsp; * by the Socket Network protocol
+&nbsp; */
+<b class="nc">&nbsp;public class Server extends Thread {</b>
+&nbsp;    /**
+&nbsp;     * The Socket that represents the Server
+&nbsp;     */
+&nbsp;    private ServerSocket serverSocket;
+&nbsp;    /**
+&nbsp;     * List of {@link ClientHandler} created associated with connections
+&nbsp;     */
+&nbsp;    private List&lt;ClientHandler&gt; handler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Starts the Server that is the first Socket that each Client connects on the first connection
+&nbsp;     *
+&nbsp;     * @param port of the Socket Server
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    public void start(int port) throws IOException {
+&nbsp;        try {
+<b class="nc">&nbsp;            serverSocket = new ServerSocket(port);</b>
+<b class="nc">&nbsp;            handler = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            this.start();</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Server Socket ready&quot;);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;            System.err.println(&quot;[ERROR] STARTING SOCKET SERVER: \n\tServer RMI exception: &quot; + e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Accept connections and start {@link ClientHandler} handler for each one
+&nbsp;     */
+&nbsp;    public void run() {
+&nbsp;        try {
+<b class="nc">&nbsp;            while (!Thread.interrupted()) {</b>
+<b class="nc">&nbsp;                handler.add(new ClientHandler(serverSocket.accept()));</b>
+<b class="nc">&nbsp;                handler.get(handler.size() - 1).start();</b>
+<b class="nc">&nbsp;                System.out.println(&quot;[SOCKET] new connection accepted&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;[ERROR] ACCEPTING WELCOME SOCKET CONNECTION: \n\tServer SOCKET exception: &quot; + e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            serverSocket.close();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Stop the Socket Server connection
+&nbsp;     */
+&nbsp;    @Deprecated
+&nbsp;    public void stopConnection() {
+<b class="nc">&nbsp;        if (handler != null)</b>
+<b class="nc">&nbsp;            for (ClientHandler c : handler) {</b>
+<b class="nc">&nbsp;                c.interruptThread();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        this.interrupt();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

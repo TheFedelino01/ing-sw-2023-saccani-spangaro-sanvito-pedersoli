@@ -1,0 +1,331 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > RMIServer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.rmi</a>
+</div>
+
+<h1>Coverage Summary for Class: RMIServer (polimi.ingsw.networking.rmi)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RMIServer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/60)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.rmi;
+&nbsp;
+&nbsp;import polimi.ingsw.controller.MainController;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.networking.rmi.remoteInterfaces.GameControllerInterface;
+&nbsp;import polimi.ingsw.networking.rmi.remoteInterfaces.MainControllerInterface;
+&nbsp;
+&nbsp;import java.rmi.NotBoundException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.rmi.registry.Registry;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * RMIServer Class&lt;br&gt;
+&nbsp; * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game&lt;br&gt;
+&nbsp; * by the RMI Network protocol
+&nbsp; */
+&nbsp;public class RMIServer extends UnicastRemoteObject implements MainControllerInterface {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * MainController of all the games
+&nbsp;     */
+&nbsp;    private final MainControllerInterface mainController;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * RMIServer object
+&nbsp;     */
+<b class="nc">&nbsp;    private static RMIServer serverObject = null;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Registry associated with the RMI Server
+&nbsp;     */
+<b class="nc">&nbsp;    private static Registry registry = null;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a RMI Server
+&nbsp;     * @return the instance of the server
+&nbsp;     */
+&nbsp;    public static RMIServer bind() {
+&nbsp;        try {
+<b class="nc">&nbsp;            serverObject = new RMIServer();</b>
+&nbsp;            // Bind the remote object&#39;s stub in the registry
+<b class="nc">&nbsp;            registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);</b>
+<b class="nc">&nbsp;            getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Server RMI ready&quot;);</b>
+<b class="nc">&nbsp;        } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;            System.err.println(&quot;[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: &quot; + e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return getInstance();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the istance of the RMI Server
+&nbsp;     */
+&nbsp;    public synchronized static RMIServer getInstance() {
+<b class="nc">&nbsp;        if(serverObject == null) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                serverObject = new RMIServer();</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return serverObject;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the registry associated with the RMI Server
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    public synchronized static Registry getRegistry() throws RemoteException {
+<b class="nc">&nbsp;        return registry;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor that creates a RMI Server
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    public RMIServer() throws RemoteException {
+<b class="nc">&nbsp;        super(0);</b>
+<b class="nc">&nbsp;        mainController = MainController.getInstance();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player requested, through the network, to create a new game
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player
+&nbsp;     * @param nick of the player
+&nbsp;     * @return GameControllerInterface of the new created game
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
+&nbsp;
+&nbsp;        //before every call, need to recreate the stub, or java will just GC everything
+<b class="nc">&nbsp;        GameControllerInterface ris = serverObject.mainController.createGame(lis, nick);</b>
+&nbsp;        //The GameController and the Player have just created so, I need to set them as an Exportable Object
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            UnicastRemoteObject.exportObject(ris, 0);</b>
+<b class="nc">&nbsp;        }catch (RemoteException e){</b>
+&nbsp;            //Already exported, due to another RMI Client running on the same machine
+<b class="nc">&nbsp;        }</b>
+&nbsp;        //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+<b class="nc">&nbsp;        System.out.println(&quot;[RMI] &quot; + nick + &quot; has created a new game&quot;);</b>
+<b class="nc">&nbsp;        return ris;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player requested, through the network, to join a random game
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player
+&nbsp;     * @param nick of the player
+&nbsp;     * @return GameControllerInterface of the first available game
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+&nbsp;
+&nbsp;        //Return the GameController already existed =&gt; not necessary to re-Export Object
+<b class="nc">&nbsp;        GameControllerInterface ris = serverObject.mainController.joinFirstAvailableGame(lis, nick);</b>
+<b class="nc">&nbsp;        if (ris != null) {</b>
+&nbsp;            //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+&nbsp;            try {
+<b class="nc">&nbsp;                UnicastRemoteObject.exportObject(ris, 0);</b>
+<b class="nc">&nbsp;            }catch (RemoteException e){</b>
+&nbsp;                //Already exported, due to another RMI Client running on the same machine
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            System.out.println(&quot;[RMI] &quot; + nick + &quot; joined in first available game&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return ris;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player requested, through the network, to join a specific game
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player
+&nbsp;     * @param nick of the player
+&nbsp;     * @return GameControllerInterface of the specific game
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+&nbsp;
+&nbsp;        //Return the GameController already existed =&gt; not necessary to re-Export Object
+<b class="nc">&nbsp;        GameControllerInterface ris = serverObject.mainController.joinGame(lis, nick, idGame);</b>
+<b class="nc">&nbsp;        if (ris != null) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                UnicastRemoteObject.exportObject(ris, 0);</b>
+<b class="nc">&nbsp;            }catch (RemoteException e){</b>
+&nbsp;                //Already exported, due to another RMI Client running on the same machine
+<b class="nc">&nbsp;            }</b>
+&nbsp;            //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
+<b class="nc">&nbsp;            System.out.println(&quot;[RMI] &quot; + nick + &quot; joined to specific game with id: &quot; + idGame);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return ris;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player requested, through the network, to reconnect to a game
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player
+&nbsp;     * @param nick of the player
+&nbsp;     * @return GameControllerInterface of the game
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
+&nbsp;
+<b class="nc">&nbsp;        GameControllerInterface ris = serverObject.mainController.reconnect(lis, nick, idGame);</b>
+<b class="nc">&nbsp;        if (ris != null) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                UnicastRemoteObject.exportObject(ris, 0);</b>
+<b class="nc">&nbsp;            }catch (RemoteException e){</b>
+&nbsp;                //Already exported, due to another RMI Client running on the same machine
+<b class="nc">&nbsp;            }</b>
+&nbsp;            //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),DefaultValue.Default_port_RMI));
+&nbsp;            //System.out.println(&quot;[RMI] &quot;+nick+&quot; joined to specific game with id: &quot;+idGame);
+&nbsp;        }
+<b class="nc">&nbsp;        return ris;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A player requested, through the network, to leave a game
+&nbsp;     *
+&nbsp;     * @param lis GameListener of the player
+&nbsp;     * @param nick of the player
+&nbsp;     * @param idGame of the game to leave
+&nbsp;     * @return GameControllerInterface of the game
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
+&nbsp;
+<b class="nc">&nbsp;        serverObject.mainController.leaveGame(lis,nick,idGame);</b>
+&nbsp;
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Close the RMI Server
+&nbsp;     * Used only for testing purposes
+&nbsp;     *
+&nbsp;     * @return RMI Server
+&nbsp;     */
+&nbsp;    @Deprecated
+&nbsp;    public static RMIServer unbind(){
+&nbsp;        try {
+<b class="nc">&nbsp;            getRegistry().unbind(DefaultValue.Default_servername_RMI);</b>
+<b class="nc">&nbsp;            UnicastRemoteObject.unexportObject(getRegistry(), true);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Server RMI correctly closed&quot;);</b>
+<b class="nc">&nbsp;        } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;            System.err.println(&quot;[ERROR] CLOSING RMI SERVER: \n\tServer RMI exception: &quot; + e);</b>
+<b class="nc">&nbsp;        } catch (NotBoundException e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;[ERROR] CLOSING RMI SERVER: \n\tServer RMI exception: &quot; + e);</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return getInstance();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

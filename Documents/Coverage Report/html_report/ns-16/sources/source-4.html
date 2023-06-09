@@ -1,0 +1,169 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SceneInfo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.view.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: SceneInfo (polimi.ingsw.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SceneInfo</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.view.gui;
+&nbsp;
+&nbsp;import javafx.scene.Scene;
+&nbsp;import polimi.ingsw.view.gui.controllers.GenericController;
+&nbsp;import polimi.ingsw.view.gui.scenes.SceneEnum;
+&nbsp;import polimi.ingsw.view.flow.utilities.inputReaderGUI;
+&nbsp;
+&nbsp;/**
+&nbsp; * SceneInfo class.
+&nbsp; * This class is used to store information about a scene.
+&nbsp; */
+&nbsp;public class SceneInfo {
+&nbsp;    /**
+&nbsp;     * Attributes.
+&nbsp;     */
+&nbsp;    private Scene scene;
+&nbsp;    private SceneEnum sceneEnum;
+&nbsp;    private GenericController genericController;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor of the class.
+&nbsp;     * @param scene the scene {@link Scene}
+&nbsp;     * @param sceneEnum the scene enum {@link SceneEnum}
+&nbsp;     * @param gc the generic controller {@link GenericController}
+&nbsp;     */
+<b class="nc">&nbsp;    public SceneInfo(Scene scene, SceneEnum sceneEnum, GenericController gc) {</b>
+<b class="nc">&nbsp;        this.scene = scene;</b>
+<b class="nc">&nbsp;        this.sceneEnum = sceneEnum;</b>
+<b class="nc">&nbsp;        this.genericController=gc;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to get the scene.
+&nbsp;     * @return the scene {@link Scene}
+&nbsp;     */
+&nbsp;    public Scene getScene() {
+<b class="nc">&nbsp;        return scene;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to get the scene enum.
+&nbsp;     * @return the scene enum {@link SceneEnum}
+&nbsp;     */
+&nbsp;    public SceneEnum getSceneEnum() {
+<b class="nc">&nbsp;        return sceneEnum;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to set the input reader GUI.
+&nbsp;     * @param inputReaderGUI the input reader GUI {@link inputReaderGUI}
+&nbsp;     */
+&nbsp;    public void setInputReaderGUI(inputReaderGUI inputReaderGUI){
+<b class="nc">&nbsp;        if(genericController!=null) {</b>
+<b class="nc">&nbsp;            genericController.setInputReaderGUI(inputReaderGUI);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to get the generic controller.
+&nbsp;     * @return the generic controller {@link GenericController}
+&nbsp;     */
+&nbsp;    public GenericController getGenericController(){
+<b class="nc">&nbsp;        return genericController;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

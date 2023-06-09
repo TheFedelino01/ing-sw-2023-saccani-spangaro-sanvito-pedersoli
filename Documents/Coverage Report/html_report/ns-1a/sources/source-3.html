@@ -1,0 +1,92 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PointIC</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.interfaces</a>
+</div>
+
+<h1>Coverage Summary for Class: PointIC (polimi.ingsw.model.interfaces)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">PointIC</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.interfaces;
+&nbsp;
+&nbsp;import polimi.ingsw.model.enumeration.CardType;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface is implemented by Point
+&nbsp; */
+&nbsp;public interface PointIC {
+&nbsp;    /**
+&nbsp;     * This method is used to get the point
+&nbsp;     * @return the point
+&nbsp;     */
+&nbsp;    Integer getPoint();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the card type this point is referred to
+&nbsp;     * @return the card type this point is referred to {@link CardType}
+&nbsp;     */
+&nbsp;    CardType getReferredTo();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if it is for the last point
+&nbsp;     */
+&nbsp;    boolean isFinishedPoint();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

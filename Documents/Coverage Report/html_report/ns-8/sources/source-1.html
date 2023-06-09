@@ -1,0 +1,229 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Chat</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.model.chat</a>
+</div>
+
+<h1>Coverage Summary for Class: Chat (polimi.ingsw.model.chat)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Chat</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,4%
+  </span>
+  <span class="absValue">
+    (38/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.model.chat;
+&nbsp;
+&nbsp;import polimi.ingsw.model.DefaultValue;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.interfaces.ChatIC;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import static org.fusesource.jansi.Ansi.ansi;
+&nbsp;
+&nbsp;public class Chat implements Serializable, ChatIC {
+&nbsp;    private List&lt;Message&gt; msgs;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     */
+<b class="fc">&nbsp;    public Chat() {</b>
+<b class="fc">&nbsp;        msgs = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     * @param msgs
+&nbsp;     */
+<b class="fc">&nbsp;    public Chat(List&lt;Message&gt; msgs) {</b>
+<b class="fc">&nbsp;        this.msgs = msgs;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return the list of messages
+&nbsp;     */
+&nbsp;    public List&lt;Message&gt; getMsgs() {
+<b class="fc">&nbsp;        return msgs;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a message
+&nbsp;     * @param m message param
+&nbsp;     */
+&nbsp;    public void addMsg(Message m) {
+<b class="fc">&nbsp;        if (msgs.size() &gt; DefaultValue.max_messagesShown)</b>
+<b class="fc">&nbsp;            msgs.remove(0);</b>
+<b class="fc">&nbsp;        msgs.add(m);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a message
+&nbsp;     * @param sender message param
+&nbsp;     * @param text message param
+&nbsp;     */
+&nbsp;    public void addMsg(Player sender, String text) {
+<b class="fc">&nbsp;        Message temp = new Message(text, sender);</b>
+<b class="fc">&nbsp;        if (msgs.size() &gt; DefaultValue.max_messagesShown)</b>
+<b class="fc">&nbsp;            msgs.remove(0);</b>
+<b class="fc">&nbsp;        msgs.add(temp);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return the last message in string form
+&nbsp;     */
+&nbsp;    public String getLast() {
+<b class="fc">&nbsp;        return msgs.get(msgs.size() - 1).toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the last message in message form
+&nbsp;     */
+&nbsp;    public Message getLastMessage() {
+<b class="fc">&nbsp;        return msgs.get(msgs.size() - 1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the chat messages
+&nbsp;     *
+&nbsp;     * @param msgs messages
+&nbsp;     */
+&nbsp;    public void setMsgs(List&lt;Message&gt; msgs) {
+<b class="fc">&nbsp;        this.msgs = msgs;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the chat in string form
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        StringBuilder ret = new StringBuilder();</b>
+<b class="fc">&nbsp;        int i = 0;</b>
+<b class="fc">&nbsp;        int len = this.getMsgs().stream()</b>
+<b class="fc">&nbsp;                .map(Message::getText)</b>
+<b class="fc">&nbsp;                .reduce((a, b) -&gt; b.length() &gt; a.length() ? b : a)</b>
+<b class="fc">&nbsp;                .toString().length();</b>
+<b class="fc">&nbsp;        for (Message msg : msgs) {</b>
+<b class="fc">&nbsp;            ret.append(msg.toString(i, len, false));</b>
+<b class="fc">&nbsp;            i++;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return ret.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param privateMsgByNickname
+&nbsp;     * @return the private chat in string form
+&nbsp;     */
+&nbsp;    public String toString(String privateMsgByNickname) {
+<b class="fc">&nbsp;        StringBuilder ret = new StringBuilder();</b>
+<b class="fc">&nbsp;        int i = 0;</b>
+<b class="fc">&nbsp;        int len = this.getMsgs().stream()</b>
+<b class="fc">&nbsp;                .map(Message::getText)</b>
+<b class="fc">&nbsp;                .reduce((a, b) -&gt; b.length() &gt; a.length() ? b : a)</b>
+<b class="fc">&nbsp;                .toString().length();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Message msg : msgs) {</b>
+<b class="fc">&nbsp;            if (!msg.whoIsReceiver().equals(&quot;*&quot;) &amp;&amp; ((msg.getSender().getNickname().equals(privateMsgByNickname) || msg.whoIsReceiver().equals(privateMsgByNickname)))) {</b>
+<b class="nc">&nbsp;                ret.append(msg.toString(i, len, true));</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                ret.append(msg.toString(i, len, false));</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            i++;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return ret.toString();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameListener</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.listener</a>
+</div>
+
+<h1>Coverage Summary for Class: GameListener (polimi.ingsw.listener)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">GameListener</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.listener;
+&nbsp;
+&nbsp;import polimi.ingsw.model.chat.Message;
+&nbsp;import polimi.ingsw.model.enumeration.TileType;
+&nbsp;import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
+&nbsp;import polimi.ingsw.model.Player;
+&nbsp;import polimi.ingsw.model.Point;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.rmi.Remote;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface is used to notify the client about the changes in the game
+&nbsp; */
+&nbsp;public interface GameListener extends Remote {
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that a player has joined the game
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void playerJoined(GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that a player has left the game
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @param nick is the nickname of the player that has left
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void playerLeft(GameModelImmutable gamemodel, String nick) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that a player has tried to join the game but the game is full
+&nbsp;     * @param p is the player that has tried to join the game
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void joinUnableGameFull(Player p, GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that a player has reconnected to the game
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @param nickPlayerReconnected is the nickname of the player that has reconnected
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void playerReconnected(GameModelImmutable gamemodel, String nickPlayerReconnected) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that a player has tried to join the game but the nickname is already in use
+&nbsp;     * @param wantedToJoin is the player that has tried to join the game
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that the game id does not exist
+&nbsp;     * @param gameid is the id of the game
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void gameIdNotExists(int gameid) throws RemoteException;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This is a generic error that can happen when a player is entering the game
+&nbsp;     * @param why is the reason why the error happened
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void genericErrorWhenEnteringGame(String why) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that the player is ready to start the game
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @param nick is the nickname of the player that is ready to start
+&nbsp;     * @throws IOException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that the common cards have been extracted
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that the game has started
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void gameStarted(GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify the client that the game has ended
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void gameEnded(GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that a message has been sent {@link Message}
+&nbsp;     * @param gameModel is the game model {@link GameModelImmutable}
+&nbsp;     * @param msg is the message that has been sent
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that a Tile has been grabbed
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void grabbedTile(GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that a Tile has been grabbed but it is not correct
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that a Tile has been positioned
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @param type is the type of the tile
+&nbsp;     * @param column is the column where the tile has been positioned
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that the next turn triggered
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void nextTurn(GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that points have been added
+&nbsp;     * @param p is the player that has added the points
+&nbsp;     * @param point is the number of points that have been added
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that a player has disconnected
+&nbsp;     * @param gameModel is the game model {@link GameModelImmutable}
+&nbsp;     * @param nick is the nickname of the player that has disconnected
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void playerDisconnected(GameModelImmutable gameModel, String nick) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that the column is too small
+&nbsp;     * @param gameModel is the game model {@link GameModelImmutable}
+&nbsp;     * @param column is the column that is too small
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void columnShelfTooSmall(GameModelImmutable gameModel, int column) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that only one player is connected
+&nbsp;     * @param gameModel is the game model {@link GameModelImmutable}
+&nbsp;     * @param secondsToWaitUntilGameEnded is the number of seconds to wait until the game ends
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void onlyOnePlayerConnected(GameModelImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to notify that the last circle has started
+&nbsp;     * @param gamemodel is the game model {@link GameModelImmutable}
+&nbsp;     * @throws RemoteException if the reference could not be accessed
+&nbsp;     */
+&nbsp;    void lastCircle(GameModelImmutable gamemodel) throws RemoteException;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>

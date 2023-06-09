@@ -1,0 +1,127 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MainControllerInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">polimi.ingsw.networking.rmi.remoteInterfaces</a>
+</div>
+
+<h1>Coverage Summary for Class: MainControllerInterface (polimi.ingsw.networking.rmi.remoteInterfaces)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">MainControllerInterface</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package polimi.ingsw.networking.rmi.remoteInterfaces;
+&nbsp;
+&nbsp;import polimi.ingsw.listener.GameListener;
+&nbsp;
+&nbsp;import java.rmi.Remote;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface contains the events regarding the list of games
+&nbsp; */
+&nbsp;public interface MainControllerInterface extends Remote {
+&nbsp;    /**
+&nbsp;     * This method creates a new game and add it to the GameListener list
+&nbsp;     * @param lis the GameListener of the player {@link GameListener}
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @return the GameControllerInterface of the game {@link GameControllerInterface}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method joins the first available game
+&nbsp;     * @param lis the GameListener of the player {@link GameListener}
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @return the GameControllerInterface of the game {@link GameControllerInterface}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method joins a specific game
+&nbsp;     * @param lis the GameListener of the player {@link GameListener}
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @param idGame the id of the game
+&nbsp;     * @return the GameControllerInterface of the game {@link GameControllerInterface}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method reconnects a player to a specific game
+&nbsp;     * @param lis the GameListener of the player {@link GameListener}
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @param idGame the id of the game
+&nbsp;     * @return the GameControllerInterface of the game {@link GameControllerInterface}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method leaves a specific game
+&nbsp;     * @param lis the GameListener of the player {@link GameListener}
+&nbsp;     * @param nick the nickname of the player
+&nbsp;     * @param idGame the id of the game
+&nbsp;     * @return the GameControllerInterface of the game {@link GameControllerInterface}
+&nbsp;     * @throws RemoteException if the connection fails
+&nbsp;     */
+&nbsp;    GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-09 12:04</div>
+</div>
+</body>
+</html>
