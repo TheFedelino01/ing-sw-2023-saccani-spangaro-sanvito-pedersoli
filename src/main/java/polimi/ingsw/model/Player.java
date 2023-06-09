@@ -235,17 +235,15 @@ public class Player implements Serializable, PlayerIC {
      * @param model where the player is playing
      */
     private void notify_addedPoint(Point point, GameModelImmutable model) {
-        Iterator<GameListener> iter = listeners.iterator();
-        while(iter.hasNext()) {
-            GameListener l = iter.next();
-            new Thread(() -> {
-                try {
-                    l.addedPoint(this, point, model);
-                } catch (RemoteException e) {
-                    iter.remove();
-                    throw new RuntimeException(e);
-                }
-            }).start();
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.addedPoint(this, point, model);
+            } catch (RemoteException e) {
+                System.out.println("During notification of notify_addedPoint, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
         }
     }
 

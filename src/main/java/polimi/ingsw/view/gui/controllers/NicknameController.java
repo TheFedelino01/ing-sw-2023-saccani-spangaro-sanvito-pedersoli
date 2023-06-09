@@ -3,6 +3,7 @@ package polimi.ingsw.view.gui.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import polimi.ingsw.view.gui.Sound;
 
 import java.io.IOException;
 
@@ -22,6 +23,7 @@ public class NicknameController extends GenericController{
     public void actionEnter(ActionEvent e) throws IOException {
         if(!nickNameTextField.getText().isEmpty()) {
             getInputReaderGUI().addTxt(nickNameTextField.getText());
+            //Sound.playSound("clickmenu.wav");
         }
     }
 }

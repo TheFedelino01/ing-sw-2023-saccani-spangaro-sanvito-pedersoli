@@ -300,7 +300,7 @@
                   <Font name="Arial Black" size="25.0" />
                </font>
             </Label>
-            <Label layoutX="1149.5" layoutY="7.0" text="Game ID:" textFill="WHITE">
+            <Label layoutX="1111.5" layoutY="7.0" text="Game ID:" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="20.0" />
                </font>
@@ -498,7 +498,7 @@
                   <Font name="Arial Black" size="25.0" />
                </font>
             </Label>
-            <Label fx:id="lableGameId" layoutX="1259.0" layoutY="7.0" prefHeight="29.0" prefWidth="101.0" text="000000" textFill="WHITE">
+            <Label fx:id="lableGameId" layoutX="1221.0" layoutY="7.0" prefHeight="29.0" prefWidth="101.0" text="000000" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="20.0" />
                </font>
@@ -813,6 +813,11 @@
             </Pane>
             <Pane fx:id="youChair" layoutX="348.0" layoutY="384.0" prefHeight="66.0" prefWidth="65.0" styleClass="chair" stylesheets="@style.css" />
          </children>
+      </Pane>
+      <Pane fx:id="sound" layoutX="1327.0" layoutY="6.0" onMouseClicked="#actionSound" prefHeight="30.0" prefWidth="30.0" styleClass="soundOFF" stylesheets="@style.css">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Pane>
     </children>
    <styleClass>

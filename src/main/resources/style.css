@@ -748,3 +748,15 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+
+.soundON{
+    -fx-background-image: url("img/img/misc/soundON.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.soundOFF{
+    -fx-background-image: url("img/img/misc/soundOFF.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}

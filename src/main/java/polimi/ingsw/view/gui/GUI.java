@@ -177,6 +177,7 @@ public class GUI extends UI {
         } else {
             //The player is in lobby and another player has joined
             callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
+            Sound.playSound("sendmsg.wav");
         }
 
 
@@ -255,7 +256,7 @@ public class GUI extends UI {
      */
     @Override
     protected void show_playerHand(GameModelImmutable gameModel) {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Player hand updated!", null));
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Player "+gameModel.getNicknameCurrentPlaying()+"hand updated!", null));
     }
 
     /**
@@ -266,7 +267,7 @@ public class GUI extends UI {
      */
     @Override
     protected void show_grabbedTile(String nickname, GameModelImmutable model) {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Player " + nickname + " has grabbed some tiles", null));
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Player " + model.getNicknameCurrentPlaying() + " has grabbed some tiles", null));
     }
 
     @Override
@@ -331,7 +332,7 @@ public class GUI extends UI {
      */
     @Override
     protected void show_grabbedTileNotCorrect(GameModelImmutable model, String nickname) {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Tiles grabbed not valid!", false));
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Tiles grabbed by player "+model.getNicknameCurrentPlaying()+" are not valid!", false));
     }
 
     /**
@@ -339,7 +340,7 @@ public class GUI extends UI {
      */
     @Override
     public void show_NaNMsg() {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("NaN", false));
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Selection not valid: NaN", false));
     }
 
     /**
@@ -368,6 +369,7 @@ public class GUI extends UI {
     @Override
     protected void show_askPickTilesMainMsg() {
         callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Grab some tiles from the playground", true));
+        Sound.playSound("openingsound.wav");
     }
 
     /**

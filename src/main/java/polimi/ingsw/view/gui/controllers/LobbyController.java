@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import polimi.ingsw.view.gui.Sound;
 
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ public class LobbyController extends GenericController{
      */
     public void actionIamReady(ActionEvent e) throws IOException {
         getInputReaderGUI().addTxt("y");
+        Sound.playSound("ding.wav");
     }
 
     /**

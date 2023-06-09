@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.interfaces.PlayerIC;
+import polimi.ingsw.view.gui.Sound;
 
 /**
  * This class is the controller for the game ended scene.
@@ -51,6 +52,8 @@ public class GameEndedController extends GenericController{
             tmp.setVisible(true);
             i++;
         }
+
+        Sound.playSound("tada.wav");
     }
 
     /**

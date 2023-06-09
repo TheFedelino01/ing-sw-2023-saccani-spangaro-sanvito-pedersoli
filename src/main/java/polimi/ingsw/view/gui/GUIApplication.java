@@ -55,8 +55,7 @@ public class GUIApplication extends Application {
         this.primaryStage.setTitle("My Shelfie");
 
         root = new StackPane();
-
-
+        Sound.playSound("openingsound.wav");
     }
 
     /**
@@ -113,9 +112,9 @@ public class GUIApplication extends Application {
         resizing=false;
         int index = getSceneIndex(scene);
         if (index != -1) {
-
+            SceneInfo s = scenes.get(getSceneIndex(scene));
             switch (scene) {
-                case INGAME,GENERIC_ERROR -> {
+                case GENERIC_ERROR -> {
                     this.closePopUpStage();
                 }
                 case NICKNAME_POPUP -> {
@@ -126,28 +125,36 @@ public class GUIApplication extends Application {
                     this.primaryStage.initStyle(StageStyle.UNDECORATED);
                     this.primaryStage.setAlwaysOnTop(true);
                     this.primaryStage.centerOnScreen();
+
                 }
                 case MENU -> {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);
+                    MenuController controller = (MenuController) s.getGenericController();
+                    controller.actionSound(null);
+                }
+                case INGAME -> {
+                    this.closePopUpStage();
+                    InGameController controller = (InGameController) s.getGenericController();
+                    controller.actionSound(null);
                 }
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
                 }
             }
 
-            this.primaryStage.setScene(scenes.get(getSceneIndex(scene)).getScene());
+            this.primaryStage.setScene(s.getScene());
             this.primaryStage.show();
         }
 
         widthOld=primaryStage.getScene().getWidth();
         heightOld=primaryStage.getScene().getHeight();
         this.primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            rescale();
+            rescale((double)newVal-16,heightOld);
         });
 
         this.primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
-            rescale();
+            rescale(widthOld,(double)newVal-39);
         });
         resizing=true;
 
@@ -160,10 +167,10 @@ public class GUIApplication extends Application {
     /**
      * This method is used to rescale the scene.
      */
-    public void rescale() {
+    public void rescale(double width, double heigh) {
         if(resizing) {
-            double widthWindow = primaryStage.getScene().getWidth();
-            double heightWindow = primaryStage.getScene().getHeight();
+            double widthWindow = width;
+            double heightWindow = heigh;
 
 
             double w = widthWindow / widthOld;  // your window width

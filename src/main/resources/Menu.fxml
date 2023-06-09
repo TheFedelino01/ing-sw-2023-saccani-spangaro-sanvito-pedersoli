@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundWelcome" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polimi.ingsw.view.gui.controllers.MenuController">
     <children>
@@ -17,33 +18,58 @@
                <font>
                   <Font size="22.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
               <Button alignment="CENTER_RIGHT" layoutX="4.0" layoutY="277.0" mnemonicParsing="false" onAction="#actionJoinFirstAvailableGame" prefHeight="86.0" prefWidth="423.0" styleClass="record-sales2" stylesheets="@style.css" text="Join to a random game">
                <font>
                   <Font size="22.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
               <Button alignment="CENTER_RIGHT" layoutX="4.0" layoutY="383.0" mnemonicParsing="false" onAction="#actionJoinToASpecificGame" prefHeight="86.0" prefWidth="393.0" styleClass="record-sales3" stylesheets="@style.css" text="Join to specific Game">
                <font>
                   <Font size="22.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
               <Button alignment="CENTER_RIGHT" layoutX="4.0" layoutY="489.0" mnemonicParsing="false" onAction="#actionReconnect" prefHeight="86.0" prefWidth="363.0" styleClass="record-sales4" stylesheets="@style.css" text="Reconnect">
                <font>
                   <Font size="22.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-              <Text fill="#f3f5f4" fontSmoothingType="LCD" layoutX="1040.63671875" layoutY="638.09765625" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit" textAlignment="CENTER" wrappingWidth="278.13671875">
-                  <font>
-                      <Font name="Calisto MT" size="18.0" />
-                  </font>
-              </Text>
             <Pane layoutX="103.0" layoutY="3.0" opacity="0.8" prefHeight="137.0" prefWidth="1152.0" style="-fx-background-color: black;" />
             <ImageView fitHeight="120.0" fitWidth="815.0" layoutX="268.0" layoutY="17.0">
                <image>
                   <Image url="@img/img/Publisher_material/Title_2000x2000px.png" />
                </image>
             </ImageView>
+            <Pane layoutX="1234.0" layoutY="648.0" onMouseClicked="#actionShowInfo" prefHeight="40.0" prefWidth="40.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="pointEnd" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Pane>
+            <Pane fx:id="sound" layoutX="17.0" layoutY="652.0" onMouseClicked="#actionSound" prefHeight="40.0" prefWidth="40.0" stylesheets="@style.css">
+               <styleClass>
+                  <String fx:value="soundOFF" />
+                  <String fx:value="tileHover" />
+               </styleClass>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Pane>
          </children>
       </Pane>
     </children>

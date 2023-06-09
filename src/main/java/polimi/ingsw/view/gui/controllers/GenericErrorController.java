@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import polimi.ingsw.view.gui.Sound;
 
 /**
  * This class is the controller for the generic error popup.
@@ -15,6 +16,8 @@ public class GenericErrorController extends GenericController{
     @FXML
     private Button btn;
     private boolean needToExitApp;
+
+
 
     /**
      * Method to control the action
@@ -41,5 +44,7 @@ public class GenericErrorController extends GenericController{
             btn.setText("Close App");
         }
         this.needToExitApp=needToExitApp;
+
+        Sound.playSound("disconnection.wav");
     }
 }

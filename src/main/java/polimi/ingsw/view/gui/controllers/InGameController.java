@@ -21,6 +21,7 @@ import polimi.ingsw.model.gameModelImmutable.GameModelImmutable;
 import polimi.ingsw.model.interfaces.PlayerIC;
 import polimi.ingsw.model.interfaces.TileIC;
 import polimi.ingsw.view.gui.IntRecord;
+import polimi.ingsw.view.gui.Sound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +99,7 @@ public class InGameController extends GenericController {
     private Integer rowFirstTile, colFirstTile, rowSecondTile, colSecondTile;
     private boolean needToDetectColSelection = false, needToDetectTileInHandGrabbing = false;
 
+
     /**
      * This method manages the click on a tile in the playground.
      *
@@ -114,23 +116,40 @@ public class InGameController extends GenericController {
                     //Second click so client selected first and last Tile in the playground
                     rowSecondTile = row;
                     colSecondTile = col;
-                    checkAlignment(rowFirstTile, colFirstTile, rowSecondTile, colSecondTile);
+                    boolean isValid =checkAlignment(rowFirstTile, colFirstTile, rowSecondTile, colSecondTile);
+                    if(isValid){
+                        firstClick = !firstClick;
+                        Sound.playSound("clickTile1.wav");
+                    }else{
+                        setMsgToShow("Tiles selection not valid",false);
+                        rightClickMouse();
+                    }
+
+
                 } else {
                     rowFirstTile = row;
                     colFirstTile = col;
+                    Sound.playSound("clickTile1.wav");
+                    firstClick = !firstClick;
                 }
-                firstClick = !firstClick;
+
+
             } else {
-                this.rowFirstTile = null;
-                this.colFirstTile = null;
-                this.rowSecondTile = null;
-                this.colSecondTile = null;
-                firstClick = true;
-                makeTilesNotSelectedExpectTheFirstOne();
+                rightClickMouse();
             }
         }
-
     }
+
+    private void rightClickMouse(){
+        this.rowFirstTile = null;
+        this.colFirstTile = null;
+        this.rowSecondTile = null;
+        this.colSecondTile = null;
+        firstClick = true;
+        makeTilesNotSelectedExpectTheFirstOne();
+        Sound.playSound("delete.wav");
+    }
+
 
     /**
      * This method manages the click on a tile in the hand.
@@ -141,6 +160,7 @@ public class InGameController extends GenericController {
         if (needToDetectTileInHandGrabbing) {
             Integer indexTileHandToPlace = getRowColFrom(e, "pgGrab").col();
             getInputReaderGUI().addTxt(indexTileHandToPlace.toString());
+            Sound.playSound("placeTile.wav");
         }
     }
 
@@ -224,6 +244,7 @@ public class InGameController extends GenericController {
             changeCursorOnInHandTiles(Cursor.HAND);
 
             getInputReaderGUI().addTxt(Integer.toString(colToPlaceTiles));
+            Sound.playSound("clickTile1.wav");
         }
     }
 
@@ -234,6 +255,8 @@ public class InGameController extends GenericController {
      */
     public void actionSendMessage(MouseEvent e) {
         if (!messageText.getText().isEmpty()) {
+            Sound.playSound("sendmsg.wav");
+
             if (comboBoxMessage.getValue().toString().isEmpty()) {
                 getInputReaderGUI().addTxt("/c " + messageText.getText());
             } else {
@@ -399,12 +422,13 @@ public class InGameController extends GenericController {
      * @param colFirstTile  the column of the first tile
      * @param rowSecondTile the row of the second tile
      * @param colSecondTile the column of the second tile
+     * @return true if grabbed tiles are valid
      */
-    private void checkAlignment(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
+    private boolean checkAlignment(int rowFirstTile, int colFirstTile, int rowSecondTile, int colSecondTile) {
         Direction dir = null;
         Integer distance = null;
 
-        if (rowFirstTile == rowSecondTile && Math.abs(colFirstTile - colSecondTile) <= 3) {
+        if (rowFirstTile == rowSecondTile && Math.abs(colFirstTile - colSecondTile) < 3) {
             distance = Math.abs(colFirstTile - colSecondTile) + 1;
 
             if (distance != 1) {
@@ -414,7 +438,7 @@ public class InGameController extends GenericController {
                     dir = Direction.LEFT;
                 }
             }
-        } else if (colFirstTile == colSecondTile && Math.abs(rowFirstTile - rowSecondTile) <= 3) {
+        } else if (colFirstTile == colSecondTile && Math.abs(rowFirstTile - rowSecondTile) < 3) {
             distance = Math.abs(rowFirstTile - rowSecondTile) + 1;
 
             if (rowFirstTile < rowSecondTile) {
@@ -423,7 +447,7 @@ public class InGameController extends GenericController {
                 dir = Direction.UP;
             }
         } else {
-            return;
+            return false;
         }
 
 
@@ -441,7 +465,7 @@ public class InGameController extends GenericController {
         this.colSecondTile = null;
         makeTilesNotSelectedExpectTheFirstOne();
 
-
+        return true;
     }
 
     /**
@@ -927,5 +951,29 @@ public class InGameController extends GenericController {
             this.pointFinish.setVisible(false);
         }
 
+    }
+
+
+    /**
+     * Change the sound icon
+     * @param e event
+     */
+    public void actionSound(MouseEvent e){
+        if(e!=null) {
+            Sound.play = !Sound.play;
+        }
+        Pane sound = (Pane)mainAnchor.lookup("#sound");
+        if(Sound.play){
+            mainAnchor.lookup("#sound").getStyleClass().remove("soundOFF");
+            if(!sound.getStyleClass().contains("soundON")){
+                sound.getStyleClass().add("soundON");
+                Sound.playSound("clickmenu.wav");
+            }
+        }else{
+            sound.getStyleClass().remove("soundON");
+            if(!sound.getStyleClass().contains("soundOFF")){
+                sound.getStyleClass().add("soundOFF");
+            }
+        }
     }
 }
