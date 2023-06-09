@@ -132,12 +132,12 @@ public class TUI extends UI {
         ris.append(ansi().cursor(DefaultValue.row_input - 1, 0).a(nickname).a(": Player: ").a(model.getNicknameCurrentPlaying()).a(" has grabbed some tiles: | "));
         for (TileIC t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
-                case CAT -> ris.append(ansi().bg(GREEN).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case TROPHY -> ris.append(ansi().bg(CYAN).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case PLANT -> ris.append(ansi().bg(MAGENTA).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case BOOK -> ris.append(ansi().bg(WHITE).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case ACTIVITY -> ris.append(ansi().bg(YELLOW).a(t.toString()).bg(DEFAULT)).append(" | ");
-                case FRAME -> ris.append(ansi().bg(BLUE).a(t.toString()).bg(DEFAULT)).append(" | ");
+                case CAT -> ris.append(ansi().fg(WHITE).bg(GREEN).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case TROPHY -> ris.append(ansi().fg(WHITE).bg(CYAN).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case PLANT -> ris.append(ansi().fg(WHITE).bg(MAGENTA).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case BOOK -> ris.append(ansi().fg(BLACK).bg(WHITE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case ACTIVITY -> ris.append(ansi().fg(WHITE).bg(YELLOW).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case FRAME -> ris.append(ansi().fg(WHITE).bg(BLUE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
             }
         }
         System.out.println(ris);
