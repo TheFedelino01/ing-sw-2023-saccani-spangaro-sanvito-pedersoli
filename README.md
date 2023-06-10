@@ -33,16 +33,22 @@ We have `implemented`, in addiction to the `Game Specific` and `Game Agnostic` r
 
 # How to Use <img src="https://i.ibb.co/QHmskqv/run.png" align="right" alt="logo" width="130" height = "139" style = "border: none; float: right;">
 **From Github: (for windows users)**
+`Option1:`
 1. Go to releases
 2. Download the latest release published
 3. Double click on the .exe file to run `MyShelfieServer.exe` and `MyShelfieClient.exe`
 
+`Option2:`
+1. Go to /Deployable folder
+2. Download the .exe files of the server and the client
+
 **From Repo clone: (for mac and windows users)**
-1. Go to Documents/JARs and download both files  
+1. Go to /Deployable and download both files  
 2. Open `CMD` and navigate to C:/[dir]/[folder with the jar files]  
 3. From here, just type in the `CMD`:  
    -> `java -jar softeng-gc04-1.0-SNAPSHOT-client.jar` (to run the clients)<br>
    -> `java -jar softeng-gc04-1.0-SNAPSHOT-server.jar` (to run the server)  
+
   
 **From Intellij: (for developers)**
 1. Intellij: maven `menù -> MyShelfie -> Lifecycle -> Clean` 
