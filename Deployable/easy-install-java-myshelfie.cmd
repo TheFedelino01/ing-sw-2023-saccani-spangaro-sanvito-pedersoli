@@ -1,4 +1,13 @@
 @echo off
+REM Verifica se il file viene avviato come amministratore
+>nul 2>&1 "%SYSTEMROOT%\System32\cacls.exe" "%SYSTEMROOT%\System32\config\system"
+
+IF "%ERRORLEVEL%" NEQ "0" (
+    echo Questo script richiede privilegi di amministratore.
+    echo Esegui il file come amministratore e riprova.
+    pause >nul
+    exit /b
+)
 
 REM Chiedi all'utente se desidera scaricare e installare Java
 set /p installJava="Desideri scaricare e installare Java? (S/N): "
