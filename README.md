@@ -31,6 +31,10 @@ We have `implemented`, in addiction to the `Game Specific` and `Game Agnostic` r
 | Socket and RMI  | :heavy_check_mark:    |
 | Complete rules  | :heavy_check_mark:    |
 
+Requirements: <a href="https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/blob/main/Documents/Requirements/requirements.pdf">requirements.pdf</a> <br>
+Rulebook: <a href="https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/blob/main/Documents/Requirements/MyShelfie_Rulebook_ITA.pdf">rulebook.pdf</a> <br>
+Official Site: <a href="https://www.craniocreations.it/prodotto/my-shelfie">producer site</a>
+
 # How to Use <img src="https://i.ibb.co/QHmskqv/run.png" align="right" alt="logo" width="130" height = "139" style = "border: none; float: right;">
 **From Github: (for windows users)**<br>
 `Option1:`
@@ -61,6 +65,17 @@ We have `implemented`, in addiction to the `Game Specific` and `Game Agnostic` r
 Repeat from (1) each time the code is modified  
   
 
+# Fix issue
+In order to run the game properly, you need install <a href="https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html">Java SE Development Kit 19.0.2</a><br>
+When installed, you need to add the following Environment Variables in windows (search bar: "env" and press enter then click on "Environment variables"):<br>
+<div>In the list of "Enviroment variables of the user" add the following:</div>
+
+  1. `JAVA_HOME C:\Program Files\Java\jdk-19`<br>
+  2. `JDK_HOME C:\Program Files\Java\jdk-19`<br>
+<div>In the list of "System variables" add the following:</div>
+
+  1. `CLASSPATH C:\Program Files\Java\jdk-19\lib`
+
 # How generate Code Coverage <img src="https://i.ibb.co/4PYzV7D/cov.png" align="right" alt="logo" width="130" height = "139" style = "border: none; float: right;">
 To generate the Code Coverage:  
 1. Intellij: maven `menù -> MyShelfie -> Lifecycle -> Clean` 
@@ -69,14 +84,16 @@ Code Coverage will be generated in: <br>
  -> `C:/[dir]/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/MyShelfie/target/site/jacoco/index.html`<br><br>
 Open the file to see a more detailed view on the project's code coverage      
 
-
-<img src="https://i.ibb.co/ch9ytVk/menu2.png" alt="logo" width="800" heigth="600" float="center">
-
+# Game Screenshot
+<img src="https://i.postimg.cc/fRjV3Gf4/menu.png" alt="logo" width="600" heigth="300" float="center">
+<img src="https://i.ibb.co/ZJ0yHTQ/nickname.png" alt="logo" width="600" heigth="300" float="center">
+<img src="https://i.postimg.cc/MTXHFv2x/lobby.png" alt="logo" width="600" heigth="300" float="center">
+<img src="https://i.postimg.cc/sX8xdssW-/game.png" alt="logo" width="600" heigth="300" float="center">
 
 
 ## Other Features
 * Full screen mode responsive
-  - Write distraction free.
+* Sound effects
 * Cross platform
   - Windows and macOS ready.
 
@@ -89,7 +106,6 @@ You can [download](https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro
 
 This software uses the following open source packages:
 
-- [Lanterna](https://code.google.com/archive/p/lanterna/)
 - [Json-Simple](https://code.google.com/archive/p/json-simple/)
 - [OpenJfx](https://openjfx.io/)
 - [JUnit](https://junit.org/junit5/)
