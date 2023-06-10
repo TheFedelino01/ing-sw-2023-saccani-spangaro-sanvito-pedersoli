@@ -65,7 +65,11 @@ Official Site: <a href="https://www.craniocreations.it/prodotto/my-shelfie">prod
 Repeat from (1) each time the code is modified  
   
 
-# Fix issue
+# Fix issue or download JAVA SE 19
+We have created an easy cmd script (for windows) that automatically perform all the following instructions.<br>
+Download the <a href="https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/blob/main/Deployable/easy-install-java-myshelfie.cmd">easy-install-java-myshelfie.cmd</a> file from the repo and execute it has Administrator!<br><br>
+
+Otherwise, try manually these steps manually:<br>
 In order to run the game properly, you need install <a href="https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html">Java SE Development Kit 19.0.2</a><br>
 When installed, you need to add the following Environment Variables in windows (search bar: "env" and press enter then click on "Environment variables"):<br>
 <div>In the list of "Environment variables of the user" add the following:</div>
