@@ -349,6 +349,7 @@ public class GameFlow extends Flow implements Runnable, CommonClientActions {
             case GAMEENDED -> {
                 ui.show_returnToMenuMsg();
                 //new Scanner(System.in).nextLine();
+                this.inputParser.getDataToProcess().popAllData();
                 try {
                     this.inputParser.getDataToProcess().popData();
                 } catch (InterruptedException e) {
