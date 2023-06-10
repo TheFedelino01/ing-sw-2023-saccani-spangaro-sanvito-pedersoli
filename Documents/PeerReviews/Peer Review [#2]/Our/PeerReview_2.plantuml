@@ -1,0 +1,858 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class ActionPerformedByAPlayerNotPlayingException {
+  + ActionPerformedByAPlayerNotPlayingException(): 
+}
+class Card {
+  + Card(): 
+  + setName(String): void
+  + isSameType(Card): boolean
+  + getName(): String
+}
+enum CardCommonType << enumeration >> {
+  + CardCommonType(): 
+  + valueOf(String): CardCommonType
+  + values(): CardCommonType[]
+}
+class CardGoal {
+  + CardGoal(): 
+  + CardGoal(Shelf, CardGoalType): 
+  + CardGoal(CardGoalType): 
+  + toString(int): String
+  + verify(Shelf): Point
+  + getLayoutToMatch(): Shelf
+  + setLayoutToMatch(Shelf): void
+  + isSameType(Card): boolean
+  + getLegendPoint(): Map<Integer, Point>
+  - initialiseLayout(CardGoalType): void
+  + getGoalType(): CardGoalType
+  + setGoalType(CardGoalType): void
+}
+enum CardGoalType << enumeration >> {
+  + CardGoalType(): 
+  + toString(CardGoalType): String
+  + values(): CardGoalType[]
+  + valueOf(String): CardGoalType
+  + getValues(): List<CardGoalType>
+  + getValuesBUT(): List<CardGoalType>
+}
+interface CardType << interface >>
+class Chat {
+  + Chat(): 
+  + Chat(List<Message>): 
+  + getLastMessage(): Message
+  + getMsgs(): List<Message>
+  + setMsgs(List<Message>): void
+  + addMsg(Player, String): void
+  + toString(): String
+  + addMsg(Message): void
+  + getLast(): String
+}
+class ClientHandler {
+  + ClientHandler(Socket): 
+  + interruptThread(): void
+  + run(): void
+}
+class ClientSocket {
+  + ClientSocket(View): 
+  + createGame(String): void
+  + sendMessage(Message): void
+  + reconnect(String, int): void
+  + positionTileOnShelf(int, TileType): void
+  + isMyTurn(): boolean
+  + setAsReady(): void
+  - startConnection(String, int): void
+  + run(): void
+  + joinGame(String, int): void
+  + stopConnection(): void
+  + grabTileFromPlayground(int, int, Direction, int): void
+  + heartbeat(): void
+  + joinFirstAvailable(String): void
+}
+class CommonCard {
+  + CommonCard(CardCommonType): 
+  + CommonCard(Queue<Point>, CardCommonType): 
+  + getPoints(): Queue<Point>
+  + toString(CardCommonType, int): String
+  + isSameType(Card): boolean
+  + getCommonType(): CardCommonType
+  + setCommonType(CardCommonType): void
+  + equals(CommonCard): boolean
+  + setPoints(Queue<Point>): void
+  + verify(Shelf): boolean
+}
+class CommonCardAlreadyInException {
+  + CommonCardAlreadyInException(): 
+}
+class CommonCardFactory {
+  + CommonCardFactory(): 
+  + getCommonCard(CardCommonType): CommonCard
+}
+interface CommonClientActions << interface >> {
+  + heartbeat(): void
+  + grabTileFromPlayground(int, int, Direction, int): void
+  + positionTileOnShelf(int, TileType): void
+  + sendMessage(Message): void
+  + createGame(String): void
+  + setAsReady(): void
+  + joinGame(String, int): void
+  + isMyTurn(): boolean
+  + joinFirstAvailable(String): void
+  + reconnect(String, int): void
+}
+class CommonEight {
+  + CommonEight(CardCommonType): 
+  + verify(Shelf): boolean
+}
+class CommonFourGroups {
+  + CommonFourGroups(CardCommonType): 
+  + verify(Shelf): boolean
+}
+class CommonHorizontalCard {
+  + CommonHorizontalCard(CardCommonType, int): 
+  - check(Shelf, int): int
+  + verify(Shelf): boolean
+}
+class CommonMethods {
+  + CommonMethods(CardCommonType): 
+  + verify(Shelf): boolean
+  ~ adjacentToFU(Shelf, int, int, Tile): void
+  ~ deleteAdjacent(Shelf, int, int, Tile): void
+  ~ checkIfSafe(Shelf, int, int, Tile): boolean
+  ~ countAdjacent(Shelf): int
+}
+class CommonSameDiagonal {
+  + CommonSameDiagonal(CardCommonType): 
+  + verify(Shelf): boolean
+}
+class CommonSixGroups {
+  + CommonSixGroups(CardCommonType): 
+  + verify(Shelf): boolean
+}
+class CommonSquares {
+  + CommonSquares(CardCommonType): 
+  + verify(Shelf): boolean
+}
+class CommonStair {
+  + CommonStair(CardCommonType): 
+  + verify(Shelf): boolean
+}
+class CommonVerticalCard {
+  + CommonVerticalCard(CardCommonType, int): 
+  - checkLines(Shelf, int): int
+  + verify(Shelf): boolean
+}
+class CommonVertixesCard {
+  + CommonVertixesCard(CardCommonType): 
+  + verify(Shelf): boolean
+}
+class CommonXCard {
+  + CommonXCard(CardCommonType): 
+  + verify(Shelf): boolean
+}
+enum Direction << enumeration >> {
+  + Direction(): 
+  + getDirection(String): Direction
+  + valueOf(String): Direction
+  + values(): Direction[]
+}
+class EventElement {
+  + EventElement(GameModelImmutable, EventType): 
+  + getModel(): GameModelImmutable
+  + getType(): EventType
+}
+class EventList {
+  + EventList(): 
+  + size(): int
+  + pop(): EventElement
+  + add(GameModelImmutable, EventType): void
+  + isJoined(): boolean
+}
+enum EventType << enumeration >> {
+  + EventType(): 
+  + valueOf(String): EventType
+  + values(): EventType[]
+}
+enum GameCaseType << enumeration >> {
+  + GameCaseType(): 
+  + values(): GameCaseType[]
+  + valueOf(String): GameCaseType
+}
+class GameController {
+  + GameController(): 
+  + run(): void
+  + nextTurn(): void
+  + getAllCommonCards(): List<CommonCard>
+  - extractGoalCards(): void
+  + sentMessage(Message): void
+  + getPlayers(): List<Player>
+  + heartbeat(String, GameListener): void
+  + whoIsPlaying(): Player
+  - extractFirstTurn(): void
+  + getAllGoalCards(): Map<Player, CardGoal>
+  - isPlayerTheCurrentPlaying(Player): boolean
+  + addPlayer(Player): void
+  + getGoalCard(int): CardGoal
+  + positionTileOnShelf(String, int, TileType): void
+  - checkGoalCards(): void
+  + reconnectPlayer(Player): void
+  + addListener(GameListener, Player): void
+  + getId(): int
+  + getNumOfPlayers(): int
+  - extractCommonCards(): void
+  + isThisMyTurn(String): boolean
+  - getListPointForCommonCard(CommonCard): Queue<Point>
+  + grabTileFromPlayground(String, int, int, Direction, int): void
+  + getIndexCurrentPlaying(): int
+  + setConnectionStatus(String, GameListener, boolean): void
+  + removeListener(GameListener, Player): void
+  + getStatus(): GameStatus
+  + playerIsReadyToStart(String): boolean
+  + getPlayer(String): Player
+  - setPlaygroundLayout(): void
+  - checkCommonCards(Player): void
+}
+interface GameControllerInterface << interface >> {
+  + isThisMyTurn(String): boolean
+  + sentMessage(Message): void
+  + setConnectionStatus(String, GameListener, boolean): void
+  + heartbeat(String, GameListener): void
+  + grabTileFromPlayground(String, int, int, Direction, int): void
+  + positionTileOnShelf(String, int, TileType): void
+  + playerIsReadyToStart(String): boolean
+}
+class GameEndedException {
+  + GameEndedException(): 
+}
+interface GameListener << interface >> {
+  + sentMessage(GameModelImmutable, Message): void
+  + playerDisconnected(String): void
+  + grabbedTileNotCorrect(GameModelImmutable): void
+  + positionedTile(GameModelImmutable, TileType, int): void
+  + joinUnableNicknameAlreadyIn(Player): void
+  + joinUnableGameFull(Player, GameModelImmutable): void
+  + playerReconnected(GameModelImmutable, String): void
+  + gameEnded(GameModelImmutable): void
+  + addedPoint(Player, Point): void
+  + grabbedTile(GameModelImmutable): void
+  + gameIdNotExists(int): void
+  + nextTurn(GameModelImmutable): void
+  + playerJoined(GameModelImmutable): void
+  + gameStarted(GameModelImmutable): void
+  + playerIsReadyToStart(GameModelImmutable, String): void
+  + commonCardsExtracted(GameModelImmutable): void
+}
+class GameListenersHandlerClient {
+  + GameListenersHandlerClient(View): 
+  + joinUnableGameFull(Player, GameModelImmutable): void
+  + playerReconnected(GameModelImmutable, String): void
+  + sentMessage(GameModelImmutable, Message): void
+  + commonCardsExtracted(GameModelImmutable): void
+  + positionedTile(GameModelImmutable, TileType, int): void
+  + gameEnded(GameModelImmutable): void
+  + grabbedTile(GameModelImmutable): void
+  + playerDisconnected(String): void
+  + gameIdNotExists(int): void
+  + gameStarted(GameModelImmutable): void
+  + addedPoint(Player, Point): void
+  + grabbedTileNotCorrect(GameModelImmutable): void
+  + playerJoined(GameModelImmutable): void
+  + joinUnableNicknameAlreadyIn(Player): void
+  + nextTurn(GameModelImmutable): void
+  + playerIsReadyToStart(GameModelImmutable, String): void
+}
+class GameListenersHandlerSocket {
+  + GameListenersHandlerSocket(ObjectOutputStream): 
+  + gameIdNotExists(int): void
+  + joinUnableGameFull(Player, GameModelImmutable): void
+  + playerReconnected(GameModelImmutable, String): void
+  + playerIsReadyToStart(GameModelImmutable, String): void
+  + gameEnded(GameModelImmutable): void
+  + grabbedTile(GameModelImmutable): void
+  + gameStarted(GameModelImmutable): void
+  + grabbedTileNotCorrect(GameModelImmutable): void
+  + sentMessage(GameModelImmutable, Message): void
+  + playerJoined(GameModelImmutable): void
+  + joinUnableNicknameAlreadyIn(Player): void
+  + positionedTile(GameModelImmutable, TileType, int): void
+  + nextTurn(GameModelImmutable): void
+  + playerDisconnected(String): void
+  + commonCardsExtracted(GameModelImmutable): void
+  + addedPoint(Player, Point): void
+}
+class GameModel {
+  + GameModel(): 
+  + GameModel(List<Player>, List<CommonCard>, Integer, Playground): 
+  + reconnectPlayer(Player): void
+  + getPlayerIndex(Player): int
+  + setPg(Playground): void
+  + getChat(): Chat
+  - findWinner(): void
+  + getPg(): Playground
+  + playerIsReadyToStart(Player): void
+  + setAsConnected(String): void
+  + addPlayer(Player): void
+  + grabTileFromPlayground(Player, int, int, Direction, int): void
+  + setFinishedPlayer(Integer): void
+  + getNumOfCommonCards(): int
+  + setGameId(Integer): void
+  + getNumOfPlayers(): int
+  + getStatus(): GameStatus
+  + setCurrentPlaying(Integer): void
+  + getLeaderBoard(): Map<Integer, Integer>
+  + addCommonCard(CommonCard): void
+  + doAllPlayersHaveGoalCard(): boolean
+  + getGameId(): Integer
+  - readResolve(): Object
+  + setAsDisconnected(String): void
+  + setStatus(GameStatus): void
+  + getGoalCards(): Map<Player, CardGoal>
+  + getCommonCards(): List<CommonCard>
+  + setGoalCard(int, CardGoal): void
+  + nextTurn(): void
+  + sentMessage(Player, String): void
+  + getCommonCard(int): CommonCard
+  - popInHandTilePlayer(Player, TileType): Tile?
+  + arePlayersReadyToStartAndEnough(): boolean
+  + removeListener(GameListener): void
+  + positionTileOnShelf(Player, int, TileType): void
+  + getPlayers(): List<Player>
+  + addListener(GameListener): void
+  + getGoalCard(int): CardGoal
+  + getCurrentPlaying(): Integer
+  + getPlayerEntity(String): Player
+}
+class GameModelImmutable {
+  + GameModelImmutable(GameModel): 
+  + GameModelImmutable(): 
+  + getCommonCards(): List<CommonCard>
+  + getPlayerEntity(String): Player
+  + getHandOfCurrentPlaying(): List<Tile>
+  + getNicknameCurrentPlaying(): String
+  + getStatus(): GameStatus
+  + getLastCommonCard(): CommonCard
+  + getEntityCurrentPlaying(): Player
+  + getCurrentPlaying(): Integer
+  + getPg(): Playground
+  + getChat(): Chat
+  + getWinner(): Player
+  + getIndexWonPlayer(): Integer
+  + getGameId(): Integer
+  + getFirstFinishedPlayer(): Integer
+  + toStringListPlayers(): String
+  + isMyTurn(String): boolean
+  + getPlayers(): List<Player>
+  + getLastPlayer(): Player
+}
+class GameNotStartedException {
+  + GameNotStartedException(): 
+}
+enum GameStatus << enumeration >> {
+  + GameStatus(): 
+  + values(): GameStatus[]
+  + valueOf(String): GameStatus
+}
+class Heartbeat {
+  + Heartbeat(Long, String): 
+  + getBeat(): Long
+  + getNick(): String
+}
+class IndexPlayerOutOfBoundException {
+  + IndexPlayerOutOfBoundException(): 
+}
+class ListenersHandler {
+  + ListenersHandler(): 
+  + notify_grabbedTile(GameModel): void
+  + notify_GameStarted(GameModel): void
+  + notify_nextTurn(GameModel): void
+  + notify_positionedTile(GameModel, TileType, int): void
+  + notify_PlayerIsReadyToStart(GameModel, String): void
+  + notify_extractedCommonCard(GameModel): void
+  + addListener(GameListener): void
+  + notify_JoinUnableNicknameAlreadyIn(Player): void
+  + notify_playerJoined(GameModel): void
+  + notify_JoinUnableGameFull(Player, GameModel): void
+  + removeListener(GameListener): void
+  + notify_playerReconnected(GameModel, String): void
+  + notify_playerDisconnected(String): void
+  + notify_GameEnded(GameModel): void
+  + notify_SentMessage(GameModel, Message): void
+  + notify_grabbedTileNotCorrect(GameModel): void
+}
+class MainController {
+  - MainController(): 
+  + joinGame(GameListener, String, int): GameControllerInterface
+  + createGame(GameListener, String): GameControllerInterface
+  + joinFirstAvailableGame(GameListener, String): GameControllerInterface
+  + getInstance(): MainController
+  + reconnect(GameListener, String, int): GameControllerInterface
+}
+interface MainControllerInterface << interface >> {
+  + joinGame(GameListener, String, int): GameControllerInterface
+  + createGame(GameListener, String): GameControllerInterface
+  + joinFirstAvailableGame(GameListener, String): GameControllerInterface
+  + reconnect(GameListener, String, int): GameControllerInterface
+}
+class MaxCommonCardsAddedException {
+  + MaxCommonCardsAddedException(): 
+}
+class MaxPlayersInException {
+  + MaxPlayersInException(): 
+}
+class Message {
+  + Message(): 
+  + Message(String, Player): 
+  + setText(String): void
+  + setTime(LocalTime): void
+  + getText(): String
+  + toString(int, int): String
+  + setSender(Player): void
+  + getTime(): LocalTime
+  + getSender(): Player
+}
+class NotEmptyHandException {
+  + NotEmptyHandException(): 
+}
+class NotPlayerTurnException {
+  + NotPlayerTurnException(): 
+}
+class NotReadyToRunException {
+  + NotReadyToRunException(): 
+}
+class Player {
+  + Player(String): 
+  + Player(String, Shelf, CardGoal, List<Tile>, List<Point>, Integer): 
+  + removeListener(GameListener): void
+  + getReadyToStart(): boolean
+  + getInHandTile(): List<Tile>
+  + addListener(GameListener): void
+  + isConnected(): boolean
+  + setReadyToStart(): void
+  - getObtainedPoints(): List<Point>
+  + setInHandTile(List<Tile>): void
+  + addPoint(Point): void
+  + getTotalPoints(): int
+  + getListeners(): List<GameListener>
+  + getShelf(): Shelf
+  + getSecretGoal(): CardGoal
+  + setNotReadyToStart(): void
+  + equals(Player): boolean
+  + setShelfS(Shelf): void
+  + getNickname(): String
+  + setShelf(Shelf): void
+  + setConnected(boolean): void
+  + setNickname(String): void
+  - notify_addedPoint(Point): void
+  + setSecretGoal(CardGoal): void
+}
+class PlayerAlreadyInException {
+  + PlayerAlreadyInException(): 
+}
+class Playground {
+  + Playground(int): 
+  + Playground(): 
+  + initialisePlayground(): void
+  + checkBeforeGrab(int, int, Direction, int): void
+  + toString(): String
+  + getNumOfTileinTheBag(): int
+  + grabTile(int, int, Direction, int): List<Tile>
+  + updateFreeSide(): void
+  + setPlayground(): void
+  + setBag(): void
+  + getTile(int, int): Tile
+  - isABorderTile(int, int): boolean
+}
+class Point {
+  + Point(Integer, CardType): 
+  + getPoint(): Integer
+  + getReferredTo(): CardType
+  + setReferredTo(CardGoalType): void
+  + setPoint(Integer): void
+}
+class PositioningATileNotGrabbedException {
+  + PositioningATileNotGrabbedException(): 
+}
+class RMIClient {
+  + RMIClient(View): 
+  + positionTileOnShelf(int, TileType): void
+  + sendMessage(Message): void
+  + run(): void
+  + reconnect(String, int): void
+  + joinGame(String, int): void
+  + createGame(String): void
+  + isMyTurn(): boolean
+  + joinFirstAvailable(String): void
+  + heartbeat(): void
+  + grabTileFromPlayground(int, int, Direction, int): void
+  + connect(): void
+  + setAsReady(): void
+}
+class RMIServer {
+  + RMIServer(): 
+  + joinGame(GameListener, String, int): GameControllerInterface
+  + reconnect(GameListener, String, int): GameControllerInterface
+  + bind(): RMIServer
+  + createGame(GameListener, String): GameControllerInterface
+  + joinFirstAvailableGame(GameListener, String): GameControllerInterface
+}
+class ReadInput {
+  + ReadInput(): 
+  + getReads(): BlockingDeque<String>
+  + setReads(BlockingDeque<String>): void
+  + run(): void
+}
+class SaveReads {
+  + SaveReads(TextUI): 
+  + SaveReads(GameModelImmutable, String, Console, TextUI): 
+  + getReadString(): String
+  + setReads(BlockingDeque<String>): void
+  + getReadInt(): Integer
+  + run(): void
+  + setMsg(String): void
+  + setChosen(GameCaseType): void
+}
+class SecretGoalAlreadyGivenException {
+  + SecretGoalAlreadyGivenException(): 
+}
+class Shelf {
+  + Shelf(): 
+  + Shelf(Tile[][], Integer): 
+  - createRow(int): String
+  + get(int, int): Tile
+  + toString(): String
+  + getShelf(): Tile[][]
+  + getFreeSpace(): Integer
+  + position(int, TileType): void
+  + toStringGoalCard(): String
+  + setSingleTile(Tile, int, int): void
+  + setShelf(Tile[][]): void
+  + toString(int): String
+}
+class SocketClientGenericMessage {
+  + SocketClientGenericMessage(): 
+  + setMessageForMainController(boolean): void
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+  + getNick(): String
+  + isMessageForMainController(): boolean
+  + execute(GameControllerInterface): void
+}
+class SocketClientMessageCreateGame {
+  + SocketClientMessageCreateGame(String): 
+  + execute(GameControllerInterface): void
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+}
+class SocketClientMessageGrabTileFromPlayground {
+  + SocketClientMessageGrabTileFromPlayground(String, int, int, Direction, int): 
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+  + execute(GameControllerInterface): void
+}
+class SocketClientMessageJoinFirst {
+  + SocketClientMessageJoinFirst(String): 
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+  + execute(GameControllerInterface): void
+}
+class SocketClientMessageJoinGame {
+  + SocketClientMessageJoinGame(String, int): 
+  + execute(GameControllerInterface): void
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+}
+class SocketClientMessageNewChatMessage {
+  + SocketClientMessageNewChatMessage(Message): 
+  + execute(GameControllerInterface): void
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+}
+class SocketClientMessagePositionTileOnShelf {
+  + SocketClientMessagePositionTileOnShelf(String, int, TileType): 
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+  + execute(GameControllerInterface): void
+}
+class SocketClientMessageReconnect {
+  + SocketClientMessageReconnect(String, int): 
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+  + execute(GameControllerInterface): void
+}
+class SocketClientMessageSetReady {
+  + SocketClientMessageSetReady(String): 
+  + execute(GameListener, MainControllerInterface): GameControllerInterface
+  + execute(GameControllerInterface): void
+}
+class SocketServerGenericMessage {
+  + SocketServerGenericMessage(): 
+  + execute(GameListener): void
+}
+class SocketWelcome {
+  + SocketWelcome(): 
+  + stopConnection(): void
+  + run(): void
+  + start(int): void
+}
+class Tile {
+  + Tile(): 
+  + Tile(TileType, boolean): 
+  + Tile(TileType): 
+  + isFreeSide(): boolean
+  + toString(): String
+  + setType(TileType): void
+  + setFreeSide(boolean): void
+  + isSameType(TileType): boolean
+  + getType(): TileType
+}
+class TileGrabbedNotCorrectException {
+  + TileGrabbedNotCorrectException(): 
+}
+enum TileType << enumeration >> {
+  + TileType(): 
+  + values(): TileType[]
+  + randomTileCATeBOOK(): TileType
+  + getValues(): List<TileType>
+  + randomTileCAT(): TileType
+  + randomTile(): TileType
+  + valueOf(String): TileType
+}
+class msgAddedPoint {
+  + msgAddedPoint(Player, Point): 
+  + execute(GameListener): void
+}
+class msgCommonCardsExtracted {
+  + msgCommonCardsExtracted(GameModelImmutable): 
+  + execute(GameListener): void
+}
+class msgGameEnded {
+  + msgGameEnded(GameModelImmutable): 
+  + execute(GameListener): void
+}
+class msgGameIdNotExists {
+  + msgGameIdNotExists(int): 
+  + execute(GameListener): void
+}
+class msgGameStarted {
+  + msgGameStarted(): 
+  + msgGameStarted(GameModelImmutable): 
+  + execute(GameListener): void
+}
+class msgGrabbedTile {
+  + msgGrabbedTile(GameModelImmutable): 
+  + execute(GameListener): void
+}
+class msgGrabbedTileNotCorrect {
+  + msgGrabbedTileNotCorrect(GameModelImmutable): 
+  + execute(GameListener): void
+}
+class msgJoinUnableGameFull {
+  + msgJoinUnableGameFull(Player, GameModelImmutable): 
+  + execute(GameListener): void
+}
+class msgJoinUnableNicknameAlreadyIn {
+  + msgJoinUnableNicknameAlreadyIn(Player): 
+  + execute(GameListener): void
+}
+class msgNextTurn {
+  + msgNextTurn(GameModelImmutable): 
+  + execute(GameListener): void
+}
+class msgPlayerDisconnected {
+  + msgPlayerDisconnected(String): 
+  + execute(GameListener): void
+}
+class msgPlayerIsReadyToStart {
+  + msgPlayerIsReadyToStart(GameModelImmutable, String): 
+  + execute(GameListener): void
+}
+class msgPlayerJoined {
+  + msgPlayerJoined(GameModelImmutable): 
+  + execute(GameListener): void
+}
+class msgPlayerReconnected {
+  + msgPlayerReconnected(GameModelImmutable, String): 
+  + execute(GameListener): void
+}
+class msgPositionedTile {
+  + msgPositionedTile(GameModelImmutable, TileType, int): 
+  + execute(GameListener): void
+}
+class msgSentMessage {
+  + msgSentMessage(GameModelImmutable, Message): 
+  + execute(GameListener): void
+}
+
+CardCommonType                               -[#008200,dashed]-^  CardType                                    
+CardGoal                                     -[#000082,plain]-^  Card                                        
+CardGoal                                    "1" *-[#595959,plain]-> "goalType\n1" CardGoalType                                
+CardGoal                                    "1" *-[#595959,plain]-> "legendPoint\n*" Point                                       
+CardGoal                                    "1" *-[#595959,plain]-> "layoutToMatch\n1" Shelf                                       
+CardGoal                                     -[#595959,dashed]->  Tile                                        : "«create»"
+CardGoalType                                 -[#008200,dashed]-^  CardType                                    
+Chat                                        "1" *-[#595959,plain]-> "msgs\n*" Message                                     
+ClientHandler                               "1" *-[#595959,plain]-> "gameController\n1" GameControllerInterface                     
+ClientHandler                               "1" *-[#595959,plain]-> "gameListenersHandlerSocket\n1" GameListenersHandlerSocket                  
+ClientSocket                                 -[#008200,dashed]-^  CommonClientActions                         
+ClientSocket                                "1" *-[#595959,plain]-> "modelInvokedEvents\n1" GameListener                                
+ClientSocket                                 -[#595959,dashed]->  GameListenersHandlerClient                  : "«create»"
+ClientSocket                                "1" *-[#595959,plain]-> "requests\n1" MainControllerInterface                     
+ClientSocket                                 -[#595959,dashed]->  SocketClientMessageCreateGame               : "«create»"
+ClientSocket                                 -[#595959,dashed]->  SocketClientMessageGrabTileFromPlayground   : "«create»"
+ClientSocket                                 -[#595959,dashed]->  SocketClientMessageJoinFirst                : "«create»"
+ClientSocket                                 -[#595959,dashed]->  SocketClientMessageJoinGame                 : "«create»"
+ClientSocket                                 -[#595959,dashed]->  SocketClientMessageNewChatMessage           : "«create»"
+ClientSocket                                 -[#595959,dashed]->  SocketClientMessagePositionTileOnShelf      : "«create»"
+ClientSocket                                 -[#595959,dashed]->  SocketClientMessageReconnect                : "«create»"
+ClientSocket                                 -[#595959,dashed]->  SocketClientMessageSetReady                 : "«create»"
+CommonCard                                   -[#000082,plain]-^  Card                                        
+CommonCard                                  "1" *-[#595959,plain]-> "commonType\n1" CardCommonType                              
+CommonCard                                  "1" *-[#595959,plain]-> "points\n*" Point                                       
+CommonCardFactory                            -[#595959,dashed]->  CommonEight                                 : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonFourGroups                            : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonHorizontalCard                        : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonSameDiagonal                          : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonSixGroups                             : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonSquares                               : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonStair                                 : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonVerticalCard                          : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonVertixesCard                          : "«create»"
+CommonCardFactory                            -[#595959,dashed]->  CommonXCard                                 : "«create»"
+CommonEight                                  -[#000082,plain]-^  CommonMethods                               
+CommonFourGroups                             -[#000082,plain]-^  CommonMethods                               
+CommonHorizontalCard                         -[#000082,plain]-^  CommonCard                                  
+CommonMethods                                -[#000082,plain]-^  CommonCard                                  
+CommonMethods                                -[#595959,dashed]->  Tile                                        : "«create»"
+CommonSameDiagonal                           -[#000082,plain]-^  CommonCard                                  
+CommonSixGroups                              -[#000082,plain]-^  CommonMethods                               
+CommonSquares                                -[#000082,plain]-^  CommonMethods                               
+CommonStair                                  -[#000082,plain]-^  CommonCard                                  
+CommonVerticalCard                           -[#000082,plain]-^  CommonCard                                  
+CommonVertixesCard                           -[#000082,plain]-^  CommonCard                                  
+CommonXCard                                  -[#000082,plain]-^  CommonCard                                  
+EventElement                                "1" *-[#595959,plain]-> "type\n1" EventType                                   
+EventElement                                "1" *-[#595959,plain]-> "model\n1" GameModelImmutable                          
+EventList                                   "1" *-[#595959,plain]-> "lists\n*" EventElement                                
+GameController                               -[#595959,dashed]->  CardGoal                                    : "«create»"
+GameController                               -[#595959,dashed]->  CommonCardFactory                           : "«create»"
+GameController                               -[#008200,dashed]-^  GameControllerInterface                     
+GameController                              "1" *-[#595959,plain]-> "heartbeats\n*" GameListener                                
+GameController                              "1" *-[#595959,plain]-> "model\n1" GameModel                                   
+GameController                              "1" *-[#595959,plain]-> "heartbeats\n*" Heartbeat                                   
+GameController                               -[#595959,dashed]->  NotPlayerTurnException                      : "«create»"
+GameController                               -[#595959,dashed]->  Playground                                  : "«create»"
+GameController                               -[#595959,dashed]->  Point                                       : "«create»"
+GameListenersHandlerClient                   -[#008200,dashed]-^  GameListener                                
+GameListenersHandlerSocket                   -[#008200,dashed]-^  GameListener                                
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgAddedPoint                               : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgCommonCardsExtracted                     : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgGameEnded                                : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgGameIdNotExists                          : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgGameStarted                              : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgGrabbedTile                              : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgGrabbedTileNotCorrect                    : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgNextTurn                                 : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgPlayerDisconnected                       : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgPlayerIsReadyToStart                     : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgPlayerJoined                             : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgPlayerReconnected                        : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgPositionedTile                           : "«create»"
+GameListenersHandlerSocket                   -[#595959,dashed]->  msgSentMessage                              : "«create»"
+GameModel                                    -[#595959,dashed]->  ActionPerformedByAPlayerNotPlayingException : "«create»"
+GameModel                                    -[#595959,dashed]->  Chat                                        : "«create»"
+GameModel                                   "1" *-[#595959,plain]-> "chat\n1" Chat                                        
+GameModel                                   "1" *-[#595959,plain]-> "commonCards\n*" CommonCard                                  
+GameModel                                    -[#595959,dashed]->  CommonCardAlreadyInException                : "«create»"
+GameModel                                    -[#595959,dashed]->  GameEndedException                          : "«create»"
+GameModel                                    -[#595959,dashed]->  GameNotStartedException                     : "«create»"
+GameModel                                   "1" *-[#595959,plain]-> "status\n1" GameStatus                                  
+GameModel                                    -[#595959,dashed]->  IndexPlayerOutOfBoundException              : "«create»"
+GameModel                                    -[#595959,dashed]->  ListenersHandler                            : "«create»"
+GameModel                                   "1" *-[#595959,plain]-> "listenersHandler\n1" ListenersHandler                            
+GameModel                                    -[#595959,dashed]->  MaxCommonCardsAddedException                : "«create»"
+GameModel                                    -[#595959,dashed]->  MaxPlayersInException                       : "«create»"
+GameModel                                    -[#595959,dashed]->  NotEmptyHandException                       : "«create»"
+GameModel                                    -[#595959,dashed]->  NotReadyToRunException                      : "«create»"
+GameModel                                   "1" *-[#595959,plain]-> "players\n*" Player                                      
+GameModel                                    -[#595959,dashed]->  PlayerAlreadyInException                    : "«create»"
+GameModel                                   "1" *-[#595959,plain]-> "pg\n1" Playground                                  
+GameModel                                    -[#595959,dashed]->  Playground                                  : "«create»"
+GameModel                                    -[#595959,dashed]->  PositioningATileNotGrabbedException         : "«create»"
+GameModel                                    -[#595959,dashed]->  SecretGoalAlreadyGivenException             : "«create»"
+GameModelImmutable                          "1" *-[#595959,plain]-> "chat\n1" Chat                                        
+GameModelImmutable                          "1" *-[#595959,plain]-> "commonCards\n*" CommonCard                                  
+GameModelImmutable                          "1" *-[#595959,plain]-> "status\n1" GameStatus                                  
+GameModelImmutable                          "1" *-[#595959,plain]-> "players\n*" Player                                      
+GameModelImmutable                          "1" *-[#595959,plain]-> "pg\n1" Playground                                  
+GameModelImmutable                           -[#595959,dashed]->  Playground                                  : "«create»"
+ListenersHandler                            "1" *-[#595959,plain]-> "listeners\n*" GameListener                                
+ListenersHandler                             -[#595959,dashed]->  GameModelImmutable                          : "«create»"
+MainController                              "1" *-[#595959,plain]-> "runningGames\n*" GameController                              
+MainController                               -[#008200,dashed]-^  MainControllerInterface                     
+MainController                               -[#595959,dashed]->  Player                                      : "«create»"
+Message                                     "1" *-[#595959,plain]-> "sender\n1" Player                                      
+Player                                      "1" *-[#595959,plain]-> "secretGoal\n1" CardGoal                                    
+Player                                      "1" *-[#595959,plain]-> "listeners\n*" GameListener                                
+Player                                      "1" *-[#595959,plain]-> "obtainedPoints\n*" Point                                       
+Player                                      "1" *-[#595959,plain]-> "shelf\n1" Shelf                                       
+Player                                      "1" *-[#595959,plain]-> "inHandTile\n*" Tile                                        
+Playground                                  "1" *-[#595959,plain]-> "playground\n*" Tile                                        
+Playground                                   -[#595959,dashed]->  TileGrabbedNotCorrectException              : "«create»"
+Point                                       "1" *-[#595959,plain]-> "referredTo\n1" CardType                                    
+RMIClient                                    -[#008200,dashed]-^  CommonClientActions                         
+RMIClient                                   "1" *-[#595959,plain]-> "gameController\n1" GameControllerInterface                     
+RMIClient                                   "1" *-[#595959,plain]-> "modelInvokedEvents\n1" GameListener                                
+RMIClient                                   "1" *-[#595959,plain]-> "gameListenersHandler\n1" GameListenersHandlerClient                  
+RMIClient                                   "1" *-[#595959,plain]-> "requests\n1" MainControllerInterface                     
+RMIServer                                    -[#008200,dashed]-^  MainControllerInterface                     
+RMIServer                                   "1" *-[#595959,plain]-> "mainController\n1" MainControllerInterface                     
+SaveReads                                   "1" *-[#595959,plain]-> "chosen\n1" GameCaseType                                
+SaveReads                                   "1" *-[#595959,plain]-> "gameModel\n1" GameModelImmutable                          
+SaveReads                                   "1" *-[#595959,plain]-> "message\n1" Message                                     
+SaveReads                                    -[#595959,dashed]->  Message                                     : "«create»"
+SaveReads                                   "1" *-[#595959,plain]-> "readInput\n1" ReadInput                                   
+Shelf                                       "1" *-[#595959,plain]-> "shelf\n*" Tile                                        
+SocketClientMessageCreateGame                -[#000082,plain]-^  SocketClientGenericMessage                  
+SocketClientMessageGrabTileFromPlayground   "1" *-[#595959,plain]-> "direction\n1" Direction                                   
+SocketClientMessageGrabTileFromPlayground    -[#000082,plain]-^  SocketClientGenericMessage                  
+SocketClientMessageJoinFirst                 -[#000082,plain]-^  SocketClientGenericMessage                  
+SocketClientMessageJoinGame                  -[#000082,plain]-^  SocketClientGenericMessage                  
+SocketClientMessageNewChatMessage           "1" *-[#595959,plain]-> "msg\n1" Message                                     
+SocketClientMessageNewChatMessage            -[#000082,plain]-^  SocketClientGenericMessage                  
+SocketClientMessagePositionTileOnShelf       -[#000082,plain]-^  SocketClientGenericMessage                  
+SocketClientMessagePositionTileOnShelf      "1" *-[#595959,plain]-> "type\n1" TileType                                    
+SocketClientMessageReconnect                 -[#000082,plain]-^  SocketClientGenericMessage                  
+SocketClientMessageSetReady                  -[#000082,plain]-^  SocketClientGenericMessage                  
+SocketWelcome                               "1" *-[#595959,plain]-> "handler\n*" ClientHandler                               
+Tile                                        "1" *-[#595959,plain]-> "TYPE\n1" TileType                                    
+msgAddedPoint                               "1" *-[#595959,plain]-> "p\n1" Player                                      
+msgAddedPoint                               "1" *-[#595959,plain]-> "point\n1" Point                                       
+msgAddedPoint                                -[#000082,plain]-^  SocketServerGenericMessage                  
+msgCommonCardsExtracted                     "1" *-[#595959,plain]-> "model\n1" GameModelImmutable                          
+msgCommonCardsExtracted                      -[#000082,plain]-^  SocketServerGenericMessage                  
+msgGameEnded                                "1" *-[#595959,plain]-> "gamemodel\n1" GameModelImmutable                          
+msgGameEnded                                 -[#000082,plain]-^  SocketServerGenericMessage                  
+msgGameIdNotExists                           -[#000082,plain]-^  SocketServerGenericMessage                  
+msgGameStarted                              "1" *-[#595959,plain]-> "model\n1" GameModelImmutable                          
+msgGameStarted                               -[#000082,plain]-^  SocketServerGenericMessage                  
+msgGrabbedTile                              "1" *-[#595959,plain]-> "gamemodel\n1" GameModelImmutable                          
+msgGrabbedTile                               -[#000082,plain]-^  SocketServerGenericMessage                  
+msgGrabbedTileNotCorrect                    "1" *-[#595959,plain]-> "gamemodel\n1" GameModelImmutable                          
+msgGrabbedTileNotCorrect                     -[#000082,plain]-^  SocketServerGenericMessage                  
+msgJoinUnableGameFull                       "1" *-[#595959,plain]-> "gamemodel\n1" GameModelImmutable                          
+msgJoinUnableGameFull                       "1" *-[#595959,plain]-> "p\n1" Player                                      
+msgJoinUnableGameFull                        -[#000082,plain]-^  SocketServerGenericMessage                  
+msgJoinUnableNicknameAlreadyIn              "1" *-[#595959,plain]-> "wantedToJoin\n1" Player                                      
+msgJoinUnableNicknameAlreadyIn               -[#000082,plain]-^  SocketServerGenericMessage                  
+msgNextTurn                                 "1" *-[#595959,plain]-> "gamemodel\n1" GameModelImmutable                          
+msgNextTurn                                  -[#000082,plain]-^  SocketServerGenericMessage                  
+msgPlayerDisconnected                        -[#000082,plain]-^  SocketServerGenericMessage                  
+msgPlayerIsReadyToStart                     "1" *-[#595959,plain]-> "model\n1" GameModelImmutable                          
+msgPlayerIsReadyToStart                      -[#000082,plain]-^  SocketServerGenericMessage                  
+msgPlayerJoined                             "1" *-[#595959,plain]-> "gamemodel\n1" GameModelImmutable                          
+msgPlayerJoined                              -[#000082,plain]-^  SocketServerGenericMessage                  
+msgPlayerReconnected                        "1" *-[#595959,plain]-> "gamemodel\n1" GameModelImmutable                          
+msgPlayerReconnected                         -[#000082,plain]-^  SocketServerGenericMessage                  
+msgPositionedTile                           "1" *-[#595959,plain]-> "gamemodel\n1" GameModelImmutable                          
+msgPositionedTile                            -[#000082,plain]-^  SocketServerGenericMessage                  
+msgPositionedTile                           "1" *-[#595959,plain]-> "type\n1" TileType                                    
+msgSentMessage                              "1" *-[#595959,plain]-> "gameModel\n1" GameModelImmutable                          
+msgSentMessage                              "1" *-[#595959,plain]-> "msg\n1" Message                                     
+msgSentMessage                               -[#000082,plain]-^  SocketServerGenericMessage                  
+@enduml
