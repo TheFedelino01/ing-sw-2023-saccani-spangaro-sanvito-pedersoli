@@ -32,7 +32,7 @@ We have `implemented`, in addiction to the `Game Specific` and `Game Agnostic` r
 | Complete rules  | :heavy_check_mark:    |
 
 # How to Use <img src="https://i.ibb.co/QHmskqv/run.png" align="right" alt="logo" width="130" height = "139" style = "border: none; float: right;">
-**From Github: (for windows users)**
+**From Github: (for windows users)**<br>
 `Option1:`
 1. Go to releases
 2. Download the latest release published
