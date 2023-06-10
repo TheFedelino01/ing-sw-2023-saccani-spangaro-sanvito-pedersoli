@@ -68,7 +68,7 @@ Repeat from (1) each time the code is modified
 # Fix issue
 In order to run the game properly, you need install <a href="https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html">Java SE Development Kit 19.0.2</a><br>
 When installed, you need to add the following Environment Variables in windows (search bar: "env" and press enter then click on "Environment variables"):<br>
-<div>In the list of "Enviroment variables of the user" add the following:</div>
+<div>In the list of "Environment variables of the user" add the following:</div>
 
   1. `JAVA_HOME C:\Program Files\Java\jdk-19`<br>
   2. `JDK_HOME C:\Program Files\Java\jdk-19`<br>
