@@ -367,7 +367,7 @@ public class TUI extends UI {
             //if not on a Windows machine
         } catch (IOException | InterruptedException e) {
             //for mac
-            printAsyncNoLine("\033\143");
+            System.out.println("\033\143");
 
             /*This might work too, but exec is deprecated
             try {
