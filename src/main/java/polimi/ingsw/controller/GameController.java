@@ -80,6 +80,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                                 if (this.getNumOnlinePlayers() == 0) {
                                     stopReconnectionTimer();
                                     MainController.getInstance().deleteGame(this.getGameId());
+                                    return;
                                 }
 
                             } catch (RemoteException e) {
