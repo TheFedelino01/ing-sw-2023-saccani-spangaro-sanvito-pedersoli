@@ -54,15 +54,29 @@ public abstract class CommonCard extends Card implements CommonCardIC {
         if (i > 1)
             spacer = i + 1;
         StringBuilder ris = new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_commonCards - 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
-                .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
-                .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-        ris.append(ansi().cursor(DefaultValue.row_commonCards + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
-                .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
-                .a("|   " + Objects.requireNonNullElse(this.getPoints().peek(), new Point(0)).getPoint() + "   |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-        ris.append(ansi().cursor(DefaultValue.row_commonCards + 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
-                .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
-                .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        int point = Objects.requireNonNullElse(this.getPoints().peek(), new Point(0)).getPoint();
+        if(point == 0){
+            ris.append(ansi().cursor(DefaultValue.row_commonCards - 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                    .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                    .a("         ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                    .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                    .a("         ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                    .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                    .a("         ").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        }else{
+            ris.append(ansi().cursor(DefaultValue.row_commonCards - 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                    .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                    .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                    .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                    .a("|   " + point + "   |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+            ris.append(ansi().cursor(DefaultValue.row_commonCards + 1 + spacer, DefaultValue.col_commonCards + DefaultValue.longest_commonCardMessage)
+                    .fg(Ansi.Color.WHITE).bg(Ansi.Color.YELLOW)
+                    .a("|       |").fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        }
+
 
         if (!lastCycle){
             //if no one has finished his shelf, the final point is still in game
