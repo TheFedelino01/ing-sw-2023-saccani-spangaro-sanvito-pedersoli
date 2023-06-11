@@ -5,6 +5,9 @@ import polimi.ingsw.model.enumeration.CardCommonType;
 import polimi.ingsw.model.enumeration.TileType;
 import polimi.ingsw.model.Shelf;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
+
 public class CommonXCard extends CommonCard {
     /**
      * Constructor
@@ -23,7 +26,7 @@ public class CommonXCard extends CommonCard {
      */
     @Override
     public boolean verify(Shelf toCheck) {
-        System.out.println(toCheck.getOccupiedSpace());
+        printAsync(toCheck.getOccupiedSpace().toString());
         if (toCheck.getOccupiedSpace() < 5)
             return false;
 

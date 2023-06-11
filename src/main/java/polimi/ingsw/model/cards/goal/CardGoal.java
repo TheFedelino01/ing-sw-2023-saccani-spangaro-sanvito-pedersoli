@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
+
 public class CardGoal extends Card implements CardGoalIC {
     private Shelf layoutToMatch; //The player's shelf must match this one to gain points
     private final Map<Integer, Point> legendPoint;
@@ -128,7 +131,7 @@ public class CardGoal extends Card implements CardGoalIC {
             }
         }
         if (check > 6) {
-            System.out.println("Check error in goalCheck!"); //error
+            printAsync("Check error in goalCheck!"); //error
             return legendPoint.get(0);
         }
         return legendPoint.get(check);

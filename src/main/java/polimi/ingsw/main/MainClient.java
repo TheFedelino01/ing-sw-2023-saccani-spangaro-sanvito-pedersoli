@@ -10,10 +10,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static org.fusesource.jansi.Ansi.ansi;
+import static polimi.ingsw.networking.PrintAsync.printAsync;
 
 public class MainClient {
 
@@ -28,13 +27,13 @@ public class MainClient {
             String input;
 
             do {
-                System.out.println(ansi().cursor(1, 0).a("""
+                printAsync(ansi().cursor(1, 0).a("""
                         Insert remote IP (leave empty for localhost)
                         """));
                 input = new Scanner(System.in).nextLine();
                 if(!input.equals("") && !isValidIP(input)){
                     clearCMD();
-                    System.out.println("Not valid");
+                    printAsync("Not valid");
                 }
             } while (!input.equals("") && !isValidIP(input));
             if (!input.equals(""))
@@ -43,13 +42,13 @@ public class MainClient {
             clearCMD();
 
             do {
-                System.out.println(ansi().cursor(1, 0).a("""
+                printAsync(ansi().cursor(1, 0).a("""
                         Insert your IP (leave empty for localhost)
                         """));
                 input = new Scanner(System.in).nextLine();
                 if(!input.equals("") && !isValidIP(input)){
                     clearCMD();
-                    System.out.println("Not valid");
+                    printAsync("Not valid");
                 }
             } while (!input.equals("") && !isValidIP(input));
             if (!input.equals(""))
@@ -58,7 +57,7 @@ public class MainClient {
 
             clearCMD();
             do {
-                System.out.println(ansi().cursor(1, 0).a("""
+                printAsync(ansi().cursor(1, 0).a("""
                         Select option:
                         \t (1) TUI + Socket
                         \t (2) TUI + RMI
@@ -71,7 +70,7 @@ public class MainClient {
                     selection = Integer.parseInt(input);
                 } catch (NumberFormatException e) {
                     selection = -1;
-                    System.out.println("Nan");
+                    printAsync("Nan");
                 }
             } while (selection != 1 && selection != 2 && selection != 3 && selection != 4);
         } else {
@@ -87,7 +86,7 @@ public class MainClient {
             conSel = ConnectionSelection.RMI;
         }
 
-        System.out.println("Starting the game!");
+        printAsync("Starting the game!");
 
         //Starts the UI wanted
         if (selection == 1 || selection == 2) {
@@ -106,7 +105,7 @@ public class MainClient {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (IOException | InterruptedException e) {
-            System.out.print("\033\143");   //for Mac
+            printAsync("\033\143");   //for Mac
         }
     }
 

@@ -23,7 +23,6 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
 
     @Override
     public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
-        // System.out.println(this.hashCode()+"> "+nickNewPlayer+" has just joined! [by Socket]");
         flow.playerJoined(gamemodel);
     }
 
@@ -34,7 +33,6 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
 
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gamemodel) throws RemoteException {
-        //System.out.println(this.hashCode() + "> " + wantedToJoin+" tried to entry but the game is full! [by Socket]");
         flow.joinUnableGameFull(wantedToJoin, gamemodel);
     }
 
@@ -45,8 +43,6 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
 
     @Override
     public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
-        // System.out.println(this.hashCode() + "> " + wantedToJoin.getNickname() + " has already in [by Socket]");
-        System.out.println("Error");
         flow.joinUnableNicknameAlreadyIn(wantedToJoin);
     }
 
@@ -62,72 +58,59 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
 
     @Override
     public void playerIsReadyToStart(GameModelImmutable gamemodel, String nick) throws IOException {
-        //System.out.println(this.hashCode() + "> " + nick + " ready to start! [by Socket]");
         flow.playerIsReadyToStart(gamemodel, nick);
     }
 
     @Override
     public void commonCardsExtracted(GameModelImmutable gamemodel) throws RemoteException {
-        //System.out.println(this.hashCode() + "> " + card.getCommonType() + " card common extracted! [by Socket]");
         flow.commonCardsExtracted(gamemodel);
     }
 
     @Override
     public void gameStarted(GameModelImmutable gamemodel) throws RemoteException {
-        //System.out.println(this.hashCode() + "> Game Started with id: "+gamemodel.getGameId()+ ", First turn is played by: "+gamemodel.getNicknameCurrentPlaying()+" [by Socket]");
         flow.gameStarted(gamemodel);
         //setModel(gamemodel);
     }
 
     @Override
     public void gameEnded(GameModelImmutable gamemodel) throws RemoteException {
-        /*System.out.println(this.hashCode() + "> "+gamemodel.getGameId()+" ended! \n" +
-                "The winner is: "+gamemodel.getWinner().getNickname()+"\n" +
-                "Score board: */
         flow.gameEnded(gamemodel);
     }
 
     @Override
     public void sentMessage(GameModelImmutable gameModel, Message msg) throws RemoteException {
-        //System.out.println(this.hashCode() + "> new Message: \""+msg.toString()+"\" [by Socket]");
         flow.sentMessage(gameModel, msg);
     }
 
     @Override
     public void grabbedTile(GameModelImmutable gamemodel) throws RemoteException {
-        //System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has grabbed some tiles: "+gamemodel.getHandOfCurrentPlaying().toString()+" [by Socket]");
         flow.grabbedTile(gamemodel);
         //setModel(gamemodel);
     }
 
     @Override
     public void grabbedTileNotCorrect(GameModelImmutable gamemodel) throws RemoteException {
-        // System.out.println(this.hashCode() + "> a set of non grabbable tiles have been required [by Socket]");
         flow.grabbedTileNotCorrect(gamemodel);
     }
 
     @Override
     public void positionedTile(GameModelImmutable gamemodel, TileType type, int column) throws RemoteException {
-        //System.out.println(this.hashCode() + "> Player: "+gamemodel.getNicknameCurrentPlaying()+" has positioned ["+type+"] Tile in column "+column+" on his shelf! [by Socket]");
         flow.positionedTile(gamemodel, type, column);
         //setModel(gamemodel);
     }
 
     @Override
     public void nextTurn(GameModelImmutable gamemodel) throws RemoteException {
-        //System.out.println(this.hashCode() + "> Next turn! It's up to: "+gamemodel.getNicknameCurrentPlaying()+" [by Socket]");
         flow.nextTurn(gamemodel);
     }
 
     @Override
     public void addedPoint(Player p, Point point, GameModelImmutable gamemodel) throws RemoteException {
-        //System.out.println(this.hashCode() + "> Player "+p.getNickname()+" obtained "+point.getPoint()+" points by achieving "+point.getReferredTo()+" [by Socket]");
         flow.addedPoint(p, point,gamemodel);
     }
 
     @Override
     public void playerDisconnected(GameModelImmutable gameModel,String nick) throws RemoteException {
-        // System.out.println(this.hashCode() + "> Player "+nick+" just disconnected [by Socket]");
         flow.playerDisconnected(gameModel,nick);
     }
 

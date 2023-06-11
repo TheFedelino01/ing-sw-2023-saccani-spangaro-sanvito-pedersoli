@@ -18,6 +18,7 @@ import java.util.*;
 
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
+import static polimi.ingsw.view.text.PrintAsync.*;
 
 /**
  * This class is father to both the TUI  implementation<br>
@@ -73,7 +74,7 @@ public class TUI extends UI {
      * @param model
      */
     public void show_allPlayers(GameModelImmutable model) {
-        System.out.println("Current Players: \n" + model.toStringListPlayers());
+        printAsync("Current Players: \n" + model.toStringListPlayers());
     }
 
     /**
@@ -119,7 +120,7 @@ public class TUI extends UI {
                         ris.append("[").append(i).append("]: ").append(ansi().bg(BLUE).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
             }
         }
-        System.out.println(ris);
+        printAsync(ris);
     }
 
     /**
@@ -132,15 +133,21 @@ public class TUI extends UI {
         ris.append(ansi().cursor(DefaultValue.row_input - 1, 0).a(nickname).a(": Player: ").a(model.getNicknameCurrentPlaying()).a(" has grabbed some tiles: | "));
         for (TileIC t : model.getHandOfCurrentPlaying()) {
             switch (t.getType()) {
-                case CAT -> ris.append(ansi().fg(WHITE).bg(GREEN).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case TROPHY -> ris.append(ansi().fg(WHITE).bg(CYAN).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case PLANT -> ris.append(ansi().fg(WHITE).bg(MAGENTA).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case BOOK -> ris.append(ansi().fg(BLACK).bg(WHITE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case ACTIVITY -> ris.append(ansi().fg(WHITE).bg(YELLOW).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case FRAME -> ris.append(ansi().fg(WHITE).bg(BLUE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case CAT ->
+                        ris.append(ansi().fg(WHITE).bg(GREEN).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case TROPHY ->
+                        ris.append(ansi().fg(WHITE).bg(CYAN).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case PLANT ->
+                        ris.append(ansi().fg(WHITE).bg(MAGENTA).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case BOOK ->
+                        ris.append(ansi().fg(BLACK).bg(WHITE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case ACTIVITY ->
+                        ris.append(ansi().fg(WHITE).bg(YELLOW).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
+                case FRAME ->
+                        ris.append(ansi().fg(WHITE).bg(BLUE).a(t.toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
             }
         }
-        System.out.println(ris);
+        printAsync(ris);
     }
 
     /**
@@ -149,7 +156,7 @@ public class TUI extends UI {
      * @param model
      */
     public void show_playground(GameModelImmutable model) {
-        System.out.println(model.getPg().toString());
+        printAsync(model.getPg().toString());
     }
 
     /**
@@ -185,7 +192,7 @@ public class TUI extends UI {
             ris.append(ansi().cursor(DefaultValue.row_shelves, i - 3).a(p.getShelf().toString(i)).toString());
             i += DefaultValue.displayShelfNextCol;
         }
-        System.out.println(ris);
+        printAsync(ris);
     }
 
     /**
@@ -197,7 +204,7 @@ public class TUI extends UI {
         ris.append(ansi().cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards));
 
         String title = String.valueOf(ansi().fg(WHITE).cursor(DefaultValue.row_commonCards, DefaultValue.col_commonCards - 1).bold().a("Common Cards: ").fg(DEFAULT).boldOff());
-        System.out.println(title);
+        printAsync(title);
 
         int i = 1;
         for (CommonCardIC c : gameModel.getCommonCards()) {
@@ -207,7 +214,7 @@ public class TUI extends UI {
                 ris.append(c.toString(i, true));
             i += 3;
         }
-        System.out.println(ris);
+        printAsync(ris);
     }
 
     /**
@@ -220,14 +227,16 @@ public class TUI extends UI {
         ris.append(ansi().cursor(DefaultValue.row_points, DefaultValue.col_points));
 
         String title = String.valueOf(ansi().fg(RED).cursor(DefaultValue.row_points, DefaultValue.col_points - 1).bold().a("Points: ").fg(DEFAULT).boldOff());
-        System.out.println(title);
+        printAsync(title);
 
         int i = 1;
         for (PlayerIC p : gameModel.getPlayers()) {
-            ris.append(ansi().cursor(DefaultValue.row_points + i, DefaultValue.col_points).a(p.getNickname() + ": " + p.getTotalPoints() + " points"));
+            ris.append(ansi().cursor(DefaultValue.row_points + i, DefaultValue.col_points).a((p.getNickname().length() > 4
+                    ? p.getNickname().substring(0, 4)
+                    : p.getNickname()) + ": " + p.getTotalPoints() + " points"));
             i++;
         }
-        System.out.println(ris);
+        printAsync(ris);
     }
 
     /**
@@ -236,7 +245,7 @@ public class TUI extends UI {
      * @param toShow
      */
     public void show_goalCards(PlayerIC toShow) {
-        System.out.println(toShow.getSecretGoal_IC().getLayoutToMatch_IC().toStringGoalCard());
+        printAsync(toShow.getSecretGoal_IC().getLayoutToMatch_IC().toStringGoalCard());
     }
 
     /**
@@ -247,7 +256,7 @@ public class TUI extends UI {
     public void show_playerJoined(GameModelImmutable gameModel, String nick) {
         clearScreen();
         show_titleMyShelfie();
-        System.out.println(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
+        printAsync(ansi().cursor(10, 0).a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT));
         System.out.flush();
         //StringBuilder players = new StringBuilder();
         StringBuilder ris = new StringBuilder();
@@ -261,12 +270,12 @@ public class TUI extends UI {
             }
             i++;
         }
-        System.out.println(ris);
+        printAsyncNoCursorReset(ris);
 
 
         for (PlayerIC p : gameModel.getPlayers())
             if (!p.getReadyToStart() && p.getNickname().equals(nick))
-                System.out.println(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
+                printAsyncNoCursorReset(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
         System.out.flush();
 
     }
@@ -344,9 +353,9 @@ public class TUI extends UI {
             ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).a(" ".repeat(longestImportantEvent - s.length())).fg(DEFAULT));
             i++;
         }
-        System.out.println(ris);
+        printAsync(ris);
 
-        System.out.println(ansi().cursor(DefaultValue.row_input, 0));
+        printAsync(ansi().cursor(DefaultValue.row_input, 0));
     }
 
     /**
@@ -358,7 +367,7 @@ public class TUI extends UI {
             //if not on a Windows machine
         } catch (IOException | InterruptedException e) {
             //for mac
-            System.out.print("\033\143");
+            printAsyncNoLine("\033\143");
 
             /*This might work too, but exec is deprecated
             try {
@@ -378,10 +387,10 @@ public class TUI extends UI {
      */
     public void show_messages(GameModelImmutable model) {
         String ris = String.valueOf(ansi().fg(GREEN).cursor(DefaultValue.row_chat, DefaultValue.col_chat - 1).bold().a("Latest Messages:").fg(DEFAULT).boldOff()) +
-                     ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(model.getChat().toString(this.nickname)).fg(DEFAULT);
-        System.out.println(ris);
+                ansi().fg(WHITE).cursor(DefaultValue.row_chat + 1, DefaultValue.col_chat).a(model.getChat().toString(this.nickname)).fg(DEFAULT);
+        printAsync(ris);
         if (model.getChat().getMsgs().size() > 0) {
-            System.out.println(ansi().cursor(DefaultValue.row_input, 0));
+            printAsync(ansi().cursor(DefaultValue.row_input, 0));
         }
     }
 
@@ -414,11 +423,11 @@ public class TUI extends UI {
     @Override
     public void show_noAvailableGamesToJoin(String msgToVisualize) {
         String ris = ansi().fg(RED).cursor(11, 4).bold().a(msgToVisualize).fg(DEFAULT).boldOff() +
-                     String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a(" Try later or create a new game!").fg(DEFAULT).boldOff());
+                String.valueOf(ansi().fg(RED).cursor(12, 4).bold().a(" Try later or create a new game!").fg(DEFAULT).boldOff());
         ansi().fg(DEFAULT);
 
 
-        System.out.println(ris);
+        printAsyncNoCursorReset(ris);
     }
 
     /**
@@ -461,13 +470,13 @@ public class TUI extends UI {
         int classif = 1;
         StringBuilder ris = new StringBuilder();
         for (Map.Entry<Integer, Integer> entry : model.getLeaderBoard().entrySet()) {
-            System.out.println();
+            printAsync("");
             ris.append(ansi().fg(WHITE).cursor(DefaultValue.row_leaderboard + i, DefaultValue.col_leaderboard).a("#" + classif + " " + model.getPlayers().get(entry.getKey()).getNickname() + ": " + entry.getValue() + " points").fg(DEFAULT));
             i += 2;
             classif++;
         }
 
-        System.out.println(ris);
+        printAsync(ris);
 
     }
 
@@ -494,7 +503,7 @@ public class TUI extends UI {
      * @param gameModel
      */
     public void show_gameId(GameModelImmutable gameModel) {
-        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + gameModel.getGameId() + "]").boldOff());
+        printAsync(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + gameModel.getGameId() + "]").boldOff());
     }
 
     /**
@@ -503,7 +512,7 @@ public class TUI extends UI {
      * @param gameModel
      */
     public void show_nextTurn(GameModelImmutable gameModel) {
-        System.out.println(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + gameModel.getNicknameCurrentPlaying()).boldOff());
+        printAsync(ansi().cursor(DefaultValue.row_nextTurn, 0).bold().a("Next turn! It's up to: " + gameModel.getNicknameCurrentPlaying()).boldOff());
     }
 
     /**
@@ -512,7 +521,7 @@ public class TUI extends UI {
      * @param nick
      */
     public void show_welcome(String nick) {
-        System.out.println(ansi().cursor(DefaultValue.row_nextTurn + 1, 0).bold().a("Welcome " + nick).boldOff());
+        printAsync(ansi().cursor(DefaultValue.row_nextTurn + 1, 0).bold().a("Welcome " + nick).boldOff());
     }
 
     /**
@@ -530,7 +539,7 @@ public class TUI extends UI {
     @Override
     protected void show_noConnectionError() {
         this.clearScreen();
-        System.out.println(ansi().fg(WHITE).bg(RED).bold().a("CONNECTION TO SERVER LOST!")
+        printAsync(ansi().fg(WHITE).bg(RED).bold().a("CONNECTION TO SERVER LOST!")
                 .boldOff().fg(DEFAULT).bgDefault());
         try {
             Thread.sleep(3000);
@@ -545,8 +554,8 @@ public class TUI extends UI {
      */
     @Override
     public void show_direction() {
-        System.out.println("\t> Choose direction (r=right,l=left,u=up,d=down): ");
-        System.out.println(ansi().cursorDownLine().a(""));
+        printAsync("\t> Choose direction (r=right,l=left,u=up,d=down): ");
+        printAsyncNoCursorReset(ansi().cursorDownLine().a(""));
     }
 
     /**
@@ -584,7 +593,8 @@ public class TUI extends UI {
      * @param model
      */
     public void removeInput(String msg, GameModelImmutable model) {
-        System.out.println(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(getLengthLongestMessage(model))));
+        printAsync(ansi().cursor(DefaultValue.row_input, 0).a(msg).a(" ".repeat(getLengthLongestMessage(model))));
+        printAsyncNoLine(ansi().cursorDownLine());
     }
 
     /**
@@ -674,7 +684,7 @@ public class TUI extends UI {
      */
     @Override
     public void show_returnToMenuMsg() {
-        System.out.println("\nPress any key to return to the menu");
+        printAsyncNoCursorReset("\nPress any key to return to the menu");
     }
 
     /**
@@ -692,7 +702,7 @@ public class TUI extends UI {
     public void show_insertNicknameMsg() {
         this.clearScreen();
         this.show_titleMyShelfie();
-        System.out.println(ansi().cursor(DefaultValue.row_gameID, 0).a("> Insert your nickname: "));
+        printAsyncNoCursorReset(ansi().cursor(DefaultValue.row_gameID, 0).a("> Insert your nickname: "));
     }
 
     /**
@@ -702,7 +712,7 @@ public class TUI extends UI {
      */
     @Override
     public void show_chosenNickname(String nickname) {
-        System.out.println(ansi().cursor(DefaultValue.row_gameID + 2, 0).a("> Your nickname is: " + nickname));
+        printAsyncNoCursorReset(ansi().cursor(DefaultValue.row_gameID + 2, 0).a("> Your nickname is: " + nickname));
     }
 
     /**
@@ -712,7 +722,7 @@ public class TUI extends UI {
     public void show_menuOptions() {
         this.clearScreen();
         this.show_titleMyShelfie();
-        System.out.println(ansi().cursor(9, 0).a("""
+        printAsyncNoCursorReset(ansi().cursor(9, 0).a("""
                 > Select one option:
                 \t(c) Create a new Game
                 \t(j) Join to a random Game
@@ -732,7 +742,7 @@ public class TUI extends UI {
      */
     @Override
     public void show_inputGameIdMsg() {
-        System.out.println("> Input the GameId ('.' to leave): ");
+        printAsyncNoCursorReset("> Input the GameId ('.' to leave): ");
     }
 
     /**
@@ -740,7 +750,7 @@ public class TUI extends UI {
      */
     @Override
     public void show_NaNMsg() {
-        System.out.println("> NaN");
+        printAsync("> NaN");
     }
 
     /**
@@ -748,7 +758,7 @@ public class TUI extends UI {
      */
     @Override
     public void show_whichTileToPlaceMsg() {
-        System.out.println("> Select which tile do you want to place:");
+        printAsync("> Select which tile do you want to place:");
     }
 
     /**
@@ -756,7 +766,7 @@ public class TUI extends UI {
      */
     @Override
     public void show_wrongSelectionHandMsg() {
-        System.out.println("\tWrong Tile selection offset");
+        printAsync("\tWrong Tile selection offset");
     }
 
     /**
@@ -768,7 +778,7 @@ public class TUI extends UI {
     public void show_creatingNewGameMsg(String nickname) {
         this.clearScreen();
         this.show_titleMyShelfie();
-        System.out.println("> Creating a new game...");
+        printAsyncNoCursorReset("> Creating a new game...");
         this.nickname = nickname;
     }
 
@@ -781,7 +791,7 @@ public class TUI extends UI {
     public void show_joiningFirstAvailableMsg(String nickname) {
         this.clearScreen();
         this.show_titleMyShelfie();
-        System.out.println("> Connecting to the first available game...");
+        printAsyncNoCursorReset("> Connecting to the first available game...");
         this.nickname = nickname;
     }
 
@@ -795,7 +805,7 @@ public class TUI extends UI {
     public void show_joiningToGameIdMsg(int idGame, String nickname) {
         this.clearScreen();
         this.show_titleMyShelfie();
-        System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
+        printAsyncNoCursorReset("> You have selected to join to Game with id: '" + idGame + "', trying to connect");
         this.nickname = nickname;
     }
 
@@ -816,7 +826,7 @@ public class TUI extends UI {
         show_nextTurn(model);
         show_welcome(nick);
 
-        System.out.println(ansi().cursor(DefaultValue.row_input, 0));
+        printAsync(ansi().cursor(DefaultValue.row_input, 0));
     }
 
 

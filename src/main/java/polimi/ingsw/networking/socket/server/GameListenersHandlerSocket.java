@@ -37,7 +37,6 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
      */
     @Override
     public void playerJoined(GameModelImmutable gamemodel) throws RemoteException {
-        //System.out.println(nickNewPlayer +" by socket");
         try {
             out.writeObject(new msgPlayerJoined(gamemodel));
             finishSending();

@@ -27,7 +27,6 @@ public class MenuController extends GenericController{
     public void actionCreateANewGame(ActionEvent e) throws IOException {
         getInputReaderGUI().addTxt("c");
         Sound.playSound("placeTile.wav");
-        //System.out.println("c");
     }
     /**
      * Method to join the first available game.
@@ -37,7 +36,6 @@ public class MenuController extends GenericController{
     public void actionJoinFirstAvailableGame(ActionEvent e) throws IOException {
         getInputReaderGUI().addTxt("j");
         Sound.playSound("placeTile.wav");
-        //System.out.println("j");
     }
     /**
      * Method to join to a specific game.
@@ -47,7 +45,6 @@ public class MenuController extends GenericController{
     public void actionJoinToASpecificGame(ActionEvent e) throws IOException {
         getInputReaderGUI().addTxt("js");
         Sound.playSound("placeTile.wav");
-        //System.out.println("js");
     }
     /**
      * Method to reconnect to a game.
@@ -57,7 +54,6 @@ public class MenuController extends GenericController{
     public void actionReconnect(ActionEvent e) throws IOException {
         getInputReaderGUI().addTxt("x");
         Sound.playSound("placeTile.wav");
-        //System.out.println("x");
     }
 
     /**

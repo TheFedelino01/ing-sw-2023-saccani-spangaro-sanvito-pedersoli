@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
+
 public class CommonVerticalCard extends CommonCard {
     private static int param;
 
@@ -60,7 +63,7 @@ public class CommonVerticalCard extends CommonCard {
                 return false;
             }
             default -> {
-                System.out.println("Default error");
+                printAsync("Default error");
                 return false;
             }
         }

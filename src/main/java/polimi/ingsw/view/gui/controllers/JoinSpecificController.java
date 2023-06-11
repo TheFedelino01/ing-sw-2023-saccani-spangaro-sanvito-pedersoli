@@ -23,6 +23,5 @@ public class JoinSpecificController extends GenericController{
         if(!gameIdTextField.getText().isEmpty()){
             getInputReaderGUI().addTxt(gameIdTextField.getText());
         }
-        //System.out.println("c");
     }
 }

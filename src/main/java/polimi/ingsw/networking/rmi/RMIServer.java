@@ -12,6 +12,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
 /**
  * RMIServer Class<br>
  * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game<br>
@@ -44,7 +46,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
             // Bind the remote object's stub in the registry
             registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
             getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
-            System.out.println("Server RMI ready");
+            printAsync("Server RMI ready");
         } catch (RemoteException e) {
             e.printStackTrace();
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
@@ -105,7 +107,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
             //Already exported, due to another RMI Client running on the same machine
         }
         //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
-        System.out.println("[RMI] " + nick + " has created a new game");
+        printAsync("[RMI] " + nick + " has created a new game");
         return ris;
     }
 
@@ -129,7 +131,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
             }catch (RemoteException e){
                 //Already exported, due to another RMI Client running on the same machine
             }
-            System.out.println("[RMI] " + nick + " joined in first available game");
+            printAsync("[RMI] " + nick + " joined in first available game");
         }
         return ris;
     }
@@ -154,7 +156,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
                 //Already exported, due to another RMI Client running on the same machine
             }
             //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),0));
-            System.out.println("[RMI] " + nick + " joined to specific game with id: " + idGame);
+            printAsync("[RMI] " + nick + " joined to specific game with id: " + idGame);
         }
         return ris;
     }
@@ -178,7 +180,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
                 //Already exported, due to another RMI Client running on the same machine
             }
             //ris.setPlayerIdentity((PlayerInterface) UnicastRemoteObject.exportObject(ris.getPlayerIdentity(),DefaultValue.Default_port_RMI));
-            //System.out.println("[RMI] "+nick+" joined to specific game with id: "+idGame);
+            //printAsync("[RMI] "+nick+" joined to specific game with id: "+idGame);
         }
         return ris;
     }
@@ -212,7 +214,7 @@ public class RMIServer extends UnicastRemoteObject implements MainControllerInte
         try {
             getRegistry().unbind(DefaultValue.Default_servername_RMI);
             UnicastRemoteObject.unexportObject(getRegistry(), true);
-            System.out.println("Server RMI correctly closed");
+            printAsync("Server RMI correctly closed");
         } catch (RemoteException e) {
             e.printStackTrace();
             System.err.println("[ERROR] CLOSING RMI SERVER: \n\tServer RMI exception: " + e);

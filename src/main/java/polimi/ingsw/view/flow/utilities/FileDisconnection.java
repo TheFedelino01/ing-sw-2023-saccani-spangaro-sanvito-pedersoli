@@ -42,10 +42,7 @@ public class FileDisconnection {
             JSONObject obj = (JSONObject) parser.parse(reader);
             gameId = (String) obj.get(DefaultValue.gameIdData);
             time = (String) obj.get(DefaultValue.gameIdTime);
-        } catch (ParseException | FileNotFoundException ex) {
-            System.out.println("No file found with nickname: "+nickname);
-            return -1;
-        } catch (IOException e) {
+        } catch (ParseException | IOException ex) {
             return -1;
         }
         assert gameId != null;

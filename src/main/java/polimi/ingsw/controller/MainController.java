@@ -14,7 +14,9 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+
+import static polimi.ingsw.networking.PrintAsync.*;
 
 
 /**
@@ -77,7 +79,7 @@ public class MainController implements MainControllerInterface, Serializable {
         c.addListener(lis, p);
         runningGames.add(c);
 
-        System.out.println("\t>Game " + c.getGameId() + " added to runningGames, created by player:\"" + nick + "\"");
+        printAsync("\t>Game " + c.getGameId() + " added to runningGames, created by player:\"" + nick + "\"");
         printRunningGames();
 
         try {
@@ -106,7 +108,7 @@ public class MainController implements MainControllerInterface, Serializable {
                 ris.get(0).addListener(lis, p);
                 ris.get(0).addPlayer(p);
 
-                System.out.println("\t>Game " + ris.get(0).getGameId() + " player:\"" + nick + "\" entered player");
+                printAsync("\t>Game " + ris.get(0).getGameId() + " player:\"" + nick + "\" entered player");
                 printRunningGames();
                 return ris.get(0);
             } catch (MaxPlayersInException | PlayerAlreadyInException e) {
@@ -136,15 +138,22 @@ public class MainController implements MainControllerInterface, Serializable {
         Player p = new Player(nick);
 
         if (ris.size() == 1) {
-            try {
-                ris.get(0).addListener(lis, p);
-                ris.get(0).addPlayer(p);
-                System.out.println("\t>Game " + ris.get(0).getGameId() + " player:\"" + nick + "\" entered player");
-                printRunningGames();
-                return ris.get(0);
-            } catch (MaxPlayersInException | PlayerAlreadyInException e) {
-                ris.get(0).removeListener(lis, p);
-                lis.genericErrorWhenEnteringGame(e.getMessage());
+            if(ris.get(0).getStatus().equals(GameStatus.WAIT) ||
+                    ((ris.get(0).getStatus().equals(GameStatus.RUNNING) || ris.get(0).getStatus().equals(GameStatus.LAST_CIRCLE)) &&
+                            ris.get(0).getPlayers().stream().filter(x->x.getNickname().equals(nick)).toList().size()==1)
+            ) {
+                try {
+                    ris.get(0).addListener(lis, p);
+                    ris.get(0).addPlayer(p);
+                    printAsync("\t>Game " + ris.get(0).getGameId() + " player:\"" + nick + "\" entered player");
+                    printRunningGames();
+                    return ris.get(0);
+                } catch (MaxPlayersInException | PlayerAlreadyInException e) {
+                    ris.get(0).removeListener(lis, p);
+                    lis.genericErrorWhenEnteringGame(e.getMessage());
+                }
+            }else{
+                lis.gameIdNotExists(idGame);
             }
         } else {
             //This is the only call not inside the model
@@ -212,7 +221,7 @@ public class MainController implements MainControllerInterface, Serializable {
         List<GameController> ris = runningGames.stream().filter(x -> x.getGameId() == idGame).toList();
         if (ris.size() == 1) {
             ris.get(0).leave(lis, nick);
-            System.out.println("\t>Game " + ris.get(0).getGameId() + " player: \"" + nick + "\" decided to leave");
+            printAsync("\t>Game " + ris.get(0).getGameId() + " player: \"" + nick + "\" decided to leave");
             printRunningGames();
 
             if (ris.get(0).getNumOfOnlinePlayers() == 0) {
@@ -231,10 +240,10 @@ public class MainController implements MainControllerInterface, Serializable {
     public synchronized void deleteGame(int idGame) {
         List<GameController> gameToRemove = runningGames.stream().filter(x -> x.getGameId() == idGame).toList();
 
-        if (gameToRemove != null && gameToRemove.size()>0) {
+        if (gameToRemove.size()>0) {
             runningGames.remove(gameToRemove.get(0));
 
-            System.out.println("\t>Game " + idGame + " removed from runningGames");
+            printAsync("\t>Game " + idGame + " removed from runningGames");
             printRunningGames();
         }
 
@@ -244,10 +253,12 @@ public class MainController implements MainControllerInterface, Serializable {
      * Print all games currently running
      */
     private void printRunningGames() {
-        System.out.print("\t\trunningGames: ");
-        runningGames.stream().forEach(x -> System.out.print(x.getGameId() + " "));
-        System.out.println();
+        printAsyncNoLine("\t\trunningGames: ");
+        runningGames.stream().forEach(x -> printAsync(x.getGameId() + " "));
+        printAsync("");
     }
+
+
 
 
 }

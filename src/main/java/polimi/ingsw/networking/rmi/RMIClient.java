@@ -22,6 +22,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+import static polimi.ingsw.networking.PrintAsync.printAsyncNoLine;
+
 /**
  * RMIClient Class <br>
  * Handle all the network communications between RMIClient and RMIServer <br>
@@ -95,14 +98,14 @@ public class RMIClient implements CommonClientActions {
 
                 modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler, 0);
 
-                System.out.println("Client RMI ready");
+                printAsync("Client RMI ready");
                 retry = false;
 
             } catch (Exception e) {
                 if (!retry) {
-                    System.err.println("[ERROR] CONNECTING TO RMI SERVER: \n\tClient RMI exception: " + e + "\n");
+                    printAsync("[ERROR] CONNECTING TO RMI SERVER: \n\tClient RMI exception: " + e + "\n");
                 }
-                System.out.print("[#" + attempt + "]Waiting to reconnect to RMI Server on port: '" + DefaultValue.Default_port_RMI + "' with name: '" + DefaultValue.Default_servername_RMI + "'");
+                printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to RMI Server on port: '" + DefaultValue.Default_port_RMI + "' with name: '" + DefaultValue.Default_servername_RMI + "'");
 
                 i = 0;
                 while (i < DefaultValue.seconds_between_reconnection) {
@@ -111,13 +114,13 @@ public class RMIClient implements CommonClientActions {
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
-                    System.out.print(".");
+                    printAsyncNoLine(".");
                     i++;
                 }
-                System.out.print("\n");
+                printAsyncNoLine("\n");
 
                 if (attempt >= DefaultValue.num_of_attempt_to_connect_toServer_before_giveup) {
-                    System.out.print("Give up!");
+                    printAsyncNoLine("Give up!");
                     try {
                         System.in.read();
                     } catch (IOException ex) {

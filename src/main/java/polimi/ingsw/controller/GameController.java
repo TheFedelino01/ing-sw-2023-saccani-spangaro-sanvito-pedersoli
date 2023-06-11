@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
 
 /**
  * GameController Class <br>
@@ -75,7 +77,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                         if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                             try {
                                 this.disconnectPlayer(el.getValue().getNick(), el.getKey());
-                                System.out.println("Disconnection detected by heartbeat of player: "+el.getValue().getNick());
+                                printAsync("Disconnection detected by heartbeat of player: "+el.getValue().getNick()+"");
 
                                 if (this.getNumOnlinePlayers() == 0) {
                                     stopReconnectionTimer();
@@ -417,7 +419,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 //Starting a th for waiting until reconnection at least of 1 client to keep playing
                 if (reconnectionTh == null) {
                     startReconnectionTimer();
-                    System.out.println("Starting timer for reconnection waiting: " + DefaultValue.secondsToWaitReconnection + " seconds");
+                    printAsync("Starting timer for reconnection waiting: " + DefaultValue.secondsToWaitReconnection + " seconds");
                 }
             }
         }
@@ -441,16 +443,16 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                             //Someone called interrupt on this th (no need to keep waiting)
                         }
                     }
-                    System.out.println("Timer for reconnection ended");
+                    printAsync("Timer for reconnection ended");
 
                     if (model.getNumOfOnlinePlayers() == 0) {
                         //No players online, I delete the games
                         MainController.getInstance().deleteGame(model.getGameId());
                     } else if (model.getNumOfOnlinePlayers() == 1) {
-                        System.out.println("\tNo player reconnected on time, set game to ended!");
+                        printAsync("\tNo player reconnected on time, set game to ended!");
                         model.setStatus(GameStatus.ENDED);
                     } else {
-                        System.out.println("\tA player reconnected on time");
+                        printAsync("\tA player reconnected on time");
                         this.reconnectionTh = null;
                     }
                 }
@@ -482,7 +484,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         synchronized (heartbeats) {
             heartbeats.put(me, new Heartbeat(System.currentTimeMillis(), nick));
         }
-        //System.out.println("heartbeat rec: "+heartbeats.get(me));
     }
 
     /**

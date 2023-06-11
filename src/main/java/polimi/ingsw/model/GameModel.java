@@ -15,6 +15,9 @@ import polimi.ingsw.model.exceptions.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
+
 /**
  * GameModel class<br>
  * GameModel is the class that represents the game, it contains all the information about the game, and it's based on a MVC pattern
@@ -192,7 +195,7 @@ public class GameModel {
             return true;
 
         } else {
-            System.out.println("ERROR: Trying to reconnect a player not offline!");
+            printAsync("ERROR: Trying to reconnect a player not offline!");
             return false;
         }
 

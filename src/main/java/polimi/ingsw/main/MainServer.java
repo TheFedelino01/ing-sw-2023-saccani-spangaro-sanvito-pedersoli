@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
+import static polimi.ingsw.networking.PrintAsync.printAsync;
 
 public class MainServer {
 
@@ -19,7 +20,7 @@ public class MainServer {
 
         do {
             clearCMD();
-            System.out.println(ansi().cursor(1, 0).a("""
+            printAsync(ansi().cursor(1, 0).a("""
                     Insert remote IP (leave empty for localhost)
                     """));
             input = new Scanner(System.in).nextLine();
@@ -59,7 +60,7 @@ public class MainServer {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (IOException | InterruptedException e) {
-            System.out.print("\033\143");   //for Mac
+            printAsync("\033\143");   //for Mac
         }
     }
 

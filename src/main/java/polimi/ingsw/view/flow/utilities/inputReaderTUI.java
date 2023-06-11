@@ -5,6 +5,7 @@ import polimi.ingsw.model.DefaultValue;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
+import static polimi.ingsw.view.text.PrintAsync.printAsync;
 
 /**
  * InputReaderTUI class
@@ -30,8 +31,8 @@ public class inputReaderTUI extends Thread implements InputReader {
             //Reads the input and add what It reads to the buffer synch
             String temp = sc.nextLine();
             buffer.addData(temp);
-            System.out.println(ansi().cursorUpLine().a(" ".repeat(temp.length())));
-            System.out.println(ansi().cursor(DefaultValue.row_input+1, 0));
+            printAsync(ansi().cursorUpLine().a(" ".repeat(temp.length())));
+            printAsync(ansi().cursor(DefaultValue.row_input + 1, 0));
         }
     }
 

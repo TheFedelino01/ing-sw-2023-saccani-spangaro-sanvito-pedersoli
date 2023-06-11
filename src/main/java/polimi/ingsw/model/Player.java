@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
 /**
  * Player's class<br>
  * A player has a nickname, his shelf, a secretGoal, <br>
@@ -241,7 +243,7 @@ public class Player implements Serializable, PlayerIC {
             try {
                 l.addedPoint(this, point, model);
             } catch (RemoteException e) {
-                System.out.println("During notification of notify_addedPoint, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_addedPoint, a disconnection has been detected before heartbeat");
                 i.remove();
             }
         }

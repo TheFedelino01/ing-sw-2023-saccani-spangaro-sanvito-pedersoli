@@ -14,6 +14,8 @@ import polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
 
+import static polimi.ingsw.networking.PrintAsync.*;
+
 /**
  * ClientSocket Class<br>
  * Handle all the network communications between ClientSocket and ClientHandler<br>
@@ -67,12 +69,11 @@ public class ClientSocket extends Thread implements CommonClientActions {
     public void run() {
         while (true) {
             try {
-                //System.out.println("Client "+nickname+" received: "+in.readObject().toString());
                 SocketServerGenericMessage msg = (SocketServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
 
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
-                System.err.println("[ERROR] Connection to server lost! " + e);
+                printAsync("[ERROR] Connection to server lost! " + e);
                 try {
                     System.in.read();
                 } catch (IOException ex) {
@@ -103,9 +104,9 @@ public class ClientSocket extends Thread implements CommonClientActions {
                 retry = false;
             } catch (IOException e) {
                 if (!retry) {
-                    System.err.println("[ERROR] CONNECTING TO SOCKET SERVER: \n\tClient RMI exception: " + e + "\n");
+                    printAsync("[ERROR] CONNECTING TO SOCKET SERVER: \n\tClient RMI exception: " + e + "\n");
                 }
-                System.out.print("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip + "'");
+                printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip + "'");
 
                 i = 0;
                 while (i < DefaultValue.seconds_between_reconnection) {
@@ -114,13 +115,13 @@ public class ClientSocket extends Thread implements CommonClientActions {
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
-                    System.out.print(".");
+                    printAsyncNoLine(".");
                     i++;
                 }
-                System.out.print("\n");
+                printAsyncNoLine("\n");
 
                 if (attempt >= DefaultValue.num_of_attempt_to_connect_toServer_before_giveup) {
-                    System.out.print("Give up!");
+                    printAsyncNoLine("Give up!");
                     try {
                         System.in.read();
                     } catch (IOException ex) {
@@ -305,7 +306,7 @@ public class ClientSocket extends Thread implements CommonClientActions {
                 out.writeObject(new SocketClientMessageHeartBeat(nickname));
                 finishSending();
             } catch (IOException e) {
-                System.out.println("Connection lost to the server!! Impossible to send heartbeat...");
+                printAsync("Connection lost to the server!! Impossible to send heartbeat...");
             }
         }
     }

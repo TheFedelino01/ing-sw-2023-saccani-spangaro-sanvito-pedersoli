@@ -9,6 +9,9 @@ import java.rmi.RemoteException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
+
 public class HeartbeatSender extends Thread {
 
     private Flow flow;
@@ -31,7 +34,7 @@ public class HeartbeatSender extends Thread {
             try {
                 server.heartbeat();
             } catch (RemoteException e) {
-                System.out.println("Connection to server lost! Impossible to send heartbeat...");
+                printAsync("Connection to server lost! Impossible to send heartbeat...");
             }
             timer.cancel();
 

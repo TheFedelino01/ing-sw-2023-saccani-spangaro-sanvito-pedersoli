@@ -5,7 +5,9 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 
- /**
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
+/**
  * Server Class<br>
  * Handle all the incoming network requests and start for each one a specific {@link ClientHandler} that handle the single Socket Connection<br>
  * by the Socket Network protocol
@@ -31,7 +33,7 @@ public class Server extends Thread {
             serverSocket = new ServerSocket(port);
             handler = new ArrayList<>();
             this.start();
-            System.out.println("Server Socket ready");
+            printAsync("Server Socket ready");
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("[ERROR] STARTING SOCKET SERVER: \n\tServer RMI exception: " + e);
@@ -46,7 +48,7 @@ public class Server extends Thread {
             while (!Thread.interrupted()) {
                 handler.add(new ClientHandler(serverSocket.accept()));
                 handler.get(handler.size() - 1).start();
-                System.out.println("[SOCKET] new connection accepted");
+                printAsync("[SOCKET] new connection accepted");
             }
         } catch (IOException e) {
             System.err.println("[ERROR] ACCEPTING WELCOME SOCKET CONNECTION: \n\tServer SOCKET exception: " + e);

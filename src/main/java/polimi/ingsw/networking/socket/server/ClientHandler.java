@@ -13,6 +13,8 @@ import java.rmi.RemoteException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static polimi.ingsw.networking.PrintAsync.printAsync;
+
 /**
  * ClientHandler Class<br>
  * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game<br>
@@ -101,7 +103,7 @@ public class ClientHandler extends Thread {
                     }
 
                 } catch (IOException | ClassNotFoundException e) {
-                    System.out.println("ClientSocket dies because cannot communicate no more with the client");
+                    printAsync("ClientSocket dies because cannot communicate no more with the client");
                     return;
                 }
             }
