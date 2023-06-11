@@ -136,15 +136,23 @@ public class MainController implements MainControllerInterface, Serializable {
         Player p = new Player(nick);
 
         if (ris.size() == 1) {
-            try {
-                ris.get(0).addListener(lis, p);
-                ris.get(0).addPlayer(p);
-                System.out.println("\t>Game " + ris.get(0).getGameId() + " player:\"" + nick + "\" entered player");
-                printRunningGames();
-                return ris.get(0);
-            } catch (MaxPlayersInException | PlayerAlreadyInException e) {
-                ris.get(0).removeListener(lis, p);
-                lis.genericErrorWhenEnteringGame(e.getMessage());
+            //If the game is in wait or if the game is in running and the player is in (so he is not a new player) then let him in
+            if(ris.get(0).getStatus().equals(GameStatus.WAIT) ||
+                    ((ris.get(0).getStatus().equals(GameStatus.RUNNING) || ris.get(0).getStatus().equals(GameStatus.LAST_CIRCLE)) &&
+                            ris.get(0).getPlayers().stream().filter(x->x.getNickname().equals(nick)).toList().size()==1)
+            ) {
+                try {
+                    ris.get(0).addListener(lis, p);
+                    ris.get(0).addPlayer(p);
+                    System.out.println("\t>Game " + ris.get(0).getGameId() + " player:\"" + nick + "\" entered player");
+                    printRunningGames();
+                    return ris.get(0);
+                } catch (MaxPlayersInException | PlayerAlreadyInException e) {
+                    ris.get(0).removeListener(lis, p);
+                    lis.genericErrorWhenEnteringGame(e.getMessage());
+                }
+            }else{
+                lis.gameIdNotExists(idGame);
             }
         } else {
             //This is the only call not inside the model
