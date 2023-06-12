@@ -26,10 +26,12 @@ We have `implemented`, in addiction to the `Game Specific` and `Game Agnostic` r
    | Feature | Implemented  |
 |:--------|:----|
 | Multiple Games   | :heavy_check_mark:    |
-| Resilience to disconnections  | :heavy_check_mark:    |
+| Resilience to clients disconnections  | :heavy_check_mark:    |
 | Chat  | :heavy_check_mark:    |
 | Socket and RMI  | :heavy_check_mark:    |
 | Complete rules  | :heavy_check_mark:    |
+| TUI + GUI  | :heavy_check_mark:    |
+| Server disconnections  | :x:    |
 
 Requirements: <a href="https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/blob/main/Documents/Requirements/requirements.pdf">requirements.pdf</a> <br>
 Rulebook: <a href="https://github.com/TheFedelino01/ing-sw-2023-saccani-spangaro-sanvito-pedersoli/blob/main/Documents/Requirements/MyShelfie_Rulebook_ITA.pdf">rulebook.pdf</a> <br>
