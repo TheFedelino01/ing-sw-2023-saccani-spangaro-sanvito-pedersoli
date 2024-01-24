@@ -6,8 +6,14 @@
   Project PoliMi for ing-sw
   <br>
 </h1>
+<h3 align="center">Grade 30L/30</h3>
+<div align="center">Presentation date: 12/06/2023, Official deadline: 03/07/2023 (presented 1 month earlier)</div><br>
 
-<h4 align="center">A distribuited version of the game MyShelfie  made by <a href="https://github.com/TheFedelino01" target="_blank">Saccani Federico</a>, <a href="https://github.com/francescospangaro" target="_blank">Spangaro Francesco</a>, <a href="https://github.com/kessal001" target="_blank">Pedersoli Luca</a> and <a href="https://github.com/Luc076547" target="_blank">Sanvito Luca</a>.</h4>
+<h4 align="center">A distribuited version of the game MyShelfie  made by <br><br>
+  <a href="https://github.com/TheFedelino01" target="_blank">Saccani Federico</a><br><br>
+  <a href="https://github.com/francescospangaro" target="_blank">Spangaro Francesco</a><br><br>
+  <a href="https://github.com/kessal001" target="_blank">Pedersoli Luca</a> <br><br>
+  <a href="https://github.com/Luc076547" target="_blank">Sanvito Luca</a></h4>
 
 <div align="center">
   
